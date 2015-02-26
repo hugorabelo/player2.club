@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-md-10 col-md-offset-2">
+        <h1><?php echo trans('messages.campeonatoAdmin_edit'); ?></h1>
+
+        <?php if($errors->any()): ?>
+        	<div class="alert alert-danger">
+        	    <ul>
+                    <?php echo implode('', $errors->all('<li class="error">:message</li>')); ?>
+
+                </ul>
+        	</div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php echo Form::model($campeonatoAdmin, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('campeonatoAdmins.update', $campeonatoAdmin->id))); ?>
+
+
+        <div class="form-group">
+            <?php echo Form::label('users_id', trans('fields.users_id'), array('class'=>'col-md-2 control-label')); ?>
+
+            <div class="col-sm-10">
+              <?php echo Form::input('number', 'users_id', Input::old('users_id'), array('class'=>'form-control')); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('campeonatos_id', trans('fields.campeonatos_id'), array('class'=>'col-md-2 control-label')); ?>
+
+            <div class="col-sm-10">
+              <?php echo Form::input('number', 'campeonatos_id', Input::old('campeonatos_id'), array('class'=>'form-control')); ?>
+
+            </div>
+        </div>
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">&nbsp;</label>
+    <div class="col-sm-10">
+      <?php echo Form::submit(trans('fields.update'), array('class' => 'btn btn-lg btn-primary')); ?>
+
+      <?php echo link_to_route('campeonatoAdmins.index', trans('fields.cancel'), $campeonatoAdmin->id, array('class' => 'btn btn-lg btn-default')); ?>
+
+    </div>
+</div>
+
+<?php echo Form::close(); ?>

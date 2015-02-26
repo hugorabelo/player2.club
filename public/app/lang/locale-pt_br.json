@@ -1,0 +1,157 @@
+{
+    "menus": {
+        "home": "Minha Página",
+        "config": "Configurações",
+        "campeonatos": "Campeonatos",
+        "jogos": "Jogos",
+        "plataformas": "Plataformas",
+        "campeonatoTipos": "Tipos de Campeonato",
+        "usuarios": "Usuários",
+        "usuarioTipos": "Tipos de Usuário",
+        "language": "Idiomas",
+        "lang_en": "Inglês",
+        "lang_br": "Português",
+        "acesso": "Configurações de Acesso",
+        "menus": "Menus",
+        "permissoes": "Permissões"
+
+    },
+
+    "fields": {
+        "edit": "Editar",
+        "delete": "Excluir",
+        "create": "Criar",
+        "cancel": "Cancelar",
+        "save": "Salvar",
+        "update": "Atualizar",
+
+        "descricao": "Descrição",
+        "logomarca": "Logomarca",
+
+        "maximo_jogadores_partida": "Máx. Jogadores",
+
+        "imagem_capa": "Capa do Jogo",
+        "plataformas_id": "Plataforma",
+
+        "prioridade": "Prioridade",
+
+        "nome": "Nome",
+        "email": "E-mail",
+        "password": "Senha",
+        "usuarioTipos_id" : "Tipo de Usuário",
+
+        "detalhes": "Detalhes",
+        "jogos_id": "Jogo",
+        "campeonatotipos_id": "Tipo de Campeonato",
+        "quantidade_usuarios": "Quantidade de Usuários",
+
+        "usuario_id": "Usuário",
+
+        "data_inicio": "Data de Início",
+        "data_fim": "Data Final",
+        "permite_empate": "Permite Empate",
+        "fase_anterior": "Fase Anterior",
+        "fase_abrir": "Iniciar Fase",
+        "fase_fechar": "Encerrar Fase",
+        "fase_inicial": "Fase Inicial",
+        "fase_final": "Fase Final",
+
+        "posicao": "Posição",
+        "pontuacao": "Pontos",
+
+        "delete_grupos": "Excluir Grupos",
+        "qtde_grupos": "Quantidade de Grupos",
+        "grupo_create": "Criar Grupos",
+        "letras": "Letras",
+        "numeros": "Números",
+
+        "url": "URL",
+        "pai": "Menu Pai",
+        "ordem": "Ordem",
+
+        "login": "Login"
+    },
+
+    "messages": {
+        "invalid_user": "Usuário ou senha inválido",
+        "confirma_exclusao": "Deseja realmente apagar este registro?",
+        "yes": "Sim",
+        "no": "Não",
+
+        "plataforma_list": "Plataformas",
+        "plataforma_add": "Adicionar Plataforma",
+        "plataforma_create": "Criar Plataforma",
+        "plataforma_edit": "Editar Plataforma",
+        "plataforma_empty": "Não existe nenhuma Plataforma cadastrada",
+
+        "campeonatoTipo_list": "Tipos de Campeonato",
+        "campeonatoTipo_add": "Adicionar Tipo de Campeonato",
+        "campeonatoTipo_create": "Criar Tipo de Campeonato",
+        "campeonatoTipo_edit": "Editar Tipo de Campeonato",
+        "campeonatoTipo_empty": "Não existe nenhum Tipo de Campeonato cadastrado",
+
+        "jogo_list": "Jogos",
+        "jogo_add": "Adicionar Jogo",
+        "jogo_create": "Criar Jogo",
+        "jogo_edit": "Editar Jogo",
+        "jogo_empty": "Não existe nenhum Jogo cadastrado",
+
+        "usuarioTipo_list": "Tipos de Usuário",
+        "usuarioTipo_add": "Adicionar Tipo de Usuário",
+        "usuarioTipo_create": "Criar Tipo de Usuário",
+        "usuarioTipo_edit": "Editar Tipo de Usuário",
+        "usuarioTipo_empty": "Não existe nenhum Tipos de Usuário cadastrado",
+        "usuarioTipo_select": "Selecione um perfil de Usuário",
+
+        "usuario_list": "Usuários",
+        "usuario_add": "Adicionar Usuário",
+        "usuario_create": "Criar Usuário",
+        "usuario_edit": "Editar Usuário",
+        "usuario_empty": "Não existe nenhum Usuário cadastrado",
+        "usuario_gamertags" : "Gamertags do Usuário",
+
+        "campeonato_list": "Campeonatos",
+        "campeonato_add": "Adicionar Campeonato",
+        "campeonato_create": "Criar Campeonato",
+        "campeonato_edit": "Editar Campeonato",
+        "campeonato_empty": "Não existe nenhum Campeonato cadastrado",
+        "campeonato_detalhes": "Detalhes do Campeonato",
+
+        "campeonatoAdmin_list": "Administradores do Campeonato",
+        "campeonatoAdmin_add": "Adicionar Administrador do Campeonato",
+        "campeonatoAdmin_create": "Inserir Administrador do Campeonato",
+        "campeonatoAdmin_edit": "Editar Administrador do Campeonato",
+        "campeonatoAdmin_empty": "Não existe nenhum Administrador para este Campeonato",
+        "campeonatoAdmin_delete": "Excluir Administrador do Campeonato",
+
+        "campeonatoUser_list": "Usuários do Campeonato",
+        "campeonatoFase_list": "Fases do Campeonato",
+        "campeonatoFase_add": "Adicionar Fase do Campeonato",
+        "campeonatoFase_create": "Inserir Fase do Campeonato",
+        "campeonatoFase_edit": "Editar Fase do Campeonato",
+        "campeonatoFase_empty": "Não existe nenhuma Fase para este Campeonato",
+        "campeonatoFase_delete": "Excluir Fase do Campeonato",
+        "campeonatoFase_detalhes_exibir": "Exibir Detalhes da Fase",
+        "campeonatoFase_detalhes": "Detalhes da Fase - {{ descricao }}",
+
+        "pontuacaoRegra_list": "Regras de Pontuação",
+        "grupo_list": "Grupos",
+        "operacao_list": "Operações",
+
+        "menu_create": "Criar Menu",
+        "menu_edit": "Editar Menu",
+        "menu_list": "Menus",
+        "menu_add": "Adicionar Menu",
+
+        "permissao_list": "Lista de Permissões",
+        "permissao_user": "Permissões do Perfil",
+
+        "acesso_nao_autorizado_titulo": "Acesso Não Autorizado",
+        "acesso_nao_autorizado_explicacao": "O seu perfil não tem permissões de acesso para esta página. Por favor, tente acessar outra página do menu. Caso o erro persista, favor entrar em contato com o suporte",
+        "minha_pagina": "Ir para Minha Página",
+
+        "titulo_dashboard": "Minha Página Inicial",
+        "titulo_perfil": "Detalhes do Perfil",
+        "sobre_mim": "Sobre Mim"
+    }
+}

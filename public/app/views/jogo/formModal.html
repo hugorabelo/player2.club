@@ -1,0 +1,46 @@
+<div class="modal inmodal" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="submit()" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title" translate="{{tituloModal}}"></h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row" ng-show="messages">
+                        <div class="col-md-10 col-md-offset-2">
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        <li class="error" ng-repeat="message in messages">
+                                            {{ message }}
+                                        </li>
+                                    </ul>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+                        <div class="col-md-9">
+                            <input type="text" id="descricao" class="form-control" ng-model="jogo.descricao" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="logomarca" class="col-md-3 control-label" translate>fields.imagem_capa</label>
+                        <div class="col-md-9">
+                            <input type="file" class="form-control" file-upload ng-model="jogo.imagem_capa" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" translate>fields.cancel</button>
+                    <button type="submit" class="btn btn-primary" ng-show="novoItem" translate>fields.save</button>
+                    <button type="submit" class="btn btn-primary" ng-hide="novoItem" translate>fields.update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<form name="formularioGrupo" class="form-inline" novalidate="novalidate" ng-submit="salvaGrupos()">
+
+    <div class="row" ng-show="messageGrupo">
+        <div class="col-md-12">
+            <div class="alert alert-danger error">
+                {{ messageGrupo }}
+            </div>
+        </div>
+    </div>
+
+    <select id="grupo_tipo" class="form-control" ng-model="faseGrupo.grupo_tipo" required placeholder="{{ 'fields.grupo_tipo' | translate }}" >
+        <option value="letra" translate>fields.letras</option>
+        <option value="numero" translate>fields.numeros</option>
+    </select>
+
+    <input type="number" id="qtde_grupos" class="form-control" ng-model="faseGrupo.qtde_grupos" required placeholder="{{ 'fields.qtde_grupos' | translate }}" />
+
+    <input type="text" id="campeonato_fases_id" class="form-control" ng-model="faseGrupo.campeonato_fases_id" required ng-hide="true" />
+
+    <button type="submit" class="btn btn-primary" translate>fields.grupo_create</button>
+    <button type="button" class="btn btn-danger" ng-click="deleteGrupos(faseGrupo.campeonato_fases_id)" translate>fields.delete_grupos</button>
+
+</form>
+<br />
+<table class="table table-striped">
+    <tr>
+        <th class="text-center" translate>fields.descricao</th>
+        <th class="text-center" translate>fields.quantidade_usuarios</th>
+    </tr>
+    <tr ng-repeat="faseGrupo in faseGrupos">
+        <td class="text-center">{{ faseGrupo.descricao }}</td>
+        <td class="text-center">{{ faseGrupo.quantidade_usuarios }}</td>
+    </tr>
+</table>

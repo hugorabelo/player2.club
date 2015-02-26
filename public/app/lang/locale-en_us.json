@@ -1,0 +1,156 @@
+{
+    "menus": {
+        "home": "Dashboard",
+        "config": "Configuration",
+        "campeonatos": "Championship",
+        "jogos": "Games",
+        "plataformas": "Consoles",
+        "campeonatoTipos": "Championship Types",
+        "usuarios": "Users",
+        "usuarioTipos": "User Types",
+        "language": "Languages",
+        "lang_en": "English",
+        "lang_br": "Portuguese",
+        "acesso": "Access Configuration",
+        "menus": "Menus",
+        "permissoes": "Permissions"
+
+    },
+
+    "fields": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "create": "Create",
+        "cancel": "Cancel",
+        "save": "Save",
+        "update": "Update",
+
+        "descricao": "Description",
+        "logomarca": "Logo",
+
+        "maximo_jogadores_partida": "Max Players",
+
+        "imagem_capa": "Game Cover",
+        "plataformas_id": "Console",
+
+        "prioridade": "Priority",
+
+        "nome": "Name",
+        "email": "E-mail",
+        "password": "Password",
+        "usuarioTipos_id" : "User Type",
+
+        "detalhes": "Details",
+        "jogos_id": "Game",
+        "campeonatotipos_id": "Championship Type",
+        "quantidade_usuarios": "Number of Users",
+
+        "usuario_id": "User",
+
+        "data_inicio": "Start Date",
+        "data_fim": "End Date",
+        "permite_empate": "Allow Draw",
+        "fase_anterior": "Previous Round",
+        "fase_abrir": "Starts Phase",
+        "fase_fechar": "Ends Phase",
+        "fase_inicial": "First Phase",
+        "fase_final": "Last Phase",
+
+        "posicao": "Position",
+        "pontuacao": "Points",
+
+        "delete_grupos": "Delete Groups",
+        "qtde_grupos": "Number of Groups",
+        "grupo_create": "Create Groups",
+        "letras": "Letters",
+        "numeros": "Numbers",
+
+        "url": "URL",
+        "pai": "Parent Menu",
+        "ordem": "Order",
+
+        "login": "Login"
+    },
+
+    "messages": {
+        "invalid_user": "User or password invalid",
+        "confirma_exclusao": "Are you sure to delete this register?",
+        "yes": "Yes",
+        "no": "No",
+
+        "plataforma_list": "Consoles",
+        "plataforma_add": "Add Console",
+        "plataforma_create": "Create Console",
+        "plataforma_edit": "Edit Console",
+        "plataforma_empty": "There are no consoles in database",
+
+        "campeonatoTipo_list": "Championship Types",
+        "campeonatoTipo_add": "Add Championship Type",
+        "campeonatoTipo_create": "Create Championship Type",
+        "campeonatoTipo_edit": "Edit Championship Type",
+        "campeonatoTipo_empty": "There are no championship types in database",
+
+        "jogo_list": "Games",
+        "jogo_add": "Add Game",
+        "jogo_create": "Create Game",
+        "jogo_edit": "Edit Game",
+        "jogo_empty": "There are no games in database",
+
+        "usuarioTipo_list": "User Types",
+        "usuarioTipo_add": "Add User Type",
+        "usuarioTipo_create": "Create User Type",
+        "usuarioTipo_edit": "Edit User Type",
+        "usuarioTipo_empty": "There are no user types in database",
+        "usuarioTipo_select": "Select a User Role",
+
+        "usuario_list": "Users",
+        "usuario_add": "Add User",
+        "usuario_create": "Create User",
+        "usuario_edit": "Edit User",
+        "usuario_empty": "There are no users in database",
+        "usuario_gamertags" : "User Gamertags",
+
+        "campeonato_list": "Championship",
+        "campeonato_add": "Add Championship",
+        "campeonato_create": "Create Championship",
+        "campeonato_edit": "Edit Championship",
+        "campeonato_empty": "There are no championship in database",
+        "campeonato_detalhes": "Championship Details",
+
+        "campeonatoAdmin_list": "Championship Admin",
+        "campeonatoAdmin_add": "Add Championship Admin",
+        "campeonatoAdmin_create": "Insert Championship Admin",
+        "campeonatoAdmin_edit": "Edit Championship Admin",
+        "campeonatoAdmin_empty": "There are no championship admin in database",
+        "campeonatoAdmin_delete": "Remove Championship Admin",
+
+        "campeonatoUser_list": "Championship Users",
+        "campeonatoFase_list": "Championship Phase",
+        "campeonatoFase_add": "Add Championship Phase",
+        "campeonatoFase_create": "Insert Championship Phase",
+        "campeonatoFase_edit": "Edit Championship Phase",
+        "campeonatoFase_empty": "There are no phases registered for this championship",
+        "campeonatoFase_delete": "Remove Championship Phase",
+        "campeonatoFase_detalhes_exibir": "Show Phase Details",
+        "campeonatoFase_detalhes": "Phase Details - {{ descricao }}",
+
+        "pontuacaoRegra_list": "Scores Rules",
+        "grupo_list": "Groups",
+        "operacao_list": "Actions",
+
+        "menu_create": "Create Menu",
+        "menu_edit": "Edit Menu",
+        "menu_list": "Menu",
+        "menu_add": "Add Menu",
+
+        "permissao_list": "Permissions List",
+        "permissao_user": "User Role Access",
+
+        "acesso_nao_autorizado_titulo": "Unauthorized Access",
+        "acesso_nao_autorizado_explicacao": "Your profile does not have access permissions for this page. Please try to access another menu page. If the error persists, please contact support",
+        "minha_pagina": "Go to My Page",
+        "titulo_dashboard": "My Dashboard",
+        "titulo_perfil": "Profile Detail",
+        "sobre_mim": "About me"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "defaultMsg": "Adicione uma mensagem de erro para {0}",
+    "email": "Insira um e-mail válido",
+    "minlength": "Este campo deve ter pelo menos {0} caracteres",
+    "maxlength": "Você inseriu mais que o máximo de {0} caracteres",
+    "min": "O número mínimo permitido é {0}",
+    "max": "O número máximo permitido é {0}",
+    "required": "Este campo é obrigatório",
+    "date": "Insira uma data válida",
+    "pattern": "O valor inserido não corresponde à máscara {0}",
+    "number": "Insira um número válido",
+    "url": "Insira uma URL válida no formato de http(s)://wwww.google.com"
+}

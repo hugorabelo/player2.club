@@ -1,0 +1,59 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2 translate>messages.menu_list</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="home">Home</a>
+            </li>
+            <li>
+                <a translate>menus.config</a>
+            </li>
+            <li>
+                <a ui-sref="menu" translate>menus.menus</a>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="ibox-content">
+
+        <p>
+            <button type="button" class="btn btn-primary btn-lg" ng-click="create()" translate>
+                messages.menu_add
+            </button>
+        </p>
+
+        <table class="table table-striped">
+            <tr>
+                <th translate>fields.descricao</th>
+                <th translate>fields.url</th>
+                <th translate>fields.pai</th>
+                <th translate>fields.ordem</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="menu in menus">
+                <td translate>{{ menu.descricao }}</td>
+                <td>{{ menu.url }} </td>
+                <td translate>{{ menu.pai }} </td>
+                <td>{{ menu.ordem }} </td>
+                <td class="btn-group" role="group">
+                    <button type="button" class="btn btn-warning" ng-click="edit(menu.id)" tooltip="{{'fields.edit' | translate}}">
+                        <i class="fa fa-pencil fa-fw"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="delete(menu.id)" tooltip="{{'fields.delete' | translate}}">
+                        <i class="fa fa-trash-o fa-fw"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<div formulario-menu></div>
+
+<div modal-confirma></div>

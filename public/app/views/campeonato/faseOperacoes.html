@@ -1,0 +1,10 @@
+<div class="row" ng-show="messageOperacao">
+    <div class="col-md-12">
+        <div class="alert alert-danger error">
+            {{ messageOperacao }}
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary" ng-click="iniciaFase()"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></button>
+<button type="button" class="btn btn-primary" ng-click="encerraFase()"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></button>

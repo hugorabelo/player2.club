@@ -1,0 +1,167 @@
+<?php $__env->startSection('main'); ?>
+
+<div class="col-md-9">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?php echo trans('messages.campeonato_edit'); ?></h3>
+        </div>
+        <div class="panel-body">
+        <?php if($errors->any()): ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php echo implode('', $errors->all('<li class="error">:message</li>')); ?>
+
+                </ul>
+            </div>
+        <?php endif; ?>
+    <?php echo Form::model($campeonato, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('campeonatos.update', $campeonato->id))); ?>
+
+
+            <div class="form-group">
+                <?php echo Form::label('descricao', trans('fields.descricao'), array('class'=>'col-md-2 control-label')); ?>
+
+                <div class="col-sm-10">
+                  <?php echo Form::text('descricao', Input::old('descricao'), array('class'=>'form-control', 'placeholder'=>trans('fields.descricao'))); ?>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?php echo Form::label('detalhes', trans('fields.detalhes'), array('class'=>'col-md-2 control-label')); ?>
+
+                <div class="col-sm-10">
+                  <?php echo Form::textarea('detalhes', Input::old('detalhes'), array('class'=>'form-control', 'placeholder'=>trans('fields.detalhes'))); ?>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?php echo Form::label('plataformas_id', trans('fields.plataformas_id'), array('class'=>'col-md-2 control-label')); ?>
+
+                <div class="col-sm-10">
+                  <?php echo Form::select('plataformas_id', $plataformas, Input::old('plataformas_id'), array('class'=>'form-control')); ?>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?php echo Form::label('jogos_id', trans('fields.jogos_id'), array('class'=>'col-md-2 control-label')); ?>
+
+                <div class="col-sm-10">
+                  <?php echo Form::select('jogos_id', $jogos, Input::old('jogos_id'), array('class'=>'form-control')); ?>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?php echo Form::label('campeonato_tipos_id', trans('fields.campeonatotipos_id'), array('class'=>'col-md-2 control-label')); ?>
+
+                <div class="col-sm-10">
+                  <?php echo Form::select('campeonato_tipos_id', $campeonatoTipo, Input::old('campeonatotipos_id'), array('class'=>'form-control')); ?>
+
+                </div>
+            </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">&nbsp;</label>
+        <div class="col-sm-10">
+          <?php echo Form::submit(trans('fields.update'), array('class' => 'btn btn-primary')); ?>
+
+          <?php echo link_to_route('campeonatos.index', trans('fields.cancel'), $campeonato->id, array('class' => 'btn btn-default')); ?>
+
+        </div>
+    </div>
+
+    <?php echo Form::close(); ?>
+
+</div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-body" id="carrega_modal">
+            </div>
+	    </div>
+	</div>
+</div>
+
+<div class="col-md-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Opções do Campeonato</h3>
+        </div>
+        <div class="panel-body">
+            <li>Adicionar Administrador</li>
+            <li>Fases do Campeonato</li>
+            <li>-- Regras de Pontuação</li>
+        </div>
+    </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            Administradores
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <button type="button" class="btn btn-sm btn-block demo" id="botaoModal">
+            Adicionar Novo
+        </button>
+        <div id="lista_administradores">
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Fases
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+          <?php echo $campeonato->administradores(); ?>
+
+        <li>Primeira Faase</li>
+        <li>Semi Final</li>
+        <li>Final</li>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom_script'); ?>
+    <script id="ajax" type="text/javascript">
+        $(document).ready(function() {
+            $('#lista_administradores').load('<?php echo URL::to("campeonatoAdmins/{$campeonato->id}"); ?>');
+
+            $("#botaoModal").click(function(e) {
+                e.preventDefault();
+                $('#carrega_modal').load('<?php echo URL::to("campeonatoAdmins/create/{$campeonato->id}"); ?>');
+                $('#myModal').modal();
+            });
+
+            $("#carrega_modal").on("click", '#botao_cancelar', function(e) {
+                e.preventDefault();
+                $('#myModal').modal('hide');
+            });
+
+//            $("#carrega_modal").on("click", '#botao_confirmar', function(e) {
+//                e.preventDefault();
+//                alert('confirma');
+//            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.scaffold', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
