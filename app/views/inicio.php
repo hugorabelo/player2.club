@@ -34,7 +34,7 @@
     <script src="js/ui-bootstrap-tpls.min.js"></script>
     <script src="js/angular-translate.min.js"></script>
     <script src="js/angular-translate-loader-static-files.min.js"></script>
-    <base href="/liga_angular/public/">
+    <base href="/liga/public/">
 </head>
 <!-- ControllerAs syntax -->
 <!-- Main controller with serveral data used in Inspinia theme on diferent view -->
