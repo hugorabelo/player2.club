@@ -1,0 +1,36 @@
+<form name="formularioPerfil" novalidate="novalidate">
+
+    <div class="row" ng-show="messagePerfil">
+        <div class="col-md-12">
+                <div class="alert alert-danger error">
+                    {{ messagePerfil }}
+                </div>
+        </div>
+    </div>
+
+    <a class="pull-right" ng-click="salvaPerfil()">
+        <i class="fa fa-fw fa-save"></i>
+    </a>
+
+    <div class="form-group">
+        <label for="nome" translate>fields.nome</label>
+        <input type="text" id="nome" class="form-control" ng-model="usuario.nome" required placeholder="{{ 'fields.nome' | translate }}" disable-valid-styling="true" disable-invalid-styling="true" />
+    </div>
+
+    <div class="form-group">
+        <label for="localizacao" translate>fields.localizacao</label>
+        <input type="text" id="localizacao" class="form-control" ng-model="usuario.localizacao" required placeholder="{{ 'fields.localizacao' | translate }}" disable-valid-styling="true" disable-invalid-styling="true" />
+    </div>
+
+    <div class="form-group">
+        <label for="descricao" translate>fields.descricao</label>
+        <input type="text" id="descricao" class="form-control" ng-model="usuario.descricao" required placeholder="{{ 'fields.descricao' | translate }}" disable-valid-styling="true" disable-invalid-styling="true" />
+    </div>
+
+    <div class="form-group" ng-hide="true">
+        <div class="col-md-9">
+                <input type="text" id="users_id" class="form-control" ng-model="usuario.id" required />
+        </div>
+    </div>
+
+</form>

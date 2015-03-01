@@ -24,6 +24,7 @@ class UserPlataformaController extends Controller {
         $userPlataformas = UserPlataforma::where('users_id','=',$id)->get();
         foreach($userPlataformas as $plataforma) {
             $plataforma->nome_plataforma = $plataforma->plataforma()->descricao;
+            $plataforma->imagem_plataforma = $plataforma->plataforma()->imagem_logomarca;
         }
         return Response::json($userPlataformas);
     }

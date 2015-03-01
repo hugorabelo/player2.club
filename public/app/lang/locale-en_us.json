@@ -69,7 +69,9 @@
         "pai": "Parent Menu",
         "ordem": "Order",
 
-        "login": "Login"
+        "login": "Login",
+        "gamertag": "Gamertag",
+        "localizacao": "Localization"
     },
 
     "messages": {
@@ -151,6 +153,7 @@
         "minha_pagina": "Go to My Page",
         "titulo_dashboard": "My Dashboard",
         "titulo_perfil": "Profile Detail",
-        "sobre_mim": "About me"
+        "sobre_mim": "About me",
+		"inserir_imagem_perfil": "Insert Image in Profile"
     }
 }

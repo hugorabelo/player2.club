@@ -1,0 +1,32 @@
+<form name="formularioGamertag" novalidate="novalidate" ng-submit="salvaUserPlataforma()">
+
+    <div class="row" ng-show="messageUserPlataforma">
+        <div class="col-md-12">
+                <div class="alert alert-danger error">
+                    {{ messageUserPlataforma }}
+                </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="plataforma" class="sr-only" translate>fields.plataformas_id</label>
+        <select id="plataformas_id" class="form-control" ng-model="userPlataforma.plataformas_id"
+                                    ng-options="plataforma.id as plataforma.descricao for plataforma in plataformas" required >
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="gamertag" class="sr-only" translate>fields.gamertag</label>
+        <input type="text" id="gamertag" class="form-control" ng-model="userPlataforma.gamertag" required placeholder="{{ 'fields.gamertag' | translate }}" />
+    </div>
+
+    <div class="form-group" ng-hide="true">
+        <div class="col-md-9">
+                <input type="text" id="users_id" class="form-control" ng-model="userPlataforma.users_id" required />
+        </div>
+    </div>
+
+    <div class="form-group pull-right">
+        <button type="submit" class="btn btn-primary" translate>fields.save</button>
+    </div>
+</form>

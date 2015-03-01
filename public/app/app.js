@@ -124,6 +124,8 @@ AplicacaoLiga.config(['$translateProvider', function ($translateProvider) {
     $translateProvider.preferredLanguage('pt_br');
     $translateProvider.fallbackLanguage('pt_br');
 
+    bootbox.setLocale('br');
+
 }]);
 
 AplicacaoLiga.run([

@@ -3900,6 +3900,9 @@ a.compose-mail {
   margin-right: 10px;
   margin-bottom: 10px;
 }
+.gamertag-element img {
+    height: 30px;
+}
 /* MAILBOX */
 .mail-box {
   background-color: #ffffff;
@@ -4565,4 +4568,15 @@ body.skin-3 {
   .welcome-message {
     display: none;
   }
+}
+
+/* Personalização */
+
+.edita_foto {
+    position: absolute;
+    right: 15px;
+}
+
+.edita_foto:hover {
+    background: #fff;
 }

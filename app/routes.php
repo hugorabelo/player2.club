@@ -54,6 +54,9 @@ Route::get('/', function()
         Route::resource('usuario', 'UsersController');
     });
 
+    // Inserido para fazer o update de imagens via Angularjs
+    Route::post('api/usuario/{id}', 'UsersController@update');
+
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('campeonatoAdmin', 'CampeonatoAdminsController');
     });

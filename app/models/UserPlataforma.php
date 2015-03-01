@@ -6,7 +6,7 @@
  * Time: 21:23
  */
 
-class UserPlataforma {
+class UserPlataforma extends Eloquent {
 
     protected $guarded = array();
 

@@ -47,6 +47,21 @@ class UsersController extends BaseController {
 		{
 			$input['password'] = Hash::make($input['password']);
 
+			/*
+			 * Movendo o arquivo para o diretório correto
+			 */
+			$arquivo = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil')
+				: null;
+
+			if (isset($arquivo) && $arquivo->isValid()) {
+				$destinationPath = 'uploads/usuarios/';
+				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
+				$arquivo->move($destinationPath, $fileName);
+				$input['imagem_perfil'] = $fileName;
+			} else {
+				array_pull($input, 'imagem_perfil');
+			}
+
 			$this->user->create($input);
 
 			return Response::json(array('success'=>true));
@@ -92,6 +107,22 @@ class UsersController extends BaseController {
 			} else {
 				array_pull($input, 'password');
 			}
+
+			/*
+			 * Movendo o arquivo para o diretório correto
+			 */
+			$arquivo = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil')
+				: null;
+
+			if (isset($arquivo) && $arquivo->isValid()) {
+				$destinationPath = 'uploads/usuarios/';
+				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
+				$arquivo->move($destinationPath, $fileName);
+				$input['imagem_perfil'] = $fileName;
+			} else {
+				array_pull($input, 'imagem_perfil');
+			}
+
 			$user->update($input);
 
 			return Response::json(array('success'=>true));

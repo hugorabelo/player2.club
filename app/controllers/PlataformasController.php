@@ -48,6 +48,8 @@ class PlataformasController extends BaseController {
 				$fileName = 'plataforma_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
 				$arquivo->move($destinationPath, $fileName);
 				$input['imagem_logomarca'] = $fileName;
+			} else {
+				$input['imagem_logomarca'] = $arquivo;
 			}
 
 			Plataforma::create($input);
@@ -95,6 +97,8 @@ class PlataformasController extends BaseController {
 				$fileName = 'plataforma_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
 				$arquivo->move($destinationPath, $fileName);
 				$input['imagem_logomarca'] = $fileName;
+			} else {
+				$input['imagem_logomarca'] = $arquivo;
 			}
 
 			$plataforma = $this->plataforma->find($id);

@@ -14,8 +14,7 @@ AplicacaoLiga.factory('Plataforma', ['$http', function ($http) {
                     formData.append("descricao", plataforma.descricao);
                     formData.append("imagem_logomarca", arquivo);
                     return formData;
-                },
-                data: {descricao: plataforma.descricao, imagem_logomarca: arquivo}
+                }
             });
         },
 
@@ -33,8 +32,7 @@ AplicacaoLiga.factory('Plataforma', ['$http', function ($http) {
                     formData.append("descricao", plataforma.descricao);
                     formData.append("imagem_logomarca", arquivo);
                     return formData;
-                },
-                data: {descricao: plataforma.descricao, imagem_logomarca: arquivo}
+                }
             });
         },
 

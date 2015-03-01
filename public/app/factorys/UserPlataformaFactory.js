@@ -1,7 +1,7 @@
-AplicacaoLiga.factory('UserPlataforma', '$http', [function ($http) {
+AplicacaoLiga.factory('UserPlataforma', ['$http', function ($http) {
 	return {
 
-        getPlataformas: function(id) {
+        getPlataformasDoUsuario: function(id) {
             return $http.get('api/userPlataforma/' + id);
         },
 

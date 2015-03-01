@@ -8,12 +8,20 @@ AplicacaoLiga.factory('Usuario', ['$http', function ($http) {
             return $http.get('api/usuario');
         },
 
-        save : function(usuario) {
+		save : function(usuario, arquivo) {
+			if (typeof(arquivo)==='undefined') arquivo = null;
             return $http({
                 method: 'POST',
                 url: 'api/usuario',
-                data: $.param(usuario),
-                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' }
+                headers: { 'Content-Type' : undefined },
+                transformRequest: function(data) {
+                    var formData = new FormData();
+                    angular.forEach(usuario, function(value, key) {
+						formData.append(key, value);
+					});
+                    formData.append("imagem_perfil", arquivo);
+                    return formData;
+                }
             });
         },
 
@@ -21,14 +29,20 @@ AplicacaoLiga.factory('Usuario', ['$http', function ($http) {
             return $http.get('api/usuario/' + id + '/edit');
         },
 
-        update : function(dados) {
+		update : function(usuario, arquivo) {
+			if (typeof(arquivo)==='undefined') arquivo = null;
             return $http({
-                method: 'PUT',
-                url: 'api/usuario/' + dados.id,
-                headers: {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                },
-                data: $.param(dados)
+                method: 'POST',
+                url: 'api/usuario/' + usuario.id,
+                headers: { 'Content-Type' : undefined },
+                transformRequest: function(data) {
+                    var formData = new FormData();
+                    angular.forEach(usuario, function(value, key) {
+						formData.append(key, value);
+					});
+                    formData.append("imagem_perfil", arquivo);
+                    return formData;
+                }
             });
         },
 
