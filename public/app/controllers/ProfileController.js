@@ -7,6 +7,15 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
 
 	$scope.files = [];
 
+    //$rootScope.loading = true;
+    Usuario.show(1)
+        .success(function(data) {
+            $scope.usuario = data;
+            $scope.carregaDadosUsuario($scope.usuario.id);
+        })
+        .error(function(data, status) {
+        });
+
     $scope.$on("fileSelected", function (event, args) {
         $scope.$apply(function () {
             //add the file object to the scope's files collection
@@ -25,16 +34,6 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
     $scope.abreFormularioImagemPerfil = function() {
         $scope.exibeFormularioImagem = true;
     };
-
-    //$rootScope.loading = true;
-    Usuario.show(1)
-        .success(function(data) {
-            $scope.usuario = data;
-            $scope.getPlataformasDoUsuario();
-            $scope.getPlataformas();
-        })
-        .error(function(data, status) {
-        });
 
     $scope.getPlataformasDoUsuario = function() {
         $scope.userPlataformas = {};
@@ -102,9 +101,31 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
             $scope.usuario = data;
             $scope.getPlataformasDoUsuario();
             $scope.getPlataformas();
+            $scope.getCampeonatosInscritos();
+            $scope.getCampeonatosDisponiveis();
         })
         .error(function(data, status) {
         });
+    };
+
+    $scope.getCampeonatosInscritos = function() {
+        $scope.userCampeonatosInscritos = {};
+        Usuario.getCampeonatosInscritos($scope.usuario.id)
+            .success(function (data) {
+                $scope.userCampeonatosInscritos = data;
+            })
+            .error(function (data) {
+            });
+    };
+
+    $scope.getCampeonatosDisponiveis = function() {
+        $scope.userCampeonatosDisponiveis = {};
+        Usuario.getCampeonatosDisponiveis($scope.usuario.id)
+            .success(function (data) {
+                $scope.userCampeonatosDisponiveis = data;
+            })
+            .error(function (data) {
+            });
     };
 
 }]);

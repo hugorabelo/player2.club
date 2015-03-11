@@ -48,6 +48,14 @@ AplicacaoLiga.factory('Usuario', ['$http', function ($http) {
 
         destroy : function(id) {
             return $http.delete('api/usuario/' + id);
+        },
+
+        getCampeonatosInscritos : function(id) {
+            return $http.get('api/campeonatosInscritosParaUsuario/' + id);
+        },
+
+        getCampeonatosDisponiveis : function(id) {
+            return $http.get('api/campeonatosDisponiveisParaUsuario/' + id);
         }
     }
 }]);

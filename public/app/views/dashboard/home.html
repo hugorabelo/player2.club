@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="ProfileController">
     <div class="col-md-12">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
@@ -22,7 +22,7 @@
             <div class="col-md-8">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        Primary Panel
+                        Próximas Partidas
                     </div>
                     <div class="panel-body">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et,
@@ -33,11 +33,28 @@
             <div class="col-md-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        Primary Panel
+                        Meus Campeonatos
                     </div>
                     <div class="panel-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et,
-                            fringilla augue.</p>
+                        <ul>
+                            <li ng-repeat="campeonato in userCampeonatosInscritos">
+                                {{ campeonato.descricao }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Campeonatos Disponíveis
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li ng-repeat="campeonato in userCampeonatosDisponiveis">
+                                {{ campeonato.descricao }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
