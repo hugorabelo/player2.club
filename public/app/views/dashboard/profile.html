@@ -4,12 +4,16 @@
     </div>
     <div>
         <div class="ibox-content no-padding border-left-right" ng-show="usuario.imagem_perfil">
-            <a class="edita_foto" ng-click="abreFormularioImagemPerfil()">
-                <i class="fa fa-fw fa-lg fa-edit"></i>
-            </a>
-            <img alt="image" class="img-responsive" src="uploads/usuarios/{{usuario.imagem_perfil}}">
-            <div id="formModalImagem" ng-include="'app/views/dashboard/formModalImagem.html'" ng-show="exibeFormularioImagem">
-			</div>
+          	<figure class="foto_perfil">
+            	<img alt="image" class="img-responsive" src="uploads/usuarios/{{usuario.imagem_perfil}}">
+          		<figcaption>
+					<a class="edita_foto" ng-click="abreFormularioImagemPerfil()">
+						<i class="fa fa-fw fa-lg fa-edit"></i> Editar Foto
+					</a>
+					<div id="formModalImagem" ng-include="'app/views/dashboard/formModalImagem.html'" ng-show="exibeFormularioImagem">
+					</div>
+          		</figcaption>
+          	</figure>
         </div>
         <div class="ibox-content no-padding border-left-right" ng-hide="usuario.imagem_perfil">
           	<button type="button" class="btn btn-primary btn-block" ng-click="abreFormularioImagemPerfil()">

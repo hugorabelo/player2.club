@@ -4572,11 +4572,37 @@ body.skin-3 {
 
 /* Personalização */
 
-.edita_foto {
-    position: absolute;
-    right: 15px;
+figure.foto_perfil {
+	position: relative;
 }
 
-.edita_foto:hover {
-    background: #fff;
+figure.foto_perfil img {
+	display: block;
+}
+
+figure.foto_perfil figcaption {
+	bottom: 0;
+	margin: 0;
+
+	position: absolute;
+	width: 100%;
+
+	background-color: #fff;
+	background-color: rgba(255,255,255,0.5);
+	color: rgba(255,255,255,0.5);
+}
+
+figure.foto_perfil figcaption:hover {
+
+	background-color: rgba(255,255,255,0.9);
+	font-size: 120%;
+}
+
+figure.foto_perfil figcaption a {
+	display: block;
+	padding: 5px;
+}
+
+figure.foto_perfil figcaption a:hover {
+	padding: 10px;
 }
