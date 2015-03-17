@@ -31,7 +31,26 @@ class Campeonato extends Eloquent {
 		return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->getResults();
 	}
 
+	public function maximoUsuarios() {
+		/*
+		 * Alterar para quantidade maxima de usuarios da fase inicial
+		 */
+        $quantidade_maxima = 0;
+        foreach($this->faseInicial() as $fase) {
+            $quantidade_maxima = $fase->quantidade_usuarios;
+        }
+		return $quantidade_maxima;
+	}
+
 	public function fases() {
-		//return Fase
+		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->getResults();
+	}
+
+	public function faseInicial() {
+		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('inicial', '=', 'true')->get();
+	}
+
+	public function faseFinal() {
+		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('final', '=', 'true')->get();
 	}
 }

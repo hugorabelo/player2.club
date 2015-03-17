@@ -50,6 +50,8 @@ Route::get('/', function()
         Route::resource('usuarioTipo', 'UsuarioTiposController');
     });
 
+    Route::get('api/campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
+    Route::get('api/campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('usuario', 'UsersController');
     });

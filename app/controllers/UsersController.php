@@ -146,4 +146,42 @@ class UsersController extends BaseController {
 		return Response::json(array('success'=>true));
 	}
 
+	/**
+	 * Retorna uma lista com os campeonatos disponiveis para determinado usuario
+	 * de acordo com as plataformas nas quais o usuario estiver cadastrado
+	 * A lista vai exibir apenas os campeonatos que nao estejam com todas as vagas preenchidas
+	 *
+	 * @param int $id_usuario
+	 * @return Response
+	 */
+	public function listaCampeonatosDisponiveis($id_usuario) {
+		$plataformasDoUsuario = UserPlataforma::where("users_id", "=", $id_usuario)->get(array("plataformas_id"))->toArray();
+		if(empty($plataformasDoUsuario)) {
+			$plataformasDoUsuario = array("plataformas"=>0);
+		}
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $id_usuario)->get(array("campeonatos_id"))->toArray();
+		if(empty($campeonatosUsuario)) {
+			$campeonatosUsuario = array("campeonatos_id"=>0);
+		}
+		$campeonatosDisponiveisNaPlataforma = Campeonato::whereIn("plataformas_id", $plataformasDoUsuario)->whereNotIn("id", $campeonatosUsuario)->get();
+		foreach($campeonatosDisponiveisNaPlataforma as $campeonato) {
+			Log::info($campeonato->id.': '.$campeonato->maximoUsuarios());
+		}
+
+		return Response::json($campeonatosDisponiveisNaPlataforma);
+	}
+
+	/**
+	 * Retorna uma lista com os campeonatos nos quais o usuario esta inscrito
+	 *
+	 * @param int $id_usuario
+	 * @return Response
+	 */
+	public function listaCampeonatosInscritos($id_usuario) {
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $id_usuario)->get(array("campeonatos_id"))->toArray();
+		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
+
+		return Response::json($campeonatosInscritos);
+	}
+
 }
