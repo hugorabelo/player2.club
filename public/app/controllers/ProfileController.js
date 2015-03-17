@@ -62,7 +62,7 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
     $scope.salvaUserPlataforma = function() {
         UserPlataforma.save($scope.userPlataforma)
             .success(function (data) {
-                $scope.getPlataformasDoUsuario();
+                $scope.carregaDadosUsuario($scope.usuario.id);
                 $scope.exibeFormulario = false;
             }).error(function(data, status) {
                 $scope.messagePontuacao = data.message;
@@ -77,7 +77,7 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
             if(result) {
                 UserPlataforma.destroy(id)
                     .success(function (data) {
-                        $scope.getPlataformasDoUsuario();
+                        $scope.carregaDadosUsuario($scope.usuario.id);
                     }).error(function (data) {
 
                     });

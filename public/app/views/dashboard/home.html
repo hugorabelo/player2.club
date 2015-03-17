@@ -36,7 +36,7 @@
                         Meus Campeonatos
                     </div>
                     <div class="panel-body">
-                        <ul>
+                        <ul class="todo-list m-t small-list">
                             <li ng-repeat="campeonato in userCampeonatosInscritos">
                                 {{ campeonato.descricao }}
                             </li>
@@ -50,9 +50,11 @@
                         Campeonatos Disponíveis
                     </div>
                     <div class="panel-body">
-                        <ul>
+                        <ul class="todo-list m-t small-list">
                             <li ng-repeat="campeonato in userCampeonatosDisponiveis">
                                 {{ campeonato.descricao }}
+                                <a ng-click="inscreverCampeonato(campeonato.id)" class="btn btn-xs btn-success pull-right"> Inscrever
+								</a>
                             </li>
                         </ul>
                     </div>
