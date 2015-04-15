@@ -32,6 +32,10 @@ class CampeonatosController extends BaseController {
 		return Response::json($campeonatos);
 	}
 
+    public function show($id) {
+        return Response::json(Campeonato::find($id));
+    }
+
 	public function create()
 	{
 		$jogos = Jogo::get();
@@ -116,7 +120,7 @@ class CampeonatosController extends BaseController {
 		return Response::json(array('success'=>true));
 	}
 
-	public function show($id)
+	public function show2($id)
 	{
 		$campeonato = Campeonato::find($id);
 		$usuarios = $campeonato->usuariosInscritos();

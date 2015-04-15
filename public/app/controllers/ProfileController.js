@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', function ($scope, $filter, Usuario, UserPlataforma, Plataforma) {
+AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', function ($scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato) {
 
     $scope.usuario = {};
     $scope.exibeFormulario = false;
@@ -127,6 +127,37 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
             .error(function (data) {
             });
     };
+
+	$scope.inscreverCampeonato = function(id) {
+		$scope.campeonatoSelecionado = null;
+		var $translate = $filter('translate');
+		Campeonato.getInformacoes(id)
+			.success(function (data) {
+				$scope.campeonatoSelecionado = data;
+				var mensagem = $scope.campeonatoSelecionado.detalhes;
+				bootbox.dialog({
+					message: mensagem,
+					title: $translate('messages.inscrever_titulo'),
+					buttons: {
+						danger: {
+							label: $translate('fields.cancel'),
+							className: "btn-default",
+							callback: function() {
+								alert("uh oh, look out!");
+							}
+						},
+						success: {
+							label: $translate('messages.inscrever'),
+							className: "btn-primary",
+							callback: function() {
+								alert("great success");
+							}
+						}
+					}
+				});
+			}).error(function (data) {
+			});
+	};
 
 }]);
 

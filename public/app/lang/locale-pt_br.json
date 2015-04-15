@@ -155,6 +155,9 @@
         "titulo_dashboard": "Minha Página Inicial",
         "titulo_perfil": "Detalhes do Perfil",
         "sobre_mim": "Sobre Mim",
-		"inserir_imagem_perfil": "Inserir Imagem no Perfil"
+		"inserir_imagem_perfil": "Inserir Imagem no Perfil",
+
+		"inscrever": "Inscrever",
+		"inscrever_titulo": "Inscrição em Campeonato"
     }
 }
