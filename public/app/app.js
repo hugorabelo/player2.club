@@ -10,7 +10,8 @@ var AplicacaoLiga = angular.module('aplicacaoLiga', [
     'pascalprecht.translate',
     'jcs-autoValidate',
     'ui.tree',
-    'ngCookies'
+    'ngCookies',
+	'summernote'
 ]);
 
 AplicacaoLiga.config(function ($locationProvider) {

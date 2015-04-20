@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flag-icon.min.css">
     <link rel="stylesheet" href="css/angular-ui-tree.min.css">
-    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/plugins/iCheck/custom.css">
+    <link rel="stylesheet" href="css/plugins/summernote/summernote.css">
+
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
