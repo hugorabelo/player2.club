@@ -15,7 +15,7 @@ var AplicacaoLiga = angular.module('aplicacaoLiga', [
 ]);
 
 AplicacaoLiga.config(function ($locationProvider) {
-	$locationProvider.html5Mode(true);
+	$locationProvider.html5Mode(false);
 });
 
 AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
@@ -72,7 +72,7 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
         url: "/usuario",
         templateUrl: "app/views/usuario/index.html",
         controller: 'UsuarioController',
-        data: { pageTitle: "menustrue.usuarios" }
+        data: { pageTitle: "menus.usuarios" }
     })
     .state('menu', {
         url: "/menu",
@@ -85,6 +85,24 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
         templateUrl: "app/views/permissao/index.html",
         controller: 'PermissaoController',
         data: { pageTitle: "menus.permissoes" }
+    })
+    .state('meus_campeonatos', {
+        url: "/meus_campeonatos",
+        templateUrl: "app/views/meus_campeonatos/index.html",
+        controller: 'MeuCampeonatoController',
+        data: { pageTitle: "menus.meus_campeonatos" }
+    })
+    .state('meus_campeonatos_disponiveis', {
+        url: "/campeonatos_disponiveis",
+        templateUrl: "app/views/meus_campeonatos/campeonatosDisponiveis.html",
+        controller: 'MeuCampeonatoController',
+        data: { pageTitle: "menus.meus_campeonatos_disponiveis" }
+    })
+    .state('minhas_partidas', {
+        url: "/minhas_partidas",
+        templateUrl: "app/views/meus_campeonatos/minhasPartidas.html",
+        controller: 'PartidaController',
+        data: { pageTitle: "menus.minhas_partidas" }
     })
     .state('logout', {
         url: "/logout"

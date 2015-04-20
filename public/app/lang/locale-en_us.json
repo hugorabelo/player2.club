@@ -13,7 +13,10 @@
         "lang_br": "Portuguese",
         "acesso": "Access Configuration",
         "menus": "Menus",
-        "permissoes": "Permissions"
+        "permissoes": "Permissions",
+        "meus_campeonatos": "My Championships",
+        "campeonatos_disponiveis": "Avaliable Championships",
+        "minhas_partidas": "My Matches"
 
     },
 
@@ -154,6 +157,11 @@
         "titulo_dashboard": "My Dashboard",
         "titulo_perfil": "Profile Detail",
         "sobre_mim": "About me",
-		"inserir_imagem_perfil": "Insert Image in Profile"
+		"inserir_imagem_perfil": "Insert Image in Profile",
+
+        "inscrever": "Subscribe",
+		"inscrever_titulo": "Subscribe in Championship",
+
+        "minhasPartidas_list": "My Matches"
     }
 }

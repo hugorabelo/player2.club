@@ -13,8 +13,10 @@
         "lang_br": "Português",
         "acesso": "Configurações de Acesso",
         "menus": "Menus",
-        "permissoes": "Permissões"
-
+        "permissoes": "Permissões",
+        "meus_campeonatos": "Meus Campeonatos",
+        "campeonatos_disponiveis": "Campeonatos Disponíveis",
+        "minhas_partidas": "Minhas Partidas"
     },
 
     "fields": {
@@ -158,6 +160,8 @@
 		"inserir_imagem_perfil": "Inserir Imagem no Perfil",
 
 		"inscrever": "Inscrever",
-		"inscrever_titulo": "Inscrição em Campeonato"
+		"inscrever_titulo": "Inscrição em Campeonato",
+
+        "minhasPartidas_list": "Minhas Partidas"
     }
 }
