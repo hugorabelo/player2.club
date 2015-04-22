@@ -15,7 +15,7 @@ var AplicacaoLiga = angular.module('aplicacaoLiga', [
 ]);
 
 AplicacaoLiga.config(function ($locationProvider) {
-	$locationProvider.html5Mode(false);
+	$locationProvider.html5Mode(true);
 });
 
 AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {

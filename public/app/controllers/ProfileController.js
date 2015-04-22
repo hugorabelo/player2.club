@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', function ($scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato) {
+AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
     $scope.usuario = {};
     $scope.exibeFormulario = false;
@@ -141,16 +141,13 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
 					buttons: {
 						danger: {
 							label: $translate('fields.cancel'),
-							className: "btn-default",
-							callback: function() {
-								alert("uh oh, look out!");
-							}
+							className: "btn-default"
 						},
 						success: {
 							label: $translate('messages.inscrever'),
 							className: "btn-primary",
 							callback: function() {
-								alert("great success");
+								$scope.confirmaInscricao($scope.campeonatoSelecionado.id);
 							}
 						}
 					}
@@ -159,6 +156,13 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
 			});
 	};
 
-}]);
+	$scope.confirmaInscricao = function (id_campeonato) {
+		CampeonatoUsuario.save($scope.usuario.id, id_campeonato)
+			.success(function (data) {
+				alert('deu certo');
+			}).error(function (data) {
+				alert('deu zebra: ' + data.message);
+			});
+	};
 
-//;
+}]);
