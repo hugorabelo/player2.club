@@ -13,13 +13,11 @@ AplicacaoLiga.factory('CampeonatoUsuario', ['$http', function ($http) {
 			return $http({
                 method: 'POST',
                 url: 'api/campeonatoUsuario',
-                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-				transformRequest: function(data) {
-                    var formData = new FormData();
-                    formData.append("users_id", id_usuario);
-					formData.append("campeonatos_id", id_campeonato);
-					return formData;
-				}
+				data: $.param({
+					'users_id' : id_usuario,
+					'campeonatos_id' : id_campeonato
+				}),
+                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' }
             });
 		},
 

@@ -159,9 +159,9 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
 	$scope.confirmaInscricao = function (id_campeonato) {
 		CampeonatoUsuario.save($scope.usuario.id, id_campeonato)
 			.success(function (data) {
-				alert('deu certo');
+				$scope.getCampeonatosInscritos();
+            	$scope.getCampeonatosDisponiveis();
 			}).error(function (data) {
-				alert('deu zebra: ' + data.message);
 			});
 	};
 
