@@ -17,7 +17,6 @@
         "meus_campeonatos": "My Championships",
         "campeonatos_disponiveis": "Avaliable Championships",
         "minhas_partidas": "My Matches"
-
     },
 
     "fields": {
@@ -43,7 +42,7 @@
         "password": "Password",
         "usuarioTipos_id" : "User Type",
 
-        "detalhes": "Details",
+        "detalhes": "Rules",
         "jogos_id": "Game",
         "campeonatotipos_id": "Championship Type",
         "quantidade_usuarios": "Number of Users",
@@ -121,6 +120,7 @@
         "campeonato_edit": "Edit Championship",
         "campeonato_empty": "There are no championship in database",
         "campeonato_detalhes": "Championship Details",
+		"exibir_regras_campeonato": "Show Championship Rules",
 
         "campeonatoAdmin_list": "Championship Admin",
         "campeonatoAdmin_add": "Add Championship Admin",
@@ -160,7 +160,9 @@
 		"inserir_imagem_perfil": "Insert Image in Profile",
 
         "inscrever": "Subscribe",
+		"desistir": "Give Up",
 		"inscrever_titulo": "Subscribe in Championship",
+		"confirma_desistir_campeonato": "Are you sure you want to give up the Championship?",
 
         "minhasPartidas_list": "My Matches"
     }

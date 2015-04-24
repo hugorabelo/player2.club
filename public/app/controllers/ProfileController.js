@@ -165,4 +165,29 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
 			});
 	};
 
+	$scope.sairCampeonato = function(id_campeonato) {
+		var $translate = $filter('translate');
+        var mensagem = $translate('messages.confirma_desistir_campeonato');
+		bootbox.confirm(mensagem, function(result) {
+            if(result) {
+				CampeonatoUsuario.getUsuarios(id_campeonato)
+					.success(function (data) {
+						for(i=0; i<data.length; i++) {
+							if(data[i].users_id == $scope.usuario.id) {
+								var id_campeonato_usuario = data[i].id;
+								CampeonatoUsuario.destroy(id_campeonato_usuario)
+									.success(function (data) {
+										$scope.getCampeonatosInscritos();
+										$scope.getCampeonatosDisponiveis();
+									})
+									.error(function (data) {
+
+									});
+							}
+						}
+				});
+            }
+        });
+	};
+
 }]);

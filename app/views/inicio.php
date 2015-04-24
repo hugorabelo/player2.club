@@ -49,13 +49,13 @@
     -->
     <div ng-include="'app/views/comum/navigation.html'"></div>
 
+	<!-- Page wrapper
+	-->
+	<div ng-include="'app/views/comum/topnavbar.html'"></div>
+
     <!-- Page wraper -->
     <!-- ng-class with current state name give you the ability to extended customization your view -->
     <div id="page-wrapper" class="gray-bg {{$state.current.name}}">
-
-        <!-- Page wrapper
-        -->
-        <div ng-include="'app/views/comum/topnavbar.html'"></div>
 
         <!-- Main view
         -->

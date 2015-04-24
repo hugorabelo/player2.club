@@ -360,4 +360,17 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
         });
     };
 
+	$scope.exibirRegrasCampeonato = function(id) {
+		Campeonato.getInformacoes(id)
+		.success(function (data) {
+			bootbox.dialog({
+				message: data.detalhes,
+				title: data.descricao
+			});
+		})
+		.error(function (data) {
+
+		});
+	};
+
 }]);

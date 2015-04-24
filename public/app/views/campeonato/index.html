@@ -37,12 +37,12 @@
             </tr>
             <tr ng-repeat="campeonato in campeonatos | orderBy:'descricao'">
                 <td>{{ campeonato.descricao }}</td>
-                <td class="visible-lg-block">{{ campeonato.detalhes }}</td>
+				<td class="visible-lg-block"><a ng-click="exibirRegrasCampeonato(campeonato.id)" translate>messages.exibir_regras_campeonato</a></td>
                 <td>{{ campeonato.plataforma }}</td>
                 <td>{{ campeonato.jogo }}</td>
                 <td>{{ campeonato.campeonatoTipo }}</td>
                 <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-info" ng-click="detalhes(campeonato.id)" tooltip="{{'fields.detalhes' | translate}}">
+                    <button type="button" class="btn btn-info" ng-click="detalhes(campeonato.id)" tooltip="{{'messages.campeonato_detalhes' | translate}}">
                         <i class="fa fa-info fa-fw"></i>
                     </button>
                     <button type="button" class="btn btn-warning" ng-click="edit(campeonato.id)" tooltip="{{'fields.edit' | translate}}">

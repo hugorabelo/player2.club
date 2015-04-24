@@ -42,7 +42,7 @@
         "password": "Senha",
         "usuarioTipos_id" : "Tipo de Usuário",
 
-        "detalhes": "Detalhes",
+        "detalhes": "Regras",
         "jogos_id": "Jogo",
         "campeonatotipos_id": "Tipo de Campeonato",
         "quantidade_usuarios": "Quantidade de Usuários",
@@ -120,6 +120,7 @@
         "campeonato_edit": "Editar Campeonato",
         "campeonato_empty": "Não existe nenhum Campeonato cadastrado",
         "campeonato_detalhes": "Detalhes do Campeonato",
+		"exibir_regras_campeonato": "Exibir Regras do Campeonato",
 
         "campeonatoAdmin_list": "Administradores do Campeonato",
         "campeonatoAdmin_add": "Adicionar Administrador do Campeonato",
@@ -160,7 +161,9 @@
 		"inserir_imagem_perfil": "Inserir Imagem no Perfil",
 
 		"inscrever": "Inscrever",
+		"desistir": "Desistir",
 		"inscrever_titulo": "Inscrição em Campeonato",
+		"confirma_desistir_campeonato": "Deseja realmente desistir deste campeonato?",
 
         "minhasPartidas_list": "Minhas Partidas"
     }
