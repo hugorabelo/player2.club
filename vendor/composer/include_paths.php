@@ -6,11 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/phpseclib/phpseclib/phpseclib',
     $vendorDir . '/phpunit/php-text-template',
     $vendorDir . '/phpunit/php-timer',
     $vendorDir . '/phpunit/php-file-iterator',
-    $vendorDir . '/phpunit/php-code-coverage',
     $vendorDir . '/phpunit/phpunit',
     $vendorDir . '/symfony/yaml',
+    $vendorDir . '/phpseclib/phpseclib/phpseclib',
 );

@@ -1,0 +1,72 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2 translate>messages.tabelaCampeonato_list</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="home">Home</a>
+            </li>
+            <li>
+                <a translate>menus.campeonatos</a>
+            </li>
+            <li>
+                <a ui-sref="campeonato" translate>menus.tabela_campeonato</a>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="ibox-content">
+        <!--GloboEsporte-->
+        <nav class="tabela-navegacao tabela-navegacao-fases">
+            <a ng-click="exibeFaseAnterior()" ng-class="{'disabled': indice_fase == 0}">
+                <i class="fa fa-chevron-left pull-left"></i>
+            </a>
+
+			{{fase_atual.descricao}}
+
+
+
+            <a  ng-click="exibeProximaFase()" ng-class="{'disabled': indice_fase == campeonatoFases.length-1}">
+                <i class="fa fa-chevron-right pull-right"></i>
+            </a>
+        </nav>
+        <section ng-repeat="grupo in gruposDaFase">
+            <header>
+                <span translate>fields.grupo</span> {{grupo.descricao}}
+            </header>
+            <table class="tabela-classificacao table table-bordered">
+                <thead>
+                    <tr class="tabela-head-linha">
+                        <th colspan="3">Classificação</th>
+                        <th class="text-center">P</th>
+                        <th class="text-center">J</th>
+                        <th class="text-center">V</th>
+                        <th class="text-center">E</th>
+                        <th class="text-center">D</th>
+                        <th class="text-center">GP</th>
+                        <th class="text-center">GC</th>
+                        <th class="text-center">SG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tabela-head-linha">
+                        <td colspan="3">Classificação</td>
+                        <td class="text-center">P</td>
+                        <td class="text-center">J</td>
+                        <td class="text-center">V</td>
+                        <td class="text-center">E</td>
+                        <td class="text-center">D</td>
+                        <td class="text-center">GP</td>
+                        <td class="text-center">GC</td>
+                        <td class="text-center">SG</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <ul>
+            <li ng-repeat="partida in partidas"></li>
+        </ul>
+    </div>
+    <!--	Meu Codigo-->
+</div>

@@ -47,10 +47,10 @@ class Campeonato extends Eloquent {
 	}
 
 	public function faseInicial() {
-		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('inicial', '=', 'true')->get();
+		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('inicial', '=', 'true')->get()->first();
 	}
 
 	public function faseFinal() {
-		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('final', '=', 'true')->get();
+		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('final', '=', 'true')->get()->first();
 	}
 }

@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder {
 		$this->call('CampeonatosTableSeeder');
 		$this->call('Campeonato_adminsTableSeeder');
 		$this->call('CampeonatoadminsTableSeeder');
+		$this->call('UsuariofasesTableSeeder');
+		$this->call('UsuariogruposTableSeeder');
+		$this->call('PartidasTableSeeder');
+		$this->call('UsuariopartidasTableSeeder');
 	}
 
 }

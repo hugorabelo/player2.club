@@ -16,4 +16,16 @@ class CampeonatoFase extends Eloquent {
 	{
 		return array();
 	}
+
+    public function grupos() {
+        return $this->hasMany('FaseGrupo', 'campeonato_fases_id')->getResults();
+    }
+
+    public function usuarios() {
+        return $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
+    }
+
+    public function faseAnterior() {
+        return $this->find($this->fase_anterior_id);
+    }
 }

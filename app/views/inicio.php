@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="css/plugins/iCheck/custom.css">
     <link rel="stylesheet" href="css/plugins/summernote/summernote.css">
 
+    <!-- Estilos do Campeonato-->
+    <link rel="stylesheet" href="css/estiloTabelaCampeonato.css">
+
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -99,7 +102,6 @@ foreach($arquivosJS as $arquivo){
 }
 
 ?>
-
 
 </body>
 </html>

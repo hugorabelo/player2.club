@@ -2,9 +2,9 @@
 
 @section('main')
 
-<h1>{{ trans('messages.{{models}}_list') }}</h1>
+<h1>All {{Models}}</h1>
 
-<p>{{ link_to_route('{{models}}.create', trans('messages.{{model}}_add'), null, array('class' => 'btn btn-lg btn-success')) }}</p>
+<p>{{ link_to_route('{{models}}.create', 'Add New {{Model}}', null, array('class' => 'btn btn-lg btn-success')) }}</p>
 
 @if (${{models}}->count())
 	<table class="table table-striped">
@@ -24,7 +24,7 @@
 		</tbody>
 	</table>
 @else
-	{{ trans('messages.{{model}}_empty') }}
+	There are no {{models}}
 @endif
 
 @stop

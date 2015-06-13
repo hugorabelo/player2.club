@@ -73,7 +73,8 @@
 
         "login": "Login",
         "gamertag": "Gamertag",
-        "localizacao": "Localização"
+        "localizacao": "Localização",
+		  "grupo": "Grupo"
     },
 
     "messages": {

@@ -135,4 +135,11 @@ class CampeonatosController extends BaseController {
 		return Response::json(compact('campeonatoUsuarios','campeonatoAdministradores', 'campeonatoFases'));
 	}
 
+    public function iniciaCampeonato($id) {
+        $campeonato = Campeonato::find($id);
+        $fase_inicial = $campeonato->faseInicial();
+        foreach($campeonato->usuariosInscritos() as $usuario) {
+        }
+    }
+
 }

@@ -1,28 +1,28 @@
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2 translate>messages.minhasPartidas_list</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.campeonatos</a>
-            </li>
-            <li>
-                <a ui-sref="campeonato" translate>menus.meus_campeonatos</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
+	<div class="col-lg-10">
+		<h2 translate>messages.minhasPartidas_list</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a ui-sref="home">Home</a>
+			</li>
+			<li>
+				<a translate>menus.campeonatos</a>
+			</li>
+			<li>
+				<a ui-sref="campeonato" translate>menus.meus_campeonatos</a>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
 
-    </div>
+	</div>
 </div>
 
 
 <div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
+	<div class="ibox-content">
 
-        <div class="row">
+		<div class="row">
 			<div translate class="col-xs-3 text-right">fields.time1</div>
 			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input"></div>
 			<div translate class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>
@@ -30,16 +30,62 @@
 			<div translate class="col-xs-3 text-left">fields.time2</div>
 			<div translate class="col-xs-3">
 				<button type="button" class="btn btn-info" ng-click="salvar(partida.id)" tooltip="{{'fields.salvar_resultado' | translate}}">
-					<i class="fa fa-check fa-fw"></i>
+					<i class="fa fa-save fa-fw"></i>
 				</button>
 				<button type="button" class="btn btn-warning" ng-click="confirmar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}">
-					<i class="fa fa-save fa-fw"></i>
+					<i class="fa fa-check fa-fw"></i>
 				</button>
 				<button type="button" class="btn btn-danger" ng-click="contestar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}">
 					<i class="fa fa-gavel fa-fw"></i>
 				</button>
 			</div>
-        </div>
+		</div>
 
-    </div>
+	</div>
+
+	<div class="ibox-content">
+
+		<div class="row">
+			<div translate class="col-xs-3 text-right">fields.time1</div>
+			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input"></div>
+			<div translate class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>
+			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input"></div>
+			<div translate class="col-xs-3 text-left">fields.time2</div>
+			<div translate class="col-xs-3">
+				<button type="button" class="btn btn-info" ng-click="salvar(partida.id)" tooltip="{{'fields.salvar_resultado' | translate}}">
+					<i class="fa fa-save fa-fw"></i>
+				</button>
+				<button type="button" class="btn btn-warning" ng-click="confirmar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}">
+					<i class="fa fa-check fa-fw"></i>
+				</button>
+				<button type="button" class="btn btn-danger" ng-click="contestar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}">
+					<i class="fa fa-gavel fa-fw"></i>
+				</button>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="ibox-content">
+
+		<div class="row">
+			<div translate class="col-xs-3 text-right">fields.time1</div>
+			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input"></div>
+			<div translate class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>
+			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input"></div>
+			<div translate class="col-xs-3 text-left">fields.time2</div>
+			<div translate class="col-xs-3">
+				<button type="button" class="btn btn-info" ng-click="salvar(partida.id)" tooltip="{{'fields.salvar_resultado' | translate}}">
+					<i class="fa fa-save fa-fw"></i>
+				</button>
+				<button type="button" class="btn btn-warning" ng-click="confirmar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}">
+					<i class="fa fa-check fa-fw"></i>
+				</button>
+				<button type="button" class="btn btn-danger" ng-click="contestar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}">
+					<i class="fa fa-gavel fa-fw"></i>
+				</button>
+			</div>
+		</div>
+
+	</div>
 </div>

@@ -60,4 +60,9 @@ class FaseGrupoController extends BaseController {
         return Response::json(array('success'=>true));
     }
 
+    public function getUsuariosComClassificacao($id_grupo) {
+        $grupo = FaseGrupo::find($id_grupo);
+        return Response::json($grupo->usuariosComClassificacao());
+    }
+
 }

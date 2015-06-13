@@ -60,6 +60,19 @@ class {{className}} extends BaseController {
 	}
 
 	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		${{model}} = $this->{{model}}->findOrFail($id);
+
+		return View::make('{{models}}.show', compact('{{model}}'));
+	}
+
+	/**
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $id
@@ -93,7 +106,7 @@ class {{className}} extends BaseController {
 			${{model}} = $this->{{model}}->find($id);
 			${{model}}->update($input);
 
-			return Redirect::route('{{models}}.index', $id);
+			return Redirect::route('{{models}}.show', $id);
 		}
 
 		return Redirect::route('{{models}}.edit', $id)

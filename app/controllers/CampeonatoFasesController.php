@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 class CampeonatoFasesController extends BaseController {
 
 	/**
@@ -25,7 +27,7 @@ class CampeonatoFasesController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$campeonatoFases = CampeonatoFase::where('campeonatos_id','=',$id)->get();
+		$campeonatoFases = $this->getFasesOrdenadas($id);
 		return Response::json($campeonatoFases);
 	}
 
@@ -133,13 +135,62 @@ class CampeonatoFasesController extends BaseController {
 		return Response::json(array('success'=>true));
 	}
 
-	public function abreFase() {
-		// verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
-		// Inscrever usuários classificados da fase anterior
-		// Habilitar inserção de resultados
-	}
+	public function abreFase($id) {
+        // verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
 
-	public function fechaFase() {
+
+        // Inscrever usuários classificados da fase anterior
+        $fase_atual = CampeonatoFase::find($id);
+        $campeonato = Campeonato::find($fase_atual->campeonatos_id);
+
+        if($fase_atual == $campeonato->faseInicial()) {
+            // Se fase Inicial, pegar todos os usuários do campeonato
+            $usuariosDaFase = $campeonato->usuariosInscritos();
+        } else {
+            // Se fase não é inicial, pegar todos os usuários classificados da fase anterior
+            // Pegar quantidade de usuarios da fase atual / dividir pelo número de grupos da fase anterior = X: número de classificados por grupo / pegar os X melhores de cada grupo da fase anterior
+            $fase_anterior = CampeonatoFase::find($fase_atual->fase_anterior_id);
+            if($fase_anterior != null) {
+                $grupos_anterior = $fase_anterior->grupos();
+                $quantidade_grupos_fase_anterior = $fase_anterior->grupos()->count();
+                $quantidade_classificados_fase_anterior = $fase_atual->quantidade_usuarios / $quantidade_grupos_fase_anterior;
+
+                $usuariosDaFase = array();
+
+                foreach($grupos_anterior as $grupo) {
+                    $usuariosDoGrupo = $grupo->usuarios();
+                    $quantidadeUsuariosInseridos = 0;
+                    foreach($usuariosDoGrupo as $usuarioInserido) {
+                        array_push($usuariosDaFase, $usuarioInserido);
+                        $quantidadeUsuariosInseridos++;
+                        if($quantidadeUsuariosInseridos == $quantidade_classificados_fase_anterior) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach($usuariosDaFase as $usuario) {
+            //UsuarioFase::create(['users_id'=> $usuario->id,'campeonato_fases_id' => $fase_atual->id]);
+        }
+        $gruposDaFase = $fase_atual->grupos();
+
+        // Sortear Grupos e Jogos
+        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase);
+
+        foreach($fase_atual->grupos() as $grupo) {
+            $this->sorteioJogosUmContraUm($grupo, 2);
+        }
+
+        return Response::json($usuariosDaFase);
+
+
+
+        // Habilitar inserção de resultados
+    }
+
+	public function fechaFase($id) {
 		// contabilizar jogos sem resultado (0 pontos para todos os participantes)
 		// contabilizar pontuação e quantidade de classificados (por grupo)
 		// Desabilitar inserção de resultados
@@ -152,6 +203,17 @@ class CampeonatoFasesController extends BaseController {
 		 */
 	}
 
+    private function getFasesOrdenadas($id) {
+        $campeonato = Campeonato::find($id);
+        $fasesOrdenadas = new Collection();
+        $faseAdicionada = $campeonato->faseFinal();
+        $fasesOrdenadas->prepend($faseAdicionada);
+        while($faseAdicionada = $faseAdicionada->faseAnterior()) {
+            $fasesOrdenadas->prepend($faseAdicionada);
+        }
+        return $fasesOrdenadas;
+    }
+
 	private function existeFaseInicial($campeonatos_id, $id_fase) {
 		return CampeonatoFase::where('campeonatos_id', '=', $campeonatos_id)->where('inicial','=', true)->where('id', '!=', $id_fase)->get()->count();
 	}
@@ -159,5 +221,63 @@ class CampeonatoFasesController extends BaseController {
 	private function existeFaseFinal($campeonatos_id, $id_fase) {
 		return CampeonatoFase::where('campeonatos_id', '=', $campeonatos_id)->where('final','=', true)->where('id', '!=', $id_fase)->get()->count();
 	}
+
+    private function sorteioGrupos($grupos, $usuarios) {
+        $usuariosInseridos = array();
+        foreach($grupos as $grupo) {
+            for($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
+                $usuario = $usuarios->random(1);
+                while(in_array($usuario, $usuariosInseridos)) {
+                    $usuario = $usuarios->random(1);
+                }
+                //UsuarioGrupo::create(['users_id'=> $usuario->id,'fase_grupos_id' => $grupo->id]);
+                array_push($usuariosInseridos, $usuario);
+            }
+        }
+    }
+
+    private function sorteioJogosUmContraUm($grupo, $turnos) {
+        $usuarios = $grupo->usuarios();
+        $n = $usuarios->count();
+        $m = $n / 2;
+        $numero_rodadas_por_turno = ($n - 1);
+        $numero_rodada = 1;
+        for($t = 0; $t < $turnos; $t++) {
+            for($i = 0; $i < $numero_rodadas_por_turno; $i++) {
+                for($j = 0; $j < $m; $j++) {
+                    $partida = Partida::create(['fase_grupos_id'=>$grupo->id, 'rodada'=>$numero_rodada]);
+                    if($t % 2 == 1) {
+                        if($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
+                        } else {
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
+                        }
+                    } else {
+                        if($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
+                        } else {
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
+                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
+                        }
+                    }
+                }
+                $numero_rodada++;
+                $usuarios = $this->sorteioReordena($usuarios);
+            }
+        }
+    }
+
+    private function sorteioReordena($colecao) {
+        $novaColecao = new Collection();
+        $novaColecao->add($colecao->shift());
+        $novaColecao->add($colecao->pop());
+        foreach($colecao as $elemento) {
+            $novaColecao->add($elemento);
+        }
+        return $novaColecao;
+    }
 
 }

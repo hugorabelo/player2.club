@@ -104,6 +104,12 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
         controller: 'PartidaController',
         data: { pageTitle: "menus.minhas_partidas" }
     })
+	 .state('tabela_campeonato', {
+        url: "/tabela_campeonato",
+        templateUrl: "app/views/campeonatoFront/tabelaCampeonato.html",
+        controller: 'CampeonatoFrontController',
+        data: { pageTitle: "menus.tabela_campeonato" }
+    })
     .state('logout', {
         url: "/logout"
     })

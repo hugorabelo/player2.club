@@ -76,7 +76,7 @@ class ViewGenerator extends Generator {
 
         // First, we build the table headings
         $headings = array_map(function($field) {
-            return "<th>{{ trans('fields.$field') }}</th>";
+            return '<th>' . ucwords($field) . '</th>';
         }, array_keys($fields));
 
         // And then the rows, themselves
@@ -88,9 +88,9 @@ class ViewGenerator extends Generator {
         $editAndDelete = <<<EOT
                     <td>
                         {{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('{$models}.destroy', \${$model}->id))) }}
-                            {{ Form::submit(trans('fields.delete'), array('class' => 'btn btn-danger')) }}
+                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                         {{ Form::close() }}
-                        {{ link_to_route('{$models}.edit', trans('fields.edit'), array(\${$model}->id), array('class' => 'btn btn-info')) }}
+                        {{ link_to_route('{$models}.edit', 'Edit', array(\${$model}->id), array('class' => 'btn btn-info')) }}
                     </td>
 EOT;
 
@@ -109,7 +109,7 @@ EOT;
 
         foreach($this->cache->getFields() as $name => $type)
         {
-            $formalName = "trans('fields.$name')";
+            $formalName = ucwords($name);
 
             // TODO: add remaining types
             switch($type)
@@ -119,7 +119,7 @@ EOT;
                     break;
 
                 case 'text':
-                    $element = "{{ Form::textarea('$name', Input::old('$name'), array('class'=>'form-control', 'placeholder'=>$formalName)) }}";
+                    $element = "{{ Form::textarea('$name', Input::old('$name'), array('class'=>'form-control', 'placeholder'=>'$formalName')) }}";
                     break;
 
                 case 'boolean':
@@ -127,7 +127,7 @@ EOT;
                     break;
 
                 default:
-                    $element = "{{ Form::text('$name', Input::old('$name'), array('class'=>'form-control', 'placeholder'=>$formalName)) }}";
+                    $element = "{{ Form::text('$name', Input::old('$name'), array('class'=>'form-control', 'placeholder'=>'$formalName')) }}";
                     break;
             }
 
@@ -135,7 +135,7 @@ EOT;
             // We can build up the HTML fragment
             $frag = <<<EOT
         <div class="form-group">
-            {{ Form::label('$name', $formalName, array('class'=>'col-md-2 control-label')) }}
+            {{ Form::label('$name', '$formalName:', array('class'=>'col-md-2 control-label')) }}
             <div class="col-sm-10">
               $element
             </div>

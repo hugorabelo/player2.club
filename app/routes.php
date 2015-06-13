@@ -69,6 +69,7 @@ Route::get('/', function()
     });
 
     Route::get('api/campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
+    Route::get('api/campeonatoFase/abreFase/{id}', 'CampeonatoFasesController@abreFase');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('campeonatoFase', 'CampeonatoFasesController');
     });
@@ -77,6 +78,8 @@ Route::get('/', function()
         Route::resource('pontuacaoRegra', 'PontuacaoRegrasController');
     });
 
+
+    Route::get('api/faseGrupo/usuariosComClassificacao/{id}', 'FaseGrupoController@getUsuariosComClassificacao');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('faseGrupo', 'FaseGrupoController');
     });
@@ -94,6 +97,16 @@ Route::get('/', function()
         Route::resource('userPlataforma', 'UserPlataformaController');
     });
 
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('usuarioFases', 'UsuariofasesController');
+    });
+
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('usuariogrupos', 'UsuariogruposController');
+    });
+
+
+
 //});
 
 App::missing(function($exception) {
@@ -107,3 +120,9 @@ Event::listen('illuminate.query', function($query)
     Log::info($query);
 });
 /* */
+
+
+
+Route::resource('partidas', 'PartidasController');
+
+Route::resource('usuariopartidas', 'UsuariopartidasController');
