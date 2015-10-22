@@ -21,9 +21,12 @@ class PartidasController extends BaseController {
 	 */
 	public function index()
 	{
-		$partidas = $this->partida->all();
+		$partidas = Partida::get();
 
-		return View::make('partidas.index', compact('partidas'));
+        Log::info('entrou aqui');
+
+        return Response::json(compact('partidas'));
+		//return View::make('partidas.index', compact('partidas'));
 	}
 
 	/**
@@ -69,7 +72,8 @@ class PartidasController extends BaseController {
 	{
 		$partida = $this->partida->findOrFail($id);
 
-		return View::make('partidas.show', compact('partida'));
+        return Response::json($partida);
+
 	}
 
 	/**
@@ -87,7 +91,7 @@ class PartidasController extends BaseController {
 			return Redirect::route('partidas.index');
 		}
 
-		return View::make('partidas.edit', compact('partida'));
+        return Response::json($partida);
 	}
 
 	/**

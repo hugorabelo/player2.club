@@ -105,7 +105,13 @@ Route::get('/', function()
         Route::resource('usuariogrupos', 'UsuariogruposController');
     });
 
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('partidas', 'PartidasController');
+    });
 
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('usuariopartidas', 'UsuariopartidasController');
+    });
 
 //});
 
@@ -114,7 +120,7 @@ App::missing(function($exception) {
 });
 
 /*
- *
+ */
 Event::listen('illuminate.query', function($query)
 {
     Log::info($query);
@@ -123,6 +129,3 @@ Event::listen('illuminate.query', function($query)
 
 
 
-Route::resource('partidas', 'PartidasController');
-
-Route::resource('usuariopartidas', 'UsuariopartidasController');
