@@ -52,6 +52,7 @@ Route::get('/', function()
 
     Route::get('api/campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('api/campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
+Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('usuario', 'UsersController');
     });

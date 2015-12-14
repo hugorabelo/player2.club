@@ -184,4 +184,18 @@ class UsersController extends BaseController {
 		return Response::json($campeonatosInscritos);
 	}
 
+	/**
+	 * Retorna uma lista com todas as partidas do usuário
+	 *
+	 * @param int $id_usuario
+	 * @return Response
+	 */
+	public function listaPartidas($id_usuario) {
+		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $id_usuario)->get(array("partidas_id"))->toArray();
+		$partidas = Partida::findMany($usuarioPartidas);
+
+		return Response::json($partidas);
+	}
+
+
 }
