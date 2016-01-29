@@ -3,3 +3,9 @@
 # Example .gitignore files: https://github.com/github/gitignore
 /bower_components/
 /node_modules/
+/public/uploads/
+/.idea/.name
+/.idea/blade.xml
+/.idea/deployment.xml
+/.idea/modules.xml
+/.idea/scopes/scope_settings.xml
