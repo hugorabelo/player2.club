@@ -38,6 +38,7 @@ class FaseGrupo extends Eloquent {
             $usuario->gols_contra = $num_gols_contra;
             $usuario->saldo_gols = $num_saldo_gols;
         }
+        //TODO ORDENAR USUARIOS;
         return $usuarios;
     }
 

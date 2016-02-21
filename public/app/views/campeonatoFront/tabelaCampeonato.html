@@ -38,29 +38,29 @@
             <table class="tabela-classificacao table table-bordered">
                 <thead>
                     <tr class="tabela-head-linha">
-                        <th colspan="3">Classificação</th>
-                        <th class="text-center">P</th>
-                        <th class="text-center">J</th>
-                        <th class="text-center">V</th>
-                        <th class="text-center">E</th>
-                        <th class="text-center">D</th>
-                        <th class="text-center">GP</th>
-                        <th class="text-center">GC</th>
-                        <th class="text-center">SG</th>
+                        <th class="col-sm-4">Classificação</th>
+                        <th class="text-center col-sm-1">P</th>
+                        <th class="text-center col-sm-1">J</th>
+                        <th class="text-center col-sm-1">V</th>
+                        <th class="text-center col-sm-1">E</th>
+                        <th class="text-center col-sm-1">D</th>
+                        <th class="text-center col-sm-1">GP</th>
+                        <th class="text-center col-sm-1">GC</th>
+                        <th class="text-center col-sm-1">SG</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="tabela-head-linha">
-                        <td colspan="3">Classificação</td>
-                        <td class="text-center">P</td>
-                        <td class="text-center">J</td>
-                        <td class="text-center">V</td>
-                        <td class="text-center">E</td>
-                        <td class="text-center">D</td>
-                        <td class="text-center">GP</td>
-                        <td class="text-center">GC</td>
-                        <td class="text-center">SG</td>
-                    </tr>
+							  <tr class="tabela-head-linha" ng-repeat="jogadorGrupo in grupo.classificacao">
+									<td>{{jogadorGrupo.nome}}</td>
+									<td class="text-center">{{jogadorGrupo.pontuacao}}</td>
+									<td class="text-center">{{jogadorGrupo.jogos}}</td>
+									<td class="text-center">{{jogadorGrupo.vitorias}}</td>
+									<td class="text-center">{{jogadorGrupo.empates}}</td>
+									<td class="text-center">{{jogadorGrupo.derrotas}}</td>
+									<td class="text-center">{{jogadorGrupo.gols_pro}}</td>
+									<td class="text-center">{{jogadorGrupo.gols_contra}}</td>
+									<td class="text-center">{{jogadorGrupo.saldo_gols}}</td>
+							  </tr>
                 </tbody>
             </table>
         </section>
