@@ -81,6 +81,7 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
 
 
     Route::get('api/faseGrupo/usuariosComClassificacao/{id}', 'FaseGrupoController@getUsuariosComClassificacao');
+    Route::get('api/faseGrupo/partidasDaFase/{id}', 'FaseGrupoController@getPartidas');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('faseGrupo', 'FaseGrupoController');
     });
