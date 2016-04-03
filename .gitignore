@@ -67,4 +67,11 @@ storage/
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
-
+/.idea/workspace.xml
+/.idea/.name
+/.idea/blade.xml
+/.idea/deployment.xml
+/.idea/liga.iml
+/.idea/modules.xml
+/.idea/scopes/scope_settings.xml
+/.idea/vcs.xml
