@@ -28,6 +28,7 @@ class FaseGrupo extends Eloquent {
          * Para cada partida, trazer os usuários da partida;
          * Para cada usuário, associar com um usuário da coleção principal;
          * Verificar a pontuação do usuário.
+         * Criar forma de pegar os dados (V, E, D, GP, GC)
          */
 
 
