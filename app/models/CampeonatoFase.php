@@ -28,4 +28,13 @@ class CampeonatoFase extends Eloquent {
     public function faseAnterior() {
         return $this->find($this->fase_anterior_id);
     }
+
+	public function pontuacoes() {
+		$pontuacoes = $this->hasMany('PontuacaoRegra', 'campeonato_fases_id')->getResults()->sortBy('posicao');
+		$tabela_pontuacao = array();
+		foreach($pontuacoes as $pontuacao) {
+			$tabela_pontuacao[$pontuacao->posicao] = $pontuacao->qtde_pontos;
+		}
+		return $tabela_pontuacao;
+	}
 }
