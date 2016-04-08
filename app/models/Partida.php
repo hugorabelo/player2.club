@@ -23,4 +23,8 @@ class Partida extends Eloquent {
     public function placarConfirmado() {
 
     }
+
+    public function usuarios() {
+        return $this->hasMany('UsuarioPartida', 'partidas_id')->getResults();
+    }
 }

@@ -191,8 +191,7 @@ class UsersController extends BaseController {
 	 * @return Response
 	 */
 	public function listaPartidas($id_usuario) {
-		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $id_usuario)->get(array("partidas_id"))->toArray();
-		$partidas = Partida::findMany($usuarioPartidas);
+		$partidas = $this->user->find($id_usuario)->partidas();
 
 		return Response::json($partidas);
 	}

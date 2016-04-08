@@ -56,6 +56,10 @@ AplicacaoLiga.factory('Usuario', ['$http', function ($http) {
 
         getCampeonatosDisponiveis : function(id) {
             return $http.get('api/campeonatosDisponiveisParaUsuario/' + id);
-        }
+        },
+
+		 getPartidas : function(id) {
+		 	return $http.get('api/partidasParaUsuario/' + id);
+	 	}
     }
 }]);

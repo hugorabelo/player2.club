@@ -40,4 +40,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	return UsuarioTipo::find($this->usuario_tipos_id);
     }
 
+	public function partidas() {
+		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
+		$partidas = Partida::findMany($usuarioPartidas);
+		foreach($partidas as $partida) {
+			$usuarios = $partida->usuarios();
+			foreach($usuarios as $usuario) {
+				$usuario->nome = $this->find($usuario->users_id)->nome;
+			}
+			$partida->usuarios = $usuarios;
+			// TODO incluir dados a serem utilizados do usuário para exibição das partidas
+		}
+
+		return $partidas;
+	}
+
 }

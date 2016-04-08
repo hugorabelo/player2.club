@@ -28,13 +28,13 @@ class FaseGrupo extends Eloquent {
          * Criar forma de pegar os dados (V, E, D, GP, GC)
          */
 
-        $quantidade_jogadores_por_partida = $partidas->first()->usuarios->count();
+        $quantidade_jogadores_por_partida = $partidas->first()->usuarios()->count();
 
         if($quantidade_jogadores_por_partida == 2) {
             // Partida com Dois Jogadores
             foreach($partidas as $partida) {
-                $u1 = $partida->usuarios[0];
-                $u2 = $partida->usuarios[1];
+                $u1 = $partida->usuarios()->first();
+                $u2 = $partida->usuarios()->last();
                 $usuario1 = $usuarios->find($u1->users_id);
                 $usuario2 = $usuarios->find($u2->users_id);
                 $placar1 = $u1->placar;
@@ -84,7 +84,7 @@ class FaseGrupo extends Eloquent {
         } else {
             // Partida com mais de 2 jogadores
             foreach($partidas as $partida) {
-                foreach($partida->usuarios as $usuarioPartida) {
+                foreach($partida->usuarios() as $usuarioPartida) {
                     if(isset($usuarioPartida->posicao)) {
                         $usuarios->find($usuarioPartida->users_id)->pontuacao += intval($usuarioPartida->pontuacao);
                     }
@@ -98,10 +98,6 @@ class FaseGrupo extends Eloquent {
 
     public function partidas() {
         $partidas = $this->hasMany('Partida', 'fase_grupos_id')->getResults();
-        foreach($partidas as $partida) {
-            $usuarios = $partida->hasMany('UsuarioPartida', 'partidas_id')->getResults()->sortBy('posicao');
-            $partida->usuarios = $usuarios;
-        }
         return $partidas;
     }
 
