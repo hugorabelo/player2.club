@@ -42,7 +42,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function partidas() {
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
-		$partidas = Partida::findMany($usuarioPartidas);
+		$partidas = Partida::findMany($usuarioPartidas)->sortBy('id');
 		foreach($partidas as $partida) {
 			$usuarios = $partida->usuarios();
 			foreach($usuarios as $usuario) {
@@ -52,6 +52,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			// TODO incluir dados a serem utilizados do usuário para exibição das partidas
 		}
 
+		$partidas->values()->all();
 		return $partidas;
 	}
 

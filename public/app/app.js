@@ -116,6 +116,7 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
 })
 .run(function($rootScope, $state) {
     $rootScope.$state = $state;
+    $rootScope.usuarioLogado = 1;
 });
 
 //AplicacaoLiga.run(['$rootScope', '$state', 'Auth', '$cookieStore', function ($rootScope, $state, Auth, $cookieStore) {

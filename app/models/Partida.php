@@ -25,6 +25,8 @@ class Partida extends Eloquent {
     }
 
     public function usuarios() {
-        return $this->hasMany('UsuarioPartida', 'partidas_id')->getResults();
+        $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->getResults()->sortBy('id');
+        $usuarios->values()->all();
+        return $usuarios;
     }
 }
