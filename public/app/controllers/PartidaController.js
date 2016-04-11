@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter', 'Campeonato', 'Usuario', '$state', '$modal', function ($scope, $rootScope, $filter, Campeonato, Usuario, $state, $modal) {
+AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter', 'Campeonato', 'Usuario', 'Partida','$state', '$modal', function ($scope, $rootScope, $filter, Campeonato, Usuario, Partida,$state, $modal) {
 
 	$scope.campeonato = {};
 
@@ -17,24 +17,29 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 		});
 	};
 
-    $scope.salvar = function(partida) {
-        $rootScope.loading = true;
-        Usuario.salvarPartida(partida)
-            .success(function(data)) {
-                //$scope.partidas = data;
-                $rootScope.loading = false;
-             }
-//        console.log("salvar " + partida.id);
+	$scope.salvarPlacar = function(partida) {
+		$rootScope.loading = true;
 
-    }
+		partida.usuarioLogado = $rootScope.usuarioLogado;
+		Partida.salvarPlacar(partida)
+			.success(function() {
+				$scope.carregaPartidas($rootScope.usuarioLogado);
+				$rootScope.loading = false;
+			})
+			.error(function(data) {
+				console.log(data.errors);
+				$rootScope.loading = false;
+			});
 
-    $scope.confirmar = function(id_partida) {
-        console.log("confirmar " + id_partida);
-    }
+	}
 
-    $scope.contestar = function(id_partida) {
-        console.log("contestar " + id_partida);
-    }
+	$scope.confirmarPlacar = function(id_partida) {
+		console.log("confirmar " + id_partida);
+	}
+
+	$scope.contestarPlacar = function(id_partida) {
+		console.log("contestar " + id_partida);
+	}
 
 //	$scope.carregaPartidas($rootScope.usuarioLogado);
 

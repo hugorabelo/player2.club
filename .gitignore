@@ -75,3 +75,6 @@ storage/
 /.idea/modules.xml
 /.idea/scopes/scope_settings.xml
 /.idea/vcs.xml
+/.idea/copyright/profiles_settings.xml
+/undefined
+/testeTime.php

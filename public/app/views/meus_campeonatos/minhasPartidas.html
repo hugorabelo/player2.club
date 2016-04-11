@@ -27,14 +27,14 @@
 			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar"></div>
 			<div translate class="col-xs-3 text-left">{{partida.usuarios[1].nome}}</div>
 			<div translate class="col-xs-3">
-				<button type="button" class="btn btn-info" ng-click="salvar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
+				<button type="button" class="btn btn-info" ng-click="salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
 					<i class="fa fa-save fa-fw"></i>
 				</button>
-				<button type="button" class="btn btn-warning" ng-click="confirmar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
+				<button type="button" class="btn btn-warning" ng-click="confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
 				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado">
 					<i class="fa fa-check fa-fw"></i>
 				</button>
-				<button type="button" class="btn btn-danger" ng-click="contestar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
+				<button type="button" class="btn btn-danger" ng-click="contestarPlacar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
 				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado">
 					<i class="fa fa-gavel fa-fw"></i>
 				</button>

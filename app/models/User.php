@@ -56,4 +56,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $partidas;
 	}
 
+	public function campeonatos() {
+		// Exibir campeonatos do usuário
+		// Cada campeonato, possuirá uma coleção das partidas do usuário
+		// Fases?
+	}
+
 }
