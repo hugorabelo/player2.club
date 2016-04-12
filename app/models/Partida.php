@@ -10,20 +10,46 @@ class Partida extends Eloquent {
 		'rodada' => 'required'
 	);
 
+    public function grupo() {
+        return FaseGrupo::find($this->fase_grupos_id);
+    }
+
     public function salvarPlacar($partida) {
+        $partidaSelecionada = Partida::find($partida['id']);
         $pontuacoes = FaseGrupo::find($partida['fase_grupos_id'])->fase()->pontuacoes();
         $usuarios = Collection::make($partida['usuarios']);
         $usuarios->sortByDesc('placar');
-        $iterator = $usuarios->getIterator();
-        /*
-         * Partida com 2 usuários
-         * Partida com mais de 2 usuários
-         * Partida com empate -> Verificar se permite empate
-         */
-        for($i=0;$i<$usuarios->count();$i++) {
-            $usuarios->pontuacao = $pontuacoes[$i];
+        $empate_computado = false;
+        if($usuarios->count() == 2) {
+            if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
+                if($partidaSelecionada->grupo()->fase()->permite_empate) {
+                    foreach ($usuarios as $usuario) {
+                        $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                        $usuarioPartida->posicao = 0;
+                        $usuarioPartida->pontuacao = $pontuacoes[0];
+                        $usuarioPartida->placar = $usuario['placar'];
+                        $usuarioPartida->save();
+                    }
+                    $empate_computado = true;
+                } else {
+                    //TODO retornar mensagem de erro
+                }
+            }
         }
-        Log::info($usuarios);
+        if(!$empate_computado) {
+            $i = 1;
+            foreach ($usuarios as $usuario) {
+                $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                $usuarioPartida->posicao = $i;
+                $usuarioPartida->pontuacao = $pontuacoes[$i];
+                $usuarioPartida->placar = $usuario['placar'];
+                $usuarioPartida->save();
+                $i++;
+            }
+        }
+        $partidaSelecionada->usuario_placar = $partida['usuarioLogado'];
+        $partidaSelecionada->data_placar = date('Y-m-d H:i:s');;
+        $partidaSelecionada->save();
     }
 
     public function confirmarPlacar($id_usuario) {
