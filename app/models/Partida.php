@@ -14,6 +14,12 @@ class Partida extends Eloquent {
         return FaseGrupo::find($this->fase_grupos_id);
     }
 
+    /*
+     * return
+     * 0 - tudo ok
+     * 1 - empate não é permitido na fase
+     * 2 - pontuação não cadastrada
+     */
     public function salvarPlacar($partida) {
         $partidaSelecionada = Partida::find($partida['id']);
         $pontuacoes = FaseGrupo::find($partida['fase_grupos_id'])->fase()->pontuacoes();
