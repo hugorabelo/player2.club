@@ -16,19 +16,36 @@ class Partida extends Eloquent {
 
     /*
      * return
-     * 0 - tudo ok
-     * 1 - empate não é permitido na fase
-     * 2 - pontuação não cadastrada
+     * 1 - tudo ok
+     * 2 - placar inválido
+     * 3 - empate não é permitido na fase
+     * 4 - pontuação não cadastrada
      */
     public function salvarPlacar($partida) {
         $partidaSelecionada = Partida::find($partida['id']);
+        $permite_empate = $partidaSelecionada->grupo()->fase()->permite_empate;
         $pontuacoes = FaseGrupo::find($partida['fase_grupos_id'])->fase()->pontuacoes();
         $usuarios = Collection::make($partida['usuarios']);
         $usuarios->sortByDesc('placar');
         $empate_computado = false;
+
+        // Verificar se todos os usuários estão com o placar inserido
+        foreach ($usuarios as $usuario) {
+            if($usuario['placar'] == null) {
+                return 2;
+            }
+        }
+
+        // Verificar se a pontuação está toda cadastrada corretamente
+        for($i = $permite_empate ? 0 : 1;$i<$usuarios->count();$i++) {
+            if(!isset($pontuacoes[$i])) {
+                return 4;
+            }
+        }
+
         if($usuarios->count() == 2) {
             if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
-                if($partidaSelecionada->grupo()->fase()->permite_empate) {
+                if($permite_empate) {
                     foreach ($usuarios as $usuario) {
                         $usuarioPartida = UsuarioPartida::find($usuario['id']);
                         $usuarioPartida->posicao = 0;
@@ -38,7 +55,7 @@ class Partida extends Eloquent {
                     }
                     $empate_computado = true;
                 } else {
-                    //TODO retornar mensagem de erro
+                    return 3;
                 }
             }
         }
@@ -56,6 +73,7 @@ class Partida extends Eloquent {
         $partidaSelecionada->usuario_placar = $partida['usuarioLogado'];
         $partidaSelecionada->data_placar = date('Y-m-d H:i:s');;
         $partidaSelecionada->save();
+        return 1;
     }
 
     public function confirmarPlacar($id_usuario) {

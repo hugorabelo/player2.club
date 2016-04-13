@@ -48,21 +48,25 @@ class PartidasController extends BaseController
     public function store()
     {
         $partida = Input::all();
-        $validado = true;
-        foreach ($partida['usuarios'] as $usuario) {
-            if($usuario['placar'] == null) {
-                $validado = false;
+        $retorno = $this->partida->salvarPlacar($partida);
+        switch ($retorno) {
+            case 1:
+                return Response::json(array('success' => true));
                 break;
-            }
+            case 2;
+                $mensagem_erro = 'messages.placares_invalidos';
+                break;
+            case 3:
+                $mensagem_erro = 'messages.empate_nao_permitido';
+                break;
+            case 4:
+                $mensagem_erro = 'messages.pontuacao_nao_cadastrada';
+                break;
         }
-        if ($validado) {
-            $this->partida->salvarPlacar($partida);
-            return Response::json(array('success' => true));
-        }
-
         return Response::json(array('success' => false,
-            'errors' => 'messages.placares_invalidos',
+            'errors' => $mensagem_erro,
             'message' => 'There were validation errors.'), 300);
+
     }
 
     /**
