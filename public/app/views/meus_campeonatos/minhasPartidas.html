@@ -31,11 +31,11 @@
 					<i class="fa fa-save fa-fw"></i>
 				</button>
 				<button type="button" class="btn btn-primary" ng-click="confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
-				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado">
+				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
 					<i class="fa fa-share fa-fw"></i>
 				</button>
 				<button type="button" class="btn btn-danger" ng-click="contestarPlacar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
-				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado">
+				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
 					<i class="fa fa-gavel fa-fw"></i>
 				</button>
 				<span class="fa-stack fa-lg" tooltip="{{'fields.aguardando_confirmacao' | translate}}"

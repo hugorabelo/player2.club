@@ -22,8 +22,7 @@ class Partida extends Eloquent {
      * 4 - pontuação não cadastrada
      */
     public function salvarPlacar($partida) {
-        $partidaSelecionada = Partida::find($partida['id']);
-        $permite_empate = $partidaSelecionada->grupo()->fase()->permite_empate;
+        $permite_empate = $this->grupo()->fase()->permite_empate;
         $pontuacoes = FaseGrupo::find($partida['fase_grupos_id'])->fase()->pontuacoes();
         $usuarios = Collection::make($partida['usuarios']);
         $usuarios->sortByDesc('placar');
@@ -70,14 +69,17 @@ class Partida extends Eloquent {
                 $i++;
             }
         }
-        $partidaSelecionada->usuario_placar = $partida['usuarioLogado'];
-        $partidaSelecionada->data_placar = date('Y-m-d H:i:s');;
-        $partidaSelecionada->save();
+        $this->usuario_placar = $partida['usuarioLogado'];
+        $this->data_placar = date('Y-m-d H:i:s');
+        $this->save();
         return 1;
     }
 
     public function confirmarPlacar($id_usuario) {
         // Computar Pontuação e posição do usuario_partidas
+        $this->usuario_confirmacao = $id_usuario;
+        $this->data_confirmacao = date('Y-m-d H:i:s');
+        $this->save();
     }
 
     public function placarSalvo() {

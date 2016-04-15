@@ -34,7 +34,20 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 	}
 
 	$scope.confirmarPlacar = function(id_partida) {
-		console.log("confirmar " + id_partida);
+		$rootScope.loading = true;
+
+		var dados = {};
+		dados.id_partida = id_partida;
+		dados.usuarioLogado = $rootScope.usuarioLogado;
+		Partida.confirmarPlacar(dados)
+			.success(function() {
+				$scope.carregaPartidas($rootScope.usuarioLogado);
+				$rootScope.loading = false;
+			})
+			.error(function(data) {
+				console.log(data.errors);
+				$rootScope.loading = false;
+			});
 	}
 
 	$scope.contestarPlacar = function(id_partida) {

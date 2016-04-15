@@ -47,8 +47,9 @@ class PartidasController extends BaseController
      */
     public function store()
     {
-        $partida = Input::all();
-        $retorno = $this->partida->salvarPlacar($partida);
+        $dados = Input::all();
+        $partida = $this->partida->find($dados['id']);
+        $retorno = $partida->salvarPlacar($dados);
         switch ($retorno) {
             case 1:
                 return Response::json(array('success' => true));
@@ -108,20 +109,12 @@ class PartidasController extends BaseController
      */
     public function update($id)
     {
-        $input = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, Partida::$rules);
+        $input = Input::all();
 
-        if ($validation->passes()) {
-            $partida = $this->partida->find($id);
-            $partida->update($input);
+        $partida = $this->partida->find($id);
+        $partida->confirmarPlacar($input['usuarioLogado']);
 
-            return Redirect::route('partidas.show', $id);
-        }
-
-        return Redirect::route('partidas.edit', $id)
-            ->withInput()
-            ->withErrors($validation)
-            ->with('message', 'There were validation errors.');
+        return Response::json(array('success' => true));
     }
 
     /**
