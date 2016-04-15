@@ -27,17 +27,27 @@
 			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar"></div>
 			<div translate class="col-xs-3 text-left">{{partida.usuarios[1].nome}}</div>
 			<div translate class="col-xs-3">
-				<button type="button" class="btn btn-info" ng-click="salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
+				<button type="button" class="btn btn-success" ng-click="salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
 					<i class="fa fa-save fa-fw"></i>
 				</button>
-				<button type="button" class="btn btn-warning" ng-click="confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
+				<button type="button" class="btn btn-primary" ng-click="confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
 				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado">
-					<i class="fa fa-check fa-fw"></i>
+					<i class="fa fa-share fa-fw"></i>
 				</button>
 				<button type="button" class="btn btn-danger" ng-click="contestarPlacar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
 				    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado">
 					<i class="fa fa-gavel fa-fw"></i>
 				</button>
+				<span class="fa-stack fa-lg" tooltip="{{'fields.aguardando_confirmacao' | translate}}"
+					ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado && !partida.data_confirmacao">
+					<i class="fa fa-circle fa-stack-2x text-warning disabled"></i>
+					<i class="fa fa-hourglass fa-stack-1x fa-inverse"></i>
+				</span>
+				<span class="fa-stack fa-lg" tooltip="{{'fields.placar_confirmado' | translate}}"
+					ng-show="partida.data_confirmacao">
+					<i class="fa fa-circle fa-stack-2x text-info"></i>
+					<i class="fa fa-check fa-stack-1x fa-inverse"></i>
+				</span>
 			</div>
 		</div>
 	</div>
