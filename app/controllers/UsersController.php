@@ -191,7 +191,11 @@ class UsersController extends BaseController {
 	 * @return Response
 	 */
 	public function listaPartidas($id_usuario) {
-		$partidas = $this->user->find($id_usuario)->partidas();
+		$usuario = $this->user->find($id_usuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		$partidas = $usuario->partidas();
 		return Response::json($partidas);
 	}
 
