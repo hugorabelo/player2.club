@@ -83,11 +83,11 @@ class Partida extends Eloquent {
     }
 
     public function placarSalvo() {
-
+        return isset($this->data_placar);
     }
 
     public function placarConfirmado() {
-
+        return isset($this->data_confirmacao);
     }
 
     public function usuarios() {
