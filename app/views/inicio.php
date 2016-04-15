@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/plugins/summernote/summernote.css">
 
     <!-- Estilos do Campeonato-->
-    <link rel="stylesheet" href="css/estiloTabelaCampeonato.css">
+    <link rel="stylesheet" href="css/custom.css">
 
 
     <script src="js/jquery.min.js"></script>
