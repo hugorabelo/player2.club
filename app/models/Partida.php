@@ -82,6 +82,17 @@ class Partida extends Eloquent {
         $this->save();
     }
 
+    public function confirmarPlacarAutomaticamente() {
+        $agora = new DateTime();
+        if(isset($this->data_placar)) {
+            $placar = new DateTime($this->data_placar);
+            $diferença = $agora->diff($placar);
+            if($diferença->d >= 1) {
+                $this->confirmarPlacar(null);
+            }
+        }
+    }
+
     public function placarSalvo() {
         return isset($this->data_placar);
     }
@@ -94,5 +105,14 @@ class Partida extends Eloquent {
         $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->getResults()->sortBy('id');
         $usuarios->values()->all();
         return $usuarios;
+    }
+
+    public function getDataLimitePlacar() {
+        $dataPlacar = null;
+        if(isset($this->data_placar)) {
+            $dataPlacar = new DateTime($this->data_placar);
+            $dataPlacar->add(new DateInterval('P1D'));
+        }
+        return $dataPlacar;
     }
 }

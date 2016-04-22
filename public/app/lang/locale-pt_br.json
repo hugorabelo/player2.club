@@ -80,7 +80,9 @@
 		"confirmar_resultado": "Confirmar resultado",
 		"contestar_resultado": "Contestar resultado",
 		"aguardando_confirmacao": "Resultado aguardando confirmação",
-		"placar_confirmado": "Placar confirmado pelos usuários"
+		"placar_confirmado": "Placar confirmado pelos usuários",
+        "tempo_restante": "Data Limite: ",
+        "tempo_para_confirmacao": "Data limite para que seja feita a confirmação da partida"
 
 	},
 

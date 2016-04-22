@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter', 'Campeonato', 'Usuario', 'Partida','$state', '$modal', function ($scope, $rootScope, $filter, Campeonato, Usuario, Partida,$state, $modal) {
+AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter', 'Campeonato', 'Usuario', 'Partida','$state', '$modal', '$timeout', function ($scope, $rootScope, $filter, Campeonato, Usuario, Partida,$state, $modal, $timeout) {
 
 	$scope.campeonato = {};
 
@@ -54,6 +54,8 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 		console.log("contestar " + id_partida);
 	}
 
-//	$scope.carregaPartidas($rootScope.usuarioLogado);
-
+    $scope.exibeDataLimite = function(data_limite) {
+        dataLimite = new Date(data_limite);
+        return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
+    }
 }]);
