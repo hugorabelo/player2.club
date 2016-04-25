@@ -28,7 +28,10 @@ class FaseGrupo extends Eloquent {
          * Criar forma de pegar os dados (V, E, D, GP, GC)
          */
 
-        $quantidade_jogadores_por_partida = $partidas->first()->usuarios()->count();
+        $quantidade_jogadores_por_partida = 0;
+        if($partidas->first() != null) {
+            $quantidade_jogadores_por_partida = $partidas->first()->usuarios()->count();
+        }
 
         if($quantidade_jogadores_por_partida == 2) {
             // Partida com Dois Jogadores

@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+AplicacaoLiga.controller('ProfileController', ['$rootScope','$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
     $scope.usuario = {};
     $scope.exibeFormulario = false;
@@ -8,7 +8,7 @@ AplicacaoLiga.controller('ProfileController', ['$scope', '$filter', 'Usuario', '
 	$scope.files = [];
 
     //$rootScope.loading = true;
-    Usuario.show(1)
+    Usuario.show($rootScope.usuarioLogado)
         .success(function(data) {
             $scope.usuario = data;
             $scope.carregaDadosUsuario($scope.usuario.id);
