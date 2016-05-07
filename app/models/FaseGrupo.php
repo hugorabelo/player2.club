@@ -1,6 +1,9 @@
 <?php
 
-class FaseGrupo extends Eloquent {
+use Illuminate\Database\Eloquent\Collection;
+
+class FaseGrupo extends Eloquent
+{
     protected $guarded = array();
 
     public static $rules = array(
@@ -9,15 +12,18 @@ class FaseGrupo extends Eloquent {
         'campeonato_fases_id' => 'required'
     );
 
-    public function fase() {
+    public function fase()
+    {
         return CampeonatoFase::find($this->campeonato_fases_id);
     }
 
-    public function usuarios() {
+    public function usuarios()
+    {
         return $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('pontuacao'))->orderBy('pontuacao', 'desc')->getResults();
     }
 
-    public function usuariosComClassificacao() {
+    public function usuariosComClassificacao()
+    {
         $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
         $partidas = $this->partidas();
         $pontuacoes = $this->fase()->pontuacoes();
@@ -29,20 +35,20 @@ class FaseGrupo extends Eloquent {
          */
 
         $quantidade_jogadores_por_partida = 0;
-        if($partidas->first() != null) {
+        if ($partidas->first() != null) {
             $quantidade_jogadores_por_partida = $partidas->first()->usuarios()->count();
         }
 
-        if($quantidade_jogadores_por_partida == 2) {
+        if ($quantidade_jogadores_por_partida == 2) {
             // Partida com Dois Jogadores
-            foreach($partidas as $partida) {
+            foreach ($partidas as $partida) {
                 $u1 = $partida->usuarios()->first();
                 $u2 = $partida->usuarios()->last();
                 $usuario1 = $usuarios->find($u1->users_id);
                 $usuario2 = $usuarios->find($u2->users_id);
                 $placar1 = $u1->placar;
                 $placar2 = $u2->placar;
-                if(isset($placar1)) {
+                if (isset($placar1)) {
                     $usuario1->gols_pro += $placar1;
                     $usuario1->gols_contra += $placar2;
                     $usuario1->pontuacao += $u1->pontuacao;
@@ -51,20 +57,20 @@ class FaseGrupo extends Eloquent {
                     $usuario2->gols_contra += $placar1;
                     $usuario2->pontuacao += $u2->pontuacao;
 
-                    if($placar1 > $placar2) {
+                    if ($placar1 > $placar2) {
                         $usuario1->vitorias += 1;
                         $usuario2->derrotas += 1;
-                    } else if($placar2 > $placar1) {
+                    } else if ($placar2 > $placar1) {
                         $usuario1->derrotas += 1;
                         $usuario2->vitorias += 1;
-                    } else if($placar1 == $placar2) {
+                    } else if ($placar1 == $placar2) {
                         $usuario1->empates += 1;
                         $usuario2->empates += 1;
                     }
                 }
             }
 
-            foreach($usuarios as $usuario) {
+            foreach ($usuarios as $usuario) {
                 $num_vitorias = intval($usuario->vitorias);
                 $num_empates = intval($usuario->empates);
                 $num_derrotas = intval($usuario->derrotas);
@@ -86,22 +92,47 @@ class FaseGrupo extends Eloquent {
             }
         } else {
             // Partida com mais de 2 jogadores
-            foreach($partidas as $partida) {
-                foreach($partida->usuarios() as $usuarioPartida) {
-                    if(isset($usuarioPartida->posicao)) {
+            foreach ($partidas as $partida) {
+                foreach ($partida->usuarios() as $usuarioPartida) {
+                    if (isset($usuarioPartida->posicao)) {
                         $usuarios->find($usuarioPartida->users_id)->pontuacao += intval($usuarioPartida->pontuacao);
                     }
                 }
             }
         }
 
-        //TODO ORDENAR USUARIOS;
+        //TODO ORDENAR USUARIOS DE ACORDO COM AS REGRAS;
+        $usuarios->sortByDesc('pontuacao');
+        $usuarios->values()->all();
         return $usuarios;
     }
 
-    public function partidas() {
+    public function partidas()
+    {
         $partidas = $this->hasMany('Partida', 'fase_grupos_id')->getResults();
         return $partidas;
+    }
+
+    public function partidasPorRodada() {
+        $partidas = $this->partidas();
+        $partidas->sortBy('rodada');
+        $partidas->values()->all();
+        $rodadas = new Collection();
+        foreach ($partidas as $partida) {
+            $rodadaAtual = $partida->rodada;
+            if($rodadas->get($rodadaAtual) != null) {
+                $novaRodada = $rodadas->get($rodadaAtual);
+                $novaRodada->partidas->add($partida);
+            } else {
+                $novaRodada = new StdClass();
+                $novaRodada->descricao = $rodadaAtual;
+                $novaRodada->partidas = new Collection();
+                $novaRodada->partidas->add($partida);
+                $rodadas->put($rodadaAtual, $novaRodada);
+            }
+            $partida->usuarios = $partida->usuarios();
+        }
+        return $rodadas;
     }
 
 }

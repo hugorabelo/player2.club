@@ -73,21 +73,31 @@
 					</div>
 					<div class="ibox-content">
 						<nav class="tabela-navegacao tabela-navegacao-fases">
-							<a ng-click="exibeRodadaAnterior()" ng-class="{'disabled': indice_fase == 0}">
+							<a id="rodadaAnterior{{grupo.descricao}}">
 								<i class="fa fa-chevron-left pull-left"></i>
 							</a>
-							{{fase_atual.descricao}}
-							<a ng-click="exibeProximaRodada()" ng-class="{'disabled': indice_fase == campeonatoFases.length-1}">
+							# <span ng-bind="rodada_atual"></span> {{rodada_atual}}
+							<a id="rodadaProxima{{grupo.descricao}}">
 								<i class="fa fa-chevron-right pull-right"></i>
 							</a>
 						</nav>
+						<slick infinite="false" prev-arrow="#rodadaAnterior{{grupo.descricao}}" next-arrow="#rodadaProxima{{grupo.descricao}}">
+							<div class="rodada" ng-repeat="rodada in grupo.rodadas">
+								rodada {{rodada.descricao}}
+								<input type="hidden" value="{{rodada.descricao}}" ng-model="rodada_atual">
+								<div class="partida" ng-repeat="partida in rodada.partidas">
+									<div translate class="col-xs-3 text-right">{{partida.usuarios[0].nome}}</div>
+									<div translate class="col-xs-1 text-center">{{partida.usuarios[0].placar}}</div>
+									<div translate class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>
+									<div translate class="col-xs-1 text-center">{{partida.usuarios[1].placar}}</div>
+									<div translate class="col-xs-3 text-left">{{partida.usuarios[1].nome}}</div>
+								</div>
+							</div>
+						</slick>
 					</div>
 				</div>
 			</div>
 		</div>
-		<ul>
-			<li ng-repeat="partida in partidas"></li>
-		</ul>
 	</div>
 	<!--	Meu Codigo-->
 </div>

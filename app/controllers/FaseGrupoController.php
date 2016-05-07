@@ -7,6 +7,7 @@ class FaseGrupoController extends BaseController {
         $faseGrupos = FaseGrupo::where('campeonato_fases_id','=',$id)->get();
         foreach($faseGrupos as $grupo) {
             $grupo->classificacao = $grupo->usuariosComClassificacao();
+            $grupo->rodadas = $grupo->partidasPorRodada();
         }
         return Response::json($faseGrupos);
     }

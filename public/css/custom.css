@@ -19,14 +19,18 @@
 	text-transform: uppercase;
 }
 
-a.disabled {
+a.disabled, .slick-disabled {
   color: #999999;
 }
 
-a.disabled:hover {
+a.disabled:hover, .slick-disabled:hover {
   text-decoration: none;
   cursor: default;
   background-color: transparent;
+}
+
+.slick-disabled:hover {
+	color: #999999;
 }
 
 .text-warning.disabled {
