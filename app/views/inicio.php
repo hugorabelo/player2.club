@@ -16,8 +16,6 @@
     <link rel="stylesheet" href="css/angular-ui-tree.min.css">
     <link rel="stylesheet" href="css/plugins/iCheck/custom.css">
     <link rel="stylesheet" href="css/plugins/summernote/summernote.css">
-    <link rel="stylesheet" href="css/plugins/slick/slick.css">
-    <link rel="stylesheet" href="css/plugins/slick/slick-theme.css">
 
     <!-- Estilos do Campeonato-->
     <link rel="stylesheet" href="css/custom.css">

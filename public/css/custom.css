@@ -1,4 +1,4 @@
-.tabela-navegacao-fases {
+.tabela-navegacao-fases, .tabela-navegacao-rodadas {
 	/* Font & Text */
 	font-size: 24px;
 	text-align: center;
@@ -6,6 +6,7 @@
 
 	/* Box */
 	height: 40px;
+	line-height: 40px;
 	border-bottom: 1px solid rgb(192, 192, 192);
 	margin-bottom: 40px;
 
@@ -15,22 +16,50 @@
 
 }
 
-.tabela-navegacao-fases .titulo {
-	text-transform: uppercase;
+.tabela-navegacao-fases i {
+	line-height: 40px;
 }
 
-a.disabled, .slick-disabled {
+.tabela-navegacao-rodadas {
+	font-size: 15px;
+	margin-bottom: 10px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.tabela-navegacao-rodadas i {
+	line-height: 30px;
+}
+
+.tabela-head-linha {
+	height: 30px;
+	line-height: 30px;
+}
+
+.tabela-head-linha th {
+	padding-bottom: 0 !important;
+}
+
+.tabela-jogador {
+	font-size: 18px;
+	overflow: hidden;
+	padding: 0;
+}
+
+.tabela-placar {
+	font-size: 28px;
+	line-height: 28px;
+	padding: 0;
+}
+
+a.disabled {
   color: #999999;
 }
 
-a.disabled:hover, .slick-disabled:hover {
+a.disabled:hover {
   text-decoration: none;
   cursor: default;
   background-color: transparent;
-}
-
-.slick-disabled:hover {
-	color: #999999;
 }
 
 .text-warning.disabled {

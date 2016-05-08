@@ -113,26 +113,33 @@ class FaseGrupo extends Eloquent
         return $partidas;
     }
 
-    public function partidasPorRodada() {
+    public function rodadas() {
         $partidas = $this->partidas();
         $partidas->sortBy('rodada');
         $partidas->values()->all();
         $rodadas = new Collection();
         foreach ($partidas as $partida) {
             $rodadaAtual = $partida->rodada;
-            if($rodadas->get($rodadaAtual) != null) {
-                $novaRodada = $rodadas->get($rodadaAtual);
-                $novaRodada->partidas->add($partida);
-            } else {
-                $novaRodada = new StdClass();
-                $novaRodada->descricao = $rodadaAtual;
-                $novaRodada->partidas = new Collection();
-                $novaRodada->partidas->add($partida);
-                $rodadas->put($rodadaAtual, $novaRodada);
+            if($rodadas->get($rodadaAtual) == null) {
+                $rodadas->put($rodadaAtual, $rodadaAtual);
             }
-            $partida->usuarios = $partida->usuarios();
         }
         return $rodadas;
+    }
+
+    public function partidasPorRodada($rodada) {
+        $partidas = $this->partidas();
+        $partidas->sortBy('rodada');
+        $partidas->values()->all();
+        $partidasPorRodada = new Collection();
+        foreach ($partidas as $partida) {
+            if($partida->rodada == $rodada) {
+                $partida->usuarios = $partida->usuarios();
+                $partidasPorRodada->add($partida);
+            }
+        }
+        Log::info($partidasPorRodada);
+        return $partidasPorRodada;
     }
 
 }

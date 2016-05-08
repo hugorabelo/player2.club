@@ -7,7 +7,7 @@ class FaseGrupoController extends BaseController {
         $faseGrupos = FaseGrupo::where('campeonato_fases_id','=',$id)->get();
         foreach($faseGrupos as $grupo) {
             $grupo->classificacao = $grupo->usuariosComClassificacao();
-            $grupo->rodadas = $grupo->partidasPorRodada();
+            $grupo->rodadas = $grupo->rodadas();
         }
         return Response::json($faseGrupos);
     }
@@ -15,10 +15,6 @@ class FaseGrupoController extends BaseController {
 
     public function store()
     {
-        //grupo_tipo
-        //qtde_grupos
-        //campeonato_fases_id
-
         $grupo_tipo = Input::get('grupo_tipo');
         $qtde_grupos = Input::get('qtde_grupos');
         $campeonato_fases_id = Input::get('campeonato_fases_id');
@@ -77,6 +73,17 @@ class FaseGrupoController extends BaseController {
         $grupo = FaseGrupo::find($id_grupo);
         if($grupo != null) {
             return Response::json($grupo->partidas());
+        } else {
+            return null;
+        }
+    }
+
+    public function getPartidasPorRodada() {
+        $rodada = Input::get('rodada');
+        $id_grupo = Input::get('id_grupo');
+        $grupo = FaseGrupo::find($id_grupo);
+        if($grupo != null) {
+            return Response::json($grupo->partidasPorRodada($rodada));
         } else {
             return null;
         }
