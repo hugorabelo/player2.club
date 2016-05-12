@@ -22,7 +22,7 @@
 
 .tabela-navegacao-rodadas {
 	font-size: 15px;
-	margin-bottom: 10px;
+	margin-bottom: 0;
 	height: 30px;
 	line-height: 30px;
 }
@@ -40,16 +40,71 @@
 	padding-bottom: 0 !important;
 }
 
-.tabela-jogador {
-	font-size: 18px;
-	overflow: hidden;
-	padding: 0;
+.tabela-classificacao {
+/*	background-color: chartreuse;*/
+	border-bottom: 1px solid rgb(192, 192, 192);
 }
 
-.tabela-placar {
-	font-size: 28px;
-	line-height: 28px;
-	padding: 0;
+.placar-jogo-equipes {
+	color: #333;
+	font-size: 18px;
+	border-bottom: 1px solid rgb(192, 192, 192);
+}
+
+.placar-jogo-equipes-item {
+	height: 69px;
+	line-height: 70px;
+	text-transform: uppercase;
+/*	background-color: cadetblue;*/
+}
+
+.placar-jogo-equipes-placar {
+/*	background-color: aqua;*/
+}
+
+.placar-jogo-equipes-mandante {
+	text-align: right;
+}
+
+.placar-jogo-equipes-visitante {
+	text-align: left;
+}
+
+.placar-jogo-equipes-sigla,
+.placar-jogo-equipes-nome {
+	line-height: 20px;
+/*	max-width: 68%*/
+}
+
+.placar-jogo-equipes-sigla {
+}
+
+.placar-jogo-equipes-nome {
+	display: none
+}
+
+.placar-jogo-equipes-escudo-mandante,
+.placar-jogo-equipes-escudo-visitante {
+	height: 30px;
+	width: 30px
+}
+
+.placar-jogo-equipes-escudo-mandante {
+	margin-left: 8px
+}
+
+.placar-jogo-equipes-escudo-visitante {
+	margin-right: 8px
+}
+
+.placar-jogo-equipes-placar-mandante,
+.placar-jogo-equipes-placar-visitante {
+	font-size: 28px
+}
+
+.tabela-versus i {
+/*	background-color: blue;*/
+	width: 100%;
 }
 
 a.disabled {
@@ -65,3 +120,4 @@ a.disabled:hover {
 .text-warning.disabled {
 	color: #fbd0a0;
 }
+

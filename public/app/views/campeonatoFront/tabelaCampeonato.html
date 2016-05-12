@@ -36,33 +36,33 @@
 					</div>
 					<div class="ibox-content">
 						<table class="tabela-classificacao table table-condensed">
-						<thead>
-							<tr class="tabela-head-linha">
-								<th class="col-xs-3">Classificação</th>
-								<th class="text-center col-xs-1">P</th>
-								<th class="text-center col-xs-1">J</th>
-								<th class="text-center col-xs-1">V</th>
-								<th class="text-center col-xs-1 hidden-xs">E</th>
-								<th class="text-center col-xs-1 hidden-xs">D</th>
-								<th class="text-center col-xs-1">GP</th>
-								<th class="text-center col-xs-1 hidden-xs">GC</th>
-								<th class="text-center col-xs-1">SG</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="jogadorGrupo in grupo.classificacao" ng-class="{'font-bold':jogadorGrupo.pivot.users_id == usuarioLogado}">
-								<td >{{jogadorGrupo.nome}}</td>
-								<td class="text-center">{{jogadorGrupo.pontuacao}}</td>
-								<td class="text-center">{{jogadorGrupo.jogos}}</td>
-								<td class="text-center">{{jogadorGrupo.vitorias}}</td>
-								<td class="text-center hidden-xs">{{jogadorGrupo.empates}}</td>
-								<td class="text-center hidden-xs">{{jogadorGrupo.derrotas}}</td>
-								<td class="text-center">{{jogadorGrupo.gols_pro}}</td>
-								<td class="text-center hidden-xs">{{jogadorGrupo.gols_contra}}</td>
-								<td class="text-center">{{jogadorGrupo.saldo_gols}}</td>
-							</tr>
-						</tbody>
-					</table>
+							<thead>
+								<tr class="tabela-head-linha">
+									<th class="col-xs-3">Classificação</th>
+									<th class="text-center col-xs-1">P</th>
+									<th class="text-center col-xs-1">J</th>
+									<th class="text-center col-xs-1">V</th>
+									<th class="text-center col-xs-1 hidden-xs">E</th>
+									<th class="text-center col-xs-1 hidden-xs">D</th>
+									<th class="text-center col-xs-1">GP</th>
+									<th class="text-center col-xs-1 hidden-xs">GC</th>
+									<th class="text-center col-xs-1">SG</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="jogadorGrupo in grupo.classificacao" ng-class="{'font-bold':jogadorGrupo.pivot.users_id == usuarioLogado}">
+									<td>{{jogadorGrupo.nome}}</td>
+									<td class="text-center">{{jogadorGrupo.pontuacao}}</td>
+									<td class="text-center">{{jogadorGrupo.jogos}}</td>
+									<td class="text-center">{{jogadorGrupo.vitorias}}</td>
+									<td class="text-center hidden-xs">{{jogadorGrupo.empates}}</td>
+									<td class="text-center hidden-xs">{{jogadorGrupo.derrotas}}</td>
+									<td class="text-center">{{jogadorGrupo.gols_pro}}</td>
+									<td class="text-center hidden-xs">{{jogadorGrupo.gols_contra}}</td>
+									<td class="text-center">{{jogadorGrupo.saldo_gols}}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -81,12 +81,39 @@
 								<i class="fa fa-chevron-right pull-right"></i>
 							</a>
 						</nav>
-						<div class="partida" ng-repeat="partida in partidasDaRodada[$index]">
-							<div class="col-xs-4 text-right tabela-jogador">{{partida.usuarios[0].nome}}</div>
+						<div class="lista-de-jogos-item" ng-repeat="partida in partidasDaRodada[$index]">
+<!--
+							<div class="col-xs-4 text-right text-uppercase tabela-jogador">{{partida.usuarios[0].sigla}}</div>
 							<div class="col-xs-1 text-right tabela-placar">{{partida.usuarios[0].placar}}</div>
 							<div class="col-xs-2 text-center"><i class="fa fa-close fa-fw"></i></div>
 							<div class="col-xs-1 text-left tabela-placar">{{partida.usuarios[1].placar}}</div>
-							<div class="col-xs-4 text-left tabela-jogador">{{partida.usuarios[1].nome}}</div>
+							<div class="col-xs-4 text-left  text-uppercase tabela-jogador">{{partida.usuarios[1].sigla}}</div>
+-->
+
+							<div class="placar-jogo-equipes row">
+								<span class="placar-jogo-equipes-item placar-jogo-equipes-mandante col-xs-4">
+									<meta itemprop="name" content="Barcelona">
+									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+<!--
+									<span class="placar-jogo-equipes-nome">Barcelona</span>
+									<img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="http://s.glbimg.com/es/sde/f/equipes/2013/09/16/barcelona_60x60.png" width="30" height="30" title="Barcelona" data-pin-nopin="true">
+-->
+								</span>
+								<span class="placar-jogo-equipes-item placar-jogo-equipes-placar col-xs-4">
+									<div class="row">
+										<span class="placar-jogo-equipes-placar-mandante col-xs-4">{{partida.usuarios[0].placar}}</span>
+										<span class="tabela-versus col-xs-4 text-center"><i class="fa fa-close fa-fw"></i></span>
+										<span class="placar-jogo-equipes-placar-visitante col-xs-4">{{partida.usuarios[1].placar}}</span>
+									</div>
+								</span>
+								<span class="placar-jogo-equipes-item placar-jogo-equipes-visitante col-xs-4">
+									<meta itemprop="name" content="Espanyol">
+<!--									<img class="placar-jogo-equipes-escudo-visitante" itemprop="image" src="http://s.glbimg.com/es/sde/f/equipes/2016/01/31/Espanyol-65.png" width="30" height="30" title="Espanyol" data-pin-nopin="true">-->
+									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+<!--									<span class="placar-jogo-equipes-nome">Espanyol</span>-->
+								</span>
+							</div>
+							</div>
 						</div>
 					</div>
 				</div>

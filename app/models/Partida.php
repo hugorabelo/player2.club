@@ -105,7 +105,9 @@ class Partida extends Eloquent {
         $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->getResults()->sortBy('id');
         $usuarios->values()->all();
         foreach($usuarios as $usuario) {
-            $usuario->nome = User::find($usuario->users_id)->nome;
+            $usuarioBD = User::find($usuario->users_id);
+            $usuario->nome = $usuarioBD->nome;
+            $usuario->sigla = $usuarioBD->sigla;
         }
         return $usuarios;
     }
