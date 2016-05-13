@@ -108,6 +108,7 @@ class Partida extends Eloquent {
             $usuarioBD = User::find($usuario->users_id);
             $usuario->nome = $usuarioBD->nome;
             $usuario->sigla = $usuarioBD->sigla;
+            $usuario->distintivo = isset($usuarioBD->distintivo) ? $usuarioBD->distintivo : $usuarioBD->imagem_perfil;
         }
         return $usuarios;
     }

@@ -51,7 +51,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="jogadorGrupo in grupo.classificacao" ng-class="{'font-bold':jogadorGrupo.pivot.users_id == usuarioLogado}">
-									<td>{{jogadorGrupo.nome}}</td>
+									<td>{{jogadorGrupo.nome}} - {{jogadorGrupo.id}} </td>
 									<td class="text-center">{{jogadorGrupo.pontuacao}}</td>
 									<td class="text-center">{{jogadorGrupo.jogos}}</td>
 									<td class="text-center">{{jogadorGrupo.vitorias}}</td>
@@ -82,36 +82,24 @@
 							</a>
 						</nav>
 						<div class="lista-de-jogos-item" ng-repeat="partida in partidasDaRodada[$index]">
-<!--
-							<div class="col-xs-4 text-right text-uppercase tabela-jogador">{{partida.usuarios[0].sigla}}</div>
-							<div class="col-xs-1 text-right tabela-placar">{{partida.usuarios[0].placar}}</div>
-							<div class="col-xs-2 text-center"><i class="fa fa-close fa-fw"></i></div>
-							<div class="col-xs-1 text-left tabela-placar">{{partida.usuarios[1].placar}}</div>
-							<div class="col-xs-4 text-left  text-uppercase tabela-jogador">{{partida.usuarios[1].sigla}}</div>
--->
-
-							<div class="placar-jogo-equipes row">
-								<span class="placar-jogo-equipes-item placar-jogo-equipes-mandante col-xs-4">
+							<div class="placar-jogo-equipes">
+								<div class="placar-jogo-equipes-mandante col-xs-4">
 									<meta itemprop="name" content="Barcelona">
 									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
-<!--
-									<span class="placar-jogo-equipes-nome">Barcelona</span>
-									<img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="http://s.glbimg.com/es/sde/f/equipes/2013/09/16/barcelona_60x60.png" width="30" height="30" title="Barcelona" data-pin-nopin="true">
--->
-								</span>
-								<span class="placar-jogo-equipes-item placar-jogo-equipes-placar col-xs-4">
+									<img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+								</div>
+								<div class="placar-jogo-equipes-placar col-xs-4">
 									<div class="row">
 										<span class="placar-jogo-equipes-placar-mandante col-xs-4">{{partida.usuarios[0].placar}}</span>
 										<span class="tabela-versus col-xs-4 text-center"><i class="fa fa-close fa-fw"></i></span>
 										<span class="placar-jogo-equipes-placar-visitante col-xs-4">{{partida.usuarios[1].placar}}</span>
 									</div>
-								</span>
-								<span class="placar-jogo-equipes-item placar-jogo-equipes-visitante col-xs-4">
+								</div>
+								<div class="placar-jogo-equipes-visitante col-xs-4">
 									<meta itemprop="name" content="Espanyol">
-<!--									<img class="placar-jogo-equipes-escudo-visitante" itemprop="image" src="http://s.glbimg.com/es/sde/f/equipes/2016/01/31/Espanyol-65.png" width="30" height="30" title="Espanyol" data-pin-nopin="true">-->
+									<img class="placar-jogo-equipes-escudo-visitante" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[0].nome}}">
 									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
-<!--									<span class="placar-jogo-equipes-nome">Espanyol</span>-->
-								</span>
+								</div>
 							</div>
 							</div>
 						</div>

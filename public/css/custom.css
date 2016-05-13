@@ -49,61 +49,56 @@
 	color: #333;
 	font-size: 18px;
 	border-bottom: 1px solid rgb(192, 192, 192);
-}
-
-.placar-jogo-equipes-item {
-	height: 69px;
+	height: 70px;
 	line-height: 70px;
 	text-transform: uppercase;
-/*	background-color: cadetblue;*/
+	padding: 0;
 }
 
-.placar-jogo-equipes-placar {
-/*	background-color: aqua;*/
+.placar-jogo-equipes-mandante,
+.placar-jogo-equipes-visitante,
+.placar-jogo-equipes-placar
+{
+	padding: 0;
 }
 
-.placar-jogo-equipes-mandante {
+.placar-jogo-equipes-mandante,
+.placar-jogo-equipes-placar-mandante {
 	text-align: right;
 }
 
-.placar-jogo-equipes-visitante {
+.placar-jogo-equipes-visitante,
+.placar-jogo-equipes-placar-visitante {
 	text-align: left;
 }
 
-.placar-jogo-equipes-sigla,
-.placar-jogo-equipes-nome {
-	line-height: 20px;
-/*	max-width: 68%*/
-}
-
 .placar-jogo-equipes-sigla {
-}
-
-.placar-jogo-equipes-nome {
-	display: none
+/*	line-height: 70px;*/
 }
 
 .placar-jogo-equipes-escudo-mandante,
 .placar-jogo-equipes-escudo-visitante {
 	height: 30px;
-	width: 30px
+	width: 30px;
 }
 
 .placar-jogo-equipes-escudo-mandante {
-	margin-left: 8px
+	margin: 0 8px;
+
 }
 
 .placar-jogo-equipes-escudo-visitante {
-	margin-right: 8px
+	margin: 0 8px
 }
 
 .placar-jogo-equipes-placar-mandante,
 .placar-jogo-equipes-placar-visitante {
-	font-size: 28px
+	padding: 0;
+	font-size: 28px;
+	font-weight: bold;
 }
 
 .tabela-versus i {
-/*	background-color: blue;*/
 	width: 100%;
 }
 
@@ -116,8 +111,3 @@ a.disabled:hover {
   cursor: default;
   background-color: transparent;
 }
-
-.text-warning.disabled {
-	color: #fbd0a0;
-}
-
