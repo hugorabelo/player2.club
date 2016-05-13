@@ -84,9 +84,8 @@
 						<div class="lista-de-jogos-item" ng-repeat="partida in partidasDaRodada[$index]">
 							<div class="placar-jogo-equipes">
 								<div class="placar-jogo-equipes-mandante col-xs-4">
-									<meta itemprop="name" content="Barcelona">
 									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
-									<img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+									<img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
 								</div>
 								<div class="placar-jogo-equipes-placar col-xs-4">
 									<div class="row">
@@ -96,8 +95,7 @@
 									</div>
 								</div>
 								<div class="placar-jogo-equipes-visitante col-xs-4">
-									<meta itemprop="name" content="Espanyol">
-									<img class="placar-jogo-equipes-escudo-visitante" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[0].nome}}">
+									<img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[0].nome}}">
 									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
 								</div>
 							</div>
