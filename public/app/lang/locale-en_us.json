@@ -81,8 +81,10 @@
 		"contestar_resultado": "Contest score",
 		"aguardando_confirmacao": "Score awaiting confirmation",
 		"placar_confirmado": "Score confirmed by the users",
-        "tempo_restante": "Limit Date: ",
-        "tempo_para_confirmacao": "Limit Date for the confirmation of the match is made"
+		"tempo_restante": "Limit Date: ",
+		"tempo_para_confirmacao": "Limit Date for the confirmation of the match is made",
+		"printscreen": "Printscreen Proof",
+		"partida_contestada": "The game score was contested. Pending judgment by the moderators"
 	},
 
 	"messages": {
@@ -174,6 +176,7 @@
 		"confirma_desistir_campeonato": "Are you sure you want to give up the Championship?",
 
 		"minhasPartidas_list": "My Matches",
-		"tabelaCampeonato_list": "Standings"
+		"tabelaCampeonato_list": "Standings",
+		"partida_contestar": "Contest Match Score"
 	}
 }

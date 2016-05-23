@@ -109,4 +109,34 @@ class PartidasController extends BaseController
     {
     }
 
+    public function contestarResultado($id) {
+        $input = Input::all();
+        $validation = Validator::make($input, ContestacaoResultado::$rules);
+
+        if ($validation->passes())
+        {
+            /*
+             * Movendo o arquivo para o diretório correto
+             */
+
+            $arquivo = Input::hasFile('imagem') ? Input::file('imagem')
+                : null;
+
+            if (isset($arquivo) && $arquivo->isValid()) {
+                $destinationPath = 'uploads/';
+                $fileName = 'contestacao_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
+                $arquivo->move($destinationPath, $fileName);
+                $input['imagem'] = $fileName;
+            }
+
+            ContestacaoResultado::create($input);
+
+            return Response::json(array('success'=>true));
+        }
+
+        return Response::json(array('success'=>false,
+            'errors'=>$validation->getMessageBag()->all(),
+            'message'=>'There were validation errors.'),300);
+    }
+
 }

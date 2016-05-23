@@ -215,6 +215,13 @@ AplicacaoLiga.directive('formularioMenu', [function () {
 	};
 }]);
 
+AplicacaoLiga.directive('formularioContestacaoResultado', [function () {
+	return {
+		templateUrl: 'app/views/meus_campeonatos/formContestacaoResultado.html',
+        replace: true
+	};
+}]);
+
 
 AplicacaoLiga.directive('fileUpload', function () {
     return {

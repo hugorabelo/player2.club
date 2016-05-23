@@ -108,6 +108,7 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
         Route::resource('usuariogrupos', 'UsuariogruposController');
     });
 
+    Route::post('api/partidas/contestar/{id}', 'PartidasController@contestarResultado');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('partidas', 'PartidasController');
     });

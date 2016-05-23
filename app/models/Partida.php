@@ -83,6 +83,9 @@ class Partida extends Eloquent {
     }
 
     public function confirmarPlacarAutomaticamente() {
+        if($this->contestada()) {
+            return null;
+        }
         $agora = new DateTime();
         if(isset($this->data_placar)) {
             $placar = new DateTime($this->data_placar);
@@ -120,5 +123,10 @@ class Partida extends Eloquent {
             $dataPlacar->add(new DateInterval('P1D'));
         }
         return $dataPlacar;
+    }
+
+    public function contestada() {
+        $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->get();
+        return !$contestacao->isEmpty();
     }
 }

@@ -4,9 +4,13 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 
 	$scope.exibeDetalhes = false;
 
-	$rootScope.loading = true;
+	$scope.files = [];
 
-	$rootScope.loading = false;
+	$scope.$on("fileSelected", function (event, args) {
+        $scope.$apply(function () {
+            $scope.files.push(args.file);
+        });
+    });
 
 	$scope.carregaPartidas = function(id_usuario) {
 		$rootScope.loading = true;
@@ -51,11 +55,31 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 	}
 
 	$scope.contestarPlacar = function(id_partida) {
-		console.log("contestar " + id_partida);
+		$scope.contestacao_resultado = {};
+		$scope.contestacao_resultado.partidas_id = id_partida;
+		$scope.contestacao_resultado.usuario_partidas_id = $rootScope.usuarioLogado;
+		$('#formModal').modal();
+		$scope.tituloModal = 'messages.partida_contestar';
+		$scope.formulario.$setPristine();
 	}
 
-    $scope.exibeDataLimite = function(data_limite) {
-        dataLimite = new Date(data_limite);
-        return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
-    }
+	$scope.salvarContestacao = function() {
+		console.log($scope.contestacao_resultado);
+		Partida.contestarResultado($scope.contestacao_resultado, $scope.files[0])
+			.success(function (data) {
+				$scope.carregaPartidas($rootScope.usuarioLogado);
+				$('#formModal').modal('hide');
+				$scope.files = [];
+				$rootScope.loading = false;
+			}).error(function(data, status) {
+				$scope.messages = data.errors;
+				$scope.status = status;
+				$rootScope.loading = false;
+			});
+	}
+
+	$scope.exibeDataLimite = function(data_limite) {
+	  dataLimite = new Date(data_limite);
+	  return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
+	}
 }]);

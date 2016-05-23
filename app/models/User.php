@@ -45,6 +45,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$partidas = Partida::findMany($usuarioPartidas)->sortBy('id');
 		foreach($partidas as $partida) {
 			$partida->confirmarPlacarAutomaticamente();
+			if($partida->contestada()) {
+				$partida->contestada = true;
+			}
 			$usuarios = $partida->usuarios();
 			$partida->usuarios = $usuarios;
 			// TODO incluir dados a serem utilizados do usuário para exibição das partidas

@@ -81,9 +81,10 @@
 		"contestar_resultado": "Contestar resultado",
 		"aguardando_confirmacao": "Resultado aguardando confirmação",
 		"placar_confirmado": "Placar confirmado pelos usuários",
-        "tempo_restante": "Data Limite: ",
-        "tempo_para_confirmacao": "Data limite para que seja feita a confirmação da partida"
-
+		"tempo_restante": "Data Limite: ",
+		"tempo_para_confirmacao": "Data limite para que seja feita a confirmação da partida",
+		"printscreen": "Printscreen de comprovação",
+		"partida_contestada": "O resultado da partida foi contestado. Aguardando julgamento por parte dos moderadores"
 	},
 
 	"messages": {
@@ -164,7 +165,6 @@
 		"acesso_nao_autorizado_titulo": "Acesso Não Autorizado",
 		"acesso_nao_autorizado_explicacao": "O seu perfil não tem permissões de acesso para esta página. Por favor, tente acessar outra página do menu. Caso o erro persista, favor entrar em contato com o suporte",
 		"minha_pagina": "Ir para Minha Página",
-
 		"titulo_dashboard": "Minha Página Inicial",
 		"titulo_perfil": "Detalhes do Perfil",
 		"sobre_mim": "Sobre Mim",
@@ -176,6 +176,7 @@
 		"confirma_desistir_campeonato": "Deseja realmente desistir deste campeonato?",
 
 		"minhasPartidas_list": "Minhas Partidas",
-		"tabelaCampeonato_list": "Tabela de Classificação"
+		"tabelaCampeonato_list": "Tabela de Classificação",
+		"partida_contestar": "Contestar Resultado da Partida"
 	}
 }

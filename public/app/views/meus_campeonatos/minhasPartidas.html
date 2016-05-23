@@ -26,34 +26,45 @@
 			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar"></div>
 			<div translate class="col-xs-3 text-left">{{partida.usuarios[1].nome}}</div>
 			<div class="col-xs-3">
-                <button type="button" class="btn btn-success" ng-click="salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
-                    <i class="fa fa-save fa-fw"></i>
-                </button>
-                <button type="button" class="btn btn-primary" ng-click="confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
-                    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
-                    <i class="fa fa-share fa-fw"></i>
-                </button>
-                <button type="button" class="btn btn-danger" ng-click="contestarPlacar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
-                    ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
-                    <i class="fa fa-gavel fa-fw"></i>
-                </button>
-                <span class="fa-stack fa-lg" tooltip="{{'fields.aguardando_confirmacao' | translate}}"
-                    ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado && !partida.data_confirmacao">
-                    <i class="fa fa-circle fa-stack-2x text-warning disabled"></i>
-                    <i class="fa fa-hourglass fa-stack-1x fa-inverse"></i>
-                </span>
-                <span class="fa-stack fa-lg" tooltip="{{'fields.placar_confirmado' | translate}}"
-                    ng-show="partida.data_confirmacao">
-                    <i class="fa fa-circle fa-stack-2x text-info"></i>
-                    <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                </span>
-                {{partida.tempo_de_placar}}
-                <br>
-                <span class="badge badge-info" tooltip="{{'fields.tempo_para_confirmacao' | translate}}"
-                    ng-show="partida.data_placar && !partida.data_confirmacao">
-                    {{'fields.tempo_restante' | translate}} {{exibeDataLimite(partida.data_placar_limite.date)}}
-                </span>
+				<div id="botoes" ng-hide="partida.contestada || partida.data_confirmacao">
+					<button type="button" class="btn btn-success" ng-click="salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
+					  <i class="fa fa-save fa-fw"></i>
+					</button>
+					<button type="button" class="btn btn-primary" ng-click="confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}"
+					  ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
+					  <i class="fa fa-share fa-fw"></i>
+					</button>
+					<button type="button" class="btn btn-danger" ng-click="contestarPlacar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
+					  ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
+					  <i class="fa fa-gavel fa-fw"></i>
+					</button>
+				</div>
+				<div id="icones" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
+					<span class="fa-stack fa-lg" tooltip="{{'fields.aguardando_confirmacao' | translate}}"
+					  ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado && !partida.data_confirmacao">
+					  <i class="fa fa-circle fa-stack-2x text-warning disabled"></i>
+					  <i class="fa fa-hourglass fa-stack-1x fa-inverse"></i>
+					</span>
+					<span class="fa-stack fa-lg" tooltip="{{'fields.partida_contestada' | translate}}"
+					  ng-show="partida.contestada">
+					  <i class="fa fa-circle fa-stack-2x text-danger"></i>
+					  <i class="fa fa-balance-scale fa-stack-1x fa-inverse"></i>
+					</span>
+					<span class="fa-stack fa-lg" tooltip="{{'fields.placar_confirmado' | translate}}"
+					  ng-show="partida.data_confirmacao">
+					  <i class="fa fa-circle fa-stack-2x text-info"></i>
+					  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+					</span>
+					<br>
+					<span class="badge badge-info" tooltip="{{'fields.tempo_para_confirmacao' | translate}}"
+					  ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
+					  {{'fields.tempo_restante' | translate}} {{exibeDataLimite(partida.data_placar_limite.date)}}
+					</span>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+<div formulario-contestacao-resultado></div>

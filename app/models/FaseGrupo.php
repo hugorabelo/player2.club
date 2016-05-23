@@ -138,7 +138,6 @@ class FaseGrupo extends Eloquent
                 $partidasPorRodada->add($partida);
             }
         }
-        Log::info($partidasPorRodada);
         return $partidasPorRodada;
     }
 
