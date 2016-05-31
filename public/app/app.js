@@ -110,6 +110,12 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
         controller: 'CampeonatoFrontController',
         data: { pageTitle: "menus.tabela_campeonato" }
     })
+	 .state('criar_campeonato', {
+		  url: "/criar_campeonato",
+        templateUrl: "app/views/campeonato_novo/cadastroCampeonato.html",
+        //controller: 'CriarCampeonatoController',
+        data: { pageTitle: "messages.campeonato_create" }
+	 })
     .state('logout', {
         url: "/logout"
     })

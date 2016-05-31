@@ -46,7 +46,7 @@
 		"detalhes": "Rules",
 		"jogos_id": "Game",
 		"campeonatotipos_id": "Championship Type",
-		"quantidade_usuarios": "Number of Users",
+		"quantidade_usuarios": "Number of Competitors",
 
 		"usuario_id": "User",
 
@@ -84,7 +84,11 @@
 		"tempo_restante": "Limit Date: ",
 		"tempo_para_confirmacao": "Limit Date for the confirmation of the match is made",
 		"printscreen": "Printscreen Proof",
-		"partida_contestada": "The game score was contested. Pending judgment by the moderators"
+		"partida_contestada": "The game score was contested. Pending judgment by the moderators",
+
+		"acesso": "Access",
+		"publico": "Public",
+		"restrito": "Private"
 	},
 
 	"messages": {

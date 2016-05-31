@@ -46,12 +46,12 @@
 		"detalhes": "Regras",
 		"jogos_id": "Jogo",
 		"campeonatotipos_id": "Tipo de Campeonato",
-		"quantidade_usuarios": "Quantidade de Usuários",
+		"quantidade_usuarios": "Quantidade de Competidores",
 
 		"usuario_id": "Usuário",
 
 		"data_inicio": "Data de Início",
-		"data_fim": "Data Final",
+		"data_fim": "Data de Término",
 		"permite_empate": "Permite Empate",
 		"fase_anterior": "Fase Anterior",
 		"fase_abrir": "Iniciar Fase",
@@ -84,7 +84,11 @@
 		"tempo_restante": "Data Limite: ",
 		"tempo_para_confirmacao": "Data limite para que seja feita a confirmação da partida",
 		"printscreen": "Printscreen de comprovação",
-		"partida_contestada": "O resultado da partida foi contestado. Aguardando julgamento por parte dos moderadores"
+		"partida_contestada": "O resultado da partida foi contestado. Aguardando julgamento por parte dos moderadores",
+
+		"acesso": "Acesso",
+		"publico": "Público",
+		"restrito": "Restrito"
 	},
 
 	"messages": {

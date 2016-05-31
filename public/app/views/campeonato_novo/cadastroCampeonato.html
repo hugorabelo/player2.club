@@ -1,0 +1,111 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2 translate>messages.campeonato_create</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a ui-sref="home">Home</a>
+			</li>
+			<li>
+				<a translate>menus.config</a>
+			</li>
+			<li>
+				<a ui-sref="campeonato" translate>menus.campeonatos</a>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
+
+	</div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+	<div class="ibox-content">
+		<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="submit()">
+			<div class="row" ng-show="messages">
+				<div class="col-md-10 col-md-offset-2">
+					<div class="alert alert-danger">
+						<ul>
+							<li class="error" ng-repeat="message in messages">
+								{{ message }}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+				<div class="col-md-9">
+					<input type="text" id="descricao" class="form-control" ng-model="campeonato.descricao" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="acesso" class="col-md-3 control-label" translate>fields.acesso</label>
+				<div class="col-md-9">
+					<select id="jogos_id" class="form-control" ng-model="campeonato.acesso" required>
+						<option value="publico" translate>fields.publico</option>
+						<option value="restrito" translate>fields.restrito</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
+				<div class="col-md-3">
+					<div class="input-group date">
+						<input type="datetime" class="form-control" date-time ng-model="campeonato.data_inicio" view="date" auto-close="true" min-view="date" format="DD-MM-YYYY">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+
+				<label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
+				<div class="col-md-3">
+					<div class="input-group date">
+						<input type="datetime" class="form-control" date-time ng-model="campeonato.data_fim" view="date" auto-close="true" min-view="date" format="DD-MM-YYYY">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="detalhes" class="col-md-3 control-label" translate>fields.detalhes</label>
+				<div class="col-md-9">
+					<summernote ng-model="campeonato.detalhes" required></summernote>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="plataformas_id" class="col-md-3 control-label" translate>fields.plataformas_id</label>
+				<div class="col-md-3">
+					<select id="plataformas_id" class="form-control" ng-model="campeonato.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in plataformas" required>
+					</select>
+				</div>
+
+				<label for="jogos_id" class="col-md-3 control-label" translate>fields.jogos_id</label>
+				<div class="col-md-3">
+					<select id="jogos_id" class="form-control" ng-model="campeonato.jogos_id" ng-options="jogo.id as jogo.descricao for jogo in jogos" required>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="campeonato_tipos_id" class="col-md-3 control-label" translate>fields.campeonatotipos_id</label>
+				<div class="col-md-9">
+					<select id="campeonato_tipos_id" class="form-control" ng-model="campeonato.campeonato_tipos_id" ng-options="campeonatoTipo.id as campeonatoTipo.descricao for campeonatoTipo in campeonatoTipos" required>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-9 col-md-offset-3" ng-include="'app/views/campeonato_novo/detalhes_copa.html'"></div>
+			</div>
+
+			<div class="align-right">
+				<button type="button" class="btn btn-default" data-dismiss="modal" translate>fields.cancel</button>
+				<button type="submit" class="btn btn-primary" ng-show="novoItem" translate>fields.save</button>
+				<button type="submit" class="btn btn-primary" ng-hide="novoItem" translate>fields.update</button>
+			</div>
+		</form>
+	</div>
+</div>

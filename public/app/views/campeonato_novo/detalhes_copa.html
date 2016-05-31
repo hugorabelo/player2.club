@@ -1,0 +1,37 @@
+<div class="panel panel-primary">
+	<div class="panel-heading" translate>
+		messages.campeonato_detalhes
+	</div>
+	<div class="panel-body">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="tipo_competidor" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
+				<div class="col-md-4">
+					<select id="jogos_id" class="form-control" ng-model="campeonato.tipo_competidor" ng-options="jogo.id as jogo.descricao for jogo in jogos" required>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="quantidade_usuarios" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
+				<div class="col-md-4">
+					<input type="number" id="quantidade_usuarios" class="form-control" ng-model="campeonato.quantidade_usuarios" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="qtde_grupos" class="col-md-8 control-label" translate>fields.qtde_grupos</label>
+				<div class="col-md-4">
+					<input type="number" id="qtde_grupos" class="form-control" ng-model="campeonato.qtde_grupos" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="qtde_classificados" class="col-md-8 control-label" translate>fields.qtde_classificados</label>
+				<div class="col-md-4">
+					<input type="number" id="qtde_classificados" class="form-control" ng-model="campeonato.qtde_classificados" required>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+
+		</div>
+	</div>
+</div>
