@@ -45,7 +45,38 @@
 			</div>
 		</div>
 		<div class="col-md-5">
-
+			<h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
+			<div class="row">
+				<div class="col-md-4  text-center">
+					<label for="vitoria" class="control-label" translate>fields.vitoria</label>
+				</div>
+				<div class="col-md-4 text-center">
+					<label for="empate" class="control-label" translate>fields.empate</label>
+				</div>
+				<div class="col-md-4 text-center">
+					<label for="derrota" class="control-label" translate>fields.derrota</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+					<input type="number" id="vitoria" class="form-control" ng-model="campeonato.vitoria" required>
+				</div>
+				<div class="col-md-4">
+					<input type="number" id="empate" class="form-control" ng-model="campeonato.empate" required>
+				</div>
+				<div class="col-md-4">
+					<input type="number" id="derrota" class="form-control" ng-model="campeonato.derrota" required>
+				</div>
+			</div>
+			<h4 class="text-center" translate>messages.criterios_classificacao</h4>
+			<div>
+				<ul ng-sortable="barConfig" class="todo-list m-t small-list">
+					<li ng-repeat="item in items">
+						<checkbox ng-model="criteriosClassificacao[item]"></checkbox>
+						<span class="m-l-xs">{{item}}</span>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>

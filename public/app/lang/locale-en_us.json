@@ -88,7 +88,11 @@
 
 		"acesso": "Access",
 		"publico": "Public",
-		"restrito": "Private"
+		"restrito": "Private",
+
+		"vitoria": "Win",
+		"empate": "Draw",
+		"derrota": "Lose"
 	},
 
 	"messages": {

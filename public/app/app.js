@@ -11,7 +11,9 @@ var AplicacaoLiga = angular.module('aplicacaoLiga', [
     'jcs-autoValidate',
     'ui.tree',
     'ngCookies',
-	'summernote'
+	 'summernote',
+	 'ng-sortable',
+	 'ui.checkbox'
 ]);
 
 AplicacaoLiga.config(function ($locationProvider) {
@@ -113,7 +115,7 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
 	 .state('criar_campeonato', {
 		  url: "/criar_campeonato",
         templateUrl: "app/views/campeonato_novo/cadastroCampeonato.html",
-        //controller: 'CriarCampeonatoController',
+        controller: 'CriarCampeonatoController',
         data: { pageTitle: "messages.campeonato_create" }
 	 })
     .state('logout', {

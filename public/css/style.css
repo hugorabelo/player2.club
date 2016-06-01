@@ -1520,9 +1520,6 @@ table.dataTable thead .sorting:after {
 .check-link {
   font-size: 16px;
 }
-.todo-completed {
-  text-decoration: line-through;
-}
 .geo-statistic h1 {
   font-size: 36px;
   margin-bottom: 0;
