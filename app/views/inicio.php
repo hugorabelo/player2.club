@@ -91,8 +91,16 @@ $arquivoAplicacao = 'app/app.js';
 $caminho = 'app/';
 
 $arquivosJS = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($caminho, FilesystemIterator::SKIP_DOTS));
+$files_array = array();
 
-foreach($arquivosJS as $arquivo){
+foreach($arquivosJS as $files) {
+    $data = $files->getPathname();
+    $files_array[] = $data;
+}
+
+natsort($files_array);
+
+foreach($files_array as $arquivo){
     if($arquivo == $arquivoAplicacao) {
         continue;
     }
