@@ -51,9 +51,14 @@ AplicacaoLiga
 
 		$scope.carregaDetalhesCampeonato = function() {
 			$rootScope.loading = true;
+            $scope.templateDetalhes = '';
 			var includes = ['app/views/campeonato_novo/detalhes_copa.html',
-								 'app/views/campeonato_novo/detalhes_mata-mata.html'];
-			$scope.incluir = includes[0];
+                            'app/views/campeonato_novo/detalhes_grid.html'];
+            if($scope.campeonato.campeonato_tipos_id == 2) {
+                $scope.templateDetalhes = includes[0];
+            } else if($scope.campeonato.campeonato_tipos_id == 69) {
+                $scope.templateDetalhes = includes[1];
+            }
 			$rootScope.loading = false;
 		}
     }]);
