@@ -37,15 +37,16 @@
 			<div class="form-group">
 			    <label for="zona_classificacao" class="col-md-8 control-label" translate>fields.zona_classificacao</label>
 				<div class="col-md-4">
-					<input type="number" id="zona_classificacao" class="form-control" ng-model="campeonato.zona_classificacao" required>
+					<input type="number" id="zona_classificacao" class="form-control" ng-model="campeonato.zona_classificacao" ng-change="criaZonaClassificacao()" />
 				</div>
 			</div>
-			<div class="form-group" ng-repeat="n in [] | range:10">
-			    <label for="pontuacao" class="col-md-8 control-label" translate>{{$index}}</label>
+			<div class="form-group" ng-repeat="n in pontosZonaClassificacao track by $index">
+			    <label for="pontuacao" class="col-md-8 control-label">{{$index+1}}{{'fields.lugar' | translate}}</label>
 				<div class="col-md-4">
-					<input type="number" id="pontuacao" class="form-control" ng-model="campeonato.pontuacao[]" required>
+					<input type="number" id="pontuacao" class="form-control" ng-model="campeonato.pontuacao[$index]" required>
 				</div>
 			</div>
 		</div>
+		{{campeonato.pontuacao}}
 	</div>
 </div>

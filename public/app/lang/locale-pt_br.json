@@ -92,7 +92,22 @@
 
 		"vitoria": "Vitória",
 		"empate": "Empate",
-		"derrota": "Derrota"
+		"derrota": "Derrota",
+
+		"tipo_competidor": "Tipo de Competidor",
+		"qtde_classificados": "Classificados para a 2ª Fase",
+		"ida_volta": "Jogos de Ida e Volta",
+		"fora_casa": "Regra do Gol Fora de Casa",
+		"zona_classificacao": "Zona de Classificação",
+		"tipo_classificacao": "Tipo de Classificação",
+		"ordem_classificacao": "Ordem de Classificação",
+		"pontos": "Pontos",
+		"vitorias": "Vitórias",
+		"saldo_gols": "Saldo de Gols",
+		"gols_pro": "Gols Pró",
+		"gols_contra": "Gols Contra",
+		"confronto_direto": "Confronto Direto",
+		"lugar": "º Lugar"
 	},
 
 	"messages": {

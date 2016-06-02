@@ -165,13 +165,6 @@ AplicacaoLiga.config(['$translateProvider', function ($translateProvider) {
 }]);
 
 AplicacaoLiga.run([
-    'bootstrap3ElementModifier',
-        function (bootstrap3ElementModifier) {
-            bootstrap3ElementModifier.enableValidationStateIcons(true);
-        }
-]);
-
-AplicacaoLiga.run([
     'defaultErrorMessageResolver',
         function (defaultErrorMessageResolver) {
             defaultErrorMessageResolver.setI18nFileRootPath('app/plugins/angular-validate/lang');

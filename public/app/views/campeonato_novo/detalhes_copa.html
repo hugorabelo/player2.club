@@ -32,27 +32,25 @@
 			<div class="form-group">
 				<label for="ida_volta" class="col-md-8 control-label" translate>fields.ida_volta</label>
 				<div class="col-md-4">
-                    <label>
-                        <input icheck type="radio" id="ida_volta" ng-model="campeonato.ida_volta" ng-value="true" required />
-                        {{ 'messages.yes' | translate }}
-                    </label>
-                    <label>
-                        <input icheck type="radio" id="ida_volta" ng-model="campeonato.ida_volta" ng-value="false" required />
-                        {{ 'messages.no' | translate }}
-                    </label>
+					<label class="m-r m-b">
+						<input icheck type="radio" id="ida_volta" ng-model="campeonato.ida_volta" ng-value="true" required />
+						{{ 'messages.yes' | translate }}
+					</label>
+					<label>
+						<input icheck type="radio" id="ida_volta" ng-model="campeonato.ida_volta" ng-value="false" required />
+						{{ 'messages.no' | translate }}
+					</label>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="fora_casa" class="col-md-8 control-label" translate>fields.fora_casa</label>
 				<div class="col-md-4">
+					<label class="m-r m-b">
+						<input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="true" required /> {{ 'messages.yes' | translate }}
+					</label>
 					<label>
-                        <input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="true" required />
-                        {{ 'messages.yes' | translate }}
-                    </label>
-                    <label>
-                        <input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="false" required />
-                        {{ 'messages.no' | translate }}
-                    </label>
+						<input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="false" required /> {{ 'messages.no' | translate }}
+					</label>
 				</div>
 			</div>
 		</div>

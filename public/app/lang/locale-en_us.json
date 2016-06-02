@@ -92,7 +92,15 @@
 
 		"vitoria": "Win",
 		"empate": "Draw",
-		"derrota": "Lose"
+		"derrota": "Lose",
+
+		"tipo_competidor": "<vazio>",
+		"qtde_classificados": "<vazio>",
+		"ida_volta": "<vazio>",
+		"fora_casa": "<vazio>",
+		"zona_classificacao": "<vazio>",
+		"tipo_classificacao": "<vazio>",
+		"ordem_classificacao": "<vazio>"
 	},
 
 	"messages": {
