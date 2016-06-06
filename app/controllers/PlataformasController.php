@@ -126,7 +126,6 @@ class PlataformasController extends BaseController {
 	}
 
 	public function getJogos($id) {
-		Log::info('chegou aqui');
 		$plataforma = Plataforma::find($id);
 		return Response::json($plataforma->jogos());
 	}

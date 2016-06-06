@@ -124,4 +124,9 @@ class JogosController extends BaseController {
 		return Response::json(array('success'=>true));
 	}
 
+	public function getTiposDeCampeonato($id) {
+		$jogo = Jogo::find($id);
+		return Response::json($jogo->tiposCampeonato());
+	}
+
 }

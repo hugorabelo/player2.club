@@ -39,7 +39,7 @@ Route::get('/', function()
 
 // Inserido para fazer o update de imagens via Angularjs
     Route::post('api/plataformas/{id}', 'PlataformasController@update');
-
+    Route::get('api/tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('jogos', 'JogosController');
     });
