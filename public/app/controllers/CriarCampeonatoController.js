@@ -29,9 +29,9 @@ AplicacaoLiga
 				});
 		}
 
-		$scope.carregaJogosDaPlataforma = function() {
+		$scope.carregaJogosDaPlataforma = function () {
 			$rootScope.loading = true;
-			Jogo.get()
+			Plataforma.getJogos($scope.campeonato.plataformas_id)
 				.success(function (data) {
 					$scope.jogos = data;
 					$scope.messages = null;
@@ -39,7 +39,7 @@ AplicacaoLiga
 				});
 		}
 
-		$scope.carregaTiposDeCampeonatoDoJogo = function() {
+		$scope.carregaTiposDeCampeonatoDoJogo = function () {
 			$rootScope.loading = true;
 			CampeonatoTipo.get()
 				.success(function (data) {
@@ -49,16 +49,16 @@ AplicacaoLiga
 				});
 		}
 
-		$scope.carregaDetalhesCampeonato = function() {
+		$scope.carregaDetalhesCampeonato = function () {
 			$rootScope.loading = true;
-            $scope.templateDetalhes = '';
+			$scope.templateDetalhes = '';
 			var includes = ['app/views/campeonato_novo/detalhes_copa.html',
                             'app/views/campeonato_novo/detalhes_grid.html'];
-            if($scope.campeonato.campeonato_tipos_id == 2) {
-                $scope.templateDetalhes = includes[0];
-            } else if($scope.campeonato.campeonato_tipos_id == 69) {
-                $scope.templateDetalhes = includes[1];
-            }
+			if ($scope.campeonato.campeonato_tipos_id == 2) {
+				$scope.templateDetalhes = includes[0];
+			} else if ($scope.campeonato.campeonato_tipos_id == 69) {
+				$scope.templateDetalhes = includes[1];
+			}
 			$rootScope.loading = false;
 		}
     }]);

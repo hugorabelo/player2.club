@@ -32,6 +32,7 @@ Route::get('/', function()
         Route::resource('campeonatoTipos', 'CampeonatoTiposController');
     });
 
+    Route::get('api/jogosDaPlataforma/{id}', 'PlataformasController@getJogos');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('plataformas', 'PlataformasController');
     });
