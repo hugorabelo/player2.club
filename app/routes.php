@@ -28,6 +28,7 @@ Route::get('/', function()
         Route::resource('campeonato', 'CampeonatosController');
     });
 
+    Route::get('api/campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('campeonatoTipos', 'CampeonatoTiposController');
     });

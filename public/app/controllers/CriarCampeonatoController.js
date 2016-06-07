@@ -34,6 +34,8 @@ AplicacaoLiga
 			Plataforma.getJogos($scope.campeonato.plataformas_id)
 				.success(function (data) {
 					$scope.jogos = data;
+					$scope.campeonatoTipos = '';
+					$scope.templateDetalhes = '';
 					$scope.messages = null;
 					$rootScope.loading = false;
 				});
@@ -41,9 +43,10 @@ AplicacaoLiga
 
 		$scope.carregaTiposDeCampeonatoDoJogo = function () {
 			$rootScope.loading = true;
-			CampeonatoTipo.get()
+			Jogo.getTiposDeCampeonato($scope.campeonato.jogos_id)
 				.success(function (data) {
 					$scope.campeonatoTipos = data;
+					$scope.templateDetalhes = '';
 					$scope.messages = null;
 					$rootScope.loading = false;
 				});
@@ -52,13 +55,12 @@ AplicacaoLiga
 		$scope.carregaDetalhesCampeonato = function () {
 			$rootScope.loading = true;
 			$scope.templateDetalhes = '';
-			var includes = ['app/views/campeonato_novo/detalhes_copa.html',
-                            'app/views/campeonato_novo/detalhes_grid.html'];
-			if ($scope.campeonato.campeonato_tipos_id == 2) {
-				$scope.templateDetalhes = includes[0];
-			} else if ($scope.campeonato.campeonato_tipos_id == 69) {
-				$scope.templateDetalhes = includes[1];
-			}
+			CampeonatoTipo.edit($scope.campeonato.campeonato_tipos_id)
+				.success(function (data) {
+					$scope.templateDetalhes = data.arquivo_detalhes;
+					$scope.messages = null;
+					$rootScope.loading = false;
+				});
 			$rootScope.loading = false;
 		}
     }]);

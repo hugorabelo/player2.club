@@ -8,12 +8,16 @@ class Jogo extends Eloquent {
 	);
 
 	public function modeloCampeonato() {
-		return $this->hasOne('ModeloCampeonato', 'modelo_campeonato_id')->getResults();
+		$modelo = $this->belongsTo('ModeloCampeonato', 'modelo_campeonato_id')->getResults();
+        return $modelo;
 	}
 
 	public function tiposCampeonato() {
 		$modelo_campeonato = $this->modeloCampeonato();
-		return $modelo_campeonato->belongsTo('CampeonatoTipo', 'modelo_campeonato_id')->getResults();
+        if(isset($modelo_campeonato)) {
+            return $modelo_campeonato->hasMany('CampeonatoTipo', 'modelo_campeonato_id')->getResults();
+        }
+        return null;
 	}
 
 }
