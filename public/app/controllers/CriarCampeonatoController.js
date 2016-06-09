@@ -67,4 +67,8 @@ AplicacaoLiga
                 });
             $rootScope.loading = false;
         }
+
+        $scope.salvarCampeonato = function() {
+
+        }
     }]);
