@@ -8,6 +8,6 @@ class Plataforma extends Eloquent {
 	);
 
 	public function jogos() {
-		return $this->belongsToMany('Jogo', 'jogos_plataforma', 'plataformas_id', 'jogos_id')->getResults();
+		return $this->belongsToMany('Jogo', 'jogos_plataforma', 'plataformas_id', 'jogos_id')->withPivot(array())->orderBy('descricao')->getResults();
 	}
 }
