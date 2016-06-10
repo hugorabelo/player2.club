@@ -9,6 +9,18 @@
 class CampeonatoCopa extends Campeonato
 {
 
+    public function salvar($campeonato) {
+
+//      1. Salvar detalhes do campeonato
+        $this->detalhesCampeonato = CampeonatoDetalhes::create($campeonato->detalhes);
+
+//      2. Criar fases
+//      3. Cria regras de pontuação para cada fase
+        $this->criaFases();
+
+//      4. Cria grupos da primeira fase
+    }
+
     public function criaFases() {
 
     }
