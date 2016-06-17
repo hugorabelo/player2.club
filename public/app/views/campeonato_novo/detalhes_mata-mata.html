@@ -30,16 +30,14 @@
 				</label>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group" ng-show="campeonato.ida_volta">
 				<label for="fora_casa" class="col-md-8 control-label" translate>fields.fora_casa</label>
 				<div class="col-md-4">
 					<label class="m-r m-b">
-						<input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="true" required />
-						{{ 'messages.yes' | translate }}
+						<input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="true" /> {{ 'messages.yes' | translate }}
 					</label>
 					<label>
-						<input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="false" required />
-						{{ 'messages.no' | translate }}
+						<input icheck type="radio" id="fora_casa" ng-model="campeonato.fora_casa" ng-value="false" /> {{ 'messages.no' | translate }}
 					</label>
 				</div>
 			</div>
