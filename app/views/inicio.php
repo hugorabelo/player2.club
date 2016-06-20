@@ -84,30 +84,34 @@
 
     <!-- Anglar App Script -->
     <script src="app/app.js"></script>
+    <script src="app/assets/controllers.js"></script>
+    <script src="app/assets/directives.js"></script>
+    <script src="app/assets/factorys.js"></script>
+    <script src="app/assets/plugins.js"></script>
 
 <?php
 
-$arquivoAplicacao = 'app/app.js';
-$caminho = 'app/';
-
-$arquivosJS = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($caminho, FilesystemIterator::SKIP_DOTS));
-$files_array = array();
-
-foreach($arquivosJS as $files) {
-    $data = $files->getPathname();
-    $files_array[] = $data;
-}
-
-natsort($files_array);
-
-foreach($files_array as $arquivo){
-    if($arquivo == $arquivoAplicacao) {
-        continue;
-    }
-    if(substr($arquivo, -3) == '.js') {
-        echo "\n\t<script src='$arquivo'></script>";
-    }
-}
+//$arquivoAplicacao = 'app/app.js';
+//$caminho = 'app/';
+//
+//$arquivosJS = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($caminho, FilesystemIterator::SKIP_DOTS));
+//$files_array = array();
+//
+//foreach($arquivosJS as $files) {
+//    $data = $files->getPathname();
+//    $files_array[] = $data;
+//}
+//
+//natsort($files_array);
+//
+//foreach($files_array as $arquivo){
+//    if($arquivo == $arquivoAplicacao) {
+//        continue;
+//    }
+//    if(substr($arquivo, -3) == '.js') {
+//        echo "\n\t<script src='$arquivo'></script>";
+//    }
+//}
 
 ?>
 
