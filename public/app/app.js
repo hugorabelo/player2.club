@@ -13,7 +13,8 @@ var AplicacaoLiga = angular.module('aplicacaoLiga', [
     'ngCookies',
 	 'summernote',
 	 'ng-sortable',
-	 'ui.checkbox'
+	 'ui.checkbox',
+	 'datePicker'
 ]);
 
 AplicacaoLiga.config(function ($locationProvider) {
