@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="css/angular-ui-tree.min.css">
     <link rel="stylesheet" href="css/plugins/iCheck/custom.css">
     <link rel="stylesheet" href="css/plugins/summernote/summernote.css">
-    <link rel="stylesheet" href="css/plugins/angular-datepicker/angular-datapicker.css">
 
     <!-- Estilos do Campeonato-->
     <link rel="stylesheet" href="css/custom.css">
