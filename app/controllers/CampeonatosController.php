@@ -52,20 +52,23 @@ class CampeonatosController extends BaseController {
 	public function store()
 	{
 		$input = Input::all();
-		Log::info($input);
-//		$validation = Validator::make($input, Campeonato::$rules);
+		$validation = Validator::make($input, Campeonato::$rules);
 
-//		if ($validation->passes())
-//		{
-//			$this->campeonato->create($input);
-//
-//			return Response::json(array('success'=>true));
-//		}
+		if ($validation->passes())
+		{
+
+			$campeonatoTipo = CampeonatoTipo::find($input['campeonato_tipos_id']);
+			$nomeClasse = $campeonatoTipo->nome_classe_modelo;
+			$campeonato = new $nomeClasse;
+			$campeonato->salvar($input);
+
+			return Response::json(array('success'=>true));
+		}
 
 
-//		return Response::json(array('success'=>false,
-//			'errors'=>$validation->getMessageBag()->all(),
-//			'message'=>'There were validation errors.'),300);
+		return Response::json(array('success'=>false,
+			'errors'=>$validation->getMessageBag()->all(),
+			'message'=>'There were validation errors.'),300);
 	}
 
 	/**
