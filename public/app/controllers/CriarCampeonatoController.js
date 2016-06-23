@@ -79,6 +79,8 @@
 			};
 
 			$scope.salvarCampeonato = function () {
+				console.log($scope.campeonato);
+				console.log($scope.regras);
 				Campeonato.save($scope.campeonato)
 					.success(function (data) {
 						Campeonato.get()

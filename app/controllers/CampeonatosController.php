@@ -57,13 +57,15 @@ class CampeonatosController extends BaseController {
 		if ($validation->passes())
 		{
 
-			$campeonatoTipo = CampeonatoTipo::find($input['campeonato_tipos_id']);
-			$nomeClasse = $campeonatoTipo->nome_classe_modelo;
-			$campeonato = new $nomeClasse;
+            $campeonatoTipo = CampeonatoTipo::find($input['campeonato_tipos_id']);
+            $nomeClasse = $campeonatoTipo->nome_classe_modelo;
+            Log::info($nomeClasse);
+            $campeonato = new $nomeClasse;
 			$campeonato->salvar($input);
 
 			return Response::json(array('success'=>true));
 		}
+        Log::error($validation->getMessageBag()->all());
 
 
 		return Response::json(array('success'=>false,
