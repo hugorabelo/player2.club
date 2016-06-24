@@ -119,6 +119,14 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
         Route::resource('usuariopartidas', 'UsuariopartidasController');
     });
 
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('tipoCompetidor', 'TipoCompetidorController');
+    });
+
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('acessoCampeonato', 'AcessoCampeonatoController');
+    });
+
 //});
 
 App::missing(function($exception) {
@@ -135,3 +143,6 @@ Event::listen('illuminate.query', function($query)
 
 
 
+
+
+Route::resource('tipocompetidors', 'TipocompetidorsController');
