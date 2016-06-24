@@ -11,4 +11,6 @@ class CampeonatoDetalhes extends Eloquent
 
     protected $table = 'detalhes_campeonato';
 
+    protected $guarded = array();
+
 }

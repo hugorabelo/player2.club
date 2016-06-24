@@ -9,12 +9,17 @@
 class CampeonatoCopa extends Campeonato
 {
 
-    public function salvar($campeonato) {
-        Log::info('chegou no salvar. viva!');
-        Log::info($campeonato);
+    public function salvar($input) {
 
-//      1. Salvar detalhes do campeonato
-        $this->detalhesCampeonato = CampeonatoDetalhes::create($campeonato['detalhes']);
+        $dadosCampeonato = array_except($input, array('criteriosClassificacao', 'detalhes', 'pontuacao', 'fases'));
+        $detalhes = $input['detalhes'];
+        $criteriosClassificacao = $input['criteriosClassificacao'];
+        $pontuacao = $input['pontuacao'];
+
+//      1. Salvar campeonato e detalhes
+        $this->campeonato = Campeonato::create($dadosCampeonato);
+        $detalhes['campeonatos_id'] = $this->campeonato->id;
+        $this->detalhesCampeonato = CampeonatoDetalhes::create($detalhes);
 
 //      2. Criar fases
 //      3. Cria regras de pontuação para cada fase

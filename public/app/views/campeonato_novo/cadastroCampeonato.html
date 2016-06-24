@@ -43,9 +43,7 @@
 			<div class="form-group">
 				<label for="acesso" class="col-md-3 control-label" translate>fields.acesso</label>
 				<div class="col-md-9">
-					<select id="jogos_id" class="form-control" ng-model="campeonato.acesso" required>
-						<option value="publico" translate>fields.publico</option>
-						<option value="restrito" translate>fields.restrito</option>
+					<select id="acesso_campeonato_id" class="form-control" ng-model="campeonato.acesso_campeonato_id" ng-options="tipoAcesso.id as tipoAcesso.descricao for tipoAcesso in tiposDeAcessosDoCampeonato" required>
 					</select>
 				</div>
 			</div>
@@ -54,7 +52,7 @@
 				<label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
 				<div class="col-md-3">
 					<div class="input-group date">
-						<input type="datetime" class="form-control" date-time ng-model="campeonato.data_inicio" view="date" auto-close="true" min-view="date" format="DD/MM/YYYY">
+						<input type="datetime" class="form-control" date-time ng-model="campeonato.fases.data_inicio" view="date" auto-close="true" min-view="date" format="DD/MM/YYYY">
 						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 					</div>
 				</div>
@@ -62,7 +60,7 @@
 				<label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
 				<div class="col-md-3">
 					<div class="input-group date">
-						<input type="datetime" class="form-control" date-time ng-model="campeonato.data_fim" view="date" auto-close="true" min-view="date" format="DD/MM/YYYY">
+						<input type="datetime" class="form-control" date-time ng-model="campeonato.fases.data_fim" view="date" auto-close="true" min-view="date" format="DD/MM/YYYY">
 						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 					</div>
 				</div>

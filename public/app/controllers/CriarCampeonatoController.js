@@ -30,6 +30,14 @@
 
 			$scope.create = function () {
 				$rootScope.loading = true;
+				$scope.carregaTiposDeAcessoDoCampeonato();
+				$scope.carregaTiposDeCompetidores();
+				$scope.carregaPlataformas();
+				$rootScope.loading = false;
+			};
+
+			$scope.carregaPlataformas = function() {
+				$rootScope.loading = true;
 				Plataforma.get()
 					.success(function (data) {
 						$scope.plataformas = data;
@@ -37,7 +45,7 @@
 						$scope.messages = null;
 						$rootScope.loading = false;
 					});
-			};
+			}
 
 			$scope.carregaJogosDaPlataforma = function () {
 				$rootScope.loading = true;
@@ -67,6 +75,20 @@
 					});
 			};
 
+			$scope.carregaTiposDeCompetidores = function() {
+				Campeonato.getTiposDeCompetidores()
+					.success(function (data) {
+						$scope.tiposDeCompetidores = data;
+				})
+			};
+
+			$scope.carregaTiposDeAcessoDoCampeonato = function() {
+				Campeonato.getTiposDeAcessoDoCampeonato()
+					.success(function (data) {
+						$scope.tiposDeAcessosDoCampeonato = data;
+				})
+			};
+
 			$scope.carregaDetalhesCampeonato = function () {
 				$rootScope.loading = true;
 				CampeonatoTipo.edit($scope.campeonato.campeonato_tipos_id)
@@ -79,8 +101,6 @@
 			};
 
 			$scope.salvarCampeonato = function () {
-				console.log($scope.campeonato);
-				console.log($scope.regras);
 				Campeonato.save($scope.campeonato)
 					.success(function (data) {
 						Campeonato.get()

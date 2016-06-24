@@ -5,28 +5,28 @@
 	<div class="panel-body">
 		<div class="col-md-7">
 			<div class="form-group">
-				<label for="tipo_competidor" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
+				<label for="tipo_competidor_id" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
 				<div class="col-md-4">
-					<select id="jogos_id" class="form-control" ng-model="campeonato.detalhes.tipo_competidor" ng-options="jogo.id as jogo.descricao for jogo in jogos" required>
+					<select id="tipo_competidor_id" class="form-control" ng-model="campeonato.detalhes.tipo_competidor_id" ng-options="tipoCompetidor.id as tipoCompetidor.descricao for tipoCompetidor in tiposDeCompetidores" required>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="quantidade_usuarios" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
+				<label for="quantidade_competidores" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
 				<div class="col-md-4">
-					<input type="number" id="quantidade_usuarios" class="form-control" ng-model="campeonato.detalhes.quantidade_usuarios" required>
+					<input type="number" id="quantidade_competidores" class="form-control" ng-model="campeonato.detalhes.quantidade_competidores" required>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="qtde_grupos" class="col-md-8 control-label" translate>fields.qtde_grupos</label>
+				<label for="quantidade_grupos" class="col-md-8 control-label" translate>fields.qtde_grupos</label>
 				<div class="col-md-4">
-					<input type="number" id="qtde_grupos" class="form-control" ng-model="campeonato.detalhes.qtde_grupos" required>
+					<input type="number" id="quantidade_grupos" class="form-control" ng-model="campeonato.detalhes.quantidade_grupos" required>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="qtde_classificados" class="col-md-8 control-label" translate>fields.qtde_classificados</label>
+				<label for="classificados_proxima_fase" class="col-md-8 control-label" translate>fields.qtde_classificados</label>
 				<div class="col-md-4">
-					<input type="number" id="qtde_classificados" class="form-control" ng-model="campeonato.detalhes.qtde_classificados" required>
+					<input type="number" id="classificados_proxima_fase" class="form-control" ng-model="campeonato.detalhes.classificados_proxima_fase" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -69,13 +69,13 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-4">
-					<input type="number" id="vitoria" class="form-control" ng-model="campeonato.detalhes.vitoria" required>
+					<input type="number" id="vitoria" class="form-control" ng-model="campeonato.pontuacao.vitoria" required>
 				</div>
 				<div class="col-md-4">
-					<input type="number" id="empate" class="form-control" ng-model="campeonato.detalhes.empate" required>
+					<input type="number" id="empate" class="form-control" ng-model="campeonato.pontuacao.empate" required>
 				</div>
 				<div class="col-md-4">
-					<input type="number" id="derrota" class="form-control" ng-model="campeonato.detalhes.derrota" required>
+					<input type="number" id="derrota" class="form-control" ng-model="campeonato.pontuacao.derrota" required>
 				</div>
 			</div>
 			<h4 class="text-center" translate>messages.criterios_classificacao</h4>

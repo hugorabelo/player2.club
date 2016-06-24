@@ -158,6 +158,14 @@ AplicacaoLiga.factory('Campeonato', ['$http', function ($http) {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				}
 			});
+		},
+
+		getTiposDeCompetidores: function() {
+			return $http.get('api/tipoCompetidor');
+		},
+
+		getTiposDeAcessoDoCampeonato: function() {
+			return $http.get('api/acessoCampeonato');
 		}
 
 	}
