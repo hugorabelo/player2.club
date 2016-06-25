@@ -59,6 +59,9 @@ class CampeonatosController extends BaseController {
             $campeonatoTipo = CampeonatoTipo::find($input['campeonato_tipos_id']);
             $nomeClasse = $campeonatoTipo->nome_classe_modelo;
             $campeonato = new $nomeClasse;
+			switch ($campeonato->validarNumeroDeCompetidores($input['detalhes'])) {
+
+            }
 			$campeonato->salvar($input);
 
 			return Response::json(array('success'=>true));

@@ -193,6 +193,15 @@
 
 		"minhasPartidas_list": "My Matches",
 		"tabelaCampeonato_list": "Standings",
-		"partida_contestar": "Contest Match Score"
+		"partida_contestar": "Contest Match Score",
+
+		"criterios_classificacao": "Classification Criteria",
+		"primeira_fase": "Group Stage",
+		"matamata2": "Final",
+		"matamata4": "Semi-Finals",
+		"matamata8": "Quarter-Finals",
+		"matamata16": "Round of 16",
+		"matamata32": "Round of 32",
+		"matamata64": "Round of 64"
 	}
 }

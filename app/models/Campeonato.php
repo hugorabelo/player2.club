@@ -53,4 +53,8 @@ class Campeonato extends Eloquent {
 	public function faseFinal() {
 		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->where('final', '=', 'true')->get()->first();
 	}
+
+	public function validarNumeroDeCompetidores($detalhes) {
+		return true;
+	}
 }

@@ -22,7 +22,7 @@
 			<a ng-click="exibeFaseAnterior()" ng-class="{'disabled': indice_fase == 0}">
 				<i class="fa fa-chevron-left pull-left"></i>
 			</a>
-			{{fase_atual.descricao}}
+			{{fase_atual.descricao | translate}}
 			<a ng-click="exibeProximaFase()" ng-class="{'disabled': indice_fase == campeonatoFases.length-1}">
 				<i class="fa fa-chevron-right pull-right"></i>
 			</a>
