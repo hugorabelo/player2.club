@@ -54,7 +54,7 @@ Route::get('/', function()
 
     Route::get('api/campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('api/campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
-Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
+    Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('usuario', 'UsersController');
     });
@@ -125,6 +125,15 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
 
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('acessoCampeonato', 'AcessoCampeonatoController');
+    });
+
+    Route::get('api/modeloCampeonato/getCriteriosClassificacao/{id}', 'ModeloCampeonatoController@getCriteriosClassificacao');
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('modeloCampeonato', 'ModeloCampeonatoController');
+    });
+
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
     });
 
 //});

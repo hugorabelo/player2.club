@@ -81,15 +81,13 @@
 			<h4 class="text-center" translate>messages.criterios_classificacao</h4>
 			<div>
 				<ul ng-sortable="barConfig" class="todo-list m-t small-list">
-					<li ng-repeat="item in items">
-						<checkbox ng-model="campeonato.criteriosClassificacao[item]"></checkbox>
-						<span class="m-l-xs">{{item}}</span>
+					<li ng-repeat="criterio in criteriosClassificacao">
+						<i class="fa fa-arrows-v" aria-hidden="true"></i>
+						<checkbox class="m-l-xs" ng-model="checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
+						<span class="m-l-xs">{{criterio.descricao}}</span>
 					</li>
 				</ul>
 			</div>
-				{{campeonato.criteriosClassificacao}}
-				###
-				{{items}}
 		</div>
 	</div>
 </div>

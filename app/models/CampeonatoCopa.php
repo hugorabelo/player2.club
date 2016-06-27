@@ -14,9 +14,9 @@ class CampeonatoCopa extends Campeonato
 
     public function salvar($input) {
 
-        $dadosCampeonato = array_except($input, array('criteriosClassificacao', 'detalhes', 'pontuacao', 'fases'));
+        $dadosCampeonato = array_except($input, array('criteriosClassificacaoSelecionados', 'detalhes', 'pontuacao', 'fases'));
         $detalhes = $input['detalhes'];
-        $this->criteriosClassificacao = $input['criteriosClassificacao'];
+        $this->criteriosClassificacao = $input['criteriosClassificacaoSelecionados'];
         $this->pontuacao = $input['pontuacao'];
         $this->detalhesFases = $input['fases'];
 
@@ -27,20 +27,20 @@ class CampeonatoCopa extends Campeonato
 
 //      2. Criar fases
 //      3. Cria regras de pontuação para cada fase
-        $this->criaFases();
-
 //      4. Cria grupos da primeira fase
+        $this->criaFasesGrupos();
+
     }
 
-    public function criaFases() {
+    public function criaFasesGrupos() {
 
         /*
          * 1. Criar primeira fase
          * 2. Criar critérios de classificação para o campeonato
          * 3. Criar grupos da primeira fase
          * 4. Criar regras de pontuação para a fase, baseado em vitoria, empate e derrota
-         * 5. Cadastrar cada fase seguinte com o número respectivo de competidores
-         * 6. Criar grupos para cada uma das fase, com apenas 2 competidores por grupo
+         * 5. Cadastrar cada fases seguintes (mata-mata) com o número respectivo de competidores
+         * 6. Criar grupos para cada uma das fases, com apenas 2 competidores por grupo
          */
 
         /**  1. Criar primeira fase **/
@@ -55,7 +55,15 @@ class CampeonatoCopa extends Campeonato
         $faseAtual = CampeonatoFase::create($primeiraFase);
 
         /** 2. Criar critérios de classificacao */
-        //TODO
+        $ordem = 1;
+        foreach ($this->criteriosClassificacao as $criterio) {
+            $novoCriterio = array();
+            $novoCriterio['campeonatos_id'] = $this->campeonato->id;
+            $novoCriterio['criterios_classificacao_id'] = $criterio['id'];
+            $novoCriterio['ordem'] = $ordem;
+            CampeonatoCriterio::create($novoCriterio);
+            $ordem++;
+        }
 
 
         /**  3. Criar grupos da primeira fase **/
@@ -90,7 +98,7 @@ class CampeonatoCopa extends Campeonato
         $pontuacao['campeonato_fases_id'] = $faseAtual->id;
         PontuacaoRegra::create($pontuacao);
 
-        /** 5/6. Cadastrar Fases seguintes e criar grupos para cada fase **/
+        /** 5/6. Cadastrar Fases seguintes (mata mata) e criar grupos para cada fase **/
         $qtdeParticipantesFase = $this->detalhesCampeonato->classificados_proxima_fase;
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();

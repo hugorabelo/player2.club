@@ -3,16 +3,16 @@
 	'use strict';
 
 	angular.module('aplicacaoLiga')
-		.controller('CriarCampeonatoController', ['$scope', '$rootScope', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', function ($scope, $rootScope, Campeonato, Plataforma, Jogo, CampeonatoTipo) {
-			$scope.items = ['Pontos', 'Vitórias', 'Saldo de Gols', 'Gols Pró', 'Gols Contra', 'Confronto Direto'];
+		.controller('CriarCampeonatoController', ['$scope', '$rootScope', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
 			$scope.barConfig = {
 				group: 'foobar',
 				animation: 150,
-				onSort: function (evt) {}
+				onSort: function (evt) {
+				}
 			};
 
 			$scope.campeonato = {};
-			$scope.campeonato.criteriosClassificacao = {};
+			$scope.checkBoxCriteriosClassificacao = {};
 
 			$scope.$watch('campeonato.ida_volta', function () {
 				if (!$scope.campeonato.ida_volta) {
@@ -36,7 +36,7 @@
 				$rootScope.loading = false;
 			};
 
-			$scope.carregaPlataformas = function() {
+			$scope.carregaPlataformas = function () {
 				$rootScope.loading = true;
 				Plataforma.get()
 					.success(function (data) {
@@ -75,18 +75,18 @@
 					});
 			};
 
-			$scope.carregaTiposDeCompetidores = function() {
+			$scope.carregaTiposDeCompetidores = function () {
 				Campeonato.getTiposDeCompetidores()
 					.success(function (data) {
 						$scope.tiposDeCompetidores = data;
-				})
+					})
 			};
 
-			$scope.carregaTiposDeAcessoDoCampeonato = function() {
+			$scope.carregaTiposDeAcessoDoCampeonato = function () {
 				Campeonato.getTiposDeAcessoDoCampeonato()
 					.success(function (data) {
 						$scope.tiposDeAcessosDoCampeonato = data;
-				})
+					})
 			};
 
 			$scope.carregaDetalhesCampeonato = function () {
@@ -95,12 +95,25 @@
 					.success(function (data) {
 						$scope.templateDetalhes = data.arquivo_detalhes;
 						$scope.messages = null;
+						$scope.carregaCriteriosClassificacao(data.modelo_campeonato_id);
 						$rootScope.loading = false;
 					});
 				$rootScope.loading = false;
 			};
 
+			$scope.carregaCriteriosClassificacao = function (id) {
+				$rootScope.loading = true;
+				ModeloCampeonato.getCriteriosClassificacao(id)
+					.success(function (data) {
+						$scope.criteriosClassificacao = data;
+						$scope.messages = null;
+						$rootScope.loading = false;
+					});
+				$rootScope.loading = false;
+			}
+
 			$scope.salvarCampeonato = function () {
+				$scope.atualizaCriteriosClassificacao();
 				Campeonato.save($scope.campeonato)
 					.success(function (data) {
 						Campeonato.get()
@@ -114,5 +127,15 @@
 						$rootScope.loading = false;
 					});
 			};
+
+			$scope.atualizaCriteriosClassificacao = function() {
+				$scope.campeonato.criteriosClassificacaoSelecionados = [];
+				angular.forEach($scope.criteriosClassificacao, function(criterio) {
+					if($scope.checkBoxCriteriosClassificacao[criterio.id] == true) {
+						this.push(criterio);
+					}
+				}, $scope.campeonato.criteriosClassificacaoSelecionados);
+			};
+
 		}]);
 }());

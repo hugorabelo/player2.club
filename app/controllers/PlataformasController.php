@@ -22,7 +22,8 @@ class PlataformasController extends BaseController {
 	 */
 	public function index()
 	{
-		return Response::json(Plataforma::get());
+		$plataformas = Plataforma::get()->sortBy('descricao');
+		return Response::json($plataformas->values()->all());
 	}
 
 	/**

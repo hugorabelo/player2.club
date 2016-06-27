@@ -15,7 +15,8 @@ class Jogo extends Eloquent {
 	public function tiposCampeonato() {
 		$modelo_campeonato = $this->modeloCampeonato();
         if(isset($modelo_campeonato)) {
-            return $modelo_campeonato->hasMany('CampeonatoTipo', 'modelo_campeonato_id')->getResults();
+			$tiposCampeonato = $modelo_campeonato->hasMany('CampeonatoTipo', 'modelo_campeonato_id')->getResults()->sortBy('descricao');
+			return $tiposCampeonato->values()->all();
         }
         return null;
 	}

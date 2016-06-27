@@ -20,7 +20,8 @@ class AcessoCampeonatoController extends BaseController {
 	 * @return Response
 	 */
 	public function index() {
-		return Response::json(AcessoCampeonato::get());
+		$acessos = AcessoCampeonato::get()->sortBy('descricao');
+		return Response::json($acessos->values()->all());
 	}
 
 	/**

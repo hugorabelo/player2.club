@@ -20,7 +20,8 @@ class TipoCompetidorController extends BaseController {
 	 * @return Response
 	 */
 	public function index() {
-		return Response::json(TipoCompetidor::get());
+		$tiposcompetidor = TipoCompetidor::get()->sortBy('descricao');
+		return Response::json($tiposcompetidor->values()->all());
 	}
 
 	/**
