@@ -45,7 +45,7 @@
 						$scope.messages = null;
 						$rootScope.loading = false;
 					});
-			}
+			};
 
 			$scope.carregaJogosDaPlataforma = function () {
 				$rootScope.loading = true;
@@ -79,14 +79,18 @@
 				Campeonato.getTiposDeCompetidores()
 					.success(function (data) {
 						$scope.tiposDeCompetidores = data;
-					})
+                        $scope.messages = null;
+						$rootScope.loading = false;
+					});
 			};
 
 			$scope.carregaTiposDeAcessoDoCampeonato = function () {
 				Campeonato.getTiposDeAcessoDoCampeonato()
 					.success(function (data) {
 						$scope.tiposDeAcessosDoCampeonato = data;
-					})
+                        $scope.messages = null;
+						$rootScope.loading = false;
+					});
 			};
 
 			$scope.carregaDetalhesCampeonato = function () {
@@ -110,7 +114,7 @@
 						$rootScope.loading = false;
 					});
 				$rootScope.loading = false;
-			}
+			};
 
 			$scope.salvarCampeonato = function () {
 				$scope.atualizaCriteriosClassificacao();
@@ -128,10 +132,10 @@
 					});
 			};
 
-			$scope.atualizaCriteriosClassificacao = function() {
+			$scope.atualizaCriteriosClassificacao = function () {
 				$scope.campeonato.criteriosClassificacaoSelecionados = [];
-				angular.forEach($scope.criteriosClassificacao, function(criterio) {
-					if($scope.checkBoxCriteriosClassificacao[criterio.id] == true) {
+				angular.forEach($scope.criteriosClassificacao, function (criterio) {
+					if ($scope.checkBoxCriteriosClassificacao[criterio.id] === true) {
 						this.push(criterio);
 					}
 				}, $scope.campeonato.criteriosClassificacaoSelecionados);

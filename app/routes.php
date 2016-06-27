@@ -149,9 +149,3 @@ Event::listen('illuminate.query', function($query)
     Log::info($query);
 });
 /* */
-
-
-
-
-
-Route::resource('tipocompetidors', 'TipocompetidorsController');
