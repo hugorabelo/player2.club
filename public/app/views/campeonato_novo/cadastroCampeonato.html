@@ -21,18 +21,6 @@
 <div class="wrapper wrapper-content animated fadeIn">
 	<div class="ibox-content">
 		<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="salvarCampeonato()">
-			<div class="row" ng-show="messages">
-				<div class="col-md-10 col-md-offset-2">
-					<div class="alert alert-danger">
-						<ul>
-							<li class="error" ng-repeat="message in messages">
-								{{ message }}
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
 			<div class="form-group">
 				<label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
 				<div class="col-md-9">
@@ -98,6 +86,18 @@
 
 			<div class="form-group">
 				<div class="col-md-9 col-md-offset-3" ng-include src="templateDetalhes"></div>
+			</div>
+
+			<div class="row" ng-show="messages">
+				<div class="col-md-9 col-md-offset-3">
+					<div class="alert alert-danger">
+						<ul>
+							<li class="error" ng-repeat="message in messages">
+								{{ message | translate }}
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 			<div class="align-right">

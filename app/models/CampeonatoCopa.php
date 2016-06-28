@@ -149,15 +149,19 @@ class CampeonatoCopa extends Campeonato
         //quantidade_grupos
         //classificados_proxima_fase
         if(fmod($detalhes['quantidade_competidores'], $detalhes['quantidade_grupos']) != 0) {
-            return 1;
+            return 'messages.competidores_nao_mutiplo_grupos';
         }
         if(fmod($detalhes['classificados_proxima_fase'], $detalhes['quantidade_grupos']) != 0) {
-            return 2;
+            return 'messages.classificados_nao_mutiplo_grupos';
         }
-        if(filter_var(log($detalhes['classificados_proxima_fase'], 2), FILTER_VALIDATE_INT)) {
-            return 3;
+        if(!filter_var(log($detalhes['classificados_proxima_fase'], 2), FILTER_VALIDATE_INT)) {
+            return 'messages.classificados_nao_potencia_dois';
         }
-        return 0;
+        return "";
+    }
+
+    public function detalhes() {
+        return $this->hasMany('CampeonatoDetalhe', 'campeonatos_id')->getResults();
     }
 
     private function sorteioGrupos($grupos, $usuarios) {

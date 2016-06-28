@@ -55,6 +55,9 @@ class Campeonato extends Eloquent {
 	}
 
 	public function validarNumeroDeCompetidores($detalhes) {
-		return true;
+		if($detalhes['quantidade_competidores'] > 0) {
+			return '';
+		}
+		return 'messages.numero_competidores_maior_zero';
 	}
 }

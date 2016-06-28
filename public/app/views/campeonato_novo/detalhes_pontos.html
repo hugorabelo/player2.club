@@ -5,27 +5,27 @@
 	<div class="panel-body">
 		<div class="col-md-7">
 			<div class="form-group">
-				<label for="tipo_competidor" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
+				<label for="tipo_competidor_id" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
 				<div class="col-md-4">
-					<select id="jogos_id" class="form-control" ng-model="campeonato.tipo_competidor" ng-options="jogo.id as jogo.descricao for jogo in jogos" required>
+					<select id="tipo_competidor_id" class="form-control" ng-model="campeonato.detalhes.tipo_competidor_id" ng-options="tipoCompetidor.id as tipoCompetidor.descricao for tipoCompetidor in tiposDeCompetidores" required>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="quantidade_usuarios" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
+				<label for="quantidade_competidores" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
 				<div class="col-md-4">
-					<input type="number" id="quantidade_usuarios" class="form-control" ng-model="campeonato.quantidade_usuarios" required>
+					<input type="number" id="quantidade_competidores" class="form-control" ng-model="campeonato.detalhes.quantidade_competidores" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="ida_volta" class="col-md-8 control-label" translate>fields.ida_volta</label>
 				<div class="col-md-4">
 					<label class="m-r m-b">
-						<input icheck type="radio" id="ida_volta" ng-model="campeonato.ida_volta" ng-value="true" required />
+						<input icheck type="radio" id="ida_volta" ng-model="campeonato.detalhes.ida_volta" ng-value="true" required />
 						{{ 'messages.yes' | translate }}
 					</label>
 					<label>
-						<input icheck type="radio" id="ida_volta" ng-model="campeonato.ida_volta" ng-value="false" required />
+						<input icheck type="radio" id="ida_volta" ng-model="campeonato.detalhes.ida_volta" ng-value="false" required />
 						{{ 'messages.no' | translate }}
 					</label>
 				</div>
@@ -46,21 +46,22 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-4">
-					<input type="number" id="vitoria" class="form-control" ng-model="campeonato.vitoria" required>
+					<input type="number" id="vitoria" class="form-control" ng-model="campeonato.pontuacao.vitoria" required>
 				</div>
 				<div class="col-md-4">
-					<input type="number" id="empate" class="form-control" ng-model="campeonato.empate" required>
+					<input type="number" id="empate" class="form-control" ng-model="campeonato.pontuacao.empate" required>
 				</div>
 				<div class="col-md-4">
-					<input type="number" id="derrota" class="form-control" ng-model="campeonato.derrota" required>
+					<input type="number" id="derrota" class="form-control" ng-model="campeonato.pontuacao.derrota" required>
 				</div>
 			</div>
 			<h4 class="text-center" translate>messages.criterios_classificacao</h4>
 			<div>
-				<ul ng-sortable="barConfig" class="todo-list m-t small-list">
-					<li ng-repeat="item in items">
-						<checkbox ng-model="campeonato.criteriosClassificacao[item]"></checkbox>
-						<span class="m-l-xs">{{item}}</span>
+				<ul ng-sortable="criterios" class="todo-list m-t small-list">
+					<li ng-repeat="criterio in criteriosClassificacao">
+						<i class="fa fa-arrows-v" aria-hidden="true"></i>
+						<checkbox class="m-l-xs" ng-model="checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
+						<span class="m-l-xs">{{criterio.descricao}}</span>
 					</li>
 				</ul>
 			</div>

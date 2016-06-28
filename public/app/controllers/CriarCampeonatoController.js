@@ -5,7 +5,7 @@
 	angular.module('aplicacaoLiga')
 		.controller('CriarCampeonatoController', ['$scope', '$rootScope', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
 			$scope.barConfig = {
-				group: 'foobar',
+				group: 'criterios',
 				animation: 150,
 				onSort: function (evt) {
 				}
@@ -98,8 +98,8 @@
 				CampeonatoTipo.edit($scope.campeonato.campeonato_tipos_id)
 					.success(function (data) {
 						$scope.templateDetalhes = data.arquivo_detalhes;
-						$scope.messages = null;
 						$scope.carregaCriteriosClassificacao(data.modelo_campeonato_id);
+						$scope.messages = null;
 						$rootScope.loading = false;
 					});
 				$rootScope.loading = false;
