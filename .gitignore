@@ -80,3 +80,5 @@ storage/
 /testeTime.php
 /.idea/misc.xml
 /vendor.zip
+/.vscode/launch.json
+/jsconfig.json
