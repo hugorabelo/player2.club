@@ -40,16 +40,16 @@
 				<label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
 				<div class="col-md-3">
 					<div class="input-group date">
-						<input type="datetime" class="form-control" date-time ng-model="campeonato.fases.data_inicio" view="date" auto-close="true" min-view="date" format="DD/MM/YYYY">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input type="text" class="form-control" ng-model="campeonato.fases.data_inicio" datepicker-popup="dd/MM/yyyy" is-open="openedInicio" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+						<span class="input-group-addon"><i class="fa fa-calendar" ng-click="openCalendar($event, 'inicio')"></i></span>
 					</div>
 				</div>
 
 				<label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
 				<div class="col-md-3">
 					<div class="input-group date">
-						<input type="datetime" class="form-control" date-time ng-model="campeonato.fases.data_fim" view="date" auto-close="true" min-view="date" format="DD/MM/YYYY">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input type="text" class="form-control" ng-model="campeonato.fases.data_fim" datepicker-popup="dd/MM/yyyy" is-open="openedFim" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+						<span class="input-group-addon"><i class="fa fa-calendar" ng-click="openCalendar($event, 'fim')"></i></span>
 					</div>
 				</div>
 			</div>
