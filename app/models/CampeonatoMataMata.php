@@ -13,8 +13,6 @@ class CampeonatoMataMata extends Campeonato
 
         Log::info($input);
 
-        return null;
-
         $dadosCampeonato = array_except($input, array('criteriosClassificacaoSelecionados', 'detalhes', 'pontuacao', 'fases'));
         $detalhes = $input['detalhes'];
         $this->detalhesFases = $input['fases'];
@@ -44,6 +42,9 @@ class CampeonatoMataMata extends Campeonato
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
+            if($faseAtual->id == null) {
+                $faseCriada['inicial'] = true;
+            }
             if ($qtdeParticipantesFase == 2) {
                 $faseCriada['final'] = true;
             }
@@ -52,7 +53,11 @@ class CampeonatoMataMata extends Campeonato
             $gruposDaFase = $qtdeParticipantesFase/2;
             for($j = 1; $j <= $gruposDaFase; $j++) {
                 $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>2);
-                $grupo['descricao'] = $letras[$j];
+                if($gruposDaFase <= 26) {
+                    $grupo['descricao'] = $letras[$j];
+                } else {
+                    $grupo['descricao'] = $j;
+                }
                 FaseGrupo::create($grupo);
             }
 

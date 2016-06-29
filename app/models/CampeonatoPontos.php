@@ -33,7 +33,8 @@ class CampeonatoPontos extends Campeonato
         /*
         * 1. Criar primeira fase
         * 2. Criar critérios de classificação para o campeonato
-        * 3. Criar regras de pontuação para a fase, baseado em vitoria, empate e derrota
+        * 3. Criar um grupo para a fase principal
+        * 4. Criar regras de pontuação para a fase, baseado em vitoria, empate e derrota
         */
 
         /**  1. Criar primeira fase **/
@@ -45,6 +46,7 @@ class CampeonatoPontos extends Campeonato
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
         $primeiraFase['inicial'] = true;
+        $primeiraFase['final'] = true;
         $faseAtual = CampeonatoFase::create($primeiraFase);
 
         /** 2. Criar critérios de classificacao */
@@ -58,7 +60,12 @@ class CampeonatoPontos extends Campeonato
             $ordem++;
         }
 
-        /**  3. Criar regras de pontuação para a fase **/
+        /** 3. Criar um grupo para a fase principal **/
+        $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>$this->detalhesCampeonato->quantidade_competidores);
+        $grupo['descricao'] = 'A';
+        FaseGrupo::create($grupo);
+
+        /**  4. Criar regras de pontuação para a fase **/
         // Vitória
         $pontuacao = array();
         $pontuacao['posicao'] = 1;

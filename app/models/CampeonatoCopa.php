@@ -72,7 +72,11 @@ class CampeonatoCopa extends Campeonato
 
         for($i = 1; $i <= $this->detalhesCampeonato->quantidade_grupos; $i++) {
             $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>$quantidadeUsuarios);
-            $grupo['descricao'] = $letras[$i];
+            if($this->detalhesCampeonato->quantidade_grupos <= 26) {
+                $grupo['descricao'] = $letras[$i];
+            } else {
+                $grupo['descricao'] = $i;
+            }
             FaseGrupo::create($grupo);
         }
 
@@ -117,7 +121,11 @@ class CampeonatoCopa extends Campeonato
             $gruposDaFase = $qtdeParticipantesFase/2;
             for($j = 1; $j <= $gruposDaFase; $j++) {
                 $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>2);
-                $grupo['descricao'] = $letras[$j];
+                if($gruposDaFase <= 26) {
+                    $grupo['descricao'] = $letras[$j];
+                } else {
+                    $grupo['descricao'] = $j;
+                }
                 FaseGrupo::create($grupo);
             }
 
