@@ -113,6 +113,7 @@ class CampeonatoCopa extends Campeonato
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
+            $faseCriada['matamata'] = true;
             if ($qtdeParticipantesFase == 2) {
                 $faseCriada['final'] = true;
             }
