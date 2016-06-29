@@ -28,11 +28,11 @@ class CampeonatoCopa extends Campeonato
 //      2. Criar fases
 //      3. Cria regras de pontuação para cada fase
 //      4. Cria grupos da primeira fase
-        $this->criaFasesGrupos();
+        $this->criaFases();
 
     }
 
-    public function criaFasesGrupos() {
+    public function criaFases() {
 
         /*
          * 1. Criar primeira fase
@@ -145,17 +145,7 @@ class CampeonatoCopa extends Campeonato
 
     }
 
-    /*
-     * @return
-     * 0: Se tudo está validado
-     * 1: Se a quantidade de competidores não for múltipla da quantidade de grupos
-     * 2: Se a quantidade de classificados para a próxima fase não form múltipla da quantidade de grupos
-     * 3: Se a quantidade de classificados para a próxima fase não for potência de 2
-     */
     public function validarNumeroDeCompetidores($detalhes) {
-        //quantidade_competidores
-        //quantidade_grupos
-        //classificados_proxima_fase
         if(fmod($detalhes['quantidade_competidores'], $detalhes['quantidade_grupos']) != 0) {
             return 'messages.competidores_nao_mutiplo_grupos';
         }
@@ -166,10 +156,6 @@ class CampeonatoCopa extends Campeonato
             return 'messages.classificados_nao_potencia_dois';
         }
         return "";
-    }
-
-    public function detalhes() {
-        return $this->hasMany('CampeonatoDetalhe', 'campeonatos_id')->getResults();
     }
 
     private function sorteioGrupos($grupos, $usuarios) {

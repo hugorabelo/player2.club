@@ -30,6 +30,11 @@ class CampeonatoMataMata extends Campeonato
     }
 
     public function criaFases() {
+        /*
+         * 1. Cadastrar cada uma das fases com o número respectivo de competidores
+         * 2. Criar grupos para cada uma das fases, com apenas 2 competidores por grupo
+         */
+
         $letras = array('#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
         $faseAtual = new CampeonatoFase();
         $qtdeParticipantesFase = $this->detalhesCampeonato->quantidade_competidores;
@@ -63,6 +68,13 @@ class CampeonatoMataMata extends Campeonato
 
             $qtdeParticipantesFase = $qtdeParticipantesFase/2;
         }
+    }
+
+    public function validarNumeroDeCompetidores($detalhes) {
+        if(!filter_var(log($detalhes['quantidade_competidores'], 2), FILTER_VALIDATE_INT)) {
+            return 'messages.classificados_nao_potencia_dois';
+        }
+        return "";
     }
 
 }

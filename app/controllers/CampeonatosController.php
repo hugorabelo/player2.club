@@ -62,7 +62,6 @@ class CampeonatosController extends BaseController
             $campeonato = new $nomeClasse;
             $validacaoNumeroCompetidores = $campeonato->validarNumeroDeCompetidores($input['detalhes']);
             if ($validacaoNumeroCompetidores != '') {
-                Log::info($validacaoNumeroCompetidores);
                 return Response::json(array('success' => false,
                     'errors' => array($validacaoNumeroCompetidores)), 300);
             }

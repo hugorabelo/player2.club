@@ -61,8 +61,7 @@ class CampeonatoPontos extends Campeonato
         }
 
         /** 3. Criar um grupo para a fase principal **/
-        $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>$this->detalhesCampeonato->quantidade_competidores);
-        $grupo['descricao'] = 'A';
+        $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>$this->detalhesCampeonato->quantidade_competidores, 'descricao'=> 'A');
         FaseGrupo::create($grupo);
 
         /**  4. Criar regras de pontuação para a fase **/

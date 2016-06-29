@@ -60,4 +60,8 @@ class Campeonato extends Eloquent {
 		}
 		return 'messages.numero_competidores_maior_zero';
 	}
+
+	public function detalhes() {
+		return $this->hasMany('CampeonatoDetalhe', 'campeonatos_id')->getResults();
+	}
 }
