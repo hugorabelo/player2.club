@@ -142,8 +142,7 @@ class CampeonatoCopa extends Campeonato
 
     }
 
-    public function salvarPlacar() {
-
+    public function salvarPlacar($partida) {
     }
 
     public function validarNumeroDeCompetidores($detalhes) {

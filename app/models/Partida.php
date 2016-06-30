@@ -129,4 +129,13 @@ class Partida extends Eloquent {
         $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->get();
         return !$contestacao->isEmpty();
     }
+
+    public function fase() {
+        return $this->grupo()->fase();
+    }
+
+    public function campeonato() {
+        $campeonato = $this->fase()->campeonato();
+
+    }
 }

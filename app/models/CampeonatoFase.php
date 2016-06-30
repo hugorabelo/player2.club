@@ -37,4 +37,8 @@ class CampeonatoFase extends Eloquent {
 		}
 		return $tabela_pontuacao;
 	}
+
+	public function campeonato() {
+		return Campeonato::find($this->campeonatos_id);
+	}
 }
