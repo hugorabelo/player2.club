@@ -9,7 +9,7 @@
 
 use Illuminate\Database\Eloquent\Collection;
 
-class CampeonatoCopa extends Campeonato
+class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 {
 
     public function salvar($input) {
@@ -107,7 +107,11 @@ class CampeonatoCopa extends Campeonato
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
             $faseCriada['descricao'] = 'messages.matamata'.$qtdeParticipantesFase;
-            $faseCriada['permite_empate'] = false;
+            if($this->detalhesFases['ida_volta']) {
+                $faseCriada['permite_empate'] = true;
+            } else {
+                $faseCriada['permite_empate'] = false;
+            }
             $faseCriada['data_inicio'] = $this->detalhesFases['data_inicio'];
             $faseCriada['data_fim'] = $this->detalhesFases['data_fim'];
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
@@ -134,11 +138,34 @@ class CampeonatoCopa extends Campeonato
         }
     }
 
-    public function iniciaFase() {
+    public function iniciaFase($fase) {
+        /*
+         * Objeto Fase deve conter os seguintes atributos:
+         * - id : ID da fase
+         * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
+         * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatória)
+         *
+         */
+        /*
+         * 1. Verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
+         * 2. Inscrever usuários classificados da fase anterior
+         * 3. Sortear Grupos e Jogos
+         * 4. Habilitar inserção de resultados
+         */
+
+        /** 2. Inscrever usuários classificados da fase anterior */
+        $fase_atual = CampeonatoFase::find($fase['id']);
+        $campeonato = Campeonato::find($fase_atual->campeonatos_id);
+
+        if($fase_atual == $campeonato->faseInicial()) {
+            $usuariosDaFase = $campeonato->usuariosInscritos();
+        } else {
+
+        }
 
     }
 
-    public function encerraFase() {
+    public function encerraFase($fase) {
 
     }
 
@@ -167,40 +194,40 @@ class CampeonatoCopa extends Campeonato
             }
         }
 
-        /*
-         * Verificar esse código daqui pra baixo
-         */
-        if($usuarios->count() == 2) {
-            if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
-                if($permite_empate) {
-                    foreach ($usuarios as $usuario) {
-                        $usuarioPartida = UsuarioPartida::find($usuario['id']);
-                        $usuarioPartida->posicao = 0;
+        if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
+            if($permite_empate) {
+                foreach ($usuarios as $usuario) {
+                    $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                    $usuarioPartida->posicao = 0;
+                    if(!$fase->matamata) {
                         $usuarioPartida->pontuacao = $pontuacoes[0];
-                        $usuarioPartida->placar = $usuario['placar'];
-                        $usuarioPartida->save();
                     }
-                    $empate_computado = true;
-                } else {
-                    return 3;
+                    $usuarioPartida->placar = $usuario['placar'];
+                    $usuarioPartida->save();
                 }
+                $empate_computado = true;
+            } else {
+                return 'messages.empate_nao_permitido';
             }
         }
+
         if(!$empate_computado) {
             $i = 1;
             foreach ($usuarios as $usuario) {
                 $usuarioPartida = UsuarioPartida::find($usuario['id']);
                 $usuarioPartida->posicao = $i;
-                $usuarioPartida->pontuacao = $pontuacoes[$i];
+                if(!$fase->matamata) {
+                    $usuarioPartida->pontuacao = $pontuacoes[$i];
+                }
                 $usuarioPartida->placar = $usuario['placar'];
                 $usuarioPartida->save();
                 $i++;
             }
         }
-        $partida->usuario_placar = $partida['usuarioLogado'];
+        $partida->usuario_placar = $dados['usuarioLogado'];
         $partida->data_placar = date('Y-m-d H:i:s');
         $partida->save();
-        return 1;
+        return '';
     }
 
     public function validarNumeroDeCompetidores($detalhes) {

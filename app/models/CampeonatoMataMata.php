@@ -6,7 +6,7 @@
  * Date: 27/06/16
  * Time: 22:22
  */
-class CampeonatoMataMata extends Campeonato
+class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 {
 
     public function salvar($input) {
@@ -41,7 +41,11 @@ class CampeonatoMataMata extends Campeonato
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
             $faseCriada['descricao'] = 'messages.matamata'.$qtdeParticipantesFase;
-            $faseCriada['permite_empate'] = false;
+            if($this->detalhesFases['ida_volta']) {
+                $faseCriada['permite_empate'] = true;
+            } else {
+                $faseCriada['permite_empate'] = false;
+            }
             $faseCriada['data_inicio'] = $this->detalhesFases['data_inicio'];
             $faseCriada['data_fim'] = $this->detalhesFases['data_fim'];
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
@@ -78,4 +82,18 @@ class CampeonatoMataMata extends Campeonato
         return "";
     }
 
+    static public function salvarPlacarPartida($dados)
+    {
+        // TODO: Implement salvarPlacarPartida() method.
+    }
+
+    public function iniciaFase($fase)
+    {
+        // TODO: Implement iniciaFase() method.
+    }
+
+    public function encerraFase($fase)
+    {
+        // TODO: Implement encerraFase() method.
+    }
 }

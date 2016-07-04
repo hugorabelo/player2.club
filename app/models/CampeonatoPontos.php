@@ -6,7 +6,7 @@
  * Date: 27/06/16
  * Time: 22:19
  */
-class CampeonatoPontos extends Campeonato
+class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
 {
 
     public function salvar($input) {
@@ -87,4 +87,18 @@ class CampeonatoPontos extends Campeonato
         PontuacaoRegra::create($pontuacao);
     }
 
+    static public function salvarPlacarPartida($dados)
+    {
+        // TODO: Implement salvarPlacarPartida() method.
+    }
+
+    public function iniciaFase($fase)
+    {
+        // TODO: Implement iniciaFase() method.
+    }
+
+    public function encerraFase($fase)
+    {
+        // TODO: Implement encerraFase() method.
+    }
 }
