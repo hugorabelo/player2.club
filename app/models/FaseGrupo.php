@@ -141,4 +141,50 @@ class FaseGrupo extends Eloquent
         return $partidasPorRodada;
     }
 
+    public function usuariosClassificados() {
+        $fase = $this->fase();
+        $campeonato = $fase->campeonato();
+        $detalhesDoCampeonato = $campeonato->detalhes();
+
+        $usuarios = $this->usuarios();
+        $partidas = $this->partidas();
+
+        if($usuarios->first() == null || $partidas->first() == null) {
+            return array();
+        }
+
+        $usuariosClassificados = array();
+        if($fase->matamata) {
+            $quantidadeClassificados = 1;
+            if($detalhesDoCampeonato->ida_volta) {
+                // TODO Ainda precisa definir o placar extra (penaltis, etc)
+                if($detalhesDoCampeonato->fora_casa) {
+
+                } else {
+
+                }
+            } else {
+                $u1 = $partidas->first()->usuarios()->first();
+                $u2 = $partidas->first()->usuarios()->last();
+                if($u1->placar > $u2->placar) {
+                    return array($u1);
+                } else {
+                    return array($u2);
+                }
+            }
+        } else {
+            $quantidadeClassificadosMataMata = $detalhesDoCampeonato->classificados_proxima_fase;
+            $quantidadeClassificados = $quantidadeClassificadosMataMata / $fase->grupos()->count();
+            $quantidadeUsuariosInseridos = 0;
+            foreach($usuarios as $usuarioInserido) {
+                array_push($usuariosClassificados, $usuarioInserido);
+                $quantidadeUsuariosInseridos++;
+                if($quantidadeUsuariosInseridos == $quantidadeClassificados) {
+                    break;
+                }
+            }
+        }
+        return $usuariosClassificados;
+    }
+
 }

@@ -160,8 +160,35 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         if($fase_atual == $campeonato->faseInicial()) {
             $usuariosDaFase = $campeonato->usuariosInscritos();
         } else {
+            $fase_anterior = CampeonatoFase::find($fase_atual->fase_anterior_id);
+            if($fase_anterior != null) {
+                $grupos_anterior = $fase_anterior->grupos();
 
+                $usuariosDaFase = array();
+
+                foreach($grupos_anterior as $grupo) {
+                    $usuariosDoGrupo = $grupo->usuariosClassificados();
+                    foreach($usuariosDoGrupo as $usuarioInserido) {
+                        // TODO inserir usuários de acordo com a posição
+                        array_push($usuariosDaFase, $usuarioInserido);
+                    }
+                }
+            }
         }
+        foreach($usuariosDaFase as $usuario) {
+            UsuarioFase::create(['users_id'=> $usuario->id,'campeonato_fases_id' => $fase_atual->id]);
+        }
+        $gruposDaFase = $fase_atual->grupos();
+
+        // Sortear Grupos e Jogos
+        /** 3. Sortear Grupos e Jogos */
+        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase);
+
+        foreach($fase_atual->grupos() as $grupo) {
+            $this->sorteioJogosUmContraUm($grupo, 2);
+        }
+
+        return Response::json($usuariosDaFase);
 
     }
 
