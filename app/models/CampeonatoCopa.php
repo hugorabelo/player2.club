@@ -32,7 +32,7 @@ class CampeonatoCopa extends Campeonato
 
     }
 
-    public function criaFases() {
+    private function criaFases() {
 
         /*
          * 1. Criar primeira fase
@@ -142,7 +142,65 @@ class CampeonatoCopa extends Campeonato
 
     }
 
-    public function salvarPlacar($partida) {
+    static public function salvarPlacarPartida($dados) {
+        $partida = Partida::find($dados['id']);
+        $fase = $partida->grupo()->fase();
+        $permite_empate = $fase->permite_empate;
+        $pontuacoes = $fase->pontuacoes();
+        $usuarios = Collection::make($dados['usuarios']);
+        $usuarios->sortByDesc('placar');
+        $empate_computado = false;
+
+        // Verificar se todos os usuários estão com o placar inserido
+        foreach ($usuarios as $usuario) {
+            if($usuario['placar'] == null) {
+                return 'messages.placares_invalidos';
+            }
+        }
+
+        // Verificar se a pontuação está toda cadastrada corretamente
+        if(!$fase->matamata) {
+            for($i = $permite_empate ? 0 : 1;$i<$usuarios->count();$i++) {
+                if(!isset($pontuacoes[$i])) {
+                    return 'messages.pontuacao_nao_cadastrada';
+                }
+            }
+        }
+
+        /*
+         * Verificar esse código daqui pra baixo
+         */
+        if($usuarios->count() == 2) {
+            if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
+                if($permite_empate) {
+                    foreach ($usuarios as $usuario) {
+                        $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                        $usuarioPartida->posicao = 0;
+                        $usuarioPartida->pontuacao = $pontuacoes[0];
+                        $usuarioPartida->placar = $usuario['placar'];
+                        $usuarioPartida->save();
+                    }
+                    $empate_computado = true;
+                } else {
+                    return 3;
+                }
+            }
+        }
+        if(!$empate_computado) {
+            $i = 1;
+            foreach ($usuarios as $usuario) {
+                $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                $usuarioPartida->posicao = $i;
+                $usuarioPartida->pontuacao = $pontuacoes[$i];
+                $usuarioPartida->placar = $usuario['placar'];
+                $usuarioPartida->save();
+                $i++;
+            }
+        }
+        $partida->usuario_placar = $partida['usuarioLogado'];
+        $partida->data_placar = date('Y-m-d H:i:s');
+        $partida->save();
+        return 1;
     }
 
     public function validarNumeroDeCompetidores($detalhes) {

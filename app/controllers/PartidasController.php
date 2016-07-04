@@ -42,24 +42,32 @@ class PartidasController extends BaseController
     {
         $dados = Input::all();
         $partida = $this->partida->find($dados['id']);
-        $retorno = $partida->salvarPlacar($dados);
-        switch ($retorno) {
-            case 1:
-                return Response::json(array('success' => true));
-                break;
-            case 2;
-                $mensagem_erro = 'messages.placares_invalidos';
-                break;
-            case 3:
-                $mensagem_erro = 'messages.empate_nao_permitido';
-                break;
-            case 4:
-                $mensagem_erro = 'messages.pontuacao_nao_cadastrada';
-                break;
+        $campeonato = $partida->campeonato();
+        $retorno = $campeonato->salvarPlacar($dados);
+        if($retorno != '') {
+            return Response::json(array('success' => false,
+                'errors' => array($retorno)), 300);
         }
-        return Response::json(array('success' => false,
-            'errors' => $mensagem_erro,
-            'message' => 'There were validation errors.'), 300);
+        return Response::json(array('success' => true));
+
+//        $retorno = $partida->salvarPlacar($dados);
+//        switch ($retorno) {
+//            case 1:
+//                return Response::json(array('success' => true));
+//                break;
+//            case 2;
+//                $mensagem_erro = 'messages.placares_invalidos';
+//                break;
+//            case 3:
+//                $mensagem_erro = 'messages.empate_nao_permitido';
+//                break;
+//            case 4:
+//                $mensagem_erro = 'messages.pontuacao_nao_cadastrada';
+//                break;
+//        }
+//        return Response::json(array('success' => false,
+//            'errors' => $mensagem_erro,
+//            'message' => 'There were validation errors.'), 300);
 
     }
 

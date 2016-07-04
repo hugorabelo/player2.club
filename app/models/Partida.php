@@ -135,7 +135,6 @@ class Partida extends Eloquent {
     }
 
     public function campeonato() {
-        $campeonato = $this->fase()->campeonato();
-
+        return $this->fase()->campeonato();
     }
 }

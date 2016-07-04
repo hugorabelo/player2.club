@@ -64,4 +64,9 @@ class Campeonato extends Eloquent {
 	public function detalhes() {
 		return $this->hasMany('CampeonatoDetalhe', 'campeonatos_id')->getResults();
 	}
+
+	public function salvarPlacar($partida) {
+		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
+		return $nomeClasse::salvarPlacarPartida($partida);
+	}
 }
