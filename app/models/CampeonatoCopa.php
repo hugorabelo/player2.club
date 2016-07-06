@@ -184,8 +184,13 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         /** 3. Sortear Grupos e Jogos */
         $this->sorteioGrupos($gruposDaFase, $usuariosDaFase);
 
+        $ida_volta = $campeonato->detalhes()->ida_volta;
         foreach($fase_atual->grupos() as $grupo) {
-            $this->sorteioJogosUmContraUm($grupo, 2);
+            if($ida_volta) {
+                $this->sorteioJogosUmContraUm($grupo, 2);
+            } else {
+                $this->sorteioJogosUmContraUm($grupo, 1);
+            }
         }
 
         return Response::json($usuariosDaFase);
