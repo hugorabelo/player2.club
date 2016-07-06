@@ -17,11 +17,17 @@ class FaseGrupo extends Eloquent
         return CampeonatoFase::find($this->campeonato_fases_id);
     }
 
+    /**
+     * Retorna os usuários do grupo ordenados pelos critérios de classificação do campeonato
+     *
+     * @return Collection
+     */
     public function usuarios()
     {
         return $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('pontuacao'))->orderBy('pontuacao', 'desc')->getResults();
     }
 
+    /** TODO */
     public function usuariosComClassificacao()
     {
         $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
@@ -113,27 +119,29 @@ class FaseGrupo extends Eloquent
         return $partidas;
     }
 
-    public function rodadas() {
+    public function rodadas()
+    {
         $partidas = $this->partidas();
         $partidas->sortBy('rodada');
         $partidas->values()->all();
         $rodadas = new Collection();
         foreach ($partidas as $partida) {
             $rodadaAtual = $partida->rodada;
-            if($rodadas->get($rodadaAtual) == null) {
+            if ($rodadas->get($rodadaAtual) == null) {
                 $rodadas->put($rodadaAtual, $rodadaAtual);
             }
         }
         return $rodadas;
     }
 
-    public function partidasPorRodada($rodada) {
+    public function partidasPorRodada($rodada)
+    {
         $partidas = $this->partidas();
         $partidas->sortBy('rodada');
         $partidas->values()->all();
         $partidasPorRodada = new Collection();
         foreach ($partidas as $partida) {
-            if($partida->rodada == $rodada) {
+            if ($partida->rodada == $rodada) {
                 $partida->usuarios = $partida->usuarios();
                 $partidasPorRodada->add($partida);
             }
@@ -141,7 +149,8 @@ class FaseGrupo extends Eloquent
         return $partidasPorRodada;
     }
 
-    public function usuariosClassificados() {
+    public function usuariosClassificados()
+    {
         $fase = $this->fase();
         $campeonato = $fase->campeonato();
         $detalhesDoCampeonato = $campeonato->detalhes();
@@ -149,16 +158,16 @@ class FaseGrupo extends Eloquent
         $usuarios = $this->usuarios();
         $partidas = $this->partidas();
 
-        if($usuarios->first() == null || $partidas->first() == null) {
+        if ($usuarios->first() == null || $partidas->first() == null) {
             return array();
         }
 
         $usuariosClassificados = array();
-        if($fase->matamata) {
+        if ($fase->matamata) {
             $quantidadeClassificados = 1;
-            if($detalhesDoCampeonato->ida_volta) {
+            if ($detalhesDoCampeonato->ida_volta) {
                 // TODO Ainda precisa definir o placar extra (penaltis, etc)
-                if($detalhesDoCampeonato->fora_casa) {
+                if ($detalhesDoCampeonato->fora_casa) {
 
                 } else {
 
@@ -166,7 +175,7 @@ class FaseGrupo extends Eloquent
             } else {
                 $u1 = $partidas->first()->usuarios()->first();
                 $u2 = $partidas->first()->usuarios()->last();
-                if($u1->placar > $u2->placar) {
+                if ($u1->placar > $u2->placar) {
                     return array($u1);
                 } else {
                     return array($u2);
@@ -176,10 +185,10 @@ class FaseGrupo extends Eloquent
             $quantidadeClassificadosMataMata = $detalhesDoCampeonato->classificados_proxima_fase;
             $quantidadeClassificados = $quantidadeClassificadosMataMata / $fase->grupos()->count();
             $quantidadeUsuariosInseridos = 0;
-            foreach($usuarios as $usuarioInserido) {
+            foreach ($usuarios as $usuarioInserido) {
                 array_push($usuariosClassificados, $usuarioInserido);
                 $quantidadeUsuariosInseridos++;
-                if($quantidadeUsuariosInseridos == $quantidadeClassificados) {
+                if ($quantidadeUsuariosInseridos == $quantidadeClassificados) {
                     break;
                 }
             }
