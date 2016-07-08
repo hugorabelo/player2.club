@@ -162,23 +162,41 @@ class FaseGrupo extends Eloquent
             return array();
         }
 
-        $usuariosClassificados = array();
+        $usuariosClassificados = new Collection();
         if ($fase->matamata) {
-            $quantidadeClassificados = 1;
             if ($detalhesDoCampeonato->ida_volta) {
-                // TODO Ainda precisa definir o placar extra (penaltis, etc)
-                if ($detalhesDoCampeonato->fora_casa) {
-
+                $u1A = $partidas->first()->usuarios()->first();
+                $u2A = $partidas->first()->usuarios()->last();
+                $u1B = $partidas->last()->usuarios()->last();
+                $u2B = $partidas->last()->usuarios()->first();
+                $placar1 = $u1A->placar + $u1B->placar;
+                $placar2 = $u2A->placar + $u2B->placar;
+                if($placar1 > $placar2) {
+                    $usuariosClassificados->put(1, User::find($u1A->users_id));
+                } else if($placar1 < $placar2) {
+                    $usuariosClassificados->put(1, User::find($u2A->users_id));
                 } else {
-
+                    if ($detalhesDoCampeonato->fora_casa && ($u1A->placar != $u2B->placar)) {
+                        if($u1A->placar > $u2B->placar) {
+                            $usuariosClassificados->put(1, User::find($u2A->users_id));
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u1A->users_id));
+                        }
+                    } else {
+                        if($u1B->placar_extra > $u2B->placar_extra) {
+                            $usuariosClassificados->put(1, User::find($u1A->users_id));
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u2A->users_id));
+                        }
+                    }
                 }
             } else {
                 $u1 = $partidas->first()->usuarios()->first();
                 $u2 = $partidas->first()->usuarios()->last();
                 if ($u1->placar > $u2->placar) {
-                    return array($u1);
+                    $usuariosClassificados->put(1, User::find($u1->users_id));
                 } else {
-                    return array($u2);
+                    $usuariosClassificados->put(1, User::find($u2->users_id));
                 }
             }
         } else {
@@ -186,8 +204,8 @@ class FaseGrupo extends Eloquent
             $quantidadeClassificados = $quantidadeClassificadosMataMata / $fase->grupos()->count();
             $quantidadeUsuariosInseridos = 0;
             foreach ($usuarios as $usuarioInserido) {
-                array_push($usuariosClassificados, $usuarioInserido);
                 $quantidadeUsuariosInseridos++;
+                $usuariosClassificados->put($quantidadeUsuariosInseridos, $usuarioInserido);
                 if ($quantidadeUsuariosInseridos == $quantidadeClassificados) {
                     break;
                 }

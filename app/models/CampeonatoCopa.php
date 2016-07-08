@@ -164,19 +164,18 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             if($fase_anterior != null) {
                 $grupos_anterior = $fase_anterior->grupos();
 
-                $usuariosDaFase = array();
+                $usuariosDaFase = new Collection();
 
                 foreach($grupos_anterior as $grupo) {
                     $usuariosDoGrupo = $grupo->usuariosClassificados();
-                    foreach($usuariosDoGrupo as $usuarioInserido) {
-                        // TODO inserir usuários de acordo com a posição
-                        array_push($usuariosDaFase, $usuarioInserido);
+                    foreach($usuariosDoGrupo as $posicao=>$usuarioInserido) {
+                        $usuariosDaFase->put($posicao, $usuarioInserido);
                     }
                 }
             }
         }
-        foreach($usuariosDaFase as $usuario) {
-            UsuarioFase::create(['users_id'=> $usuario->id,'campeonato_fases_id' => $fase_atual->id]);
+        foreach($usuariosDaFase as $posicao=>$usuario) {
+            UsuarioFase::create(['users_id'=> $usuario->id,'campeonato_fases_id' => $fase_atual->id, 'posicao_fase_anterior' => $posicao]);
         }
         $gruposDaFase = $fase_atual->grupos();
 
@@ -276,6 +275,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
     }
 
     private function sorteioGrupos($grupos, $usuarios) {
+        //TODO Verificar se o sorteio é influenciado pela posição do usuário na fase anterior
         $usuariosInseridos = array();
         foreach($grupos as $grupo) {
             for($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
@@ -283,7 +283,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 while(in_array($usuario, $usuariosInseridos)) {
                     $usuario = $usuarios->random(1);
                 }
-                //UsuarioGrupo::create(['users_id'=> $usuario->id,'fase_grupos_id' => $grupo->id]);
+                UsuarioGrupo::create(['users_id'=> $usuario->id,'fase_grupos_id' => $grupo->id]);
                 array_push($usuariosInseridos, $usuario);
             }
         }
