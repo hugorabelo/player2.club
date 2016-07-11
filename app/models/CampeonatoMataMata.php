@@ -35,7 +35,6 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
          * 2. Criar grupos para cada uma das fases, com apenas 2 competidores por grupo
          */
 
-        $letras = array('#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
         $faseAtual = new CampeonatoFase();
         $qtdeParticipantesFase = $this->detalhesCampeonato->quantidade_competidores;
         while ($qtdeParticipantesFase >= 2) {
@@ -63,11 +62,7 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
             $gruposDaFase = $qtdeParticipantesFase/2;
             for($j = 1; $j <= $gruposDaFase; $j++) {
                 $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>2);
-                if($gruposDaFase <= 26) {
-                    $grupo['descricao'] = $letras[$j];
-                } else {
-                    $grupo['descricao'] = $j;
-                }
+                $grupo['descricao'] = $j;
                 FaseGrupo::create($grupo);
             }
 
@@ -84,7 +79,48 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 
     static public function salvarPlacarPartida($dados)
     {
-        // TODO: Implement salvarPlacarPartida() method.
+        $partida = Partida::find($dados['id']);
+        $fase = $partida->grupo()->fase();
+        $permite_empate = $fase->permite_empate;
+        $usuarios = Collection::make($dados['usuarios']);
+        $usuarios->sortByDesc('placar');
+        $empate_computado = false;
+
+        // Verificar se todos os usuários estão com o placar inserido
+        foreach ($usuarios as $usuario) {
+            if($usuario['placar'] == null) {
+                return 'messages.placares_invalidos';
+            }
+        }
+
+        if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
+            if($permite_empate) {
+                foreach ($usuarios as $usuario) {
+                    $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                    $usuarioPartida->posicao = 0;
+                    $usuarioPartida->placar = $usuario['placar'];
+                    $usuarioPartida->save();
+                }
+                $empate_computado = true;
+            } else {
+                return 'messages.empate_nao_permitido';
+            }
+        }
+
+        if(!$empate_computado) {
+            $i = 1;
+            foreach ($usuarios as $usuario) {
+                $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                $usuarioPartida->posicao = $i;
+                $usuarioPartida->placar = $usuario['placar'];
+                $usuarioPartida->save();
+                $i++;
+            }
+        }
+        $partida->usuario_placar = $dados['usuarioLogado'];
+        $partida->data_placar = date('Y-m-d H:i:s');
+        $partida->save();
+        return '';
     }
 
     public function iniciaFase($fase)

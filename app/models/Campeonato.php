@@ -69,4 +69,15 @@ class Campeonato extends Eloquent {
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
 		return $nomeClasse::salvarPlacarPartida($partida);
 	}
+
+	/**
+	 * Atualizar as datas de cada fase, de acordo com a data de encerramento da fase atual, atualizar para as próximas fases
+	 *
+	 * @param fase Fase atual com as informações
+	 * @param novaData Data final da fase atual
+	 *
+	 */
+	protected function atualizarDatasFases($fase, $novaData) {
+
+	}
 }

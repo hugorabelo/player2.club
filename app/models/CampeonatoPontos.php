@@ -89,7 +89,64 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
 
     static public function salvarPlacarPartida($dados)
     {
-        // TODO: Implement salvarPlacarPartida() method.
+        $partida = Partida::find($dados['id']);
+        $fase = $partida->grupo()->fase();
+        $permite_empate = $fase->permite_empate;
+        $pontuacoes = $fase->pontuacoes();
+        $usuarios = Collection::make($dados['usuarios']);
+        $usuarios->sortByDesc('placar');
+        $empate_computado = false;
+
+        // Verificar se todos os usuários estão com o placar inserido
+        foreach ($usuarios as $usuario) {
+            if($usuario['placar'] == null) {
+                return 'messages.placares_invalidos';
+            }
+        }
+
+        // Verificar se a pontuação está toda cadastrada corretamente
+        if(!$fase->matamata) {
+            for($i = $permite_empate ? 0 : 1;$i<$usuarios->count();$i++) {
+                if(!isset($pontuacoes[$i])) {
+                    return 'messages.pontuacao_nao_cadastrada';
+                }
+            }
+        }
+
+        if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
+            if($permite_empate) {
+                foreach ($usuarios as $usuario) {
+                    $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                    $usuarioPartida->posicao = 0;
+                    if(!$fase->matamata) {
+                        $usuarioPartida->pontuacao = $pontuacoes[0];
+                    }
+                    $usuarioPartida->placar = $usuario['placar'];
+                    $usuarioPartida->save();
+                }
+                $empate_computado = true;
+            } else {
+                return 'messages.empate_nao_permitido';
+            }
+        }
+
+        if(!$empate_computado) {
+            $i = 1;
+            foreach ($usuarios as $usuario) {
+                $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                $usuarioPartida->posicao = $i;
+                if(!$fase->matamata) {
+                    $usuarioPartida->pontuacao = $pontuacoes[$i];
+                }
+                $usuarioPartida->placar = $usuario['placar'];
+                $usuarioPartida->save();
+                $i++;
+            }
+        }
+        $partida->usuario_placar = $dados['usuarioLogado'];
+        $partida->data_placar = date('Y-m-d H:i:s');
+        $partida->save();
+        return '';
     }
 
     public function iniciaFase($fase)

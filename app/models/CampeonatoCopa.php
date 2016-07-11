@@ -70,15 +70,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
         /**  3. Criar grupos da primeira fase **/
         $quantidadeUsuarios = $this->detalhesCampeonato->quantidade_competidores / $this->detalhesCampeonato->quantidade_grupos;
-        $letras = array('#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
         for ($i = 1; $i <= $this->detalhesCampeonato->quantidade_grupos; $i++) {
             $grupo = array('campeonato_fases_id' => $faseAtual->id, 'quantidade_usuarios' => $quantidadeUsuarios);
-            if ($this->detalhesCampeonato->quantidade_grupos <= 26) {
-                $grupo['descricao'] = $letras[$i];
-            } else {
-                $grupo['descricao'] = $i;
-            }
+            $grupo['descricao'] = $i;
             FaseGrupo::create($grupo);
         }
 
@@ -128,11 +123,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             $gruposDaFase = $qtdeParticipantesFase / 2;
             for ($j = 1; $j <= $gruposDaFase; $j++) {
                 $grupo = array('campeonato_fases_id' => $faseAtual->id, 'quantidade_usuarios' => 2);
-                if ($gruposDaFase <= 26) {
-                    $grupo['descricao'] = $letras[$j];
-                } else {
-                    $grupo['descricao'] = $j;
-                }
+                $grupo['descricao'] = $j;
                 FaseGrupo::create($grupo);
             }
 
