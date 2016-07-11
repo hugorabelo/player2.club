@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Collection;
 class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 {
 
-    public function salvar($input) {
+    public function salvar($input)
+    {
 
         $dadosCampeonato = array_except($input, array('criteriosClassificacaoSelecionados', 'detalhes', 'pontuacao', 'fases'));
         $detalhes = $input['detalhes'];
@@ -32,7 +33,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     }
 
-    private function criaFases() {
+    private function criaFases()
+    {
 
         /*
          * 1. Criar primeira fase
@@ -70,9 +72,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $quantidadeUsuarios = $this->detalhesCampeonato->quantidade_competidores / $this->detalhesCampeonato->quantidade_grupos;
         $letras = array('#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
-        for($i = 1; $i <= $this->detalhesCampeonato->quantidade_grupos; $i++) {
-            $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>$quantidadeUsuarios);
-            if($this->detalhesCampeonato->quantidade_grupos <= 26) {
+        for ($i = 1; $i <= $this->detalhesCampeonato->quantidade_grupos; $i++) {
+            $grupo = array('campeonato_fases_id' => $faseAtual->id, 'quantidade_usuarios' => $quantidadeUsuarios);
+            if ($this->detalhesCampeonato->quantidade_grupos <= 26) {
                 $grupo['descricao'] = $letras[$i];
             } else {
                 $grupo['descricao'] = $i;
@@ -106,8 +108,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $qtdeParticipantesFase = $this->detalhesCampeonato->classificados_proxima_fase;
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
-            $faseCriada['descricao'] = 'messages.matamata'.$qtdeParticipantesFase;
-            if($this->detalhesFases['ida_volta']) {
+            $faseCriada['descricao'] = 'messages.matamata' . $qtdeParticipantesFase;
+            if ($this->detalhesFases['ida_volta']) {
                 $faseCriada['permite_empate'] = true;
             } else {
                 $faseCriada['permite_empate'] = false;
@@ -123,10 +125,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
             $faseAtual = CampeonatoFase::create($faseCriada);
 
-            $gruposDaFase = $qtdeParticipantesFase/2;
-            for($j = 1; $j <= $gruposDaFase; $j++) {
-                $grupo = array('campeonato_fases_id'=>$faseAtual->id, 'quantidade_usuarios'=>2);
-                if($gruposDaFase <= 26) {
+            $gruposDaFase = $qtdeParticipantesFase / 2;
+            for ($j = 1; $j <= $gruposDaFase; $j++) {
+                $grupo = array('campeonato_fases_id' => $faseAtual->id, 'quantidade_usuarios' => 2);
+                if ($gruposDaFase <= 26) {
                     $grupo['descricao'] = $letras[$j];
                 } else {
                     $grupo['descricao'] = $j;
@@ -134,17 +136,17 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 FaseGrupo::create($grupo);
             }
 
-            $qtdeParticipantesFase = $qtdeParticipantesFase/2;
+            $qtdeParticipantesFase = $qtdeParticipantesFase / 2;
         }
     }
 
-    public function iniciaFase($fase) {
+    public function iniciaFase($fase)
+    {
         /*
          * Objeto Fase deve conter os seguintes atributos:
          * - id : ID da fase
          * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
          * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatória)
-         *
          */
         /*
          * 1. Verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
@@ -157,35 +159,35 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $fase_atual = CampeonatoFase::find($fase['id']);
         $campeonato = Campeonato::find($fase_atual->campeonatos_id);
 
-        if($fase_atual == $campeonato->faseInicial()) {
+        if ($fase_atual == $campeonato->faseInicial()) {
             $usuariosDaFase = $campeonato->usuariosInscritos();
         } else {
             $fase_anterior = CampeonatoFase::find($fase_atual->fase_anterior_id);
-            if($fase_anterior != null) {
+            if ($fase_anterior != null) {
                 $grupos_anterior = $fase_anterior->grupos();
 
                 $usuariosDaFase = new Collection();
 
-                foreach($grupos_anterior as $grupo) {
+                foreach ($grupos_anterior as $grupo) {
                     $usuariosDoGrupo = $grupo->usuariosClassificados();
-                    foreach($usuariosDoGrupo as $posicao=>$usuarioInserido) {
+                    foreach ($usuariosDoGrupo as $posicao => $usuarioInserido) {
                         $usuariosDaFase->put($posicao, $usuarioInserido);
                     }
                 }
             }
         }
-        foreach($usuariosDaFase as $posicao=>$usuario) {
-            UsuarioFase::create(['users_id'=> $usuario->id,'campeonato_fases_id' => $fase_atual->id, 'posicao_fase_anterior' => $posicao]);
+        foreach ($usuariosDaFase as $posicao => $usuario) {
+            UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $fase_atual->id, 'posicao_fase_anterior' => $posicao]);
         }
         $gruposDaFase = $fase_atual->grupos();
 
         // Sortear Grupos e Jogos
         /** 3. Sortear Grupos e Jogos */
-        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase);
+        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase, $fase);
 
         $ida_volta = $campeonato->detalhes()->ida_volta;
-        foreach($fase_atual->grupos() as $grupo) {
-            if($ida_volta) {
+        foreach ($fase_atual->grupos() as $grupo) {
+            if ($ida_volta) {
                 $this->sorteioJogosUmContraUm($grupo, 2);
             } else {
                 $this->sorteioJogosUmContraUm($grupo, 1);
@@ -196,11 +198,13 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     }
 
-    public function encerraFase($fase) {
+    public function encerraFase($fase)
+    {
 
     }
 
-    static public function salvarPlacarPartida($dados) {
+    static public function salvarPlacarPartida($dados)
+    {
         $partida = Partida::find($dados['id']);
         $fase = $partida->grupo()->fase();
         $permite_empate = $fase->permite_empate;
@@ -211,26 +215,26 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
         // Verificar se todos os usuários estão com o placar inserido
         foreach ($usuarios as $usuario) {
-            if($usuario['placar'] == null) {
+            if ($usuario['placar'] == null) {
                 return 'messages.placares_invalidos';
             }
         }
 
         // Verificar se a pontuação está toda cadastrada corretamente
-        if(!$fase->matamata) {
-            for($i = $permite_empate ? 0 : 1;$i<$usuarios->count();$i++) {
-                if(!isset($pontuacoes[$i])) {
+        if (!$fase->matamata) {
+            for ($i = $permite_empate ? 0 : 1; $i < $usuarios->count(); $i++) {
+                if (!isset($pontuacoes[$i])) {
                     return 'messages.pontuacao_nao_cadastrada';
                 }
             }
         }
 
-        if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
-            if($permite_empate) {
+        if ($usuarios->first()['placar'] == $usuarios->last()['placar']) {
+            if ($permite_empate) {
                 foreach ($usuarios as $usuario) {
                     $usuarioPartida = UsuarioPartida::find($usuario['id']);
                     $usuarioPartida->posicao = 0;
-                    if(!$fase->matamata) {
+                    if (!$fase->matamata) {
                         $usuarioPartida->pontuacao = $pontuacoes[0];
                     }
                     $usuarioPartida->placar = $usuario['placar'];
@@ -242,12 +246,12 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
         }
 
-        if(!$empate_computado) {
+        if (!$empate_computado) {
             $i = 1;
             foreach ($usuarios as $usuario) {
                 $usuarioPartida = UsuarioPartida::find($usuario['id']);
                 $usuarioPartida->posicao = $i;
-                if(!$fase->matamata) {
+                if (!$fase->matamata) {
                     $usuarioPartida->pontuacao = $pontuacoes[$i];
                 }
                 $usuarioPartida->placar = $usuario['placar'];
@@ -261,59 +265,93 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         return '';
     }
 
-    public function validarNumeroDeCompetidores($detalhes) {
-        if(fmod($detalhes['quantidade_competidores'], $detalhes['quantidade_grupos']) != 0) {
+    public function validarNumeroDeCompetidores($detalhes)
+    {
+        if (fmod($detalhes['quantidade_competidores'], $detalhes['quantidade_grupos']) != 0) {
             return 'messages.competidores_nao_mutiplo_grupos';
         }
-        if(fmod($detalhes['classificados_proxima_fase'], $detalhes['quantidade_grupos']) != 0) {
+        if (fmod($detalhes['classificados_proxima_fase'], $detalhes['quantidade_grupos']) != 0) {
             return 'messages.classificados_nao_mutiplo_grupos';
         }
-        if(!filter_var(log($detalhes['classificados_proxima_fase'], 2), FILTER_VALIDATE_INT)) {
+        if (!filter_var(log($detalhes['classificados_proxima_fase'], 2), FILTER_VALIDATE_INT)) {
             return 'messages.classificados_nao_potencia_dois';
         }
         return "";
     }
 
-    private function sorteioGrupos($grupos, $usuarios) {
+    private function sorteioGrupos($grupos, $usuarios, $dadosFase)
+    {
+        /*
+         * Objeto Fase deve conter os seguintes atributos:
+         * - id : ID da fase
+         * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
+         * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatório)
+         *      No futuro, o tipo de sorteio vai poder ser manual
+         */
         //TODO Verificar se o sorteio é influenciado pela posição do usuário na fase anterior
         $usuariosInseridos = array();
-        foreach($grupos as $grupo) {
-            for($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
-                $usuario = $usuarios->random(1);
-                while(in_array($usuario, $usuariosInseridos)) {
-                    $usuario = $usuarios->random(1);
+        $fase = CampeonatoFase::find($dadosFase['id']);
+        if ($fase->matamata && $dadosFase['tipo_sorteio'] != 'aleatorio') {
+            $maximaPosicao = 0;
+            foreach ($usuarios as $posicao=>$user) {
+                if ($posicao > $maximaPosicao) {
+                    $maximaPosicao = $posicao;
                 }
-                UsuarioGrupo::create(['users_id'=> $usuario->id,'fase_grupos_id' => $grupo->id]);
-                array_push($usuariosInseridos, $usuario);
+            }
+            for ($i = 1; $i<=$maximaPosicao; $i++) {
+                $lista{$i} = new Collection();
+            }
+            foreach ($usuarios as $posicao=>$usuario) {
+                $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
+                $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
+                $lista{$posicao}->add($usuario->id);
+            }
+
+            if ($dadosFase['tipo_sorteio'] == 'geral') {
+
+            } else if ($dadosFase['tipo_sorteio'] == 'grupo') {
+
+            }
+        } else {
+            foreach ($grupos as $grupo) {
+                for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
+                    $usuario = $usuarios->random(1);
+                    while (in_array($usuario, $usuariosInseridos)) {
+                        $usuario = $usuarios->random(1);
+                    }
+                    UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                    array_push($usuariosInseridos, $usuario);
+                }
             }
         }
     }
 
-    private function sorteioJogosUmContraUm($grupo, $turnos) {
+    private function sorteioJogosUmContraUm($grupo, $turnos)
+    {
         $usuarios = $grupo->usuarios();
         $n = $usuarios->count();
         $m = $n / 2;
         $numero_rodadas_por_turno = ($n - 1);
         $numero_rodada = 1;
-        for($t = 0; $t < $turnos; $t++) {
-            for($i = 0; $i < $numero_rodadas_por_turno; $i++) {
-                for($j = 0; $j < $m; $j++) {
-                    $partida = Partida::create(['fase_grupos_id'=>$grupo->id, 'rodada'=>$numero_rodada]);
-                    if($t % 2 == 1) {
-                        if($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
+        for ($t = 0; $t < $turnos; $t++) {
+            for ($i = 0; $i < $numero_rodadas_por_turno; $i++) {
+                for ($j = 0; $j < $m; $j++) {
+                    $partida = Partida::create(['fase_grupos_id' => $grupo->id, 'rodada' => $numero_rodada]);
+                    if ($t % 2 == 1) {
+                        if ($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
                         } else {
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
                         }
                     } else {
-                        if($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
+                        if ($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
                         } else {
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($n - $j - 1)->id]);
-                            UsuarioPartida::create(['partidas_id'=>$partida->id, 'users_id'=>$usuarios->get($j)->id]);
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
                         }
                     }
                 }
@@ -323,14 +361,35 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         }
     }
 
-    private function sorteioReordena($colecao) {
+    private function sorteioReordena($colecao)
+    {
         $novaColecao = new Collection();
         $novaColecao->add($colecao->shift());
         $novaColecao->add($colecao->pop());
-        foreach($colecao as $elemento) {
+        foreach ($colecao as $elemento) {
             $novaColecao->add($elemento);
         }
         return $novaColecao;
+    }
+
+    private function getGrupoAnteriorUsuario($id_usuario, $fase)
+    {
+        $faseAnterior = $fase->faseAnterior();
+        if($faseAnterior != null) {
+            $gruposDaFase = $faseAnterior->grupos();
+            $gruposDoUsuario = UsuarioGrupo::where('users_id', '=', $id_usuario)->get(array('fase_grupos_id'));
+            foreach ($gruposDaFase as $grupoFase) {
+                if($gruposDoUsuario->search($grupoFase->id)) {
+                    return $grupoFase;
+                }
+            }
+        }
+        return null;
+    }
+
+    private function ordenaUsuariosCriteriosClassificacao($listaUsuarios, $fase) {
+        $campeonato = Campeonato::find($fase->campeonatos_id);
+//        $criteriosDeClassificacao = $campeonato->criterios
     }
 
 }
