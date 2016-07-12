@@ -80,4 +80,13 @@ class Campeonato extends Eloquent {
 	protected function atualizarDatasFases($fase, $novaData) {
 
 	}
+
+	/**
+	 * Recuperar a lista de critérios de classificação escolhidos para este campeonato
+	 *
+	 * @return Collection Lista Ordenada de Critérios
+	 */
+	public function criteriosOrdenados() {
+		return $this->belongsToMany('CriterioClassificacao', 'campeonato_criterios', 'campeonatos_id', 'criterios_classificacao_id')->withPivot(array('ordem'))->orderBy('ordem')->getResults();
+	}
 }

@@ -280,6 +280,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
          *      No futuro, o tipo de sorteio vai poder ser manual
          */
         //TODO Verificar se o sorteio é influenciado pela posição do usuário na fase anterior
+        //  (caso a fase anterior seja a de grupos, senão, serão pegos sempre os grupos adjacentes)
         $usuariosInseridos = array();
         $fase = CampeonatoFase::find($dadosFase['id']);
         if ($fase->matamata && $dadosFase['tipo_sorteio'] != 'aleatorio') {
@@ -303,53 +304,79 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
 
             if ($dadosFase['tipo_sorteio'] == 'geral') {
-                $g = 0;
-                $r = 1;
-                $t = $maximaPosicao;
+                // Precisa-se ordernar os usuários dentro de cada lista pelos critérios de classificação
+                for ($i = 1; $i<=$maximaPosicao; $i++) {
+                    $this->ordenaUsuariosCriteriosClassificacao($lista{$i}, $fase);
+                }
+
+                $indiceGrupoAtual = 0;
+                $indicePosicaoInicial = 1;
+                $indicePosicaoFinal = $maximaPosicao;
+
+                while($indiceGrupoAtual < $grupos->count()) {
+                    $grupo = $grupos->get($indiceGrupoAtual);
+
+                    $usuario1 = $lista{$indicePosicaoInicial}->shift();
+                    $usuario2 = $lista{$indicePosicaoFinal}->pop();
+                    UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                    UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+
+                    //TODO Como inverter a ordem de pegar os elementos (shift ou pop), pensar numa regra
+
+                    $indicePosicaoInicial++;
+                    $indicePosicaoFinal--;
+                    if($indicePosicaoInicial > $indicePosicaoFinal) {
+                        $indicePosicaoInicial = 1;
+                        $indicePosicaoFinal = $maximaPosicao;
+                    }
+                    $indiceGrupoAtual++;
+                }
+
                 // Está errado, só vai percorrer uma vez a cada posição
                 // ir para o papel e escrever as combinações, talvez seja melhor tentar fazer as coisas mais
                 // manualmente mesmo, de forma mais detalhada e menos automatizada
-                while ($r <= $t) {
-                    $grupo = $grupos->get($g);
-                    $usuario1 = $lista{$r}->random(1);
+                while ($indicePosicaoInicial <= $indicePosicaoFinal) {
+                    $grupo = $grupos->get($indiceGrupoAtual);
+                    $usuario1 = $lista{$indicePosicaoInicial}->random(1);
                     while (in_array($usuario1, $usuariosInseridos)) {
-                        $usuario1 = $lista{$r}->random(1);
+                        $usuario1 = $lista{$indicePosicaoInicial}->random(1);
                     }
                     UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
                     array_push($usuariosInseridos, $usuario1);
-                    $usuario2 = $lista{$t}->random(1);
+                    $usuario2 = $lista{$indicePosicaoFinal}->random(1);
                     while (in_array($usuario2, $usuariosInseridos)) {
-                        $usuario2 = $lista{$t}->random(1);
+                        $usuario2 = $lista{$indicePosicaoFinal}->random(1);
                     }
                     UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
                     array_push($usuariosInseridos, $usuario2);
-                    $g++;
-                    $r++;
-                    $t--;
+                    $indiceGrupoAtual++;
+                    $indicePosicaoInicial++;
+                    $indicePosicaoFinal--;
                 }
             } else if ($dadosFase['tipo_sorteio'] == 'grupo') {
-                $g = 0; // Grupos Atuais
-                $r = 1; // Primeira Posição
-                $t = $maximaPosicao; // Última Posição
+                // Precisa ordenar os usuários dentro de cada lista pelo ordem dos grupos
+                $indiceGrupoAtual = 0; // Grupos Atuais
+                $indicePosicaoInicial = 1; // Primeira Posição
+                $indicePosicaoFinal = $maximaPosicao; // Última Posição
                 $u = 0; // Primeiro Grupo Anterior
                 $v = $maximoGrupoAnterior; // Último Grupo Anterior
-                while ($r <= $t) {
-                    $grupo = $grupos->get($g);
-                    $usuario1 = $lista{$r}->get(1);
+                while ($indicePosicaoInicial <= $indicePosicaoFinal) {
+                    $grupo = $grupos->get($indiceGrupoAtual);
+                    $usuario1 = $lista{$indicePosicaoInicial}->get(1);
                     while (in_array($usuario1, $usuariosInseridos)) {
-                        $usuario1 = $lista{$r}->random(1);
+                        $usuario1 = $lista{$indicePosicaoInicial}->random(1);
                     }
                     UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
                     array_push($usuariosInseridos, $usuario1);
-                    $usuario2 = $lista{$t}->random(1);
+                    $usuario2 = $lista{$indicePosicaoFinal}->random(1);
                     while (in_array($usuario2, $usuariosInseridos)) {
-                        $usuario2 = $lista{$t}->random(1);
+                        $usuario2 = $lista{$indicePosicaoFinal}->random(1);
                     }
                     UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
                     array_push($usuariosInseridos, $usuario2);
-                    $g++;
-                    $r++;
-                    $t--;
+                    $indiceGrupoAtual++;
+                    $indicePosicaoInicial++;
+                    $indicePosicaoFinal--;
                 }
             }
         } else {
@@ -429,7 +456,34 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     private function ordenaUsuariosCriteriosClassificacao($listaUsuarios, $fase) {
         $campeonato = Campeonato::find($fase->campeonatos_id);
-//        $criteriosDeClassificacao = $campeonato->criterios
+        $this->criteriosDeClassificacao = $campeonato->criteriosOrdenados();
+        $listaUsuarios->sort("comparaUsuariosCriteriosClassificacao");
+        return $listaUsuarios;
+    }
+
+    private function comparaUsuariosCriteriosClassificacao($usuario1, $usuario2) {
+        /*
+         *
+            $collection->sort(function($time1, $time2) {
+               if($time1->pontos === $time2->pontos) {
+                 if($time1->vitoria === $time2->vitoria) {
+                   return 0;
+                 }
+                 return $time1->vitoria > $time2->vitoria ? -1 : 1;
+               }
+               return $time1->pontos > $time2->pontos ? -1 : 1;
+            });
+         */
+        $criteriosClassificacao = $this->criteriosDeClassificacao;
+        $criterio = $criteriosClassificacao->shift();
+        $valor = $criterio->valor;
+        if($usuario1->{$valor} === $usuario2->{$valor}) {
+            if($criteriosClassificacao->count() == 0) {
+                return 0;
+            }
+            return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2, $criteriosClassificacao);
+        }
+        return $usuario1->{$valor} > $usuario2->{$valor} ? -1 : 1;
     }
 
 }
