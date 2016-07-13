@@ -72,7 +72,7 @@ Route::get('/', function()
     });
 
     Route::get('api/campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
-    Route::get('api/campeonatoFase/abreFase/{id}', 'CampeonatoFasesController@abreFase');
+    Route::post('api/campeonatoFase/abreFase', 'CampeonatoFasesController@abreFase');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('campeonatoFase', 'CampeonatoFasesController');
     });

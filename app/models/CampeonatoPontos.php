@@ -149,7 +149,7 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         return '';
     }
 
-    public function iniciaFase($fase)
+    public function iniciaFase($dadosFase)
     {
         // TODO: Implement iniciaFase() method.
     }

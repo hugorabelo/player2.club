@@ -18,7 +18,7 @@ class CampeonatoFase extends Eloquent {
 	}
 
     public function grupos() {
-        return $this->hasMany('FaseGrupo', 'campeonato_fases_id')->getResults();
+        return $this->hasMany('FaseGrupo', 'campeonato_fases_id')->getResults()->sortBy('descricao');
     }
 
     public function usuarios() {
@@ -28,6 +28,10 @@ class CampeonatoFase extends Eloquent {
     public function faseAnterior() {
         return $this->find($this->fase_anterior_id);
     }
+
+	public function proximaFase() {
+		return $this->where('fase_anterior_id','=',$this->id)->get()->first();
+	}
 
 	public function pontuacoes() {
 		$pontuacoes = $this->hasMany('PontuacaoRegra', 'campeonato_fases_id')->getResults()->sortBy('posicao');

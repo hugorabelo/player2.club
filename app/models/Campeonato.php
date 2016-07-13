@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class Campeonato extends Eloquent {
 	protected $guarded = array();
 
@@ -70,6 +72,13 @@ class Campeonato extends Eloquent {
 		return $nomeClasse::salvarPlacarPartida($partida);
 	}
 
+    public function abreFase($dadosFase) {
+        $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
+        $novoCampeonato = new $nomeClasse();
+
+        return $novoCampeonato->iniciaFase($dadosFase);
+    }
+
 	/**
 	 * Atualizar as datas de cada fase, de acordo com a data de encerramento da fase atual, atualizar para as próximas fases
 	 *
@@ -78,7 +87,17 @@ class Campeonato extends Eloquent {
 	 *
 	 */
 	protected function atualizarDatasFases($fase, $novaData) {
+		$data = Carbon::parse($novaData);
+		$fase->data_fim = $data;
+		$fase->update();
 
+		$outraData = $data->addDay();
+
+		$proximaFase = $fase;
+		while($proximaFase = $proximaFase->proximaFase()) {
+			$proximaFase->data_inicio = $outraData;
+			$proximaFase->update();
+		}
 	}
 
 	/**

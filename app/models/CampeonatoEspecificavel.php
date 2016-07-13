@@ -12,7 +12,7 @@ interface CampeonatoEspecificavel
 
     static public function salvarPlacarPartida($dados);
 
-    public function iniciaFase($fase);
+    public function iniciaFase($dadosFase);
 
     public function encerraFase($fase);
 

@@ -8,6 +8,7 @@
  */
 
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 {
@@ -49,8 +50,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase = array();
         $primeiraFase['descricao'] = 'messages.primeira_fase';
         $primeiraFase['permite_empate'] = true;
-        $primeiraFase['data_inicio'] = $this->detalhesFases['data_inicio'];
-        $primeiraFase['data_fim'] = $this->detalhesFases['data_fim'];
+        $primeiraFase['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
+        $primeiraFase['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
         $primeiraFase['inicial'] = true;
@@ -104,13 +105,13 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
             $faseCriada['descricao'] = 'messages.matamata' . $qtdeParticipantesFase;
-            if ($this->detalhesFases['ida_volta']) {
+            if ($this->detalhesCampeonato['ida_volta']) {
                 $faseCriada['permite_empate'] = true;
             } else {
                 $faseCriada['permite_empate'] = false;
             }
-            $faseCriada['data_inicio'] = $this->detalhesFases['data_inicio'];
-            $faseCriada['data_fim'] = $this->detalhesFases['data_fim'];
+            $faseCriada['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
+            $faseCriada['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
@@ -131,7 +132,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         }
     }
 
-    public function iniciaFase($fase)
+    public function iniciaFase($dadosFase)
     {
         /*
          * Objeto Fase deve conter os seguintes atributos:
@@ -147,7 +148,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
          */
 
         /** 2. Inscrever usuários classificados da fase anterior */
-        $faseAtual = CampeonatoFase::find($fase['id']);
+        $faseAtual = CampeonatoFase::find($dadosFase['id']);
         $campeonato = Campeonato::find($faseAtual->campeonatos_id);
 
         if ($faseAtual == $campeonato->faseInicial()) {
@@ -174,7 +175,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
         // Sortear Grupos e Jogos
         /** 3. Sortear Grupos e Jogos */
-        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase, $fase);
+        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase, $dadosFase);
 
         $idaVolta = $campeonato->detalhes()->ida_volta;
         foreach ($faseAtual->grupos() as $grupo) {
@@ -185,7 +186,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
         }
 
-        return Response::json($usuariosDaFase);
+        $campeonato->atualizarDatasFases($faseAtual, $dadosFase['data_encerramento']);
+
+        return $usuariosDaFase;
 
     }
 
@@ -279,115 +282,142 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
          * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatório)
          *      No futuro, o tipo de sorteio vai poder ser manual
          */
-        //TODO Verificar se o sorteio é influenciado pela posição do usuário na fase anterior
-        //  (caso a fase anterior seja a de grupos, senão, serão pegos sempre os grupos adjacentes)
+
         $usuariosInseridos = array();
         $fase = CampeonatoFase::find($dadosFase['id']);
-        if ($fase->matamata && $dadosFase['tipo_sorteio'] != 'aleatorio') {
-            $maximaPosicao = 0;
-            foreach ($usuarios as $posicao=>$user) {
-                if ($posicao > $maximaPosicao) {
-                    $maximaPosicao = $posicao;
-                }
-            }
-            for ($i = 1; $i<=$maximaPosicao; $i++) {
-                $lista{$i} = new Collection();
-            }
-            $maximoGrupoAnterior = 0;
-            foreach ($usuarios as $posicao=>$usuario) {
+        if($fase->faseAnterior()->matamata) {
+            foreach ($usuarios as $usuario) {
                 $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
-                if ($grupoAnteriorDoUsuario > $maximoGrupoAnterior) {
-                    $maximoGrupoAnterior = $grupoAnteriorDoUsuario;
-                }
                 $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
-                $lista{$posicao}->put($grupoAnteriorDoUsuario, $usuario->id);
+            }
+            $usuarios->sortBy('grupoAnterior');
+            foreach($grupos as $grupo) {
+                $usuario1 = $usuarios->shift();
+                $usuario2 = $usuarios->shift();
+                UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
             }
 
-            if ($dadosFase['tipo_sorteio'] == 'geral') {
-                // Precisa-se ordernar os usuários dentro de cada lista pelos critérios de classificação
-                for ($i = 1; $i<=$maximaPosicao; $i++) {
-                    $this->ordenaUsuariosCriteriosClassificacao($lista{$i}, $fase);
-                }
-
-                $indiceGrupoAtual = 0;
-                $indicePosicaoInicial = 1;
-                $indicePosicaoFinal = $maximaPosicao;
-
-                while($indiceGrupoAtual < $grupos->count()) {
-                    $grupo = $grupos->get($indiceGrupoAtual);
-
-                    $usuario1 = $lista{$indicePosicaoInicial}->shift();
-                    $usuario2 = $lista{$indicePosicaoFinal}->pop();
-                    UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
-                    UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
-
-                    //TODO Como inverter a ordem de pegar os elementos (shift ou pop), pensar numa regra
-
-                    $indicePosicaoInicial++;
-                    $indicePosicaoFinal--;
-                    if($indicePosicaoInicial > $indicePosicaoFinal) {
-                        $indicePosicaoInicial = 1;
-                        $indicePosicaoFinal = $maximaPosicao;
-                    }
-                    $indiceGrupoAtual++;
-                }
-
-                // Está errado, só vai percorrer uma vez a cada posição
-                // ir para o papel e escrever as combinações, talvez seja melhor tentar fazer as coisas mais
-                // manualmente mesmo, de forma mais detalhada e menos automatizada
-                while ($indicePosicaoInicial <= $indicePosicaoFinal) {
-                    $grupo = $grupos->get($indiceGrupoAtual);
-                    $usuario1 = $lista{$indicePosicaoInicial}->random(1);
-                    while (in_array($usuario1, $usuariosInseridos)) {
-                        $usuario1 = $lista{$indicePosicaoInicial}->random(1);
-                    }
-                    UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
-                    array_push($usuariosInseridos, $usuario1);
-                    $usuario2 = $lista{$indicePosicaoFinal}->random(1);
-                    while (in_array($usuario2, $usuariosInseridos)) {
-                        $usuario2 = $lista{$indicePosicaoFinal}->random(1);
-                    }
-                    UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
-                    array_push($usuariosInseridos, $usuario2);
-                    $indiceGrupoAtual++;
-                    $indicePosicaoInicial++;
-                    $indicePosicaoFinal--;
-                }
-            } else if ($dadosFase['tipo_sorteio'] == 'grupo') {
-                // Precisa ordenar os usuários dentro de cada lista pelo ordem dos grupos
-                $indiceGrupoAtual = 0; // Grupos Atuais
-                $indicePosicaoInicial = 1; // Primeira Posição
-                $indicePosicaoFinal = $maximaPosicao; // Última Posição
-                $u = 0; // Primeiro Grupo Anterior
-                $v = $maximoGrupoAnterior; // Último Grupo Anterior
-                while ($indicePosicaoInicial <= $indicePosicaoFinal) {
-                    $grupo = $grupos->get($indiceGrupoAtual);
-                    $usuario1 = $lista{$indicePosicaoInicial}->get(1);
-                    while (in_array($usuario1, $usuariosInseridos)) {
-                        $usuario1 = $lista{$indicePosicaoInicial}->random(1);
-                    }
-                    UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
-                    array_push($usuariosInseridos, $usuario1);
-                    $usuario2 = $lista{$indicePosicaoFinal}->random(1);
-                    while (in_array($usuario2, $usuariosInseridos)) {
-                        $usuario2 = $lista{$indicePosicaoFinal}->random(1);
-                    }
-                    UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
-                    array_push($usuariosInseridos, $usuario2);
-                    $indiceGrupoAtual++;
-                    $indicePosicaoInicial++;
-                    $indicePosicaoFinal--;
-                }
-            }
         } else {
-            foreach ($grupos as $grupo) {
-                for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
-                    $usuario = $usuarios->random(1);
-                    while (in_array($usuario, $usuariosInseridos)) {
-                        $usuario = $usuarios->random(1);
+            if ($fase->matamata && $dadosFase['tipo_sorteio'] != 'aleatorio') {
+                $maximaPosicao = 0;
+                foreach ($usuarios as $posicao=>$user) {
+                    if ($posicao > $maximaPosicao) {
+                        $maximaPosicao = $posicao;
                     }
-                    UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
-                    array_push($usuariosInseridos, $usuario);
+                }
+                for ($i = 1; $i<=$maximaPosicao; $i++) {
+                    $lista{$i} = new Collection();
+                }
+                $maximoGrupoAnterior = 0;
+                foreach ($usuarios as $posicao=>$usuario) {
+                    $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
+                    if ($grupoAnteriorDoUsuario > $maximoGrupoAnterior) {
+                        $maximoGrupoAnterior = $grupoAnteriorDoUsuario;
+                    }
+                    $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
+                    $lista{$posicao}->put($grupoAnteriorDoUsuario, $usuario->id);
+                }
+
+                // TODO Testar essa regra para mais grupos (Ex. 8 grupos)
+                if ($dadosFase['tipo_sorteio'] == 'geral') {
+                    // Precisa-se ordernar os usuários dentro de cada lista pelos critérios de classificação
+                    for ($i = 1; $i<=$maximaPosicao; $i++) {
+                        $this->ordenaUsuariosCriteriosClassificacao($lista{$i}, $fase);
+                    }
+
+                    $indiceGrupoAtual = 0;
+                    $indicePosicaoInicial = 1;
+                    $indicePosicaoFinal = $maximaPosicao;
+                    $invertePosicao = 2;
+
+                    while($indiceGrupoAtual < $grupos->count()) {
+                        $grupo = $grupos->get($indiceGrupoAtual);
+
+                        if($invertePosicao > 0) {
+                            $usuario1 = $lista{$indicePosicaoInicial}->shift();
+                            $usuario2 = $lista{$indicePosicaoFinal}->pop();
+                            $invertePosicao++;
+                        } else if ($invertePosicao < 0){
+                            $usuario1 = $lista{$indicePosicaoInicial}->pop();
+                            $usuario2 = $lista{$indicePosicaoFinal}->shift();
+                            $invertePosicao--;
+                        }
+                        UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                        UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+
+                        $indicePosicaoInicial++;
+                        $indicePosicaoFinal--;
+                        if($indicePosicaoInicial > $indicePosicaoFinal) {
+                            $indicePosicaoInicial = 1;
+                            $indicePosicaoFinal = $maximaPosicao;
+                        }
+                        $indiceGrupoAtual++;
+                        // Regra para inverter posições dos jogos para ficar 1,2,2,2...,1 (um do inicio, dois do fim, dois do início, ...)
+                        if($invertePosicao > 2) {
+                            $invertePosicao = -1;
+                        } else if($invertePosicao < -2) {
+                            $invertePosicao = 1;
+                        }
+                    }
+
+                } else if ($dadosFase['tipo_sorteio'] == 'grupo') {
+                    // Precisa ordenar os usuários dentro de cada lista pelo ordem dos grupos
+                    for ($i = 1; $i<=$maximaPosicao; $i++) {
+                        $lista{$i}->sortBy('grupoAnterior');
+                    }
+
+                    $indiceGrupoAtual = 0;
+                    $indicePosicaoInicial = 1;
+                    $indicePosicaoFinal = $maximaPosicao;
+                    $invertePosicao = false;
+                    $indiceGrupoInicial = 0;
+                    $indiceGrupoFinal = $grupos->count()-1;
+
+                    while($indiceGrupoAtual < $grupos->count()) {
+                        $grupo = $grupos->get($indiceGrupoAtual);
+
+                        if($invertePosicao) {
+                            // Pegar mandante do final da lista
+                            $usuario1 = $lista{$indicePosicaoInicial}->get($indiceGrupoFinal);
+                            if($indiceGrupoFinal % 2 == 0) {
+                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal + 1);
+                            } else {
+                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal - 1);
+                            }
+                        } else {
+                            // Pegar mandante do início da lista
+                            $usuario1 = $lista{$indicePosicaoInicial}->get($indiceGrupoInicial);
+                            if($indiceGrupoInicial % 2 == 0) {
+                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal + 1);
+                            } else {
+                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal - 1);
+                            }
+                        }
+
+                        UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                        UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+
+                        $indicePosicaoInicial++;
+                        $indicePosicaoFinal--;
+                        if($indicePosicaoInicial > $indicePosicaoFinal) {
+                            $indicePosicaoInicial = 1;
+                            $indicePosicaoFinal = $maximaPosicao;
+                        }
+                        $indiceGrupoAtual++;
+                        $invertePosicao = $invertePosicao;
+                    }
+                }
+            } else {
+                foreach ($grupos as $grupo) {
+                    for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
+                        $usuario = $usuarios->random(1);
+                        while (in_array($usuario, $usuariosInseridos)) {
+                            $usuario = $usuarios->random(1);
+                        }
+                        UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                        array_push($usuariosInseridos, $usuario);
+                    }
                 }
             }
         }
