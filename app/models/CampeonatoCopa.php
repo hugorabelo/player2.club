@@ -138,7 +138,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
          * Objeto Fase deve conter os seguintes atributos:
          * - id : ID da fase
          * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
-         * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatória)
+         * - tipo_sorteio_matamata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatória)
          */
         /*
          * 1. Verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
@@ -279,13 +279,13 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
          * Objeto Fase deve conter os seguintes atributos:
          * - id : ID da fase
          * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
-         * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatório)
+         * - tipo_sorteio_matamata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatório)
          *      No futuro, o tipo de sorteio vai poder ser manual
          */
 
         $usuariosInseridos = array();
         $fase = CampeonatoFase::find($dadosFase['id']);
-        if($fase->faseAnterior()->matamata) {
+        if($fase->faseAnterior() != null && $fase->faseAnterior()->matamata) {
             foreach ($usuarios as $usuario) {
                 $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
                 $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
@@ -297,9 +297,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
                 UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
             }
-
         } else {
-            if ($fase->matamata && $dadosFase['tipo_sorteio'] != 'aleatorio') {
+            if ($fase->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
                 $maximaPosicao = 0;
                 foreach ($usuarios as $posicao=>$user) {
                     if ($posicao > $maximaPosicao) {
@@ -320,7 +319,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 }
 
                 // TODO Testar essa regra para mais grupos (Ex. 8 grupos)
-                if ($dadosFase['tipo_sorteio'] == 'geral') {
+                if ($dadosFase['tipo_sorteio_matamata'] == 'geral') {
                     // Precisa-se ordernar os usuários dentro de cada lista pelos critérios de classificação
                     for ($i = 1; $i<=$maximaPosicao; $i++) {
                         $this->ordenaUsuariosCriteriosClassificacao($lista{$i}, $fase);
@@ -361,7 +360,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                         }
                     }
 
-                } else if ($dadosFase['tipo_sorteio'] == 'grupo') {
+                } else if ($dadosFase['tipo_sorteio_matamata'] == 'grupo') {
                     // Precisa ordenar os usuários dentro de cada lista pelo ordem dos grupos
                     for ($i = 1; $i<=$maximaPosicao; $i++) {
                         $lista{$i}->sortBy('grupoAnterior');

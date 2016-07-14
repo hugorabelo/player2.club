@@ -238,6 +238,15 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 			$scope.descricaoFase = descricao;
 			$scope.abrePontuacaoFase();
 			$scope.abreFaseGrupo();
+            Campeonato.editaFase(id)
+                .success(function (data) {
+                    $scope.campeonatoFase = data.fase;
+                }).error (function (data, status) {
+                    $scope.message = data.errors;
+					$scope.status = status;
+					$rootScope.loading = false;
+                });
+            $scope.dadosFase = {};
 			$('#formModalDetalhesFase').modal();
 		};
 
@@ -293,6 +302,7 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 		};
 
 		$scope.iniciaFase = function () {
+            console.log($scope);
 			alert('iniciar fase');
 		};
 
@@ -372,5 +382,16 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 
 				});
 		};
+
+        $scope.openCalendar = function ($event, objeto) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            if(objeto == 'inicio') {
+                $scope.openedInicio = true;
+            } else {
+                $scope.openedFim = true;
+            }
+        };
 
 }]);
