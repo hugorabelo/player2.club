@@ -240,11 +240,10 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 			$scope.abreFaseGrupo();
             Campeonato.editaFase(id)
                 .success(function (data) {
-                    $scope.campeonatoFase = data.fase;
+                    $scope.campeonatoFaseSelecionada = data.fase;
                 }).error (function (data, status) {
                     $scope.message = data.errors;
 					$scope.status = status;
-					$rootScope.loading = false;
                 });
             $scope.dadosFase = {};
 			$('#formModalDetalhesFase').modal();

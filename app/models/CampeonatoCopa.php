@@ -285,7 +285,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
         $usuariosInseridos = array();
         $fase = CampeonatoFase::find($dadosFase['id']);
-        if($fase->faseAnterior() != null && $fase->faseAnterior()->matamata) {
+        if($fase->faseAnterior() != null && $fase->faseAnterior()->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
             foreach ($usuarios as $usuario) {
                 $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
                 $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
