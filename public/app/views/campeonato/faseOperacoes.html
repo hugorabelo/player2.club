@@ -11,7 +11,7 @@
 </div>
 
 <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="iniciaFase()">
-    <div class="form-group">
+    <div class="form-group" ng-hide="campeonatoFaseSelecionada.aberta">
         <label for="data_fim" class="col-md-5 control-label" translate>fields.data_fim</label>
         <div class="col-md-7">
             <div class="input-group date">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-hide="campeonatoFaseSelecionada.aberta">
         <label for="tipo_sorteio_matamata" class="col-md-5 control-label" translate>fields.tipo_sorteio_matamata</label>
         <div class="col-md-7">
             <select id="tipo_sorteio_matamata" class="form-control" ng-model="dadosFase.tipo_sorteio_matamata" required>
