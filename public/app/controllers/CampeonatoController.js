@@ -241,12 +241,13 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
             Campeonato.editaFase(id)
                 .success(function (data) {
                     $scope.campeonatoFaseSelecionada = data.fase;
+                    console.log($scope.campeonatoFaseSelecionada);
                 }).error (function (data, status) {
                     $scope.message = data.errors;
 					$scope.status = status;
                 });
             $scope.dadosFase = {};
-			$('#formModalDetalhesFase').modal();
+            $('#formModalDetalhesFase').modal();
 		};
 
 		$scope.abrePontuacaoFase = function () {
@@ -301,12 +302,21 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 		};
 
 		$scope.iniciaFase = function () {
-            console.log($scope);
-			alert('iniciar fase');
+            $rootScope.loading = true;
+            $scope.dadosFase.id = $scope.campeonatoFaseSelecionada.id;
+            Campeonato.abreFase($scope.dadosFase)
+                .success(function (data) {
+					$rootScope.loading = false;
+				}).error(function (data, status) {
+					$scope.messageOperacaoFase = data.message;
+					$scope.status = status;
+                    console.log(data.errors);
+					$rootScope.loading = false;
+				});
 		};
 
 		$scope.encerraFase = function () {
-			alert('encerrar fase');
+			alert($scope.campeonatoFaseSelecionada.aberta);
 		};
 
 		$scope.carregaPontuacao = function (id) {

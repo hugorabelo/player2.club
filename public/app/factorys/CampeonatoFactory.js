@@ -166,7 +166,18 @@ AplicacaoLiga.factory('Campeonato', ['$http', function ($http) {
 
 		getTiposDeAcessoDoCampeonato: function() {
 			return $http.get('api/acessoCampeonato');
-		}
+		},
+
+        abreFase: function(dadosFase) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonatoFase/abreFase',
+                data: $.param(dadosFase),
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+            });
+        }
 
 	}
 }]);
