@@ -100,7 +100,19 @@
 		"fora_casa": "<vazio>",
 		"zona_classificacao": "<vazio>",
 		"tipo_classificacao": "<vazio>",
-		"ordem_classificacao": "<vazio>"
+		"ordem_classificacao": "<vazio>",
+        "pontos": "<vazio>",
+		"vitorias": "<vazio>",
+		"saldo_gols": "<vazio>",
+		"gols_pro": "<vazio>",
+		"gols_contra": "<vazio>",
+		"confronto_direto": "<vazio>",
+		"lugar": "<vazio>",
+
+        "tipo_sorteio_matamata": "<vazio>",
+        "sorteio_aleatorio": "<vazio>",
+        "sorteio_geral": "<vazio>",
+        "sorteio_grupo": "<vazio>"
 	},
 
 	"messages": {

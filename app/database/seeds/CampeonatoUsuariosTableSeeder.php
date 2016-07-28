@@ -7,10 +7,10 @@ class CampeonatoUsuariosTableSeeder extends Seeder {
         // Uncomment the below to wipe the table clean before populating
         // DB::table('campeonatoadmins')->truncate();
 
-        for($i = 13; $i<45; $i++) {
+        for($i = 31; $i<39; $i++) {
             $userCampeonato = CampeonatoUsuario::create(array(
                 'users_id' => $i,
-                'campeonatos_id' => 7
+                'campeonatos_id' => 35
             ));
         }
 

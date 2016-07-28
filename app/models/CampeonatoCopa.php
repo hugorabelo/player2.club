@@ -153,6 +153,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
         if ($faseAtual == $campeonato->faseInicial()) {
             $usuariosDaFase = $campeonato->usuariosInscritos();
+            foreach ($usuariosDaFase as $posicao => $usuario) {
+                UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
+            }
         } else {
             $faseAnterior = CampeonatoFase::find($faseAtual->fase_anterior_id);
             if ($faseAnterior != null) {
@@ -167,9 +170,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                     }
                 }
             }
-        }
-        foreach ($usuariosDaFase as $posicao => $usuario) {
-            UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id, 'posicao_fase_anterior' => $posicao]);
+            foreach ($usuariosDaFase as $posicao => $usuario) {
+                UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id, 'posicao_fase_anterior' => $posicao]);
+            }
         }
         $gruposDaFase = $faseAtual->grupos();
 
@@ -177,7 +180,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         /** 3. Sortear Grupos e Jogos */
         $this->sorteioGrupos($gruposDaFase, $usuariosDaFase, $dadosFase);
 
-        $idaVolta = $campeonato->detalhes()->ida_volta;
+        $detalhesCampeonato = $campeonato->detalhes();
+        $idaVolta = $detalhesCampeonato->ida_volta;
         foreach ($faseAtual->grupos() as $grupo) {
             if ($idaVolta) {
                 $this->sorteioJogosUmContraUm($grupo, 2);
@@ -186,7 +190,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
         }
 
-        $campeonato->atualizarDatasFases($faseAtual, $dadosFase['data_encerramento']);
+        $campeonato->atualizarDatasFases($faseAtual, $dadosFase['data_fim']);
+
+        $faseAtual->aberta = true;
+        $faseAtual->update();
 
         return $usuariosDaFase;
 

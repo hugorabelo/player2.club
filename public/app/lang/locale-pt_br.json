@@ -107,7 +107,12 @@
 		"gols_pro": "Gols Pró",
 		"gols_contra": "Gols Contra",
 		"confronto_direto": "Confronto Direto",
-		"lugar": "º Lugar"
+		"lugar": "º Lugar",
+
+        "tipo_sorteio_matamata": "Tipo de Sorteio",
+        "sorteio_aleatorio": "Aleatório",
+        "sorteio_geral": "Classificação Geral",
+        "sorteio_grupo": "Entre Grupos"
 	},
 
 	"messages": {

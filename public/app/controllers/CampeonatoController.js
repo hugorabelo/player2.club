@@ -308,9 +308,9 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
                 .success(function (data) {
 					$rootScope.loading = false;
 				}).error(function (data, status) {
-					$scope.messageOperacaoFase = data.message;
+					$scope.messageOperacaoFase = data.messages;
+                console.log($scope.messageOperacaoFase);
 					$scope.status = status;
-                    console.log(data.errors);
 					$rootScope.loading = false;
 				});
 		};

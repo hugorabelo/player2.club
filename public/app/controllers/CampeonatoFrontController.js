@@ -27,7 +27,7 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 		};
 
 
-		var id = 7;
+		var id = 35;
 		$scope.carregaFases(id);
 
 		$scope.exibeFaseAnterior = function () {

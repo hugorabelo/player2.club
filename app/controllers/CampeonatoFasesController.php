@@ -145,13 +145,24 @@ class CampeonatoFasesController extends BaseController {
 
         $dadosFase = Input::all();
         $faseAtual = CampeonatoFase::find($dadosFase['id']);
-		$faseAnterior = $faseAtual->faseAnterior();
-        if($faseAnterior->aberta) {
-            return Response::json(array('success'=>false,
-                'errors'=>array('messages.fase_anterior_aberta')),300);
-        }
+		$campeonato = Campeonato::find($faseAtual->campeonatos_id);
 
-        $campeonato = Campeonato::find($faseAtual->campeonatos_id);
+		if($faseAtual->inicial) {
+			if($campeonato->usuariosInscritos()->count() < $faseAtual->quantidade_usuarios) {
+				return Response::json(array('success'=>false,
+					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
+			}
+		} else {
+			if($faseAtual->usuarios()->count() < $faseAtual->quantidade_usuarios) {
+				return Response::json(array('success'=>false,
+					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
+			}
+		}
+		$faseAnterior = $faseAtual->faseAnterior();
+		if(isset($faseAnterior) && $faseAnterior->aberta) {
+			return Response::json(array('success'=>false,
+                'messages'=>array('messages.fase_anterior_aberta')),300);
+		}
 
 		$usuariosDaFase = $campeonato->abreFase($dadosFase);
 
