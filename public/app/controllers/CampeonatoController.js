@@ -247,6 +247,7 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 					$scope.status = status;
                 });
             $scope.dadosFase = {};
+            $scope.messageOperacaoFase = '';
             $('#formModalDetalhesFase').modal();
 		};
 
@@ -309,14 +310,22 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
 					$rootScope.loading = false;
 				}).error(function (data, status) {
 					$scope.messageOperacaoFase = data.messages;
-                console.log($scope.messageOperacaoFase);
 					$scope.status = status;
 					$rootScope.loading = false;
 				});
 		};
 
 		$scope.encerraFase = function () {
-			alert($scope.campeonatoFaseSelecionada.aberta);
+            $rootScope.loading = true;
+            $scope.campeonatoFaseSelecionada.usuarioLogado = $rootScope.usuarioLogado;
+            Campeonato.fechaFase($scope.campeonatoFaseSelecionada)
+                .success(function (data) {
+					$rootScope.loading = false;
+				}).error(function (data, status) {
+					$scope.messageOperacaoFase = data.messages;
+					$scope.status = status;
+					$rootScope.loading = false;
+				});
 		};
 
 		$scope.carregaPontuacao = function (id) {

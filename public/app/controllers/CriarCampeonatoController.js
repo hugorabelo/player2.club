@@ -117,6 +117,7 @@
 
             $scope.salvarCampeonato = function () {
                 $scope.atualizaCriteriosClassificacao();
+                $scope.campeonato.criador = $rootScope.usuarioLogado;
                 Campeonato.save($scope.campeonato)
                     .success(function (data) {
                         Campeonato.get()

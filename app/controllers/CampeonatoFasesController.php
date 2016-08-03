@@ -147,6 +147,11 @@ class CampeonatoFasesController extends BaseController {
         $faseAtual = CampeonatoFase::find($dadosFase['id']);
 		$campeonato = Campeonato::find($faseAtual->campeonatos_id);
 
+		$faseAnterior = $faseAtual->faseAnterior();
+		if(isset($faseAnterior) && $faseAnterior->aberta) {
+			return Response::json(array('success'=>false,
+				'messages'=>array('messages.fase_anterior_aberta')),300);
+		}
 		if($faseAtual->inicial) {
 			if($campeonato->usuariosInscritos()->count() < $faseAtual->quantidade_usuarios) {
 				return Response::json(array('success'=>false,
@@ -158,18 +163,24 @@ class CampeonatoFasesController extends BaseController {
 					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
 			}
 		}
-		$faseAnterior = $faseAtual->faseAnterior();
-		if(isset($faseAnterior) && $faseAnterior->aberta) {
-			return Response::json(array('success'=>false,
-                'messages'=>array('messages.fase_anterior_aberta')),300);
-		}
 
 		$usuariosDaFase = $campeonato->abreFase($dadosFase);
 
         return Response::json($usuariosDaFase);
     }
 
-	public function fechaFase($id) {
+	public function fechaFase() {
+        $dadosFase = Input::all();
+		Log::info($dadosFase);
+
+        $usuarioLogado = User::find($dadosFase['usuarioLogado']);
+        $campeonato = Campeonato::find($dadosFase['campeonatos_id']);
+        $administradores = $campeonato->administradores();
+        if(!$administradores->contains($usuarioLogado->id)) {
+            return Response::json(array('success'=>false,
+                'messages'=>array('messages.operacao_nao_permitida_nao_administrador')),300);
+        }
+        // Verificar se o usuário que está fechando a fase é administrador do campeonato
 		// contabilizar jogos sem resultado (0 pontos para todos os participantes)
 		// contabilizar pontuação e quantidade de classificados (por grupo)
 		// Desabilitar inserção de resultados

@@ -177,6 +177,17 @@ AplicacaoLiga.factory('Campeonato', ['$http', function ($http) {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				}
             });
+        },
+
+        fechaFase: function(dadosFase) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonatoFase/fechaFase',
+                data: $.param(dadosFase),
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+            });
         }
 
 	}

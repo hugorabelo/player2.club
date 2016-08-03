@@ -17,6 +17,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
     {
 
         $dadosCampeonato = array_except($input, array('criteriosClassificacaoSelecionados', 'detalhes', 'pontuacao', 'fases'));
+
         $detalhes = $input['detalhes'];
         $this->criteriosClassificacao = $input['criteriosClassificacaoSelecionados'];
         $this->pontuacao = $input['pontuacao'];
@@ -26,6 +27,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $this->campeonato = Campeonato::create($dadosCampeonato);
         $detalhes['campeonatos_id'] = $this->campeonato->id;
         $this->detalhesCampeonato = CampeonatoDetalhes::create($detalhes);
+
+//      Adicionar Administrador do Campeonato
+        $dadosAdministrador = array("users_id"=>$dadosCampeonato["criador"], "campeonatos_id"=>$this->campeonato->id);
+        CampeonatoAdmin::create($dadosAdministrador);
 
 //      2. Criar fases
 //      3. Cria regras de pontuação para cada fase
@@ -201,7 +206,17 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     public function encerraFase($fase)
     {
+        // Verificar se o usuário que está fechando a fase é administrador do campeonato
+        // contabilizar jogos sem resultado (0 pontos para todos os participantes)
+        // contabilizar pontuação e quantidade de classificados (por grupo)
+        // Desabilitar inserção de resultados
 
+        /*
+         * Cronograma de inserção de resultados para uma partida de campeonato
+         * - Usuário tem até a data final da fase para inserir o resultado (Caso não exista resultado, o jogo será definido como sem resultado, onde ambos os participantes ficam com pontos de último colocado)
+         * - Outro Usuário tem até 24 horas depois da hora de inserção do resultado para confirmar o mesmo (Caso não seja confirmado o resultado por outro usuário, o placar inserido será dado como definitivo).
+         * -
+         */
     }
 
     static public function salvarPlacarPartida($dados)
@@ -513,13 +528,18 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $criteriosClassificacao = $this->criteriosDeClassificacao;
         $criterio = $criteriosClassificacao->shift();
         $valor = $criterio->valor;
+        $ordenacao = $criterio->ordenacao;
         if($usuario1->{$valor} === $usuario2->{$valor}) {
             if($criteriosClassificacao->count() == 0) {
                 return 0;
             }
             return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2, $criteriosClassificacao);
         }
-        return $usuario1->{$valor} > $usuario2->{$valor} ? -1 : 1;
+        if($ordenacao == 'maior') {
+            return $usuario1->{$valor} > $usuario2->{$valor} ? -1 : 1;
+        } else {
+            return $usuario1->{$valor} < $usuario2->{$valor} ? -1 : 1;
+        }
     }
 
 }
