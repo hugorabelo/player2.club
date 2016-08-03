@@ -79,6 +79,13 @@ class Campeonato extends Eloquent {
         return $novoCampeonato->iniciaFase($dadosFase);
     }
 
+	public function fechaFase($dadosFase) {
+		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
+		$novoCampeonato = new $nomeClasse();
+
+		return $novoCampeonato->encerraFase($dadosFase);
+	}
+
 	/**
 	 * Atualizar as datas de cada fase, de acordo com a data de encerramento da fase atual, atualizar para as próximas fases
 	 *

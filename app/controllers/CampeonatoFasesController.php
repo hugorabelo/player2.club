@@ -171,16 +171,17 @@ class CampeonatoFasesController extends BaseController {
 
 	public function fechaFase() {
         $dadosFase = Input::all();
-		Log::info($dadosFase);
 
-        $usuarioLogado = User::find($dadosFase['usuarioLogado']);
-        $campeonato = Campeonato::find($dadosFase['campeonatos_id']);
-        $administradores = $campeonato->administradores();
-        if(!$administradores->contains($usuarioLogado->id)) {
-            return Response::json(array('success'=>false,
+		// Verificar se o usuário que está fechando a fase é administrador do campeonato
+		$usuarioLogado = User::find($dadosFase['usuarioLogado']);
+		$campeonato = Campeonato::find($dadosFase['campeonatos_id']);
+		$administradores = $campeonato->administradores();
+		if(!$administradores->contains($usuarioLogado->id)) {
+			return Response::json(array('success'=>false,
                 'messages'=>array('messages.operacao_nao_permitida_nao_administrador')),300);
-        }
-        // Verificar se o usuário que está fechando a fase é administrador do campeonato
+		}
+
+		$campeonato->fechaFase($dadosFase);
 		// contabilizar jogos sem resultado (0 pontos para todos os participantes)
 		// contabilizar pontuação e quantidade de classificados (por grupo)
 		// Desabilitar inserção de resultados

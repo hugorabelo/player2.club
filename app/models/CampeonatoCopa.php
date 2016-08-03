@@ -206,6 +206,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     public function encerraFase($fase)
     {
+        Log::info($fase);
         // Verificar se o usuário que está fechando a fase é administrador do campeonato
         // contabilizar jogos sem resultado (0 pontos para todos os participantes)
         // contabilizar pontuação e quantidade de classificados (por grupo)
