@@ -204,13 +204,35 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     }
 
-    public function encerraFase($fase)
+    public function encerraFase($dadosFase)
     {
-        Log::info($fase);
-        // Verificar se o usuário que está fechando a fase é administrador do campeonato
+        $fase = CampeonatoFase::find($dadosFase['id']);
         // contabilizar jogos sem resultado (0 pontos para todos os participantes)
+        foreach ($fase->grupos() as $grupo) {
+            foreach ($grupo->partidas() as $partida) {
+                if(!isset($partida->data_placar)) {
+                    foreach ($partida->usuarios(false) as $usuarioPartida) {
+                        $dadosUsuarioUpdate = array(
+                            'posicao' => -1,
+                            'pontuacao' => 0,
+                            'placar' => 0
+                        );
+                        $usuarioPartida->update($dadosUsuarioUpdate);
+                    }
+                    $partida->data_placar = date('Y-m-d H:i:s');
+                    $partida->data_confirmacao = date('Y-m-d H:i:s');
+                    $partida->save();
+                } else if (!isset($partida->data_confirmacao)) {
+                    $partida->data_confirmacao = date('Y-m-d H:i:s');
+                    $partida->save();
+                }
+            }
+        }
         // contabilizar pontuação e quantidade de classificados (por grupo)
         // Desabilitar inserção de resultados
+        $fase->aberta = false;
+        $fase->encerrada = true;
+        $fase->update();
 
         /*
          * Cronograma de inserção de resultados para uma partida de campeonato

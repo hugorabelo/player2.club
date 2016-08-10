@@ -128,7 +128,7 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         // TODO: Implement iniciaFase() method.
     }
 
-    public function encerraFase($fase)
+    public function encerraFase($dadosFase)
     {
         // TODO: Implement encerraFase() method.
     }

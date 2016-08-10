@@ -147,6 +147,6 @@ App::missing(function($exception) {
  */
 Event::listen('illuminate.query', function($query)
 {
-    Log::info($query);
+//    Log::info($query);
 });
 /* */

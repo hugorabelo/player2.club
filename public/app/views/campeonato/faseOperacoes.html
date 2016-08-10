@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="iniciaFase()">
+<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="iniciaFase()" ng-hide="campeonatoFaseSelecionada.encerrada">
     <div class="form-group" ng-hide="campeonatoFaseSelecionada.aberta">
         <label for="data_fim" class="col-md-5 control-label" translate>fields.data_fim</label>
         <div class="col-md-7">

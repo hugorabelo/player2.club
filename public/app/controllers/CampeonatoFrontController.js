@@ -26,8 +26,18 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 				})
 		};
 
+        $scope.carregaInformacoesCampeonato = function (id) {
+            $rootScope.loading = true;
+            Campeonato.getInformacoes(id)
+                .success(function (data) {
+                    $scope.campeonato = data;
+                    $rootScope.loading = false;
+                })
+        };
+
 
 		var id = 35;
+        $scope.carregaInformacoesCampeonato(id);
 		$scope.carregaFases(id);
 
 		$scope.exibeFaseAnterior = function () {

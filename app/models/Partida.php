@@ -104,14 +104,16 @@ class Partida extends Eloquent {
         return isset($this->data_confirmacao);
     }
 
-    public function usuarios() {
+    public function usuarios($informacoes = true) {
         $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->getResults()->sortBy('id');
         $usuarios->values()->all();
-        foreach($usuarios as $usuario) {
-            $usuarioBD = User::find($usuario->users_id);
-            $usuario->nome = $usuarioBD->nome;
-            $usuario->sigla = $usuarioBD->sigla;
-            $usuario->distintivo = isset($usuarioBD->distintivo) ? $usuarioBD->distintivo : $usuarioBD->imagem_perfil;
+        if($informacoes) {
+            foreach($usuarios as $usuario) {
+                $usuarioBD = User::find($usuario->users_id);
+                $usuario->nome = $usuarioBD->nome;
+                $usuario->sigla = $usuarioBD->sigla;
+                $usuario->distintivo = isset($usuarioBD->distintivo) ? $usuarioBD->distintivo : $usuarioBD->imagem_perfil;
+            }
         }
         return $usuarios;
     }

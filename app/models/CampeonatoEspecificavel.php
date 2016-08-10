@@ -14,7 +14,7 @@ interface CampeonatoEspecificavel
 
     public function iniciaFase($dadosFase);
 
-    public function encerraFase($fase);
+    public function encerraFase($dadosFase);
 
     public function validarNumeroDeCompetidores($detalhes);
 }
