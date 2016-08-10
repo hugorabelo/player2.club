@@ -31,14 +31,22 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     $scope.campeonato = data;
+		            $scope.carregaFases(id);
                     $rootScope.loading = false;
                 })
         };
 
+        $scope.carregaListaCampeonatos = function() {
+            $rootScope.loading = true;
+            Campeonato.get()
+                .success(function (data) {
+                    $scope.campeonatos = data;
+                    $rootScope.loading = false;
+                })
+            console.log($scope);
+        };
 
-		var id = 35;
-        $scope.carregaInformacoesCampeonato(id);
-		$scope.carregaFases(id);
+        $scope.carregaListaCampeonatos();
 
 		$scope.exibeFaseAnterior = function () {
 			if ($scope.indice_fase > 0) {

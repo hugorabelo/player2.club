@@ -1,5 +1,7 @@
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
+	    <select class="form-control" name="selecionaCampeonato" ng-model="campeonatoSelecionado" ng-options="campeonato.id as campeonato.descricao for campeonato in campeonatos" ng-change="carregaInformacoesCampeonato(campeonatoSelecionado)">
+	    </select>
 		<h2><span translate>messages.tabelaCampeonato_list</span> - {{campeonato.descricao}}</h2>
 		<ol class="breadcrumb">
 			<li>

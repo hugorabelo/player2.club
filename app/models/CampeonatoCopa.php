@@ -7,8 +7,8 @@
  * Time: 21:11
  */
 
-use Illuminate\Database\Eloquent\Collection;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 {
@@ -228,7 +228,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 }
             }
         }
-        // contabilizar pontuação e quantidade de classificados (por grupo)
+        // contabilizar pontuação e quantidade de classificados (por grupo) - INSCREVER USUÁRIOS CLASSIFICADOS NA FASE SEGUINTE
+
         // Desabilitar inserção de resultados
         $fase->aberta = false;
         $fase->encerrada = true;
