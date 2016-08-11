@@ -207,6 +207,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
     public function encerraFase($dadosFase)
     {
         $fase = CampeonatoFase::find($dadosFase['id']);
+        $proximaFase = $fase->proximaFase();
         // contabilizar jogos sem resultado (0 pontos para todos os participantes)
         foreach ($fase->grupos() as $grupo) {
             foreach ($grupo->partidas() as $partida) {
@@ -227,8 +228,18 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                     $partida->save();
                 }
             }
+
+            // contabilizar pontuação e quantidade de classificados (por grupo) - INSCREVER USUÁRIOS CLASSIFICADOS NA FASE SEGUINTE
+            $posicaoUsuario = 1;
+            foreach ($grupo->usuariosClassificados() as $usuario) {
+                $usuarioFase = new UsuarioFase();
+                $usuarioFase->campeonato_fases_id = $proximaFase->id;
+                $usuarioFase->users_id = $usuario->id;
+                $usuarioFase->posicao_fase_anterior = $posicaoUsuario;
+                $usuarioFase->save();
+                $posicaoUsuario++;
+            }
         }
-        // contabilizar pontuação e quantidade de classificados (por grupo) - INSCREVER USUÁRIOS CLASSIFICADOS NA FASE SEGUINTE
 
         // Desabilitar inserção de resultados
         $fase->aberta = false;
