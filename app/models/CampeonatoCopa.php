@@ -162,22 +162,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
             }
         } else {
-            $faseAnterior = CampeonatoFase::find($faseAtual->fase_anterior_id);
-            if ($faseAnterior != null) {
-                $gruposAnterior = $faseAnterior->grupos();
-
-                $usuariosDaFase = new Collection();
-
-                foreach ($gruposAnterior as $grupo) {
-                    $usuariosDoGrupo = $grupo->usuariosClassificados();
-                    foreach ($usuariosDoGrupo as $posicao => $usuarioInserido) {
-                        $usuariosDaFase->put($posicao, $usuarioInserido);
-                    }
-                }
-            }
-            foreach ($usuariosDaFase as $posicao => $usuario) {
-                UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id, 'posicao_fase_anterior' => $posicao]);
-            }
+            $usuariosDaFase = $faseAtual->usuarios();
         }
         $gruposDaFase = $faseAtual->grupos();
 
@@ -363,7 +348,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                     }
                 }
                 for ($i = 1; $i<=$maximaPosicao; $i++) {
-                    $lista{$i} = new Collection();
+                    $lista[$i] = new Collection();
                 }
                 $maximoGrupoAnterior = 0;
                 foreach ($usuarios as $posicao=>$usuario) {
@@ -372,14 +357,14 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                         $maximoGrupoAnterior = $grupoAnteriorDoUsuario;
                     }
                     $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
-                    $lista{$posicao}->put($grupoAnteriorDoUsuario, $usuario->id);
+                    $lista[$posicao]->put($grupoAnteriorDoUsuario, $usuario->id);
                 }
 
                 // TODO Testar essa regra para mais grupos (Ex. 8 grupos)
                 if ($dadosFase['tipo_sorteio_matamata'] == 'geral') {
                     // Precisa-se ordernar os usuários dentro de cada lista pelos critérios de classificação
                     for ($i = 1; $i<=$maximaPosicao; $i++) {
-                        $this->ordenaUsuariosCriteriosClassificacao($lista{$i}, $fase);
+                        $this->ordenaUsuariosCriteriosClassificacao($lista[$i], $fase);
                     }
 
                     $indiceGrupoAtual = 0;
@@ -391,12 +376,12 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                         $grupo = $grupos->get($indiceGrupoAtual);
 
                         if($invertePosicao > 0) {
-                            $usuario1 = $lista{$indicePosicaoInicial}->shift();
-                            $usuario2 = $lista{$indicePosicaoFinal}->pop();
+                            $usuario1 = $lista[$indicePosicaoInicial]->shift();
+                            $usuario2 = $lista[$indicePosicaoFinal]->pop();
                             $invertePosicao++;
                         } else if ($invertePosicao < 0){
-                            $usuario1 = $lista{$indicePosicaoInicial}->pop();
-                            $usuario2 = $lista{$indicePosicaoFinal}->shift();
+                            $usuario1 = $lista[$indicePosicaoInicial]->pop();
+                            $usuario2 = $lista[$indicePosicaoFinal]->shift();
                             $invertePosicao--;
                         }
                         UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
@@ -420,7 +405,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 } else if ($dadosFase['tipo_sorteio_matamata'] == 'grupo') {
                     // Precisa ordenar os usuários dentro de cada lista pelo ordem dos grupos
                     for ($i = 1; $i<=$maximaPosicao; $i++) {
-                        $lista{$i}->sortBy('grupoAnterior');
+                        $lista[$i]->sortBy('grupoAnterior');
                     }
 
                     $indiceGrupoAtual = 0;
@@ -435,19 +420,19 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
                         if($invertePosicao) {
                             // Pegar mandante do final da lista
-                            $usuario1 = $lista{$indicePosicaoInicial}->get($indiceGrupoFinal);
+                            $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoFinal);
                             if($indiceGrupoFinal % 2 == 0) {
-                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal + 1);
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
                             } else {
-                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal - 1);
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
                             }
                         } else {
                             // Pegar mandante do início da lista
-                            $usuario1 = $lista{$indicePosicaoInicial}->get($indiceGrupoInicial);
+                            $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
                             if($indiceGrupoInicial % 2 == 0) {
-                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal + 1);
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
                             } else {
-                                $usuario2 = $lista{$indicePosicaoFinal}->get($indiceGrupoFinal - 1);
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
                             }
                         }
 
@@ -532,8 +517,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             $gruposDaFase = $faseAnterior->grupos();
             $gruposDoUsuario = UsuarioGrupo::where('users_id', '=', $id_usuario)->get(array('fase_grupos_id'));
             foreach ($gruposDaFase as $grupoFase) {
-                if($gruposDoUsuario->search($grupoFase->id)) {
-                    return $grupoFase;
+                foreach($gruposDoUsuario as $grupoUsuario) {
+                    if($grupoUsuario->fase_grupos_id == $grupoFase->id) {
+                        return $grupoFase;
+                    }
                 }
             }
         }
