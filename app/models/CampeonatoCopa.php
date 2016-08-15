@@ -191,6 +191,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
     public function encerraFase($dadosFase)
     {
+        //TODO Verificar se é a última fase, caso sim, não inserir usuários na próxima fase
         $fase = CampeonatoFase::find($dadosFase['id']);
         $proximaFase = $fase->proximaFase();
         // contabilizar jogos sem resultado (0 pontos para todos os participantes)
