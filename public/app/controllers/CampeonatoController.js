@@ -308,6 +308,7 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
             Campeonato.abreFase($scope.dadosFase)
                 .success(function (data) {
 					$rootScope.loading = false;
+                    $('#formModalDetalhesFase').modal('hide');
 				}).error(function (data, status) {
 					$scope.messageOperacaoFase = data.messages;
 					$scope.status = status;
@@ -321,6 +322,7 @@ AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filt
             Campeonato.fechaFase($scope.campeonatoFaseSelecionada)
                 .success(function (data) {
 					$rootScope.loading = false;
+                    $('#formModalDetalhesFase').modal('hide');
 				}).error(function (data, status) {
 					$scope.messageOperacaoFase = data.messages;
 					$scope.status = status;

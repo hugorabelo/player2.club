@@ -343,7 +343,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         } else {
             if ($fase->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
                 $maximaPosicao = 0;
-                foreach ($usuarios as $posicao=>$user) {
+                foreach ($usuarios as $user) {
+                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id)->posicao_fase_anterior;
                     if ($posicao > $maximaPosicao) {
                         $maximaPosicao = $posicao;
                     }
@@ -351,12 +352,13 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 for ($i = 1; $i<=$maximaPosicao; $i++) {
                     $lista[$i] = new Collection();
                 }
-                $maximoGrupoAnterior = 0;
-                foreach ($usuarios as $posicao=>$usuario) {
+//                $maximoGrupoAnterior = 0;
+                foreach ($usuarios as $usuario) {
+                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id)->posicao_fase_anterior;
                     $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
-                    if ($grupoAnteriorDoUsuario > $maximoGrupoAnterior) {
-                        $maximoGrupoAnterior = $grupoAnteriorDoUsuario;
-                    }
+//                    if ($grupoAnteriorDoUsuario > $maximoGrupoAnterior) {
+//                        $maximoGrupoAnterior = $grupoAnteriorDoUsuario;
+//                    }
                     $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
                     $lista[$posicao]->put($grupoAnteriorDoUsuario, $usuario->id);
                 }
