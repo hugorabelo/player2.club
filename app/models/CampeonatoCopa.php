@@ -352,15 +352,12 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 for ($i = 1; $i<=$maximaPosicao; $i++) {
                     $lista[$i] = new Collection();
                 }
-//                $maximoGrupoAnterior = 0;
+
                 foreach ($usuarios as $usuario) {
-                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id)->posicao_fase_anterior;
+                    $posicao = UsuarioFase::encontraUsuarioFase($usuario->id, $fase->id)->posicao_fase_anterior;
                     $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
-//                    if ($grupoAnteriorDoUsuario > $maximoGrupoAnterior) {
-//                        $maximoGrupoAnterior = $grupoAnteriorDoUsuario;
-//                    }
                     $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
-                    $lista[$posicao]->put($grupoAnteriorDoUsuario, $usuario->id);
+                    $lista[$posicao]->push($usuario);
                 }
 
                 // TODO Testar essa regra para mais grupos (Ex. 8 grupos)
@@ -433,9 +430,11 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                             // Pegar mandante do início da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
                             if($indiceGrupoInicial % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
+//                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
                             } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
+//                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
                             }
                         }
 
@@ -449,7 +448,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                             $indicePosicaoFinal = $maximaPosicao;
                         }
                         $indiceGrupoAtual++;
-                        $invertePosicao = $invertePosicao;
+                        $invertePosicao = !$invertePosicao;
                     }
                 }
             } else {

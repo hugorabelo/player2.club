@@ -9,6 +9,7 @@ class UsuarioFase extends Eloquent {
 	);
 
     public static function encontraUsuarioFase($idUsuario, $idFase) {
-        return UsuarioFase::where('users_id','=',$idUsuario)->where('campeonato_fases_id','=',$idFase)->get()->first();
+        $usuarioFase = UsuarioFase::where('users_id', '=', $idUsuario)->where('campeonato_fases_id', '=', $idFase)->get()->first();
+        return $usuarioFase;
     }
 }
