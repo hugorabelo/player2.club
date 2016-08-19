@@ -24,7 +24,8 @@ class FaseGrupo extends Eloquent
      */
     public function usuarios()
     {
-        return $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('pontuacao'))->orderBy('pontuacao', 'desc')->getResults();
+        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('pontuacao'))->orderBy('pontuacao', 'desc')->getResults();
+        return $usuarios;
     }
 
     /** TODO */
@@ -155,7 +156,10 @@ class FaseGrupo extends Eloquent
         $campeonato = $fase->campeonato();
         $detalhesDoCampeonato = $campeonato->detalhes();
 
-        $usuarios = $this->usuarios();
+        $usuarios = $this->usuarios()->all();
+
+        $usuariosOrdenados = $this->ordenaUsuariosCriteriosClassificacao($usuarios, $fase);
+
         $partidas = $this->partidas();
 
         if ($usuarios->first() == null || $partidas->first() == null) {
@@ -212,6 +216,43 @@ class FaseGrupo extends Eloquent
             }
         }
         return $usuariosClassificados;
+    }
+
+    private function ordenaUsuariosCriteriosClassificacao($listaUsuarios, $fase) {
+        $campeonato = Campeonato::find($fase->campeonatos_id);
+        $this->criteriosDeClassificacao = $campeonato->criteriosOrdenados();
+        $listaUsuarios->sort("comparaUsuariosCriteriosClassificacao");
+        return $listaUsuarios;
+    }
+
+    private function comparaUsuariosCriteriosClassificacao($usuario1, $usuario2) {
+        /*
+         *
+            $collection->sort(function($time1, $time2) {
+               if($time1->pontos === $time2->pontos) {
+                 if($time1->vitoria === $time2->vitoria) {
+                   return 0;
+                 }
+                 return $time1->vitoria > $time2->vitoria ? -1 : 1;
+               }
+               return $time1->pontos > $time2->pontos ? -1 : 1;
+            });
+         */
+        $criteriosClassificacao = $this->criteriosDeClassificacao;
+        $criterio = $criteriosClassificacao->shift();
+        $valor = $criterio->valor;
+        $ordenacao = $criterio->ordenacao;
+        if($usuario1->{$valor} === $usuario2->{$valor}) {
+            if($criteriosClassificacao->count() == 0) {
+                return 0;
+            }
+            return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2, $criteriosClassificacao);
+        }
+        if($ordenacao == 'maior') {
+            return $usuario1->{$valor} > $usuario2->{$valor} ? -1 : 1;
+        } else {
+            return $usuario1->{$valor} < $usuario2->{$valor} ? -1 : 1;
+        }
     }
 
 }
