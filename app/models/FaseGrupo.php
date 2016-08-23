@@ -28,6 +28,24 @@ class FaseGrupo extends Eloquent
         return $usuarios;
     }
 
+    public function usuariosComClassificacao_NEW() {
+        $fase = $this->fase();
+        $campeonato = $fase->campeonato();
+        $detalhesDoCampeonato = $campeonato->detalhes();
+
+        $usuarios = $this->usuarios()->all();
+
+        $usuariosOrdenados = $this->ordenaUsuariosCriteriosClassificacao($usuarios, $fase);
+
+        $partidas = $this->partidas();
+
+        if ($usuarios->first() == null || $partidas->first() == null) {
+            return array();
+        }
+
+        return $usuariosOrdenados;
+    }
+
     /** TODO */
     public function usuariosComClassificacao()
     {
@@ -85,7 +103,6 @@ class FaseGrupo extends Eloquent
                 $num_gols_contra = intval($usuario->gols_contra);
 
                 $num_jogos = $num_vitorias + $num_empates + $num_derrotas;
-                //$pontuacao = ($num_vitorias * 3) + $num_empates;
                 $num_saldo_gols = $num_gols_pro - $num_gols_contra;
 
                 $usuario->pontuacao = intval($usuario->pontuacao);
@@ -109,9 +126,26 @@ class FaseGrupo extends Eloquent
         }
 
         //TODO ORDENAR USUARIOS DE ACORDO COM AS REGRAS;
-        $usuarios->sortByDesc('pontuacao');
+        $fase = $this->fase();
+        $campeonato = $fase->campeonato();
+        $criteriosDeClassificacao = $campeonato->criteriosOrdenados();
+//        foreach ($criteriosDeClassificacao as $criterio) {
+//            if($criterio->ordenacao == 'maior') {
+//                $usuarios->sortByDesc($criterio->valor);
+//            } else {
+//                $usuarios->sortBy($criterio->valor);
+//            }
+//        }
+//        $usuarios->sortByDesc('pontuacao');
+        $usuarios->sortBy(function($usuario) {
+            return sprintf('%-12s%s', $usuario->pontuacao, $usuario->vitorias, $usuario->saldo_gols);
+        });
         $usuarios->values()->all();
         return $usuarios;
+    }
+
+    public function teste($post) {
+        return sprintf('%-12s%s', $post->pontuacao, $post->vitorias);
     }
 
     public function partidas()

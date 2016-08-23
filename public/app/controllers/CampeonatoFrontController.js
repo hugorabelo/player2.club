@@ -23,6 +23,7 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 					$scope.gruposDaFase = data;
 					$rootScope.loading = false;
 					$scope.inicializaRodadas(data);
+                    console.log($scope.gruposDaFase);
 				})
 		};
 
@@ -43,7 +44,6 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
                     $scope.campeonatos = data;
                     $rootScope.loading = false;
                 })
-            console.log($scope);
         };
 
         $scope.carregaListaCampeonatos();
