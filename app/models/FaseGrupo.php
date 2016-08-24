@@ -128,18 +128,19 @@ class FaseGrupo extends Eloquent
         //TODO ORDENAR USUARIOS DE ACORDO COM AS REGRAS;
         $fase = $this->fase();
         $campeonato = $fase->campeonato();
-        $criteriosDeClassificacao = $campeonato->criteriosOrdenados();
+        $this->criteriosDeClassificacao = $campeonato->criteriosOrdenados();
 
         $usuarios = $usuarios->sortByDesc(function ($usuario) {
-            return [$usuario->pontuacao, $usuario->vitorias, $usuario->saldo_gols];
+            $ordenacao = array();
+            foreach ($this->criteriosDeClassificacao as $criterio) {
+                $valor = $criterio->valor;
+                array_push($ordenacao, $usuario->$valor);
+            }
+            return $ordenacao;
         });
-//
-//        $usuarios->values()->all();
-//        $usuarios = $usuarios->sortBy("comparaUsuariosCriteriosClassificacao");
-//        $usuario1 = $usuarios->shift();
-//        $usuario2 = $usuarios->shift();
-//        $comparador = $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2);
-//        Log::info($comparador);
+
+        $teste = new Collection();
+
         $usuarios->values()->all();
         return $usuarios;
     }
