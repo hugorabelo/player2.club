@@ -129,23 +129,19 @@ class FaseGrupo extends Eloquent
         $fase = $this->fase();
         $campeonato = $fase->campeonato();
         $criteriosDeClassificacao = $campeonato->criteriosOrdenados();
-//        foreach ($criteriosDeClassificacao as $criterio) {
-//            if($criterio->ordenacao == 'maior') {
-//                $usuarios->sortByDesc($criterio->valor);
-//            } else {
-//                $usuarios->sortBy($criterio->valor);
-//            }
-//        }
-//        $usuarios->sortByDesc('pontuacao');
-        $usuarios->sortBy(function($usuario) {
-            return sprintf('%-12s%s', $usuario->pontuacao, $usuario->vitorias, $usuario->saldo_gols);
+
+        $usuarios = $usuarios->sortByDesc(function ($usuario) {
+            return [$usuario->pontuacao, $usuario->vitorias, $usuario->saldo_gols];
         });
+//
+//        $usuarios->values()->all();
+//        $usuarios = $usuarios->sortBy("comparaUsuariosCriteriosClassificacao");
+//        $usuario1 = $usuarios->shift();
+//        $usuario2 = $usuarios->shift();
+//        $comparador = $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2);
+//        Log::info($comparador);
         $usuarios->values()->all();
         return $usuarios;
-    }
-
-    public function teste($post) {
-        return sprintf('%-12s%s', $post->pontuacao, $post->vitorias);
     }
 
     public function partidas()
@@ -272,21 +268,22 @@ class FaseGrupo extends Eloquent
                return $time1->pontos > $time2->pontos ? -1 : 1;
             });
          */
-        $criteriosClassificacao = $this->criteriosDeClassificacao;
-        $criterio = $criteriosClassificacao->shift();
-        $valor = $criterio->valor;
-        $ordenacao = $criterio->ordenacao;
-        if($usuario1->{$valor} === $usuario2->{$valor}) {
-            if($criteriosClassificacao->count() == 0) {
-                return 0;
-            }
-            return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2, $criteriosClassificacao);
-        }
-        if($ordenacao == 'maior') {
-            return $usuario1->{$valor} > $usuario2->{$valor} ? -1 : 1;
-        } else {
-            return $usuario1->{$valor} < $usuario2->{$valor} ? -1 : 1;
-        }
+//        $criteriosClassificacao = $this->criteriosDeClassificacao;
+//        $criterio = $criteriosClassificacao->shift();
+//        $valor = $criterio->valor;
+//        $ordenacao = $criterio->ordenacao;
+//        if($usuario1->$valor === $usuario2->$valor) {
+//            if($criteriosClassificacao->count() == 0) {
+//                return 0;
+//            }
+//            return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2);
+//        }
+//        if($ordenacao == 'maior') {
+//            return $usuario1->$valor > $usuario2->$valor ? -1 : 1;
+//        } else {
+//            return $usuario1->$valor < $usuario2->$valor ? -1 : 1;
+//        }
+        return -1;
     }
 
 }
