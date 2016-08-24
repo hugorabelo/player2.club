@@ -28,24 +28,6 @@ class FaseGrupo extends Eloquent
         return $usuarios;
     }
 
-    public function usuariosComClassificacao_NEW() {
-        $fase = $this->fase();
-        $campeonato = $fase->campeonato();
-        $detalhesDoCampeonato = $campeonato->detalhes();
-
-        $usuarios = $this->usuarios()->all();
-
-        $usuariosOrdenados = $this->ordenaUsuariosCriteriosClassificacao($usuarios, $fase);
-
-        $partidas = $this->partidas();
-
-        if ($usuarios->first() == null || $partidas->first() == null) {
-            return array();
-        }
-
-        return $usuariosOrdenados;
-    }
-
     /** TODO */
     public function usuariosComClassificacao()
     {
@@ -128,20 +110,33 @@ class FaseGrupo extends Eloquent
         //TODO ORDENAR USUARIOS DE ACORDO COM AS REGRAS;
         $fase = $this->fase();
         $campeonato = $fase->campeonato();
-        $this->criteriosDeClassificacao = $campeonato->criteriosOrdenados();
+        $criteriosDeClassificacao = $campeonato->criteriosOrdenados();
 
-        $usuarios = $usuarios->sortByDesc(function ($usuario) {
-            $ordenacao = array();
-            foreach ($this->criteriosDeClassificacao as $criterio) {
-                $valor = $criterio->valor;
-                array_push($ordenacao, $usuario->$valor);
-            }
-            return $ordenacao;
-        });
+        $makeComparer = function($criteria) {
+            $comparer = function ($first, $second) use ($criteria) {
+                foreach ($criteria as $key => $orderType) {
+                    $orderType = strtolower($orderType);
+                    if ($first[$key] < $second[$key]) {
+                        return $orderType === "menor" ? -1 : 1;
+                    } else if ($first[$key] > $second[$key]) {
+                        return $orderType === "menor" ? 1 : -1;
+                    }
+                }
+                return 0;
+            };
+            return $comparer;
+        };
 
-        $teste = new Collection();
+        $sort = new Collection();
+        foreach ($criteriosDeClassificacao as $criterio) {
+            $sort->put($criterio->valor, $criterio->ordenacao);
+        }
+        $sort = $sort->toArray();
+        $comparer = $makeComparer($sort);
+        $usuarios->sort($comparer);
 
         $usuarios->values()->all();
+
         return $usuarios;
     }
 
@@ -187,9 +182,7 @@ class FaseGrupo extends Eloquent
         $campeonato = $fase->campeonato();
         $detalhesDoCampeonato = $campeonato->detalhes();
 
-        $usuarios = $this->usuarios()->all();
-
-        $usuariosOrdenados = $this->ordenaUsuariosCriteriosClassificacao($usuarios, $fase);
+        $usuarios = $this->usuarios();
 
         $partidas = $this->partidas();
 
@@ -235,16 +228,10 @@ class FaseGrupo extends Eloquent
                 }
             }
         } else {
-            $quantidadeClassificadosMataMata = $detalhesDoCampeonato->classificados_proxima_fase;
-            $quantidadeClassificados = $quantidadeClassificadosMataMata / $fase->grupos()->count();
-            $quantidadeUsuariosInseridos = 0;
-            foreach ($usuarios as $usuarioInserido) {
-                $quantidadeUsuariosInseridos++;
-                $usuariosClassificados->put($quantidadeUsuariosInseridos, $usuarioInserido);
-                if ($quantidadeUsuariosInseridos == $quantidadeClassificados) {
-                    break;
-                }
-            }
+            $proximaFase = $fase->proximaFase();
+            $quantidadeClassificados = $proximaFase->quantidade_usuarios / $proximaFase->grupos()->count();
+            $usuariosComClassificacao = $this->usuariosComClassificacao();
+            $usuariosClassificados = $usuariosComClassificacao->take($quantidadeClassificados);
         }
         return $usuariosClassificados;
     }
