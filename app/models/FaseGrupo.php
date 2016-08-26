@@ -127,7 +127,7 @@ class FaseGrupo extends Eloquent
             return $comparer;
         };
 
-        $sort = new Collection();
+        $sort = app()->make(Collection::class);
         foreach ($criteriosDeClassificacao as $criterio) {
             $sort->put($criterio->valor, $criterio->ordenacao);
         }
