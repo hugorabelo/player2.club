@@ -28,7 +28,6 @@ class FaseGrupo extends Eloquent
         return $usuarios;
     }
 
-    /** TODO */
     public function usuariosComClassificacao()
     {
         $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
@@ -107,37 +106,9 @@ class FaseGrupo extends Eloquent
             }
         }
 
-        //TODO ORDENAR USUARIOS DE ACORDO COM AS REGRAS;
         $fase = $this->fase();
         $campeonato = $fase->campeonato();
-        $criteriosDeClassificacao = $campeonato->criteriosOrdenados();
-
-        $makeComparer = function($criteria) {
-            $comparer = function ($first, $second) use ($criteria) {
-                foreach ($criteria as $key => $orderType) {
-                    $orderType = strtolower($orderType);
-                    if ($first[$key] < $second[$key]) {
-                        return $orderType === "menor" ? -1 : 1;
-                    } else if ($first[$key] > $second[$key]) {
-                        return $orderType === "menor" ? 1 : -1;
-                    }
-                }
-                return 0;
-            };
-            return $comparer;
-        };
-
-        $sort = app()->make(Collection::class);
-        foreach ($criteriosDeClassificacao as $criterio) {
-            $sort->put($criterio->valor, $criterio->ordenacao);
-        }
-        $sort = $sort->toArray();
-        $comparer = $makeComparer($sort);
-        $usuarios->sort($comparer);
-
-        $usuarios->values()->all();
-
-        return $usuarios;
+        return $campeonato->ordenarUsuariosPorCriterioDeClassificacao($usuarios);
     }
 
     public function partidas()
@@ -234,44 +205,6 @@ class FaseGrupo extends Eloquent
             $usuariosClassificados = $usuariosComClassificacao->take($quantidadeClassificados);
         }
         return $usuariosClassificados;
-    }
-
-    private function ordenaUsuariosCriteriosClassificacao($listaUsuarios, $fase) {
-        $campeonato = Campeonato::find($fase->campeonatos_id);
-        $this->criteriosDeClassificacao = $campeonato->criteriosOrdenados();
-        $listaUsuarios->sort("comparaUsuariosCriteriosClassificacao");
-        return $listaUsuarios;
-    }
-
-    private function comparaUsuariosCriteriosClassificacao($usuario1, $usuario2) {
-        /*
-         *
-            $collection->sort(function($time1, $time2) {
-               if($time1->pontos === $time2->pontos) {
-                 if($time1->vitoria === $time2->vitoria) {
-                   return 0;
-                 }
-                 return $time1->vitoria > $time2->vitoria ? -1 : 1;
-               }
-               return $time1->pontos > $time2->pontos ? -1 : 1;
-            });
-         */
-//        $criteriosClassificacao = $this->criteriosDeClassificacao;
-//        $criterio = $criteriosClassificacao->shift();
-//        $valor = $criterio->valor;
-//        $ordenacao = $criterio->ordenacao;
-//        if($usuario1->$valor === $usuario2->$valor) {
-//            if($criteriosClassificacao->count() == 0) {
-//                return 0;
-//            }
-//            return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2);
-//        }
-//        if($ordenacao == 'maior') {
-//            return $usuario1->$valor > $usuario2->$valor ? -1 : 1;
-//        } else {
-//            return $usuario1->$valor < $usuario2->$valor ? -1 : 1;
-//        }
-        return -1;
     }
 
 }

@@ -105,11 +105,9 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         }
 
         // Verificar se a pontuação está toda cadastrada corretamente
-        if(!$fase->matamata) {
-            for($i = $permite_empate ? 0 : 1;$i<$usuarios->count();$i++) {
-                if(!isset($pontuacoes[$i])) {
-                    return 'messages.pontuacao_nao_cadastrada';
-                }
+        for($i = $permite_empate ? 0 : 1;$i<$usuarios->count();$i++) {
+            if(!isset($pontuacoes[$i])) {
+                return 'messages.pontuacao_nao_cadastrada';
             }
         }
 

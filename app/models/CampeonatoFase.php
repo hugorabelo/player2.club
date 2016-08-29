@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 class CampeonatoFase extends Eloquent {
 	protected $guarded = array();
 
@@ -24,6 +26,16 @@ class CampeonatoFase extends Eloquent {
     public function usuarios() {
         return $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
     }
+
+	public function usuariosClassificados() {
+		$usuariosClassificados = app()->make(Collection::class);
+		foreach ($this->grupos() as $grupo) {
+			foreach ($grupo->usuariosClassificados() as $usuarioGrupo) {
+				$usuariosClassificados->add($usuarioGrupo);
+			}
+		}
+		return $usuariosClassificados;
+	}
 
     public function faseAnterior() {
         return $this->find($this->fase_anterior_id);

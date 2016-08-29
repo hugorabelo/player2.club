@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class Campeonato extends Eloquent {
 	protected $guarded = array();
@@ -74,14 +75,14 @@ class Campeonato extends Eloquent {
 
     public function abreFase($dadosFase) {
         $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
-        $novoCampeonato = new $nomeClasse();
+		$novoCampeonato = new $nomeClasse($this->toArray());
 
         return $novoCampeonato->iniciaFase($dadosFase);
     }
 
 	public function fechaFase($dadosFase) {
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
-		$novoCampeonato = new $nomeClasse();
+		$novoCampeonato = new $nomeClasse($this->toArray());
 
 		return $novoCampeonato->encerraFase($dadosFase);
 	}
@@ -113,6 +114,38 @@ class Campeonato extends Eloquent {
 	 * @return Collection Lista Ordenada de Critérios
 	 */
 	public function criteriosOrdenados() {
-		return $this->belongsToMany('CriterioClassificacao', 'campeonato_criterios', 'campeonatos_id', 'criterios_classificacao_id')->withPivot(array('ordem'))->orderBy('ordem')->getResults();
+		$criterios = $this->belongsToMany('CriterioClassificacao', 'campeonato_criterios', 'campeonatos_id', 'criterios_classificacao_id')->withPivot(array('ordem'))->orderBy('ordem')->getResults();
+		return $criterios;
+	}
+
+	public function ordenarUsuariosPorCriterioDeClassificacao($usuarios) {
+		$criteriosDeClassificacao = $this->criteriosOrdenados();
+
+		$makeComparer = function($criteria) {
+			$comparer = function ($first, $second) use ($criteria) {
+				foreach ($criteria as $key => $orderType) {
+					$orderType = strtolower($orderType);
+					if ($first[$key] < $second[$key]) {
+						return $orderType === "menor" ? -1 : 1;
+					} else if ($first[$key] > $second[$key]) {
+						return $orderType === "menor" ? 1 : -1;
+					}
+				}
+				return 0;
+			};
+			return $comparer;
+		};
+
+		$sort = app()->make(Collection::class);
+		foreach ($criteriosDeClassificacao as $criterio) {
+			$sort->put($criterio->valor, $criterio->ordenacao);
+		}
+		$sort = $sort->toArray();
+		$comparer = $makeComparer($sort);
+		$usuarios->sort($comparer);
+
+		$usuarios->values()->all();
+
+		return $usuarios;
 	}
 }

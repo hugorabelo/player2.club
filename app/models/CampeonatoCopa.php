@@ -13,6 +13,11 @@ use Illuminate\Database\Eloquent\Collection;
 class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 {
 
+    function __construct(array $attributes)
+    {
+        parent::__construct($attributes);
+    }
+
     public function salvar($input)
     {
 
@@ -162,7 +167,8 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
             }
         } else {
-            $usuariosDaFase = $faseAtual->usuarios();
+            $faseAnterior = $faseAtual->faseAnterior();
+            $usuariosDaFase = $faseAnterior->usuariosClassificados();
         }
         $gruposDaFase = $faseAtual->grupos();
 
@@ -364,7 +370,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 if ($dadosFase['tipo_sorteio_matamata'] == 'geral') {
                     // Precisa-se ordernar os usuários dentro de cada lista pelos critérios de classificação
                     for ($i = 1; $i<=$maximaPosicao; $i++) {
-                        $this->ordenaUsuariosCriteriosClassificacao($lista[$i], $fase);
+                        $lista[$i] = $this->ordenarUsuariosPorCriterioDeClassificacao($lista[$i]);
                     }
 
                     $indiceGrupoAtual = 0;
@@ -430,11 +436,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                             // Pegar mandante do início da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
                             if($indiceGrupoInicial % 2 == 0) {
-//                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
                                 $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
                             } else {
                                 $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-//                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
                             }
                         }
 
@@ -527,43 +531,6 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
         }
         return null;
-    }
-
-    private function ordenaUsuariosCriteriosClassificacao($listaUsuarios, $fase) {
-        $campeonato = Campeonato::find($fase->campeonatos_id);
-        $this->criteriosDeClassificacao = $campeonato->criteriosOrdenados();
-        $listaUsuarios->sort("comparaUsuariosCriteriosClassificacao");
-        return $listaUsuarios;
-    }
-
-    private function comparaUsuariosCriteriosClassificacao($usuario1, $usuario2) {
-        /*
-         *
-            $collection->sort(function($time1, $time2) {
-               if($time1->pontos === $time2->pontos) {
-                 if($time1->vitoria === $time2->vitoria) {
-                   return 0;
-                 }
-                 return $time1->vitoria > $time2->vitoria ? -1 : 1;
-               }
-               return $time1->pontos > $time2->pontos ? -1 : 1;
-            });
-         */
-        $criteriosClassificacao = $this->criteriosDeClassificacao;
-        $criterio = $criteriosClassificacao->shift();
-        $valor = $criterio->valor;
-        $ordenacao = $criterio->ordenacao;
-        if($usuario1->{$valor} === $usuario2->{$valor}) {
-            if($criteriosClassificacao->count() == 0) {
-                return 0;
-            }
-            return $this->comparaUsuariosCriteriosClassificacao($usuario1, $usuario2, $criteriosClassificacao);
-        }
-        if($ordenacao == 'maior') {
-            return $usuario1->{$valor} > $usuario2->{$valor} ? -1 : 1;
-        } else {
-            return $usuario1->{$valor} < $usuario2->{$valor} ? -1 : 1;
-        }
     }
 
 }
