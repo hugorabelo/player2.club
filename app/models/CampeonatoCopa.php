@@ -222,14 +222,16 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
 
             // contabilizar pontuação e quantidade de classificados (por grupo) - INSCREVER USUÁRIOS CLASSIFICADOS NA FASE SEGUINTE
-            $posicaoUsuario = 1;
-            foreach ($grupo->usuariosClassificados() as $usuario) {
-                $usuarioFase = new UsuarioFase();
-                $usuarioFase->campeonato_fases_id = $proximaFase->id;
-                $usuarioFase->users_id = $usuario->id;
-                $usuarioFase->posicao_fase_anterior = $posicaoUsuario;
-                $usuarioFase->save();
-                $posicaoUsuario++;
+            if(isset($proximaFase)) {
+                $posicaoUsuario = 1;
+                foreach ($grupo->usuariosClassificados() as $usuario) {
+                    $usuarioFase = new UsuarioFase();
+                    $usuarioFase->campeonato_fases_id = $proximaFase->id;
+                    $usuarioFase->users_id = $usuario->id;
+                    $usuarioFase->posicao_fase_anterior = $posicaoUsuario;
+                    $usuarioFase->save();
+                    $posicaoUsuario++;
+                }
             }
         }
 
