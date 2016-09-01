@@ -6,6 +6,10 @@
  * Date: 27/06/16
  * Time: 22:22
  */
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+
 class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 {
 
@@ -40,13 +44,13 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
             $faseCriada['descricao'] = 'messages.matamata'.$qtdeParticipantesFase;
-            if($this->detalhesFases['ida_volta']) {
+            if($this->detalhesCampeonato['ida_volta']) {
                 $faseCriada['permite_empate'] = true;
             } else {
                 $faseCriada['permite_empate'] = false;
             }
-            $faseCriada['data_inicio'] = $this->detalhesFases['data_inicio'];
-            $faseCriada['data_fim'] = $this->detalhesFases['data_fim'];
+            $faseCriada['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
+            $faseCriada['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
@@ -123,13 +127,4 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         return '';
     }
 
-    public function iniciaFase($dadosFase)
-    {
-        // TODO: Implement iniciaFase() method.
-    }
-
-    public function encerraFase($dadosFase)
-    {
-        // TODO: Implement encerraFase() method.
-    }
 }

@@ -25,8 +25,8 @@
         <div class="col-md-7">
             <select id="tipo_sorteio_matamata" class="form-control" ng-model="dadosFase.tipo_sorteio_matamata" required>
                 <option value="aleatorio" translate>fields.sorteio_aleatorio</option>
-                <option value="geral" translate>fields.sorteio_geral</option>
-                <option value="grupo" translate>fields.sorteio_grupo</option>
+                <option value="geral" translate ng-hide="campeonatoFaseSelecionada.inicial">fields.sorteio_geral</option>
+                <option value="grupo" translate ng-hide="campeonatoFaseSelecionada.inicial">fields.sorteio_grupo</option>
             </select>
         </div>
     </div>

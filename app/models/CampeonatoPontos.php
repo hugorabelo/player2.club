@@ -6,6 +6,10 @@
  * Date: 27/06/16
  * Time: 22:19
  */
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+
 class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
 {
 
@@ -41,8 +45,8 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase = array();
         $primeiraFase['descricao'] = 'messages.primeira_fase';
         $primeiraFase['permite_empate'] = true;
-        $primeiraFase['data_inicio'] = $this->detalhesFases['data_inicio'];
-        $primeiraFase['data_fim'] = $this->detalhesFases['data_fim'];
+        $primeiraFase['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
+        $primeiraFase['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
         $primeiraFase['inicial'] = true;
@@ -147,13 +151,4 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         return '';
     }
 
-    public function iniciaFase($dadosFase)
-    {
-        // TODO: Implement iniciaFase() method.
-    }
-
-    public function encerraFase($dadosFase)
-    {
-        // TODO: Implement encerraFase() method.
-    }
 }
