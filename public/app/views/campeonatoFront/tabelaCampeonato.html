@@ -30,7 +30,7 @@
 			</a>
 		</nav>
 
-		<div class="row" ng-repeat="grupo in gruposDaFase track by $index">
+		<div class="row" ng-repeat="grupo in gruposDaFase track by $index" ng-hide="fase_atual.matamata">
 			<div class="col-sm-8">
 				<div class="ibox">
 					<div class="ibox-title">
@@ -101,11 +101,47 @@
 									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
 								</div>
 							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        MATA-MATA-->
+        <div class="row" ng-repeat="grupo in gruposDaFase track by $index" ng-show="fase_atual.matamata">
+           {{carregaJogosMataMata(grupo)}}
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
+                    </div>
+                    <div class="ibox-content">
+						<div class="lista-de-jogos-item" ng-repeat="partida in partidasDaRodada[0]">
+							<div class="placar-jogo-equipes">
+								<div class="placar-jogo-equipes-visitante col-xs-10">
+									<img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
+								</div>
+								<div class="placar-jogo-equipes-placar col-xs-1">
+									<div class="row">
+										<span class="placar-jogo-equipes-placar-mandante col-xs-6">{{partida.usuarios[0].placar}}</span>
+										<span class="placar-jogo-equipes-placar-mandante col-xs-6">{{grupo.placarNovo}}</span>
+									</div>
+								</div>
+								<div class="placar-jogo-equipes-visitante col-xs-10">
+									<img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[0].nome}}">
+									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
+								</div>
+								<div class="placar-jogo-equipes-placar col-xs-1">
+									<div class="row">
+										<span class="placar-jogo-equipes-placar-mandante col-xs-6">{{partida.usuarios[1].placar}}</span>
+										<span class="placar-jogo-equipes-placar-mandante col-xs-6">{{partida.usuarios[1].placar}}</span>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
 	<!--	Meu Codigo-->

@@ -85,7 +85,8 @@ Route::get('/', function()
 
     Route::get('api/faseGrupo/usuariosComClassificacao/{id}', 'FaseGrupoController@getUsuariosComClassificacao');
     Route::get('api/faseGrupo/partidasDaFase/{id}', 'FaseGrupoController@getPartidas');
-    Route::post('api/faseGrupo/partidasPorRodada', 'FaseGrupoController@getPartidasPorRodada');
+    Route::post('api/faseGrupo/partidasMataMata/{id}', 'FaseGrupoController@getPartidasPorRodada');
+    Route::get('api/faseGrupo/partidasPorRodada', 'FaseGrupoController@getPartidasMataMata');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('faseGrupo', 'FaseGrupoController');
     });

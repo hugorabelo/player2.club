@@ -147,6 +147,19 @@ class FaseGrupo extends Eloquent
         return $partidasPorRodada;
     }
 
+    public function partidasMataMata() {
+        $partidas = $this->partidas();
+        $partidas = $this->partidas();
+        $partidas->sortBy('rodada');
+        $partidas->values()->all();
+        $partidasMataMata = app()->make(Collection::class);
+        foreach ($partidas as $partida) {
+            $partida->usuarios = $partida->usuarios();
+            $partidasMataMata->add($partida);
+        }
+        return $partidasMataMata;
+    }
+
     public function usuariosClassificados()
     {
         $fase = $this->fase();

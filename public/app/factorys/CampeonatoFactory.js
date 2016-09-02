@@ -160,6 +160,10 @@ AplicacaoLiga.factory('Campeonato', ['$http', function ($http) {
 			});
 		},
 
+        partidasMataMata: function(idGrupo) {
+            return $http.get('api/faseGrupo/partidasMataMata/' + idGrupo);
+        },
+
 		getTiposDeCompetidores: function() {
 			return $http.get('api/tipoCompetidor');
 		},

@@ -89,4 +89,13 @@ class FaseGrupoController extends BaseController {
         }
     }
 
+    public function getPartidasMataMata($idGrupo) {
+        $grupo = FaseGrupo::find($idGrupo);
+        if($grupo != null) {
+            return Response::json($grupo->partidasMataMata($grupo));
+        } else {
+            return null;
+        }
+    }
+
 }
