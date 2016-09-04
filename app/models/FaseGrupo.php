@@ -24,15 +24,51 @@ class FaseGrupo extends Eloquent
      */
     public function usuarios()
     {
-        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('pontuacao'))->orderBy('pontuacao', 'desc')->getResults();
+        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
+        return $usuarios;
+    }
+
+    public function usuariosMataMata() {
+        $usuarios = $this->usuarios();
+        if($usuarios->isEmpty()) {
+            return null;
+        }
+        $partidas = $this->partidas();
+        $usuario1 = $usuarios->first();
+        $usuario2 = $usuarios->last();
+        $usuario1->distintivo = isset($usuario1->distintivo) ? $usuario1->distintivo : $usuario1->imagem_perfil;
+        $usuario2->distintivo = isset($usuario2->distintivo) ? $usuario2->distintivo : $usuario2->imagem_perfil;
+        $usuario1->placares = app()->make(Collection::class);
+        $usuario2->placares = app()->make(Collection::class);
+        foreach ($partidas as $partida) {
+            $placarUsuario1 = $partida->placarUsuario($usuario1->id);
+            $usuario1->placares->add($placarUsuario1);
+            $placarExtraUsuario1 = $partida->placarExtraUsuario($usuario1->id);
+            if(isset($placarExtraUsuario1)) {
+                $usuario1->placarExtra = $placarExtraUsuario1;
+            }
+
+            $placarUsuario2 = $partida->placarUsuario($usuario2->id);
+            $usuario2->placares->add($placarUsuario2);
+            $placarExtraUsuario2 = $partida->placarExtraUsuario($usuario2->id);
+            if(isset($placarExtraUsuario2)) {
+                $usuario2->placarExtra = $placarExtraUsuario2;
+            }
+        }
+        $usuarios = app()->make(Collection::class);
+        $usuarios->add($usuario1);
+        $usuarios->add($usuario2);
+
         return $usuarios;
     }
 
     public function usuariosComClassificacao()
     {
-        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
+        $usuarios = $this->usuarios();
+        if($usuarios->isEmpty()) {
+            return true;
+        }
         $partidas = $this->partidas();
-        $pontuacoes = $this->fase()->pontuacoes();
         /*
          * Para cada partida, trazer os usuários da partida;
          * Para cada usuário, associar com um usuário da coleção principal;
@@ -145,19 +181,6 @@ class FaseGrupo extends Eloquent
             }
         }
         return $partidasPorRodada;
-    }
-
-    public function partidasMataMata() {
-        $partidas = $this->partidas();
-        $partidas = $this->partidas();
-        $partidas->sortBy('rodada');
-        $partidas->values()->all();
-        $partidasMataMata = app()->make(Collection::class);
-        foreach ($partidas as $partida) {
-            $partida->usuarios = $partida->usuarios();
-            $partidasMataMata->add($partida);
-        }
-        return $partidasMataMata;
     }
 
     public function usuariosClassificados()

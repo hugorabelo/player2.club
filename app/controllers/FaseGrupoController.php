@@ -4,10 +4,15 @@ class FaseGrupoController extends BaseController {
 
     public function show($id)
     {
+        $fase = CampeonatoFase::find($id);
         $faseGrupos = FaseGrupo::where('campeonato_fases_id','=',$id)->get();
         foreach($faseGrupos as $grupo) {
-            $grupo->classificacao = $grupo->usuariosComClassificacao();
-            $grupo->rodadas = $grupo->rodadas();
+            if($fase->matamata) {
+                $grupo->usuarios = $grupo->usuariosMataMata();
+            } else {
+                $grupo->classificacao = $grupo->usuariosComClassificacao();
+                $grupo->rodadas = $grupo->rodadas();
+            }
         }
         return Response::json($faseGrupos);
     }

@@ -139,4 +139,22 @@ class Partida extends Eloquent {
     public function campeonato() {
         return $this->fase()->campeonato();
     }
+
+    public function placarUsuario($idUsuario) {
+        foreach ($this->usuarios(false) as $usuario) {
+            if($usuario->users_id == $idUsuario) {
+                return $usuario->placar;
+            }
+        }
+        return null;
+    }
+
+    public function placarExtraUsuario($idUsuario) {
+        foreach ($this->usuarios(false) as $usuario) {
+            if($usuario->users_id == $idUsuario) {
+                return $usuario->placar_extra;
+            }
+        }
+        return null;
+    }
 }

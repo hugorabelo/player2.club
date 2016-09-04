@@ -64,17 +64,16 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 		}
 
 		$scope.inicializaRodadas = function(listaDeGrupos) {
-			var indice = 0;
-            if($scope.fase_atual.matamata) {
-                $scope.carregaJogosMataMata(listaDeGrupos);
-            } else {
-			     angular.forEach(listaDeGrupos, function(item) {
+            var indice = 0;
+            var partidas;
+            angular.forEach(listaDeGrupos, function(item) {
+                if(!$scope.fase_atual.matamata) {
                     $scope.rodada_atual.push(1);
                     $scope.carregaJogosDaRodada(indice, item.id);
                     indice++;
                     $scope.rodada_maxima = Object.keys(item.rodadas).length;
-                 });
-            }
+                }
+            });
 		}
 
 		$scope.exibeRodadaAnterior = function(indice, id_grupo) {
@@ -100,25 +99,6 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 					$rootScope.loading = false;
 				})
 		}
-
-        $scope.carregaJogosMataMata = function(grupos) {
-            $rootScope.loading = true;
-            var indice = 0;
-            var retorno = [];
-            angular.forEach(grupos, function(item) {
-                $scope.rodada_atual.push(1);
-                var rodada = $scope.rodada_atual[indice];
-                Campeonato.partidasPorRodada(rodada, item.id)
-                    .success(function (data) {
-                        retorno.push(data);
-                        $rootScope.loading = false;
-                    })
-                indice++;
-            });
-            $scope.partidasDaRodada = retorno;
-            console.log($scope.partidasDaRodada);
-            $rootScope.loading = false;
-        }
 
         $scope.funcaoTeste = function(grupo, indice) {
             grupo.placarNovo = indice;
