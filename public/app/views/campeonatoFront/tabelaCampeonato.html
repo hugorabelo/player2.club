@@ -114,18 +114,14 @@
                         <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
                     </div>
                     <div class="ibox-content">
-						<div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios">
-							<div class="placar-jogo-equipes">
-								<div class="placar-jogo-equipes-visitante col-xs-10">
+                        <div class="lista-de-jogos-item row " ng-repeat="usuario in grupo.usuarios">
+                            <div class="placar-jogo-equipes-matamata col-xs-9">
 									<img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
 									<span class="placar-jogo-equipes-sigla" title="{{usuario.nome}}">{{usuario.nome}}</span>
-								</div>
-								<div class="placar-jogo-equipes-placar col-xs-1" ng-repeat="placar in usuario.placares track by $index">
-									<div class="row">
-										<span class="placar-jogo-equipes-placar-mandante col-xs-6">{{placar}}</span>
-									</div>
-								</div>
 							</div>
+                            <div class="placar-jogo-equipes-placar-matamata col-xs-1" ng-repeat="placar in usuario.placares track by $index">
+                                {{placar}}
+                            </div>
                         </div>
                     </div>
                 </div>
