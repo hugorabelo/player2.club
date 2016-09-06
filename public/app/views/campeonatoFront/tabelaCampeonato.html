@@ -107,24 +107,32 @@
             </div>
         </div>
 <!--        MATA-MATA-->
-        <div class="row" ng-repeat="grupo in gruposDaFase track by $index" ng-show="fase_atual.matamata">
+        <div class="row grupo-matamata" ng-repeat="grupo in gruposDaFase track by $index" ng-show="fase_atual.matamata">
             <div class="col-sm-12">
-                <div class="ibox">
-                    <div class="ibox-title">
-                        <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
+                <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
+                <div class="lista-de-jogos-item row" ng-repeat="usuario in grupo.usuarios">
+                    <div class="placar-jogo-equipes-matamata col-xs-9">
+                            <img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
+                            <span class="placar-jogo-equipes-sigla" title="{{usuario.nome}}">{{usuario.nome}}</span>
                     </div>
-                    <div class="ibox-content">
-                        <div class="lista-de-jogos-item row " ng-repeat="usuario in grupo.usuarios">
-                            <div class="placar-jogo-equipes-matamata col-xs-9">
-									<img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
-									<span class="placar-jogo-equipes-sigla" title="{{usuario.nome}}">{{usuario.nome}}</span>
-							</div>
-                            <div class="placar-jogo-equipes-placar-matamata col-xs-1" ng-repeat="placar in usuario.placares track by $index">
-                                {{placar}}
-                            </div>
-                        </div>
+                    <div class="placar-jogo-equipes-placar-matamata col-xs-1" ng-repeat="placar in usuario.placares track by $index">
+                        {{placar}}
                     </div>
                 </div>
+                <div ng-show="$odd && grupo.usuarios != null">
+                    <div class="mata-conector1 hidden-xs"></div>
+                    <div class="mata-conector2 hidden-xs"></div>
+                </div>
+
+<!--
+                <div class="ibox">
+                    <div class="ibox-title">
+                    </div>
+                    <div class="ibox-content">
+                    </div>
+
+                </div>
+-->
             </div>
 		</div>
 	</div>
