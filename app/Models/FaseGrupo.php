@@ -156,7 +156,7 @@ class FaseGrupo extends Eloquent
     public function rodadas()
     {
         $partidas = $this->partidas();
-        $partidas->sortBy('rodada');
+        $partidas = $partidas->sortBy('rodada');
         $partidas->values()->all();
         $rodadas = new Collection();
         foreach ($partidas as $partida) {
@@ -171,7 +171,7 @@ class FaseGrupo extends Eloquent
     public function partidasPorRodada($rodada)
     {
         $partidas = $this->partidas();
-        $partidas->sortBy('rodada');
+        $partidas = $partidas->sortBy('rodada');
         $partidas->values()->all();
         $partidasPorRodada = new Collection();
         foreach ($partidas as $partida) {

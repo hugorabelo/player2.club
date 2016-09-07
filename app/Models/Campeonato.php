@@ -316,7 +316,7 @@ class Campeonato extends Eloquent {
                 $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
                 $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
             }
-            $usuarios->sortBy('grupoAnterior');
+            $usuarios = $usuarios->sortBy('grupoAnterior');
             foreach($grupos as $grupo) {
                 $usuario1 = $usuarios->shift();
                 $usuario2 = $usuarios->shift();
@@ -388,7 +388,7 @@ class Campeonato extends Eloquent {
                 } else if ($dadosFase['tipo_sorteio_matamata'] == 'grupo') {
                     // Precisa ordenar os usuários dentro de cada lista pelo ordem dos grupos
                     for ($i = 1; $i<=$maximaPosicao; $i++) {
-                        $lista[$i]->sortBy('grupoAnterior');
+                        $lista[$i] = $lista[$i]->sortBy('grupoAnterior');
                     }
 
                     $indiceGrupoAtual = 0;

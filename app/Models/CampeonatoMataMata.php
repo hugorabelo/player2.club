@@ -87,7 +87,7 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         $fase = $partida->grupo()->fase();
         $permite_empate = $fase->permite_empate;
         $usuarios = Collection::make($dados['usuarios']);
-        $usuarios->sortByDesc('placar');
+        $usuarios = $usuarios->sortByDesc('placar');
         $empate_computado = false;
 
         // Verificar se todos os usuários estão com o placar inserido

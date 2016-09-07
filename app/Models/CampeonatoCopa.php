@@ -149,7 +149,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $permite_empate = $fase->permite_empate;
         $pontuacoes = $fase->pontuacoes();
         $usuarios = Collection::make($dados['usuarios']);
-        $usuarios->sortByDesc('placar');
+        $usuarios = $usuarios->sortByDesc('placar');
         $empate_computado = false;
 
         // Verificar se todos os usuários estão com o placar inserido

@@ -25,7 +25,7 @@ class Partida extends Eloquent {
         $permite_empate = $this->grupo()->fase()->permite_empate;
         $pontuacoes = FaseGrupo::find($partida['fase_grupos_id'])->fase()->pontuacoes();
         $usuarios = Collection::make($partida['usuarios']);
-        $usuarios->sortByDesc('placar');
+        $usuarios = $usuarios->sortByDesc('placar');
         $empate_computado = false;
 
         // Verificar se todos os usuários estão com o placar inserido
