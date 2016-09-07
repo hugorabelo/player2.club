@@ -125,7 +125,7 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
 .run(function($rootScope, $state) {
    $rootScope.$state = $state;
 	if($rootScope.usuarioLogado == null) {
-   	$rootScope.usuarioLogado = 1;
+   	    $rootScope.usuarioLogado = 1;
 	}
 });
 
