@@ -107,7 +107,12 @@
 		"gols_pro": "Gols Pró",
 		"gols_contra": "Gols Contra",
 		"confronto_direto": "Confronto Direto",
-		"lugar": "º Lugar"
+		"lugar": "º Lugar",
+
+        "tipo_sorteio_matamata": "Tipo de Sorteio",
+        "sorteio_aleatorio": "Aleatório",
+        "sorteio_geral": "Classificação Geral",
+        "sorteio_grupo": "Entre Grupos"
 	},
 
 	"messages": {
@@ -201,6 +206,19 @@
 		"minhasPartidas_list": "Minhas Partidas",
 		"tabelaCampeonato_list": "Tabela de Classificação",
 		"partida_contestar": "Contestar Resultado da Partida",
-		"criterios_classificacao": "Critérios de Classificação"
+
+		"criterios_classificacao": "Critérios de Classificação",
+		"primeira_fase": "Primeira Fase",
+		"matamata2": "Final",
+		"matamata4": "Semifinal",
+		"matamata8": "Quartas de Final",
+		"matamata16": "Oitavas de Final",
+		"matamata32": "16 avos de Final",
+		"matamata64": "32 avos de Final",
+
+		"competidores_nao_mutiplo_grupos": "O número de competidores não é múltiplo do número de grupos",
+		"classificados_nao_mutiplo_grupos": "O número de classificados para o mata-mata não é múltiplo do número de grupos",
+		"classificados_nao_potencia_dois": "O número de classificados não é correspondente ao chaveamento do mata-mata. Para isso, o número deve ser uma potência de 2",
+		"numero_competidores_maior_zero": "O número de competidores deve ser maior que zero"
 	}
 }

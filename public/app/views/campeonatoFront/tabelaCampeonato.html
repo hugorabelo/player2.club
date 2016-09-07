@@ -1,6 +1,8 @@
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2 translate>messages.tabelaCampeonato_list</h2>
+	    <select class="form-control" name="selecionaCampeonato" ng-model="campeonatoSelecionado" ng-options="campeonato.id as campeonato.descricao for campeonato in campeonatos" ng-change="carregaInformacoesCampeonato(campeonatoSelecionado)">
+	    </select>
+		<h2><span translate>messages.tabelaCampeonato_list</span> - {{campeonato.descricao}}</h2>
 		<ol class="breadcrumb">
 			<li>
 				<a ui-sref="home">Home</a>
@@ -22,13 +24,13 @@
 			<a ng-click="exibeFaseAnterior()" ng-class="{'disabled': indice_fase == 0}">
 				<i class="fa fa-chevron-left pull-left"></i>
 			</a>
-			{{fase_atual.descricao}}
+			{{fase_atual.descricao | translate}}
 			<a ng-click="exibeProximaFase()" ng-class="{'disabled': indice_fase == campeonatoFases.length-1}">
 				<i class="fa fa-chevron-right pull-right"></i>
 			</a>
 		</nav>
 
-		<div class="row" ng-repeat="grupo in gruposDaFase track by $index">
+		<div class="row" ng-repeat="grupo in gruposDaFase track by $index" ng-hide="fase_atual.matamata">
 			<div class="col-sm-8">
 				<div class="ibox">
 					<div class="ibox-title">
@@ -99,11 +101,39 @@
 									<span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
 								</div>
 							</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        MATA-MATA-->
+        <div class="row grupo-matamata" ng-repeat="grupo in gruposDaFase track by $index" ng-show="fase_atual.matamata">
+            <div class="col-sm-12">
+                <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
+                <div class="lista-de-jogos-item row" ng-repeat="usuario in grupo.usuarios">
+                    <div class="placar-jogo-equipes-matamata col-xs-9">
+                            <img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
+                            <span class="placar-jogo-equipes-sigla" title="{{usuario.nome}}">{{usuario.nome}}</span>
+                    </div>
+                    <div class="placar-jogo-equipes-placar-matamata col-xs-1" ng-repeat="placar in usuario.placares track by $index">
+                        {{placar}}
+                    </div>
+                </div>
+                <div ng-show="$odd && grupo.usuarios != null">
+                    <div class="mata-conector1 hidden-xs"></div>
+                    <div class="mata-conector2 hidden-xs"></div>
+                </div>
+
+<!--
+                <div class="ibox">
+                    <div class="ibox-title">
+                    </div>
+                    <div class="ibox-content">
+                    </div>
+
+                </div>
+-->
+            </div>
 		</div>
 	</div>
 	<!--	Meu Codigo-->

@@ -28,17 +28,19 @@ Route::get('/', function()
         Route::resource('campeonato', 'CampeonatosController');
     });
 
+    Route::get('api/campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('campeonatoTipos', 'CampeonatoTiposController');
     });
 
+    Route::get('api/jogosDaPlataforma/{id}', 'PlataformasController@getJogos');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('plataformas', 'PlataformasController');
     });
 
 // Inserido para fazer o update de imagens via Angularjs
     Route::post('api/plataformas/{id}', 'PlataformasController@update');
-
+    Route::get('api/tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('jogos', 'JogosController');
     });
@@ -52,7 +54,7 @@ Route::get('/', function()
 
     Route::get('api/campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('api/campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
-Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
+    Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('usuario', 'UsersController');
     });
@@ -70,7 +72,8 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
     });
 
     Route::get('api/campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
-    Route::get('api/campeonatoFase/abreFase/{id}', 'CampeonatoFasesController@abreFase');
+    Route::post('api/campeonatoFase/abreFase', 'CampeonatoFasesController@abreFase');
+    Route::post('api/campeonatoFase/fechaFase', 'CampeonatoFasesController@fechaFase');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('campeonatoFase', 'CampeonatoFasesController');
     });
@@ -83,6 +86,7 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
     Route::get('api/faseGrupo/usuariosComClassificacao/{id}', 'FaseGrupoController@getUsuariosComClassificacao');
     Route::get('api/faseGrupo/partidasDaFase/{id}', 'FaseGrupoController@getPartidas');
     Route::post('api/faseGrupo/partidasPorRodada', 'FaseGrupoController@getPartidasPorRodada');
+    Route::get('api/faseGrupo/partidasMataMata/{id}', 'FaseGrupoController@getPartidasMataMata');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('faseGrupo', 'FaseGrupoController');
     });
@@ -117,6 +121,23 @@ Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
         Route::resource('usuariopartidas', 'UsuariopartidasController');
     });
 
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('tipoCompetidor', 'TipoCompetidorController');
+    });
+
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('acessoCampeonato', 'AcessoCampeonatoController');
+    });
+
+    Route::get('api/modeloCampeonato/getCriteriosClassificacao/{id}', 'ModeloCampeonatoController@getCriteriosClassificacao');
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('modeloCampeonato', 'ModeloCampeonatoController');
+    });
+
+    Route::group(array('prefix'=>'api'), function() {
+        Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
+    });
+
 //});
 
 App::missing(function($exception) {
@@ -127,9 +148,6 @@ App::missing(function($exception) {
  */
 Event::listen('illuminate.query', function($query)
 {
-    Log::info($query);
+//    Log::info($query);
 });
 /* */
-
-
-

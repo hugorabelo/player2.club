@@ -84,6 +84,12 @@
 
     <!-- Anglar App Script -->
     <script src="app/app.js"></script>
+<!--
+    <script src="app/assets/controllers.js"></script>
+    <script src="app/assets/directives.js"></script>
+    <script src="app/assets/factorys.js"></script>
+    <script src="app/assets/plugins.js"></script>
+-->
 
 <?php
 

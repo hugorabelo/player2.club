@@ -20,19 +20,7 @@
 
 <div class="wrapper wrapper-content animated fadeIn">
 	<div class="ibox-content">
-		<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="submit()">
-			<div class="row" ng-show="messages">
-				<div class="col-md-10 col-md-offset-2">
-					<div class="alert alert-danger">
-						<ul>
-							<li class="error" ng-repeat="message in messages">
-								{{ message }}
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
+		<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="salvarCampeonato()">
 			<div class="form-group">
 				<label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
 				<div class="col-md-9">
@@ -43,9 +31,7 @@
 			<div class="form-group">
 				<label for="acesso" class="col-md-3 control-label" translate>fields.acesso</label>
 				<div class="col-md-9">
-					<select id="jogos_id" class="form-control" ng-model="campeonato.acesso" required>
-						<option value="publico" translate>fields.publico</option>
-						<option value="restrito" translate>fields.restrito</option>
+					<select id="acesso_campeonato_id" class="form-control" ng-model="campeonato.acesso_campeonato_id" ng-options="tipoAcesso.id as tipoAcesso.descricao for tipoAcesso in tiposDeAcessosDoCampeonato" required>
 					</select>
 				</div>
 			</div>
@@ -54,24 +40,24 @@
 				<label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
 				<div class="col-md-3">
 					<div class="input-group date">
-						<input type="datetime" class="form-control" date-time ng-model="campeonato.data_inicio" view="date" auto-close="true" min-view="date" format="DD-MM-YYYY">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input type="text" class="form-control" ng-model="campeonato.fases.data_inicio" datepicker-popup="dd/MM/yyyy" is-open="openedInicio" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+						<span class="input-group-addon"><i class="fa fa-calendar" ng-click="openCalendar($event, 'inicio')"></i></span>
 					</div>
 				</div>
 
 				<label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
 				<div class="col-md-3">
 					<div class="input-group date">
-						<input type="datetime" class="form-control" date-time ng-model="campeonato.data_fim" view="date" auto-close="true" min-view="date" format="DD-MM-YYYY">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input type="text" class="form-control" ng-model="campeonato.fases.data_fim" datepicker-popup="dd/MM/yyyy" is-open="openedFim" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+						<span class="input-group-addon"><i class="fa fa-calendar" ng-click="openCalendar($event, 'fim')"></i></span>
 					</div>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="detalhes" class="col-md-3 control-label" translate>fields.detalhes</label>
+				<label for="regras" class="col-md-3 control-label" translate>fields.detalhes</label>
 				<div class="col-md-9">
-					<summernote ng-model="campeonato.detalhes" required></summernote>
+					<summernote ng-model="campeonato.regras" required></summernote>
 				</div>
 			</div>
 
@@ -102,24 +88,21 @@
 				<div class="col-md-9 col-md-offset-3" ng-include src="templateDetalhes"></div>
 			</div>
 
-<!--
-			<div class="form-group">
-				<div class="col-md-9 col-md-offset-3" ng-include="'app/views/campeonato_novo/detalhes_mata-mata.html'"></div>
+			<div class="row" ng-show="messages">
+				<div class="col-md-9 col-md-offset-3">
+					<div class="alert alert-danger">
+						<ul>
+							<li class="error" ng-repeat="message in messages">
+								{{ message | translate }}
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
-
-			<div class="form-group">
-				<div class="col-md-9 col-md-offset-3" ng-include="'app/views/campeonato_novo/detalhes_pontos.html'"></div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-md-9 col-md-offset-3" ng-include="'app/views/campeonato_novo/detalhes_grid.html'"></div>
-			</div>
--->
 
 			<div class="align-right">
-				<button type="button" class="btn btn-default" data-dismiss="modal" translate>fields.cancel</button>
-				<button type="submit" class="btn btn-primary" ng-show="novoItem" translate>fields.save</button>
-				<button type="submit" class="btn btn-primary" ng-hide="novoItem" translate>fields.update</button>
+				<button type="button" class="btn btn-default" translate>fields.cancel</button>
+				<button type="submit" class="btn btn-primary" translate>fields.save</button>
 			</div>
 		</form>
 	</div>

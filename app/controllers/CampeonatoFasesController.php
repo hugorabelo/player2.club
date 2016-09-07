@@ -135,68 +135,59 @@ class CampeonatoFasesController extends BaseController {
 		return Response::json(array('success'=>true));
 	}
 
-	public function abreFase($id) {
-        // verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
+	public function abreFase() {
+        /*
+         * Objeto Fase deve conter os seguintes atributos:
+         * - id : ID da fase
+         * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
+         * - tipo_sorteio mata-mata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatória)
+         */
 
+        $dadosFase = Input::all();
+        $faseAtual = CampeonatoFase::find($dadosFase['id']);
+		$campeonato = Campeonato::find($faseAtual->campeonatos_id);
 
-        // Inscrever usuários classificados da fase anterior
-        $fase_atual = CampeonatoFase::find($id);
-        $campeonato = Campeonato::find($fase_atual->campeonatos_id);
+		$faseAnterior = $faseAtual->faseAnterior();
+		if(isset($faseAnterior) && $faseAnterior->aberta) {
+			return Response::json(array('success'=>false,
+				'messages'=>array('messages.fase_anterior_aberta')),300);
+		}
+		if($faseAtual->inicial) {
+			if($campeonato->usuariosInscritos()->count() < $faseAtual->quantidade_usuarios) {
+				return Response::json(array('success'=>false,
+					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
+			}
+		} else {
+			if($faseAtual->usuarios()->count() < $faseAtual->quantidade_usuarios) {
+				return Response::json(array('success'=>false,
+					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
+			}
+		}
 
-        if($fase_atual == $campeonato->faseInicial()) {
-            // Se fase Inicial, pegar todos os usuários do campeonato
-            $usuariosDaFase = $campeonato->usuariosInscritos();
-        } else {
-            // Se fase não é inicial, pegar todos os usuários classificados da fase anterior
-            // Pegar quantidade de usuarios da fase atual / dividir pelo número de grupos da fase anterior = X: número de classificados por grupo / pegar os X melhores de cada grupo da fase anterior
-            $fase_anterior = CampeonatoFase::find($fase_atual->fase_anterior_id);
-            if($fase_anterior != null) {
-                $grupos_anterior = $fase_anterior->grupos();
-                $quantidade_grupos_fase_anterior = $fase_anterior->grupos()->count();
-                $quantidade_classificados_fase_anterior = $fase_atual->quantidade_usuarios / $quantidade_grupos_fase_anterior;
-
-                $usuariosDaFase = array();
-
-                foreach($grupos_anterior as $grupo) {
-                    $usuariosDoGrupo = $grupo->usuarios();
-                    $quantidadeUsuariosInseridos = 0;
-                    foreach($usuariosDoGrupo as $usuarioInserido) {
-                        array_push($usuariosDaFase, $usuarioInserido);
-                        $quantidadeUsuariosInseridos++;
-                        if($quantidadeUsuariosInseridos == $quantidade_classificados_fase_anterior) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        foreach($usuariosDaFase as $usuario) {
-            //UsuarioFase::create(['users_id'=> $usuario->id,'campeonato_fases_id' => $fase_atual->id]);
-        }
-        $gruposDaFase = $fase_atual->grupos();
-
-        // Sortear Grupos e Jogos
-        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase);
-
-        foreach($fase_atual->grupos() as $grupo) {
-            $this->sorteioJogosUmContraUm($grupo, 2);
-        }
+		$usuariosDaFase = $campeonato->abreFase($dadosFase);
 
         return Response::json($usuariosDaFase);
-
-
-
-        // Habilitar inserção de resultados
     }
 
-	public function fechaFase($id) {
+	public function fechaFase() {
+        $dadosFase = Input::all();
+
+		// Verificar se o usuário que está fechando a fase é administrador do campeonato
+		$usuarioLogado = User::find($dadosFase['usuarioLogado']);
+		$campeonato = Campeonato::find($dadosFase['campeonatos_id']);
+		$administradores = $campeonato->administradores();
+		if(!$administradores->contains($usuarioLogado->id)) {
+			return Response::json(array('success'=>false,
+                'messages'=>array('messages.operacao_nao_permitida_nao_administrador')),300);
+		}
+
+		$campeonato->fechaFase($dadosFase);
 		// contabilizar jogos sem resultado (0 pontos para todos os participantes)
 		// contabilizar pontuação e quantidade de classificados (por grupo)
 		// Desabilitar inserção de resultados
 
 		/*
-		 * Gronograma de inserção de resultados para uma partida de campeonato
+		 * Cronograma de inserção de resultados para uma partida de campeonato
 		 * - Usuário tem até a data final da fase para inserir o resultado (Caso não exista resultado, o jogo será definido como sem resultado, onde ambos os participantes ficam com pontos de último colocado)
 		 * - Outro Usuário tem até 24 horas depois da hora de inserção do resultado para confirmar o mesmo (Caso não seja confirmado o resultado por outro usuário, o placar inserido será dado como definitivo).
 		 * -

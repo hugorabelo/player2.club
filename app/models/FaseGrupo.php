@@ -17,16 +17,58 @@ class FaseGrupo extends Eloquent
         return CampeonatoFase::find($this->campeonato_fases_id);
     }
 
+    /**
+     * Retorna os usuários do grupo ordenados pelos critérios de classificação do campeonato
+     *
+     * @return Collection
+     */
     public function usuarios()
     {
-        return $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('pontuacao'))->orderBy('pontuacao', 'desc')->getResults();
+        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
+        return $usuarios;
+    }
+
+    public function usuariosMataMata() {
+        $usuarios = $this->usuarios();
+        if($usuarios->isEmpty()) {
+            return null;
+        }
+        $partidas = $this->partidas();
+        $usuario1 = $usuarios->first();
+        $usuario2 = $usuarios->last();
+        $usuario1->distintivo = isset($usuario1->distintivo) ? $usuario1->distintivo : $usuario1->imagem_perfil;
+        $usuario2->distintivo = isset($usuario2->distintivo) ? $usuario2->distintivo : $usuario2->imagem_perfil;
+        $usuario1->placares = app()->make(Collection::class);
+        $usuario2->placares = app()->make(Collection::class);
+        foreach ($partidas as $partida) {
+            $placarUsuario1 = $partida->placarUsuario($usuario1->id);
+            $usuario1->placares->add($placarUsuario1);
+            $placarExtraUsuario1 = $partida->placarExtraUsuario($usuario1->id);
+            if(isset($placarExtraUsuario1)) {
+                $usuario1->placarExtra = $placarExtraUsuario1;
+            }
+
+            $placarUsuario2 = $partida->placarUsuario($usuario2->id);
+            $usuario2->placares->add($placarUsuario2);
+            $placarExtraUsuario2 = $partida->placarExtraUsuario($usuario2->id);
+            if(isset($placarExtraUsuario2)) {
+                $usuario2->placarExtra = $placarExtraUsuario2;
+            }
+        }
+        $usuarios = app()->make(Collection::class);
+        $usuarios->add($usuario1);
+        $usuarios->add($usuario2);
+
+        return $usuarios;
     }
 
     public function usuariosComClassificacao()
     {
-        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
+        $usuarios = $this->usuarios();
+        if($usuarios->isEmpty()) {
+            return true;
+        }
         $partidas = $this->partidas();
-        $pontuacoes = $this->fase()->pontuacoes();
         /*
          * Para cada partida, trazer os usuários da partida;
          * Para cada usuário, associar com um usuário da coleção principal;
@@ -78,7 +120,6 @@ class FaseGrupo extends Eloquent
                 $num_gols_contra = intval($usuario->gols_contra);
 
                 $num_jogos = $num_vitorias + $num_empates + $num_derrotas;
-                //$pontuacao = ($num_vitorias * 3) + $num_empates;
                 $num_saldo_gols = $num_gols_pro - $num_gols_contra;
 
                 $usuario->pontuacao = intval($usuario->pontuacao);
@@ -101,10 +142,9 @@ class FaseGrupo extends Eloquent
             }
         }
 
-        //TODO ORDENAR USUARIOS DE ACORDO COM AS REGRAS;
-        $usuarios->sortByDesc('pontuacao');
-        $usuarios->values()->all();
-        return $usuarios;
+        $fase = $this->fase();
+        $campeonato = $fase->campeonato();
+        return $campeonato->ordenarUsuariosPorCriterioDeClassificacao($usuarios);
     }
 
     public function partidas()
@@ -113,32 +153,94 @@ class FaseGrupo extends Eloquent
         return $partidas;
     }
 
-    public function rodadas() {
+    public function rodadas()
+    {
         $partidas = $this->partidas();
         $partidas->sortBy('rodada');
         $partidas->values()->all();
         $rodadas = new Collection();
         foreach ($partidas as $partida) {
             $rodadaAtual = $partida->rodada;
-            if($rodadas->get($rodadaAtual) == null) {
+            if ($rodadas->get($rodadaAtual) == null) {
                 $rodadas->put($rodadaAtual, $rodadaAtual);
             }
         }
         return $rodadas;
     }
 
-    public function partidasPorRodada($rodada) {
+    public function partidasPorRodada($rodada)
+    {
         $partidas = $this->partidas();
         $partidas->sortBy('rodada');
         $partidas->values()->all();
         $partidasPorRodada = new Collection();
         foreach ($partidas as $partida) {
-            if($partida->rodada == $rodada) {
+            if ($partida->rodada == $rodada) {
                 $partida->usuarios = $partida->usuarios();
                 $partidasPorRodada->add($partida);
             }
         }
         return $partidasPorRodada;
+    }
+
+    public function usuariosClassificados()
+    {
+        $fase = $this->fase();
+        $campeonato = $fase->campeonato();
+        $detalhesDoCampeonato = $campeonato->detalhes();
+
+        $usuarios = $this->usuarios();
+
+        $partidas = $this->partidas();
+
+        if ($usuarios->first() == null || $partidas->first() == null) {
+            return array();
+        }
+
+        $usuariosClassificados = new Collection();
+        if ($fase->matamata) {
+            if ($detalhesDoCampeonato->ida_volta) {
+                $u1A = $partidas->first()->usuarios()->first();
+                $u2A = $partidas->first()->usuarios()->last();
+                $u1B = $partidas->last()->usuarios()->last();
+                $u2B = $partidas->last()->usuarios()->first();
+                $placar1 = $u1A->placar + $u1B->placar;
+                $placar2 = $u2A->placar + $u2B->placar;
+                if($placar1 > $placar2) {
+                    $usuariosClassificados->put(1, User::find($u1A->users_id));
+                } else if($placar1 < $placar2) {
+                    $usuariosClassificados->put(1, User::find($u2A->users_id));
+                } else {
+                    if ($detalhesDoCampeonato->fora_casa && ($u1A->placar != $u2B->placar)) {
+                        if($u1A->placar > $u2B->placar) {
+                            $usuariosClassificados->put(1, User::find($u2A->users_id));
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u1A->users_id));
+                        }
+                    } else {
+                        if($u1B->placar_extra > $u2B->placar_extra) {
+                            $usuariosClassificados->put(1, User::find($u1A->users_id));
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u2A->users_id));
+                        }
+                    }
+                }
+            } else {
+                $u1 = $partidas->first()->usuarios()->first();
+                $u2 = $partidas->first()->usuarios()->last();
+                if ($u1->placar > $u2->placar) {
+                    $usuariosClassificados->put(1, User::find($u1->users_id));
+                } else {
+                    $usuariosClassificados->put(1, User::find($u2->users_id));
+                }
+            }
+        } else {
+            $proximaFase = $fase->proximaFase();
+            $quantidadeClassificados = $proximaFase->quantidade_usuarios / $proximaFase->grupos()->count();
+            $usuariosComClassificacao = $this->usuariosComClassificacao();
+            $usuariosClassificados = $usuariosComClassificacao->take($quantidadeClassificados);
+        }
+        return $usuariosClassificados;
     }
 
 }

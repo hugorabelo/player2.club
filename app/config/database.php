@@ -66,7 +66,7 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'liga_jogos',
+			'database' => 'player2',
 			'username' => 'hugo',
 			'password' => '123',
 			'charset'  => 'utf8',

@@ -45,7 +45,7 @@
 	border-bottom: 1px solid rgb(192, 192, 192);
 }
 
-.placar-jogo-equipes {
+.placar-jogo-equipes, .placar-jogo-equipes-matamata {
 	color: #333;
 	font-size: 18px;
 	border-bottom: 1px solid rgb(192, 192, 192);
@@ -53,6 +53,13 @@
 	line-height: 70px;
 	text-transform: uppercase;
 	padding: 0;
+}
+
+.placar-jogo-equipes-matamata {
+    border: 1px solid rgb(192, 192, 192);
+    margin: -1px 0 0 -1px;
+    overflow: hidden;
+    background: white;
 }
 
 .placar-jogo-equipes-mandante,
@@ -70,6 +77,16 @@
 .placar-jogo-equipes-visitante,
 .placar-jogo-equipes-placar-visitante {
 	text-align: left;
+}
+
+.placar-jogo-equipes-placar-matamata {
+    text-align: center;
+    height: 70px;
+	line-height: 70px;
+    border: 1px solid rgb(192, 192, 192);
+    margin: -1px 0 0 -1px;
+/*    background: #eee;*/
+    background-image: linear-gradient(to bottom, white, #ddd);
 }
 
 .placar-jogo-equipes-sigla {
@@ -92,10 +109,51 @@
 }
 
 .placar-jogo-equipes-placar-mandante,
-.placar-jogo-equipes-placar-visitante {
+.placar-jogo-equipes-placar-visitante,
+.placar-jogo-equipes-placar-matamata {
 	padding: 0;
 	font-size: 28px;
 	font-weight: bold;
+}
+
+.info-jogo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 8px;
+    display: block;
+}
+
+.grupo-matamata {
+    margin-bottom: 20px;
+}
+
+.lista-de-jogos-item {
+    background: white;
+    margin-left: 0;
+}
+
+.mata-conector1 {
+	border: 1px solid rgb(192, 192, 192);
+	height: 187px;
+/*	position: absolute;*/
+/*	width: 100%;*/
+	margin-top: -256px;
+    margin-right: 5%;
+	border-left: 0;
+	background: transparent;
+    z-index: -3;
+}
+
+.mata-conector2 {
+	background: rgb(192, 192, 192);
+    height: 1px;
+	width: 5%;
+/*	position: absolute;*/
+	margin-top: -95px;
+	margin-right: 0;
+    z-index: -3;
+    float: right;
 }
 
 .tabela-versus i {

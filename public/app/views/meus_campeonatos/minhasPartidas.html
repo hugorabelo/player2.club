@@ -19,7 +19,7 @@
 </div>
 <div class="wrapper wrapper-content animated fadeIn">
 	<div class="ibox-content" ng-repeat="partida in partidas">
-		<div class="row">
+		<div class="row">{{partida.id}}
 			<div translate class="col-xs-3 text-right">{{partida.usuarios[0].nome}}</div>
 			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar"></div>
 			<div translate class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>

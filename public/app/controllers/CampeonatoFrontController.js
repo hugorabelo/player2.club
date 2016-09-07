@@ -26,9 +26,26 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 				})
 		};
 
+        $scope.carregaInformacoesCampeonato = function (id) {
+            $rootScope.loading = true;
+            Campeonato.getInformacoes(id)
+                .success(function (data) {
+                    $scope.campeonato = data;
+		            $scope.carregaFases(id);
+                    $rootScope.loading = false;
+                })
+        };
 
-		var id = 7;
-		$scope.carregaFases(id);
+        $scope.carregaListaCampeonatos = function() {
+            $rootScope.loading = true;
+            Campeonato.get()
+                .success(function (data) {
+                    $scope.campeonatos = data;
+                    $rootScope.loading = false;
+                })
+        };
+
+        $scope.carregaListaCampeonatos();
 
 		$scope.exibeFaseAnterior = function () {
 			if ($scope.indice_fase > 0) {
@@ -47,13 +64,16 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 		}
 
 		$scope.inicializaRodadas = function(listaDeGrupos) {
-			var indice = 0;
-			angular.forEach(listaDeGrupos, function(item) {
-				$scope.rodada_atual.push(1);
-				$scope.carregaJogosDaRodada(indice, item.id);
-				indice++;
-				$scope.rodada_maxima = Object.keys(item.rodadas).length;
-			});
+            var indice = 0;
+            var partidas;
+            angular.forEach(listaDeGrupos, function(item) {
+                if(!$scope.fase_atual.matamata) {
+                    $scope.rodada_atual.push(1);
+                    $scope.carregaJogosDaRodada(indice, item.id);
+                    indice++;
+                    $scope.rodada_maxima = Object.keys(item.rodadas).length;
+                }
+            });
 		}
 
 		$scope.exibeRodadaAnterior = function(indice, id_grupo) {
@@ -79,5 +99,18 @@ AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '
 					$rootScope.loading = false;
 				})
 		}
+
+        $scope.funcaoTeste = function(grupo, indice) {
+            grupo.placarNovo = indice;
+        }
+
+        /*
+            angular.forEach(listaDeGrupos, function(item) {
+				$scope.rodada_atual.push(1);
+				$scope.carregaJogosDaRodada(indice, item.id);
+				indice++;
+				$scope.rodada_maxima = Object.keys(item.rodadas).length;
+			});
+        */
 
  }]);

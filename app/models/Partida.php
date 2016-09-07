@@ -104,14 +104,16 @@ class Partida extends Eloquent {
         return isset($this->data_confirmacao);
     }
 
-    public function usuarios() {
+    public function usuarios($informacoes = true) {
         $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->getResults()->sortBy('id');
         $usuarios->values()->all();
-        foreach($usuarios as $usuario) {
-            $usuarioBD = User::find($usuario->users_id);
-            $usuario->nome = $usuarioBD->nome;
-            $usuario->sigla = $usuarioBD->sigla;
-            $usuario->distintivo = isset($usuarioBD->distintivo) ? $usuarioBD->distintivo : $usuarioBD->imagem_perfil;
+        if($informacoes) {
+            foreach($usuarios as $usuario) {
+                $usuarioBD = User::find($usuario->users_id);
+                $usuario->nome = $usuarioBD->nome;
+                $usuario->sigla = $usuarioBD->sigla;
+                $usuario->distintivo = isset($usuarioBD->distintivo) ? $usuarioBD->distintivo : $usuarioBD->imagem_perfil;
+            }
         }
         return $usuarios;
     }
@@ -128,5 +130,31 @@ class Partida extends Eloquent {
     public function contestada() {
         $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->get();
         return !$contestacao->isEmpty();
+    }
+
+    public function fase() {
+        return $this->grupo()->fase();
+    }
+
+    public function campeonato() {
+        return $this->fase()->campeonato();
+    }
+
+    public function placarUsuario($idUsuario) {
+        foreach ($this->usuarios(false) as $usuario) {
+            if($usuario->users_id == $idUsuario) {
+                return $usuario->placar;
+            }
+        }
+        return null;
+    }
+
+    public function placarExtraUsuario($idUsuario) {
+        foreach ($this->usuarios(false) as $usuario) {
+            if($usuario->users_id == $idUsuario) {
+                return $usuario->placar_extra;
+            }
+        }
+        return null;
     }
 }

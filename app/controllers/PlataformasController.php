@@ -22,7 +22,8 @@ class PlataformasController extends BaseController {
 	 */
 	public function index()
 	{
-		return Response::json(Plataforma::get());
+		$plataformas = Plataforma::get()->sortBy('descricao');
+		return Response::json($plataformas->values()->all());
 	}
 
 	/**
@@ -123,6 +124,11 @@ class PlataformasController extends BaseController {
 		Plataforma::destroy($id);
 
 		return Response::json(array('success'=>true));
+	}
+
+	public function getJogos($id) {
+		$plataforma = Plataforma::find($id);
+		return Response::json($plataforma->jogos());
 	}
 
 }

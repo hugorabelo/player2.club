@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 class CampeonatoFase extends Eloquent {
 	protected $guarded = array();
 
@@ -18,16 +20,30 @@ class CampeonatoFase extends Eloquent {
 	}
 
     public function grupos() {
-        return $this->hasMany('FaseGrupo', 'campeonato_fases_id')->getResults();
+        return $this->hasMany('FaseGrupo', 'campeonato_fases_id')->getResults()->sortBy('descricao');
     }
 
     public function usuarios() {
         return $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
     }
 
+	public function usuariosClassificados() {
+		$usuariosClassificados = app()->make(Collection::class);
+		foreach ($this->grupos() as $grupo) {
+			foreach ($grupo->usuariosClassificados() as $usuarioGrupo) {
+				$usuariosClassificados->add($usuarioGrupo);
+			}
+		}
+		return $usuariosClassificados;
+	}
+
     public function faseAnterior() {
         return $this->find($this->fase_anterior_id);
     }
+
+	public function proximaFase() {
+		return $this->where('fase_anterior_id','=',$this->id)->get()->first();
+	}
 
 	public function pontuacoes() {
 		$pontuacoes = $this->hasMany('PontuacaoRegra', 'campeonato_fases_id')->getResults()->sortBy('posicao');
@@ -36,5 +52,9 @@ class CampeonatoFase extends Eloquent {
 			$tabela_pontuacao[$pontuacao->posicao] = $pontuacao->qtde_pontos;
 		}
 		return $tabela_pontuacao;
+	}
+
+	public function campeonato() {
+		return Campeonato::find($this->campeonatos_id);
 	}
 }

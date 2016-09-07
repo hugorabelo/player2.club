@@ -100,7 +100,19 @@
 		"fora_casa": "<vazio>",
 		"zona_classificacao": "<vazio>",
 		"tipo_classificacao": "<vazio>",
-		"ordem_classificacao": "<vazio>"
+		"ordem_classificacao": "<vazio>",
+        "pontos": "<vazio>",
+		"vitorias": "<vazio>",
+		"saldo_gols": "<vazio>",
+		"gols_pro": "<vazio>",
+		"gols_contra": "<vazio>",
+		"confronto_direto": "<vazio>",
+		"lugar": "<vazio>",
+
+        "tipo_sorteio_matamata": "<vazio>",
+        "sorteio_aleatorio": "<vazio>",
+        "sorteio_geral": "<vazio>",
+        "sorteio_grupo": "<vazio>"
 	},
 
 	"messages": {
@@ -193,6 +205,20 @@
 
 		"minhasPartidas_list": "My Matches",
 		"tabelaCampeonato_list": "Standings",
-		"partida_contestar": "Contest Match Score"
+		"partida_contestar": "Contest Match Score",
+
+		"criterios_classificacao": "Classification Criteria",
+		"primeira_fase": "Group Stage",
+		"matamata2": "Final",
+		"matamata4": "Semi-Finals",
+		"matamata8": "Quarter-Finals",
+		"matamata16": "Round of 16",
+		"matamata32": "Round of 32",
+		"matamata64": "Round of 64",
+
+		"competidores_nao_mutiplo_grupos": "The number of competitors is not a multiple of the number of groups",
+		"classificados_nao_mutiplo_grupos": "The number of qualified for the play-offs is not a multiple of the number of groups",
+		"classificados_nao_potencia_dois": "The number of classified is not corresponding to the group of the playoff. For this, the number must be a power of 2",
+		"numero_competidores_maior_zero": "The number of competitors must be greater than zero"
 	}
 }
