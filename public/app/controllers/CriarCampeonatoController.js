@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('aplicacaoLiga')
+    angular.module('player2')
         .controller('CriarCampeonatoController', ['$scope', '$rootScope', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
             $scope.barConfig = {
                 group: 'criterios',

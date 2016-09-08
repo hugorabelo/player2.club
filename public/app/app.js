@@ -4,7 +4,7 @@
  *
  */
 
-var AplicacaoLiga = angular.module('aplicacaoLiga', [
+var AplicacaoLiga = angular.module('player2', [
     'ui.router',
     'ui.bootstrap',
     'pascalprecht.translate',
