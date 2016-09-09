@@ -37,6 +37,17 @@ AplicacaoLiga.factory('Partida', ['$http', function ($http) {
 				},
 				data: {comentarios: dados.comentarios, partidas_id: dados.partidas_id, usuario_partidas_id: dados.usuario_partidas_id, imagem: arquivo}
 			});
+		},
+
+        cancelarPlacar: function(dados) {
+			return $http({
+				method: 'PUT',
+				url: 'api/partidas/cancelar/' + dados.id_partida,
+				data: $.param(dados),
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			})
 		}
 	}
 }]);

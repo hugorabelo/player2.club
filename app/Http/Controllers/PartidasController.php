@@ -127,4 +127,13 @@ class PartidasController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
+    public function cancelarResultado($id) {
+        $input = Input::all();
+
+        $partida = $this->partida->find($id);
+        $partida->cancelarPlacar($input['usuarioLogado']);
+
+        return Response::json(array('success' => true));
+    }
+
 }

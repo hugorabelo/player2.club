@@ -96,6 +96,14 @@ class Partida extends Eloquent {
         }
     }
 
+    public function cancelarPlacar($id_usuario) {
+        $this->usuario_placar = null;
+        $this->data_placar = null;
+        $this->save();
+
+        //TODO Excluir placar de usuários da partida
+    }
+
     public function placarSalvo() {
         return isset($this->data_placar);
     }

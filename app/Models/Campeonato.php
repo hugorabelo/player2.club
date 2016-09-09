@@ -69,6 +69,10 @@ class Campeonato extends Eloquent {
 	}
 
 	public function salvarPlacar($partida) {
+	    $partidaBD = Partida::find($partida['id']);
+        if(isset($partidaBD->data_placar)) {
+            return 'messages.placares_existente';
+        }
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
 		return $nomeClasse::salvarPlacarPartida($partida);
 	}
