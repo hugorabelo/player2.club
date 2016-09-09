@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('CampeonatoController', ['$scope', '$rootScope', '$filter', 'Campeonato', '$state', '$modal',
+angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', 'Campeonato', '$state', '$modal',
     function ($scope, $rootScope, $filter, Campeonato, $state, $modal) {
 
 		$scope.campeonato = {};

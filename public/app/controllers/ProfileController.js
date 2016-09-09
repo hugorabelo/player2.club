@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('ProfileController', ['$rootScope','$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+angular.module('player2').controller('ProfileController', ['$rootScope','$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
     $scope.usuario = {};
     $scope.exibeFormulario = false;

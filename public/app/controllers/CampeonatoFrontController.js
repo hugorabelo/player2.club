@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('CampeonatoFrontController', ['$scope', '$rootScope', '$filter', 'Campeonato', '$state', '$modal',
+angular.module('player2').controller('CampeonatoFrontController', ['$scope', '$rootScope', '$filter', 'Campeonato', '$state', '$modal',
     function ($scope, $rootScope, $filter, Campeonato, $state, $modal) {
 
 		$scope.rodada_atual = [];

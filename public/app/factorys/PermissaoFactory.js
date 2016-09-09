@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Permissao', ['$http', function ($http) {
+angular.module('player2').factory('Permissao', ['$http', function ($http) {
     return {
         get : function(usuario_tipos_id) {
             return $http.get('api/permissao/' + usuario_tipos_id);

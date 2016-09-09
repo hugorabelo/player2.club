@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('PermissaoController', ['$scope', '$rootScope', 'Permissao', 'UsuarioTipo', 'Menu', function ($scope, $rootScope, Permissao, UsuarioTipo, Menu) {
+angular.module('player2').controller('PermissaoController', ['$scope', '$rootScope', 'Permissao', 'UsuarioTipo', 'Menu', function ($scope, $rootScope, Permissao, UsuarioTipo, Menu) {
 
     $scope.permissao = {};
 

@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('PlataformaController', ['$scope', '$rootScope', 'Plataforma', function ($scope, $rootScope, Plataforma) {
+angular.module('player2').controller('PlataformaController', ['$scope', '$rootScope', 'Plataforma', function ($scope, $rootScope, Plataforma) {
     $scope.plataforma = {};
 
     $scope.files = [];

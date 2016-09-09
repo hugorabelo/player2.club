@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('CampeonatoUsuario', ['$http', function ($http) {
+angular.module('player2').factory('CampeonatoUsuario', ['$http', function ($http) {
 	return {
 
 		getCampeonatos : function(id_usuario) {

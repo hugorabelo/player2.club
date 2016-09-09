@@ -6,9 +6,9 @@ function pageTitle($rootScope, $timeout) {
         link: function(scope, element) {
             var listener = function(event, toState, toParams, fromState, fromParams) {
                 // Default title - load on Dashboard 1
-                var title = 'LIGA VIRTUAL';
+                var title = 'player2.club';
                 // Create your own title pattern
-                if (toState.data && toState.data.pageTitle) title = 'LIGA VIRTUAL | ' + toState.data.pageTitle;
+                if (toState.data && toState.data.pageTitle) title = 'player2.club | ' + toState.data.pageTitle;
                 $timeout(function() {
                     element.text(title);
                 });
@@ -130,92 +130,92 @@ function icheck($timeout) {
  *
  * Pass all functions into module
  */
-AplicacaoLiga.directive('pageTitle', pageTitle);
-AplicacaoLiga.directive('sideNavigation', sideNavigation);
-AplicacaoLiga.directive('iboxTools', iboxTools);
-AplicacaoLiga.directive('minimalizaSidebar', minimalizaSidebar);
-AplicacaoLiga.directive('icheck', icheck);
+angular.module('player2').directive('pageTitle', pageTitle);
+angular.module('player2').directive('sideNavigation', sideNavigation);
+angular.module('player2').directive('iboxTools', iboxTools);
+angular.module('player2').directive('minimalizaSidebar', minimalizaSidebar);
+angular.module('player2').directive('icheck', icheck);
 
 // Fim das diretivas do Inspinia
 
-AplicacaoLiga.directive('modalConfirma', [function () {
+angular.module('player2').directive('modalConfirma', [function () {
 	return {
 		templateUrl: 'app/views/comum/confirmaModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioCampeonato', [function () {
+angular.module('player2').directive('formularioCampeonato', [function () {
 	return {
 		templateUrl: 'app/views/campeonato/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('detalhesCampeonato', [function () {
+angular.module('player2').directive('detalhesCampeonato', [function () {
 	return {
 		templateUrl: 'app/views/campeonato/detalhesCampeonato.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioFase', [function () {
+angular.module('player2').directive('formularioFase', [function () {
 	return {
 		templateUrl: 'app/views/campeonato/formModalFase.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioDetalhesFase', [function () {
+angular.module('player2').directive('formularioDetalhesFase', [function () {
 	return {
 		templateUrl: 'app/views/campeonato/formModalDetalhesFase.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioCampeonatoTipo', [function () {
+angular.module('player2').directive('formularioCampeonatoTipo', [function () {
 	return {
 		templateUrl: 'app/views/campeonatoTipo/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioPlataforma', [function () {
+angular.module('player2').directive('formularioPlataforma', [function () {
 	return {
 		templateUrl: 'app/views/plataforma/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioJogo', [function () {
+angular.module('player2').directive('formularioJogo', [function () {
 	return {
 		templateUrl: 'app/views/jogo/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioUsuarioTipo', [function () {
+angular.module('player2').directive('formularioUsuarioTipo', [function () {
 	return {
 		templateUrl: 'app/views/usuarioTipo/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioUsuario', [function () {
+angular.module('player2').directive('formularioUsuario', [function () {
 	return {
 		templateUrl: 'app/views/usuario/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioMenu', [function () {
+angular.module('player2').directive('formularioMenu', [function () {
 	return {
 		templateUrl: 'app/views/menu/formModal.html',
         replace: true
 	};
 }]);
 
-AplicacaoLiga.directive('formularioContestacaoResultado', [function () {
+angular.module('player2').directive('formularioContestacaoResultado', [function () {
 	return {
 		templateUrl: 'app/views/meus_campeonatos/formContestacaoResultado.html',
         replace: true
@@ -223,7 +223,7 @@ AplicacaoLiga.directive('formularioContestacaoResultado', [function () {
 }]);
 
 
-AplicacaoLiga.directive('fileUpload', function () {
+angular.module('player2').directive('fileUpload', function () {
     return {
         scope: true,        //create a new scope
         link: function (scope, el, attrs) {

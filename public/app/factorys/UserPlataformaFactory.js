@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('UserPlataforma', ['$http', function ($http) {
+angular.module('player2').factory('UserPlataforma', ['$http', function ($http) {
 	return {
 
         getPlataformasDoUsuario: function(id) {

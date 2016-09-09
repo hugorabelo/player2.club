@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Plataforma', ['$http', function ($http) {
+angular.module('player2').factory('Plataforma', ['$http', function ($http) {
 	return {
 		get: function () {
 			return $http.get('api/plataformas');

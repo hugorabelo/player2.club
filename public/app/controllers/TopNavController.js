@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', 'Auth', function ($rootScope, $scope, $translate, $location, Auth) {
+angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', 'Auth', function ($rootScope, $scope, $translate, $location, Auth) {
 
     $scope.mudaIdioma = function(idioma) {
         $translate.use(idioma);

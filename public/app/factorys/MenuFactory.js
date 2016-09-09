@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Menu', ['$http', function ($http) {
+angular.module('player2').factory('Menu', ['$http', function ($http) {
     return {
         get : function() {
             return $http.get('api/menu');

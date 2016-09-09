@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Campeonato', ['$http', function ($http) {
+angular.module('player2').factory('Campeonato', ['$http', function ($http) {
 	return {
 		get: function () {
 			return $http.get('api/campeonato');

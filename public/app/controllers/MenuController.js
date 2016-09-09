@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('MenuController', ['$scope', '$rootScope', 'Menu', function ($scope, $rootScope, Menu) {
+angular.module('player2').controller('MenuController', ['$scope', '$rootScope', 'Menu', function ($scope, $rootScope, Menu) {
 
     $scope.menu = {};
 

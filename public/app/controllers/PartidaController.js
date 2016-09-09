@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter', 'Campeonato', 'Usuario', 'Partida','$state', '$modal', '$timeout', function ($scope, $rootScope, $filter, Campeonato, Usuario, Partida,$state, $modal, $timeout) {
+angular.module('player2').controller('PartidaController', ['$scope', '$rootScope', '$filter', 'Campeonato', 'Usuario', 'Partida','$state', '$modal', '$timeout', function ($scope, $rootScope, $filter, Campeonato, Usuario, Partida,$state, $modal, $timeout) {
 
 	$scope.campeonato = {};
 

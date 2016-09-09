@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Partida', ['$http', function ($http) {
+angular.module('player2').factory('Partida', ['$http', function ($http) {
 	return {
 		salvarPlacar: function (partida) {
 			return $http({

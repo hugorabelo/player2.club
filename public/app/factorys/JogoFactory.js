@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Jogo', ['$http', function ($http) {
+angular.module('player2').factory('Jogo', ['$http', function ($http) {
 	return {
 		get: function () {
 			return $http.get('api/jogos');

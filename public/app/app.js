@@ -4,7 +4,7 @@
  *
  */
 
-var AplicacaoLiga = angular.module('player2', [
+angular.module('player2', [
     'ui.router',
     'ui.bootstrap',
     'pascalprecht.translate',
@@ -16,11 +16,11 @@ var AplicacaoLiga = angular.module('player2', [
 	 'ui.checkbox'
 ]);
 
-AplicacaoLiga.config(function ($locationProvider) {
+angular.module('player2').config(function ($locationProvider) {
 	$locationProvider.html5Mode(true);
 });
 
-AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
+angular.module('player2').config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
     $stateProvider
     .state('login', {
@@ -129,7 +129,7 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
 	}
 });
 
-//AplicacaoLiga.run(['$rootScope', '$state', 'Auth', '$cookieStore', function ($rootScope, $state, Auth, $cookieStore) {
+//angular.module('player2').run(['$rootScope', '$state', 'Auth', '$cookieStore', function ($rootScope, $state, Auth, $cookieStore) {
 //
 //    $cookieStore.put('permissoes', ['campeonato', 'plataforma', 'campeonatoTipo', 'jogo']);
 //
@@ -151,7 +151,7 @@ AplicacaoLiga.config(function($stateProvider, $urlRouterProvider) {
 //
 //}]);
 
-AplicacaoLiga.config(['$translateProvider', function ($translateProvider) {
+angular.module('player2').config(['$translateProvider', function ($translateProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'app/lang/locale-',
         suffix: '.json'
@@ -164,7 +164,7 @@ AplicacaoLiga.config(['$translateProvider', function ($translateProvider) {
 
 }]);
 
-AplicacaoLiga.run([
+angular.module('player2').run([
     'defaultErrorMessageResolver',
         function (defaultErrorMessageResolver) {
             defaultErrorMessageResolver.setI18nFileRootPath('app/plugins/angular-validate/lang');

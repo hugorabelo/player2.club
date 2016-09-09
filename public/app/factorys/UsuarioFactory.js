@@ -1,4 +1,4 @@
-AplicacaoLiga.factory('Usuario', ['$http', function ($http) {
+angular.module('player2').factory('Usuario', ['$http', function ($http) {
     return {
         show: function(id) {
             return $http.get('api/usuario/' + id);

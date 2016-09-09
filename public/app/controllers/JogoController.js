@@ -1,4 +1,4 @@
-AplicacaoLiga.controller('JogoController', ['$scope', '$rootScope', 'Jogo', function ($scope, $rootScope, Jogo) {
+angular.module('player2').controller('JogoController', ['$scope', '$rootScope', 'Jogo', function ($scope, $rootScope, Jogo) {
     $scope.jogo = {};
 
     $scope.files = [];
