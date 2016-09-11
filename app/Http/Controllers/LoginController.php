@@ -3,7 +3,7 @@
 class LoginController extends Controller {
 
     function getLogar() {
-		return File::get(public_path().'/app/views/comum/login.html');
+		return File::get(public_path().'/app/components/comum/login.html');
     }
 
     function postLogar() {

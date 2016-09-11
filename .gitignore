@@ -82,5 +82,5 @@ storage/
 /vendor.zip
 /.vscode/launch.json
 /jsconfig.json
-public_gulp/.tmp/
-public_gulp/bower_components/
+frontend/.tmp/
+bower_components/

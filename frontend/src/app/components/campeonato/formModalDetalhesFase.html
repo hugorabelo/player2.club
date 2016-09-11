@@ -1,0 +1,40 @@
+<div class="modal inmodal" id="formModalDetalhesFase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <h4 class="modal-title">{{'messages.campeonatoFase_detalhes' | translate}} {{descricaoFase | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" ng-class="{'active': tab=='pontuacao'}">
+                        <a ng-click="tab='pontuacao'"><span translate="messages.pontuacaoRegra_list"></span></a>
+                    </li>
+                    <li role="presentation" ng-class="{'active': tab=='grupos'}">
+                        <a ng-click="tab='grupos'"><span translate="messages.grupo_list"></span></a>
+                    </li>
+                    <li role="presentation" ng-class="{'active': tab=='operacoes'}">
+                        <a ng-click="tab='operacoes'"><span translate="messages.operacao_list"></span></a>
+                    </li>
+                </ul>
+
+
+                <div class="tabs-content">
+                    <div role="tabpanel" class="tab-pane" ng-show="tab=='pontuacao'" ng-include="'app/components/campeonato/fasePontuacao.html'">
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" ng-show="tab=='grupos'" ng-include="'app/components/campeonato/faseGrupos.html'">
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" ng-show="tab=='operacoes'" ng-include="'app/components/campeonato/faseOperacoes.html'">
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" translate>fields.cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
