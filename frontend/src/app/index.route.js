@@ -6,7 +6,7 @@
         .config(routerConfig);
 
     /** @ngInject */
-    function routerConfig($stateProvider, $urlRouterProvider) {
+    function routerConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         $stateProvider
 
             .state('index', {
@@ -156,6 +156,7 @@
             });
 
         $urlRouterProvider.otherwise('/index/main');
+        //        $locationProvider.html5Mode(true);
     }
 
 })();

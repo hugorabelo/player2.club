@@ -7,14 +7,14 @@
 
             var vm = this;
 
-            vm.barConfig = {
+            $scope.barConfig = {
                 group: 'criterios',
                 animation: 150,
                 onSort: function (evt) {}
             };
 
-            vm.campeonato = {};
-            vm.checkBoxCriteriosClassificacao = {};
+            $scope.campeonato = {};
+            $scope.checkBoxCriteriosClassificacao = {};
 
             $scope.$watch('campeonato.ida_volta', function () {
                 if (!$scope.campeonato.ida_volta) {
