@@ -25,6 +25,9 @@
             <button type="button" class="btn btn-primary btn-lg" ng-click="create()" translate>
                 messages.plataforma_add
             </button>
+            <md-button class="md-primary md-raised" ng-click="showAdvanced($event)">
+                {{'messages.plataforma_add' | translate}}
+            </md-button>
         </p>
 
         <table class="table table-striped">
@@ -35,7 +38,7 @@
             </tr>
             <tr ng-repeat="plataforma in plataformas">
                 <td>{{ plataforma.descricao }}</td>
-                <td class="col-xs-2"><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive"/></td>
+                <td class="col-xs-2"><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive" /></td>
                 <td class="btn-group" role="group">
                     <button type="button" class="btn btn-warning" ng-click="edit(plataforma.id)" tooltip="{{'fields.edit' | translate}}">
                         <i class="fa fa-pencil fa-fw"></i>
@@ -50,6 +53,8 @@
     </div>
 </div>
 
+<!--
 <div formulario-plataforma></div>
 
 <div modal-confirma></div>
+-->

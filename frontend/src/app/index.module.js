@@ -15,26 +15,27 @@
         'jcs-autoValidate',
         'ui.tree',
         'summernote',
-         'ui.checkbox'
+        'ui.checkbox',
+        'ngMaterial'
     ]);
 
-//    angular.module('player2').config(function ($locationProvider) {
-//        $locationProvider.html5Mode(true);
-//    });
+    //    angular.module('player2').config(function ($locationProvider) {
+    //        $locationProvider.html5Mode(true);
+    //    });
 
 
 
-//    angular.module('player2').config(function ($translateProvider) {
-//        $translateProvider.useStaticFilesLoader({
-//            prefix: 'app/lang/locale-',
-//            suffix: '.json'
-//        });
-//
-//        $translateProvider.preferredLanguage('pt_br');
-//        $translateProvider.fallbackLanguage('pt_br');
-//
-//        bootbox.setLocale('br');
-//
-//    });
+    angular.module('player2').config(function ($translateProvider) {
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'app/lang/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('pt_br');
+        $translateProvider.fallbackLanguage('pt_br');
+
+        //        bootbox.setLocale('br');
+
+    });
 
 })();
