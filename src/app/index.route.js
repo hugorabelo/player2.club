@@ -58,7 +58,7 @@
             .state('index.plataforma', {
                 url: "/plataforma",
                 templateUrl: "app/components/plataforma/index.html",
-                controller: 'PlataformaController',
+                controller: 'PlataformaController as plataformaCtrl',
                 data: {
                     pageTitle: "menus.plataformas"
                 }

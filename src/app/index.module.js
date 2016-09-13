@@ -16,7 +16,8 @@
         'ui.tree',
         'summernote',
         'ui.checkbox',
-        'ngMaterial'
+        'ngMaterial',
+        'lfNgMdFileInput'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
@@ -37,5 +38,12 @@
         //        bootbox.setLocale('br');
 
     });
+
+    angular.module('player2')
+        .config(function ($mdThemingProvider) {
+            $mdThemingProvider.theme('default')
+                .primaryPalette('teal')
+                .accentPalette('orange');
+        });
 
 })();

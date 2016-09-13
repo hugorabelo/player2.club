@@ -14,10 +14,6 @@
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>{{tituloModal | translate}}</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-                </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content>
@@ -45,18 +41,20 @@
                 <div class="form-group">
                     <label for="logomarca" class="col-md-3 control-label" translate>fields.logomarca</label>
                     <div class="col-md-9">
-                        <input type="file" class="form-control" file-upload ng-model="plataforma.imagem_logomarca" />
+                        <!--                        <input type="file" class="form-control" file-upload ng-model="plataforma.imagem_logomarca" />-->
+                        <lf-ng-md-file-input lf-files="files"></lf-ng-md-file-input>
                     </div>
                 </div>
 
                 <!--            </div>-->
             </div>
+            {{plataformaCtrl}}
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
             <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
-            <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
-            <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
+            <md-button type="submit" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+            <md-button type="submit" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
         </md-dialog-actions>
 
 

@@ -84,3 +84,4 @@ storage/
 /jsconfig.json
 frontend/.tmp/
 /public/
+.tmp

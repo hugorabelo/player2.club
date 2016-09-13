@@ -1,43 +1,44 @@
-[15:13:57] Using gulpfile /var/www/html/player2/gulp/gulpfile.js
-[15:13:57] Starting 'scripts'...
-[15:13:57] Starting 'styles'...
-[15:13:58] Starting 'partials'...
-[15:13:58] Starting 'fonts'...
-[15:13:58] Starting 'other'...
-[15:13:59] gulp-inject 23 files into index.less.
-[15:14:03] Finished 'styles' after 5.56 s
-[15:14:03] 
-/var/www/html/player2/gulp/src/app/directives.js
-    8:79  error    "fromParams" is defined but never used                                                               no-unused-vars
-   17:17  error    The "$on" call should be assigned to a variable, in order to be destroyed during the $destroy event  angular/on-watch
-   94:64  error    "newValue" is defined but never used                                                                 no-unused-vars
-   95:25  error    "$" is not defined                                                                                   no-undef
-   95:25  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
-   98:28  error    "$" is not defined                                                                                   no-undef
-   98:28  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
-  103:29  error    "$" is not defined                                                                                   no-undef
-  103:29  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
-  108:29  error    "$" is not defined                                                                                   no-undef
-  108:29  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
-  193:40  error    "attrs" is defined but never used                                                                    no-unused-vars
+[08:43:10] Using gulpfile /var/www/html/player2/frontend/gulpfile.js
+[08:43:10] Starting 'scripts'...
+[08:43:11] Starting 'styles'...
+[08:43:11] Starting 'partials'...
+[08:43:11] Starting 'fonts'...
+[08:43:11] Starting 'other'...
+[08:43:12] gulp-inject 23 files into index.less.
+[08:43:16] Finished 'styles' after 5.29 s
+[08:43:16] 
+/var/www/html/player2/frontend/src/app/directives.js
+   10:83  error    "fromParams" is defined but never used                                                               no-unused-vars
+   19:21  error    The "$on" call should be assigned to a variable, in order to be destroyed during the $destroy event  angular/on-watch
+   96:68  error    "newValue" is defined but never used                                                                 no-unused-vars
+   97:29  error    "$" is not defined                                                                                   no-undef
+   97:29  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
+  100:32  error    "$" is not defined                                                                                   no-undef
+  100:32  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
+  105:33  error    "$" is not defined                                                                                   no-undef
+  105:33  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
+  110:33  error    "$" is not defined                                                                                   no-undef
+  110:33  warning  You should use angular.element instead of the jQuery $ object                                        angular/angularelement
+  195:44  error    "attrs" is defined but never used                                                                    no-unused-vars
 
-/var/www/html/player2/gulp/src/app/index.route.js
-  10:9  error  State "index.usuario" should use controllerAs syntax                       angular/controller-as-route
-  10:9  error  State "index.criar_campeonato" should use controllerAs syntax              angular/controller-as-route
-  10:9  error  State "index.minhas_partidas" should use controllerAs syntax               angular/controller-as-route
-  10:9  error  State "index.meus_campeonatos_disponiveis" should use controllerAs syntax  angular/controller-as-route
-  10:9  error  State "index.meus_campeonatos" should use controllerAs syntax              angular/controller-as-route
-  10:9  error  State "index.permissao" should use controllerAs syntax                     angular/controller-as-route
-  10:9  error  State "index.menu" should use controllerAs syntax                          angular/controller-as-route
-  10:9  error  State "index.tabela_campeonato" should use controllerAs syntax             angular/controller-as-route
-  10:9  error  State "index.usuarioTipo" should use controllerAs syntax                   angular/controller-as-route
-  10:9  error  State "index.jogo" should use controllerAs syntax                          angular/controller-as-route
-  10:9  error  State "index.campeonatoTipo" should use controllerAs syntax                angular/controller-as-route
-  10:9  error  State "index.plataforma" should use controllerAs syntax                    angular/controller-as-route
-  10:9  error  State "index.campeonato" should use controllerAs syntax                    angular/controller-as-route
-  10:9  error  State "login" should use controllerAs syntax                               angular/controller-as-route
+/var/www/html/player2/frontend/src/app/index.route.js
+   9:63  error  "$locationProvider" is defined but never used                              no-unused-vars
+  10:9   error  State "index.criar_campeonato" should use controllerAs syntax              angular/controller-as-route
+  10:9   error  State "index.minhas_partidas" should use controllerAs syntax               angular/controller-as-route
+  10:9   error  State "index.meus_campeonatos_disponiveis" should use controllerAs syntax  angular/controller-as-route
+  10:9   error  State "index.meus_campeonatos" should use controllerAs syntax              angular/controller-as-route
+  10:9   error  State "index.permissao" should use controllerAs syntax                     angular/controller-as-route
+  10:9   error  State "index.menu" should use controllerAs syntax                          angular/controller-as-route
+  10:9   error  State "index.tabela_campeonato" should use controllerAs syntax             angular/controller-as-route
+  10:9   error  State "index.usuarioTipo" should use controllerAs syntax                   angular/controller-as-route
+  10:9   error  State "index.jogo" should use controllerAs syntax                          angular/controller-as-route
+  10:9   error  State "index.campeonatoTipo" should use controllerAs syntax                angular/controller-as-route
+  10:9   error  State "index.plataforma" should use controllerAs syntax                    angular/controller-as-route
+  10:9   error  State "index.campeonato" should use controllerAs syntax                    angular/controller-as-route
+  10:9   error  State "login" should use controllerAs syntax                               angular/controller-as-route
+  10:9   error  State "index.usuario" should use controllerAs syntax                       angular/controller-as-route
 
-/var/www/html/player2/gulp/src/app/components/campeonato/CampeonatoController.js
+/var/www/html/player2/frontend/src/app/components/campeonato/CampeonatoController.js
     2:56  error    "$state" is defined but never used                                                                      no-unused-vars
     4:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     6:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -221,7 +222,7 @@
   411:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   413:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
 
-/var/www/html/player2/gulp/src/app/components/campeonato/CampeonatoFactory.js
+/var/www/html/player2/frontend/src/app/components/campeonato/CampeonatoFactory.js
    19:11  error  "$" is not defined      no-undef
    37:11  error  "$" is not defined      no-undef
    58:4   error  "dados" is not defined  no-undef
@@ -237,7 +238,7 @@
   175:23  error  "$" is not defined      no-undef
   186:23  error  "$" is not defined      no-undef
 
-/var/www/html/player2/gulp/src/app/components/campeonatoFront/CampeonatoFrontController.js
+/var/www/html/player2/frontend/src/app/components/campeonatoFront/CampeonatoFrontController.js
     2:56  error  "$state" is defined but never used                                                                      no-unused-vars
     4:9   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     6:9   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -271,7 +272,7 @@
    93:9   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   103:9   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
 
-/var/www/html/player2/gulp/src/app/components/campeonatoTipo/CampeonatoTipoController.js
+/var/www/html/player2/frontend/src/app/components/campeonatoTipo/CampeonatoTipoController.js
    3:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    9:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   13:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -316,12 +317,16 @@
   93:17  error    "$" is not defined                                                                                      no-undef
   93:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
 
-/var/www/html/player2/gulp/src/app/components/campeonatoTipo/CampeonatoTipoFactory.js
+/var/www/html/player2/frontend/src/app/components/campeonatoTipo/CampeonatoTipoFactory.js
   11:11  error  "$" is not defined  no-undef
   29:11  error  "$" is not defined  no-undef
 
-/var/www/html/player2/gulp/src/app/components/campeonato_novo/CriarCampeonatoController.js
+/var/www/html/player2/frontend/src/app/components/campeonato_novo/CriarCampeonatoController.js
+    8:17  error  "vm" is defined but never used                                                                          no-unused-vars
+   10:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    13:35  error  "evt" is defined but never used                                                                         no-unused-vars
+   16:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   17:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    25:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    26:17  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    33:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -347,35 +352,39 @@
    92:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    93:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    98:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  102:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  103:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  100:17  error  Unexpected console statement                                                                            no-console
+  100:17  error  You should use the "log" method of the AngularJS Service $log instead of the console object             angular/log
+  101:17  error  You should use the "log" method of the AngularJS Service $log instead of the console object             angular/log
+  101:17  error  Unexpected console statement                                                                            no-console
   104:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  110:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  114:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  115:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  121:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  122:17  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  125:40  error  "data" is defined but never used                                                                        no-unused-vars
-  128:33  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  132:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  133:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  138:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  142:25  error  You should not use "this" directly. Instead, assign it to a variable called "vm"                        angular/controller-as-vm
-  147:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  152:21  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  105:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  106:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  112:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  116:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  117:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  123:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  124:17  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  127:40  error  "data" is defined but never used                                                                        no-unused-vars
+  130:33  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  134:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  135:25  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  140:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  144:25  error  You should not use "this" directly. Instead, assign it to a variable called "vm"                        angular/controller-as-vm
+  149:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   154:21  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  158:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  156:21  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  160:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
 
-/var/www/html/player2/gulp/src/app/components/comum/AuthController.js
+/var/www/html/player2/frontend/src/app/components/comum/AuthController.js
   1:93  error  "Auth" is defined but never used  no-unused-vars
 
-/var/www/html/player2/gulp/src/app/components/comum/AuthFactory.js
+/var/www/html/player2/frontend/src/app/components/comum/AuthFactory.js
   4:30  error  Since Angular 1.4, the $cookieStore service is depreacted. Please use now the $cookies service  angular/no-cookiestore
 
-/var/www/html/player2/gulp/src/app/components/dashboard/CampeonatoUsuarioFactory.js
+/var/www/html/player2/frontend/src/app/components/dashboard/CampeonatoUsuarioFactory.js
   16:11  error  "$" is not defined  no-undef
 
-/var/www/html/player2/gulp/src/app/components/dashboard/ProfileController.js
+/var/www/html/player2/frontend/src/app/components/dashboard/ProfileController.js
     3:5   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     4:5   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     5:5   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -455,10 +464,10 @@
   181:11  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   183:27  error  "data" is defined but never used                                                                        no-unused-vars
 
-/var/www/html/player2/gulp/src/app/components/dashboard/UserPlataformaFactory.js
+/var/www/html/player2/frontend/src/app/components/dashboard/UserPlataformaFactory.js
   12:23  error  "$" is not defined  no-undef
 
-/var/www/html/player2/gulp/src/app/components/jogo/JogoController.js
+/var/www/html/player2/frontend/src/app/components/jogo/JogoController.js
     2:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     4:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    17:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -508,11 +517,11 @@
   111:17  error    "$" is not defined                                                                                      no-undef
   111:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
 
-/var/www/html/player2/gulp/src/app/components/jogo/JogoFactory.js
+/var/www/html/player2/frontend/src/app/components/jogo/JogoFactory.js
   14:33  error  "data" is defined but never used  no-unused-vars
   38:33  error  "data" is defined but never used  no-unused-vars
 
-/var/www/html/player2/gulp/src/app/components/menu/MenuController.js
+/var/www/html/player2/frontend/src/app/components/menu/MenuController.js
     3:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     9:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    13:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -559,11 +568,11 @@
   100:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
   100:17  error    "$" is not defined                                                                                      no-undef
 
-/var/www/html/player2/gulp/src/app/components/menu/MenuFactory.js
+/var/www/html/player2/frontend/src/app/components/menu/MenuFactory.js
   19:23  error  "$" is not defined  no-undef
   35:23  error  "$" is not defined  no-undef
 
-/var/www/html/player2/gulp/src/app/components/meus_campeonatos/PartidaController.js
+/var/www/html/player2/frontend/src/app/components/meus_campeonatos/PartidaController.js
    1:230  error    "$timeout" is defined but never used                                                                    no-unused-vars
    3:5    error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    5:5    error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -597,12 +606,12 @@
   82:9    error    "dataLimite" is not defined                                                                             no-undef
   83:32   error    "dataLimite" is not defined                                                                             no-undef
 
-/var/www/html/player2/gulp/src/app/components/meus_campeonatos/PartidaFactory.js
+/var/www/html/player2/frontend/src/app/components/meus_campeonatos/PartidaFactory.js
    7:11  error  "$" is not defined                no-undef
   18:11  error  "$" is not defined                no-undef
   30:32  error  "data" is defined but never used  no-unused-vars
 
-/var/www/html/player2/gulp/src/app/components/permissao/PermissaoController.js
+/var/www/html/player2/frontend/src/app/components/permissao/PermissaoController.js
    3:5   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    9:9   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   12:13  error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -616,64 +625,10 @@
   51:5   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   52:9   error  You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
 
-/var/www/html/player2/gulp/src/app/components/permissao/PermissaoFactory.js
+/var/www/html/player2/frontend/src/app/components/permissao/PermissaoFactory.js
   11:23  error  "$" is not defined  no-undef
 
-/var/www/html/player2/gulp/src/app/components/usuario/UsuarioController.js
-    3:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-    9:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   13:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   17:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   18:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   19:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   20:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
-   20:17  error    "$" is not defined                                                                                      no-undef
-   21:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   22:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   28:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   32:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   33:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   34:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   35:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
-   35:17  error    "$" is not defined                                                                                      no-undef
-   36:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   37:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   43:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   45:13  error    You should not use "this" directly. Instead, assign it to a variable called "vm"                        angular/controller-as-vm
-   47:13  error    You should not use "this" directly. Instead, assign it to a variable called "vm"                        angular/controller-as-vm
-   51:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   54:36  error    "data" is defined but never used                                                                        no-unused-vars
-   57:29  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   60:21  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
-   60:21  error    "$" is not defined                                                                                      no-undef
-   63:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   64:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   69:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   72:36  error    "data" is defined but never used                                                                        no-unused-vars
-   75:29  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   78:21  error    "$" is not defined                                                                                      no-undef
-   78:21  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
-   81:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   82:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   87:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   88:9   error    "$" is not defined                                                                                      no-undef
-   88:9   warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
-   89:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   90:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   93:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-   96:31  error    "data" is defined but never used                                                                        no-unused-vars
-   99:25  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
-  102:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
-  102:17  error    "$" is not defined                                                                                      no-undef
-
-/var/www/html/player2/gulp/src/app/components/usuario/UsuarioFactory.js
-  17:44  error  "data" is defined but never used  no-unused-vars
-  38:44  error  "data" is defined but never used  no-unused-vars
-  61:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
-  62:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
-  63:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
-
-/var/www/html/player2/gulp/src/app/components/plataforma/PlataformaController.js
+/var/www/html/player2/frontend/src/app/components/plataforma/PlataformaController.js
     2:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
     4:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    17:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -723,11 +678,65 @@
   111:17  error    "$" is not defined                                                                                      no-undef
   111:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
 
-/var/www/html/player2/gulp/src/app/components/plataforma/PlataformaFactory.js
+/var/www/html/player2/frontend/src/app/components/plataforma/PlataformaFactory.js
   14:45  error  "data" is defined but never used  no-unused-vars
   34:45  error  "data" is defined but never used  no-unused-vars
 
-/var/www/html/player2/gulp/src/app/components/usuarioTipo/UsuarioTipoController.js
+/var/www/html/player2/frontend/src/app/components/usuario/UsuarioController.js
+    3:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+    9:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   13:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   17:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   18:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   19:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   20:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
+   20:17  error    "$" is not defined                                                                                      no-undef
+   21:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   22:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   28:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   32:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   33:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   34:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   35:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
+   35:17  error    "$" is not defined                                                                                      no-undef
+   36:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   37:17  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   43:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   45:13  error    You should not use "this" directly. Instead, assign it to a variable called "vm"                        angular/controller-as-vm
+   47:13  error    You should not use "this" directly. Instead, assign it to a variable called "vm"                        angular/controller-as-vm
+   51:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   54:36  error    "data" is defined but never used                                                                        no-unused-vars
+   57:29  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   60:21  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
+   60:21  error    "$" is not defined                                                                                      no-undef
+   63:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   64:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   69:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   72:36  error    "data" is defined but never used                                                                        no-unused-vars
+   75:29  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   78:21  error    "$" is not defined                                                                                      no-undef
+   78:21  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
+   81:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   82:21  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   87:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   88:9   error    "$" is not defined                                                                                      no-undef
+   88:9   warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
+   89:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   90:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   93:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+   96:31  error    "data" is defined but never used                                                                        no-unused-vars
+   99:25  error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
+  102:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
+  102:17  error    "$" is not defined                                                                                      no-undef
+
+/var/www/html/player2/frontend/src/app/components/usuario/UsuarioFactory.js
+  17:44  error  "data" is defined but never used  no-unused-vars
+  38:44  error  "data" is defined but never used  no-unused-vars
+  61:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
+  62:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
+  63:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
+
+/var/www/html/player2/frontend/src/app/components/usuarioTipo/UsuarioTipoController.js
    3:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
    9:9   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
   13:5   error    You should not set properties on $scope in controllers. Use controllerAs syntax and add data to "this"  angular/controller-as
@@ -772,33 +781,33 @@
   95:17  error    "$" is not defined                                                                                      no-undef
   95:17  warning  You should use angular.element instead of the jQuery $ object                                           angular/angularelement
 
-/var/www/html/player2/gulp/src/app/components/usuarioTipo/UsuarioTipoFactory.js
+/var/www/html/player2/frontend/src/app/components/usuarioTipo/UsuarioTipoFactory.js
   11:23  error  "$" is not defined  no-undef
   29:23  error  "$" is not defined  no-undef
 
-✖ 715 problems (660 errors, 55 warnings)
+✖ 724 problems (669 errors, 55 warnings)
 
-[15:14:03] all files 93.08 kB
-[15:14:03] Finished 'scripts' after 6.27 s
-[15:14:03] Starting 'inject'...
-[15:14:04] gulp-inject 1 files into index.html.
-[15:14:04] Finished 'fonts' after 5.62 s
-[15:14:04] gulp-inject 32 files into index.html.
-[15:14:04] Finished 'inject' after 203 ms
-[15:14:04] Finished 'partials' after 6.12 s
-[15:14:04] Starting 'html'...
-[15:14:04] gulp-inject 1 files into index.html.
-[15:14:06] ../public/ maps/styles/app-f70267b1ee.css.map 112.16 kB
-[15:14:06] ../public/ maps/styles/vendor-152d83d631.css.map 28.26 kB
-[15:14:24] ../public/ maps/scripts/vendor-08e53d444d.js.map 3.77 MB
-[15:14:24] ../public/ maps/scripts/app-2fdc904bba.js.map 233.31 kB
-[15:14:24] ../public/ styles/app-f70267b1ee.css 272.58 kB
-[15:14:24] ../public/ styles/vendor-152d83d631.css 70.5 kB
-[15:14:24] ../public/ scripts/vendor-08e53d444d.js 659.61 kB
-[15:14:24] ../public/ scripts/app-2fdc904bba.js 121.39 kB
-[15:14:24] ../public/ index.html 739 B
-[15:14:24] ../public/ all files 5.27 MB
-[15:14:24] Finished 'html' after 20 s
-[15:14:24] Finished 'other' after 26 s
-[15:14:24] Starting 'build'...
-[15:14:24] Finished 'build' after 25 μs
+[08:43:16] all files 94.1 kB
+[08:43:16] Finished 'scripts' after 6.04 s
+[08:43:16] Starting 'inject'...
+[08:43:16] gulp-inject 1 files into index.html.
+[08:43:16] Finished 'fonts' after 5.4 s
+[08:43:17] gulp-inject 32 files into index.html.
+[08:43:17] Finished 'inject' after 222 ms
+[08:43:17] Finished 'partials' after 5.95 s
+[08:43:17] Starting 'html'...
+[08:43:17] gulp-inject 1 files into index.html.
+[08:43:19] ../public/ maps/styles/app-67757d0117.css.map 112.16 kB
+[08:43:19] ../public/ maps/styles/vendor-152d83d631.css.map 28.26 kB
+[08:43:36] ../public/ maps/scripts/vendor-08e53d444d.js.map 3.77 MB
+[08:43:36] ../public/ maps/scripts/app-b37940e1b4.js.map 234.41 kB
+[08:43:36] ../public/ styles/app-67757d0117.css 272.58 kB
+[08:43:36] ../public/ styles/vendor-152d83d631.css 70.5 kB
+[08:43:37] ../public/ scripts/vendor-08e53d444d.js 659.61 kB
+[08:43:37] ../public/ scripts/app-b37940e1b4.js 121.47 kB
+[08:43:37] ../public/ index.html 739 B
+[08:43:37] ../public/ all files 5.27 MB
+[08:43:37] Finished 'html' after 20 s
+[08:43:37] Finished 'other' after 25 s
+[08:43:37] Starting 'build'...
+[08:43:37] Finished 'build' after 30 μs
