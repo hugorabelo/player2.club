@@ -67,9 +67,9 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
         }
     };
 
-    vm.save = function (plataforma, files) {
+    vm.save = function (plataforma, arquivo) {
         $rootScope.loading = true;
-        Plataforma.save(plataforma, files)
+        Plataforma.save(plataforma, arquivo)
             .success(function (data) {
                 Plataforma.get()
                     .success(function (getData) {
@@ -147,7 +147,7 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
 
         $scope.submit = function () {
             if (novoItem) {
-                vm.save($scope.plataforma, $scope.files);
+                vm.save($scope.plataforma, $scope.files[0]);
             } else {
                 //                vm.update();
                 console.log('update');

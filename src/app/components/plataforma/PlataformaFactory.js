@@ -4,7 +4,7 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
             return $http.get('api/plataformas');
         },
 
-        save: function (plataforma, arquivos) {
+        save: function (plataforma, arquivo) {
             return $http({
                 method: 'POST',
                 url: 'api/plataformas',
@@ -14,10 +14,10 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
                 transformRequest: function (data) {
                     var formData = new FormData();
                     formData.append("descricao", plataforma.descricao);
-                    angular.forEach(arquivos, function (obj) {
-                        formData.append("files[]", obj.lfFile);
-                    });
-                    //                    formData.append("imagem_logomarca", arquivos);
+                    //                    angular.forEach(arquivos, function (obj) {
+                    //                        formData.append("files[]", obj.lfFile);
+                    //                    });
+                    formData.append("imagem_logomarca", arquivo.lfFile);
                     return formData;
                 }
             });
