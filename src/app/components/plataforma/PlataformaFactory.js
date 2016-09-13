@@ -17,7 +17,9 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
                     //                    angular.forEach(arquivos, function (obj) {
                     //                        formData.append("files[]", obj.lfFile);
                     //                    });
-                    formData.append("imagem_logomarca", arquivo.lfFile);
+                    if (arquivo != null) {
+                        formData.append("imagem_logomarca", arquivo.lfFile);
+                    }
                     return formData;
                 }
             });
@@ -37,7 +39,9 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
                 transformRequest: function (data) {
                     var formData = new FormData();
                     formData.append("descricao", plataforma.descricao);
-                    formData.append("imagem_logomarca", arquivo);
+                    if (arquivo != null) {
+                        formData.append("imagem_logomarca", arquivo.lfFile);
+                    }
                     return formData;
                 }
             });

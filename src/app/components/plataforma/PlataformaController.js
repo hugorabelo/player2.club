@@ -1,7 +1,11 @@
-angular.module('player2').controller('PlataformaController', ['$scope', '$rootScope', '$mdDialog', 'Plataforma', function ($scope, $rootScope, $mdDialog, Plataforma) {
+angular.module('player2').controller('PlataformaController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, Plataforma) {
     var vm = this;
 
-    vm.plataforma = {};
+    $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
+        $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+        $scope.textoYes = translations['messages.yes'];
+        $scope.textoNo = translations['messages.no'];
+    });
 
     $rootScope.loading = true;
 
@@ -14,20 +18,12 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
             $rootScope.loading = false;
         });
 
-    vm.create = function () {
-        vm.plataforma = {};
-        vm.messages = null;
-        $('#formModal').modal();
-        vm.tituloModal = 'messages.plataforma_create';
-        vm.novoItem = true;
-        vm.formulario.$setPristine();
-    };
-
-    vm.formCadastro = function (ev) {
+    vm.create = function (ev) {
         $mdDialog.show({
                 locals: {
                     tituloModal: 'messages.plataforma_create',
-                    novoItem: true
+                    novoItem: true,
+                    plataforma: {}
                 },
                 controller: DialogController,
                 templateUrl: 'app/components/plataforma/formModal.html',
@@ -36,35 +32,36 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
                 clickOutsideToClose: true,
                 fullscreen: true // Only for -xs, -sm breakpoints.
             })
-            .then(function (answer) {
-                vm.status = 'You said the information was "' + answer + '".';
-                console.log(vm.status);
+            .then(function () {
+
             }, function () {
-                vm.status = 'You cancelled the dialog.';
-                console.log(vm.status);
+
             });
     };
 
-    vm.edit = function (id) {
-        $rootScope.loading = true;
+    vm.edit = function (ev, id) {
         Plataforma.edit(id)
             .success(function (data) {
-                vm.plataforma = data;
-                vm.messages = null;
-                $('#formModal').modal();
-                vm.tituloModal = 'messages.plataforma_edit';
-                vm.novoItem = false;
-                vm.formulario.$setPristine();
-                $rootScope.loading = false;
-            });
-    };
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.plataforma_edit',
+                            novoItem: false,
+                            plataforma: data
+                        },
+                        controller: DialogController,
+                        templateUrl: 'app/components/plataforma/formModal.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
 
-    vm.submit = function () {
-        if (vm.novoItem) {
-            this.save();
-        } else {
-            this.update();
-        }
+                    }, function () {
+
+                    });
+
+            });
     };
 
     vm.save = function (plataforma, arquivo) {
@@ -87,76 +84,68 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
             });
     };
 
-    vm.update = function () {
-        console.log('update');
-        //        $rootScope.loading = true;
-        //        Plataforma.update(vm.plataforma, vm.files[0])
-        //            .success(function (data) {
-        //                Plataforma.get()
-        //                    .success(function (getData) {
-        //                        vm.plataformas = getData;
-        //                        $rootScope.loading = false;
-        //                    });
-        //                $('#formModal').modal('hide');
-        //                vm.files = [];
-        //                $rootScope.loading = false;
-        //            }).error(function (data, status) {
-        //                vm.message = data.errors;
-        //                vm.status = status;
-        //                $rootScope.loading = false;
-        //            });
-    };
-
-    vm.delete = function (id) {
-        $('#confirmaModal').modal();
-        vm.mensagemModal = 'messages.confirma_exclusao';
-        vm.idRegistro = id;
-    };
-
-    vm.confirmacaoModal = function (id) {
+    vm.update = function (plataforma, arquivo) {
         $rootScope.loading = true;
-        Plataforma.destroy(id)
+        Plataforma.update(plataforma, arquivo)
             .success(function (data) {
                 Plataforma.get()
-                    .success(function (data) {
-                        vm.plataformas = data;
+                    .success(function (getData) {
+                        vm.plataformas = getData;
                         $rootScope.loading = false;
                     });
-                $('#confirmaModal').modal('hide');
+                $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.message = data.errors;
+                vm.status = status;
                 $rootScope.loading = false;
             });
     };
 
-    function DialogController($scope, $mdDialog, tituloModal, novoItem) {
+    vm.delete = function (ev, id) {
+        vm.idRegistroExcluir = id;
+        var confirm = $mdDialog.confirm(id)
+            .title($scope.textoConfirmaExclusao)
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok($scope.textoYes)
+            .cancel($scope.textoNo)
+            .theme('default');
+
+        $mdDialog.show(confirm).then(function () {
+            $rootScope.loading = true;
+            Plataforma.destroy(vm.idRegistroExcluir)
+                .success(function (data) {
+                    Plataforma.get()
+                        .success(function (data) {
+                            vm.plataformas = data;
+                            $rootScope.loading = false;
+                        });
+                    $rootScope.loading = false;
+                });
+        }, function () {
+
+        });
+    };
+
+    function DialogController($scope, $mdDialog, tituloModal, novoItem, plataforma) {
         $scope.tituloModal = tituloModal;
         $scope.novoItem = novoItem;
+        $scope.plataforma = plataforma;
 
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
 
         $scope.save = function () {
-            vm.save();
+            vm.save($scope.plataforma, $scope.files[0]);
             $mdDialog.hide();
         }
 
         $scope.update = function () {
-            vm.update();
+            vm.update($scope.plataforma, $scope.files[0]);
             $mdDialog.hide();
         }
 
-        $scope.submit = function () {
-            if (novoItem) {
-                vm.save($scope.plataforma, $scope.files[0]);
-            } else {
-                //                vm.update();
-                console.log('update');
-            }
-            $mdDialog.hide();
-        }
-
-        $scope.$watch('files.length', function (newVal, oldVal) {
-            console.log($scope.files);
-        });
+        $scope.$watch('files.length', function (newVal, oldVal) {});
     }
 }]);

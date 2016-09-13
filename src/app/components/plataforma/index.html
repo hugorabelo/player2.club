@@ -22,7 +22,7 @@
     <div class="ibox-content">
 
         <p>
-            <md-button class="md-primary md-raised" ng-click="plataformaCtrl.formCadastro($event)">
+            <md-button class="md-primary md-raised" ng-click="plataformaCtrl.create($event)">
                 {{'messages.plataforma_add' | translate}}
             </md-button>
         </p>
@@ -37,10 +37,10 @@
                 <td>{{ plataforma.descricao }}</td>
                 <td class="col-xs-2"><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive" /></td>
                 <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-warning" ng-click="plataformaCtrl.edit(plataforma.id)" tooltip="{{'fields.edit' | translate}}">
+                    <button type="button" class="btn btn-warning" ng-click="plataformaCtrl.edit($event, plataforma.id)" tooltip="{{'fields.edit' | translate}}">
                         <i class="fa fa-pencil fa-fw"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="plataformaCtrl.delete(plataforma.id)" tooltip="{{'fields.delete' | translate}}">
+                    <button type="button" class="btn btn-danger" ng-click="plataformaCtrl.delete($event, plataforma.id)" tooltip="{{'fields.delete' | translate}}">
                         <i class="fa fa-trash-o fa-fw"></i>
                     </button>
                 </td>

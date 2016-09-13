@@ -1,21 +1,11 @@
-<!--
-<div class="modal inmodal" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated bounceInRight">
--->
 <md-dialog aria-label="{{tituloModal | translate}}">
-    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="submit()" enctype="multipart/form-data">
-        <!--
-        <div class="modal-header">
-    <h4 class="modal-title" translate="{{tituloModal}}"></h4>
-</div>
--->
-        <!--        <div class="modal-body">-->
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>{{tituloModal | translate}}</h2>
             </div>
         </md-toolbar>
+
         <md-dialog-content>
             <div class="md-dialog-content">
 
@@ -45,30 +35,15 @@
                         <lf-ng-md-file-input lf-files="files"></lf-ng-md-file-input>
                     </div>
                 </div>
-
-                <!--            </div>-->
             </div>
             {{plataformaCtrl}}
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
             <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
-            <md-button type="submit" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
-            <md-button type="submit" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
+            <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+            <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
         </md-dialog-actions>
 
-
-        <!--
-            <div class="modal-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal" translate>fields.cancel</button>
-<button type="submit" class="btn btn-primary" ng-show="novoItem" translate>fields.save</button>
-<button type="submit" class="btn btn-primary" ng-hide="novoItem" translate>fields.update</button>
-</div>
--->
     </form>
 </md-dialog>
-<!--
-        </div>
-    </div>
-</div>
--->
