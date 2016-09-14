@@ -22,9 +22,8 @@
     <div class="ibox-content">
 
         <p>
-            <button type="button" class="btn btn-primary btn-lg" ng-click="create()" translate>
-                messages.usuarioTipo_add
-            </button>
+            <md-button class="md-primary md-raised" ng-click="vmUsuarioTipo.create($event)"> {{'messages.usuarioTipo_add' | translate}}
+            </md-button>
         </p>
 
         <table class="table table-striped">
@@ -33,14 +32,14 @@
                 <th translate>fields.prioridade</th>
                 <th>&nbsp;</th>
             </tr>
-            <tr ng-repeat="usuarioTipo in usuarioTipos">
+            <tr ng-repeat="usuarioTipo in vmUsuarioTipo.usuarioTipos">
                 <td>{{ usuarioTipo.descricao }}</td>
                 <td>{{ usuarioTipo.prioridade }}</td>
                 <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-warning" ng-click="edit(usuarioTipo.id)" tooltip="{{'fields.edit' | translate}}">
+                    <button type="button" class="btn btn-warning" ng-click="vmUsuarioTipo.edit($event, usuarioTipo.id)" tooltip="{{'fields.edit' | translate}}">
                         <i class="fa fa-pencil fa-fw"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="delete(usuarioTipo.id)" tooltip="{{'fields.delete' | translate}}">
+                    <button type="button" class="btn btn-danger" ng-click="vmUsuarioTipo.delete($event, usuarioTipo.id)" tooltip="{{'fields.delete' | translate}}">
                         <i class="fa fa-trash-o fa-fw"></i>
                     </button>
                 </td>
@@ -49,7 +48,3 @@
 
     </div>
 </div>
-
-<div formulario-usuario-tipo></div>
-
-<div modal-confirma></div>

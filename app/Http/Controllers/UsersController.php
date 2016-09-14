@@ -82,8 +82,7 @@ class UsersController extends Controller {
 	{
 		$usuario = $this->user->find($id);
 
-		$usuarioTipos = UsuarioTipo::get();
-		return Response::json(compact('usuario', 'usuarioTipos'));
+		return Response::json($usuario);
 	}
 
 	/**

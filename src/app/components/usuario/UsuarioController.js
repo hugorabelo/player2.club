@@ -1,107 +1,158 @@
-angular.module('player2').controller('UsuarioController', ['$scope', '$rootScope', 'Usuario', 'UsuarioTipo', function ($scope, $rootScope, Usuario, UsuarioTipo) {
+angular.module('player2').controller('UsuarioController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Usuario', 'UsuarioTipo', function ($scope, $rootScope, $mdDialog, $translate, Usuario, UsuarioTipo) {
 
-    $scope.usuario = {};
+    var vm = this;
+
+    $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
+        $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+        $scope.textoYes = translations['messages.yes'];
+        $scope.textoNo = translations['messages.no'];
+    });
 
     $rootScope.loading = true;
 
     Usuario.get()
-    .success(function(data) {
-        $scope.usuarios = data;
-        $rootScope.loading = false;
-    });
-
-    $scope.create = function() {
-        $rootScope.loading = true;
-        UsuarioTipo.get()
-            .success(function(data) {
-                $scope.usuario = {};
-                $scope.usuarioTipos = data;
-                $scope.messages = null;
-                $('#formModal').modal();
-                $scope.tituloModal = 'messages.usuario_create';
-                $scope.novoItem = true;
-                $scope.formulario.$setPristine();
-                $rootScope.loading = false;
+        .success(function (data) {
+            vm.usuarios = data;
+            $rootScope.loading = false;
         });
-    }
 
-    $scope.edit = function(id) {
-        $rootScope.loading = true;
+    UsuarioTipo.get()
+        .success(function (data) {
+            vm.usuarioTipos = data;
+            $rootScope.loading = false;
+        });
+
+    vm.create = function (ev) {
+        $mdDialog.show({
+                locals: {
+                    tituloModal: 'messages.usuario_create',
+                    novoItem: true,
+                    usuario: {},
+                    usuarioTipos: vm.usuarioTipos
+                },
+                controller: DialogController,
+                templateUrl: 'app/components/usuario/formModal.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+            .then(function () {
+
+            }, function () {
+
+            });
+    };
+
+    vm.edit = function (ev, id) {
         Usuario.edit(id)
-            .success(function(data) {
-                $scope.usuario = data.usuario;
-                $scope.usuarioTipos = data.usuarioTipos;
-                $scope.messages = null;
-                $('#formModal').modal();
-                $scope.tituloModal = 'messages.usuario_edit';
-                $scope.novoItem = false;
-                $scope.formulario.$setPristine();
-                $rootScope.loading = false;
-        });
-    };
+            .success(function (data) {
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.usuario_edit',
+                            novoItem: false,
+                            usuario: data,
+                            usuarioTipos: vm.usuarioTipos
+                        },
+                        controller: DialogController,
+                        templateUrl: 'app/components/usuario/formModal.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
 
-    $scope.submit = function() {
-        if($scope.novoItem) {
-            this.save();
-        } else {
-            this.update();
-        }
-    };
+                    }, function () {
 
-    $scope.save = function() {
-        $rootScope.loading = true;
-        Usuario.save($scope.usuario)
-                .success(function (data) {
-                    Usuario.get()
-                        .success(function (getData) {
-                            $scope.usuarios = getData;
-                            $rootScope.loading = false;
                     });
-                    $('#formModal').modal('hide');
-                    $rootScope.loading = false;
-                }).error(function(data, status) {
-                    $scope.messages = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
+
+            });
     };
 
-    $scope.update = function() {
+    vm.save = function (usuario) {
         $rootScope.loading = true;
-        Usuario.update($scope.usuario)
-                .success(function (data) {
-                    Usuario.get()
-                        .success(function (getData) {
-                            $scope.usuarios = getData;
-                            $rootScope.loading = false;
-                    });
-                    $('#formModal').modal('hide');
-                    $rootScope.loading = false;
-                }).error(function(data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-    };
-
-    $scope.delete = function(id) {
-        $('#confirmaModal').modal();
-        $scope.mensagemModal = 'messages.confirma_exclusao';
-        $scope.idRegistro = id;
-    };
-
-    $scope.confirmacaoModal = function(id) {
-        $rootScope.loading = true;
-        Usuario.destroy(id)
-            .success(function(data) {
+        Usuario.save(usuario)
+            .success(function (data) {
                 Usuario.get()
-                    .success(function(data) {
-                        $scope.usuarios = data;
+                    .success(function (getData) {
+                        vm.usuarios = getData;
                         $rootScope.loading = false;
-                });
-                $('#confirmaModal').modal('hide');
+                    }).error(function (getData) {
+                        vm.message = getData;
+                        $rootScope.loading = false;
+                    });
                 $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.messages = data.errors;
+                vm.status = status;
+                $rootScope.loading = false;
+            });
+    };
+
+    vm.update = function (usuario) {
+        $rootScope.loading = true;
+        Usuario.update(usuario)
+            .success(function (data) {
+                Usuario.get()
+                    .success(function (getData) {
+                        vm.usuarios = getData;
+                        $rootScope.loading = false;
+                    });
+                $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.message = data.errors;
+                vm.status = status;
+                $rootScope.loading = false;
+            });
+    };
+
+    vm.delete = function (ev, id) {
+        vm.idRegistroExcluir = id;
+        var confirm = $mdDialog.confirm(id)
+            .title($scope.textoConfirmaExclusao)
+            .ariaLabel($scope.textoConfirmaExclusao)
+            .targetEvent(ev)
+            .ok($scope.textoYes)
+            .cancel($scope.textoNo)
+            .theme('default');
+
+        $mdDialog.show(confirm).then(function () {
+            $rootScope.loading = true;
+            Usuario.destroy(vm.idRegistroExcluir)
+                .success(function (data) {
+                    Usuario.get()
+                        .success(function (data) {
+                            vm.usuarios = data;
+                            $rootScope.loading = false;
+                        });
+                    $rootScope.loading = false;
+                });
+        }, function () {
+
         });
     };
+
+    function DialogController($scope, $mdDialog, tituloModal, novoItem, usuario, usuarioTipos) {
+        $scope.tituloModal = tituloModal;
+        $scope.novoItem = novoItem;
+        $scope.usuario = usuario;
+        $scope.usuarioTipos = usuarioTipos;
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.save = function () {
+            vm.save($scope.usuario);
+            $mdDialog.hide();
+        }
+
+        $scope.update = function () {
+            vm.update($scope.usuario);
+            $mdDialog.hide();
+        }
+
+    }
 
 }]);

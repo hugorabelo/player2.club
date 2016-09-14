@@ -22,7 +22,7 @@
     <div class="ibox-content">
 
         <p>
-            <md-button class="md-primary md-raised" ng-click="jogoCtrl.create($event)">
+            <md-button class="md-primary md-raised" ng-click="vmJogo.create($event)">
                 {{'messages.jogo_add' | translate}}
             </md-button>
         </p>
@@ -33,14 +33,14 @@
                 <th translate>fields.imagem_capa</th>
                 <th>&nbsp;</th>
             </tr>
-            <tr ng-repeat="jogo in jogoCtrl.jogos">
+            <tr ng-repeat="jogo in vmJogo.jogos">
                 <td>{{ jogo.descricao }}</td>
                 <td class="col-xs-2"><img ng-src="uploads/{{jogo.imagem_capa}}" class="img-responsive" /></td>
                 <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-warning" ng-click="jogoCtrl.edit($event, jogo.id)" tooltip="{{'fields.edit' | translate}}">
+                    <button type="button" class="btn btn-warning" ng-click="vmJogo.edit($event, jogo.id)" tooltip="{{'fields.edit' | translate}}">
                         <i class="fa fa-pencil fa-fw"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="jogoCtrl.delete($event, jogo.id)" tooltip="{{'fields.delete' | translate}}">
+                    <button type="button" class="btn btn-danger" ng-click="vmJogo.delete($event, jogo.id)" tooltip="{{'fields.delete' | translate}}">
                         <i class="fa fa-trash-o fa-fw"></i>
                     </button>
                 </td>

@@ -58,7 +58,7 @@
             .state('index.plataforma', {
                 url: "/plataforma",
                 templateUrl: "app/components/plataforma/index.html",
-                controller: 'PlataformaController as plataformaCtrl',
+                controller: 'PlataformaController as vmPlataforma',
                 data: {
                     pageTitle: "menus.plataformas"
                 }
@@ -66,7 +66,7 @@
             .state('index.campeonatoTipo', {
                 url: "/campeonatoTipo",
                 templateUrl: "app/components/campeonatoTipo/index.html",
-                controller: 'CampeonatoTipoController',
+                controller: 'CampeonatoTipoController as vmCampeonatoTipo',
                 data: {
                     pageTitle: "menus.campeonatoTipos"
                 }
@@ -74,7 +74,7 @@
             .state('index.jogo', {
                 url: "/jogo",
                 templateUrl: "app/components/jogo/index.html",
-                controller: 'JogoController as jogoCtrl',
+                controller: 'JogoController as vmJogo',
                 data: {
                     pageTitle: "menus.jogos"
                 }
@@ -82,7 +82,7 @@
             .state('index.usuarioTipo', {
                 url: "/usuarioTipo",
                 templateUrl: "app/components/usuarioTipo/index.html",
-                controller: 'UsuarioTipoController',
+                controller: 'UsuarioTipoController as vmUsuarioTipo',
                 data: {
                     pageTitle: "menus.usuarioTipos"
                 }
@@ -90,7 +90,7 @@
             .state('index.usuario', {
                 url: "/usuario",
                 templateUrl: "app/components/usuario/index.html",
-                controller: 'UsuarioController',
+                controller: 'UsuarioController as vmUsuario',
                 data: {
                     pageTitle: "menus.usuarios"
                 }

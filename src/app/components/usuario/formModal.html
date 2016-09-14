@@ -1,61 +1,62 @@
-<div class="modal inmodal" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated bounceInRight">
-            <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="submit()">
-                <div class="modal-header">
-                    <h4 class="modal-title" translate="{{tituloModal}}"></h4>
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div class="row" ng-show="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
 
-                    <div class="row" ng-show="messages">
-                        <div class="col-md-10 col-md-offset-2">
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        <li class="error" ng-repeat="message in messages">
-                                            {{ message }}
-                                        </li>
-                                    </ul>
-                                </div>
-                        </div>
+                <div class="form-group">
+                    <label for="descricao" class="col-md-3 control-label" translate>fields.nome</label>
+                    <div class="col-md-9">
+                        <input type="text" id="nome" class="form-control" ng-model="usuario.nome" required />
                     </div>
-
-                    <div class="form-group">
-                        <label for="descricao" class="col-md-3 control-label" translate>fields.nome</label>
-                        <div class="col-md-9">
-                            <input type="text" id="nome" class="form-control" ng-model="usuario.nome" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prioridade" class="col-md-3 control-label" translate>fields.email</label>
-                        <div class="col-md-9">
-                            <input type="email" id="email" class="form-control" ng-model="usuario.email" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prioridade" class="col-md-3 control-label" translate>fields.password</label>
-                        <div class="col-md-9">
-                            <input type="password" id="password" class="form-control" ng-model="usuario.password" ng-minlength="6" ng-required="novoItem" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prioridade" class="col-md-3 control-label" translate>fields.usuarioTipos_id</label>
-                        <div class="col-md-9">
-                            <select id="usuario_tipos_id" class="form-control" ng-model="usuario.usuario_tipos_id"
-                                    ng-options="usuarioTipo.id as usuarioTipo.descricao for usuarioTipo in usuarioTipos" required >
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" translate>fields.cancel</button>
-                    <button type="submit" class="btn btn-primary" ng-show="novoItem" translate>fields.save</button>
-                    <button type="submit" class="btn btn-primary" ng-hide="novoItem" translate>fields.update</button>
+
+                <div class="form-group">
+                    <label for="prioridade" class="col-md-3 control-label" translate>fields.email</label>
+                    <div class="col-md-9">
+                        <input type="email" id="email" class="form-control" ng-model="usuario.email" required />
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
+
+                <div class="form-group">
+                    <label for="prioridade" class="col-md-3 control-label" translate>fields.password</label>
+                    <div class="col-md-9">
+                        <input type="password" id="password" class="form-control" ng-model="usuario.password" ng-minlength="6" ng-required="novoItem" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="prioridade" class="col-md-3 control-label" translate>fields.usuarioTipos_id</label>
+                    <div class="col-md-9">
+                        <select id="usuario_tipos_id" class="form-control" ng-model="usuario.usuario_tipos_id" ng-options="usuarioTipo.id as usuarioTipo.descricao for usuarioTipo in usuarioTipos" required>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+                <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+                <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
+            </md-dialog-actions>
+        </md-dialog-content>
+    </form>
+</md-dialog>

@@ -1,98 +1,156 @@
-angular.module('player2').controller('CampeonatoTipoController', ['$scope', '$rootScope', 'CampeonatoTipo', function ($scope, $rootScope, CampeonatoTipo) {
+angular.module('player2').controller('CampeonatoTipoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $mdDialog, $translate, CampeonatoTipo, ModeloCampeonato) {
+    var vm = this;
 
-    $scope.campeonatoTipo = {};
+    $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
+        $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+        $scope.textoYes = translations['messages.yes'];
+        $scope.textoNo = translations['messages.no'];
+    });
 
     $rootScope.loading = true;
 
     CampeonatoTipo.get()
-    .success(function(data) {
-        $scope.campeonatoTipos = data;
-        $rootScope.loading = false;
-    });
+        .success(function (data) {
+            vm.campeonatoTipos = data;
+            $rootScope.loading = false;
+        });
 
-    $scope.create = function() {
-        $scope.campeonatoTipo = {};
-        $scope.messages = null;
-        $('#formModal').modal();
-        $scope.tituloModal = 'messages.campeonatoTipo_create';
-        $scope.novoItem = true;
-        $scope.formulario.$setPristine();
-    }
+    ModeloCampeonato.get()
+        .success(function (data) {
+            vm.modelosCampeonato = data;
+            $rootScope.loading = false;
+        });
 
-    $scope.edit = function(id) {
-        $rootScope.loading = true;
+    vm.create = function (ev) {
+        $mdDialog.show({
+                locals: {
+                    tituloModal: 'messages.campeonatoTipo_create',
+                    novoItem: true,
+                    campeonatoTipo: {},
+                    modelosCampeonato: vm.modelosCampeonato
+                },
+                controller: DialogController,
+                templateUrl: 'app/components/campeonatoTipo/formModal.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+            .then(function () {
+
+            }, function () {
+
+            });
+    };
+
+    vm.edit = function (ev, id) {
         CampeonatoTipo.edit(id)
-            .success(function(data) {
-                $scope.campeonatoTipo = data;
-                $scope.messages = null;
-                $('#formModal').modal();
-                $scope.tituloModal = 'messages.campeonatoTipo_edit';
-                $scope.novoItem = false;
-                $scope.formulario.$setPristine();
-                $rootScope.loading = false;
-        });
-    };
+            .success(function (data) {
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.campeonatoTipo_edit',
+                            novoItem: false,
+                            campeonatoTipo: data,
+                            modelosCampeonato: vm.modelosCampeonato
+                        },
+                        controller: DialogController,
+                        templateUrl: 'app/components/campeonatoTipo/formModal.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
 
-    $scope.submit = function() {
-        if($scope.novoItem) {
-            this.save();
-        } else {
-            this.update();
-        }
-    };
+                    }, function () {
 
-    $scope.save = function() {
-        CampeonatoTipo.save($scope.campeonatoTipo)
-                .success(function (data) {
-                    CampeonatoTipo.get()
-                        .success(function (getData) {
-                            $scope.campeonatoTipos = getData;
-                            $rootScope.loading = false;
                     });
-                    $('#formModal').modal('hide');
-                    $rootScope.loading = false;
-                }).error(function(data, status) {
-                    $scope.messages = data.errors;
-                    $scope.status = status;
-                });
+
+            });
     };
 
-    $scope.update = function() {
+    vm.save = function (campeonatoTipo) {
         $rootScope.loading = true;
-        CampeonatoTipo.update($scope.campeonatoTipo)
-                .success(function (data) {
-                    CampeonatoTipo.get()
-                        .success(function (getData) {
-                            $scope.campeonatoTipos = getData;
-                            $rootScope.loading = false;
-                    });
-                    $('#formModal').modal('hide');
-                    $rootScope.loading = false;
-                }).error(function(data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-    };
-
-    $scope.delete = function(id) {
-        $('#confirmaModal').modal();
-        $scope.mensagemModal = 'messages.confirma_exclusao';
-        $scope.idRegistro = id;
-    };
-
-    $scope.confirmacaoModal = function(id) {
-        $rootScope.loading = true;
-        CampeonatoTipo.destroy(id)
-            .success(function(data) {
+        CampeonatoTipo.save(campeonatoTipo)
+            .success(function (data) {
                 CampeonatoTipo.get()
-                    .success(function(data) {
-                        $scope.campeonatoTipos = data;
+                    .success(function (getData) {
+                        vm.campeonatoTipos = getData;
                         $rootScope.loading = false;
-                });
-                $('#confirmaModal').modal('hide');
+                    }).error(function (getData) {
+                        vm.message = getData;
+                        $rootScope.loading = false;
+                    });
                 $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.messages = data.errors;
+                vm.status = status;
+                $rootScope.loading = false;
+            });
+    };
+
+    vm.update = function (campeonatoTipo) {
+        $rootScope.loading = true;
+        CampeonatoTipo.update(campeonatoTipo)
+            .success(function (data) {
+                CampeonatoTipo.get()
+                    .success(function (getData) {
+                        vm.campeonatoTipos = getData;
+                        $rootScope.loading = false;
+                    });
+                $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.message = data.errors;
+                vm.status = status;
+                $rootScope.loading = false;
+            });
+    };
+
+    vm.delete = function (ev, id) {
+        vm.idRegistroExcluir = id;
+        var confirm = $mdDialog.confirm(id)
+            .title($scope.textoConfirmaExclusao)
+            .ariaLabel($scope.textoConfirmaExclusao)
+            .targetEvent(ev)
+            .ok($scope.textoYes)
+            .cancel($scope.textoNo)
+            .theme('default');
+
+        $mdDialog.show(confirm).then(function () {
+            $rootScope.loading = true;
+            CampeonatoTipo.destroy(vm.idRegistroExcluir)
+                .success(function (data) {
+                    CampeonatoTipo.get()
+                        .success(function (data) {
+                            vm.campeonatoTipos = data;
+                            $rootScope.loading = false;
+                        });
+                    $rootScope.loading = false;
+                });
+        }, function () {
+
         });
     };
 
+    function DialogController($scope, $mdDialog, tituloModal, novoItem, campeonatoTipo, modelosCampeonato) {
+        $scope.tituloModal = tituloModal;
+        $scope.novoItem = novoItem;
+        $scope.campeonatoTipo = campeonatoTipo;
+        $scope.modelosCampeonato = modelosCampeonato;
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.save = function () {
+            vm.save($scope.campeonatoTipo);
+            $mdDialog.hide();
+        }
+
+        $scope.update = function () {
+            vm.update($scope.campeonatoTipo);
+            $mdDialog.hide();
+        }
+
+    }
 }]);
