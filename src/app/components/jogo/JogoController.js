@@ -1,116 +1,152 @@
-angular.module('player2').controller('JogoController', ['$scope', '$rootScope', 'Jogo', function ($scope, $rootScope, Jogo) {
-    $scope.jogo = {};
+angular.module('player2').controller('JogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', function ($scope, $rootScope, $mdDialog, $translate, Jogo) {
+    var vm = this;
 
-    $scope.files = [];
+    $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
+        $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+        $scope.textoYes = translations['messages.yes'];
+        $scope.textoNo = translations['messages.no'];
+    });
 
     $rootScope.loading = true;
 
-    $scope.$on("fileSelected", function (event, args) {
-        $scope.$apply(function () {
-            //add the file object to the scope's files collection
-            $scope.files.push(args.file);
-        });
-    });
-
     Jogo.get()
-    .success(function(data) {
-        $scope.jogos = data;
-        $rootScope.loading = false;
-    }).error(function(data) {
-        $scope.message = data;
-        $rootScope.loading = false;
-    });
+        .success(function (data) {
+            vm.jogos = data;
+            $rootScope.loading = false;
+        }).error(function (data) {
+            vm.message = data;
+            $rootScope.loading = false;
+        });
 
-    $scope.create = function() {
-        $scope.jogo = {};
-        $scope.messages = null;
-        $('#formModal').modal();
-        $scope.tituloModal = 'messages.jogo_create';
-        $scope.novoItem = true;
-        $scope.formulario.$setPristine();
-    }
+    vm.create = function (ev) {
+        $mdDialog.show({
+                locals: {
+                    tituloModal: 'messages.jogo_create',
+                    novoItem: true,
+                    jogo: {}
+                },
+                controller: DialogController,
+                templateUrl: 'app/components/jogo/formModal.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+            .then(function () {
 
-    $scope.edit = function(id) {
-        $rootScope.loading = true;
+            }, function () {
+
+            });
+    };
+
+    vm.edit = function (ev, id) {
         Jogo.edit(id)
-            .success(function(data) {
-                $scope.jogo = data;
-                $scope.messages = null;
-                $('#formModal').modal();
-                $scope.tituloModal = 'messages.jogo_edit';
-                $scope.novoItem = false;
-                $scope.formulario.$setPristine();
-                $rootScope.loading = false;
-        });
-    };
+            .success(function (data) {
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.jogo_edit',
+                            novoItem: false,
+                            jogo: data
+                        },
+                        controller: DialogController,
+                        templateUrl: 'app/components/jogo/formModal.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
 
-    $scope.submit = function() {
-        if($scope.novoItem) {
-            this.save();
-        } else {
-            this.update();
-        }
-    };
+                    }, function () {
 
-    $scope.save = function() {
-        $rootScope.loading = true;
-        Jogo.save($scope.jogo, $scope.files[0])
-                .success(function (data) {
-                    Jogo.get()
-                        .success(function (getData) {
-                            $scope.jogos = getData;
-                            $rootScope.loading = false;
-                    }).error(function (getData) {
-                        $scope.message = getData;
-                        $rootScope.loading = false;
                     });
-                    $('#formModal').modal('hide');
-                    $scope.files = [];
-                    $rootScope.loading = false;
-                }).error(function(data, status) {
-                    $scope.messages = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
+
+            });
     };
 
-    $scope.update = function() {
+    vm.save = function (jogo, arquivo) {
         $rootScope.loading = true;
-        Jogo.update($scope.jogo, $scope.files[0])
-                .success(function (data) {
-                    Jogo.get()
-                        .success(function (getData) {
-                            $scope.jogos = getData;
-                            $rootScope.loading = false;
-                    });
-                    $('#formModal').modal('hide');
-                    $scope.files = [];
-                    $rootScope.loading = false;
-                }).error(function(data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-    };
-
-    $scope.delete = function(id) {
-        $('#confirmaModal').modal();
-        $scope.mensagemModal = 'messages.confirma_exclusao';
-        $scope.idRegistro = id;
-    };
-
-    $scope.confirmacaoModal = function(id) {
-        $rootScope.loading = true;
-        Jogo.destroy(id)
-            .success(function(data) {
+        Jogo.save(jogo, arquivo)
+            .success(function (data) {
                 Jogo.get()
-                    .success(function(data) {
-                        $scope.jogos = data;
+                    .success(function (getData) {
+                        vm.jogos = getData;
                         $rootScope.loading = false;
-                });
-                $('#confirmaModal').modal('hide');
+                    }).error(function (getData) {
+                        vm.message = getData;
+                        $rootScope.loading = false;
+                    });
                 $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.messages = data.errors;
+                vm.status = status;
+                $rootScope.loading = false;
+            });
+    };
+
+    vm.update = function (jogo, arquivo) {
+        $rootScope.loading = true;
+        Jogo.update(jogo, arquivo)
+            .success(function (data) {
+                Jogo.get()
+                    .success(function (getData) {
+                        vm.jogos = getData;
+                        $rootScope.loading = false;
+                    });
+                $rootScope.loading = false;
+            }).error(function (data, status) {
+                vm.message = data.errors;
+                vm.status = status;
+                $rootScope.loading = false;
+            });
+    };
+
+    vm.delete = function (ev, id) {
+        vm.idRegistroExcluir = id;
+        var confirm = $mdDialog.confirm(id)
+            .title($scope.textoConfirmaExclusao)
+            .ariaLabel($scope.textoConfirmaExclusao)
+            .targetEvent(ev)
+            .ok($scope.textoYes)
+            .cancel($scope.textoNo)
+            .theme('default');
+
+        $mdDialog.show(confirm).then(function () {
+            $rootScope.loading = true;
+            Jogo.destroy(vm.idRegistroExcluir)
+                .success(function (data) {
+                    Jogo.get()
+                        .success(function (data) {
+                            vm.jogos = data;
+                            $rootScope.loading = false;
+                        });
+                    $rootScope.loading = false;
+                });
+        }, function () {
+
         });
     };
+
+    function DialogController($scope, $mdDialog, tituloModal, novoItem, jogo) {
+        $scope.tituloModal = tituloModal;
+        $scope.novoItem = novoItem;
+        $scope.jogo = jogo;
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.save = function () {
+            vm.save($scope.jogo, $scope.files[0]);
+            $mdDialog.hide();
+        }
+
+        $scope.update = function () {
+            vm.update($scope.jogo, $scope.files[0]);
+            $mdDialog.hide();
+        }
+
+        $scope.$watch('files.length', function (newVal, oldVal) {});
+    }
 
 }]);

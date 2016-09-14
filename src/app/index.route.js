@@ -74,7 +74,7 @@
             .state('index.jogo', {
                 url: "/jogo",
                 templateUrl: "app/components/jogo/index.html",
-                controller: 'JogoController',
+                controller: 'JogoController as jogoCtrl',
                 data: {
                     pageTitle: "menus.jogos"
                 }

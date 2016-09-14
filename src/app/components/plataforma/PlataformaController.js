@@ -105,7 +105,7 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
         vm.idRegistroExcluir = id;
         var confirm = $mdDialog.confirm(id)
             .title($scope.textoConfirmaExclusao)
-            .ariaLabel('Lucky day')
+            .ariaLabel($scope.textoConfirmaExclusao)
             .targetEvent(ev)
             .ok($scope.textoYes)
             .cancel($scope.textoNo)
