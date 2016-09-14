@@ -22,9 +22,8 @@
     <div class="ibox-content">
 
         <p>
-            <button type="button" class="btn btn-primary btn-lg" ng-click="create()" translate>
-                messages.menu_add
-            </button>
+            <md-button class="md-primary md-raised" ng-click="vmMenu.create($event)"> {{'messages.menu_add' | translate}}
+            </md-button>
         </p>
 
         <table class="table table-striped">
@@ -35,16 +34,16 @@
                 <th translate>fields.ordem</th>
                 <th>&nbsp;</th>
             </tr>
-            <tr ng-repeat="menu in menus">
+            <tr ng-repeat="menu in vmMenu.menus">
                 <td translate>{{ menu.descricao }}</td>
                 <td>{{ menu.url }} </td>
                 <td translate>{{ menu.pai }} </td>
                 <td>{{ menu.ordem }} </td>
                 <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-warning" ng-click="edit(menu.id)" tooltip="{{'fields.edit' | translate}}">
+                    <button type="button" class="btn btn-warning" ng-click="vmMenu.edit($event, menu.id)" tooltip="{{'fields.edit' | translate}}">
                         <i class="fa fa-pencil fa-fw"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="delete(menu.id)" tooltip="{{'fields.delete' | translate}}">
+                    <button type="button" class="btn btn-danger" ng-click="vmMenu.delete($event, menu.id)" tooltip="{{'fields.delete' | translate}}">
                         <i class="fa fa-trash-o fa-fw"></i>
                     </button>
                 </td>
@@ -53,7 +52,3 @@
 
     </div>
 </div>
-
-<div formulario-menu></div>
-
-<div modal-confirma></div>

@@ -98,7 +98,7 @@
             .state('index.menu', {
                 url: "/menu",
                 templateUrl: "app/components/menu/index.html",
-                controller: 'MenuController',
+                controller: 'MenuController as vmMenu',
                 data: {
                     pageTitle: "menus.menus"
                 }
