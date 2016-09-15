@@ -1,28 +1,27 @@
-<form name="formularioGamertag" novalidate="novalidate" ng-submit="salvaUserPlataforma()">
+<form name="formularioGamertag" novalidate="novalidate" ng-submit="vmProfile.salvaUserPlataforma()">
 
     <div class="row" ng-show="messageUserPlataforma">
         <div class="col-md-12">
-                <div class="alert alert-danger error">
-                    {{ messageUserPlataforma }}
-                </div>
+            <div class="alert alert-danger error">
+                {{ messageUserPlataforma }}
+            </div>
         </div>
     </div>
 
     <div class="form-group">
         <label for="plataforma" class="sr-only" translate>fields.plataformas_id</label>
-        <select id="plataformas_id" class="form-control" ng-model="userPlataforma.plataformas_id"
-                                    ng-options="plataforma.id as plataforma.descricao for plataforma in plataformas" required >
+        <select id="plataformas_id" class="form-control" ng-model="vmProfile.userPlataforma.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in vmProfile.plataformas" required>
         </select>
     </div>
 
     <div class="form-group">
         <label for="gamertag" class="sr-only" translate>fields.gamertag</label>
-        <input type="text" id="gamertag" class="form-control" ng-model="userPlataforma.gamertag" required placeholder="{{ 'fields.gamertag' | translate }}" />
+        <input type="text" id="gamertag" class="form-control" ng-model="vmProfile.userPlataforma.gamertag" required placeholder="{{ 'fields.gamertag' | translate }}" />
     </div>
 
     <div class="form-group" ng-hide="true">
         <div class="col-md-9">
-                <input type="text" id="users_id" class="form-control" ng-model="userPlataforma.users_id" required />
+            <input type="text" id="users_id" class="form-control" ng-model="vmProfile.userPlataforma.users_id" required />
         </div>
     </div>
 

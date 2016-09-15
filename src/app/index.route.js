@@ -106,7 +106,7 @@
             .state('index.permissao', {
                 url: "/permissao",
                 templateUrl: "app/components/permissao/index.html",
-                controller: 'PermissaoController',
+                controller: 'PermissaoController as vmPermissao',
                 data: {
                     pageTitle: "menus.permissoes"
                 }

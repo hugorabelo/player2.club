@@ -1,193 +1,233 @@
-angular.module('player2').controller('ProfileController', ['$rootScope','$scope', '$filter', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+angular.module('player2').controller('ProfileController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
-    $scope.usuario = {};
-    $scope.exibeFormulario = false;
-    $scope.exibeFormularioPerfil = false;
-	$scope.exibeFormularioImagem = false;
+    var vm = this;
 
-	$scope.files = [];
+    $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
+        $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+        $scope.textoYes = translations['messages.yes'];
+        $scope.textoNo = translations['messages.no'];
+        $scope.textoDesistirCampeonato = translations['messages.confirma_desistir_campeonato'];
+        $scope.textoInscreverTitulo = translations['messages.inscrever_titulo'];
+        $scope.textoInscrever = translations['messages.inscrever'];
+    });
+
+    vm.usuario = {};
+    vm.exibeFormulario = false;
+    vm.exibeFormularioPerfil = false;
+    vm.exibeFormularioImagem = false;
+
+    vm.files = [];
 
     //$rootScope.loading = true;
     Usuario.show($rootScope.usuarioLogado)
-        .success(function(data) {
-            $scope.usuario = data;
-            $scope.carregaDadosUsuario($scope.usuario.id);
+        .success(function (data) {
+            vm.usuario = data;
+            vm.carregaDadosUsuario(vm.usuario.id);
         })
-        .error(function(data, status) {
-        });
+        .error(function (data, status) {});
 
-    $scope.$on("fileSelected", function (event, args) {
-        $scope.$apply(function () {
-            //add the file object to the scope's files collection
-            $scope.files.push(args.file);
-        });
-    });
-
-    $scope.abreFormularioGamertag = function() {
-        $scope.exibeFormulario = !$scope.exibeFormulario;
+    vm.abreFormularioGamertag = function () {
+        vm.exibeFormulario = !vm.exibeFormulario;
     };
 
-    $scope.abreFormularioPerfil = function() {
-        $scope.exibeFormularioPerfil = true;
+    vm.abreFormularioPerfil = function () {
+        vm.exibeFormularioPerfil = true;
     };
 
-    $scope.abreFormularioImagemPerfil = function() {
-        $scope.exibeFormularioImagem = true;
+    vm.abreFormularioImagemPerfil = function () {
+        vm.exibeFormularioImagem = true;
     };
 
-    $scope.getPlataformasDoUsuario = function() {
-        $scope.userPlataformas = {};
-        UserPlataforma.getPlataformasDoUsuario($scope.usuario.id)
+    vm.getPlataformasDoUsuario = function () {
+        vm.userPlataformas = {};
+        UserPlataforma.getPlataformasDoUsuario(vm.usuario.id)
             .success(function (data) {
-                $scope.userPlataformas = data;
+                vm.userPlataformas = data;
             })
             .error(function (data) {
 
             });
     };
 
-    $scope.getPlataformas = function () {
-        $scope.plataformas = {};
-        $scope.userPlataforma = {};
+    vm.getPlataformas = function () {
+        vm.plataformas = {};
+        vm.userPlataforma = {};
         Plataforma.get()
             .success(function (data) {
-                $scope.plataformas = data;
-                $scope.userPlataforma.users_id = $scope.usuario.id
+                vm.plataformas = data;
+                vm.userPlataforma.users_id = vm.usuario.id
             })
             .error(function (data) {
 
             });
     };
 
-    $scope.salvaUserPlataforma = function() {
-        UserPlataforma.save($scope.userPlataforma)
+    vm.salvaUserPlataforma = function () {
+        UserPlataforma.save(vm.userPlataforma)
             .success(function (data) {
-                $scope.carregaDadosUsuario($scope.usuario.id);
-                $scope.exibeFormulario = false;
-            }).error(function(data, status) {
-                $scope.messagePontuacao = data.message;
-                $scope.status = status;
+                vm.carregaDadosUsuario(vm.usuario.id);
+                vm.exibeFormulario = false;
+            }).error(function (data, status) {
+                vm.messagePontuacao = data.message;
+                vm.status = status;
             });
     };
 
-    $scope.excluiUserPlataforma = function(id) {
-        var $translate = $filter('translate');
-        var mensagem = $translate('messages.confirma_exclusao');
-        bootbox.confirm(mensagem, function(result) {
-            if(result) {
-                UserPlataforma.destroy(id)
-                    .success(function (data) {
-                        $scope.carregaDadosUsuario($scope.usuario.id);
-                    }).error(function (data) {
+    vm.excluiUserPlataforma = function (ev, id) {
+        vm.idRegistroExcluir = id;
+        var confirm = $mdDialog.confirm(id)
+            .title($scope.textoConfirmaExclusao)
+            .ariaLabel($scope.textoConfirmaExclusao)
+            .targetEvent(ev)
+            .ok($scope.textoYes)
+            .cancel($scope.textoNo)
+            .theme('default');
 
-                    });
-            }
+        $mdDialog.show(confirm).then(function () {
+            $rootScope.loading = true;
+            UserPlataforma.destroy(vm.idRegistroExcluir)
+                .success(function (data) {
+                    vm.carregaDadosUsuario(vm.usuario.id);
+                    $rootScope.loading = false;
+                });
+        }, function () {
+
         });
     };
 
-    $scope.salvaPerfil = function() {
-        Usuario.update($scope.usuario, $scope.files[0])
-        .success(function (data) {
-            $scope.carregaDadosUsuario($scope.usuario.id);
-            $scope.exibeFormularioPerfil = false;
-			$scope.exibeFormularioImagem = false;
-			$scope.files = [];
-        })
+    vm.salvaPerfil = function () {
+        Usuario.update(vm.usuario, vm.files[0])
+            .success(function (data) {
+                vm.carregaDadosUsuario(vm.usuario.id);
+                vm.exibeFormularioPerfil = false;
+                vm.exibeFormularioImagem = false;
+                vm.files = [];
+            })
     };
 
-    $scope.carregaDadosUsuario = function(id) {
+    vm.carregaDadosUsuario = function (id) {
         Usuario.show(id)
-        .success(function(data) {
-            $scope.usuario = data;
-            $scope.getPlataformasDoUsuario();
-            $scope.getPlataformas();
-            $scope.getCampeonatosInscritos();
-            $scope.getCampeonatosDisponiveis();
-        })
-        .error(function(data, status) {
-        });
+            .success(function (data) {
+                vm.usuario = data;
+                vm.getPlataformasDoUsuario();
+                vm.getPlataformas();
+                vm.getCampeonatosInscritos();
+                vm.getCampeonatosDisponiveis();
+            })
+            .error(function (data, status) {});
     };
 
-    $scope.getCampeonatosInscritos = function() {
-        $scope.userCampeonatosInscritos = {};
-        Usuario.getCampeonatosInscritos($scope.usuario.id)
+    vm.getCampeonatosInscritos = function () {
+        vm.userCampeonatosInscritos = {};
+        Usuario.getCampeonatosInscritos(vm.usuario.id)
             .success(function (data) {
-                $scope.userCampeonatosInscritos = data;
+                vm.userCampeonatosInscritos = data;
             })
-            .error(function (data) {
+            .error(function (data) {});
+    };
+
+    vm.getCampeonatosDisponiveis = function () {
+        vm.userCampeonatosDisponiveis = {};
+        Usuario.getCampeonatosDisponiveis(vm.usuario.id)
+            .success(function (data) {
+                vm.userCampeonatosDisponiveis = data;
+            })
+            .error(function (data) {});
+    };
+
+    //    vm.inscreverCampeonato = function (id) {
+    //        vm.campeonatoSelecionado = null;
+    //        var $translate = $filter('translate');
+    //        Campeonato.getInformacoes(id)
+    //            .success(function (data) {
+    //                vm.campeonatoSelecionado = data;
+    //                var mensagem = vm.campeonatoSelecionado.detalhes;
+    //                bootbox.dialog({
+    //                    message: mensagem,
+    //                    title: $translate('messages.inscrever_titulo'),
+    //                    buttons: {
+    //                        danger: {
+    //                            label: $translate('fields.cancel'),
+    //                            className: "btn-default"
+    //                        },
+    //                        success: {
+    //                            label: $translate('messages.inscrever'),
+    //                            className: "btn-primary",
+    //                            callback: function () {
+    //                                vm.confirmaInscricao(vm.campeonatoSelecionado.id);
+    //                            }
+    //                        }
+    //                    }
+    //                });
+    //            }).error(function (data) {});
+    //    };
+    //
+    //    vm.confirmaInscricao = function (id_campeonato) {
+    //        CampeonatoUsuario.save(vm.usuario.id, id_campeonato)
+    //            .success(function (data) {
+    //                vm.getCampeonatosInscritos();
+    //                vm.getCampeonatosDisponiveis();
+    //            }).error(function (data) {});
+    //    };
+
+    vm.inscreverCampeonato = function (ev, id) {
+        vm.idCampeonato = id;
+        Campeonato.getInformacoes(id)
+            .success(function (data) {
+                vm.campeonatoSelecionado = data;
+                var mensagem = vm.campeonatoSelecionado.detalhes;
+                var confirm = $mdDialog.confirm(id)
+                    .title($scope.textoInscreverTitulo)
+                    .ariaLabel($scope.textoInscreverTitulo)
+                    .targetEvent(ev)
+                    .ok($scope.textoInscrever)
+                    .cancel($scope.textoNo)
+                    .theme('default');
+
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    CampeonatoUsuario.save(vm.usuario.id, vm.idCampeonato)
+                        .success(function (data) {
+                            vm.getCampeonatosInscritos();
+                            vm.getCampeonatosDisponiveis();
+                        });
+                }, function () {
+
+                });
             });
     };
 
-    $scope.getCampeonatosDisponiveis = function() {
-        $scope.userCampeonatosDisponiveis = {};
-        Usuario.getCampeonatosDisponiveis($scope.usuario.id)
-            .success(function (data) {
-                $scope.userCampeonatosDisponiveis = data;
-            })
-            .error(function (data) {
-            });
-    };
+    vm.sairCampeonato = function (ev, id) {
+        vm.idRegistroExcluir = id;
+        var confirm = $mdDialog.confirm(id)
+            .title($scope.textoDesistirCampeonato)
+            .ariaLabel($scope.textoDesistirCampeonato)
+            .targetEvent(ev)
+            .ok($scope.textoYes)
+            .cancel($scope.textoNo)
+            .theme('default');
 
-	$scope.inscreverCampeonato = function(id) {
-		$scope.campeonatoSelecionado = null;
-		var $translate = $filter('translate');
-		Campeonato.getInformacoes(id)
-			.success(function (data) {
-				$scope.campeonatoSelecionado = data;
-				var mensagem = $scope.campeonatoSelecionado.detalhes;
-				bootbox.dialog({
-					message: mensagem,
-					title: $translate('messages.inscrever_titulo'),
-					buttons: {
-						danger: {
-							label: $translate('fields.cancel'),
-							className: "btn-default"
-						},
-						success: {
-							label: $translate('messages.inscrever'),
-							className: "btn-primary",
-							callback: function() {
-								$scope.confirmaInscricao($scope.campeonatoSelecionado.id);
-							}
-						}
-					}
-				});
-			}).error(function (data) {
-			});
-	};
+        $mdDialog.show(confirm).then(function () {
+            $rootScope.loading = true;
+            CampeonatoUsuario.getUsuarios(id_campeonato)
+                .success(function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].users_id == vm.usuario.id) {
+                            var id_campeonato_usuario = data[i].id;
+                            CampeonatoUsuario.destroy(vm.idRegistroExcluir)
+                                .success(function (data) {
+                                    vm.getCampeonatosInscritos();
+                                    vm.getCampeonatosDisponiveis();
+                                })
+                                .error(function (data) {
 
-	$scope.confirmaInscricao = function (id_campeonato) {
-		CampeonatoUsuario.save($scope.usuario.id, id_campeonato)
-			.success(function (data) {
-				$scope.getCampeonatosInscritos();
-            	$scope.getCampeonatosDisponiveis();
-			}).error(function (data) {
-			});
-	};
+                                });
+                        }
+                    }
+                });
+        }, function () {
 
-	$scope.sairCampeonato = function(id_campeonato) {
-		var $translate = $filter('translate');
-        var mensagem = $translate('messages.confirma_desistir_campeonato');
-		bootbox.confirm(mensagem, function(result) {
-            if(result) {
-				CampeonatoUsuario.getUsuarios(id_campeonato)
-					.success(function (data) {
-						for(i=0; i<data.length; i++) {
-							if(data[i].users_id == $scope.usuario.id) {
-								var id_campeonato_usuario = data[i].id;
-								CampeonatoUsuario.destroy(id_campeonato_usuario)
-									.success(function (data) {
-										$scope.getCampeonatosInscritos();
-										$scope.getCampeonatosDisponiveis();
-									})
-									.error(function (data) {
-
-									});
-							}
-						}
-				});
-            }
         });
-	};
+    };
 
 }]);

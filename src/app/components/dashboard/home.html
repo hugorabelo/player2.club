@@ -1,4 +1,4 @@
-<div class="row" ng-controller="ProfileController">
+<div class="row" ng-controller="ProfileController as vmProfile">
     <div class="col-md-12">
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
@@ -36,9 +36,9 @@
                     </div>
                     <div class="panel-body">
                         <ul class="todo-list m-t small-list">
-                            <li ng-repeat="campeonato in userCampeonatosInscritos">
+                            <li ng-repeat="campeonato in vmProfile.userCampeonatosInscritos">
                                 {{ campeonato.descricao }}
-                                <a ng-click="sairCampeonato(campeonato.id)" class="btn btn-xs btn-danger pull-right" translate> messages.desistir
+                                <a ng-click="vmProfile.sairCampeonato($event, campeonato.id)" class="btn btn-xs btn-danger pull-right" translate> messages.desistir
 								</a>
                             </li>
                         </ul>
@@ -52,9 +52,9 @@
                     </div>
                     <div class="panel-body">
                         <ul class="todo-list m-t small-list">
-                            <li ng-repeat="campeonato in userCampeonatosDisponiveis">
+                            <li ng-repeat="campeonato in vmProfile.userCampeonatosDisponiveis">
                                 {{ campeonato.descricao }}
-                                <a ng-click="inscreverCampeonato(campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever
+                                <a ng-click="vmProfile.inscreverCampeonato($event, campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever
 								</a>
                             </li>
                         </ul>
