@@ -38,10 +38,7 @@ class Campeonato extends Eloquent {
 		/*
 		 * Alterar para quantidade maxima de usuarios da fase inicial
 		 */
-        $quantidade_maxima = 0;
-        foreach($this->faseInicial() as $fase) {
-            $quantidade_maxima = $fase->quantidade_usuarios;
-        }
+        $quantidade_maxima = $this->faseInicial()->quantidade_usuarios;
 		return $quantidade_maxima;
 	}
 

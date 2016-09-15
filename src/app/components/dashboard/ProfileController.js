@@ -209,12 +209,12 @@ angular.module('player2').controller('ProfileController', ['$rootScope', '$scope
 
         $mdDialog.show(confirm).then(function () {
             $rootScope.loading = true;
-            CampeonatoUsuario.getUsuarios(id_campeonato)
+            CampeonatoUsuario.getUsuarios(vm.idRegistroExcluir)
                 .success(function (data) {
                     for (i = 0; i < data.length; i++) {
                         if (data[i].users_id == vm.usuario.id) {
                             var id_campeonato_usuario = data[i].id;
-                            CampeonatoUsuario.destroy(vm.idRegistroExcluir)
+                            CampeonatoUsuario.destroy(id_campeonato_usuario)
                                 .success(function (data) {
                                     vm.getCampeonatosInscritos();
                                     vm.getCampeonatosDisponiveis();
