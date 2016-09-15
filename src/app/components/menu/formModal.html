@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <label for="pai" class="col-md-3 control-label" translate>fields.pai</label>
                     <div class="col-md-9">
-                        <select id="menu_pai" class="form-control" ng-model="menu.menu_pai" ng-options="menuPai.id as menuPai.descricao for menuPai in menuPais" required>
+                        <select id="menu_pai" class="form-control" ng-model="menu.menu_pai" ng-options="menuPai.id as (menuPai.descricao | translate) for menuPai in menuPais" required>
                         </select>
                     </div>
                 </div>
