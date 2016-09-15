@@ -1,65 +1,70 @@
 angular.module('player2').factory('Usuario', ['$http', function ($http) {
     return {
-        show: function(id) {
+        show: function (id) {
             return $http.get('api/usuario/' + id);
         },
 
-        get : function() {
+        get: function () {
             return $http.get('api/usuario');
         },
 
-		save : function(usuario, arquivo) {
-			if (typeof(arquivo)==='undefined') arquivo = null;
+        save: function (usuario, arquivo) {
+            if (typeof (arquivo) === 'undefined') arquivo = null;
             return $http({
                 method: 'POST',
                 url: 'api/usuario',
-                headers: { 'Content-Type' : undefined },
-                transformRequest: function(data) {
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: function (data) {
                     var formData = new FormData();
-                    angular.forEach(usuario, function(value, key) {
-						formData.append(key, value);
-					});
+                    angular.forEach(usuario, function (value, key) {
+                        formData.append(key, value);
+                    });
                     formData.append("imagem_perfil", arquivo);
                     return formData;
                 }
             });
         },
 
-        edit : function(id) {
+        edit: function (id) {
             return $http.get('api/usuario/' + id + '/edit');
         },
 
-		update : function(usuario, arquivo) {
-			if (typeof(arquivo)==='undefined') arquivo = null;
+        update: function (usuario, arquivo) {
             return $http({
                 method: 'POST',
                 url: 'api/usuario/' + usuario.id,
-                headers: { 'Content-Type' : undefined },
-                transformRequest: function(data) {
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: function (data) {
                     var formData = new FormData();
-                    angular.forEach(usuario, function(value, key) {
-						formData.append(key, value);
-					});
-                    formData.append("imagem_perfil", arquivo);
+                    angular.forEach(usuario, function (value, key) {
+                        formData.append(key, value);
+                    });
+                    if (arquivo != null) {
+                        formData.append("imagem_perfil", arquivo.lfFile);
+                    }
                     return formData;
                 }
             });
         },
 
-        destroy : function(id) {
+        destroy: function (id) {
             return $http.delete('api/usuario/' + id);
         },
 
-        getCampeonatosInscritos : function(id) {
+        getCampeonatosInscritos: function (id) {
             return $http.get('api/campeonatosInscritosParaUsuario/' + id);
         },
 
-        getCampeonatosDisponiveis : function(id) {
+        getCampeonatosDisponiveis: function (id) {
             return $http.get('api/campeonatosDisponiveisParaUsuario/' + id);
         },
 
-		 getPartidas : function(id) {
-		 	return $http.get('api/partidasParaUsuario/' + id);
-	 	}
+        getPartidas: function (id) {
+            return $http.get('api/partidasParaUsuario/' + id);
+        }
     }
 }]);
