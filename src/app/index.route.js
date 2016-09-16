@@ -14,20 +14,6 @@
                 url: "/index",
                 templateUrl: "app/components/common/content.html"
             })
-            .state('index.main', {
-                url: "/main",
-                templateUrl: "app/main/main.html",
-                data: {
-                    pageTitle: 'Example view'
-                }
-            })
-            .state('index.minor', {
-                url: "/minor",
-                templateUrl: "app/minor/minor.html",
-                data: {
-                    pageTitle: 'Example view'
-                }
-            })
             .state('login', {
                 url: "/login",
                 templateUrl: "app/components/comum/login.html",
@@ -60,6 +46,7 @@
                 templateUrl: "app/components/plataforma/index.html",
                 controller: 'PlataformaController as vmPlataforma',
                 data: {
+
                     pageTitle: "menus.plataformas"
                 }
             })
@@ -130,7 +117,7 @@
             .state('index.minhas_partidas', {
                 url: "/minhas_partidas",
                 templateUrl: "app/components/meus_campeonatos/minhasPartidas.html",
-                controller: 'PartidaController',
+                controller: 'PartidaController as vmPartida',
                 data: {
                     pageTitle: "menus.minhas_partidas"
                 }
@@ -155,7 +142,7 @@
                 url: "/logout"
             });
 
-        $urlRouterProvider.otherwise('/index/main');
+        $urlRouterProvider.otherwise('/index/home');
         //        $locationProvider.html5Mode(true);
     }
 

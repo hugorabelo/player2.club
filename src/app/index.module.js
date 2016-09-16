@@ -4,7 +4,6 @@
     angular.module('player2', [
         'ngAnimate',
         'ngCookies',
-        'ngTouch',
         'ngSanitize',
         'ngMessages',
         'ngAria',
@@ -34,6 +33,8 @@
 
         $translateProvider.preferredLanguage('pt_br');
         $translateProvider.fallbackLanguage('pt_br');
+
+        $translateProvider.useSanitizeValueStrategy('escape');
 
         //        bootbox.setLocale('br');
 
