@@ -5,12 +5,12 @@
 
                 <div class="profile-element" uib-dropdown>
                     <a uib-dropdown-toggle="" href>
-                            <span class="clear">
+                        <span class="clear">
                                 <span class="block m-t-xs">
                                     <strong class="font-bold">{{main.userName}}</strong>
                              </span>
-                                <span class="text-muted text-xs block">Example menu<b class="caret"></b></span>
-                            </span>
+                        <span class="text-muted text-xs block">Example menu<b class="caret"></b></span>
+                        </span>
                     </a>
                     <ul uib-dropdown-menu class="animated flipInX m-t-xs">
                         <li><a href="">Logout</a></li>
@@ -27,6 +27,41 @@
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="index.minor"><i class="fa fa-desktop"></i> <span class="nav-label">Minor page</span></a>
+            </li>
+            <li>
+                <a ui-sref="index.home"><i class="fa fa-home"></i> <span class="nav-label" translate>menus.home</span> <span class="fa arrow"></span></a>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-cog"></i> <span class="nav-label" translate>menus.config</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.campeonato"><i class="fa fa-trophy"></i><span translate>menus.campeonatos</span></a></li>
+                    <li><a ui-sref="index.jogo"><i class="fa fa-shield"></i><span translate>menus.jogos</span></a></li>
+                    <li><a ui-sref="index.plataforma"><i class="fa fa-gamepad"></i><span translate>menus.plataformas</span></a></li>
+                    <li><a ui-sref="index.campeonatoTipo"><i class="fa fa-tag"></i><span translate>menus.campeonatoTipos</span></a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-users"></i> <span class="nav-label" translate>menus.acesso</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.usuario"><i class="fa fa-user"></i><span translate>menus.usuarios</span></a></li>
+                    <li><a ui-sref="index.usuarioTipo"><i class="fa fa-list-alt"></i><span translate>menus.usuarioTipos</span></a></li>
+                    <li><a ui-sref="index.menu"><i class="fa fa-navicon"></i><span translate>menus.menus</span></a></li>
+                    <li><a ui-sref="index.permissao"><i class="fa fa-key"></i><span translate>menus.permissoes</span></a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-trophy"></i> <span class="nav-label" translate>menus.campeonatos</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.tabela_campeonato"><i class="fa fa-user"></i><span translate>menus.tabela_campeonato</span></a></li>
+                    <li><a ui-sref="index.meus_campeonatos"><i class="fa fa-user"></i><span translate>menus.meus_campeonatos</span></a></li>
+                    <li><a ui-sref="index.meus_campeonatos_disponiveis"><i class="fa fa-list-alt"></i><span translate>menus.campeonatos_disponiveis</span></a></li>
+                    <li><a ui-sref="index.minhas_partidas"><i class="fa fa-user"></i><span translate>menus.minhas_partidas</span></a></li>
+                    <li><a ui-sref="index.criar_campeonato"><i class="fa fa-user"></i><span translate>messages.campeonato_create</span></a></li>
+                </ul>
             </li>
         </ul>
 

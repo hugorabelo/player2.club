@@ -26,8 +26,6 @@ angular.module('player2').controller('PermissaoController', ['$scope', '$rootSco
                     vm.permissoes.push(item.menu_id);
                     vm.permissao.lista[item.menu_id] = true;
                 });
-                console.log(vm.permissoes);
-                console.log(vm.permissao.lista);
                 $rootScope.loading = false;
             });
     };

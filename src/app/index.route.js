@@ -125,7 +125,7 @@
             .state('index.tabela_campeonato', {
                 url: "/tabela_campeonato",
                 templateUrl: "app/components/campeonatoFront/tabelaCampeonato.html",
-                controller: 'CampeonatoFrontController',
+                controller: 'CampeonatoFrontController as vmCampeonatoFront',
                 data: {
                     pageTitle: "menus.tabela_campeonato"
                 }

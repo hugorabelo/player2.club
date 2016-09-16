@@ -1,115 +1,117 @@
 angular.module('player2').controller('CampeonatoFrontController', ['$scope', '$rootScope', '$filter', 'Campeonato', '$state',
     function ($scope, $rootScope, $filter, Campeonato, $state) {
 
-        $scope.rodada_atual = [];
+        var vm = this;
 
-        $scope.partidasDaRodada = [];
+        vm.rodada_atual = [];
 
-        $scope.carregaFases = function (id) {
+        vm.partidasDaRodada = [];
+
+        vm.carregaFases = function (id) {
             $rootScope.loading = true;
             Campeonato.getFases(id)
                 .success(function (data) {
-                    $scope.campeonatoFases = data;
+                    vm.campeonatoFases = data;
                     $rootScope.loading = false;
-                    $scope.indice_fase = -1;
-                    $scope.exibeProximaFase();
+                    vm.indice_fase = -1;
+                    vm.exibeProximaFase();
                 });
         };
 
-        $scope.carregaGrupos = function (id) {
+        vm.carregaGrupos = function (id) {
             $rootScope.loading = true;
             Campeonato.faseGrupo(id)
                 .success(function (data) {
-                    $scope.gruposDaFase = data;
+                    vm.gruposDaFase = data;
                     $rootScope.loading = false;
-                    $scope.inicializaRodadas(data);
+                    vm.inicializaRodadas(data);
                 })
         };
 
-        $scope.carregaInformacoesCampeonato = function (id) {
+        vm.carregaInformacoesCampeonato = function (id) {
             $rootScope.loading = true;
             Campeonato.getInformacoes(id)
                 .success(function (data) {
-                    $scope.campeonato = data;
-                    $scope.carregaFases(id);
+                    vm.campeonato = data;
+                    vm.carregaFases(id);
                     $rootScope.loading = false;
                 })
         };
 
-        $scope.carregaListaCampeonatos = function () {
+        vm.carregaListaCampeonatos = function () {
             $rootScope.loading = true;
             Campeonato.get()
                 .success(function (data) {
-                    $scope.campeonatos = data;
+                    vm.campeonatos = data;
                     $rootScope.loading = false;
                 })
         };
 
-        $scope.carregaListaCampeonatos();
+        vm.carregaListaCampeonatos();
 
-        $scope.exibeFaseAnterior = function () {
-            if ($scope.indice_fase > 0) {
-                $scope.indice_fase--;
-                $scope.fase_atual = $scope.campeonatoFases[$scope.indice_fase];
-                $scope.carregaGrupos($scope.fase_atual.id);
+        vm.exibeFaseAnterior = function () {
+            if (vm.indice_fase > 0) {
+                vm.indice_fase--;
+                vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
+                vm.carregaGrupos(vm.fase_atual.id);
             }
         }
 
-        $scope.exibeProximaFase = function () {
-            if ($scope.indice_fase < $scope.campeonatoFases.length - 1) {
-                $scope.indice_fase++;
-                $scope.fase_atual = $scope.campeonatoFases[$scope.indice_fase];
-                $scope.carregaGrupos($scope.fase_atual.id);
+        vm.exibeProximaFase = function () {
+            if (vm.indice_fase < vm.campeonatoFases.length - 1) {
+                vm.indice_fase++;
+                vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
+                vm.carregaGrupos(vm.fase_atual.id);
             }
         }
 
-        $scope.inicializaRodadas = function (listaDeGrupos) {
+        vm.inicializaRodadas = function (listaDeGrupos) {
             var indice = 0;
             var partidas;
             angular.forEach(listaDeGrupos, function (item) {
-                if (!$scope.fase_atual.matamata) {
-                    $scope.rodada_atual.push(1);
-                    $scope.carregaJogosDaRodada(indice, item.id);
+                if (!vm.fase_atual.matamata) {
+                    vm.rodada_atual.push(1);
+                    vm.carregaJogosDaRodada(indice, item.id);
                     indice++;
-                    $scope.rodada_maxima = Object.keys(item.rodadas).length;
+                    vm.rodada_maxima = Object.keys(item.rodadas).length;
                 }
             });
         }
 
-        $scope.exibeRodadaAnterior = function (indice, id_grupo) {
-            if ($scope.rodada_atual[indice] > 1) {
-                $scope.rodada_atual[indice]--;
-                $scope.carregaJogosDaRodada(indice, id_grupo);
+        vm.exibeRodadaAnterior = function (indice, id_grupo) {
+            if (vm.rodada_atual[indice] > 1) {
+                vm.rodada_atual[indice]--;
+                vm.carregaJogosDaRodada(indice, id_grupo);
             }
         }
 
-        $scope.exibeProximaRodada = function (indice, id_grupo) {
-            if ($scope.rodada_atual[indice] < $scope.rodada_maxima) {
-                $scope.rodada_atual[indice]++;
-                $scope.carregaJogosDaRodada(indice, id_grupo);
+        vm.exibeProximaRodada = function (indice, id_grupo) {
+            if (vm.rodada_atual[indice] < vm.rodada_maxima) {
+                vm.rodada_atual[indice]++;
+                vm.carregaJogosDaRodada(indice, id_grupo);
             }
         }
 
-        $scope.carregaJogosDaRodada = function (indice, id_grupo) {
+        vm.carregaJogosDaRodada = function (indice, id_grupo) {
             $rootScope.loading = true;
-            var rodada = $scope.rodada_atual[indice];
+            var rodada = vm.rodada_atual[indice];
             Campeonato.partidasPorRodada(rodada, id_grupo)
                 .success(function (data) {
-                    $scope.partidasDaRodada[indice] = data;
+                    vm.partidasDaRodada[indice] = data;
                     $rootScope.loading = false;
                 })
         }
 
-        $scope.funcaoTeste = function (grupo, indice) {
+        vm.funcaoTeste = function (grupo, indice) {
             grupo.placarNovo = indice;
         }
 
         /*
             angular.forEach(listaDeGrupos, function(item) {
-				$scope.rodada_atual.push(1);
-				$scope.carregaJogosDaRodada(indice, item.id);
+				vm.rodada_atual.push(1);
+				vm.carregaJogosDaRodada(indice, item.id);
 				indice++;
-				$scope.rodada_maxima = Object.keys(item.rodadas).length;
+				vm.rodada_maxima = Object.keys(item.rodadas).length;
 			});
         */
 
