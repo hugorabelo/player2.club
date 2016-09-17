@@ -25,7 +25,6 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
                 $rootScope.loading = false;
             })
             .error(function (data) {
-                console.log(data.errors);
                 $rootScope.loading = false;
             });
 
@@ -43,19 +42,9 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
                 $rootScope.loading = false;
             })
             .error(function (data) {
-                console.log(data.errors);
                 $rootScope.loading = false;
             });
     };
-
-    //    vm.contestarPlacar = function (id_partida) {
-    //        vm.contestacao_resultado = {};
-    //        vm.contestacao_resultado.partidas_id = id_partida;
-    //        vm.contestacao_resultado.usuario_partidas_id = $rootScope.usuarioLogado;
-    //        $('#formModal').modal();
-    //        vm.tituloModal = 'messages.partida_contestar';
-    //        vm.formulario.$setPristine();
-    //    }
 
     vm.contestarPlacar = function (ev, id_partida) {
         vm.contestacao_resultado = {};
@@ -80,20 +69,6 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
             });
     };
 
-    //    vm.salvarContestacao = function () {
-    //        console.log(vm.contestacao_resultado);
-    //        Partida.contestarResultado(vm.contestacao_resultado, vm.files[0])
-    //            .success(function (data) {
-    //                vm.carregaPartidas($rootScope.usuarioLogado);
-    //                $('#formModal').modal('hide');
-    //                vm.files = [];
-    //                $rootScope.loading = false;
-    //            }).error(function (data, status) {
-    //                vm.messages = data.errors;
-    //                vm.status = status;
-    //                $rootScope.loading = false;
-    //            });
-    //    }
     vm.salvarContestacao = function (contestacao_resultado, arquivo) {
         $rootScope.loading = true;
         Partida.contestarResultado(contestacao_resultado, arquivo)

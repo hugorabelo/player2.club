@@ -36,8 +36,6 @@
 
         $translateProvider.useSanitizeValueStrategy('escape');
 
-        //        bootbox.setLocale('br');
-
     });
 
     angular.module('player2')
@@ -45,6 +43,25 @@
             $mdThemingProvider.theme('default')
                 .primaryPalette('teal')
                 .accentPalette('orange');
+        });
+
+    angular.module('player2')
+        .config(function ($mdDateLocaleProvider, $translateProvider) {
+
+            $mdDateLocaleProvider.formatDate = function (date) {
+                return date ? moment(date).format('DD/MM/YYYY') : '';
+            };
+
+            $mdDateLocaleProvider.parseDate = function (dateString) {
+                var m = moment(dateString, 'DD/MM/YYYY', true);
+                return m.isValid() ? m.toDate() : new Date(NaN);
+            };
+
+            $mdDateLocaleProvider.months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            $mdDateLocaleProvider.shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            $mdDateLocaleProvider.days = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'];
+            $mdDateLocaleProvider.shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
         });
 
 })();

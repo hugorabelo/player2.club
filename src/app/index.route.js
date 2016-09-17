@@ -133,7 +133,7 @@
             .state('index.criar_campeonato', {
                 url: "/criar_campeonato",
                 templateUrl: "app/components/campeonato_novo/cadastroCampeonato.html",
-                controller: 'CriarCampeonatoController',
+                controller: 'CriarCampeonatoController as vmCriarCampeonato',
                 data: {
                     pageTitle: "messages.campeonato_create"
                 }

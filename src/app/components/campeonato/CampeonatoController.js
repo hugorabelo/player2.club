@@ -241,7 +241,6 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
             Campeonato.editaFase(id)
                 .success(function (data) {
                     $scope.campeonatoFaseSelecionada = data.fase;
-                    console.log($scope.campeonatoFaseSelecionada);
                 }).error(function (data, status) {
                     $scope.message = data.errors;
                     $scope.status = status;

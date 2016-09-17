@@ -3,159 +3,159 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
 
             var vm = this;
 
-            $scope.barConfig = {
+            vm.barConfig = {
                 group: 'criterios',
                 animation: 150,
                 onSort: function (evt) {}
             };
 
-            $scope.campeonato = {};
-            $scope.checkBoxCriteriosClassificacao = {};
+            vm.campeonato = {};
+            vm.checkBoxCriteriosClassificacao = {};
 
             $scope.$watch('campeonato.ida_volta', function () {
-                if (!$scope.campeonato.ida_volta) {
-                    $scope.campeonato.fora_casa = {};
+                if (!vm.campeonato.ida_volta) {
+                    vm.campeonato.fora_casa = {};
                 }
             });
 
-            $scope.criaZonaClassificacao = function () {
-                $scope.pontosZonaClassificacao = [];
+            vm.criaZonaClassificacao = function () {
+                vm.pontosZonaClassificacao = [];
                 var i;
-                for (i = 0; i < $scope.campeonato.zona_classificacao; i = i + 1) {
-                    $scope.pontosZonaClassificacao[i] = 0;
+                for (i = 0; i < vm.campeonato.zona_classificacao; i = i + 1) {
+                    vm.pontosZonaClassificacao[i] = 0;
                 }
             };
 
-            $scope.create = function () {
+            vm.create = function () {
                 $rootScope.loading = true;
-                $scope.carregaTiposDeAcessoDoCampeonato();
-                $scope.carregaTiposDeCompetidores();
-                $scope.carregaPlataformas();
+                vm.carregaTiposDeAcessoDoCampeonato();
+                vm.carregaTiposDeCompetidores();
+                vm.carregaPlataformas();
                 $rootScope.loading = false;
             };
 
-            $scope.carregaPlataformas = function () {
+            vm.carregaPlataformas = function () {
                 $rootScope.loading = true;
                 Plataforma.get()
                     .success(function (data) {
-                        $scope.plataformas = data;
-                        $scope.campeonato = {};
-                        $scope.messages = null;
+                        vm.plataformas = data;
+                        vm.campeonato = {};
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
             };
 
-            $scope.carregaJogosDaPlataforma = function () {
+            vm.carregaJogosDaPlataforma = function () {
                 $rootScope.loading = true;
-                Plataforma.getJogos($scope.campeonato.plataformas_id)
+                Plataforma.getJogos(vm.campeonato.plataformas_id)
                     .success(function (data) {
-                        $scope.jogos = data;
-                        if ($scope.jogos.length > 0) {
-                            $scope.campeonato.jogos_id = $scope.jogos[0].id;
-                            $scope.carregaTiposDeCampeonatoDoJogo();
+                        vm.jogos = data;
+                        if (vm.jogos.length > 0) {
+                            vm.campeonato.jogos_id = vm.jogos[0].id;
+                            vm.carregaTiposDeCampeonatoDoJogo();
                         }
-                        $scope.messages = null;
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
             };
 
-            $scope.carregaTiposDeCampeonatoDoJogo = function () {
+            vm.carregaTiposDeCampeonatoDoJogo = function () {
                 $rootScope.loading = true;
-                Jogo.getTiposDeCampeonato($scope.campeonato.jogos_id)
+                Jogo.getTiposDeCampeonato(vm.campeonato.jogos_id)
                     .success(function (data) {
-                        $scope.campeonatoTipos = data;
-                        if ($scope.campeonatoTipos.length > 0) {
-                            $scope.campeonato.campeonato_tipos_id = $scope.campeonatoTipos[0].id;
-                            $scope.carregaDetalhesCampeonato();
+                        vm.campeonatoTipos = data;
+                        if (vm.campeonatoTipos.length > 0) {
+                            vm.campeonato.campeonato_tipos_id = vm.campeonatoTipos[0].id;
+                            vm.carregaDetalhesCampeonato();
                         }
-                        $scope.messages = null;
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
             };
 
-            $scope.carregaTiposDeCompetidores = function () {
+            vm.carregaTiposDeCompetidores = function () {
                 Campeonato.getTiposDeCompetidores()
                     .success(function (data) {
-                        $scope.tiposDeCompetidores = data;
-                        $scope.messages = null;
+                        vm.tiposDeCompetidores = data;
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
             };
 
-            $scope.carregaTiposDeAcessoDoCampeonato = function () {
+            vm.carregaTiposDeAcessoDoCampeonato = function () {
                 Campeonato.getTiposDeAcessoDoCampeonato()
                     .success(function (data) {
-                        $scope.tiposDeAcessosDoCampeonato = data;
-                        $scope.messages = null;
+                        vm.tiposDeAcessosDoCampeonato = data;
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
             };
 
-            $scope.carregaDetalhesCampeonato = function () {
+            vm.carregaDetalhesCampeonato = function () {
                 $rootScope.loading = true;
-                CampeonatoTipo.edit($scope.campeonato.campeonato_tipos_id)
+                CampeonatoTipo.edit(vm.campeonato.campeonato_tipos_id)
                     .success(function (data) {
-                        $scope.templateDetalhes = data.arquivo_detalhes;
-                        $scope.carregaCriteriosClassificacao(data.modelo_campeonato_id);
-                        $scope.messages = null;
+                        vm.templateDetalhes = data.arquivo_detalhes;
+                        vm.carregaCriteriosClassificacao(data.modelo_campeonato_id);
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
                 $rootScope.loading = false;
             };
 
-            $scope.carregaCriteriosClassificacao = function (id) {
+            vm.carregaCriteriosClassificacao = function (id) {
                 $rootScope.loading = true;
                 ModeloCampeonato.getCriteriosClassificacao(id)
                     .success(function (data) {
-                        $scope.criteriosClassificacao = data;
-                        $scope.messages = null;
+                        vm.criteriosClassificacao = data;
+                        vm.messages = null;
                         $rootScope.loading = false;
                     });
                 $rootScope.loading = false;
             };
 
-            $scope.salvarCampeonato = function () {
-                $scope.atualizaCriteriosClassificacao();
-                $scope.campeonato.criador = $rootScope.usuarioLogado;
-                Campeonato.save($scope.campeonato)
+            vm.salvarCampeonato = function () {
+                vm.atualizaCriteriosClassificacao();
+                vm.campeonato.criador = $rootScope.usuarioLogado;
+                Campeonato.save(vm.campeonato)
                     .success(function (data) {
                         Campeonato.get()
                             .success(function (getData) {
-                                $scope.campeonatos = getData;
+                                vm.campeonatos = getData;
                             });
                         $rootScope.loading = false;
                     }).error(function (data, status) {
-                        $scope.messages = data.errors;
-                        $scope.status = status;
+                        vm.messages = data.errors;
+                        vm.status = status;
                         $rootScope.loading = false;
                     });
             };
 
-            $scope.atualizaCriteriosClassificacao = function () {
-                $scope.campeonato.criteriosClassificacaoSelecionados = [];
-                angular.forEach($scope.criteriosClassificacao, function (criterio) {
-                    if ($scope.checkBoxCriteriosClassificacao[criterio.id] === true) {
+            vm.atualizaCriteriosClassificacao = function () {
+                vm.campeonato.criteriosClassificacaoSelecionados = [];
+                angular.forEach(vm.criteriosClassificacao, function (criterio) {
+                    if (vm.checkBoxCriteriosClassificacao[criterio.id] === true) {
                         this.push(criterio);
                     }
-                }, $scope.campeonato.criteriosClassificacaoSelecionados);
+                }, vm.campeonato.criteriosClassificacaoSelecionados);
             };
 
-            $scope.openCalendar = function ($event, objeto) {
+            vm.openCalendar = function ($event, objeto) {
                 $event.preventDefault();
                 $event.stopPropagation();
 
                 if (objeto == 'inicio') {
-                    $scope.openedInicio = true;
+                    vm.openedInicio = true;
                 } else {
-                    $scope.openedFim = true;
+                    vm.openedFim = true;
                 }
             };
 
-            $scope.dateOptions = {
+            vm.dateOptions = {
                 formatYear: 'yy',
                 startingDay: 1
             };

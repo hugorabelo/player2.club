@@ -2,9 +2,9 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
     var vm = this;
 
     $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
-        $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
-        $scope.textoYes = translations['messages.yes'];
-        $scope.textoNo = translations['messages.no'];
+        vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+        vm.textoYes = translations['messages.yes'];
+        vm.textoNo = translations['messages.no'];
     });
 
     $rootScope.loading = true;
@@ -104,11 +104,11 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
     vm.delete = function (ev, id) {
         vm.idRegistroExcluir = id;
         var confirm = $mdDialog.confirm(id)
-            .title($scope.textoConfirmaExclusao)
-            .ariaLabel($scope.textoConfirmaExclusao)
+            .title(vm.textoConfirmaExclusao)
+            .ariaLabel(vm.textoConfirmaExclusao)
             .targetEvent(ev)
-            .ok($scope.textoYes)
-            .cancel($scope.textoNo)
+            .ok(vm.textoYes)
+            .cancel(vm.textoNo)
             .theme('default');
 
         $mdDialog.show(confirm).then(function () {
@@ -137,12 +137,12 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
         };
 
         $scope.save = function () {
-            vm.save($scope.plataforma, $scope.files[0]);
+            vm.save(vm.plataforma, vm.files[0]);
             $mdDialog.hide();
         }
 
         $scope.update = function () {
-            vm.update($scope.plataforma, $scope.files[0]);
+            vm.update(vm.plataforma, vm.files[0]);
             $mdDialog.hide();
         }
 
