@@ -113,6 +113,7 @@ Route::get('/', function()
     });
 
     Route::post('api/partidas/contestar/{id}', 'PartidasController@contestarResultado');
+    Route::put('api/partidas/cancelar/{id}', 'PartidasController@cancelarResultado');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('partidas', 'PartidasController');
     });

@@ -31,6 +31,7 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 				$rootScope.loading = false;
 			})
 			.error(function(data) {
+                //TODO melhorar a exibição deste erro
 				console.log(data.errors);
 				$rootScope.loading = false;
 			});
@@ -62,6 +63,23 @@ AplicacaoLiga.controller('PartidaController', ['$scope', '$rootScope', '$filter'
 		$scope.tituloModal = 'messages.partida_contestar';
 		$scope.formulario.$setPristine();
 	}
+
+    $scope.cancelarPlacar = function(id_partida) {
+        $rootScope.loading = true;
+
+		var dados = {};
+		dados.id_partida = id_partida;
+		dados.usuarioLogado = $rootScope.usuarioLogado;
+		Partida.cancelarPlacar(dados)
+			.success(function() {
+				$scope.carregaPartidas($rootScope.usuarioLogado);
+				$rootScope.loading = false;
+			})
+			.error(function(data) {
+				console.log(data.errors);
+				$rootScope.loading = false;
+			});
+    }
 
 	$scope.salvarContestacao = function() {
 		console.log($scope.contestacao_resultado);

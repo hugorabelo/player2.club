@@ -26,7 +26,7 @@
 			<div translate class="col-xs-1 text-center"><input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar"></div>
 			<div translate class="col-xs-3 text-left">{{partida.usuarios[1].nome}}</div>
 			<div class="col-xs-3">
-				<div id="botoes" ng-hide="partida.contestada || partida.data_confirmacao">
+				<div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao">
 					<button type="button" class="btn btn-success" ng-click="salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
 					  <i class="fa fa-save fa-fw"></i>
 					</button>
@@ -37,6 +37,10 @@
 					<button type="button" class="btn btn-danger" ng-click="contestarPlacar(partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}"
 					  ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
 					  <i class="fa fa-gavel fa-fw"></i>
+					</button>
+					<button type="button" class="btn btn-danger" ng-click="cancelarPlacar(partida.id)" tooltip="{{'fields.cancelar_resultado' | translate}}"
+					  ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado && !partida.data_confirmacao">
+					  <i class="fa fa-times fa-fw"></i>
 					</button>
 				</div>
 				<div id="icones" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
