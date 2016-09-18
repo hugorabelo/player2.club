@@ -137,12 +137,12 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
         };
 
         $scope.save = function () {
-            vm.save(vm.plataforma, vm.files[0]);
+            vm.save($scope.plataforma, $scope.files[0]);
             $mdDialog.hide();
         }
 
         $scope.update = function () {
-            vm.update(vm.plataforma, vm.files[0]);
+            vm.update($scope.plataforma, $scope.files[0]);
             $mdDialog.hide();
         }
 

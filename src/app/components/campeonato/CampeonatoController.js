@@ -1,395 +1,422 @@
-angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', 'Campeonato', '$state',
-    function ($scope, $rootScope, $filter, Campeonato, $state) {
+angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', 'Campeonato',
+    function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, Campeonato) {
 
-        $scope.campeonato = {};
+        var vm = this;
 
-        $scope.exibeDetalhes = false;
+        $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
+            vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+            vm.textoYes = translations['messages.yes'];
+            vm.textoNo = translations['messages.no'];
+        });
+
+        vm.exibeDetalhes = false;
 
         $rootScope.loading = true;
 
         Campeonato.get()
             .success(function (data) {
-                $scope.campeonatos = data;
+                vm.campeonatos = data;
                 $rootScope.loading = false;
             });
 
-        $scope.create = function () {
-            $rootScope.loading = true;
+        vm.create = function (ev) {
             Campeonato.create()
                 .success(function (data) {
-                    $scope.campeonatoTipos = data.campeonatoTipos;
-                    $scope.jogos = data.jogos;
-                    $scope.plataformas = data.plataformas;
-                    $scope.campeonato = {};
-                    $scope.messages = null;
-                    $('#formModal').modal();
-                    $scope.tituloModal = 'messages.campeonato_create';
-                    $scope.novoItem = true;
-                    $scope.formulario.$setPristine();
-                    $rootScope.loading = false;
-                });
-        }
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.campeonato_create',
+                                novoItem: true,
+                                campeonato: {},
+                                campeonatoTipos: data.campeonatoTipos,
+                                jogos: data.jogos,
+                                plataformas: data.plataformas
+                            },
+                            controller: DialogController,
+                            templateUrl: 'app/components/campeonato/formModal.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
 
-        $scope.edit = function (id) {
-            $rootScope.loading = true;
+                        }, function () {
+
+                        });
+                });
+        };
+
+        vm.edit = function (ev, id) {
             Campeonato.edit(id)
                 .success(function (data) {
-                    $scope.campeonato = data.campeonato;
-                    $scope.campeonatoTipos = data.campeonatoTipos;
-                    $scope.jogos = data.jogos;
-                    $scope.plataformas = data.plataformas;
-                    $scope.messages = null;
-                    $('#formModal').modal();
-                    $scope.tituloModal = 'messages.campeonato_edit';
-                    $scope.novoItem = false;
-                    $scope.formulario.$setPristine();
-                    $rootScope.loading = false;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.campeonato_edit',
+                                novoItem: false,
+                                campeonato: data.campeonato,
+                                campeonatoTipos: data.campeonatoTipos,
+                                jogos: data.jogos,
+                                plataformas: data.plataformas
+                            },
+                            controller: DialogController,
+                            templateUrl: 'app/components/campeonato/formModal.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+
                 });
         };
 
-        $scope.submit = function () {
-            if ($scope.novoItem) {
-                $scope.save();
-            } else {
-                $scope.update();
-            }
-        };
-
-        $scope.save = function () {
+        vm.save = function (campeonato) {
             $rootScope.loading = true;
-            Campeonato.save($scope.campeonato)
+            Campeonato.save(campeonato)
                 .success(function (data) {
                     Campeonato.get()
                         .success(function (getData) {
-                            $scope.campeonatos = getData;
+                            vm.campeonatos = getData;
+                            $rootScope.loading = false;
+                        }).error(function (getData) {
+                            vm.message = getData;
+                            $rootScope.loading = false;
                         });
-                    $('#formModal').modal('hide');
                     $rootScope.loading = false;
                 }).error(function (data, status) {
-                    $scope.messages = data.errors;
-                    $scope.status = status;
+                    vm.messages = data.errors;
+                    vm.status = status;
                     $rootScope.loading = false;
                 });
         };
 
-        $scope.update = function () {
+        vm.update = function (campeonato) {
             $rootScope.loading = true;
-            Campeonato.update($scope.campeonato)
+            Campeonato.update(campeonato)
                 .success(function (data) {
                     Campeonato.get()
                         .success(function (getData) {
-                            $scope.campeonatos = getData;
+                            vm.campeonatos = getData;
                             $rootScope.loading = false;
                         });
-                    $('#formModal').modal('hide');
                     $rootScope.loading = false;
                 }).error(function (data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
+                    vm.message = data.errors;
+                    vm.status = status;
                     $rootScope.loading = false;
                 });
         };
 
-        $scope.delete = function (id) {
-            $('#confirmaModal').modal();
-            $scope.mensagemModal = 'messages.confirma_exclusao';
-            $scope.idRegistro = id;
+        vm.delete = function (ev, id) {
+            vm.idRegistroExcluir = id;
+            var confirm = $mdDialog.confirm(id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('default');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                Campeonato.destroy(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        Campeonato.get()
+                            .success(function (data) {
+                                vm.campeonatos = data;
+                                $rootScope.loading = false;
+                            });
+                        $rootScope.loading = false;
+                    });
+            }, function () {
+
+            });
         };
 
-        $scope.confirmacaoModal = function (id) {
-            $rootScope.loading = true;
-            Campeonato.destroy(id)
-                .success(function (data) {
-                    Campeonato.get()
-                        .success(function (data) {
-                            $scope.campeonatos = data;
-                            $rootScope.loading = false;
-                        });
-                    $('#confirmaModal').modal('hide');
-                    $rootScope.loading = false;
-                });
+        vm.detalhes = function (id) {
+            vm.idCampeonatoAtual = id;
+            vm.carregaAdministradores(id);
+            vm.carregaUsuarios(id);
+            vm.carregaFases(id);
+            vm.tab = 'pontuacao';
+            vm.toggleRight();
         };
 
-        $scope.detalhes = function (id) {
-            $scope.exibeDetalhes = true;
-            $scope.idCampeonatoAtual = id;
-            $scope.carregaAdministradores(id);
-            $scope.carregaUsuarios(id);
-            $scope.carregaFases(id);
-            $scope.tab = 'pontuacao';
+        vm.fechaDetalhes = function () {
+            vm.exibeDetalhes = false;
         };
 
-        $scope.fechaDetalhes = function () {
-            $scope.exibeDetalhes = false;
-        }
-
-        $scope.salvaAdministrador = function () {
-            $rootScope.loading = true;
-            Campeonato.adicionaAdministrador($scope.idCampeonatoAtual, $scope.novoAdministrador)
-                .success(function (data) {
-                    $scope.carregaAdministradores($scope.idCampeonatoAtual);
-                    $scope.carregaUsuarios($scope.idCampeonatoAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.excluiAdministrador = function (idAdministrador) {
-            $rootScope.loading = true;
-            Campeonato.excluiAdministrador(idAdministrador)
-                .success(function (data) {
-                    $scope.carregaAdministradores($scope.idCampeonatoAtual);
-                    $scope.carregaUsuarios($scope.idCampeonatoAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        }
-
-        $scope.adicionaFase = function () {
-            $rootScope.loading = true;
-            Campeonato.criaFase($scope.idCampeonatoAtual)
-                .success(function (data) {
-                    $scope.campeonatoFase = {};
-                    $scope.messagesFase = null;
-                    $scope.fases = data.fases;
-                    $('#formModalFase').modal();
-                    $scope.tituloModalFase = 'messages.campeonatoFase_create';
-                    $scope.novoItemFase = true;
-                    $scope.messageFase = '';
-                    $scope.formularioFase.$setPristine();
-                    $scope.campeonatoFase.campeonatos_id = $scope.idCampeonatoAtual;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.editaFase = function (id) {
-            $rootScope.loading = true;
-            Campeonato.editaFase(id)
-                .success(function (data) {
-                    $scope.campeonatoFase = data.fase;
-                    $scope.campeonatoFase.data_inicio = new Date(data.fase.data_inicio);
-                    $scope.campeonatoFase.data_fim = new Date(data.fase.data_fim);
-                    $scope.messages = null;
-                    $scope.fases = data.fases;
-                    $('#formModalFase').modal();
-                    $scope.tituloModalFase = 'messages.campeonatoFase_edit';
-                    $scope.novoItemFase = false;
-                    $scope.messageFase = '';
-                    $scope.formulario.$setPristine();
-                    $scope.campeonatoFase.campeonatos_id = $scope.idCampeonatoAtual;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.submitFase = function () {
-            if ($scope.novoItemFase) {
-                $scope.salvaFase();
-            } else {
-                $scope.atualizaFase();
-            }
-        };
-
-        $scope.salvaFase = function () {
-            Campeonato.salvaFase($scope.campeonatoFase)
-                .success(function (data) {
-                    $scope.carregaFases($scope.idCampeonatoAtual);
-                    $('#formModalFase').modal('hide');
-                }).error(function (data, status) {
-                    $scope.messageFase = data.message;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.atualizaFase = function () {
-            $rootScope.loading = true;
-            Campeonato.updateFase($scope.campeonatoFase)
-                .success(function (data) {
-                    $scope.carregaFases($scope.idCampeonatoAtual);
-                    $('#formModalFase').modal('hide');
-                }).error(function (data, status) {
-                    $scope.messageFase = data.message;
-                    $rootScope.loading = false;
-                    $scope.status = status;
-                });
-        };
-
-        $scope.excluiFase = function (id) {
-            $rootScope.loading = true;
-            Campeonato.destroyFase(id)
-                .success(function (data) {
-                    $scope.carregaFases($scope.idCampeonatoAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.detalhesFase = function (id, descricao) {
-            $scope.idFaseAtual = id;
-            $scope.descricaoFase = descricao;
-            $scope.abrePontuacaoFase();
-            $scope.abreFaseGrupo();
-            Campeonato.editaFase(id)
-                .success(function (data) {
-                    $scope.campeonatoFaseSelecionada = data.fase;
-                }).error(function (data, status) {
-                    $scope.message = data.errors;
-                    $scope.status = status;
-                });
-            $scope.dadosFase = {};
-            $scope.messageOperacaoFase = '';
-            $('#formModalDetalhesFase').modal();
-        };
-
-        $scope.abrePontuacaoFase = function () {
-            $scope.pontuacaoRegra = {};
-            $scope.carregaPontuacao($scope.idFaseAtual);
-            $scope.pontuacaoRegra.campeonato_fases_id = $scope.idFaseAtual;
-        };
-
-        $scope.abreFaseGrupo = function () {
-            $scope.faseGrupo = {};
-            $scope.carregaGrupos($scope.idFaseAtual);
-            $scope.faseGrupo.campeonato_fases_id = $scope.idFaseAtual;
-        };
-
-        $scope.salvaPontuacao = function () {
-            $rootScope.loading = true;
-            Campeonato.salvaPontuacao($scope.pontuacaoRegra)
-                .success(function (data) {
-                    $scope.carregaPontuacao($scope.idFaseAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.messagePontuacao = data.message;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.deletePontuacao = function (id) {
-            $rootScope.loading = true;
-            Campeonato.destroyPontuacao(id)
-                .success(function (data) {
-                    $scope.carregaPontuacao($scope.idFaseAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.messagePontuacao = data.errors;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.salvaGrupos = function () {
-            $rootScope.loading = true;
-            Campeonato.salvaGrupos($scope.faseGrupo)
-                .success(function (data) {
-                    $scope.carregaGrupos($scope.idFaseAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.messageGrupo = data.message;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.iniciaFase = function () {
-            $rootScope.loading = true;
-            $scope.dadosFase.id = $scope.campeonatoFaseSelecionada.id;
-            Campeonato.abreFase($scope.dadosFase)
-                .success(function (data) {
-                    $rootScope.loading = false;
-                    $('#formModalDetalhesFase').modal('hide');
-                }).error(function (data, status) {
-                    $scope.messageOperacaoFase = data.messages;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.encerraFase = function () {
-            $rootScope.loading = true;
-            $scope.campeonatoFaseSelecionada.usuarioLogado = $rootScope.usuarioLogado;
-            Campeonato.fechaFase($scope.campeonatoFaseSelecionada)
-                .success(function (data) {
-                    $rootScope.loading = false;
-                    $('#formModalDetalhesFase').modal('hide');
-                }).error(function (data, status) {
-                    $scope.messageOperacaoFase = data.messages;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.carregaPontuacao = function (id) {
-            $rootScope.loading = true;
-            Campeonato.pontuacaoFase(id)
-                .success(function (data) {
-                    $scope.pontuacaoRegras = data;
-                    $scope.messagePontuacao = '';
-                    $rootScope.loading = false;
-                })
-        };
-
-        $scope.deleteGrupos = function () {
-            $rootScope.loading = true;
-            Campeonato.destroyGrupos($scope.idFaseAtual)
-                .success(function (data) {
-                    $scope.carregaGrupos($scope.idFaseAtual);
-                    $rootScope.loading = false;
-                }).error(function (data, status) {
-                    $scope.messageGrupo = data.message;
-                    $scope.status = status;
-                    $rootScope.loading = false;
-                });
-        };
-
-        $scope.carregaGrupos = function (id) {
-            $rootScope.loading = true;
-            Campeonato.faseGrupo(id)
-                .success(function (data) {
-                    $scope.faseGrupos = data;
-                    $scope.messageGrupo = '';
-                    $rootScope.loading = false;
-                })
-        };
-
-        $scope.carregaAdministradores = function (id) {
+        vm.carregaAdministradores = function (id) {
             $rootScope.loading = true;
             Campeonato.getAdministradores(id)
                 .success(function (data) {
-                    $scope.campeonatoAdministradores = data;
+                    vm.campeonatoAdministradores = data;
                     $rootScope.loading = false;
                 });
         };
 
-        $scope.carregaUsuarios = function (id) {
+        vm.carregaUsuarios = function (id) {
             $rootScope.loading = true;
             Campeonato.getUsuarios(id)
                 .success(function (data) {
-                    $scope.campeonatoUsuarios = data;
+                    vm.campeonatoUsuarios = data;
                     $rootScope.loading = false;
                 });
         };
 
-        $scope.carregaFases = function (id) {
+        vm.carregaFases = function (id) {
             $rootScope.loading = true;
             Campeonato.getFases(id)
                 .success(function (data) {
-                    $scope.campeonatoFases = data;
+                    vm.campeonatoFases = data;
                     $rootScope.loading = false;
                 });
         };
 
-        $scope.exibirRegrasCampeonato = function (id) {
+        vm.salvaAdministrador = function () {
+            $rootScope.loading = true;
+            Campeonato.adicionaAdministrador(vm.idCampeonatoAtual, vm.novoAdministrador)
+                .success(function (data) {
+                    vm.carregaAdministradores(vm.idCampeonatoAtual);
+                    vm.carregaUsuarios(vm.idCampeonatoAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.message = data.errors;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.excluiAdministrador = function (idAdministrador) {
+            $rootScope.loading = true;
+            Campeonato.excluiAdministrador(idAdministrador)
+                .success(function (data) {
+                    vm.carregaAdministradores(vm.idCampeonatoAtual);
+                    vm.carregaUsuarios(vm.idCampeonatoAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.message = data.errors;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        }
+
+        vm.adicionaFase = function () {
+            $rootScope.loading = true;
+            Campeonato.criaFase(vm.idCampeonatoAtual)
+                .success(function (data) {
+                    vm.campeonatoFase = {};
+                    vm.messagesFase = null;
+                    vm.fases = data.fases;
+                    $('#formModalFase').modal();
+                    vm.tituloModalFase = 'messages.campeonatoFase_create';
+                    vm.novoItemFase = true;
+                    vm.messageFase = '';
+                    vm.formularioFase.$setPristine();
+                    vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.editaFase = function (id) {
+            $rootScope.loading = true;
+            Campeonato.editaFase(id)
+                .success(function (data) {
+                    vm.campeonatoFase = data.fase;
+                    vm.campeonatoFase.data_inicio = new Date(data.fase.data_inicio);
+                    vm.campeonatoFase.data_fim = new Date(data.fase.data_fim);
+                    vm.messages = null;
+                    vm.fases = data.fases;
+                    $('#formModalFase').modal();
+                    vm.tituloModalFase = 'messages.campeonatoFase_edit';
+                    vm.novoItemFase = false;
+                    vm.messageFase = '';
+                    vm.formulario.$setPristine();
+                    vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.submitFase = function () {
+            if (vm.novoItemFase) {
+                vm.salvaFase();
+            } else {
+                vm.atualizaFase();
+            }
+        };
+
+        vm.salvaFase = function () {
+            Campeonato.salvaFase(vm.campeonatoFase)
+                .success(function (data) {
+                    vm.carregaFases(vm.idCampeonatoAtual);
+                    $('#formModalFase').modal('hide');
+                }).error(function (data, status) {
+                    vm.messageFase = data.message;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.atualizaFase = function () {
+            $rootScope.loading = true;
+            Campeonato.updateFase(vm.campeonatoFase)
+                .success(function (data) {
+                    vm.carregaFases(vm.idCampeonatoAtual);
+                    $('#formModalFase').modal('hide');
+                }).error(function (data, status) {
+                    vm.messageFase = data.message;
+                    $rootScope.loading = false;
+                    vm.status = status;
+                });
+        };
+
+        vm.excluiFase = function (id) {
+            $rootScope.loading = true;
+            Campeonato.destroyFase(id)
+                .success(function (data) {
+                    vm.carregaFases(vm.idCampeonatoAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.message = data.errors;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.detalhesFase = function (id, descricao) {
+            vm.idFaseAtual = id;
+            vm.descricaoFase = descricao;
+            vm.abrePontuacaoFase();
+            vm.abreFaseGrupo();
+            Campeonato.editaFase(id)
+                .success(function (data) {
+                    vm.campeonatoFaseSelecionada = data.fase;
+                }).error(function (data, status) {
+                    vm.message = data.errors;
+                    vm.status = status;
+                });
+            vm.dadosFase = {};
+            vm.messageOperacaoFase = '';
+            $('#formModalDetalhesFase').modal();
+        };
+
+        vm.abrePontuacaoFase = function () {
+            vm.pontuacaoRegra = {};
+            vm.carregaPontuacao(vm.idFaseAtual);
+            vm.pontuacaoRegra.campeonato_fases_id = vm.idFaseAtual;
+        };
+
+        vm.abreFaseGrupo = function () {
+            vm.faseGrupo = {};
+            vm.carregaGrupos(vm.idFaseAtual);
+            vm.faseGrupo.campeonato_fases_id = vm.idFaseAtual;
+        };
+
+        vm.salvaPontuacao = function () {
+            $rootScope.loading = true;
+            Campeonato.salvaPontuacao(vm.pontuacaoRegra)
+                .success(function (data) {
+                    vm.carregaPontuacao(vm.idFaseAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.messagePontuacao = data.message;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.deletePontuacao = function (id) {
+            $rootScope.loading = true;
+            Campeonato.destroyPontuacao(id)
+                .success(function (data) {
+                    vm.carregaPontuacao(vm.idFaseAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.messagePontuacao = data.errors;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.salvaGrupos = function () {
+            $rootScope.loading = true;
+            Campeonato.salvaGrupos(vm.faseGrupo)
+                .success(function (data) {
+                    vm.carregaGrupos(vm.idFaseAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.messageGrupo = data.message;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.iniciaFase = function () {
+            $rootScope.loading = true;
+            vm.dadosFase.id = vm.campeonatoFaseSelecionada.id;
+            Campeonato.abreFase(vm.dadosFase)
+                .success(function (data) {
+                    $rootScope.loading = false;
+                    $('#formModalDetalhesFase').modal('hide');
+                }).error(function (data, status) {
+                    vm.messageOperacaoFase = data.messages;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.encerraFase = function () {
+            $rootScope.loading = true;
+            vm.campeonatoFaseSelecionada.usuarioLogado = $rootScope.usuarioLogado;
+            Campeonato.fechaFase(vm.campeonatoFaseSelecionada)
+                .success(function (data) {
+                    $rootScope.loading = false;
+                    $('#formModalDetalhesFase').modal('hide');
+                }).error(function (data, status) {
+                    vm.messageOperacaoFase = data.messages;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.carregaPontuacao = function (id) {
+            $rootScope.loading = true;
+            Campeonato.pontuacaoFase(id)
+                .success(function (data) {
+                    vm.pontuacaoRegras = data;
+                    vm.messagePontuacao = '';
+                    $rootScope.loading = false;
+                })
+        };
+
+        vm.deleteGrupos = function () {
+            $rootScope.loading = true;
+            Campeonato.destroyGrupos(vm.idFaseAtual)
+                .success(function (data) {
+                    vm.carregaGrupos(vm.idFaseAtual);
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.messageGrupo = data.message;
+                    vm.status = status;
+                    $rootScope.loading = false;
+                });
+        };
+
+        vm.carregaGrupos = function (id) {
+            $rootScope.loading = true;
+            Campeonato.faseGrupo(id)
+                .success(function (data) {
+                    vm.faseGrupos = data;
+                    vm.messageGrupo = '';
+                    $rootScope.loading = false;
+                })
+        };
+
+        vm.exibirRegrasCampeonato = function (id) {
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     bootbox.dialog({
@@ -402,14 +429,59 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                 });
         };
 
-        $scope.openCalendar = function ($event, objeto) {
+        vm.openCalendar = function ($event, objeto) {
             $event.preventDefault();
             $event.stopPropagation();
 
             if (objeto == 'inicio') {
-                $scope.openedInicio = true;
+                vm.openedInicio = true;
             } else {
-                $scope.openedFim = true;
+                vm.openedFim = true;
+            }
+        };
+
+        function DialogController($scope, $mdDialog, tituloModal, novoItem, campeonato, campeonatoTipos, jogos, plataformas) {
+            $scope.tituloModal = tituloModal;
+            $scope.novoItem = novoItem;
+            $scope.campeonato = campeonato;
+            $scope.campeonatoTipos = campeonatoTipos;
+            $scope.jogos = jogos;
+            $scope.plataformas = plataformas;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.save = function () {
+                vm.save($scope.campeonato);
+                $mdDialog.hide();
+            }
+
+            $scope.update = function () {
+                vm.update($scope.campeonato);
+                $mdDialog.hide();
+            }
+
+            $scope.$watch('files.length', function (newVal, oldVal) {});
+        };
+
+        vm.toggleRight = buildToggler('detalhesCampeonato');
+        vm.isOpenRight = function () {
+            return $mdSidenav('detalhesCampeonato').isOpen();
+        };
+
+        vm.close = function () {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav('detalhesCampeonato').close()
+                .then(function () {});
+        };
+
+        function buildToggler(navID) {
+            return function () {
+                // Component lookup should always be available since we are not using `ng-if`
+                $mdSidenav(navID)
+                    .toggle()
+                    .then(function () {});
             }
         };
 

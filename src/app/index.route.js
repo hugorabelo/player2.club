@@ -36,7 +36,7 @@
             .state('index.campeonato', {
                 url: "/campeonato",
                 templateUrl: "app/components/campeonato/index.html",
-                controller: 'CampeonatoController',
+                controller: 'CampeonatoController as vmCampeonato',
                 data: {
                     pageTitle: "menus.campeonatos"
                 }
@@ -143,7 +143,6 @@
             });
 
         $urlRouterProvider.otherwise('/index/home');
-        //        $locationProvider.html5Mode(true);
     }
 
 })();
