@@ -1,5 +1,5 @@
-/bower_components/
-/public/uploads/
+bower_components/
+public/uploads/
 
 # Created by https://www.gitignore.io/api/phpstorm,laravel
 
@@ -82,3 +82,6 @@ storage/
 /vendor.zip
 /.vscode/launch.json
 /jsconfig.json
+frontend/.tmp/
+public/
+.tmp

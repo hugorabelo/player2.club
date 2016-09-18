@@ -20,7 +20,12 @@ class CampeonatoTiposController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
-		return Response::json(CampeonatoTipo::get());
+        $campeonatoTipos = CampeonatoTipo::get();
+        foreach ($campeonatoTipos as $campeonatoTipo) {
+            $modelo = ModeloCampeonato::find($campeonatoTipo->modelo_campeonato_id);
+            $campeonatoTipo->modelo_campeonato = $modelo->descricao;
+        }
+        return Response::json($campeonatoTipos);
 	}
 
 	/**
@@ -30,6 +35,7 @@ class CampeonatoTiposController extends Controller {
 	 */
 	public function store() {
 		$input = Input::all();
+
 		$validation = Validator::make($input, CampeonatoTipo::$rules);
 
 		if ($validation->passes())

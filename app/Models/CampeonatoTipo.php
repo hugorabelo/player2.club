@@ -7,6 +7,8 @@ class CampeonatoTipo extends Eloquent {
 
 	public static $rules = array(
 		'descricao' => 'required',
-		'maximo_jogadores_partida' => 'required'
+		'arquivo_detalhes' => 'required',
+        'nome_classe_modelo' => 'required',
+        'modelo_campeonato_id' => 'required'
 	);
 }

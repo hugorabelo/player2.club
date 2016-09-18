@@ -1,0 +1,47 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div class="row" ng-show="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+                    <div class="col-md-9">
+                        <textarea id="comentarios" class="form-control" ng-model="contestacao_resultado.comentarios" required cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="logomarca" class="col-md-3 control-label" translate>fields.printscreen</label>
+                    <div class="col-md-9">
+                        <lf-ng-md-file-input lf-files="files"></lf-ng-md-file-input>
+                    </div>
+                </div>
+
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="salvarContestacao()">{{'fields.save' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

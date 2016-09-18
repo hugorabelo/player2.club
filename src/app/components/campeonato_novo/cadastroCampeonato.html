@@ -1,0 +1,117 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-init="vmCriarCampeonato.create()">
+    <div class="col-lg-10">
+        <h2 translate>messages.campeonato_create</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="home">Home</a>
+            </li>
+            <li>
+                <a translate>menus.config</a>
+            </li>
+            <li>
+                <a ui-sref="campeonato" translate>menus.campeonatos</a>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="ibox-content">
+        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+            <div class="form-group">
+                <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+                <div class="col-md-9">
+                    <input type="text" id="descricao" class="form-control" ng-model="vmCriarCampeonato.campeonato.descricao" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="acesso" class="col-md-3 control-label" translate>fields.acesso</label>
+                <div class="col-md-9">
+                    <select id="acesso_campeonato_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.acesso_campeonato_id" ng-options="tipoAcesso.id as tipoAcesso.descricao for tipoAcesso in vmCriarCampeonato.tiposDeAcessosDoCampeonato" required>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
+                <div class="col-md-3">
+                    <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_inicio" md-placeholder="" md-open-on-focus></md-datepicker>
+                    <div class="input-group date">
+                        <!--
+                        <input type="text" class="form-control" ng-model="vmCriarCampeonato.campeonato.fases.data_inicio" datepicker-popup="dd/MM/yyyy" is-open="vmCriarCampeonato.openedInicio" datepicker-options="vmCriarCampeonato.dateOptions" ng-required="true" close-text="Close">
+<span class="input-group-addon"><i class="fa fa-calendar" ng-click="vmCriarCampeonato.openCalendar($event, 'inicio')"></i></span>
+-->
+                    </div>
+                </div>
+
+                <label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
+                <div class="col-md-3">
+                    <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_fim" md-placeholder="" md-open-on-focus></md-datepicker>
+                    <!--
+                    <div class="input-group date">
+
+<input type="text" class="form-control" ng-model="vmCriarCampeonato.campeonato.fases.data_fim" datepicker-popup="dd/MM/yyyy" is-open="vmCriarCampeonato.openedFim" datepicker-options="vmCriarCampeonato.dateOptions" ng-required="true" close-text="Close">
+<span class="input-group-addon"><i class="fa fa-calendar" ng-click="vmCriarCampeonato.openCalendar($event, 'fim')"></i></span>
+</div>
+-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="regras" class="col-md-3 control-label" translate>fields.detalhes</label>
+                <div class="col-md-9">
+                    <!--                    <summernote ng-model="vmCriarCampeonato.campeonato.regras" required></summernote>-->
+                    <textarea name="" id="" cols="30" rows="10" ng-model="vmCriarCampeonato.campeonato.regras"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="plataformas_id" class="col-md-3 control-label" translate>fields.plataformas_id</label>
+                <div class="col-md-3">
+                    <select id="plataformas_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in vmCriarCampeonato.plataformas" ng-change="vmCriarCampeonato.carregaJogosDaPlataforma()" required>
+                    </select>
+                </div>
+
+                <label for="jogos_id" class="col-md-3 control-label" translate>fields.jogos_id</label>
+                <div class="col-md-3">
+                    <select id="jogos_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.jogos_id" ng-options="jogo.id as jogo.descricao for jogo in vmCriarCampeonato.jogos" ng-change="vmCriarCampeonato.carregaTiposDeCampeonatoDoJogo()" required>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="campeonato_tipos_id" class="col-md-3 control-label" translate>fields.campeonatotipos_id</label>
+                <div class="col-md-9">
+                    <select id="campeonato_tipos_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.campeonato_tipos_id" ng-options="campeonatoTipo.id as campeonatoTipo.descricao for campeonatoTipo in vmCriarCampeonato.campeonatoTipos" ng-change="vmCriarCampeonato.carregaDetalhesCampeonato()" required>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3" ng-include src="vmCriarCampeonato.templateDetalhes"></div>
+            </div>
+
+            <div class="row" ng-show="messages">
+                <div class="col-md-9 col-md-offset-3">
+                    <div class="alert alert-danger">
+                        <ul>
+                            <li class="error" ng-repeat="message in messages">
+                                {{ message | translate }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="align-right">
+                <button type="button" class="btn btn-default" translate>fields.cancel</button>
+                <button type="button" class="btn btn-primary" ng-click="vmCriarCampeonato.salvarCampeonato()" translate>fields.save</button>
+            </div>
+        </form>
+    </div>
+</div>

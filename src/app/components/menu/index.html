@@ -1,0 +1,54 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2 translate>messages.menu_list</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="home">Home</a>
+            </li>
+            <li>
+                <a translate>menus.config</a>
+            </li>
+            <li>
+                <a ui-sref="menu" translate>menus.menus</a>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="ibox-content">
+
+        <p>
+            <md-button class="md-primary md-raised" ng-click="vmMenu.create($event)"> {{'messages.menu_add' | translate}}
+            </md-button>
+        </p>
+
+        <table class="table table-striped">
+            <tr>
+                <th translate>fields.descricao</th>
+                <th translate>fields.url</th>
+                <th translate>fields.pai</th>
+                <th translate>fields.ordem</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="menu in vmMenu.menus">
+                <td translate>{{ menu.descricao }}</td>
+                <td>{{ menu.url }} </td>
+                <td translate>{{ menu.pai }} </td>
+                <td>{{ menu.ordem }} </td>
+                <td class="btn-group" role="group">
+                    <button type="button" class="btn btn-warning" ng-click="vmMenu.edit($event, menu.id)" tooltip="{{'fields.edit' | translate}}">
+                        <i class="fa fa-pencil fa-fw"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="vmMenu.delete($event, menu.id)" tooltip="{{'fields.delete' | translate}}">
+                        <i class="fa fa-trash-o fa-fw"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

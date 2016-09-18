@@ -1,0 +1,71 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div class="row" ng-show="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+                    <div class="col-md-9">
+                        <input type="text" id="descricao" class="form-control" ng-model="campeonato.descricao" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="detalhes" class="col-md-3 control-label" translate>fields.detalhes</label>
+                    <div class="col-md-9">
+                        <textarea id="detalhes" class="form-control" ng-model="campeonato.regras" required></textarea>
+                        <!--                        <summernote ng-model="campeonato.detalhes" required></summernote>-->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="plataformas_id" class="col-md-3 control-label" translate>fields.plataformas_id</label>
+                    <div class="col-md-9">
+                        <select id="plataformas_id" class="form-control" ng-model="campeonato.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in plataformas" required>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="jogos_id" class="col-md-3 control-label" translate>fields.jogos_id</label>
+                    <div class="col-md-9">
+                        <select id="jogos_id" class="form-control" ng-model="campeonato.jogos_id" ng-options="jogo.id as jogo.descricao for jogo in jogos" required>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="campeonato_tipos_id" class="col-md-3 control-label" translate>fields.campeonatotipos_id</label>
+                    <div class="col-md-9">
+                        <select id="campeonato_tipos_id" class="form-control" ng-model="campeonato.campeonato_tipos_id" ng-options="campeonatoTipo.id as campeonatoTipo.descricao for campeonatoTipo in campeonatoTipos" required>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+            <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -55,9 +55,15 @@ class CampeonatoUsuariosController extends Controller {
 
 		if ($validation->passes())
 		{
-			$this->campeonatoUsuario->create($input);
+            $campeonato = Campeonato::find($input['campeonatos_id']);
+            if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
+                $this->campeonatoUsuario->create($input);
 
-			return Response::json(array('success'=>true));
+                return Response::json(array('success'=>true));
+            }
+
+            return Response::json(array('success' => false,
+                'errors' => array('messages.campeonato_sem_vagas')), 300);
 		}
 
 		return Response::json(array('success'=>false,

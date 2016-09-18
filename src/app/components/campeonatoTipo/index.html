@@ -1,0 +1,50 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2 translate>messages.campeonatoTipo_list</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="home">Home</a>
+            </li>
+            <li>
+                <a translate>menus.config</a>
+            </li>
+            <li>
+                <a ui-sref="campeonatoTipo" translate>menus.campeonatoTipos</a>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="ibox-content">
+
+        <p>
+            <md-button class="md-primary md-raised" ng-click="vmCampeonatoTipo.create($event)"> {{'messages.campeonatoTipo_add' | translate}}
+            </md-button>
+        </p>
+
+        <table class="table table-striped">
+            <tr>
+                <th translate>fields.descricao</th>
+                <th translate>fields.modelo_campeonato</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="campeonatoTipo in vmCampeonatoTipo.campeonatoTipos">
+                <td>{{ campeonatoTipo.descricao }}</td>
+                <td>{{ campeonatoTipo.modelo_campeonato }}</td>
+                <td class="btn-group" role="group">
+                    <button type="button" class="btn btn-warning" ng-click="vmCampeonatoTipo.edit($event, campeonatoTipo.id)" tooltip="{{'fields.edit' | translate}}">
+                        <i class="fa fa-pencil fa-fw"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="vmCampeonatoTipo.delete($event, campeonatoTipo.id)" tooltip="{{'fields.delete' | translate}}">
+                        <i class="fa fa-trash-o fa-fw"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

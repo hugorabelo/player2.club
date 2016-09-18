@@ -1,0 +1,64 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div class="row" ng-show="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+                    <div class="col-md-9">
+                        <input type="text" id="descricao" class="form-control" ng-model="campeonatoTipo.descricao" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="arquivo_detalhes" class="col-md-3 control-label" translate>fields.arquivo_detalhes</label>
+                    <div class="col-md-9">
+                        <input type="text" id="arquivo_detalhes" class="form-control" ng-model="campeonatoTipo.arquivo_detalhes" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nome_classe_modelo" class="col-md-3 control-label" translate>fields.nome_classe_modelo</label>
+                    <div class="col-md-9">
+                        <input type="text" id="nome_classe_modelo" class="form-control" ng-model="campeonatoTipo.nome_classe_modelo" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="modelo_campeonato_id" class="col-md-3 control-label" translate>fields.modelo_campeonato</label>
+                    <div class="col-md-9">
+                        <select id="modelo_campeonato_id" class="form-control" ng-model="campeonatoTipo.modelo_campeonato_id" ng-options="modeloCampeonato.id as modeloCampeonato.descricao for modeloCampeonato in modelosCampeonato" required>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+            <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
+        </md-dialog-actions>
+
+    </form>
+</md-dialog>
