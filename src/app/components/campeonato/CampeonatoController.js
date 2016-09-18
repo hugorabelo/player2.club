@@ -146,10 +146,6 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
             vm.toggleRight();
         };
 
-        vm.fechaDetalhes = function () {
-            vm.exibeDetalhes = false;
-        };
-
         vm.carregaAdministradores = function (id) {
             $rootScope.loading = true;
             Campeonato.getAdministradores(id)
@@ -205,78 +201,79 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                 });
         }
 
-        vm.adicionaFase = function () {
-            $rootScope.loading = true;
+        vm.adicionaFase = function (ev) {
+            vm.campeonatoFase = {};
+            vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
             Campeonato.criaFase(vm.idCampeonatoAtual)
                 .success(function (data) {
-                    vm.campeonatoFase = {};
-                    vm.messagesFase = null;
-                    vm.fases = data.fases;
-                    $('#formModalFase').modal();
-                    vm.tituloModalFase = 'messages.campeonatoFase_create';
-                    vm.novoItemFase = true;
-                    vm.messageFase = '';
-                    vm.formularioFase.$setPristine();
-                    vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
-                    $rootScope.loading = false;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.campeonatoFase_create',
+                                novoItem: true,
+                                campeonatoFase: vm.campeonatoFase,
+                                fases: data.fases
+                            },
+                            controller: DialogControllerFase,
+                            templateUrl: 'app/components/campeonato/formModalFase.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
                 });
         };
 
-        vm.editaFase = function (id) {
-            $rootScope.loading = true;
+        vm.editaFase = function (ev, id) {
             Campeonato.editaFase(id)
                 .success(function (data) {
                     vm.campeonatoFase = data.fase;
                     vm.campeonatoFase.data_inicio = new Date(data.fase.data_inicio);
                     vm.campeonatoFase.data_fim = new Date(data.fase.data_fim);
-                    vm.messages = null;
-                    vm.fases = data.fases;
-                    $('#formModalFase').modal();
-                    vm.tituloModalFase = 'messages.campeonatoFase_edit';
-                    vm.novoItemFase = false;
-                    vm.messageFase = '';
-                    vm.formulario.$setPristine();
                     vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
-                    $rootScope.loading = false;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.campeonatoFase_edit',
+                                novoItem: false,
+                                campeonatoFase: vm.campeonatoFase,
+                                fases: data.fases
+                            },
+                            controller: DialogControllerFase,
+                            templateUrl: 'app/components/campeonato/formModalFase.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+
                 });
         };
 
-        vm.submitFase = function () {
-            if (vm.novoItemFase) {
-                vm.salvaFase();
-            } else {
-                vm.atualizaFase();
-            }
-        };
-
-        vm.salvaFase = function () {
-            Campeonato.salvaFase(vm.campeonatoFase)
+        vm.salvaFase = function (campeonatoFase) {
+            $rootScope.loading = true;
+            Campeonato.salvaFase(campeonatoFase)
                 .success(function (data) {
                     vm.carregaFases(vm.idCampeonatoAtual);
-                    $('#formModalFase').modal('hide');
+                    $rootScope.loading = false;
                 }).error(function (data, status) {
-                    vm.messageFase = data.message;
+                    vm.messages = data.errors;
                     vm.status = status;
                     $rootScope.loading = false;
                 });
         };
 
-        vm.atualizaFase = function () {
+        vm.atualizaFase = function (campeonatoFase) {
             $rootScope.loading = true;
-            Campeonato.updateFase(vm.campeonatoFase)
-                .success(function (data) {
-                    vm.carregaFases(vm.idCampeonatoAtual);
-                    $('#formModalFase').modal('hide');
-                }).error(function (data, status) {
-                    vm.messageFase = data.message;
-                    $rootScope.loading = false;
-                    vm.status = status;
-                });
-        };
-
-        vm.excluiFase = function (id) {
-            $rootScope.loading = true;
-            Campeonato.destroyFase(id)
+            Campeonato.updateFase(campeonatoFase)
                 .success(function (data) {
                     vm.carregaFases(vm.idCampeonatoAtual);
                     $rootScope.loading = false;
@@ -287,6 +284,29 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                 });
         };
 
+        vm.excluiFase = function (ev, id) {
+            vm.idRegistroExcluir = id;
+            var confirm = $mdDialog.confirm(id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('default');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                Campeonato.destroyFase(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        vm.carregaFases(vm.idCampeonatoAtual);
+                        $rootScope.loading = false;
+                    });
+            }, function () {
+
+            });
+        };
+
+        // INICIO NÃO FUNCIONA
         vm.detalhesFase = function (id, descricao) {
             vm.idFaseAtual = id;
             vm.descricaoFase = descricao;
@@ -439,6 +459,7 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                 vm.openedFim = true;
             }
         };
+        // FIM NÃO FUNCIONA
 
         function DialogController($scope, $mdDialog, tituloModal, novoItem, campeonato, campeonatoTipos, jogos, plataformas) {
             $scope.tituloModal = tituloModal;
@@ -461,8 +482,27 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                 vm.update($scope.campeonato);
                 $mdDialog.hide();
             }
+        };
 
-            $scope.$watch('files.length', function (newVal, oldVal) {});
+        function DialogControllerFase($scope, $mdDialog, tituloModal, novoItem, campeonatoFase, fases) {
+            $scope.tituloModal = tituloModal;
+            $scope.novoItem = novoItem;
+            $scope.campeonatoFase = campeonatoFase;
+            $scope.fases = fases;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.save = function () {
+                vm.salvaFase($scope.campeonatoFase);
+                $mdDialog.hide();
+            }
+
+            $scope.update = function () {
+                vm.atualizaFase($scope.campeonatoFase);
+                $mdDialog.hide();
+            }
         };
 
         vm.toggleRight = buildToggler('detalhesCampeonato');
@@ -485,4 +525,4 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
             }
         };
 
-}]);
+                        }]);
