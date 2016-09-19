@@ -135,41 +135,6 @@ angular.module('player2').controller('ProfileController', ['$rootScope', '$scope
             .error(function (data) {});
     };
 
-    //    vm.inscreverCampeonato = function (id) {
-    //        vm.campeonatoSelecionado = null;
-    //        var $translate = $filter('translate');
-    //        Campeonato.getInformacoes(id)
-    //            .success(function (data) {
-    //                vm.campeonatoSelecionado = data;
-    //                var mensagem = vm.campeonatoSelecionado.detalhes;
-    //                bootbox.dialog({
-    //                    message: mensagem,
-    //                    title: $translate('messages.inscrever_titulo'),
-    //                    buttons: {
-    //                        danger: {
-    //                            label: $translate('fields.cancel'),
-    //                            className: "btn-default"
-    //                        },
-    //                        success: {
-    //                            label: $translate('messages.inscrever'),
-    //                            className: "btn-primary",
-    //                            callback: function () {
-    //                                vm.confirmaInscricao(vm.campeonatoSelecionado.id);
-    //                            }
-    //                        }
-    //                    }
-    //                });
-    //            }).error(function (data) {});
-    //    };
-    //
-    //    vm.confirmaInscricao = function (id_campeonato) {
-    //        CampeonatoUsuario.save(vm.usuario.id, id_campeonato)
-    //            .success(function (data) {
-    //                vm.getCampeonatosInscritos();
-    //                vm.getCampeonatosDisponiveis();
-    //            }).error(function (data) {});
-    //    };
-
     vm.inscreverCampeonato = function (ev, id) {
         vm.idCampeonato = id;
         Campeonato.getInformacoes(id)

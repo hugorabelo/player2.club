@@ -78,7 +78,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
         dados.usuarioLogado = $rootScope.usuarioLogado;
         Partida.cancelarPlacar(dados)
             .success(function () {
-                $scope.carregaPartidas($rootScope.usuarioLogado);
+                vm.carregaPartidas($rootScope.usuarioLogado);
                 $rootScope.loading = false;
             })
             .error(function (data) {

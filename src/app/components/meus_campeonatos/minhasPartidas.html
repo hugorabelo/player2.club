@@ -40,7 +40,7 @@
                     <button type="button" class="btn btn-danger" ng-click="vmPartida.contestarPlacar($event, partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado && !partida.data_confirmacao">
                         <i class="fa fa-gavel fa-fw"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" ng-click="cancelarPlacar(partida.id)" tooltip="{{'fields.cancelar_resultado' | translate}}" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado && !partida.data_confirmacao">
+                    <button type="button" class="btn btn-danger" ng-click="vmPartida.cancelarPlacar(partida.id)" tooltip="{{'fields.cancelar_resultado' | translate}}" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado && !partida.data_confirmacao">
                         <i class="fa fa-times fa-fw"></i>
                     </button>
                 </div>
