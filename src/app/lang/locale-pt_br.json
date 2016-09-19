@@ -123,6 +123,7 @@
         "confirma_exclusao": "Deseja realmente apagar este registro?",
         "yes": "Sim",
         "no": "Não",
+        "close": "Fechar",
 
         "plataforma_list": "Plataformas",
         "plataforma_add": "Adicionar Plataforma",

@@ -3,10 +3,11 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
 
         var vm = this;
 
-        $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
+        $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.close']).then(function (translations) {
             vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
             vm.textoYes = translations['messages.yes'];
             vm.textoNo = translations['messages.no'];
+            vm.textoClose = translations['messages.close']
         });
 
         vm.exibeDetalhes = false;
@@ -436,18 +437,26 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                 })
         };
 
-        vm.exibirRegrasCampeonato = function (id) {
+        vm.exibirRegrasCampeonato = function (ev, id) {
             Campeonato.getInformacoes(id)
                 .success(function (data) {
-                    bootbox.dialog({
-                        message: data.detalhes,
-                        title: data.descricao
-                    });
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                        .parent(angular.element(document.body))
+                        .clickOutsideToClose(true)
+                        .title(data.descricao)
+                        .textContent(data.regras)
+                        .ariaLabel(data.descricao)
+                        .ok(vm.textoClose)
+                        .targetEvent(ev)
+                    );
                 })
                 .error(function (data) {
 
                 });
         };
+
+
 
         vm.openCalendar = function ($event, objeto) {
             $event.preventDefault();
