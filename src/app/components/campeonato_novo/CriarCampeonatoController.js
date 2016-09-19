@@ -148,7 +148,7 @@
                 $event.preventDefault();
                 $event.stopPropagation();
 
-                if (objeto == 'inicio') {
+                if (objeto === 'inicio') {
                     vm.openedInicio = true;
                 } else {
                     vm.openedFim = true;

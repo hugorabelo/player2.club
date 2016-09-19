@@ -1,5 +1,8 @@
-angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', 'Campeonato',
-    function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, Campeonato) {
+/*global angular */
+(function () {
+    'use strict';
+
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', 'Campeonato', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, Campeonato) {
 
         var vm = this;
 
@@ -7,7 +10,7 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
             vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
             vm.textoYes = translations['messages.yes'];
             vm.textoNo = translations['messages.no'];
-            vm.textoClose = translations['messages.close']
+            vm.textoClose = translations['messages.close'];
         });
 
         vm.exibeDetalhes = false;
@@ -23,7 +26,8 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
         vm.create = function (ev) {
             Campeonato.create()
                 .success(function (data) {
-                    $mdDialog.show({
+                    $mdDialog
+                        .show({
                             locals: {
                                 tituloModal: 'messages.campeonato_create',
                                 novoItem: true,
@@ -50,7 +54,8 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
         vm.edit = function (ev, id) {
             Campeonato.edit(id)
                 .success(function (data) {
-                    $mdDialog.show({
+                    $mdDialog
+                        .show({
                             locals: {
                                 tituloModal: 'messages.campeonato_edit',
                                 novoItem: false,
@@ -200,14 +205,15 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                     vm.status = status;
                     $rootScope.loading = false;
                 });
-        }
+        };
 
         vm.adicionaFase = function (ev) {
             vm.campeonatoFase = {};
             vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
             Campeonato.criaFase(vm.idCampeonatoAtual)
                 .success(function (data) {
-                    $mdDialog.show({
+                    $mdDialog
+                        .show({
                             locals: {
                                 tituloModal: 'messages.campeonatoFase_create',
                                 novoItem: true,
@@ -236,7 +242,8 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
                     vm.campeonatoFase.data_inicio = new Date(data.fase.data_inicio);
                     vm.campeonatoFase.data_fim = new Date(data.fase.data_fim);
                     vm.campeonatoFase.campeonatos_id = vm.idCampeonatoAtual;
-                    $mdDialog.show({
+                    $mdDialog
+                        .show({
                             locals: {
                                 tituloModal: 'messages.campeonatoFase_edit',
                                 novoItem: false,
@@ -534,4 +541,5 @@ angular.module('player2').controller('CampeonatoController', ['$scope', '$rootSc
             }
         };
 
-                        }]);
+    }]);
+}());
