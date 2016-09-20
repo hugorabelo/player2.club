@@ -1,31 +1,12 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+<md-card>
+    <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.campeonato_list</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.config</a>
-            </li>
-            <li>
-                <a ui-sref="campeonato" translate>menus.campeonatos</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
-
-    </div>
-</div>
-
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
-
-        <p>
-            <md-button class="md-primary md-raised" ng-click="vmCampeonato.create($event)">
-                {{'messages.campeonato_add' | translate}}
-            </md-button>
-        </p>
+        <span flex></span>
+        <md-button class="md-raised" ng-click="vmCampeonato.create($event)">
+            {{'messages.campeonato_add' | translate}}
+        </md-button>
+    </md-toolbar>
+    <md-card-content>
         <table class="table">
             <tr>
                 <th translate>fields.descricao</th>
@@ -54,9 +35,8 @@
                 </td>
             </tr>
         </table>
-
-    </div>
-</div>
+    </md-card-content>
+</md-card>
 
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="detalhesCampeonato">
 

@@ -15,9 +15,15 @@
 </div>
 -->
 
-<div layout="column">
-    <div flex ng-include="'app/components/common/topnavbar.html'"></div>
-    <div flex ng-include="'app/components/common/navigation.html'"></div>
-    <div flex ui-view></div>
-    <div flex ng-include="'app/components/common/footer.html'"></div>
+<div flex ng-include="'app/components/common/topnavbar.html'"></div>
+<div flex ng-include="'app/components/common/navigation.html'"></div>
+
+<div flex layout="row">
+    <md-content md-scroll-y layout="column" flex>
+        <div flex ui-view></div>
+    </md-content>
+
+    <md-sidenav md-is-locked-open="true" class="md-whiteframe-1dp" layout-padding>
+        <div>asd</div>
+    </md-sidenav>
 </div>

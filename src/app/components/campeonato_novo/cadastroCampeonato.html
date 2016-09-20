@@ -1,25 +1,8 @@
-<div class="row wrapper border-bottom white-bg page-heading" ng-init="vmCriarCampeonato.create()">
-    <div class="col-lg-10">
+<md-card ng-init="vmCriarCampeonato.create()">
+    <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.campeonato_create</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.config</a>
-            </li>
-            <li>
-                <a ui-sref="campeonato" translate>menus.campeonatos</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
-
-    </div>
-</div>
-
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
+    </md-toolbar>
+    <md-card-content>
         <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
             <div class="form-group">
                 <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
@@ -40,24 +23,11 @@
                 <label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
                 <div class="col-md-3">
                     <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_inicio" md-placeholder="" md-open-on-focus></md-datepicker>
-                    <div class="input-group date">
-                        <!--
-                        <input type="text" class="form-control" ng-model="vmCriarCampeonato.campeonato.fases.data_inicio" datepicker-popup="dd/MM/yyyy" is-open="vmCriarCampeonato.openedInicio" datepicker-options="vmCriarCampeonato.dateOptions" ng-required="true" close-text="Close">
-<span class="input-group-addon"><i class="fa fa-calendar" ng-click="vmCriarCampeonato.openCalendar($event, 'inicio')"></i></span>
--->
-                    </div>
                 </div>
 
                 <label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
                 <div class="col-md-3">
                     <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_fim" md-placeholder="" md-open-on-focus></md-datepicker>
-                    <!--
-                    <div class="input-group date">
-
-<input type="text" class="form-control" ng-model="vmCriarCampeonato.campeonato.fases.data_fim" datepicker-popup="dd/MM/yyyy" is-open="vmCriarCampeonato.openedFim" datepicker-options="vmCriarCampeonato.dateOptions" ng-required="true" close-text="Close">
-<span class="input-group-addon"><i class="fa fa-calendar" ng-click="vmCriarCampeonato.openCalendar($event, 'fim')"></i></span>
-</div>
--->
                 </div>
             </div>
 
@@ -96,22 +66,10 @@
                 <div class="col-md-9 col-md-offset-3" ng-include src="vmCriarCampeonato.templateDetalhes"></div>
             </div>
 
-            <div class="row" ng-show="messages">
-                <div class="col-md-9 col-md-offset-3">
-                    <div class="alert alert-danger">
-                        <ul>
-                            <li class="error" ng-repeat="message in messages">
-                                {{ message | translate }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="align-right">
-                <button type="button" class="btn btn-default" translate>fields.cancel</button>
-                <button type="button" class="btn btn-primary" ng-click="vmCriarCampeonato.salvarCampeonato()" translate>fields.save</button>
-            </div>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button>{{'fields.cancel' | translate}}</md-button>
+                <md-button ng-click="vmCriarCampeonato.salvarCampeonato()">{{'fields.save' | translate}}</md-button>
+            </md-card-actions>
         </form>
-    </div>
-</div>
+    </md-card-content>
+</md-card>
