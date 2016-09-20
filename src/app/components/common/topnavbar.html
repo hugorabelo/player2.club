@@ -5,19 +5,19 @@
                 <input type="number" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado">
                 <button class="btn btn-default" ng-click="vmTopNav.mudaUsuarioLogado()">OK</button>
                 <md-menu>
-                    <md-button ng-click="vmTopNav.openMenu($mdOpenMenu, $event)" md-position-mode="target-right bottom">
+                    <md-button ng-click="vmTopNav.openMenu($mdOpenMenu, $event)">
                         <i class="fa fa-fw fa-language"></i>{{'menus.language' | translate}} <i class="caret"></i>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
-                            <md-button class="md-raised" ng-click="vmTopNav.mudaIdioma('pt_br')">
+                            <md-button ng-click="vmTopNav.mudaIdioma('pt_br')">
                                 <div layout="row" flex>
                                     <i class="flag-icon flag-icon-br"></i> {{'menus.lang_br' | translate}}
                                 </div>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button class="md-raised" ng-click="vmTopNav.mudaIdioma('en_us')">
+                            <md-button ng-click="vmTopNav.mudaIdioma('en_us')">
                                 <div layout="row" flex>
                                     <i class="flag-icon flag-icon-us"></i> {{'menus.lang_en' | translate}}
                                 </div>
