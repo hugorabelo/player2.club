@@ -173,11 +173,11 @@ class UsersController extends Controller {
 	/**
 	 * Retorna uma lista com os campeonatos nos quais o usuario esta inscrito
 	 *
-	 * @param int $id_usuario
+	 * @param int $idUsuario
 	 * @return Response
 	 */
-	public function listaCampeonatosInscritos($id_usuario) {
-		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $id_usuario)->get(array("campeonatos_id"))->toArray();
+	public function listaCampeonatosInscritos($idUsuario) {
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
 
 		return Response::json($campeonatosInscritos);
@@ -186,17 +186,40 @@ class UsersController extends Controller {
 	/**
 	 * Retorna uma lista com todas as partidas do usuário
 	 *
-	 * @param int $id_usuario
+	 * @param int $idUsuario
 	 * @return Response
 	 */
-	public function listaPartidas($id_usuario) {
-		$usuario = $this->user->find($id_usuario);
+	public function listaPartidas($idUsuario) {
+		$usuario = $this->user->find($idUsuario);
 		if($usuario == null) {
 			return Response::json();
 		}
 		$partidas = $usuario->partidas();
 		return Response::json($partidas);
 	}
+
+	public function adicionaSeguidor($idUsuario) {
+	    $usuario = $this->user->find($idUsuario);
+        $input = Input::except('_token');
+        $idSeguidor = $input['idUsuarioSeguidor'];
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->seguir($idSeguidor);
+        return Response::json();
+    }
+
+    public function seguidores($idUsuario) {
+        $usuario = $this->user->find($idUsuario);
+        $seguidores = $usuario->seguidores();
+        return Response::json($seguidores);
+    }
+
+    public function seguindo($idUsuario) {
+        $usuario = $this->user->find($idUsuario);
+        $seguindo = $usuario->seguindo();
+        return Response::json($seguindo);
+    }
 
 
 }

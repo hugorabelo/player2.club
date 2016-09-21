@@ -67,11 +67,15 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function seguidores() {
-		return $this->belongsToMany('User', 'seguidor', 'users_id_seguidor', 'users_id_mestre');
+        return $this->belongsToMany('User', 'seguidor', 'users_id_mestre', 'users_id_seguidor')->get();
 	}
 
 	public function seguindo() {
-		return $this->belongsToMany('User', 'seguidor', 'users_id_mestre', 'users_id_seguidor');
+        return $this->belongsToMany('User', 'seguidor', 'users_id_seguidor', 'users_id_mestre')->get();
 	}
+
+	public function seguir($idUsuario) {
+	    $this->seguidores()->attach($idUsuario);
+    }
 
 }

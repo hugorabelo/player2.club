@@ -55,6 +55,13 @@ Route::get('/', function()
     Route::get('api/campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('api/campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
     Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
+    Route::post('api/usuario/adicionaSeguidor/{id}', 'UsersController@adicionaSeguidor');
+    Route::get('api/usuario/seguidores/{id}', 'UsersController@seguidores');
+//Route::get('api/usuario/seguidores/{id}', function()
+//{
+//    return 'deu certo';
+//});
+    Route::get('api/usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::group(array('prefix'=>'api'), function() {
         Route::resource('usuario', 'UsersController');
     });
