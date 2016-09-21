@@ -39,10 +39,10 @@
                 </li>
             </ol>
 
-            <br clear="all" />
-
-            <button type="button" class="btn btn-primary" ng-click="vmPermissao.save()" translate>fields.save</button>
-            <button type="button" class="btn btn-default" ng-click="vmPermissao.cancel()" translate>fields.cancel</button>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="vmPermissao.cancel()">{{'fields.cancel' | translate}}</md-button>
+                <md-button ng-click="vmPermissao.save()">{{'fields.save' | translate}}</md-button>
+            </md-card-actions>
         </div>
     </md-card-content>
 </md-card>
