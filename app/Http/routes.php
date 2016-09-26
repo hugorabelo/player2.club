@@ -23,136 +23,78 @@ Route::get('/', function()
 });
 
 //Route::group(array('before'=>'auth'), function() {
+Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('campeonato', 'CampeonatosController');
-    });
+    Route::resource('campeonato', 'CampeonatosController');
 
-    Route::get('api/campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('campeonatoTipos', 'CampeonatoTiposController');
-    });
+    Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
+    Route::resource('campeonatoTipos', 'CampeonatoTiposController');
 
-    Route::get('api/jogosDaPlataforma/{id}', 'PlataformasController@getJogos');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('plataformas', 'PlataformasController');
-    });
+    Route::get('jogosDaPlataforma/{id}', 'PlataformasController@getJogos');
+    Route::resource('plataformas', 'PlataformasController');
+    Route::post('plataformas/{id}', 'PlataformasController@update');
 
-// Inserido para fazer o update de imagens via Angularjs
-    Route::post('api/plataformas/{id}', 'PlataformasController@update');
-    Route::get('api/tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('jogos', 'JogosController');
-    });
+    Route::get('tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
+    Route::resource('jogos', 'JogosController');
+    Route::post('jogos/{id}', 'JogosController@update');
 
-// Inserido para fazer o update de imagens via Angularjs
-    Route::post('api/jogos/{id}', 'JogosController@update');
+    Route::resource('usuarioTipo', 'UsuarioTiposController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('usuarioTipo', 'UsuarioTiposController');
-    });
+    Route::get('campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
+    Route::get('campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
+    Route::get('partidasParaUsuario/{id}', 'UsersController@listaPartidas');
+    Route::post('usuario/adicionaSeguidor', 'UsersController@adicionaSeguidor');
+    Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
+    Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
+    Route::resource('usuario', 'UsersController');
+    Route::post('usuario/{id}', 'UsersController@update');
 
-    Route::get('api/campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
-    Route::get('api/campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
-    Route::get('api/partidasParaUsuario/{id}', 'UsersController@listaPartidas');
-    Route::post('api/usuario/adicionaSeguidor/{id}', 'UsersController@adicionaSeguidor');
-    Route::get('api/usuario/seguidores/{id}', 'UsersController@seguidores');
-//Route::get('api/usuario/seguidores/{id}', function()
-//{
-//    return 'deu certo';
-//});
-    Route::get('api/usuario/seguindo/{id}', 'UsersController@seguindo');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('usuario', 'UsersController');
-    });
+    Route::resource('campeonatoAdmin', 'CampeonatoAdminsController');
 
-    // Inserido para fazer o update de imagens via Angularjs
-    Route::post('api/usuario/{id}', 'UsersController@update');
+    Route::get('campeonatoUsuarioNaoAdministrador/{id}', 'CampeonatoUsuariosController@getUsuarioNaoAdministrador');
+    Route::resource('campeonatoUsuario', 'CampeonatoUsuariosController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('campeonatoAdmin', 'CampeonatoAdminsController');
-    });
+    Route::get('campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
+    Route::post('campeonatoFase/abreFase', 'CampeonatoFasesController@abreFase');
+    Route::post('campeonatoFase/fechaFase', 'CampeonatoFasesController@fechaFase');
+    Route::resource('campeonatoFase', 'CampeonatoFasesController');
 
-    Route::get('api/campeonatoUsuarioNaoAdministrador/{id}', 'CampeonatoUsuariosController@getUsuarioNaoAdministrador');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('campeonatoUsuario', 'CampeonatoUsuariosController');
-    });
+    Route::resource('pontuacaoRegra', 'PontuacaoRegrasController');
 
-    Route::get('api/campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
-    Route::post('api/campeonatoFase/abreFase', 'CampeonatoFasesController@abreFase');
-    Route::post('api/campeonatoFase/fechaFase', 'CampeonatoFasesController@fechaFase');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('campeonatoFase', 'CampeonatoFasesController');
-    });
+    Route::get('faseGrupo/usuariosComClassificacao/{id}', 'FaseGrupoController@getUsuariosComClassificacao');
+    Route::get('faseGrupo/partidasDaFase/{id}', 'FaseGrupoController@getPartidas');
+    Route::post('faseGrupo/partidasPorRodada', 'FaseGrupoController@getPartidasPorRodada');
+    Route::get('faseGrupo/partidasMataMata/{id}', 'FaseGrupoController@getPartidasMataMata');
+    Route::resource('faseGrupo', 'FaseGrupoController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('pontuacaoRegra', 'PontuacaoRegrasController');
-    });
+    Route::get('menuTree', 'MenuController@getMenuTree');
+    Route::resource('menu', 'MenuController');
 
+    Route::resource('permissao', 'PermissaoController');
 
-    Route::get('api/faseGrupo/usuariosComClassificacao/{id}', 'FaseGrupoController@getUsuariosComClassificacao');
-    Route::get('api/faseGrupo/partidasDaFase/{id}', 'FaseGrupoController@getPartidas');
-    Route::post('api/faseGrupo/partidasPorRodada', 'FaseGrupoController@getPartidasPorRodada');
-    Route::get('api/faseGrupo/partidasMataMata/{id}', 'FaseGrupoController@getPartidasMataMata');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('faseGrupo', 'FaseGrupoController');
-    });
+    Route::resource('userPlataforma', 'UserPlataformaController');
 
-    Route::get('api/menuTree', 'MenuController@getMenuTree');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('menu', 'MenuController');
-    });
+    Route::resource('usuarioFases', 'UsuarioFasesController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('permissao', 'PermissaoController');
-    });
+    Route::resource('usuariogrupos', 'UsuarioGruposController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('userPlataforma', 'UserPlataformaController');
-    });
+    Route::post('partidas/contestar/{id}', 'PartidasController@contestarResultado');
+    Route::put('partidas/cancelar/{id}', 'PartidasController@cancelarResultado');
+    Route::resource('partidas', 'PartidasController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('usuarioFases', 'UsuarioFasesController');
-    });
+    Route::resource('usuariopartidas', 'UsuarioPartidasController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('usuariogrupos', 'UsuarioGruposController');
-    });
+    Route::resource('tipoCompetidor', 'TipoCompetidorController');
 
-    Route::post('api/partidas/contestar/{id}', 'PartidasController@contestarResultado');
-    Route::put('api/partidas/cancelar/{id}', 'PartidasController@cancelarResultado');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('partidas', 'PartidasController');
-    });
+    Route::resource('acessoCampeonato', 'AcessoCampeonatoController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('usuariopartidas', 'UsuarioPartidasController');
-    });
+    Route::get('modeloCampeonato/getCriteriosClassificacao/{id}', 'ModeloCampeonatoController@getCriteriosClassificacao');
+    Route::resource('modeloCampeonato', 'ModeloCampeonatoController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('tipoCompetidor', 'TipoCompetidorController');
-    });
+    Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
 
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('acessoCampeonato', 'AcessoCampeonatoController');
-    });
-
-    Route::get('api/modeloCampeonato/getCriteriosClassificacao/{id}', 'ModeloCampeonatoController@getCriteriosClassificacao');
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('modeloCampeonato', 'ModeloCampeonatoController');
-    });
-
-    Route::group(array('prefix'=>'api'), function() {
-        Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
-    });
-
-//});
-
-/*
-App::missing(function($exception) {
-   return View::make('inicio');
 });
-*/
+
 Route::any('{catchall}', function() {
     return View::make('inicio');
 })->where('catchall', '.*');
