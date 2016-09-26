@@ -65,6 +65,21 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         getPartidas: function (id) {
             return $http.get('api/partidasParaUsuario/' + id);
+        },
+
+        seguir: function (idSeguidor, idMestre) {
+            dados = {
+                idUsuarioMestre: idMestre,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/adicionaSeguidor',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);

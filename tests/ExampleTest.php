@@ -33,11 +33,11 @@ class ExampleTest extends TestCase {
     }
 
     public function testaInserirSeguidores() {
-        $this->post('/api/usuario/adicionaSeguidor/1',array('idUsuarioSeguidor'=>'30'));
-        $this->post('/api/usuario/adicionaSeguidor/1',array('idUsuarioSeguidor'=>'31'));
-        $this->post('/api/usuario/adicionaSeguidor/1',array('idUsuarioSeguidor'=>'32'));
-        $this->post('/api/usuario/adicionaSeguidor/1',array('idUsuarioSeguidor'=>'33'));
-        $this->post('/api/usuario/adicionaSeguidor/1',array('idUsuarioSeguidor'=>'34'));
+        $this->post('/api/usuario/adicionaSeguidor',array('idUsuario'=>'1', 'idUsuarioSeguidor'=>'30'));
+        $this->post('/api/usuario/adicionaSeguidor',array('idUsuario'=>'1', 'idUsuarioSeguidor'=>'31'));
+        $this->post('/api/usuario/adicionaSeguidor',array('idUsuario'=>'1', 'idUsuarioSeguidor'=>'32'));
+        $this->post('/api/usuario/adicionaSeguidor',array('idUsuario'=>'1', 'idUsuarioSeguidor'=>'33'));
+        $this->post('/api/usuario/adicionaSeguidor',array('idUsuario'=>'1', 'idUsuarioSeguidor'=>'34'));
     }
 
 }

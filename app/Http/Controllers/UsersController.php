@@ -198,26 +198,27 @@ class UsersController extends Controller {
 		return Response::json($partidas);
 	}
 
-	public function adicionaSeguidor($idUsuario) {
+	public function adicionaSeguidor() {
+		$input = Input::except('_token');
+		$idUsuario = $input['idUsuarioSeguidor'];
+        $idMestre = $input['idUsuarioMestre'];
 	    $usuario = $this->user->find($idUsuario);
-        $input = Input::except('_token');
-        $idSeguidor = $input['idUsuarioSeguidor'];
         if($usuario == null) {
             return Response::json();
         }
-        $usuario->seguir($idSeguidor);
+        $usuario->seguir($idMestre);
         return Response::json();
     }
 
     public function seguidores($idUsuario) {
         $usuario = $this->user->find($idUsuario);
-        $seguidores = $usuario->seguidores();
+        $seguidores = $usuario->seguidores()->get();
         return Response::json($seguidores);
     }
 
     public function seguindo($idUsuario) {
         $usuario = $this->user->find($idUsuario);
-        $seguindo = $usuario->seguindo();
+        $seguindo = $usuario->seguindo()->get();
         return Response::json($seguindo);
     }
 
