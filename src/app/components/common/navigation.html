@@ -1,59 +1,7 @@
-<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-    <md-nav-item flex="auto" md-nav-sref="index.home">{{'menus.home' | translate}}</md-nav-item>
-    <md-nav-item flex="auto" md-nav-sref="index.tabela_campeonato">{{'menus.tabela_campeonato' | translate}}</md-nav-item>
-    <md-nav-item flex="auto" md-nav-sref="index.minhas_partidas">{{'menus.minhas_partidas' | translate}}</md-nav-item>
-    <md-nav-item flex="auto" md-nav-sref="index.criar_campeonato">{{'messages.campeonato_create' | translate}}</md-nav-item>
-    <md-nav-item flex="auto" md-nav-sref="index.jogo">{{'menus.jogos' | translate}}</md-nav-item>
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" hide-xs>
+    <md-nav-item flex="auto" md-nav-sref="home">{{'menus.home' | translate}}</md-nav-item>
+    <md-nav-item flex="auto" md-nav-sref="tabela_campeonato">{{'menus.tabela_campeonato' | translate}}</md-nav-item>
+    <md-nav-item flex="auto" md-nav-sref="minhas_partidas">{{'menus.minhas_partidas' | translate}}</md-nav-item>
+    <md-nav-item flex="auto" md-nav-sref="criar_campeonato">{{'messages.campeonato_create' | translate}}</md-nav-item>
+    <md-nav-item flex="auto" md-nav-sref="jogo">{{'menus.jogos' | translate}}</md-nav-item>
 </md-nav-bar>
-
-<!--
-<md-toolbar>
-    <div class="md-toolbar-tools">
-        <md-menu flex>
-            <md-button ui-sref="index.home">{{'menus.home' | translate}}</md-button>
-        </md-menu>
-        <md-menu flex>
-            <md-button ui-sref="index.tabela_campeonato">{{'menus.tabela_campeonato' | translate}}</md-button>
-        </md-menu>
-        <md-menu flex>
-            <md-button ui-sref="index.minhas_partidas">{{'menus.minhas_partidas' | translate}}</md-button>
-        </md-menu>
-        <md-menu flex>
-            <md-button ui-sref="index.criar_campeonato">{{'messages.campeonato_create' | translate}}</md-button>
-        </md-menu>
-        <span flex></span>
-        <md-menu flex>
-            <md-button class="md-icon-button" ng-click="$mdOpenMenu()">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-            </md-button>
-            <md-menu-content>
-                <md-menu-item>
-                    <md-button ui-sref="index.campeonato">{{'menus.campeonatos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="index.jogo">{{'menus.jogos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="index.plataforma">{{'menus.plataformas' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="index.campeonatoTipo">{{'menus.campeonatoTipos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-divider></md-menu-divider>
-                <md-menu-item>
-                    <md-button ui-sref="index.usuario">{{'menus.usuarios' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="index.usuarioTipo">{{'menus.usuarioTipos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="index.menu">{{'menus.menus' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="index.permissao">{{'menus.permissoes' | translate}}</md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
-    </div>
-</md-toolbar>
--->

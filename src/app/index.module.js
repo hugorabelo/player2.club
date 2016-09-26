@@ -41,7 +41,7 @@
     angular.module('player2')
         .config(function ($mdThemingProvider) {
             $mdThemingProvider.theme('default')
-                .primaryPalette('teal')
+                .primaryPalette('purple')
                 .accentPalette('orange');
         });
 
@@ -63,5 +63,29 @@
             $mdDateLocaleProvider.shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
         });
+
+    angular.module('player2')
+        .config(function ($httpProvider) {
+            $httpProvider.interceptors.push(apiInterceptor);
+        });
+
+    var API_URL = 'http://player2.dev/';
+
+    function apiInterceptor($q) {
+        return {
+            request: function (config) {
+                var url = config.url;
+
+                // ignore template requests
+                var extensao = url.substr(url.length - 5);
+                if (extensao == '.html' || extensao == '.json') {
+                    return config || $q.when(config);
+                }
+
+                config.url = API_URL + config.url;
+                return config || $q.when(config);
+            }
+        }
+    }
 
 })();

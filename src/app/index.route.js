@@ -23,17 +23,18 @@
                     pageTitle: "fields.login"
                 }
             })
-            .state('index.home', {
+            .state('home', {
                 url: "/home",
                 templateUrl: "app/components/dashboard/home.html",
+                controller: 'HomeController as vmHome',
                 acesso: 'registrado'
             })
-            .state('index.naoAutorizado', {
+            .state('naoAutorizado', {
                 url: "/erro",
                 templateUrl: "app/components/comum/acessoNaoAutorizado.html",
                 acesso: 'registrado'
             })
-            .state('index.campeonato', {
+            .state('campeonato', {
                 url: "/campeonato",
                 templateUrl: "app/components/campeonato/index.html",
                 controller: 'CampeonatoController as vmCampeonato',
@@ -41,7 +42,7 @@
                     pageTitle: "menus.campeonatos"
                 }
             })
-            .state('index.plataforma', {
+            .state('plataforma', {
                 url: "/plataforma",
                 templateUrl: "app/components/plataforma/index.html",
                 controller: 'PlataformaController as vmPlataforma',
@@ -50,7 +51,7 @@
                     pageTitle: "menus.plataformas"
                 }
             })
-            .state('index.campeonatoTipo', {
+            .state('campeonatoTipo', {
                 url: "/campeonatoTipo",
                 templateUrl: "app/components/campeonatoTipo/index.html",
                 controller: 'CampeonatoTipoController as vmCampeonatoTipo',
@@ -58,7 +59,7 @@
                     pageTitle: "menus.campeonatoTipos"
                 }
             })
-            .state('index.jogo', {
+            .state('jogo', {
                 url: "/jogo",
                 templateUrl: "app/components/jogo/index.html",
                 controller: 'JogoController as vmJogo',
@@ -66,7 +67,7 @@
                     pageTitle: "menus.jogos"
                 }
             })
-            .state('index.usuarioTipo', {
+            .state('usuarioTipo', {
                 url: "/usuarioTipo",
                 templateUrl: "app/components/usuarioTipo/index.html",
                 controller: 'UsuarioTipoController as vmUsuarioTipo',
@@ -74,7 +75,7 @@
                     pageTitle: "menus.usuarioTipos"
                 }
             })
-            .state('index.usuario', {
+            .state('usuario', {
                 url: "/usuario",
                 templateUrl: "app/components/usuario/index.html",
                 controller: 'UsuarioController as vmUsuario',
@@ -82,7 +83,7 @@
                     pageTitle: "menus.usuarios"
                 }
             })
-            .state('index.menu', {
+            .state('menu', {
                 url: "/menu",
                 templateUrl: "app/components/menu/index.html",
                 controller: 'MenuController as vmMenu',
@@ -90,7 +91,7 @@
                     pageTitle: "menus.menus"
                 }
             })
-            .state('index.permissao', {
+            .state('permissao', {
                 url: "/permissao",
                 templateUrl: "app/components/permissao/index.html",
                 controller: 'PermissaoController as vmPermissao',
@@ -98,7 +99,7 @@
                     pageTitle: "menus.permissoes"
                 }
             })
-            .state('index.meus_campeonatos', {
+            .state('meus_campeonatos', {
                 url: "/meus_campeonatos",
                 templateUrl: "app/components/meus_campeonatos/index.html",
                 controller: 'MeuCampeonatoController',
@@ -106,7 +107,7 @@
                     pageTitle: "menus.meus_campeonatos"
                 }
             })
-            .state('index.meus_campeonatos_disponiveis', {
+            .state('meus_campeonatos_disponiveis', {
                 url: "/campeonatos_disponiveis",
                 templateUrl: "app/components/meus_campeonatos/campeonatosDisponiveis.html",
                 controller: 'MeuCampeonatoController',
@@ -114,7 +115,7 @@
                     pageTitle: "menus.meus_campeonatos_disponiveis"
                 }
             })
-            .state('index.minhas_partidas', {
+            .state('minhas_partidas', {
                 url: "/minhas_partidas",
                 templateUrl: "app/components/meus_campeonatos/minhasPartidas.html",
                 controller: 'PartidaController as vmPartida',
@@ -122,7 +123,7 @@
                     pageTitle: "menus.minhas_partidas"
                 }
             })
-            .state('index.tabela_campeonato', {
+            .state('tabela_campeonato', {
                 url: "/tabela_campeonato",
                 templateUrl: "app/components/campeonatoFront/tabelaCampeonato.html",
                 controller: 'CampeonatoFrontController as vmCampeonatoFront',
@@ -130,7 +131,7 @@
                     pageTitle: "menus.tabela_campeonato"
                 }
             })
-            .state('index.criar_campeonato', {
+            .state('criar_campeonato', {
                 url: "/criar_campeonato",
                 templateUrl: "app/components/campeonato_novo/cadastroCampeonato.html",
                 controller: 'CriarCampeonatoController as vmCriarCampeonato',
@@ -138,11 +139,19 @@
                     pageTitle: "messages.campeonato_create"
                 }
             })
+            .state('profile', {
+                url: "/profile/{idUsuario}",
+                templateUrl: "app/components/profile/index.html",
+                controller: 'ProfileController as vmProfile',
+                data: {
+                    pageTitle: "messages.profile_usuario"
+                }
+            })
             .state('logout', {
                 url: "/logout"
             });
 
-        $urlRouterProvider.otherwise('/index/home');
+        $urlRouterProvider.otherwise('/home');
     }
 
 })();
