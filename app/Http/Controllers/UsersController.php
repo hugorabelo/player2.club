@@ -222,5 +222,14 @@ class UsersController extends Controller {
         return Response::json($seguindo);
     }
 
+    public function listaPostsUsuario() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuario'];
+        $quantidade = $input['quantidade'];
+        $usuario = $this->user->find($idUsuario);
+        $posts = $usuario->getPosts($quantidade)->get();
+        return Response::json($posts);
+    }
+
 
 }

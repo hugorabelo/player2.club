@@ -46,6 +46,7 @@ Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
     Route::post('usuario/adicionaSeguidor', 'UsersController@adicionaSeguidor');
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
+    Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 

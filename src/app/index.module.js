@@ -69,7 +69,7 @@
             $httpProvider.interceptors.push(apiInterceptor);
         });
 
-    var API_URL = 'http://player2.dev/';
+    var API_URL = 'http://localhost/player2/public/';
 
     function apiInterceptor($q) {
         return {

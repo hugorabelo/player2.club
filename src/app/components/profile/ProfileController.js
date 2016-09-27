@@ -21,13 +21,13 @@
         vm.exibeFormularioPerfil = false;
         vm.exibeFormularioImagem = false;
 
-        vm.files = [];
-
         //$rootScope.loading = true;
         Usuario.show(vm.idUsuario)
             .success(function (data) {
                 vm.usuario = data;
                 vm.carregaDadosUsuario(vm.usuario.id);
+                vm.carregaPosts(vm.idUsuario);
+
             })
             .error(function (data, status) {});
 
@@ -50,5 +50,12 @@
                 })
         };
 
-        }]);
+        vm.carregaPosts = function (idUsuario) {
+            Usuario.getPosts(idUsuario, 5)
+                .success(function (data) {
+                    posts = data;
+                })
+        };
+
+    }]);
 }());

@@ -80,6 +80,21 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getPosts: function (idUsuario, quantidade) {
+            dados = {
+                idUsuario: idUsuario,
+                quantidade: quantidade
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/getPosts',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);

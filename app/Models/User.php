@@ -79,4 +79,8 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	    $this->seguidores()->attach($idUsuario);
     }
 
+    public function getPosts($quantidade = 5) {
+        return $this->hasMany('post', 'users_id');
+    }
+
 }
