@@ -80,7 +80,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     }
 
     public function getPosts($quantidade = 5) {
-        return $this->hasMany('post', 'users_id');
+        return $this->hasMany('Post', 'users_id');
     }
 
 }
