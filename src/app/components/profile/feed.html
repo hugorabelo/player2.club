@@ -1,9 +1,7 @@
 <md-card ng-repeat="post in vmProfile.posts">
-</md-card>
-<md-card>
     <div class="social-avatar">
         <a href="" class="pull-left">
-            <img alt="image" src="{{post.usuario.imagem_perfil}}">
+            <img alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
         </a>
         <div class="media-body">
             <a href="#">
@@ -16,20 +14,23 @@
         <p>
             {{post.texto}}
         </p>
+        <p ng-show="{{post.quantidade_curtidas}}">
+            <a href="#" class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} Like this!</a>
+        </p>
 
         <div class="btn-group">
-            <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> {{ messages.curtir | translate}}</button>
-            <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> {{ messages.comentar | translate}}</button>
-            <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> {{ messages.compartilhar | translate}}</button>
+            <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}</button>
+            <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> {{ 'messages.comentar' | translate}}</button>
+            <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> {{ 'messages.compartilhar' | translate}}</button>
         </div>
     </div>
     <div class="social-footer">
         <div class="social-comment" ng-repeat="comentario in post.comentarios">
             <a href="" class="pull-left">
-                <img alt="image" src="{{comentario.usuario.imagem_perfil}}">
+                <img alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
             </a>
             <div class="media-body">
-                <a href="#">{{comentário.usuario.nome}}</a> {{comentario.texto}}
+                <a href="#">{{comentario.usuario.nome}}</a> {{comentario.texto}}
                 <br>
                 <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
                 <small class="text-muted">{{comentario.created_at}}</small>
@@ -41,7 +42,7 @@
                 <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
             </a>
             <div class="media-body">
-                <textarea class="form-control" placeholder="Write comment..."></textarea>
+                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmProfile.salvarComentario($event, post)" ng-model="post.novoComentario"></textarea>
             </div>
         </div>
 

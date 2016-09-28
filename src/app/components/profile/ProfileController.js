@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('ProfileController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('ProfileController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Post', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Post) {
 
         var vm = this;
 
@@ -53,9 +53,27 @@
         vm.carregaPosts = function (idUsuario) {
             Usuario.getPosts(idUsuario, 5)
                 .success(function (data) {
-                    posts = data;
+                    vm.posts = data;
                 })
         };
+
+        vm.salvarComentario = function (ev, post) {
+            var comentario = {};
+            comentario.post_id = post.id;
+            comentario.users_id = $rootScope.usuarioLogado;
+            comentario.texto = post.novoComentario;
+            if (ev.keyCode === 13) {
+                Post.salvarComentario(comentario)
+                    .success(function (data) {
+                        post.comentarios = data;
+                        post.novoComentario = '';
+                    })
+            }
+        };
+
+        vm.curtirPost = function (idPost) {
+
+        }
 
     }]);
 }());

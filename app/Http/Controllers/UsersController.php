@@ -227,7 +227,11 @@ class UsersController extends Controller {
         $idUsuario = $input['idUsuario'];
         $quantidade = $input['quantidade'];
         $usuario = $this->user->find($idUsuario);
-        $posts = $usuario->getPosts($quantidade)->get();
+        $posts = $usuario->getPosts($quantidade);
+        foreach ($posts as $post) {
+            $post->usuario = $usuario;
+            $post->quantidade_curtidas = $post->quantidadeCurtidas();
+        }
         return Response::json($posts);
     }
 

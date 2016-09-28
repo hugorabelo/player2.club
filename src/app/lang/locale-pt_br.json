@@ -223,6 +223,11 @@
         "competidores_nao_mutiplo_grupos": "O número de competidores não é múltiplo do número de grupos",
         "classificados_nao_mutiplo_grupos": "O número de classificados para o mata-mata não é múltiplo do número de grupos",
         "classificados_nao_potencia_dois": "O número de classificados não é correspondente ao chaveamento do mata-mata. Para isso, o número deve ser uma potência de 2",
-        "numero_competidores_maior_zero": "O número de competidores deve ser maior que zero"
+        "numero_competidores_maior_zero": "O número de competidores deve ser maior que zero",
+
+        "escrever_comentario": "Escreva um comentário...",
+        "curtir": "Curtir",
+        "comentar": "Comentar",
+        "compartilhar": "Compartilhar"
     }
 }

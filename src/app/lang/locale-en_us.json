@@ -223,6 +223,12 @@
         "competidores_nao_mutiplo_grupos": "The number of competitors is not a multiple of the number of groups",
         "classificados_nao_mutiplo_grupos": "The number of qualified for the play-offs is not a multiple of the number of groups",
         "classificados_nao_potencia_dois": "The number of classified is not corresponding to the group of the playoff. For this, the number must be a power of 2",
-        "numero_competidores_maior_zero": "The number of competitors must be greater than zero"
+        "numero_competidores_maior_zero": "The number of competitors must be greater than zero",
+
+        "escrever_comentario": "Write comment...",
+        "curtir": "Like",
+        "comentar": "Comment",
+        "compartilhar": "Share"
+
     }
 }
