@@ -94,6 +94,7 @@ Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
 
     Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
 
+    Route::post('post/curtir', 'PostController@curtir');
     Route::resource('post', 'PostController');
 
     Route::resource('comentario', 'ComentarioController');

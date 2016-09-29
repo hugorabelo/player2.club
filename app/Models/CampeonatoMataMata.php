@@ -15,8 +15,6 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 
     public function salvar($input) {
 
-        Log::info($input);
-
         $dadosCampeonato = array_except($input, array('criteriosClassificacaoSelecionados', 'detalhes', 'pontuacao', 'fases'));
         $detalhes = $input['detalhes'];
         $this->detalhesFases = $input['fases'];

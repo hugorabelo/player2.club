@@ -71,8 +71,19 @@
             }
         };
 
-        vm.curtirPost = function (idPost) {
-
+        //TODO verificar se usuário já curtiu post e marcar botão de forma diferente
+        vm.curtirPost = function (post) {
+            var curtida = {};
+            curtida.post_id = post.id;
+            curtida.users_id = $rootScope.usuarioLogado;
+            Post.curtir(curtida)
+                .success(function (data) {
+                    post.quantidade_curtidas = data;
+                }).error(function (data, status) {
+                    vm.messages = data.errors;
+                    vm.status = status;
+                    console.log(data);
+                });
         }
 
     }]);

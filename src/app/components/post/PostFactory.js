@@ -23,6 +23,17 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
+            },
+
+            curtir: function (curtida) {
+                return $http({
+                    method: 'POST',
+                    url: 'api/post/curtir',
+                    data: $.param(curtida),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
             }
         }
     }]);

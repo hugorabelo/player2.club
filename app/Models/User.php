@@ -84,7 +84,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         foreach ($posts as $post) {
             $post->comentarios = $post->comentarios();
         }
-        Log::info($posts);
         return $posts;
     }
 

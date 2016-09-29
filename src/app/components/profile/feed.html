@@ -14,12 +14,12 @@
         <p>
             {{post.texto}}
         </p>
-        <p ng-show="{{post.quantidade_curtidas}}">
-            <a href="#" class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} Like this!</a>
+        <p ng-show="post.quantidade_curtidas">
+            <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
         </p>
 
         <div class="btn-group">
-            <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}</button>
+            <button class="btn btn-white btn-xs" ng-click="vmProfile.curtirPost(post)"><i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}</button>
             <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> {{ 'messages.comentar' | translate}}</button>
             <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> {{ 'messages.compartilhar' | translate}}</button>
         </div>
@@ -32,7 +32,9 @@
             <div class="media-body">
                 <a href="#">{{comentario.usuario.nome}}</a> {{comentario.texto}}
                 <br>
-                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
+                    <i class="fa fa-thumbs-up"></i> {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
+                </a> -
                 <small class="text-muted">{{comentario.created_at}}</small>
             </div>
         </div>
