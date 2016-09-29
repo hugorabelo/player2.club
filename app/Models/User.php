@@ -77,6 +77,10 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	public function seguir($idUsuario) {
 	    $this->seguindo()->attach($idUsuario);
     }
+    public function deixarDeSeguir($idUsuario) {
+        $this->seguindo()->detach($idUsuario);
+    }
+
 
     public function getPosts($quantidade = 5) {
         $posts = $this->hasMany('Post', 'users_id')->get();

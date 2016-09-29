@@ -51,6 +51,13 @@
                 })
         };
 
+        vm.deixarDeSeguir = function (idUsuario) {
+            Usuario.deixarDeSeguir($rootScope.usuarioLogado, vm.usuario)
+                .success(function (data) {
+                    vm.usuario.seguido = false;
+                })
+        };
+
         vm.carregaPosts = function (idUsuario) {
             Usuario.getPosts(idUsuario, 5)
                 .success(function (data) {

@@ -82,6 +82,21 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
+        deixarDeSeguir: function (idSeguidor, usuario) {
+            dados = {
+                idUsuarioMestre: usuario.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/removeSeguidor',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
         getPosts: function (idUsuario, quantidade) {
             dados = {
                 idUsuario: idUsuario,

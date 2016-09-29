@@ -210,6 +210,18 @@ class UsersController extends Controller {
         return Response::json();
     }
 
+    public function removeSeguidor() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuarioSeguidor'];
+        $idMestre = $input['idUsuarioMestre'];
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->deixarDeSeguir($idMestre);
+        return Response::json();
+    }
+
     public function seguidores($idUsuario) {
         $usuario = $this->user->find($idUsuario);
 		if($usuario == null) {

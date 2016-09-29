@@ -44,6 +44,7 @@ Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
     Route::get('campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
     Route::get('partidasParaUsuario/{id}', 'UsersController@listaPartidas');
     Route::post('usuario/adicionaSeguidor', 'UsersController@adicionaSeguidor');
+    Route::post('usuario/removeSeguidor', 'UsersController@removeSeguidor');
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
     Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');

@@ -1,5 +1,15 @@
-<div flex>
-    <div flex layout="row">
+<div flex layout="row">
+    <div flex layout="column">
+        <md-card>
+            <md-card-title>
+                <span class="md-subhead">Large</span>
+            </md-card-title>
+            <textarea class="form-control" placeholder="Write comment..."></textarea>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button>Action 1</md-button>
+                <md-button>Action 2</md-button>
+            </md-card-actions>
+        </md-card>
         <md-card>
             <div class="social-avatar">
                 <a href="" class="pull-left">
@@ -64,14 +74,13 @@
             </div>
 
         </md-card>
-        <md-sidenav md-is-locked-open="true" class="md-whiteframe-1dp" hide-xs>
-            <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
-            <md-button>Artigos</md-button>
-            <md-button>Campeonatos</md-button>
-            <md-button>Seguindo</md-button>
-            <md-button>Seguidores</md-button>
-            <md-card>Equipe</md-card>
-        </md-sidenav>
     </div>
-
+    <md-sidenav md-is-locked-open="true" class="md-whiteframe-1dp" hide-xs>
+        <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
+        <md-button>Artigos</md-button>
+        <md-button>Campeonatos</md-button>
+        <md-button>Seguindo</md-button>
+        <md-button>Seguidores</md-button>
+        <md-card>Equipe</md-card>
+    </md-sidenav>
 </div>
