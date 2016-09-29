@@ -35,18 +35,19 @@
             Usuario.show(id)
                 .success(function (data) {
                     vm.usuario = data;
-                    //                    vm.getPlataformasDoUsuario();
-                    //                    vm.getPlataformas();
-                    //                    vm.getCampeonatosInscritos();
-                    //                    vm.getCampeonatosDisponiveis();
+                    vm.segue()
+                        //                    vm.getPlataformasDoUsuario();
+                        //                    vm.getPlataformas();
+                        //                    vm.getCampeonatosInscritos();
+                        //                    vm.getCampeonatosDisponiveis();
                 })
                 .error(function (data, status) {});
         };
 
         vm.seguir = function (idUsuario) {
-            Usuario.seguir($rootScope.usuarioLogado, idUsuario)
+            Usuario.seguir($rootScope.usuarioLogado, vm.usuario)
                 .success(function (data) {
-                    // sad
+                    vm.usuario.seguido = true;
                 })
         };
 
@@ -84,7 +85,15 @@
                     vm.status = status;
                     console.log(data);
                 });
-        }
+        };
+
+        vm.segue = function () {
+            console.log(vm.usuario);
+            Usuario.segue($rootScope.usuarioLogado, vm.usuario)
+                .success(function (data) {
+                    vm.usuario.seguido = data.segue;
+                })
+        };
 
     }]);
 }());

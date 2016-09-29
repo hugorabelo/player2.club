@@ -67,16 +67,15 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function seguidores() {
-		return $this->belongsToMany('User', 'seguidor', 'users_id_seguidor', 'users_id_mestre');
-
-	}
-
-	public function seguindo() {
 		return $this->belongsToMany('User', 'seguidor', 'users_id_mestre', 'users_id_seguidor');
 	}
 
+	public function seguindo() {
+		return $this->belongsToMany('User', 'seguidor', 'users_id_seguidor', 'users_id_mestre');
+	}
+
 	public function seguir($idUsuario) {
-	    $this->seguidores()->attach($idUsuario);
+	    $this->seguindo()->attach($idUsuario);
     }
 
     public function getPosts($quantidade = 5) {
@@ -86,5 +85,13 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         }
         return $posts;
     }
+
+	public function segue($idUsuario) {
+		$segue = $this->seguindo()->wherePivot('users_id_mestre', '=', $idUsuario)->get();
+		if($segue->count() > 0) {
+			return true;
+		}
+		return false;
+	}
 
 }

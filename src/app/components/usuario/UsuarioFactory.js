@@ -67,9 +67,9 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/partidasParaUsuario/' + id);
         },
 
-        seguir: function (idSeguidor, idMestre) {
+        seguir: function (idSeguidor, usuario) {
             dados = {
-                idUsuarioMestre: idMestre,
+                idUsuarioMestre: usuario.id,
                 idUsuarioSeguidor: idSeguidor
             };
             return $http({
@@ -90,6 +90,21 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http({
                 method: 'POST',
                 url: 'api/usuario/getPosts',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        segue: function (idSeguidor, usuario) {
+            dados = {
+                idUsuarioMestre: usuario.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/segue',
                 data: $.param(dados),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

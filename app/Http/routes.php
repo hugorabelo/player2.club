@@ -47,6 +47,7 @@ Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
     Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
+    Route::post('usuario/segue', 'UsersController@segue');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -107,8 +108,9 @@ Route::any('{catchall}', function() {
 
 /*
  */
-Event::listen('illuminate.query', function($query)
+Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
-//    Log::info($query);
+    Log::info($query->sql);
+    //DB::getQueryLog();
 });
 /* */

@@ -17,7 +17,8 @@
             </div>
         </div>
         <span flex></span>
-        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmProfile.seguir(vmProfile.usuario.id)">SEGUIR</md-button>
+        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmProfile.seguir()">SEGUIR</md-button>
+        ##{{vmProfile.usuario}}##{{vmProfile.usuario.seguido}}##
     </div>
 
     <div flex layout="row">

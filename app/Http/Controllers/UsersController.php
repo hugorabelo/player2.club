@@ -212,12 +212,18 @@ class UsersController extends Controller {
 
     public function seguidores($idUsuario) {
         $usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
         $seguidores = $usuario->seguidores()->get();
         return Response::json($seguidores);
     }
 
     public function seguindo($idUsuario) {
         $usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
         $seguindo = $usuario->seguindo()->get();
         return Response::json($seguindo);
     }
@@ -227,6 +233,9 @@ class UsersController extends Controller {
         $idUsuario = $input['idUsuario'];
         $quantidade = $input['quantidade'];
         $usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
         $posts = $usuario->getPosts($quantidade);
         foreach ($posts as $post) {
             $post->usuario = $usuario;
@@ -234,6 +243,17 @@ class UsersController extends Controller {
         }
         return Response::json($posts);
     }
+
+	public function segue() {
+		$input = Input::except('_token');
+		$idUsuario = $input['idUsuarioSeguidor'];
+		$idMestre = $input['idUsuarioMestre'];
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		return Response::json(array('segue'=>$usuario->segue($idMestre)));
+	}
 
 
 }
