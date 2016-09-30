@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
         var vm = this;
 
@@ -15,6 +15,18 @@
             $scope.textoInscrever = translations['messages.inscrever'];
         });
 
+        vm.criarPost = function () {
+            var post = {};
+            post.users_id = $rootScope.usuarioLogado;
+            post.texto = vm.novoPost;
+            Post.salvar(post)
+                .success(function (data) {
+                    vm.novoPost = '';
+                    //TODO
+                })
+        };
+
+        /*
         vm.usuario = {};
         vm.exibeFormulario = false;
         vm.exibeFormularioPerfil = false;
@@ -200,6 +212,7 @@
 
             });
         };
+        */
 
     }]);
 }());

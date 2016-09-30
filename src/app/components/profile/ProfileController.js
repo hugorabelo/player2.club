@@ -86,16 +86,14 @@
             curtida.users_id = $rootScope.usuarioLogado;
             Post.curtir(curtida)
                 .success(function (data) {
-                    post.quantidade_curtidas = data;
+                    post.quantidade_curtidas = data.quantidadeCurtidas;
                 }).error(function (data, status) {
                     vm.messages = data.errors;
                     vm.status = status;
-                    console.log(data);
                 });
         };
 
         vm.segue = function () {
-            console.log(vm.usuario);
             Usuario.segue($rootScope.usuarioLogado, vm.usuario)
                 .success(function (data) {
                     vm.usuario.seguido = data.segue;

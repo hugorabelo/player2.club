@@ -229,6 +229,8 @@
         "curtir": "Like",
         "comentar": "Comment",
         "compartilhar": "Share",
-        "curtiram": "Like this"
+        "curtiram": "Like this",
+        "publicar": "Publish",
+        "foto": "Photo"
     }
 }

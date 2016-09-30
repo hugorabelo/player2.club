@@ -4,7 +4,7 @@
             <img alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
         </a>
         <div class="media-body">
-            <a href="#">
+            <a ui-sref="profile({idUsuario: post.usuario.id})">
                                         {{post.usuario.nome}}
                                     </a>
             <small class="text-muted">{{post.created_at}}</small>

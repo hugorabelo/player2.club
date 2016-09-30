@@ -46,6 +46,6 @@ class PostController extends Controller
         $post = Post::find($input['post_id']);
         $post->curtir($input['users_id']);
         $quantidadeCurtidas = $post->quantidadeCurtidas();
-        return Response::json($quantidadeCurtidas);
+        return Response::json(array('success'=>true, 'quantidadeCurtidas'=>$quantidadeCurtidas));
     }
 }
