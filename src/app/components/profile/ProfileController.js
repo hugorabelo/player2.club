@@ -93,6 +93,20 @@
                 });
         };
 
+        //TODO verificar se usuário já curtiu comentário e marcar botão de forma diferente
+        vm.curtirComentario = function (comentario) {
+            var curtida = {};
+            curtida.comentario_id = comentario.id;
+            curtida.users_id = $rootScope.usuarioLogado;
+            Post.curtirComentario(curtida)
+                .success(function (data) {
+                    comentario.quantidade_curtidas = data.quantidadeCurtidas;
+                }).error(function (data, status) {
+                    vm.messages = data.errors;
+                    vm.status = status;
+                });
+        };
+
         vm.segue = function () {
             Usuario.segue($rootScope.usuarioLogado, vm.usuario)
                 .success(function (data) {

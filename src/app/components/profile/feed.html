@@ -32,9 +32,10 @@
             <div class="media-body">
                 <a href="#">{{comentario.usuario.nome}}</a> {{comentario.texto}}
                 <br>
+                <button class="btn btn-white btn-xs" ng-click="vmProfile.curtirComentario(comentario)"><i class="fa fa-thumbs-up"></i></button>
                 <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
-                    <i class="fa fa-thumbs-up"></i> {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
-                </a> -
+                    {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
+                </a>
                 <small class="text-muted">{{comentario.created_at}}</small>
             </div>
         </div>
@@ -49,5 +50,5 @@
         </div>
 
     </div>
-
+    <div></div>
 </md-card>

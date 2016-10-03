@@ -34,6 +34,17 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
+            },
+
+            curtirComentario: function (curtida) {
+                return $http({
+                    method: 'POST',
+                    url: 'api/comentario/curtir',
+                    data: $.param(curtida),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
             }
         }
     }]);
