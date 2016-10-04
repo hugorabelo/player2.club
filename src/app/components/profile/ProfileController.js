@@ -135,5 +135,13 @@
             console.log('Remove: ' + post.id);
         };
 
+        vm.ediComentario = function (comentario) {
+
+        };
+
+        vm.deleteComentario = function (comentario) {
+
+        };
+
     }]);
 }());
