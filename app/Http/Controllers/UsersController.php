@@ -243,12 +243,13 @@ class UsersController extends Controller {
     public function listaPostsUsuario() {
         $input = Input::except('_token');
         $idUsuario = $input['idUsuario'];
+        $idUsuarioLeitor = $input['idUsuarioLeitor'];
         $quantidade = $input['quantidade'];
         $usuario = $this->user->find($idUsuario);
 		if($usuario == null) {
 			return Response::json();
 		}
-        $posts = $usuario->getPosts($quantidade);
+        $posts = $usuario->getPosts($idUsuarioLeitor, $quantidade);
         return Response::json($posts);
     }
 

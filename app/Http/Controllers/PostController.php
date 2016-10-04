@@ -18,6 +18,10 @@ class PostController extends Controller
         $this->post = $post;
     }
 
+    public function show($id) {
+        $post = Post::find($id);
+        return Response::json($post);
+    }
 
     /**
      * Store a newly created resource in storage.

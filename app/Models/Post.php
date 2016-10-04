@@ -10,11 +10,12 @@ class Post extends Model
 
     public static $rules = array();
 
-    public function comentarios() {
+    public function comentarios($idUsuarioLeitor) {
         $comentarios = $this->hasMany('Comentario', 'post_id')->get();
         foreach ($comentarios as $comentario) {
             $comentario->usuario = User::find($comentario->users_id);
             $comentario->quantidade_curtidas = $comentario->quantidadeCurtidas();
+            $comentario->curtiu = $comentario->curtiu($idUsuarioLeitor);
         }
         return $comentarios;
     }

@@ -113,7 +113,7 @@ Route::any('{catchall}', function() {
  */
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
-    Log::info($query->sql);
+//    Log::info($query->sql);
     //DB::getQueryLog();
 });
 /* */

@@ -97,9 +97,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
-        getPosts: function (idUsuario, quantidade) {
+        getPosts: function (idUsuario, idUsuarioLeitor, quantidade) {
             dados = {
                 idUsuario: idUsuario,
+                idUsuarioLeitor: idUsuarioLeitor,
                 quantidade: quantidade
             };
             return $http({

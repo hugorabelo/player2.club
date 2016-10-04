@@ -59,7 +59,7 @@
         };
 
         vm.carregaPosts = function (idUsuario) {
-            Usuario.getPosts(idUsuario, 5)
+            Usuario.getPosts(idUsuario, $rootScope.usuarioLogado, 5)
                 .success(function (data) {
                     vm.posts = data;
                 })
@@ -87,6 +87,7 @@
             Post.curtir(curtida)
                 .success(function (data) {
                     post.quantidade_curtidas = data.quantidadeCurtidas;
+                    post.curtiu = !post.curtiu;
                 }).error(function (data, status) {
                     vm.messages = data.errors;
                     vm.status = status;
@@ -101,6 +102,7 @@
             Post.curtirComentario(curtida)
                 .success(function (data) {
                     comentario.quantidade_curtidas = data.quantidadeCurtidas;
+                    comentario.curtiu = !comentario.curtiu;
                 }).error(function (data, status) {
                     vm.messages = data.errors;
                     vm.status = status;
@@ -123,6 +125,14 @@
                 .success(function (data) {
                     vm.usuario.seguido = data.segue;
                 })
+        };
+
+        vm.editPost = function (post) {
+            console.log('Edita: ' + post.id);
+        };
+
+        vm.deletePost = function (post) {
+            console.log('Remove: ' + post.id);
         };
 
     }]);
