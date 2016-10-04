@@ -45,6 +45,17 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
+            },
+
+            usuarioCurtiuPost: function (curtida) {
+                return $http({
+                    method: 'POST',
+                    url: 'api/post/usuarioCurtiu',
+                    data: $.param(curtida),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
             }
         }
     }]);

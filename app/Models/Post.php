@@ -14,6 +14,7 @@ class Post extends Model
         $comentarios = $this->hasMany('Comentario', 'post_id')->get();
         foreach ($comentarios as $comentario) {
             $comentario->usuario = User::find($comentario->users_id);
+            $comentario->quantidade_curtidas = $comentario->quantidadeCurtidas();
         }
         return $comentarios;
     }
@@ -28,6 +29,14 @@ class Post extends Model
     }
 
     public function curtir($idUsuario) {
-        $this->curtidas()->attach($idUsuario);
+        if($this->curtiu($idUsuario)) {
+            $this->curtidas()->detach($idUsuario);
+        } else {
+            $this->curtidas()->attach($idUsuario);
+        }
+    }
+
+    public function curtiu($idUsuario) {
+        return $this->curtidas()->wherePivot('users_id', '=', $idUsuario)->get()->count() > 0;
     }
 }

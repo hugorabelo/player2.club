@@ -17,6 +17,8 @@
         <p ng-show="post.quantidade_curtidas">
             <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
         </p>
+        <!--        <p ng-show="vmProfile.curtiuPost(post)">Teste</p>-->
+        <!--        <button ng-click="vmProfile.curtiuPost(post)">Foi curtido?</button>-->
 
         <div class="btn-group">
             <button class="btn btn-white btn-xs" ng-click="vmProfile.curtirPost(post)"><i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}</button>

@@ -107,6 +107,17 @@
                 });
         };
 
+        vm.curtiuPost = function (post) {
+            var curtida = {};
+            curtida.post_id = post.id;
+            curtida.users_id = $rootScope.usuarioLogado;
+            Post.usuarioCurtiuPost(curtida)
+                .success(function (data) {
+                    console.log(data.curtiu);
+                    return data.curtiu;
+                })
+        };
+
         vm.segue = function () {
             Usuario.segue($rootScope.usuarioLogado, vm.usuario)
                 .success(function (data) {

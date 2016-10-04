@@ -86,6 +86,8 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $posts = $this->hasMany('Post', 'users_id')->get();
         foreach ($posts as $post) {
             $post->comentarios = $post->comentarios();
+			$post->usuario = $this;
+			$post->quantidade_curtidas = $post->quantidadeCurtidas();
         }
         return $posts;
     }

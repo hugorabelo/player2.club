@@ -41,11 +41,17 @@ class PostController extends Controller
     }
 
     public function curtir() {
-        //TODO verificar se usuário já curtiu post
         $input = Input::all();
         $post = Post::find($input['post_id']);
         $post->curtir($input['users_id']);
         $quantidadeCurtidas = $post->quantidadeCurtidas();
         return Response::json(array('success'=>true, 'quantidadeCurtidas'=>$quantidadeCurtidas));
+    }
+
+    public function usuarioCurtiu() {
+        $input = Input::all();
+        $post = Post::find($input['post_id']);
+        $curtiu = $post->curtiu($input['users_id']);
+        return Response::json(array('success'=>true, 'curtiu'=>$curtiu));
     }
 }

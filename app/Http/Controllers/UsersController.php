@@ -249,10 +249,6 @@ class UsersController extends Controller {
 			return Response::json();
 		}
         $posts = $usuario->getPosts($quantidade);
-        foreach ($posts as $post) {
-            $post->usuario = $usuario;
-            $post->quantidade_curtidas = $post->quantidadeCurtidas();
-        }
         return Response::json($posts);
     }
 

@@ -18,6 +18,11 @@ class ComentarioController extends Controller
         $this->comentario = $comentario;
     }
 
+    public function index() {
+        $comentarios = Comentario::get();
+        return Response::json($comentarios);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -41,5 +46,13 @@ class ComentarioController extends Controller
         return Response::json(array('success'=>false,
             'errors'=>$validation->getMessageBag()->all(),
             'message'=>'There were validation errors.'),300);
+    }
+
+    public function curtir() {
+        $input = Input::all();
+        $comentario = Comentario::find($input['comentario_id']);
+        $comentario->curtir($input['users_id']);
+        $quantidadeCurtidas = $comentario->quantidadeCurtidas();
+        return Response::json(array('success'=>true, 'quantidadeCurtidas'=>$quantidadeCurtidas));
     }
 }
