@@ -62,7 +62,8 @@ class ComentarioController extends Controller
         if ($validation->passes())
         {
             $comentario = $this->comentario->find($id);
-            $comentario->update($input);
+            $dadosComentario = array('id'=>$id, 'texto'=>$input['texto']);
+            $comentario->update($dadosComentario);
 
             return Response::json(array('success'=>true, 'comentario'=>$comentario));
         }

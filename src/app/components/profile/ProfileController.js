@@ -7,12 +7,12 @@
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
-            $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
-            $scope.textoYes = translations['messages.yes'];
-            $scope.textoNo = translations['messages.no'];
-            $scope.textoDesistirCampeonato = translations['messages.confirma_desistir_campeonato'];
-            $scope.textoInscreverTitulo = translations['messages.inscrever_titulo'];
-            $scope.textoInscrever = translations['messages.inscrever'];
+            vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+            vm.textoYes = translations['messages.yes'];
+            vm.textoNo = translations['messages.no'];
+            vm.textoDesistirCampeonato = translations['messages.confirma_desistir_campeonato'];
+            vm.textoInscreverTitulo = translations['messages.inscrever_titulo'];
+            vm.textoInscrever = translations['messages.inscrever'];
         });
 
         vm.idUsuario = $stateParams.idUsuario;
@@ -79,7 +79,6 @@
             }
         };
 
-        //TODO verificar se usuário já curtiu post e marcar botão de forma diferente
         vm.curtirPost = function (post) {
             var curtida = {};
             curtida.post_id = post.id;
@@ -94,7 +93,6 @@
                 });
         };
 
-        //TODO verificar se usuário já curtiu comentário e marcar botão de forma diferente
         vm.curtirComentario = function (comentario) {
             var curtida = {};
             curtida.comentario_id = comentario.id;
@@ -139,19 +137,41 @@
             comentario.editar = true;
         };
 
-        vm.deleteComentario = function (comentario) {
+        vm.deleteComentario = function (ev, comentario) {
+            vm.idRegistroExcluir = comentario.id;
+            var confirm = $mdDialog.confirm(comentario.id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('default');
 
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                Post.destroyComentario(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        Post.getComentario()
+                            .success(function (data) {
+                                post.comentarios = data;
+                                $rootScope.loading = false;
+                            });
+                        $rootScope.loading = false;
+                    });
+            }, function () {
+
+            });
         };
 
         vm.updateComentario = function (ev, comentario) {
             if (ev.keyCode === 13) {
                 ev.preventDefault();
-                console.log(comentario);
                 Post.updateComentario(comentario)
                     .success(function (data) {
-                        comentario = data.comentario;
                         comentario.editar = false;
+                        comentario = data.comentario;
                     })
+                    .error(function (data, status) {});
             }
         };
 
