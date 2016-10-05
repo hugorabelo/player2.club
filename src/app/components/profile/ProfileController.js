@@ -136,11 +136,23 @@
         };
 
         vm.ediComentario = function (comentario) {
-
+            comentario.editar = true;
         };
 
         vm.deleteComentario = function (comentario) {
 
+        };
+
+        vm.updateComentario = function (ev, comentario) {
+            if (ev.keyCode === 13) {
+                ev.preventDefault();
+                console.log(comentario);
+                Post.updateComentario(comentario)
+                    .success(function (data) {
+                        comentario = data.comentario;
+                        comentario.editar = false;
+                    })
+            }
         };
 
     }]);

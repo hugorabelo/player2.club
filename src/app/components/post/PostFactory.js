@@ -25,6 +25,17 @@
                 });
             },
 
+            updateComentario: function (comentario) {
+                return $http({
+                    method: 'PUT',
+                    url: 'api/comentario/' + comentario.id,
+                    data: $.param(comentario),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+            },
+
             curtir: function (curtida) {
                 return $http({
                     method: 'POST',

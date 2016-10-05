@@ -48,6 +48,30 @@ class ComentarioController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id)
+    {
+        $input = array_except(Input::all(), array('_method', '_token'));
+        $validation = Validator::make($input, Comentario::$rules);
+
+        if ($validation->passes())
+        {
+            $comentario = $this->comentario->find($id);
+            $comentario->update($input);
+
+            return Response::json(array('success'=>true, 'comentario'=>$comentario));
+        }
+
+        return Response::json(array('success'=>false,
+            'errors'=>$validation->getMessageBag()->all(),
+            'message'=>'There were validation errors.'),300);
+    }
+
     public function curtir() {
         $input = Input::all();
         $comentario = Comentario::find($input['comentario_id']);

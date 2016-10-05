@@ -47,16 +47,16 @@
             <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado">
                 <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right" ng-show="options">
                     <md-fab-trigger>
-                        <md-button aria-label="menu" class="md-icon-button">
+                        <md-button aria-label="menu" class="md-icon-button m-r-0">
                             <i class="fa fa-chevron-down" aria-hidden="true"></i>
                         </md-button>
                     </md-fab-trigger>
 
                     <md-fab-actions>
-                        <md-button aria-label="Twitter" class="md-icon-button" ng-click="vmProfile.editPost(post)">
+                        <md-button aria-label="Twitter" class="md-icon-button" ng-click="vmProfile.ediComentario(comentario)">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </md-button>
-                        <md-button aria-label="Facebook" class="md-icon-button" ng-click="vmProfile.deletePost(post)">
+                        <md-button aria-label="Facebook" class="md-icon-button" ng-click="vmProfile.deleteComentario(comentario)">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </md-button>
                     </md-fab-actions>
@@ -66,7 +66,9 @@
                 <img alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
             </a>
             <div class="media-body">
-                <a href="#">{{comentario.usuario.nome}}</a> {{comentario.texto}}
+                <a href="#">{{comentario.usuario.nome}}</a>
+                <span ng-hide="comentario.editar">{{comentario.texto}}</span>
+                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmProfile.updateComentario($event, comentario)" ng-model="comentario.texto" ng-show="comentario.editar"></textarea>
                 <br>
                 <button class="btn btn-white btn-xs" ng-click="vmProfile.curtirComentario(comentario)" ng-class="{'curtiu': comentario.curtiu}"><i class="fa fa-thumbs-up"></i></button>
                 <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
