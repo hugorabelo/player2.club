@@ -98,6 +98,7 @@ Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
 
     Route::post('post/curtir', 'PostController@curtir');
     Route::post('post/usuarioCurtiu', 'PostController@usuarioCurtiu');
+    Route::post('post/getComentarios', 'PostController@getComentarios');
     Route::resource('post', 'PostController');
 
     Route::post('comentario/curtir', 'ComentarioController@curtir');

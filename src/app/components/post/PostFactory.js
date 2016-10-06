@@ -36,6 +36,10 @@
                 });
             },
 
+            destroyComentario: function (id) {
+                return $http.delete('api/comentario/' + id);
+            },
+
             curtir: function (curtida) {
                 return $http({
                     method: 'POST',
@@ -63,6 +67,21 @@
                     method: 'POST',
                     url: 'api/post/usuarioCurtiu',
                     data: $.param(curtida),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+            },
+
+            getComentarios: function (idPost, idUsuarioLeitor) {
+                dados = {
+                    idPost: idPost,
+                    idUsuarioLeitor: idUsuarioLeitor
+                };
+                return $http({
+                    method: 'POST',
+                    url: 'api/post/getComentarios',
+                    data: $.param(dados),
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }

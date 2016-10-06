@@ -44,6 +44,13 @@ class PostController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
+    public function getComentarios() {
+        $input = Input::all();
+        $post = Post::find($input['idPost']);
+        $comentarios = $post->comentarios($input['idUsuarioLeitor']);
+        return Response::json($comentarios);
+    }
+
     public function curtir() {
         $input = Input::all();
         $post = Post::find($input['post_id']);

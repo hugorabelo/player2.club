@@ -66,11 +66,12 @@
         };
 
         vm.salvarComentario = function (ev, post) {
-            var comentario = {};
-            comentario.post_id = post.id;
-            comentario.users_id = $rootScope.usuarioLogado;
-            comentario.texto = post.novoComentario;
             if (ev.keyCode === 13) {
+                var comentario = {};
+                comentario.post_id = post.id;
+                comentario.users_id = $rootScope.usuarioLogado;
+                comentario.texto = post.novoComentario;
+                ev.preventDefault();
                 Post.salvarComentario(comentario)
                     .success(function (data) {
                         post.comentarios = data;
@@ -137,7 +138,7 @@
             comentario.editar = true;
         };
 
-        vm.deleteComentario = function (ev, comentario) {
+        vm.deleteComentario = function (ev, comentario, post) {
             vm.idRegistroExcluir = comentario.id;
             var confirm = $mdDialog.confirm(comentario.id)
                 .title(vm.textoConfirmaExclusao)
@@ -151,7 +152,7 @@
                 $rootScope.loading = true;
                 Post.destroyComentario(vm.idRegistroExcluir)
                     .success(function (data) {
-                        Post.getComentario()
+                        Post.getComentarios(data.id_post, $rootScope.usuarioLogado)
                             .success(function (data) {
                                 post.comentarios = data;
                                 $rootScope.loading = false;

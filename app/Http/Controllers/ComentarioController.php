@@ -38,7 +38,7 @@ class ComentarioController extends Controller
             Comentario::create($input);
 
             $post = Post::find($input['post_id']);
-            $comentarios = $post->comentarios();
+            $comentarios = $post->comentarios($input['users_id']);
 
             return Response::json($comentarios);
         }
@@ -71,6 +71,21 @@ class ComentarioController extends Controller
         return Response::json(array('success'=>false,
             'errors'=>$validation->getMessageBag()->all(),
             'message'=>'There were validation errors.'),300);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $comentario = $this->comentario->find($id);
+        $idPost = $comentario->post_id;
+        $comentario->delete();
+
+        return Response::json(array('success'=>true, 'id_post'=>$idPost));
     }
 
     public function curtir() {
