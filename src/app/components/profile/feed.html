@@ -1,5 +1,5 @@
 <md-card ng-repeat="post in vmProfile.posts">
-    <div class="dropdown" ng-show="post.usuario.id !== usuarioLogado">
+    <div class="dropdown" ng-show="post.usuario.id == usuarioLogado && !post.editar">
         <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
             <md-fab-trigger>
                 <md-button aria-label="menu" class="md-icon-button">
@@ -17,7 +17,7 @@
             </md-fab-actions>
         </md-fab-speed-dial>
     </div>
-    <div class="social-avatar">
+    <div class="social-avatar" ng-hide="post.editar">
         <a href="" class="pull-left">
             <img alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
         </a>
@@ -28,7 +28,7 @@
             <small class="text-muted">{{post.created_at}}</small>
         </div>
     </div>
-    <div class="social-body">
+    <div class="social-body" ng-hide="post.editar">
         <p>
             {{post.texto}}
         </p>
@@ -41,6 +41,16 @@
             <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> {{ 'messages.comentar' | translate}}</button>
             <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> {{ 'messages.compartilhar' | translate}}</button>
         </div>
+    </div>
+    <div class="escrever_post" ng-show="post.editar">
+        <md-card-content flex layout="row">
+            <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+            <textarea class="form-control" ng-model="post.texto"></textarea>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-click="post.editar = false">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="vmProfile.updatePost($event, post)">{{'fields.update' | translate}}</md-button>
+        </md-card-actions>
     </div>
     <div class="social-footer">
         <div class="social-comment" ng-repeat="comentario in post.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">

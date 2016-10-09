@@ -44,6 +44,31 @@ class PostController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id)
+    {
+        $input = array_except(Input::all(), array('_method', '_token'));
+        $validation = Validator::make($input, Post::$rules);
+
+        if ($validation->passes())
+        {
+            $post = $this->post->find($id);
+            $dadosPost = array('id'=>$id, 'texto'=>$input['texto']);
+            $post->update($dadosPost);
+
+            return Response::json(array('success'=>true, 'post'=>$post));
+        }
+
+        return Response::json(array('success'=>false,
+            'errors'=>$validation->getMessageBag()->all(),
+            'message'=>'There were validation errors.'),300);
+    }
+
     public function getComentarios() {
         $input = Input::all();
         $post = Post::find($input['idPost']);

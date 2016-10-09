@@ -14,6 +14,17 @@
                 });
             },
 
+            update: function (post) {
+                return $http({
+                    method: 'PUT',
+                    url: 'api/post/' + post.id,
+                    data: $.param(post),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+            },
+
             salvarComentario: function (comentario) {
                 return $http({
                     method: 'POST',

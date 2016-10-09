@@ -127,7 +127,7 @@
         };
 
         vm.editPost = function (post) {
-            console.log('Edita: ' + post.id);
+            post.editar = true;
         };
 
         vm.deletePost = function (post) {
@@ -174,6 +174,15 @@
                     })
                     .error(function (data, status) {});
             }
+        };
+
+        vm.updatePost = function (ev, post) {
+            Post.update(post)
+                .success(function (data) {
+                    post.editar = false;
+                    post = data.post;
+                })
+                .error(function (data, status) {});
         };
 
     }]);
