@@ -31,6 +31,22 @@
             })
             .error(function (data, status) {});
 
+        function DialogController($scope, $mdDialog, tituloModal, post) {
+            $scope.tituloModal = tituloModal;
+            $scope.post = post;
+            $scope.novoPost = {};
+            $scope.novoPost.post_id = post.id;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.save = function () {
+                vm.saveCompartilhamento($scope.novoPost);
+                $mdDialog.hide();
+            };
+        }
+
         vm.carregaDadosUsuario = function (id) {
             Usuario.show(id)
                 .success(function (data) {
@@ -201,6 +217,40 @@
                     post = data.post;
                 })
                 .error(function (data, status) {});
+        };
+
+        vm.compartilharPost = function (ev, post) {
+            $mdDialog
+                .show({
+                    locals: {
+                        tituloModal: 'messages.compartilhar_post',
+                        post: post
+                    },
+                    controller: DialogController,
+                    templateUrl: 'app/components/profile/compartilhaModal.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+        vm.saveCompartilhamento = function (novoPost) {
+            novoPost.users_id = $rootScope.usuarioLogado;
+            Post.salvar(novoPost)
+                .success(function (data) {
+
+                });
+        };
+
+        vm.exibeData = function (data) {
+            var dataExibida = new Date(data);
+            return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
     }]);

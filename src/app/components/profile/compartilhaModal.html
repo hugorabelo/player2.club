@@ -1,0 +1,57 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div class="row" ng-show="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="novoPost.texto"></textarea>
+                    </div>
+                </div>
+
+                <div class="social-avatar post_compartilhado">
+                    <a ui-sref="profile({idUsuario: post.usuario.id})" class="pull-left">
+                        <img alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
+                    </a>
+                    <div class="media-body">
+                        <a ui-sref="profile({idUsuario: post.usuario.id})">
+                    {{post.usuario.nome}}
+                </a>
+                        <div class="clearfix"></div>
+                        <small class="text-muted">
+                    {{post.created_at}}
+                </small>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <p> {{post.texto}}
+                    </p>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="save()">{{'messages.publicar' | translate}}</md-button>
+        </md-dialog-actions>
+
+    </form>
+</md-dialog>

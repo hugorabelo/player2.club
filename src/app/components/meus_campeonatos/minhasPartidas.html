@@ -44,7 +44,7 @@
 					</span>
                         <br>
                         <span class="badge badge-info" tooltip="{{'fields.tempo_para_confirmacao' | translate}}" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
-					  {{'fields.tempo_restante' | translate}} {{exibeDataLimite(partida.data_placar_limite.date)}}
+					  {{'fields.tempo_restante' | translate}} {{vmPartida.exibeDataLimite(partida.data_placar_limite.date)}}
 					</span>
                     </div>
                 </div>

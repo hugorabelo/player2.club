@@ -18,7 +18,7 @@
         </md-fab-speed-dial>
     </div>
     <div class="social-avatar" ng-hide="post.editar">
-        <a href="" class="pull-left">
+        <a ui-sref="profile({idUsuario: post.usuario.id})" class="pull-left">
             <img alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
         </a>
         <div class="media-body">
@@ -27,35 +27,50 @@
             </a>
             <span ng-show="post.post_id" class="texto_compartilhamento">compartilhou uma publicação de <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})">{{post.postCompartilhado.usuario.nome}}</a></span>
             <div class="clearfix"></div>
-            <small class="text-muted">{{post.created_at}}</small>
+            <small class="text-muted">
+            {{ vmProfile.exibeData(post.created_at) }}
+            <span class="clearfix"></span>
+            </small>
         </div>
     </div>
     <div class="social-body" ng-hide="post.editar">
         <p>
             {{post.texto}}
         </p>
-        <md-card ng-show="post.post_id" class="post_compartilhado">
-            <a href="" class="pull-left">
+        <div class="social-avatar post_compartilhado" ng-show="post.post_id">
+            <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})" class="pull-left">
                 <img alt="image" src="uploads/usuarios/{{post.postCompartilhado.usuario.imagem_perfil}}">
             </a>
             <div class="media-body">
                 <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})">
-                                        {{post.postCompartilhado.usuario.nome}}
-                                    </a>
-                <small class="text-muted">{{post.postCompartilhado.created_at}}</small>
-                <p>
-                    {{post.postCompartilhado.texto}}
-                </p>
+                    {{post.postCompartilhado.usuario.nome}}
+                </a>
+                <div class="clearfix"></div>
+                <small class="text-muted">
+                    {{vmProfile.exibeData(post.postCompartilhado.created_at)}}
+                </small>
+
             </div>
-        </md-card>
+            <div class="clearfix"></div>
+            <p> {{post.postCompartilhado.texto}}
+            </p>
+        </div>
         <p ng-show="post.quantidade_curtidas">
             <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
         </p>
 
         <div class="btn-group">
-            <button class="btn btn-white btn-xs" ng-click="vmProfile.curtirPost(post)" ng-class="{'curtiu': post.curtiu}"><i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}</button>
-            <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> {{ 'messages.comentar' | translate}}</button>
-            <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> {{ 'messages.compartilhar' | translate}}</button>
+            <button class="btn btn-white btn-xs" ng-click="vmProfile.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
+                <i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}
+            </button>
+
+            <button class="btn btn-white btn-xs">
+                <i class="fa fa-comments"></i> {{ 'messages.comentar' | translate}}
+            </button>
+
+            <button class="btn btn-white btn-xs" ng-click="vmProfile.compartilharPost($event, post)">
+                <i class="fa fa-share"></i> {{ 'messages.compartilhar' | translate}}
+            </button>
         </div>
     </div>
     <div class="escrever_post" ng-show="post.editar">
@@ -88,7 +103,7 @@
                     </md-fab-actions>
                 </md-fab-speed-dial>
             </div>
-            <a href="" class="pull-left">
+            <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
                 <img alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
             </a>
             <div class="media-body">
@@ -100,7 +115,7 @@
                 <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
                     {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
                 </a>
-                <small class="text-muted">{{comentario.created_at}}</small>
+                <small class="text-muted">{{vmProfile.exibeData(comentario.created_at)}}</small>
             </div>
         </div>
 
