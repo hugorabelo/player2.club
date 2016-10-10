@@ -25,6 +25,10 @@
                 });
             },
 
+            destroy: function (id) {
+                return $http.delete('api/post/' + id);
+            },
+
             salvarComentario: function (comentario) {
                 return $http({
                     method: 'POST',

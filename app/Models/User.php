@@ -89,6 +89,11 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			$post->usuario = $this;
             $post->curtiu = $post->curtiu($idUsuarioLeitor);
 			$post->quantidade_curtidas = $post->quantidadeCurtidas();
+			if($post->post_id) {
+				$postCompartilhado = Post::find($post->post_id);
+				$postCompartilhado->usuario = User::find($postCompartilhado->users_id);
+				$post->postCompartilhado = $postCompartilhado;
+			}
         }
         return $posts;
     }

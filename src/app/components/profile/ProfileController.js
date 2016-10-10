@@ -114,7 +114,6 @@
             curtida.users_id = $rootScope.usuarioLogado;
             Post.usuarioCurtiuPost(curtida)
                 .success(function (data) {
-                    console.log(data.curtiu);
                     return data.curtiu;
                 })
         };
@@ -130,8 +129,27 @@
             post.editar = true;
         };
 
-        vm.deletePost = function (post) {
-            console.log('Remove: ' + post.id);
+        vm.deletePost = function (ev, post, index) {
+
+            vm.idRegistroExcluir = post.id;
+            var confirm = $mdDialog.confirm(post.id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('default');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                Post.destroy(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        vm.posts.splice(index, 1);
+                        $rootScope.loading = false;
+                    });
+            }, function () {
+
+            });
         };
 
         vm.ediComentario = function (comentario) {

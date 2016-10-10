@@ -69,6 +69,21 @@ class PostController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $post = $this->post->find($id);
+        $idUsuario = $post->users_id;
+        $post->delete();
+
+        return Response::json(array('success'=>true, 'idUsuario'=>$idUsuario));
+    }
+
     public function getComentarios() {
         $input = Input::all();
         $post = Post::find($input['idPost']);

@@ -10,6 +10,9 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+header('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
 
 Route::get('login', 'LoginController@getLogar');
 
@@ -23,7 +26,8 @@ Route::get('/', function()
 });
 
 //Route::group(array('before'=>'auth'), function() {
-Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
+//Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
+Route::group(array('prefix'=>'api'), function() {
 
     Route::resource('campeonato', 'CampeonatosController');
 
