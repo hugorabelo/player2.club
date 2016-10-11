@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('ProfileController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Post', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Post) {
+    angular.module('player2').controller('ProfileController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Post', '$window', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Post, $window) {
 
         var vm = this;
 
@@ -251,6 +251,11 @@
         vm.exibeData = function (data) {
             var dataExibida = new Date(data);
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
+        };
+
+        vm.comentar = function (elemento) {
+            var elementoNovo = $window.document.getElementById(elemento);
+            elementoNovo.focus();
         };
 
     }]);

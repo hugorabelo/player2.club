@@ -1,4 +1,5 @@
-(function (angular) {
+/*global angular */
+(function () {
     'use strict';
 
     angular.module('player2').controller('JogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', function ($scope, $rootScope, $mdDialog, $translate, Jogo) {

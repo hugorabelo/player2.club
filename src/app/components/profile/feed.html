@@ -64,7 +64,7 @@
                 <i class="fa fa-thumbs-up"></i> {{ 'messages.curtir' | translate}}
             </button>
 
-            <button class="btn btn-white btn-xs">
+            <button class="btn btn-white btn-xs" ng-click="vmProfile.comentar('comentario'+$index)">
                 <i class="fa fa-comments"></i> {{ 'messages.comentar' | translate}}
             </button>
 
@@ -124,7 +124,7 @@
                 <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
             </a>
             <div class="media-body">
-                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmProfile.salvarComentario($event, post)" ng-model="post.novoComentario"></textarea>
+                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmProfile.salvarComentario($event, post)" ng-model="post.novoComentario" id="comentario{{$index}}"></textarea>
             </div>
         </div>
 
