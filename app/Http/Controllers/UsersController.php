@@ -16,6 +16,7 @@ class UsersController extends Controller {
 
 	public function show($id) {
 		$usuario = User::find($id);
+        $usuario->seguidores = $usuario->seguidores()->get();
 		return Response::json($usuario);
 	}
 

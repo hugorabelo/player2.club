@@ -27,12 +27,18 @@
         <div flex ng-include="'app/components/profile/feed.html'"></div>
 
         <md-sidenav md-is-locked-open="true" class="md-whiteframe-1dp" hide-xs>
-            <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
-            <md-button>Artigos</md-button>
-            <md-button>Campeonatos</md-button>
-            <md-button>Seguindo</md-button>
-            <md-button>Seguidores</md-button>
-            <md-card>Equipe</md-card>
+            <md-content layout-margin>
+                <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
+                <md-button>Artigos</md-button>
+                <md-button>Campeonatos</md-button>
+                <md-button>Seguindo</md-button>
+                <md-button>Seguidores</md-button>
+                <div class="user-friends">
+                    <a ui-sref="profile({idUsuario: seguidor.id})" ng-repeat="seguidor in vmProfile.usuario.seguidores">
+                        <img src="uploads/usuarios/{{seguidor.imagem_perfil}}" alt="{{seguidor.nome}}" class="img-circle">
+                    </a>
+                </div>
+            </md-content>
         </md-sidenav>
     </div>
 
