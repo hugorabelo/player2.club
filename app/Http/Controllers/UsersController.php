@@ -17,6 +17,7 @@ class UsersController extends Controller {
 	public function show($id) {
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->get();
+        $usuario->seguindo = $usuario->seguindo()->get();
 		return Response::json($usuario);
 	}
 
@@ -264,6 +265,27 @@ class UsersController extends Controller {
 		}
 		return Response::json(array('segue'=>$usuario->segue($idMestre)));
 	}
+
+	public function listaJogos($idUsuario) {
+	    $usuario = $this->user->find($idUsuario);
+        Log::info($usuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $jogos = $usuario->jogos()->get();
+        return Response::json(array('jogos'=> $jogos));
+    }
+
+    public function seguirJogo() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuario'];
+        $idJogo = $input['idJogo'];
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->seguirJogo($idJogo);
+    }
 
 
 }

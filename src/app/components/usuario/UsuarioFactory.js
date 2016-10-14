@@ -55,6 +55,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.delete('api/usuario/' + id);
         },
 
+        getJogos: function (id) {
+            return $http.get('api/usuario/getJogos/' + id);
+        },
+
         getCampeonatosInscritos: function (id) {
             return $http.get('api/campeonatosInscritosParaUsuario/' + id);
         },

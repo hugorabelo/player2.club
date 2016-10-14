@@ -51,11 +51,12 @@
             Usuario.show(id)
                 .success(function (data) {
                     vm.usuario = data;
-                    vm.segue()
-                        //                    vm.getPlataformasDoUsuario();
-                        //                    vm.getPlataformas();
-                        //                    vm.getCampeonatosInscritos();
-                        //                    vm.getCampeonatosDisponiveis();
+                    vm.segue();
+                    vm.getCampeonatosInscritos(id);
+                    vm.getJogos(id);
+                    //                    vm.getPlataformasDoUsuario();
+                    //                    vm.getPlataformas();
+                    //                    vm.getCampeonatosDisponiveis();
                 })
                 .error(function (data, status) {});
         };
@@ -78,6 +79,13 @@
             Usuario.getPosts(idUsuario, $rootScope.usuarioLogado, 5)
                 .success(function (data) {
                     vm.posts = data;
+                })
+        };
+
+        vm.getCampeonatosInscritos = function (idUsuario) {
+            Usuario.getCampeonatosInscritos(idUsuario)
+                .success(function (data) {
+                    vm.campeonatosDoUsuario = data;
                 })
         };
 
@@ -256,6 +264,17 @@
         vm.comentar = function (elemento) {
             var elementoNovo = $window.document.getElementById(elemento);
             elementoNovo.focus();
+        };
+
+        vm.carregaCampeonato = function (idCampeonato) {
+            console.log(idCampeonato);
+        };
+
+        vm.getJogos = function (id) {
+            Usuario.getJogos(id)
+                .success(function (data) {
+                    vm.usuario.jogos = data.jogos;
+                });
         };
 
     }]);

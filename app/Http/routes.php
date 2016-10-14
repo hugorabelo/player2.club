@@ -53,6 +53,8 @@ Route::group(array('prefix'=>'api'), function() {
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
     Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::post('usuario/segue', 'UsersController@segue');
+    Route::get('usuario/getJogos/{id}', 'UsersController@listaJogos');
+    Route::post('usuario/seguirJogo', 'UsersController@seguirJogo');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
