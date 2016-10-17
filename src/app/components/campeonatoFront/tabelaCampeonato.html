@@ -42,7 +42,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="jogadorGrupo in grupo.classificacao" ng-class="{'font-bold':jogadorGrupo.pivot.users_id == usuarioLogado}">
+                                <tr ng-repeat="jogadorGrupo in grupo.classificacao" ng-class="{'font-bold':jogadorGrupo.pivot.users_id == usuarioLogado.id}">
                                     <td>{{jogadorGrupo.nome}} - {{jogadorGrupo.id}} </td>
                                     <td class="text-center">{{jogadorGrupo.pontuacao}}</td>
                                     <td class="text-center">{{jogadorGrupo.jogos}}</td>

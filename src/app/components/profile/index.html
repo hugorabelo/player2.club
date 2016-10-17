@@ -17,7 +17,7 @@
             </div>
         </div>
         <span flex></span>
-        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado"><i class="fa fa-user-plus" aria-hidden="true"></i> SEGUIR
+        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> SEGUIR
         </md-button>
         <md-button id="botao-seguir" class="md-raised md-default" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> SEGUINDO</md-button>
 
@@ -66,7 +66,7 @@
                         <md-list-item>
                             <div class="m-xs">
                                 <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
-                                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-thumbnail img-md m-xs">
+                                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
                                     <md-tooltip md-direction="top ">
                                         {{seguidor.nome}}
                                     </md-tooltip>

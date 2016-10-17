@@ -1,9 +1,13 @@
 <md-toolbar ng-controller="TopNavController as vmTopNav">
     <div class="md-toolbar-tools">
         <md-input-container>
-            <input type="number" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado">
+            <input type="number" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado.id">
         </md-input-container>
-        <md-button class="btn btn-default" ng-click="vmTopNav.mudaUsuarioLogado()">OK</md-button>
+        <md-button class="md-raised md-accent" ng-click="vmTopNav.mudaUsuarioLogado()">OK</md-button>
+        <span flex></span>
+        <img height="50" alt="" src="http://localhost/player2/public/assets/images/player2.png" data-pin-nopin="true">
+        <span flex></span>
+        <img height="50" alt="" src="http://ec2-52-67-171-241.sa-east-1.compute.amazonaws.com/player2/template/assets/images/marcas/player2.png" data-pin-nopin="true">
         <span flex></span>
         <md-menu>
             <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open">

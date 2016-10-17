@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', 'Auth', function ($rootScope, $scope, $translate, $location, $mdDateLocale, Auth) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', 'Auth', 'Usuario', function ($rootScope, $scope, $translate, $location, $mdDateLocale, Auth, Usuario) {
 
         var vm = this;
 
@@ -50,8 +50,11 @@
         };
 
         vm.mudaUsuarioLogado = function () {
-            $rootScope.usuarioLogado = vm.usuarioLogado;
-            $location.path('/');
+            Usuario.show(vm.usuarioLogado.id)
+                .success(function (data) {
+                    $rootScope.usuarioLogado = data;
+                    $location.path('/');
+                });
         };
 
     }]);

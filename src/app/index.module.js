@@ -39,13 +39,6 @@
     });
 
     angular.module('player2')
-        .config(function ($mdThemingProvider) {
-            $mdThemingProvider.theme('default')
-                .primaryPalette('purple')
-                .accentPalette('orange');
-        });
-
-    angular.module('player2')
         .config(function ($mdDateLocaleProvider, $translateProvider) {
 
             $mdDateLocaleProvider.formatDate = function (date) {

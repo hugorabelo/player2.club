@@ -62,21 +62,21 @@
         };
 
         vm.seguir = function (idUsuario) {
-            Usuario.seguir($rootScope.usuarioLogado, vm.usuario)
+            Usuario.seguir($rootScope.usuarioLogado.id, vm.usuario)
                 .success(function (data) {
                     vm.usuario.seguido = true;
                 })
         };
 
         vm.deixarDeSeguir = function (idUsuario) {
-            Usuario.deixarDeSeguir($rootScope.usuarioLogado, vm.usuario)
+            Usuario.deixarDeSeguir($rootScope.usuarioLogado.id, vm.usuario)
                 .success(function (data) {
                     vm.usuario.seguido = false;
                 })
         };
 
         vm.carregaPosts = function (idUsuario) {
-            Usuario.getPosts(idUsuario, $rootScope.usuarioLogado, 5)
+            Usuario.getPosts(idUsuario, $rootScope.usuarioLogado.id, 5)
                 .success(function (data) {
                     vm.posts = data;
                 })
@@ -93,7 +93,7 @@
             if (ev.keyCode === 13) {
                 var comentario = {};
                 comentario.post_id = post.id;
-                comentario.users_id = $rootScope.usuarioLogado;
+                comentario.users_id = $rootScope.usuarioLogado.id;
                 comentario.texto = post.novoComentario;
                 ev.preventDefault();
                 Post.salvarComentario(comentario)
@@ -107,7 +107,7 @@
         vm.curtirPost = function (post) {
             var curtida = {};
             curtida.post_id = post.id;
-            curtida.users_id = $rootScope.usuarioLogado;
+            curtida.users_id = $rootScope.usuarioLogado.id;
             Post.curtir(curtida)
                 .success(function (data) {
                     post.quantidade_curtidas = data.quantidadeCurtidas;
@@ -121,7 +121,7 @@
         vm.curtirComentario = function (comentario) {
             var curtida = {};
             curtida.comentario_id = comentario.id;
-            curtida.users_id = $rootScope.usuarioLogado;
+            curtida.users_id = $rootScope.usuarioLogado.id;
             Post.curtirComentario(curtida)
                 .success(function (data) {
                     comentario.quantidade_curtidas = data.quantidadeCurtidas;
@@ -135,7 +135,7 @@
         vm.curtiuPost = function (post) {
             var curtida = {};
             curtida.post_id = post.id;
-            curtida.users_id = $rootScope.usuarioLogado;
+            curtida.users_id = $rootScope.usuarioLogado.id;
             Post.usuarioCurtiuPost(curtida)
                 .success(function (data) {
                     return data.curtiu;
@@ -143,7 +143,7 @@
         };
 
         vm.segue = function () {
-            Usuario.segue($rootScope.usuarioLogado, vm.usuario)
+            Usuario.segue($rootScope.usuarioLogado.id, vm.usuario)
                 .success(function (data) {
                     vm.usuario.seguido = data.segue;
                 })
@@ -194,7 +194,7 @@
                 $rootScope.loading = true;
                 Post.destroyComentario(vm.idRegistroExcluir)
                     .success(function (data) {
-                        Post.getComentarios(data.id_post, $rootScope.usuarioLogado)
+                        Post.getComentarios(data.id_post, $rootScope.usuarioLogado.id)
                             .success(function (data) {
                                 post.comentarios = data;
                                 $rootScope.loading = false;
@@ -249,7 +249,7 @@
         };
 
         vm.saveCompartilhamento = function (novoPost) {
-            novoPost.users_id = $rootScope.usuarioLogado;
+            novoPost.users_id = $rootScope.usuarioLogado.id;
             Post.salvar(novoPost)
                 .success(function (data) {
 

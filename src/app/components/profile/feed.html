@@ -1,5 +1,5 @@
 <md-card ng-repeat="post in vmProfile.posts track by $index">
-    <div class="dropdown" ng-show="post.usuario.id == usuarioLogado && !post.editar">
+    <div class="dropdown" ng-show="post.usuario.id == usuarioLogado.id && !post.editar">
         <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
             <md-fab-trigger>
                 <md-button aria-label="menu" class="md-icon-button">
@@ -19,7 +19,7 @@
     </div>
     <div class="social-avatar" ng-hide="post.editar">
         <a ui-sref="profile({idUsuario: post.usuario.id})" class="pull-left">
-            <img alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
+            <img class="img-circle" alt="image" src="uploads/usuarios/{{post.usuario.imagem_perfil}}">
         </a>
         <div class="media-body">
             <a ui-sref="profile({idUsuario: post.usuario.id})" class="pull-left">
@@ -39,7 +39,7 @@
         </p>
         <div class="social-avatar post_compartilhado" ng-show="post.post_id">
             <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})" class="pull-left">
-                <img alt="image" src="uploads/usuarios/{{post.postCompartilhado.usuario.imagem_perfil}}">
+                <img class="img-circle" alt="image" src="uploads/usuarios/{{post.postCompartilhado.usuario.imagem_perfil}}">
             </a>
             <div class="media-body">
                 <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})">
@@ -75,7 +75,7 @@
     </div>
     <div class="escrever_post" ng-show="post.editar">
         <md-card-content flex layout="row">
-            <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+            <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
             <textarea class="form-control" ng-model="post.texto"></textarea>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
@@ -85,7 +85,7 @@
     </div>
     <div class="social-footer">
         <div class="social-comment" ng-repeat="comentario in post.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
-            <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado">
+            <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado.id">
                 <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale md-fab-top-right" ng-show="options">
                     <md-fab-trigger>
                         <md-button aria-label="menu" class="md-icon-button m-r-0">
@@ -104,7 +104,7 @@
                 </md-fab-speed-dial>
             </div>
             <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
-                <img alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
+                <img class="img-circle" alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
             </a>
             <div class="media-body">
                 <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
@@ -121,7 +121,7 @@
 
         <div class="social-comment">
             <a href="" class="pull-left">
-                <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+                <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
             </a>
             <div class="media-body">
                 <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmProfile.salvarComentario($event, post)" ng-model="post.novoComentario" id="comentario{{$index}}"></textarea>

@@ -17,7 +17,7 @@
 
         vm.criarPost = function () {
             var post = {};
-            post.users_id = $rootScope.usuarioLogado;
+            post.users_id = $rootScope.usuarioLogado.id;
             post.texto = vm.novoPost;
             Post.salvar(post)
                 .success(function (data) {

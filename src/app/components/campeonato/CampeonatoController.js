@@ -399,7 +399,7 @@
 
         vm.encerraFase = function () {
             $rootScope.loading = true;
-            vm.campeonatoFaseSelecionada.usuarioLogado = $rootScope.usuarioLogado;
+            vm.campeonatoFaseSelecionada.usuarioLogado = $rootScope.usuarioLogado.id;
             Campeonato.fechaFase(vm.campeonatoFaseSelecionada)
                 .success(function (data) {
                     $rootScope.loading = false;

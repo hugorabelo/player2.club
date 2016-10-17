@@ -18,10 +18,10 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
     vm.salvarPlacar = function (partida) {
         $rootScope.loading = true;
 
-        partida.usuarioLogado = $rootScope.usuarioLogado;
+        partida.usuarioLogado.id = $rootScope.usuarioLogado.id;
         Partida.salvarPlacar(partida)
             .success(function () {
-                vm.carregaPartidas($rootScope.usuarioLogado);
+                vm.carregaPartidas($rootScope.usuarioLogado.id);
                 $rootScope.loading = false;
             })
             .error(function (data) {
@@ -36,10 +36,10 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
 
         var dados = {};
         dados.id_partida = id_partida;
-        dados.usuarioLogado = $rootScope.usuarioLogado;
+        dados.usuarioLogado.id = $rootScope.usuarioLogado.id;
         Partida.confirmarPlacar(dados)
             .success(function () {
-                vm.carregaPartidas($rootScope.usuarioLogado);
+                vm.carregaPartidas($rootScope.usuarioLogado.id);
                 $rootScope.loading = false;
             })
             .error(function (data) {
@@ -50,7 +50,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
     vm.contestarPlacar = function (ev, id_partida) {
         vm.contestacao_resultado = {};
         vm.contestacao_resultado.partidas_id = id_partida;
-        vm.contestacao_resultado.usuario_partidas_id = $rootScope.usuarioLogado;
+        vm.contestacao_resultado.usuario_partidas_id = $rootScope.usuarioLogado.id;
         $mdDialog.show({
                 locals: {
                     tituloModal: 'messages.partida_contestar',
@@ -75,10 +75,10 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
 
         var dados = {};
         dados.id_partida = id_partida;
-        dados.usuarioLogado = $rootScope.usuarioLogado;
+        dados.usuarioLogado.id = $rootScope.usuarioLogado.id;
         Partida.cancelarPlacar(dados)
             .success(function () {
-                vm.carregaPartidas($rootScope.usuarioLogado);
+                vm.carregaPartidas($rootScope.usuarioLogado.id);
                 $rootScope.loading = false;
             })
             .error(function (data) {
@@ -91,7 +91,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
         $rootScope.loading = true;
         Partida.contestarResultado(contestacao_resultado, arquivo)
             .success(function (data) {
-                vm.carregaPartidas($rootScope.usuarioLogado);
+                vm.carregaPartidas($rootScope.usuarioLogado.id);
                 $rootScope.loading = false;
             }).error(function (data, status) {
                 vm.messages = data.errors;
