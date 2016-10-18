@@ -232,6 +232,9 @@
         "curtiram": "Like this",
         "publicar": "Publish",
         "foto": "Photo",
-        "compartilhar_post": "Share Post"
+        "compartilhar_post": "Share Post",
+        "seguir": "Follow",
+        "seguindo": "Following",
+        "seguidores": "Followers"
     }
 }

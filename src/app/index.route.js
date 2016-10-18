@@ -59,10 +59,10 @@
                     pageTitle: "menus.campeonatoTipos"
                 }
             })
-            .state('jogo', {
-                url: "/jogo",
-                templateUrl: "app/components/jogo/index.html",
-                controller: 'JogoController as vmJogo',
+            .state('cadastroJogo', {
+                url: "/cadastroJogo",
+                templateUrl: "app/components/cadastroJogo/index.html",
+                controller: 'CadastroJogoController as vmCadastroJogo',
                 data: {
                     pageTitle: "menus.jogos"
                 }

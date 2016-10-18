@@ -5,9 +5,9 @@
         </md-input-container>
         <md-button class="md-raised md-accent" ng-click="vmTopNav.mudaUsuarioLogado()">OK</md-button>
         <span flex></span>
-        <img height="50" alt="" src="http://localhost/player2/public/assets/images/player2.png" data-pin-nopin="true">
-        <span flex></span>
-        <img height="50" alt="" src="http://ec2-52-67-171-241.sa-east-1.compute.amazonaws.com/player2/template/assets/images/marcas/player2.png" data-pin-nopin="true">
+        <a ui-sref="home">
+            <img height="50" alt="" src="http://localhost/player2/public/assets/images/player2.png" data-pin-nopin="true">
+        </a>
         <span flex></span>
         <md-menu>
             <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open">
@@ -18,7 +18,7 @@
                     <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button ui-sref="jogo">{{'menus.jogos' | translate}}</md-button>
+                    <md-button ui-sref="cadastroJogo">{{'menus.jogos' | translate}}</md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ui-sref="plataforma">{{'menus.plataformas' | translate}}</md-button>

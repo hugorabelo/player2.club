@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', 'Campeonato', 'Plataforma', 'CadastroJogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, Campeonato, Plataforma, CadastroJogo, CampeonatoTipo, ModeloCampeonato) {
 
             var vm = this;
 
@@ -65,7 +65,7 @@
 
             vm.carregaTiposDeCampeonatoDoJogo = function () {
                 $rootScope.loading = true;
-                Jogo.getTiposDeCampeonato(vm.campeonato.jogos_id)
+                CadastroJogo.getTiposDeCampeonato(vm.campeonato.jogos_id)
                     .success(function (data) {
                         vm.campeonatoTipos = data;
                         if (vm.campeonatoTipos.length > 0) {

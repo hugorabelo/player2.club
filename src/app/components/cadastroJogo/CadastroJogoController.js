@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('JogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', function ($scope, $rootScope, $mdDialog, $translate, Jogo) {
+    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'CadastroJogo', function ($scope, $rootScope, $mdDialog, $translate, CadastroJogo) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
@@ -35,7 +35,7 @@
 
         $rootScope.loading = true;
 
-        Jogo.get()
+        CadastroJogo.get()
             .success(function (data) {
                 vm.jogos = data;
                 $rootScope.loading = false;
@@ -53,7 +53,7 @@
                         jogo: {}
                     },
                     controller: DialogController,
-                    templateUrl: 'app/components/jogo/formModal.html',
+                    templateUrl: 'app/components/cadastroJogo/formModal.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
@@ -67,7 +67,7 @@
         };
 
         vm.edit = function (ev, id) {
-            Jogo.edit(id)
+            CadastroJogo.edit(id)
                 .success(function (data) {
                     $mdDialog
                         .show({
@@ -77,7 +77,7 @@
                                 jogo: data
                             },
                             controller: DialogController,
-                            templateUrl: 'app/components/jogo/formModal.html',
+                            templateUrl: 'app/components/cadastroJogo/formModal.html',
                             parent: angular.element(document.body),
                             targetEvent: ev,
                             clickOutsideToClose: true,
@@ -94,9 +94,9 @@
 
         vm.save = function (jogo, arquivo) {
             $rootScope.loading = true;
-            Jogo.save(jogo, arquivo)
+            CadastroJogo.save(jogo, arquivo)
                 .success(function (data) {
-                    Jogo.get()
+                    CadastroJogo.get()
                         .success(function (getData) {
                             vm.jogos = getData;
                             $rootScope.loading = false;
@@ -114,9 +114,9 @@
 
         vm.update = function (jogo, arquivo) {
             $rootScope.loading = true;
-            Jogo.update(jogo, arquivo)
+            CadastroJogo.update(jogo, arquivo)
                 .success(function (data) {
-                    Jogo.get()
+                    CadastroJogo.get()
                         .success(function (getData) {
                             vm.jogos = getData;
                             $rootScope.loading = false;
@@ -141,9 +141,9 @@
 
             $mdDialog.show(confirm).then(function () {
                 $rootScope.loading = true;
-                Jogo.destroy(vm.idRegistroExcluir)
+                CadastroJogo.destroy(vm.idRegistroExcluir)
                     .success(function (data) {
-                        Jogo.get()
+                        CadastroJogo.get()
                             .success(function (data) {
                                 vm.jogos = data;
                                 $rootScope.loading = false;

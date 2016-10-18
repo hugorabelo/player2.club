@@ -18,7 +18,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
     vm.salvarPlacar = function (partida) {
         $rootScope.loading = true;
 
-        partida.usuarioLogado.id = $rootScope.usuarioLogado.id;
+        partida.usuarioLogado = $rootScope.usuarioLogado.id;
         Partida.salvarPlacar(partida)
             .success(function () {
                 vm.carregaPartidas($rootScope.usuarioLogado.id);
@@ -36,7 +36,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
 
         var dados = {};
         dados.id_partida = id_partida;
-        dados.usuarioLogado.id = $rootScope.usuarioLogado.id;
+        dados.usuarioLogado = $rootScope.usuarioLogado.id;
         Partida.confirmarPlacar(dados)
             .success(function () {
                 vm.carregaPartidas($rootScope.usuarioLogado.id);
@@ -75,7 +75,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
 
         var dados = {};
         dados.id_partida = id_partida;
-        dados.usuarioLogado.id = $rootScope.usuarioLogado.id;
+        dados.usuarioLogado = $rootScope.usuarioLogado.id;
         Partida.cancelarPlacar(dados)
             .success(function () {
                 vm.carregaPartidas($rootScope.usuarioLogado.id);
