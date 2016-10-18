@@ -287,5 +287,17 @@ class UsersController extends Controller {
         $usuario->seguirJogo($idJogo);
     }
 
+    public function removeSeguidorJogo() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuarioSeguidor'];
+        $idJogo = $input['idJogo'];
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->deixarDeSeguirJogo($idJogo);
+        return Response::json();
+    }
+
 
 }

@@ -147,6 +147,14 @@
                     pageTitle: "messages.profile_usuario"
                 }
             })
+            .state('jogo', {
+                url: "/jogo/{idJogo}",
+                templateUrl: "app/components/jogo/index.html",
+                controller: 'JogoController as vmJogo',
+                data: {
+                    pageTitle: "menus.jogos"
+                }
+            })
             .state('logout', {
                 url: "/logout"
             });

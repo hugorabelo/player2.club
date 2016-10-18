@@ -114,4 +114,8 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $this->jogos()->attach($idJogo);
     }
 
+    public function deixarDeSeguirJogo($idJogo) {
+        $this->jogos()->detach($idJogo);
+    }
+
 }

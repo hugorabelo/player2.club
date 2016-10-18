@@ -14,6 +14,12 @@ class JogosController extends Controller {
 		$this->jogo = $jogo;
 	}
 
+    public function show($id) {
+        $jogo = Jogo::find($id);
+        $jogo->seguidores = $jogo->seguidores()->get();
+        return Response::json($jogo);
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *

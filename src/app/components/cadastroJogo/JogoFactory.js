@@ -1,5 +1,9 @@
-angular.module('player2').factory('CadastroJogo', ['$http', function ($http) {
+angular.module('player2').factory('Jogo', ['$http', function ($http) {
     return {
+        show: function (id) {
+            return $http.get('api/jogos/' + id);
+        },
+
         get: function () {
             return $http.get('api/jogos');
         },

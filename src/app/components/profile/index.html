@@ -39,7 +39,7 @@
                         <md-subheader>{{'messages.jogo_list' | translate}}</md-subheader>
                         <md-list-item>
                             <div class="m-xs">
-                                <a ui-sref="profile({idUsuario: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
+                                <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
                                     <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xs">
                                     <md-tooltip md-direction="top ">
                                         {{jogo.descricao}}

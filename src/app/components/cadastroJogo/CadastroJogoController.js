@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'CadastroJogo', function ($scope, $rootScope, $mdDialog, $translate, CadastroJogo) {
+    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', function ($scope, $rootScope, $mdDialog, $translate, Jogo) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
@@ -35,7 +35,7 @@
 
         $rootScope.loading = true;
 
-        CadastroJogo.get()
+        Jogo.get()
             .success(function (data) {
                 vm.jogos = data;
                 $rootScope.loading = false;
@@ -67,7 +67,7 @@
         };
 
         vm.edit = function (ev, id) {
-            CadastroJogo.edit(id)
+            Jogo.edit(id)
                 .success(function (data) {
                     $mdDialog
                         .show({
@@ -94,9 +94,9 @@
 
         vm.save = function (jogo, arquivo) {
             $rootScope.loading = true;
-            CadastroJogo.save(jogo, arquivo)
+            Jogo.save(jogo, arquivo)
                 .success(function (data) {
-                    CadastroJogo.get()
+                    Jogo.get()
                         .success(function (getData) {
                             vm.jogos = getData;
                             $rootScope.loading = false;
@@ -114,9 +114,9 @@
 
         vm.update = function (jogo, arquivo) {
             $rootScope.loading = true;
-            CadastroJogo.update(jogo, arquivo)
+            Jogo.update(jogo, arquivo)
                 .success(function (data) {
-                    CadastroJogo.get()
+                    Jogo.get()
                         .success(function (getData) {
                             vm.jogos = getData;
                             $rootScope.loading = false;
@@ -141,9 +141,9 @@
 
             $mdDialog.show(confirm).then(function () {
                 $rootScope.loading = true;
-                CadastroJogo.destroy(vm.idRegistroExcluir)
+                Jogo.destroy(vm.idRegistroExcluir)
                     .success(function (data) {
-                        CadastroJogo.get()
+                        Jogo.get()
                             .success(function (data) {
                                 vm.jogos = data;
                                 $rootScope.loading = false;

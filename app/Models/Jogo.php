@@ -21,4 +21,8 @@ class Jogo extends Eloquent {
         return null;
 	}
 
+	public function seguidores() {
+        return $this->belongsToMany('User', 'seguidor_jogo', 'jogos_id', 'users_id');
+    }
+
 }
