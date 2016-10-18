@@ -13,9 +13,9 @@
             </div>
         </div>
         <span flex></span>
-        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.usuario.seguido || vmJogo.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
 
     </div>
 
@@ -27,7 +27,7 @@
                 <md-list layout-margin>
                     <div md-whiteframe="1">
                         <md-subheader class="md-no-sticky">{{'messages.campeonato_list' | translate}}</md-subheader>
-                        <md-list-item ng-repeat="campeonato in vmJogo.campeonatosDoUsuario" ng-click="vmJogo.carregaCampeonato(campeonato.id)">
+                        <md-list-item ng-repeat="campeonato in vmJogo.campeonatosDoJogo" ng-click="vmJogo.carregaCampeonato(campeonato.id)">
                             {{campeonato.descricao}}
                         </md-list-item>
                     </div>

@@ -106,6 +106,14 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return false;
 	}
 
+	public function segueJogo($idJogo) {
+		$segue = $this->jogos()->wherePivot('jogos_id', '=', $idJogo)->get();
+		if($segue->count() > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	public function jogos() {
         return $this->belongsToMany('Jogo', 'seguidor_jogo', 'users_id', 'jogos_id');
     }

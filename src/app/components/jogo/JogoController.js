@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('JogoController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Jogo', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Post', '$window', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Jogo, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Post, $window) {
+    angular.module('player2').controller('JogoController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Jogo', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Post', 'Usuario', '$window', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Jogo, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Post, Usuario, $window) {
 
         var vm = this;
 
@@ -25,7 +25,7 @@
         Jogo.show(vm.idJogo)
             .success(function (data) {
                 vm.jogo = data;
-                //                vm.carregaDadosUsuario(vm.usuario.id);
+                vm.carregaDadosJogo(vm.jogo.id);
                 //                vm.carregaPosts(vm.idUsuario);
 
             })
@@ -47,29 +47,29 @@
             };
         }
 
-        //        vm.carregaDadosUsuario = function (id) {
-        //            Usuario.show(id)
-        //                .success(function (data) {
-        //                    vm.usuario = data;
-        //                    vm.segue();
-        //                    vm.getCampeonatosInscritos(id);
-        //                    vm.getJogos(id);
-        //                    //                    vm.getPlataformasDoUsuario();
-        //                    //                    vm.getPlataformas();
-        //                    //                    vm.getCampeonatosDisponiveis();
-        //                })
-        //                .error(function (data, status) {});
-        //        };
+        vm.carregaDadosJogo = function (id) {
+            Jogo.show(id)
+                .success(function (data) {
+                    vm.jogo = data;
+                    vm.segue();
+                    vm.getCampeonatosAbertos(id);
+                    //                            vm.getJogos(id);
+                    //                    vm.getPlataformasDoUsuario();
+                    //                    vm.getPlataformas();
+                    //                    vm.getCampeonatosDisponiveis();
+                })
+                .error(function (data, status) {});
+        };
 
         vm.seguir = function (idJogo) {
-            Jogo.seguir($rootScope.usuarioLogado.id, vm.jogo)
+            Usuario.seguirJogo($rootScope.usuarioLogado.id, vm.jogo)
                 .success(function (data) {
                     vm.jogo.seguido = true;
                 })
         };
 
         vm.deixarDeSeguir = function (idJogo) {
-            Jogo.deixarDeSeguir($rootScope.usuarioLogado.id, vm.jogo)
+            Usuario.deixarDeSeguirJogo($rootScope.usuarioLogado.id, vm.jogo)
                 .success(function (data) {
                     vm.jogo.seguido = false;
                 })
@@ -82,12 +82,12 @@
         //                })
         //        };
 
-        //        vm.getCampeonatosInscritos = function (idUsuario) {
-        //            Usuario.getCampeonatosInscritos(idUsuario)
-        //                .success(function (data) {
-        //                    vm.campeonatosDoUsuario = data;
-        //                })
-        //        };
+        vm.getCampeonatosAbertos = function (idJogo) {
+            Jogo.getCampeonatosAbertos(idJogo)
+                .success(function (data) {
+                    vm.campeonatosDoJogo = data;
+                })
+        };
 
         //        vm.salvarComentario = function (ev, post) {
         //            if (ev.keyCode === 13) {
@@ -143,7 +143,7 @@
         //        };
 
         vm.segue = function () {
-            Jogo.segue($rootScope.usuarioLogado.id, vm.jogo)
+            Usuario.segueJogo($rootScope.usuarioLogado.id, vm.jogo)
                 .success(function (data) {
                     vm.jogo.seguido = data.segue;
                 })

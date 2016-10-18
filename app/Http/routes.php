@@ -39,6 +39,7 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('plataformas/{id}', 'PlataformasController@update');
 
     Route::get('tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
+    Route::get('campeonatosAbertosDoJogo/{id}', 'JogosController@getCampeonatosAbertos');
     Route::resource('jogos', 'JogosController');
     Route::post('jogos/{id}', 'JogosController@update');
 
@@ -54,7 +55,9 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::post('usuario/segue', 'UsersController@segue');
     Route::get('usuario/getJogos/{id}', 'UsersController@listaJogos');
-    Route::post('usuario/seguirJogo', 'UsersController@seguirJogo');
+    Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
+    Route::post('usuario/removeSeguidorJogo', 'UsersController@removeSeguidorJogo');
+    Route::post('usuario/segueJogo', 'UsersController@segueJogo');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 

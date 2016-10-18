@@ -138,4 +138,10 @@ class JogosController extends Controller {
 		return Response::json();
 	}
 
+	public function getCampeonatosAbertos($idJogo) {
+		$campeonatosDoJogo = Campeonato::where("jogos_id", "=", $idJogo)->get();
+
+		return Response::json($campeonatosDoJogo);
+	}
+
 }

@@ -62,6 +62,10 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
 
         getTiposDeCampeonato: function (id) {
             return $http.get('api/tiposDeCampeonatoDoJogo/' + id);
+        },
+
+        getCampeonatosAbertos: function (id) {
+            return $http.get('api/campeonatosAbertosDoJogo/' + id);
         }
     }
 }]);

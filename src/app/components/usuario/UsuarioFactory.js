@@ -130,6 +130,51 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        seguirJogo: function (idSeguidor, jogo) {
+            dados = {
+                idJogo: jogo.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/adicionaSeguidorJogo',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        deixarDeSeguirJogo: function (idSeguidor, jogo) {
+            dados = {
+                idJogo: jogo.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/removeSeguidorJogo',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        segueJogo: function (idSeguidor, jogo) {
+            dados = {
+                idJogo: jogo.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/segueJogo',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);
