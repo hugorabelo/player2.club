@@ -35,7 +35,7 @@
                 acesso: 'registrado'
             })
             .state('campeonato', {
-                url: "/campeonato",
+                url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",
                 controller: 'CampeonatoController as vmCampeonato',
                 data: {

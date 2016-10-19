@@ -1,26 +1,16 @@
 <md-card>
-    <md-toolbar class="md-toolbar-tools">
-        <h2><span translate>messages.tabelaCampeonato_list</span> - {{vmCampeonatoFront.campeonato.descricao}}</h2>
-        <md-input-container>
-            <md-select ng-model="vmCampeonatoFront.campeonatoSelecionado" ng-change="vmCampeonatoFront.carregaInformacoesCampeonato(vmCampeonatoFront.campeonatoSelecionado)">
-                <md-option ng-repeat="campeonato in vmCampeonatoFront.campeonatos" value="{{campeonato.id}}">
-                    {{campeonato.descricao}}
-                </md-option>
-            </md-select>
-        </md-input-container>
-    </md-toolbar>
     <md-card-content>
         <nav class="tabela-navegacao tabela-navegacao-fases">
-            <a ng-click="vmCampeonatoFront.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonatoFront.indice_fase == 0}">
+            <a ng-click="vmCampeonato.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonato.indice_fase == 0}">
                 <i class="fa fa-chevron-left pull-left"></i>
             </a>
-            {{vmCampeonatoFront.fase_atual.descricao | translate}}
-            <a ng-click="vmCampeonatoFront.exibeProximaFase()" ng-class="{'disabled': vmCampeonatoFront.indice_fase == vmCampeonatoFront.campeonatoFases.length-1}">
+            {{vmCampeonato.fase_atual.descricao | translate}}
+            <a ng-click="vmCampeonato.exibeProximaFase()" ng-class="{'disabled': vmCampeonato.indice_fase == vmCampeonato.campeonatoFases.length-1}">
                 <i class="fa fa-chevron-right pull-right"></i>
             </a>
         </nav>
 
-        <div class="row" ng-repeat="grupo in vmCampeonatoFront.gruposDaFase track by $index" ng-hide="vmCampeonatoFront.fase_atual.matamata">
+        <div class="row" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-hide="vmCampeonato.fase_atual.matamata">
             <div class="col-sm-8">
                 <div class="ibox">
                     <div class="ibox-title">
@@ -65,15 +55,15 @@
                     </div>
                     <div class="ibox-content">
                         <nav class="tabela-navegacao tabela-navegacao-rodadas">
-                            <a ng-click="vmCampeonatoFront.exibeRodadaAnterior($index, grupo.id)" ng-class="{'disabled': vmCampeonatoFront.rodada_atual[$index] == 1}">
+                            <a ng-click="vmCampeonato.exibeRodadaAnterior($index, grupo.id)" ng-class="{'disabled': vmCampeonato.rodada_atual[$index] == 1}">
                                 <i class="fa fa-chevron-left pull-left"></i>
                             </a>
-                            <span ng-bind="vmCampeonatoFront.rodada_atual[$index]"></span>ª Rodada
-                            <a ng-click="vmCampeonatoFront.exibeProximaRodada($index, grupo.id)" ng-class="{'disabled': vmCampeonatoFront.rodada_atual[$index] == vmCampeonatoFront.rodada_maxima}">
+                            <span ng-bind="vmCampeonato.rodada_atual[$index]"></span>ª Rodada
+                            <a ng-click="vmCampeonato.exibeProximaRodada($index, grupo.id)" ng-class="{'disabled': vmCampeonato.rodada_atual[$index] == vmCampeonato.rodada_maxima}">
                                 <i class="fa fa-chevron-right pull-right"></i>
                             </a>
                         </nav>
-                        <div class="lista-de-jogos-item" ng-repeat="partida in vmCampeonatoFront.partidasDaRodada[$index]">
+                        <div class="lista-de-jogos-item" ng-repeat="partida in vmCampeonato.partidasDaRodada[$index]">
                             <div class="placar-jogo-equipes">
                                 <div class="placar-jogo-equipes-mandante col-xs-4">
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
@@ -97,7 +87,7 @@
             </div>
         </div>
         <!--        MATA-MATA-->
-        <div class="row grupo-matamata" ng-repeat="grupo in vmCampeonatoFront.gruposDaFase track by $index" ng-show="vmCampeonatoFront.fase_atual.matamata">
+        <div class="row grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-show="vmCampeonato.fase_atual.matamata">
             <div class="col-sm-12">
                 <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
                 <div class="lista-de-jogos-item row" ng-repeat="usuario in grupo.usuarios">

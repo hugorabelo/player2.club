@@ -35,7 +35,10 @@ class CampeonatosController extends Controller
 
     public function show($id)
     {
-        return Response::json(Campeonato::find($id));
+        $campeonato = Campeonato::find($id);
+        $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
+        $campeonato->jogo = Jogo::find($campeonato->jogos_id);
+        return Response::json($campeonato);
     }
 
     public function create()
@@ -148,6 +151,12 @@ class CampeonatosController extends Controller
         $fase_inicial = $campeonato->faseInicial();
         foreach ($campeonato->usuariosInscritos() as $usuario) {
         }
+    }
+
+    public function getParticipantes($id) {
+        $campeonato = Campeonato::find($id);
+        $participantes = $campeonato->usuariosInscritos();
+        return Response::json($participantes);
     }
 
 }

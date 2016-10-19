@@ -162,12 +162,13 @@
         "campeonato_create": "Create Championship",
         "campeonato_edit": "Edit Championship",
         "campeonato_empty": "There are no championship in database",
-        "campeonato_detalhes": "Championship Details",
-        "exibir_regras_campeonato": "Show Championship Rules",
+        "campeonato_detalhes": "Details",
+        "exibir_regras_campeonato": "Rules",
         "campeonatosInscricoesAbertas": "Openend Championships",
         "campeonatosAIniciar": "Championships Waiting Start",
         "campeonatosEmAndamento": "Championships Underway",
         "campeonatosEncerrados": "Finished Championships",
+        "campeonatosParticipantes": "Participants",
 
         "campeonatoAdmin_list": "Championship Admin",
         "campeonatoAdmin_add": "Add Championship Admin",
@@ -239,6 +240,7 @@
         "compartilhar_post": "Share Post",
         "seguir": "Follow",
         "seguindo": "Following",
-        "seguidores": "Followers"
+        "seguidores": "Followers",
+        "mensagem": "Message"
     }
 }

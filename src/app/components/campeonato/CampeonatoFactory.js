@@ -8,6 +8,10 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             return $http.get('api/campeonato/' + id);
         },
 
+        getParticipantes: function (id) {
+            return $http.get('api/campeonato/participantes/' + id);
+        },
+
         create: function () {
             return $http.get('api/campeonato/create');
         },

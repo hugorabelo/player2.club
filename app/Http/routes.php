@@ -29,6 +29,7 @@ Route::get('/', function()
 //Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
 Route::group(array('prefix'=>'api'), function() {
 
+    Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');

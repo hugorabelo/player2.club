@@ -53,8 +53,8 @@
                         <md-subheader class="md-no-sticky ">{{'messages.seguidores' | translate}}</md-subheader>
                         <md-list-item>
                             <div class="m-xs">
-                                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
-                                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
+                                <a ui-sref="profile({idUsuario: seguidor.id})" ng-repeat="seguidor in vmJogo.jogo.seguidores">
+                                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}}" alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
                                     <md-tooltip md-direction="top ">
                                         {{seguidor.nome}}
                                     </md-tooltip>
