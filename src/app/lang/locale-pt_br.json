@@ -164,6 +164,11 @@
         "campeonato_empty": "Não existe nenhum Campeonato cadastrado",
         "campeonato_detalhes": "Detalhes do Campeonato",
         "exibir_regras_campeonato": "Exibir Regras do Campeonato",
+        "campeonatosInscricoesAbertas": "Campeonatos Abertos",
+        "campeonatosAIniciar": "Campeonatos Aguardando Início",
+        "campeonatosEmAndamento": "Campeonatos em Andamento",
+        "campeonatosEncerrados": "Campeonatos Encerrados",
+
 
         "campeonatoAdmin_list": "Administradores do Campeonato",
         "campeonatoAdmin_add": "Adicionar Administrador do Campeonato",

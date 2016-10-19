@@ -26,25 +26,25 @@
             <md-content layout-margin>
                 <md-list layout-margin>
                     <div md-whiteframe="1">
-                        <md-subheader class="md-no-sticky">{{'messages.campeonato_list' | translate}}campeonatosInscricoesAbertas</md-subheader>
+                        <md-subheader class="md-no-sticky">{{'messages.campeonatosInscricoesAbertas' | translate}}</md-subheader>
                         <md-list-item ng-repeat="campeonato in vmJogo.campeonatosInscricoesAbertas" ng-click="vmJogo.carregaCampeonato(campeonato.id)">
                             {{campeonato.descricao}}
                         </md-list-item>
                     </div>
                     <div md-whiteframe="1">
-                        <md-subheader class="md-no-sticky">{{'messages.campeonato_list' | translate}}campeonatosAIniciar</md-subheader>
+                        <md-subheader class="md-no-sticky">{{'messages.campeonatosAIniciar' | translate}}</md-subheader>
                         <md-list-item ng-repeat="campeonato in vmJogo.campeonatosAIniciar" ng-click="vmJogo.carregaCampeonato(campeonato.id)">
                             {{campeonato.descricao}}
                         </md-list-item>
                     </div>
                     <div md-whiteframe="1">
-                        <md-subheader class="md-no-sticky">{{'messages.campeonato_list' | translate}}campeonatosEmAndamento</md-subheader>
+                        <md-subheader class="md-no-sticky">{{'messages.campeonatosEmAndamento' | translate}}</md-subheader>
                         <md-list-item ng-repeat="campeonato in vmJogo.campeonatosEmAndamento" ng-click="vmJogo.carregaCampeonato(campeonato.id)">
                             {{campeonato.descricao}}
                         </md-list-item>
                     </div>
                     <div md-whiteframe="1">
-                        <md-subheader class="md-no-sticky">{{'messages.campeonato_list' | translate}}campeonatosEncerrados</md-subheader>
+                        <md-subheader class="md-no-sticky">{{'messages.campeonatosEncerrados' | translate}}</md-subheader>
                         <md-list-item ng-repeat="campeonato in vmJogo.campeonatosEncerrados" ng-click="vmJogo.carregaCampeonato(campeonato.id)">
                             {{campeonato.descricao}}
                         </md-list-item>

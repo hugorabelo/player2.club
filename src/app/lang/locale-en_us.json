@@ -164,6 +164,10 @@
         "campeonato_empty": "There are no championship in database",
         "campeonato_detalhes": "Championship Details",
         "exibir_regras_campeonato": "Show Championship Rules",
+        "campeonatosInscricoesAbertas": "Openend Championships",
+        "campeonatosAIniciar": "Championships Waiting Start",
+        "campeonatosEmAndamento": "Championships Underway",
+        "campeonatosEncerrados": "Finished Championships",
 
         "campeonatoAdmin_list": "Championship Admin",
         "campeonatoAdmin_add": "Add Championship Admin",
