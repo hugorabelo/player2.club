@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 class JogosController extends Controller {
 
 	/**
@@ -138,10 +140,31 @@ class JogosController extends Controller {
 		return Response::json();
 	}
 
-	public function getCampeonatosAbertos($idJogo) {
+	public function getCampeonatos($idJogo) {
+		//TODO filtrar por campeonatos abertos e em andamento
+		$campeonatosInscricoesAbertas = app()->make(Collection::class);
+		$campeonatosAIniciar = app()->make(Collection::class);
+		$campeonatosEmAndamento = app()->make(Collection::class);
+		$campeonatosEncerrados = app()->make(Collection::class);
 		$campeonatosDoJogo = Campeonato::where("jogos_id", "=", $idJogo)->get();
+		foreach ($campeonatosDoJogo as $campeonato) {
+			switch ($campeonato->status()) {
+				case 1:
+					$campeonatosInscricoesAbertas->add($campeonato);
+					break;
+				case 2:
+					$campeonatosAIniciar->add($campeonato);
+					break;
+				case 3:
+					$campeonatosEmAndamento->add($campeonato);
+					break;
+				case 4:
+					$campeonatosEncerrados->add($campeonato);
+					break;
+			}
+		}
 
-		return Response::json($campeonatosDoJogo);
+		return Response::json(compact('campeonatosInscricoesAbertas', 'campeonatosAIniciar', 'campeonatosEmAndamento', 'campeonatosEncerrados'));
 	}
 
 }

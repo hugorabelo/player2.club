@@ -466,4 +466,29 @@ class Campeonato extends Eloquent {
         }
         return null;
     }
+
+    public function status() {
+        /*
+         * 1. Inscrições abertas
+         * 2. A iniciar
+         * 3. Em andamento
+         * 4. Encerrado
+         */
+        if($this->usuariosInscritos()->count() < $this->maximoUsuarios()) {
+            return 1;
+        }
+        if($this->faseFinal()->encerrada) {
+            return 4;
+        }
+        $fase = $this->faseInicial();
+        if($fase->aberta) {
+            return 3;
+        }
+        while($fase = $fase->proximaFase()) {
+            if($fase->aberta) {
+                return 3;
+            }
+        }
+        return 2;
+    }
 }

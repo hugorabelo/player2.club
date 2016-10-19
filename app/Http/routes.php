@@ -39,7 +39,7 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('plataformas/{id}', 'PlataformasController@update');
 
     Route::get('tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
-    Route::get('campeonatosAbertosDoJogo/{id}', 'JogosController@getCampeonatosAbertos');
+    Route::get('campeonatosDoJogo/{id}', 'JogosController@getCampeonatos');
     Route::resource('jogos', 'JogosController');
     Route::post('jogos/{id}', 'JogosController@update');
 

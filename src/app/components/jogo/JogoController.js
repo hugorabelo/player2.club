@@ -52,7 +52,7 @@
                 .success(function (data) {
                     vm.jogo = data;
                     vm.segue();
-                    vm.getCampeonatosAbertos(id);
+                    vm.getCampeonatos(id);
                     //                            vm.getJogos(id);
                     //                    vm.getPlataformasDoUsuario();
                     //                    vm.getPlataformas();
@@ -82,10 +82,13 @@
         //                })
         //        };
 
-        vm.getCampeonatosAbertos = function (idJogo) {
-            Jogo.getCampeonatosAbertos(idJogo)
+        vm.getCampeonatos = function (idJogo) {
+            Jogo.getCampeonatos(idJogo)
                 .success(function (data) {
-                    vm.campeonatosDoJogo = data;
+                    vm.campeonatosInscricoesAbertas = data.campeonatosInscricoesAbertas;
+                    vm.campeonatosAIniciar = data.campeonatosAIniciar;
+                    vm.campeonatosEmAndamento = data.campeonatosEmAndamento;
+                    vm.campeonatosEncerrados = data.campeonatosEncerrados;
                 })
         };
 
