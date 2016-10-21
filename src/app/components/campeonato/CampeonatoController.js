@@ -130,6 +130,21 @@
                 });
         };
 
+        vm.querySearch = function (query) {
+            var results = query ? vm.campeonato.participantes.filter(vm.createFilterFor(query)) : vm.campeonato.participantes,
+                deferred;
+            return results;
+        };
+
+        vm.createFilterFor = function (query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(participante) {
+                return (participante.nome.indexOf(lowercaseQuery) >= 0);
+            };
+
+        };
+
         //        vm.create = function (ev) {
         //            Campeonato.create()
         //                .success(function (data) {
