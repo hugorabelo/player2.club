@@ -49,12 +49,14 @@
             Auth.logout();
         };
 
-        vm.mudaUsuarioLogado = function () {
-            Usuario.show(vm.usuarioLogado.id)
-                .success(function (data) {
-                    $rootScope.usuarioLogado = data;
-                    $location.path('/');
-                });
+        vm.mudaUsuarioLogado = function (ev) {
+            if (ev.keyCode === 13) {
+                Usuario.show(vm.usuarioLogado.id)
+                    .success(function (data) {
+                        $rootScope.usuarioLogado = data;
+                        $location.path('/');
+                    });
+            }
         };
 
     }]);

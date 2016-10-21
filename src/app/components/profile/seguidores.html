@@ -1,0 +1,24 @@
+<div class="col-md-3" ng-repeat="participante in vmCampeonato.campeonato.participantes">
+    <div class="contact-box center-version">
+
+        <a ui-sref="profile({idUsuario: participante.id})">
+
+            <img alt="image" class="img-circle" src="uploads/usuarios/{{participante.imagem_perfil}}">
+
+            <h3 class="m-b-xs"><strong>{{participante.nome}}</strong></h3>
+
+            <div class="font-bold">{{participante.localizacao}}</div>
+            <address class="m-t-md">
+                                {{participante.descricao}}
+                            </address>
+
+        </a>
+        <div class="contact-box-footer">
+            <div class="m-t-xs btn-group">
+                <a class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> {{'messages.mensagem' | translate}}</a>
+                <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> {{'messages.seguir' | translate}}</a>
+            </div>
+        </div>
+
+    </div>
+</div>

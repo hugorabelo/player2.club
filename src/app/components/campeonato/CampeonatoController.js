@@ -145,6 +145,8 @@
 
         };
 
+        vm.participanteDestaque = {};
+
         //        vm.create = function (ev) {
         //            Campeonato.create()
         //                .success(function (data) {

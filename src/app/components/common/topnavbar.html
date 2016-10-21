@@ -1,67 +1,68 @@
 <md-toolbar ng-controller="TopNavController as vmTopNav">
-    <div class="md-toolbar-tools">
-        <md-input-container>
-            <input type="number" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado.id">
-        </md-input-container>
-        <md-button class="md-raised md-accent" ng-click="vmTopNav.mudaUsuarioLogado()">OK</md-button>
-        <span flex></span>
-        <a ui-sref="home">
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <a ui-sref="home" flex="20">
             <img height="50" alt="" src="http://localhost/player2/public/assets/images/player2.png" data-pin-nopin="true">
         </a>
-        <span flex></span>
-        <md-menu>
-            <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-            </md-button>
-            <md-menu-content>
-                <md-menu-item>
-                    <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="cadastroJogo">{{'menus.jogos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="plataforma">{{'menus.plataformas' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="campeonatoTipo">{{'menus.campeonatoTipos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-divider></md-menu-divider>
-                <md-menu-item>
-                    <md-button ui-sref="usuario">{{'menus.usuarios' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="usuarioTipo">{{'menus.usuarioTipos' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="menu">{{'menus.menus' | translate}}</md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ui-sref="permissao">{{'menus.permissoes' | translate}}</md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
-        <md-menu>
-            <md-button ng-click="vmTopNav.openMenu($mdOpenMenu, $event)">
-                <i class="fa fa-fw fa-language"></i>{{'menus.language' | translate}} <i class="caret"></i>
-            </md-button>
-            <md-menu-content width="4">
-                <md-menu-item>
-                    <md-button ng-click="vmTopNav.mudaIdioma('pt_br')">
-                        <div layout="row" flex>
-                            <i class="flag-icon flag-icon-br"></i> {{'menus.lang_br' | translate}}
-                        </div>
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="vmTopNav.mudaIdioma('en_us')">
-                        <div layout="row" flex>
-                            <i class="flag-icon flag-icon-us"></i> {{'menus.lang_en' | translate}}
-                        </div>
-                    </md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
+        <!--        <span flex></span>-->
+        <div flex="60">
+            <input type="number" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado.id" ng-keypress="vmTopNav.mudaUsuarioLogado($event)">
+        </div>
+        <!--        <span flex></span>-->
+        <div>
+            <md-menu>
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="cadastroJogo">{{'menus.jogos' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="plataforma">{{'menus.plataformas' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="campeonatoTipo">{{'menus.campeonatoTipos' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-divider></md-menu-divider>
+                    <md-menu-item>
+                        <md-button ui-sref="usuario">{{'menus.usuarios' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="usuarioTipo">{{'menus.usuarioTipos' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="menu">{{'menus.menus' | translate}}</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="permissao">{{'menus.permissoes' | translate}}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-menu>
+                <md-button ng-click="vmTopNav.openMenu($mdOpenMenu, $event)">
+                    <i class="fa fa-fw fa-language"></i>{{'menus.language' | translate}} <i class="caret"></i>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="vmTopNav.mudaIdioma('pt_br')">
+                            <div layout="row" flex>
+                                <i class="flag-icon flag-icon-br"></i> {{'menus.lang_br' | translate}}
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vmTopNav.mudaIdioma('en_us')">
+                            <div layout="row" flex>
+                                <i class="flag-icon flag-icon-us"></i> {{'menus.lang_en' | translate}}
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
     </div>
 </md-toolbar>
 
