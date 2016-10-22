@@ -1,53 +1,82 @@
-<div flex ng-init="vmCampeonato.carregaCampeonato()">
-    <div flex layout="row" layout-wrap class="header-profile" layout-align="start center">
+<div flex layout="row" layout-wrap class="header-profile" layout-align="start center" ng-show="false">
 
-        <div class="profile-image">
-            <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle circle-border" alt="profile">
-        </div>
-        <div class="profile-info">
-            <h2 class="no-margins">
+    <div class="profile-image">
+        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle circle-border" alt="profile">
+    </div>
+    <div class="profile-info">
+        <h2 class="no-margins">
                {{vmCampeonato.campeonato.descricao}}
             </h2>
-            <h4>
+        <h4>
                 {{vmCampeonato.campeonato.plataforma.descricao}}
             </h4>
-            <h4>
+        <h4>
                 {{vmCampeonato.campeonato.jogo.descricao}}
             </h4>
+    </div>
+    <span flex></span>
+    <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmCampeonato.seguir()" ng-hide="vmCampeonato.campeonato.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+    </md-button>
+    <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmCampeonato.deixarDeSeguir()" ng-show="vmCampeonato.campeonato.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+
+</div>
+
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
+    <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
+    <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
+    <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
+</md-nav-bar>
+
+<div flex layout="row">
+    <div flex="80" ng-init="vmCampeonato.carregaCampeonato()">
+        <div ng-show="currentNavItem == 'tabela'">
+            <div ng-include="'app/components/campeonato/tabela.html'"></div>
         </div>
-        <span flex></span>
-        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmCampeonato.seguir()" ng-hide="vmCampeonato.campeonato.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
-        </md-button>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmCampeonato.deixarDeSeguir()" ng-show="vmCampeonato.campeonato.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+
+        <div flex layout="row" ng-show="currentNavItem == 'regras'">
+            <md-card flex>
+                <md-card-content>
+                    <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
+                </md-card-content>
+            </md-card>
+        </div>
+
+        <div ng-show="currentNavItem == 'participantes'">
+            <div flex layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
+        </div>
+
+        <div flex layout="row" ng-show="currentNavItem == 'detalhes'">
+            <div ng-include="'app/components/campeonato/detalhes.html'"></div>
+        </div>
+
 
     </div>
 
-    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-        <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
-        <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
-        <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
-        <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
-    </md-nav-bar>
-    <div ng-show="currentNavItem == 'tabela'">
-        <div ng-include="'app/components/campeonato/tabela.html'"></div>
-    </div>
-
-    <div flex layout="row" ng-show="currentNavItem == 'regras'">
-        <md-card flex>
+    <div flex="20">
+        <md-card>
+            <md-toolbar class="md-toolbar-tools md-accent">
+                {{vmCampeonato.campeonato.descricao}}
+            </md-toolbar>
             <md-card-content>
-                <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
+                <div class="profile-image-lg">
+                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle" alt="profile">
+                </div>
+                <h2 class="text-center m-t" ng-show="false">
+                    {{vmCampeonato.campeonato.descricao}}
+                </h2>
+                <h4 class="text-center m-t">
+                    {{vmCampeonato.campeonato.plataforma.descricao}}
+                </h4>
+                <h4 class="text-center">
+                    {{vmCampeonato.campeonato.jogo.descricao}}
+                </h4>
+                <h4 class="text-center">
+                {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
+                </h4>
             </md-card-content>
         </md-card>
     </div>
-
-    <div ng-show="currentNavItem == 'participantes'">
-        <div flex layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
-    </div>
-
-    <div flex layout="row" ng-show="currentNavItem == 'detalhes'">
-        <div ng-include="'app/components/campeonato/detalhes.html'"></div>
-    </div>
-
 
 </div>
 

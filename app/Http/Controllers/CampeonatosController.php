@@ -38,6 +38,8 @@ class CampeonatosController extends Controller
         $campeonato = Campeonato::find($id);
         $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
         $campeonato->jogo = Jogo::find($campeonato->jogos_id);
+        $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
         return Response::json($campeonato);
     }
 

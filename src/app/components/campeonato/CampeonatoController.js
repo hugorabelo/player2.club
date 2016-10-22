@@ -147,6 +147,13 @@
 
         vm.participanteDestaque = {};
 
+        vm.exibeData = function (data) {
+            var dataExibida = new Date(data);
+            return $filter('date')(dataExibida, 'dd/MM/yyyy');
+        };
+
+        vm.exibe2 = false;
+
         //        vm.create = function (ev) {
         //            Campeonato.create()
         //                .success(function (data) {
