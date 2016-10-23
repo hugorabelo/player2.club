@@ -168,6 +168,21 @@
                 });
         };
 
+        vm.salvaAdministrador = function () {
+            console.log(vm.novoAdministrador);
+            //                    $rootScope.loading = true;
+            //                    Campeonato.adicionaAdministrador(vm.idCampeonatoAtual, vm.novoAdministrador)
+            //                        .success(function (data) {
+            //                            vm.carregaAdministradores(vm.idCampeonatoAtual);
+            //                            vm.carregaUsuarios(vm.idCampeonatoAtual);
+            //                            $rootScope.loading = false;
+            //                        }).error(function (data, status) {
+            //                            vm.message = data.errors;
+            //                            vm.status = status;
+            //                            $rootScope.loading = false;
+            //                        });
+        };
+
 
         //        vm.create = function (ev) {
         //            Campeonato.create()

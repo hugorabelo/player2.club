@@ -196,7 +196,7 @@ angular.module('player2')
             .accentPalette('adriftindreams', {
                 'default': '500'
             })
-            .warnPalette('cheerypink');
+            .warnPalette('grandmaspillow');
 
         //        $mdThemingProvider.alwaysWatchTheme(true);
         $mdThemingProvider.setDefaultTheme('player2');
