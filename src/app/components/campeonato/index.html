@@ -15,13 +15,13 @@
             </h4>
     </div>
     <span flex></span>
-    <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmCampeonato.seguir()" ng-hide="vmCampeonato.campeonato.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+    <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmCampeonato.seguir()" ng-hide="vmCampeonato.campeonato.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
     </md-button>
-    <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmCampeonato.deixarDeSeguir()" ng-show="vmCampeonato.campeonato.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+    <md-button id="botao-seguir" class="md-raised" ng-click="vmCampeonato.deixarDeSeguir()" ng-show="vmCampeonato.campeonato.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
 
 </div>
 
-<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" md-colors="{color: 'primary', border-color: 'primary'}">
     <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
@@ -55,7 +55,7 @@
 
     <div flex="20">
         <md-card>
-            <md-toolbar class="md-toolbar-tools md-accent">
+            <md-toolbar class="md-toolbar-tools">
                 {{vmCampeonato.campeonato.descricao}}
             </md-toolbar>
             <md-card-content>

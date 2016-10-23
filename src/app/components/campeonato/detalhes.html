@@ -5,7 +5,7 @@
         </md-card-header-text>
     </md-card-header>
     <md-card-content>
-        <md-tabs class="md-accent" ng-show="true">
+        <md-tabs class="md-primary">
             <md-tab ng-repeat="fase in vmCampeonato.campeonatoFases">
                 <md-tab-label>{{ fase.descricao | translate }}</md-tab-label>
                 <md-tab-body>
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                             <md-card-actions layout="row" layout-align="end center">
-                                <md-button class="md-raised md-accent" ng-click="iniciaFase()" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
+                                <md-button class="md-raised md-primary" ng-click="iniciaFase()" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
                                 <md-button class="md-raised md-warn" ng-click="encerraFase()" ng-show="fase.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></md-button>
                             </md-card-actions>
                         </form>
@@ -59,7 +59,7 @@
 
             </md-input-container>
             <div class=" m-t">
-                <md-button class="md-icon-button md-accent" ng-click="vmCampeonato.salvaAdministrador()"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                <md-button class="md-icon-button" ng-click="vmCampeonato.salvaAdministrador()"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                 </md-button>
             </div>
         </div>
@@ -67,7 +67,7 @@
         <md-list-item ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores | orderBy:'usuario'" class="noright">
             <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="md-avatar" />
             <p>{{ administrador.usuario.nome }}</p>
-            <md-button class="md-icon-button md-accent" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador(administrador.id)">
+            <md-button class="md-icon-button" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador(administrador.id)">
                 <i class="fa fa-trash-o fa-fw"></i>
                 <md-tooltip md-direction="top ">
                     {{'messages.campeonatoAdmin_delete' | translate}}

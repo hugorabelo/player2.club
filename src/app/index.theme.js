@@ -192,8 +192,8 @@ angular.module('player2')
 
 
         $mdThemingProvider.theme('player2')
-            .primaryPalette('applechic')
-            .accentPalette('adriftindreams', {
+            .primaryPalette('adriftindreams')
+            .accentPalette('applechic', {
                 'default': '500'
             })
             .warnPalette('grandmaspillow');

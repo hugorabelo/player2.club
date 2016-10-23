@@ -1,6 +1,6 @@
 <md-card flex>
     <md-card-content>
-        <md-input-container class="md-block md-accent">
+        <md-input-container class="md-block">
             <label>{{'messages.filtro' | translate}}</label>
             <input ng-model="vmCampeonato.searchText">
         </md-input-container>
@@ -38,7 +38,7 @@
                     <p>
                         {{vmCampeonato.participanteDestaque.descricao}}
                     </p>
-                    <md-button ui-sref="profile({idUsuario: vmCampeonato.participanteDestaque.id})" class="md-raised md-accent"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
+                    <md-button ui-sref="profile({idUsuario: vmCampeonato.participanteDestaque.id})" class="md-raised"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
                 </div>
             </div>
 
