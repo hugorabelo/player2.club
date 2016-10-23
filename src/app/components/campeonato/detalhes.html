@@ -1,50 +1,43 @@
-<md-card md-is-locked-open="true" class="md-whiteframe-1dp" hide-xs>
-    <md-content layout-padding>
-        <div class="panel panel-primary">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title" translate>
-                        messages.campeonatoAdmin_list
-                    </h4>
-            </div>
-            <div class="panel-body">
-                <div class="row" ng-show="messages">
-                    <div class="col-md-10 col-md-offset-2">
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li class="error" ng-repeat="message in messages">
-                                    {{ message }}
-                                </li>
-                            </ul>
+<md-card flex="60">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-subhead">{{'messages.operacao_list' | translate}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <md-tabs class="md-accent">
+            <md-tab ng-repeat="fase in vmCampeonato.campeonatoFases">
+                <md-tab-label>{{ fase.descricao | translate }}</md-tab-label>
+                <md-tab-body>
+                    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="iniciaFase()" ng-hide="campeonatoFaseSelecionada.encerrada">
+                        <!--                        <div class="form-group" ng-hide="campeonatoFaseSelecionada.aberta">-->
+                        <div class="form-group">
+                            <label for="data_fim" class="col-md-5 control-label" translate>fields.data_fim</label>
+                            <div class="col-md-7">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" ng-model="dadosFase.data_fim" datepicker-popup="dd/MM/yyyy" is-open="openedFim" datepicker-options="dateOptions" ng-required="true" close-text="Close">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" ng-click="openCalendar($event, 'fim')"></i></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <!--                        <div class="form-group" ng-hide="campeonatoFaseSelecionada.aberta || !campeonatoFaseSelecionada.matamata">-->
+                        <div class="form-group">
+                            <label for="tipo_sorteio_matamata" class="col-md-5 control-label" translate>fields.tipo_sorteio_matamata</label>
+                            <div class="col-md-7">
+                                <select id="tipo_sorteio_matamata" class="form-control" ng-model="dadosFase.tipo_sorteio_matamata" required>
+                                    <option value="aleatorio" translate>fields.sorteio_aleatorio</option>
+                                    <option value="geral" translate ng-hide="campeonatoFaseSelecionada.inicial">fields.sorteio_geral</option>
+                                    <option value="grupo" translate ng-hide="campeonatoFaseSelecionada.inicial">fields.sorteio_grupo</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <div class="input-group">
-                    <select id="novoAdministrador" class="form-control" ng-model="vmCampeonato.novoAdministrador" ng-options="usuario.users_id as usuario.usuario for usuario in vmCampeonato.campeonatoUsuarios" required>
-                    </select>
-                    <span class="input-group-btn">
-                            <button type="button" class="btn btn-success" ng-click="vmCampeonato.salvaAdministrador()">
-                                <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    </span>
-
-                </div>
-            </div>
-
-            <ul class="list-group" ng-repeat="administrador in vmCampeonato.campeonatoAdministradores | orderBy:'usuario'">
-                <div class="input-group">
-                    <li class="list-group-item form-control">{{ administrador.usuario }}</li>
-                    <span class="input-group-btn">
-                            <button type="button" class="btn btn-danger" ng-click="vmCampeonato.excluiAdministrador(administrador.id)"
-                                    tooltip="{{'messages.campeonatoAdmin_delete' | translate}}">
-                                <i class="fa fa-trash-o fa-fw"></i>
-                            </button>
-                        </span>
-                </div>
-            </ul>
-            <br clear="all" />
-
-        </div>
+                        <button type="submit" class="btn btn-primary" ng-hide="campeonatoFaseSelecionada.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></button>
+                        <button type="button" class="btn btn-primary" ng-click="encerraFase()" ng-show="campeonatoFaseSelecionada.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></button>
+                    </form>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
 
         <div class="panel panel-primary">
             <div class="panel-heading" role="tab" id="headingOne">
@@ -91,5 +84,34 @@
             </ul>
             <br clear="all" />
         </div>
-    </md-content>
+    </md-card-content>
+</md-card>
+<md-card flex="40">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-subhead">{{'messages.campeonatoAdmin_list' | translate}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <div class="input-group m-b">
+            <select id="novoAdministrador" class="form-control" ng-model="vmCampeonato.novoAdministrador" ng-options="usuario.users_id as usuario.usuario for usuario in vmCampeonato.campeonatoUsuarios" required>
+            </select>
+            <span class="input-group-btn">
+                            <button type="button" class="btn btn-success" ng-click="vmCampeonato.salvaAdministrador()">
+                                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            </span>
+
+        </div>
+        <md-list-item ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores | orderBy:'usuario'" class="noright">
+            <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="md-avatar" />
+            <p>{{ administrador.usuario.nome }}</p>
+            <md-button class="md-icon-button md-accent" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador(administrador.id)">
+                <i class="fa fa-trash-o fa-fw"></i>
+                <md-tooltip md-direction="top ">
+                    {{'messages.campeonatoAdmin_delete' | translate}}
+                </md-tooltip>
+            </md-button>
+        </md-list-item>
+    </md-card-content>
 </md-card>

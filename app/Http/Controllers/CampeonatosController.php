@@ -161,4 +161,10 @@ class CampeonatosController extends Controller
         return Response::json($participantes);
     }
 
+    public function getUltimasPartidasUsuario($idUsuario) {
+        $usuario = User::find($idUsuario);
+        $partidas = $usuario->partidas()->take(6);
+        return Response::json($partidas);
+    }
+
 }

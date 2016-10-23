@@ -190,7 +190,7 @@
 
         "pontuacaoRegra_list": "Regras de Pontuação",
         "grupo_list": "Grupos",
-        "operacao_list": "Operações",
+        "operacao_list": "Gerenciamento das Fases do Campeonato",
 
         "menu_create": "Criar Menu",
         "menu_edit": "Editar Menu",
@@ -243,6 +243,8 @@
         "seguindo": "Seguindo",
         "seguidores": "Seguidores",
         "mensagem": "Mensagem",
-        "visitar_perfil": "Visitar Perfil"
+        "visitar_perfil": "Visitar Perfil",
+        "filtro": "Filtre os resultados",
+        "ultimos_jogos": "Últimas Partidas"
     }
 }

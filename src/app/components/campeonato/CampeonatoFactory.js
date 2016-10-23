@@ -192,6 +192,11 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getUltimasPartidasDoUsuario: function (idUsuario) {
+            console.log(idUsuario);
+            return $http.get('api/campeonato/ultimasPartidasUsuario/' + idUsuario);
         }
 
     }

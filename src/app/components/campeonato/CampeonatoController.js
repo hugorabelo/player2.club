@@ -55,6 +55,7 @@
                     vm.campeonato = data;
                     vm.carregaFases(id);
                     vm.getParticipantes(id);
+                    vm.carregaAdministradores(id);
                     $rootScope.loading = false;
                 });
         };
@@ -63,6 +64,13 @@
             Campeonato.getParticipantes(id)
                 .success(function (data) {
                     vm.campeonato.participantes = data;
+                });
+        };
+
+        vm.carregaAdministradores = function (id) {
+            Campeonato.getAdministradores(id)
+                .success(function (data) {
+                    vm.campeonato.campeonatoAdministradores = data;
                 });
         };
 
@@ -152,7 +160,14 @@
             return $filter('date')(dataExibida, 'dd/MM/yyyy');
         };
 
-        vm.exibe2 = false;
+        vm.carregaParticipanteDestaque = function (participante) {
+            vm.participanteDestaque = participante;
+            Campeonato.getUltimasPartidasDoUsuario(participante.id)
+                .success(function (data) {
+                    vm.participanteDestaque.ultimos_jogos = data;
+                });
+        };
+
 
         //        vm.create = function (ev) {
         //            Campeonato.create()

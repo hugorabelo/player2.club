@@ -30,6 +30,7 @@ Route::get('/', function()
 Route::group(array('prefix'=>'api'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
+    Route::get('campeonato/ultimasPartidasUsuario/{id}', 'CampeonatosController@getUltimasPartidasUsuario');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');

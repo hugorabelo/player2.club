@@ -242,6 +242,8 @@
         "seguindo": "Following",
         "seguidores": "Followers",
         "mensagem": "Message",
-        "visitar_perfil": "View Profile"
+        "visitar_perfil": "View Profile",
+        "filtro": "Filter Results",
+        "ultimos_jogos": "Last Matches"
     }
 }
