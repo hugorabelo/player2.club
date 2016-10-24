@@ -162,7 +162,7 @@
                 .targetEvent(ev)
                 .ok(vm.textoYes)
                 .cancel(vm.textoNo)
-                .theme('default');
+                .theme('player2');
 
             $mdDialog.show(confirm).then(function () {
                 $rootScope.loading = true;
@@ -188,7 +188,7 @@
                 .targetEvent(ev)
                 .ok(vm.textoYes)
                 .cancel(vm.textoNo)
-                .theme('default');
+                .theme('player2');
 
             $mdDialog.show(confirm).then(function () {
                 $rootScope.loading = true;

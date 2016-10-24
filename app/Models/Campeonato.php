@@ -74,11 +74,11 @@ class Campeonato extends Eloquent {
 		return $nomeClasse::salvarPlacarPartida($partida);
 	}
 
-    public function abreFase($dadosFase) {
+    public function abreFase($dadosFase, $faseAtual, $campeonato) {
         $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
 		$novoCampeonato = new $nomeClasse($this->toArray());
 
-        return $novoCampeonato->iniciaFase($dadosFase);
+        return $novoCampeonato->iniciaFase($dadosFase, $faseAtual, $campeonato);
     }
 
 	public function fechaFase($dadosFase) {
@@ -122,6 +122,7 @@ class Campeonato extends Eloquent {
 	public function ordenarUsuariosPorCriterioDeClassificacao($usuarios) {
 		$criteriosDeClassificacao = $this->criteriosOrdenados();
 
+        /*
 		$makeComparer = function($criteria) {
 			$comparer = function ($first, $second) use ($criteria) {
 				foreach ($criteria as $key => $orderType) {
@@ -136,21 +137,28 @@ class Campeonato extends Eloquent {
 			};
 			return $comparer;
 		};
+        */
 
 		$sort = app()->make(Collection::class);
 		foreach ($criteriosDeClassificacao as $criterio) {
 			$sort->put($criterio->valor, $criterio->ordenacao);
 		}
 		$sort = $sort->toArray();
+        /*
 		$comparer = $makeComparer($sort);
-		$usuarios->sort($comparer);
+		$usuariosRetorno = $usuarios->sort($comparer);
+        $usuariosRetorno->values()->all();
+        */
 
-		$usuarios->values()->all();
+        $comparer = app()->make("collection.multiSort",$sort);
+        $sorted = $usuarios->sort($comparer);
+        $usuariosRetorno = app()->make(Collection::class);
+        $usuariosRetorno = $sorted->values();
 
-		return $usuarios;
+		return $usuariosRetorno;
 	}
 
-    public function iniciaFase($dadosFase)
+    public function iniciaFase($dadosFase, $faseAtual, $campeonato)
     {
         /*
          * Objeto Fase deve conter os seguintes atributos:
@@ -166,9 +174,6 @@ class Campeonato extends Eloquent {
          */
 
         /** 2. Inscrever usuários classificados da fase anterior */
-        $faseAtual = CampeonatoFase::find($dadosFase['id']);
-        $campeonato = Campeonato::find($faseAtual->campeonatos_id);
-
         if ($faseAtual == $campeonato->faseInicial()) {
             $usuariosDaFase = $campeonato->usuariosInscritos();
             foreach ($usuariosDaFase as $posicao => $usuario) {

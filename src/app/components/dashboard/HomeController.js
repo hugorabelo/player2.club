@@ -97,7 +97,7 @@
                 .targetEvent(ev)
                 .ok($scope.textoYes)
                 .cancel($scope.textoNo)
-                .theme('default');
+                .theme('player2');
 
             $mdDialog.show(confirm).then(function () {
                 $rootScope.loading = true;
@@ -163,7 +163,7 @@
                         .targetEvent(ev)
                         .ok($scope.textoInscrever)
                         .cancel($scope.textoNo)
-                        .theme('default');
+                        .theme('player2');
 
                     $mdDialog.show(confirm).then(function () {
                         $rootScope.loading = true;
@@ -186,7 +186,7 @@
                 .targetEvent(ev)
                 .ok($scope.textoYes)
                 .cancel($scope.textoNo)
-                .theme('default');
+                .theme('player2');
 
             $mdDialog.show(confirm).then(function () {
                 var i, id_campeonato_usuario;

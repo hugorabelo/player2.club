@@ -11,28 +11,21 @@
                 <md-tab-body>
                     <md-content class="md-padding">
                         <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-hide="fase.encerrada">
-                            <div class="form-group" ng-hide="fase.aberta">
-                                <label for="data_fim" class="col-md-5 control-label" translate>fields.data_fim</label>
-                                <div class="col-md-7">
-                                    <div class="input-group date">
-                                        <input type="text" class="form-control" ng-model="dadosFase.data_fim" datepicker-popup="dd/MM/yyyy" is-open="openedFim" datepicker-options="dateOptions" ng-required="true" close-text="Close">
-                                        <span class="input-group-addon"><i class="fa fa-calendar" ng-click="openCalendar($event, 'fim')"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" ng-hide="fase.aberta || !fase.matamata">
-                                <label for="tipo_sorteio_matamata" class="col-md-5 control-label" translate>fields.tipo_sorteio_matamata</label>
-                                <div class="col-md-7">
-                                    <select id="tipo_sorteio_matamata" class="form-control" ng-model="dadosFase.tipo_sorteio_matamata" required>
-                                        <option value="aleatorio" translate>fields.sorteio_aleatorio</option>
-                                        <option value="geral" translate ng-hide="fase.inicial">fields.sorteio_geral</option>
-                                        <option value="grupo" translate ng-hide="fase.inicial">fields.sorteio_grupo</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <md-input-container class="md-block" flex ng-hide="fase.aberta">
+                                <label>{{'fields.data_fim' | translate}}</label>
+                                <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim"></md-datepicker>
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block" flex ng-hide="fase.aberta || !fase.matamata">
+                                <label>{{'fields.tipo_sorteio_matamata' | translate}}</label>
+                                <md-select ng-model="fase.dadosFase.tipo_sorteio_matamata">
+                                    <md-option value="aleatorio">{{'fields.sorteio_aleatorio' | translate}}</md-option>
+                                    <md-option value="geral">{{'fields.sorteio_geral' | translate}}</md-option>
+                                    <md-option value="grupo">{{'fields.sorteio_grupo' | translate}}</md-option>
+                                </md-select>
+                            </md-input-container>
                             <md-card-actions layout="row" layout-align="end center">
-                                <md-button class="md-raised md-primary" ng-click="iniciaFase()" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
-                                <md-button class="md-raised md-warn" ng-click="encerraFase()" ng-show="fase.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></md-button>
+                                <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
+                                <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></md-button>
                             </md-card-actions>
                         </form>
                     </md-content>
@@ -59,7 +52,7 @@
 
             </md-input-container>
             <div class=" m-t">
-                <md-button class="md-icon-button" ng-click="vmCampeonato.salvaAdministrador()"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                <md-button class="md-icon-button" ng-click="vmCampeonato.salvaAdministrador()"><i class="fa fa-plus fa-lg" aria-hidden="true"></i>
                 </md-button>
             </div>
         </div>
@@ -67,7 +60,7 @@
         <md-list-item ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores | orderBy:'usuario'" class="noright">
             <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="md-avatar" />
             <p>{{ administrador.usuario.nome }}</p>
-            <md-button class="md-icon-button" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador(administrador.id)">
+            <md-button class="md-icon-button" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador($event, administrador.id)">
                 <i class="fa fa-trash-o fa-fw"></i>
                 <md-tooltip md-direction="top ">
                     {{'messages.campeonatoAdmin_delete' | translate}}

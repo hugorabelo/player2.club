@@ -25,6 +25,7 @@
     <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
+    <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
 </md-nav-bar>
 
@@ -44,6 +45,10 @@
 
         <div ng-show="currentNavItem == 'participantes'">
             <div flex layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
+        </div>
+
+        <div ng-show="currentNavItem == 'minhasPartidas'">
+            <div flex layout="row" ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
         </div>
 
         <div ng-show="currentNavItem == 'detalhes'">

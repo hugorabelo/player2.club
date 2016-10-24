@@ -113,7 +113,7 @@ angular.module('player2').controller('MenuController', ['$scope', '$rootScope', 
             .targetEvent(ev)
             .ok($scope.textoYes)
             .cancel($scope.textoNo)
-            .theme('default');
+            .theme('player2');
 
         $mdDialog.show(confirm).then(function () {
             $rootScope.loading = true;

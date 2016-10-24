@@ -164,7 +164,7 @@ class CampeonatoFasesController extends Controller {
 			}
 		}
 
-		$usuariosDaFase = $campeonato->abreFase($dadosFase);
+		$usuariosDaFase = $campeonato->abreFase($dadosFase, $faseAtual, $campeonato);
 
         return Response::json($usuariosDaFase);
     }

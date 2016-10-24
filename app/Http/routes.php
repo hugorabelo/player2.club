@@ -30,7 +30,7 @@ Route::get('/', function()
 Route::group(array('prefix'=>'api'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
-    Route::get('campeonato/ultimasPartidasUsuario/{id}', 'CampeonatosController@getUltimasPartidasUsuario');
+    Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
@@ -49,7 +49,7 @@ Route::group(array('prefix'=>'api'), function() {
 
     Route::get('campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
-    Route::get('partidasParaUsuario/{id}', 'UsersController@listaPartidas');
+    Route::get('partidasParaUsuario/{id}/{idCampeonato?}', 'UsersController@listaPartidas');
     Route::post('usuario/adicionaSeguidor', 'UsersController@adicionaSeguidor');
     Route::post('usuario/removeSeguidor', 'UsersController@removeSeguidor');
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');

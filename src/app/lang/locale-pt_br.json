@@ -124,6 +124,9 @@
         "yes": "Sim",
         "no": "Não",
         "close": "Fechar",
+        "confirma_iniciar_fase": "Deseja realmente iniciar esta fase?",
+        "explica_iniciar_fase": "Caso a fase anterior esteja aberta, ela será fechada automaticamente. Os jogos serão sorteados e as partidas desta fase já poderão ser disputadas.",
+        "confirma_fechar_fase": "Deseja realmente encerrar esta fase?",
 
         "plataforma_list": "Plataformas",
         "plataforma_add": "Adicionar Plataforma",

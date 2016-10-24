@@ -40,9 +40,16 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     	return UsuarioTipo::find($this->usuario_tipos_id);
     }
 
-	public function partidas() {
+	public function partidas($idCampeonato = null) {
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
-		$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
+		if(isset($idCampeonato)) {
+			//TODO exibir apenas partidas de um determinado campeonato
+			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
+			$grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
+			$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortByDesc('data_placar');
+		} else {
+			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
+		}
 		foreach($partidas as $partida) {
 			$partida->confirmarPlacarAutomaticamente();
 			if($partida->contestada()) {
@@ -56,7 +63,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			}
 		}
 
-		$partidas->values()->all();
+		$partidas = $partidas->values();
 		return $partidas;
 	}
 

@@ -191,12 +191,13 @@ class UsersController extends Controller {
 	 * @param int $idUsuario
 	 * @return Response
 	 */
-	public function listaPartidas($idUsuario) {
+	public function listaPartidas($idUsuario, $idCampeonato = null) {
 		$usuario = $this->user->find($idUsuario);
 		if($usuario == null) {
 			return Response::json();
 		}
-		$partidas = $usuario->partidas();
+		Log::info(($idCampeonato));
+		$partidas = $usuario->partidas($idCampeonato);
 		return Response::json($partidas);
 	}
 

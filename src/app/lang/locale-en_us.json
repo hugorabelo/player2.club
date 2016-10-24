@@ -124,6 +124,9 @@
         "yes": "Yes",
         "no": "No",
         "close": "Close",
+        "confirma_iniciar_fase": "Are you sure to start this phase?",
+        "explica_iniciar_fase": "<vazio>",
+        "confirma_fechar_fase": "Are you sure to end this phase?",
 
         "plataforma_list": "Consoles",
         "plataforma_add": "Add Console",

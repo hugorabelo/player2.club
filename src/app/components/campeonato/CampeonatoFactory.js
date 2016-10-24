@@ -194,9 +194,13 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             });
         },
 
-        getUltimasPartidasDoUsuario: function (idUsuario) {
-            console.log(idUsuario);
-            return $http.get('api/campeonato/ultimasPartidasUsuario/' + idUsuario);
+        getUltimasPartidasDoUsuario: function (idUsuario, idCampeonato = null) {
+            if (idCampeonato != null) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/campeonato/ultimasPartidasUsuario/' + idUsuario + stringCampeonato);
         }
 
     }
