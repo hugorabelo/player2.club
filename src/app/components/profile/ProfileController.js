@@ -267,7 +267,7 @@
         };
 
         vm.carregaCampeonato = function (idCampeonato) {
-            console.log(idCampeonato);
+            //            console.log(idCampeonato);
         };
 
         vm.getJogos = function (id) {

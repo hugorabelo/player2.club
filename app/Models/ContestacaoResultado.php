@@ -8,7 +8,7 @@ class ContestacaoResultado extends Eloquent
 
     public static $rules = array(
         'comentarios' => 'required',
-        'usuario_partidas_id' => 'required',
+        'users_id' => 'required',
         'partidas_id' => 'required'
     );
 

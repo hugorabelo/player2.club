@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'Campeonato', 'UserPlataforma', 'Usuario', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, Campeonato, UserPlataforma, Usuario) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, Campeonato, UserPlataforma, Usuario, Partida) {
 
         var vm = this;
 
@@ -59,6 +59,7 @@
                     vm.carregaFases(id);
                     vm.getParticipantes(id);
                     vm.carregaAdministradores(id);
+                    vm.carregaPartidasDoUsuario()
                     $rootScope.loading = false;
                 });
         };
@@ -272,12 +273,104 @@
                 });
         };
 
-        vm.carregaPartidasDoUsuario = function (id_usuario) {
-            console.log('id do campeonato no controller: ' + vm.campeonato.id);
-            Usuario.getPartidas(id_usuario, vm.campeonato.id)
+        vm.carregaPartidasDoUsuario = function () {
+            Usuario.getPartidas($rootScope.usuarioLogado.id, vm.campeonato.id)
                 .success(function (data) {
                     vm.partidasDoUsuario = data;
                 });
+        };
+
+        vm.salvarPlacar = function (partida) {
+
+            partida.usuarioLogado = $rootScope.usuarioLogado.id;
+            Partida.salvarPlacar(partida)
+                .success(function () {
+                    vm.carregaPartidasDoUsuario();
+                })
+                .error(function (data) {
+                    //TODO melhorar a exibição deste erro
+                });
+
+        };
+
+        vm.confirmarPlacar = function (id_partida) {
+            var dados = {};
+            dados.id_partida = id_partida;
+            dados.usuarioLogado = $rootScope.usuarioLogado.id;
+            Partida.confirmarPlacar(dados)
+                .success(function () {
+                    vm.carregaPartidasDoUsuario();
+                })
+                .error(function (data) {
+                    //                    $rootScope.loading = false;
+                });
+        };
+
+        vm.contestarPlacar = function (ev, id_partida) {
+            vm.contestacao_resultado = {};
+            vm.contestacao_resultado.partidas_id = id_partida;
+            vm.contestacao_resultado.users_id = $rootScope.usuarioLogado.id;
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.partida_contestar',
+                        contestacao_resultado: vm.contestacao_resultado
+                    },
+                    controller: DialogControllerContestacao,
+                    templateUrl: 'app/components/campeonato/formContestacaoResultado.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+        vm.cancelarPlacar = function (id_partida) {
+            var dados = {};
+            dados.id_partida = id_partida;
+            dados.usuarioLogado = $rootScope.usuarioLogado.id;
+            Partida.cancelarPlacar(dados)
+                .success(function () {
+                    vm.carregaPartidasDoUsuario();
+                })
+                .error(function (data) {
+                    console.log(data.errors);
+                });
+        }
+
+        vm.salvarContestacao = function (contestacao_resultado, arquivo) {
+            Partida.contestarResultado(contestacao_resultado, arquivo)
+                .success(function (data) {
+                    vm.carregaPartidasDoUsuario();
+                }).error(function (data, status) {
+                    vm.messages = data.errors;
+                    vm.status = status;
+                });
+        };
+
+        vm.exibeDataLimite = function (data_limite) {
+            var dataLimite = new Date(data_limite);
+            return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
+        };
+
+        function DialogControllerContestacao($scope, $mdDialog, tituloModal, contestacao_resultado) {
+            $scope.tituloModal = tituloModal;
+            $scope.contestacao_resultado = contestacao_resultado;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarContestacao = function () {
+                vm.salvarContestacao($scope.contestacao_resultado, $scope.files[0]);
+                $mdDialog.hide();
+            }
+
+            $scope.$watch('files.length', function (newVal, oldVal) {});
         };
 
         //        vm.create = function (ev) {
@@ -733,26 +826,26 @@
         //            }
         //        };
         //
-        function DialogControllerFase($scope, $mdDialog, tituloModal, novoItem, campeonatoFase, fases) {
-            $scope.tituloModal = tituloModal;
-            $scope.novoItem = novoItem;
-            $scope.campeonatoFase = campeonatoFase;
-            $scope.fases = fases;
-
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            };
-
-            $scope.save = function () {
-                vm.salvaFase($scope.campeonatoFase);
-                $mdDialog.hide();
-            }
-
-            $scope.update = function () {
-                vm.atualizaFase($scope.campeonatoFase);
-                $mdDialog.hide();
-            }
-        };
+        //        function DialogControllerFase($scope, $mdDialog, tituloModal, novoItem, campeonatoFase, fases) {
+        //            $scope.tituloModal = tituloModal;
+        //            $scope.novoItem = novoItem;
+        //            $scope.campeonatoFase = campeonatoFase;
+        //            $scope.fases = fases;
+        //
+        //            $scope.cancel = function () {
+        //                $mdDialog.cancel();
+        //            };
+        //
+        //            $scope.save = function () {
+        //                vm.salvaFase($scope.campeonatoFase);
+        //                $mdDialog.hide();
+        //            }
+        //
+        //            $scope.update = function () {
+        //                vm.atualizaFase($scope.campeonatoFase);
+        //                $mdDialog.hide();
+        //            }
+        //        };
         //
         //        vm.toggleRight = buildToggler('detalhesCampeonato');
         //        vm.isOpenRight = function () {

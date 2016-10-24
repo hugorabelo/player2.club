@@ -5,10 +5,10 @@
         </a>
         <!--        <span flex></span>-->
         <div flex="60">
-            <input type="number" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado.id" ng-keypress="vmTopNav.mudaUsuarioLogado($event)">
+            <input type="number" placeholder="Usuário Logado" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)">
         </div>
-        <!--        <span flex></span>-->
-        <div>
+        <div layout="row" flex>
+            <h4><span>{{usuarioLogado.id}} - {{usuarioLogado.nome}}</span></h4>
             <md-menu>
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open">
                     <i class="fa fa-bars" aria-hidden="true"></i>

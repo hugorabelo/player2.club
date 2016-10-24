@@ -194,8 +194,8 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             });
         },
 
-        getUltimasPartidasDoUsuario: function (idUsuario, idCampeonato = null) {
-            if (idCampeonato != null) {
+        getUltimasPartidasDoUsuario: function (idUsuario, idCampeonato) {
+            if (idCampeonato !== undefined) {
                 stringCampeonato = '/' + idCampeonato;
             } else {
                 stringCampeonato = '';

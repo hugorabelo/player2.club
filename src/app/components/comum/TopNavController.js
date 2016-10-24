@@ -49,9 +49,9 @@
             Auth.logout();
         };
 
-        vm.mudaUsuarioLogado = function (ev) {
+        vm.carregaUsuarioLogado = function (ev, idUsuario) {
             if (ev.keyCode === 13) {
-                Usuario.show(vm.usuarioLogado.id)
+                Usuario.show(idUsuario)
                     .success(function (data) {
                         $rootScope.usuarioLogado = data;
                         $location.path('/');
