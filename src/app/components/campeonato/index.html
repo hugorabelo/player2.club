@@ -27,6 +27,7 @@
     <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
     <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
+    <md-nav-item md-nav-click name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
 </md-nav-bar>
 
 <div flex layout="row">
@@ -53,6 +54,10 @@
 
         <div ng-show="currentNavItem == 'detalhes'">
             <div flex layout="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
+        </div>
+
+        <div ng-show="currentNavItem == 'editar'">
+            <div flex layout="row" ng-include="'app/components/campeonato_novo/cadastroCampeonato.html'"></div>
         </div>
 
 
