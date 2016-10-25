@@ -88,6 +88,7 @@
         "tempo_para_confirmacao": "Data limite para que seja feita a confirmação da partida",
         "printscreen": "Printscreen de comprovação",
         "partida_contestada": "O resultado da partida foi contestado. Aguardando julgamento por parte dos moderadores",
+        "cancelar_resultado": "Cancelar resultado partida",
 
         "acesso": "Acesso",
         "publico": "Público",

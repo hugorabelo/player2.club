@@ -88,6 +88,7 @@
         "tempo_para_confirmacao": "Limit Date for the confirmation of the match is made",
         "printscreen": "Printscreen Proof",
         "partida_contestada": "The game score was contested. Pending judgment by the moderators",
+        "cancelar_resultado": "Cancel match's score",
 
         "acesso": "Access",
         "publico": "Public",
