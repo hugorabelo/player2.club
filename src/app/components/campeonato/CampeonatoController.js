@@ -373,6 +373,37 @@
             $scope.$watch('files.length', function (newVal, oldVal) {});
         };
 
+        vm.edit = function () {
+            Campeonato.edit(vm.campeonato.id)
+                .success(function (data) {
+                    vm.campeonatoEditar = data.campeonato;
+                    console.log(vm.campeonatoEditar);
+                    //                    $mdDialog
+                    //                        .show({
+                    //                            locals: {
+                    //                                tituloModal: 'messages.campeonato_edit',
+                    //                                novoItem: false,
+                    //                                campeonato: data.campeonato,
+                    //                                campeonatoTipos: data.campeonatoTipos,
+                    //                                jogos: data.jogos,
+                    //                                plataformas: data.plataformas
+                    //                            },
+                    //                            controller: DialogController,
+                    //                            templateUrl: 'app/components/campeonato/formModal.html',
+                    //                            parent: angular.element(document.body),
+                    //                            targetEvent: ev,
+                    //                            clickOutsideToClose: true,
+                    //                            fullscreen: true // Only for -xs, -sm breakpoints.
+                    //                        })
+                    //                        .then(function () {
+                    //
+                    //                        }, function () {
+                    //
+                    //                        });
+
+                });
+        };
+
         //        vm.create = function (ev) {
         //            Campeonato.create()
         //                .success(function (data) {
@@ -401,34 +432,7 @@
         //                });
         //        };
         //
-        //        vm.edit = function (ev, id) {
-        //            Campeonato.edit(id)
-        //                .success(function (data) {
-        //                    $mdDialog
-        //                        .show({
-        //                            locals: {
-        //                                tituloModal: 'messages.campeonato_edit',
-        //                                novoItem: false,
-        //                                campeonato: data.campeonato,
-        //                                campeonatoTipos: data.campeonatoTipos,
-        //                                jogos: data.jogos,
-        //                                plataformas: data.plataformas
-        //                            },
-        //                            controller: DialogController,
-        //                            templateUrl: 'app/components/campeonato/formModal.html',
-        //                            parent: angular.element(document.body),
-        //                            targetEvent: ev,
-        //                            clickOutsideToClose: true,
-        //                            fullscreen: true // Only for -xs, -sm breakpoints.
-        //                        })
-        //                        .then(function () {
         //
-        //                        }, function () {
-        //
-        //                        });
-        //
-        //                });
-        //        };
         //
         //        vm.save = function (campeonato) {
         //            $rootScope.loading = true;
