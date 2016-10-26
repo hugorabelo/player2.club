@@ -1,0 +1,30 @@
+<md-card>
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" layout-margin>
+        <md-input-container class="md-block">
+            <label>{{'fields.tipo_competidor' | translate}}</label>
+            <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
+                <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                    {{tipoCompetidor.descricao}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <label>{{'fields.quantidade_usuarios' | translate}}</label>
+            <input type="number" ng-model="vmCampeonato.campeonato.detalhes.quantidade_competidores" disabled>
+        </md-input-container>
+
+        <md-input-container class="md-block md-input-has-value">
+            <label>{{'fields.ida_volta' | translate}}</label>
+            <md-radio-group ng-model="vmCampeonato.campeonato.detalhes.ida_volta" class="md-primary" layout="row" disabled>
+                <md-radio-button value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                <md-radio-button value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+            </md-radio-group>
+        </md-input-container>
+    </md-card-content>
+</md-card>

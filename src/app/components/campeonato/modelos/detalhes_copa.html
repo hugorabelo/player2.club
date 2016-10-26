@@ -1,0 +1,69 @@
+<md-card>
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" layout-margin>
+        <div flex="70">
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonato.detalhes.quantidade_competidores" disabled>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.qtde_grupos' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonato.detalhes.quantidade_grupos" disabled>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.qtde_classificados' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonato.detalhes.classificados_proxima_fase" disabled>
+            </md-input-container>
+
+            <md-input-container class="md-block md-input-has-value">
+                <label>{{'fields.ida_volta' | translate}}</label>
+                <md-radio-group ng-model="vmCampeonato.campeonato.detalhes.ida_volta" class="md-primary" layout="row" disabled>
+                    <md-radio-button value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+        </div>
+        <div flex="50">
+            <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
+            <div layout="row">
+                <md-input-container class="md-block">
+                    <label>{{'fields.vitoria' | translate}}</label>
+                    <input type="number" ng-model="vmCampeonato.campeonato.pontuacao.vitoria" required>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>{{'fields.empate' | translate}}</label>
+                    <input type="number" ng-model="vmCampeonato.campeonato.pontuacao.empate" required>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>{{'fields.derrota' | translate}}</label>
+                    <input type="number" ng-model="vmCampeonato.campeonato.pontuacao.derrota" required>
+                </md-input-container>
+            </div>
+            <h4 class="text-center" translate>messages.criterios_classificacao</h4>
+            <div>
+                <ul ng-sortable="barConfig" class="todo-list m-t small-list">
+                    <li ng-repeat="criterio in vmCampeonato.criteriosClassificacao">
+                        <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                        <checkbox class="m-l-xs" ng-model="vmCriarCampeonato.checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
+                        <span class="m-l-xs">{{criterio.descricao}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </md-card-content>
+</md-card>

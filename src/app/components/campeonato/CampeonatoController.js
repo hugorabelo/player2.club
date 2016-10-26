@@ -374,10 +374,10 @@
         };
 
         vm.edit = function () {
+            console.log(vm.campeonato);
             Campeonato.edit(vm.campeonato.id)
                 .success(function (data) {
                     vm.campeonatoEditar = data.campeonato;
-                    console.log(vm.campeonatoEditar);
                     //                    $mdDialog
                     //                        .show({
                     //                            locals: {

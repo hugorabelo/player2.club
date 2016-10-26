@@ -1,0 +1,53 @@
+<md-card>
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" layout-margin>
+        <div flex="70">
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonato.detalhes.quantidade_competidores" disabled>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_classificacao' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_classificacao" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.ordem_classificacao' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div flex="50">
+            <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
+            <md-input-container class="md-block">
+                <label>{{'fields.zona_classificacao' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonato.zona_classificacao" ng-change="vmCriarCampeonato.criaZonaClassificacao()">
+            </md-input-container>
+            <md-input-container class="md-block" ng-repeat="n in vmCriarCampeonato.pontosZonaClassificacao track by $index">
+                <label>{{$index+1}}{{'fields.lugar' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonato.pontuacao[$index]">
+            </md-input-container>
+        </div>
+    </md-card-content>
+</md-card>
