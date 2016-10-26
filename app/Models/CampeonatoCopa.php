@@ -218,6 +218,30 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         return "";
     }
 
+    public function pontuacoes($idFase = null) {
+        if(isset($idFase)) {
+            $fase = CampeonatoFase::find($idFase);
+        } else {
+            $fase = $this->faseInicial();
+        }
+        $pontuacoes = $fase->hasMany('PontuacaoRegra', 'campeonato_fases_id')->getResults();
+        $pontuacaoRetorno = new stdClass();
+        foreach ($pontuacoes as $pontuacao) {
+            switch ($pontuacao->posicao) {
+                case 1:
+                    $pontuacaoRetorno->vitoria = $pontuacao->qtde_pontos;
+                    break;
+                case 2:
+                    $pontuacaoRetorno->derrota = $pontuacao->qtde_pontos;
+                    break;
+                case 0:
+                    $pontuacaoRetorno->empate = $pontuacao->qtde_pontos;
+                    break;
+            }
+        }
+        return $pontuacaoRetorno;
+    }
+
 
 
 }

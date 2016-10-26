@@ -8,8 +8,8 @@
         <div flex="70">
             <md-input-container class="md-block">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
-                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
-                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
                         {{tipoCompetidor.descricao}}
                     </md-option>
                 </md-select>
@@ -17,14 +17,14 @@
 
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonato.detalhes.quantidade_competidores" disabled>
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
             </md-input-container>
 
             <md-input-container class="md-block md-input-has-value">
                 <label>{{'fields.ida_volta' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonato.detalhes.ida_volta" class="md-primary" layout="row" disabled>
-                    <md-radio-button value="true">{{ 'messages.yes' | translate }}</md-radio-button>
-                    <md-radio-button value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
             </md-input-container>
         </div>
@@ -33,27 +33,32 @@
             <div layout="row">
                 <md-input-container class="md-block">
                     <label>{{'fields.vitoria' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonato.pontuacao.vitoria" required>
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.vitoria" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{'fields.empate' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonato.pontuacao.empate" required>
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.empate" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{'fields.derrota' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonato.pontuacao.derrota" required>
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.derrota" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
                 </md-input-container>
             </div>
             <h4 class="text-center" translate>messages.criterios_classificacao</h4>
-            <div>
+            <div ng-show="vmCampeonato.campeonatoEditar.novo">
                 <ul ng-sortable="barConfig" class="todo-list m-t small-list">
                     <li ng-repeat="criterio in vmCampeonato.criteriosClassificacao">
                         <i class="fa fa-arrows-v" aria-hidden="true"></i>
-                        <checkbox class="m-l-xs" ng-model="vmCriarCampeonato.checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
+                        <checkbox class="m-l-xs" ng-model="vmCampeonato.checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
                         <span class="m-l-xs">{{criterio.descricao}}</span>
                     </li>
                 </ul>
             </div>
+            <ul ng-sortable="barConfig" class="todo-list m-t small-list" ng-hide="vmCampeonato.campeonatoEditar.novo">
+                <li ng-repeat="criterio in vmCampeonato.campeonatoEditar.criterios track by $index">
+                    <span class="m-l-xs">{{$index+1}} - {{criterio.descricao}}</span>
+                </li>
+            </ul>
         </div>
     </md-card-content>
 </md-card>

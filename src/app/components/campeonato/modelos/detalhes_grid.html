@@ -8,8 +8,8 @@
         <div flex="70">
             <md-input-container class="md-block">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
-                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
-                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
                         {{tipoCompetidor.descricao}}
                     </md-option>
                 </md-select>
@@ -17,13 +17,13 @@
 
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonato.detalhes.quantidade_competidores" disabled>
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
             </md-input-container>
 
             <md-input-container class="md-block">
                 <label>{{'fields.tipo_classificacao' | translate}}</label>
-                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_classificacao" required>
-                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_classificacao" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
                         {{tipoCompetidor.descricao}}
                     </md-option>
                 </md-select>
@@ -31,8 +31,8 @@
 
             <md-input-container class="md-block">
                 <label>{{'fields.ordem_classificacao' | translate}}</label>
-                <md-select ng-model="vmCampeonato.campeonato.detalhes.tipo_competidor_id" required>
-                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
                         {{tipoCompetidor.descricao}}
                     </md-option>
                 </md-select>
@@ -42,11 +42,11 @@
             <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
             <md-input-container class="md-block">
                 <label>{{'fields.zona_classificacao' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonato.zona_classificacao" ng-change="vmCriarCampeonato.criaZonaClassificacao()">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.zona_classificacao" ng-change="vmCampeonato.criaZonaClassificacao()">
             </md-input-container>
-            <md-input-container class="md-block" ng-repeat="n in vmCriarCampeonato.pontosZonaClassificacao track by $index">
+            <md-input-container class="md-block" ng-repeat="n in vmCampeonato.pontosZonaClassificacao track by $index">
                 <label>{{$index+1}}{{'fields.lugar' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonato.pontuacao[$index]">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao[$index]">
             </md-input-container>
         </div>
     </md-card-content>

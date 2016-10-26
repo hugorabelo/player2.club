@@ -89,12 +89,17 @@ class CampeonatosController extends Controller
      */
     public function edit($id)
     {
-        $campeonato = $this->campeonato->find($id);
+        $campeonato = Campeonato::find($id);
+        $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
+        $campeonato->jogo = Jogo::find($campeonato->jogos_id);
+        $campeonato->tipo = CampeonatoTipo::find($campeonato->campeonato_tipos_id);
+        $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        $campeonato->detalhes = $campeonato->detalhes();
+        $campeonato->criterios = $campeonato->criteriosOrdenados();
+        $campeonato->pontuacao = $campeonato->pontuacoes();
+        return Response::json($campeonato);
 
-        $jogos = Jogo::get();
-        $campeonatoTipos = CampeonatoTipo::get();
-        $plataformas = Plataforma::get();
-        return Response::json(compact('campeonato', 'jogos', 'campeonatoTipos', 'plataformas'));
     }
 
     /**

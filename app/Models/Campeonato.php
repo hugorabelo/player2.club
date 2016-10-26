@@ -62,7 +62,7 @@ class Campeonato extends Eloquent {
 	}
 
 	public function detalhes() {
-		return $this->hasMany('CampeonatoDetalhes', 'campeonatos_id')->get()->first();
+		return $this->hasOne('CampeonatoDetalhes', 'campeonatos_id')->getResults();
 	}
 
 	public function salvarPlacar($partida) {
@@ -495,5 +495,12 @@ class Campeonato extends Eloquent {
             }
         }
         return 2;
+    }
+
+    public function pontuacoes($idFase = null) {
+        $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
+        $novoCampeonato = new $nomeClasse($this->toArray());
+
+        return $novoCampeonato->pontuacoes($idFase);
     }
 }

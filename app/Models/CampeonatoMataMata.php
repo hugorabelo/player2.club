@@ -125,4 +125,8 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         return '';
     }
 
+    public function pontuacoes($idFase = null) {
+        return null;
+    }
+
 }
