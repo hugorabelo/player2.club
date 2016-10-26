@@ -7,14 +7,14 @@
             <div class="form-group">
                 <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
                 <div class="col-md-9">
-                    <input type="text" id="descricao" class="form-control" ng-model="vmCampeonato.campeonatoEditar.descricao" required />
+                    <input type="text" id="descricao" class="form-control" ng-model="vmCampeonato.campeonato.descricao" required />
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="acesso" class="col-md-3 control-label" translate>fields.acesso</label>
                 <div class="col-md-9">
-                    <select id="acesso_campeonato_id" class="form-control" ng-model="vmCampeonato.campeonatoEditar.acesso_campeonato_id" ng-options="tipoAcesso.id as tipoAcesso.descricao for tipoAcesso in vmCampeonato.tiposDeAcessosDoCampeonato" required>
+                    <select id="acesso_campeonato_id" class="form-control" ng-model="vmCampeonato.campeonato.acesso_campeonato_id" ng-options="tipoAcesso.id as tipoAcesso.descricao for tipoAcesso in vmCampeonato.tiposDeAcessosDoCampeonato" required>
                     </select>
                 </div>
             </div>
@@ -22,12 +22,12 @@
             <div class="form-group">
                 <label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
                 <div class="col-md-3">
-                    <md-datepicker ng-model="vmCampeonato.campeonatoEditar.fases.data_inicio" md-placeholder="" md-open-on-focus></md-datepicker>
+                    <md-datepicker ng-model="vmCampeonato.campeonato.fases.data_inicio" md-placeholder="" md-open-on-focus></md-datepicker>
                 </div>
 
                 <label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
                 <div class="col-md-3">
-                    <md-datepicker ng-model="vmCampeonato.campeonatoEditar.fases.data_fim" md-placeholder="" md-open-on-focus></md-datepicker>
+                    <md-datepicker ng-model="vmCampeonato.campeonato.fases.data_fim" md-placeholder="" md-open-on-focus></md-datepicker>
                 </div>
             </div>
 
@@ -35,20 +35,21 @@
                 <label for="regras" class="col-md-3 control-label" translate>fields.detalhes</label>
                 <div class="col-md-9">
                     <!--                    <summernote ng-model="vmCampeonato.campeonatoEditar.regras" required></summernote>-->
-                    <textarea name="" id="" cols="30" rows="10" ng-model="vmCampeonato.campeonatoEditar.regras"></textarea>
+                    <textarea name="" id="" cols="30" rows="10" ng-model="vmCampeonato.campeonato.regras"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="plataformas_id" class="col-md-3 control-label" translate>fields.plataformas_id</label>
                 <div class="col-md-3">
-                    <select id="plataformas_id" class="form-control" ng-model="vmCampeonato.campeonatoEditar.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in vmCampeonato.plataformas" ng-change="vmCampeonato.carregaJogosDaPlataforma()" required>
+                    <input type="text" id="descricao" class="form-control" ng-model="vmCampeonato.campeonato.plataforma.descricao" required />
+                    <select id="plataformas_id" class="form-control" ng-model="vmCampeonato.campeonato.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in vmCampeonato.plataformas" ng-change="vmCampeonato.carregaJogosDaPlataforma()" required>
                     </select>
                 </div>
 
                 <label for="jogos_id" class="col-md-3 control-label" translate>fields.jogos_id</label>
                 <div class="col-md-3">
-                    <select id="jogos_id" class="form-control" ng-model="vmCampeonato.campeonatoEditar.jogos_id" ng-options="jogo.id as jogo.descricao for jogo in vmCampeonato.jogos" ng-change="vmCampeonato.carregaTiposDeCampeonatoDoJogo()" required>
+                    <select id="jogos_id" class="form-control" ng-model="vmCampeonato.campeonato.jogos_id" ng-options="jogo.id as jogo.descricao for jogo in vmCampeonato.jogos" ng-change="vmCampeonato.carregaTiposDeCampeonatoDoJogo()" required>
                     </select>
                 </div>
 
@@ -57,7 +58,7 @@
             <div class="form-group">
                 <label for="campeonato_tipos_id" class="col-md-3 control-label" translate>fields.campeonatotipos_id</label>
                 <div class="col-md-9">
-                    <select id="campeonato_tipos_id" class="form-control" ng-model="vmCampeonato.campeonatoEditar.campeonato_tipos_id" ng-options="campeonatoTipo.id as campeonatoTipo.descricao for campeonatoTipo in vmCampeonato.campeonatoTipos" ng-change="vmCampeonato.carregaDetalhesCampeonato()" required>
+                    <select id="campeonato_tipos_id" class="form-control" ng-model="vmCampeonato.campeonato.campeonato_tipos_id" ng-options="campeonatoTipo.id as campeonatoTipo.descricao for campeonatoTipo in vmCampeonato.campeonatoTipos" ng-change="vmCampeonato.carregaDetalhesCampeonato()" required>
                     </select>
                 </div>
             </div>
