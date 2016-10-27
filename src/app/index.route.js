@@ -133,10 +133,11 @@
             })
             .state('criar_campeonato', {
                 url: "/criar_campeonato",
-                templateUrl: "app/components/campeonato_novo/cadastroCampeonato.html",
-                controller: 'CriarCampeonatoController as vmCriarCampeonato',
+                templateUrl: "app/components/campeonato/editarCampeonato.html",
+                controller: 'CampeonatoController as vmCampeonato',
                 data: {
-                    pageTitle: "messages.campeonato_create"
+                    pageTitle: "messages.campeonato_create",
+                    novo: true
                 }
             })
             .state('profile', {
