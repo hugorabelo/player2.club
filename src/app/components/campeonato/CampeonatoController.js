@@ -26,9 +26,28 @@
 
         vm.partidasDaRodada = [];
 
+        vm.opcoesEditor = {
+            lang: 'pt',
+            btnsDef: {
+                // Customizables dropdowns
+                image: {
+                    dropdown: ['insertImage'],
+                    ico: 'insertImage'
+                }
+            },
+            btns: [
+                ['viewHTML '], ['undo', 'redo'], ['formatting'],
+                'btnGrp-design', ['link'], ['image'],
+                'btnGrp-justify',
+                'btnGrp-lists', ['foreColor', 'backColor'], ['preformatted'], ['horizontalRule'], ['fullscreen']],
+            plugins: {
+
+            }
+        };
+
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
-            $scope.currentNavItem = 'tabela';
+            vm.currentNavItem = 'tabela';
         };
 
         vm.carregaFases = function (id) {
@@ -384,7 +403,6 @@
                     vm.carregaTiposDeAcessoDoCampeonato();
                     vm.carregaTiposDeCompetidores();
                     vm.carregaCriteriosClassificacao(vm.campeonato.tipo.modelo_campeonato_id);
-                    console.log(vm.campeonatoEditar);
                 });
         };
 
@@ -411,12 +429,11 @@
         };
 
         vm.update = function () {
-            console.log(vm.campeonatoEditar);
             Campeonato.update(vm.campeonatoEditar)
                 .success(function (data) {
                     Campeonato.get()
                         .success(function (getData) {
-                            vm.campeonatos = getData;
+                            vm.carregaCampeonato();
                         });
                     $rootScope.loading = false;
                 }).error(function (data, status) {

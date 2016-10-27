@@ -13,7 +13,7 @@
         'pascalprecht.translate',
         'jcs-autoValidate',
         'ui.tree',
-        'summernote',
+        'trumbowyg-ng',
         'ui.checkbox',
         'ngMaterial',
         'lfNgMdFileInput'
