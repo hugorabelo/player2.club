@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class CampeonatosController extends Controller
 {
 
@@ -110,12 +112,28 @@ class CampeonatosController extends Controller
      */
     public function update($id)
     {
-        $input = array_except(Input::all(), '_method');
+        $inputAll = Input::all();
+        $inputDetalhes = $inputAll['detalhes'];
+        $dataInicial = $inputAll['dataInicio'];
+        $dataFinal = $inputAll['dataFinal'];
+        $input = array_except($inputAll, ['_method', 'criterios', 'dataFinal', 'dataInicio', 'detalhes', 'jogo', 'plataforma', 'pontuacao', 'tipo', 'novo']);
         $validation = Validator::make($input, Campeonato::$rules);
 
         if ($validation->passes()) {
             $campeonato = $this->campeonato->find($id);
             $campeonato->update($input);
+
+            $detalhes = $campeonato->detalhes();
+            $detalhes->tipo_competidor_id = $inputDetalhes['tipo_competidor_id'];
+            $detalhes->update();
+
+            $faseInicial = $campeonato->faseInicial();
+            $faseInicial->data_inicio = Carbon::parse($dataInicial);
+            $faseInicial->update();
+
+            $faseFinal = $campeonato->faseFinal();
+            $faseFinal->data_fim = Carbon::parse($dataFinal);
+            $faseFinal->update();
 
             return Response::json(array('success' => true));
         }

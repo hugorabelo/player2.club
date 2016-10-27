@@ -8,7 +8,6 @@ class Campeonato extends Eloquent {
 
 	public static $rules = array(
 		'descricao' => 'required',
-		'regras' => 'required',
 		'jogos_id' => 'required',
 		'campeonato_tipos_id' => 'required',
 		'plataformas_id' => 'required'

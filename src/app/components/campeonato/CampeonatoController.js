@@ -20,6 +20,7 @@
 
         vm.idCampeonato = $stateParams.idCampeonato;
         vm.campeonato = {};
+        vm.campeonatoEditar = {};
 
         vm.rodada_atual = [];
 
@@ -406,6 +407,21 @@
             Campeonato.getTiposDeCompetidores()
                 .success(function (data) {
                     vm.tiposDeCompetidores = data;
+                });
+        };
+
+        vm.update = function () {
+            console.log(vm.campeonatoEditar);
+            Campeonato.update(vm.campeonatoEditar)
+                .success(function (data) {
+                    Campeonato.get()
+                        .success(function (getData) {
+                            vm.campeonatos = getData;
+                        });
+                    $rootScope.loading = false;
+                }).error(function (data, status) {
+                    vm.message = data.errors;
+                    vm.status = status;
                 });
         };
 

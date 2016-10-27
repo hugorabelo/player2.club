@@ -24,11 +24,37 @@
     </div>
 
     <div flex layout="row">
-        <div flex ng-include="'app/components/profile/feed.html'"></div>
+
 
         <md-sidenav md-is-locked-open="true" class="md-whiteframe-1dp" hide-xs>
             <md-content layout-margin>
                 <md-list layout-margin>
+                    <div md-whiteframe="1 ">
+                        <md-subheader class="md-no-sticky ">{{'messages.seguindo' | translate}} - {{ vmProfile.usuario.seguindo.length | number }}</md-subheader>
+                        <md-list-item>
+                            <div class="m-xs">
+                                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
+                                    <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle img-md m-xs">
+                                    <md-tooltip md-direction="top ">
+                                        {{seguindo.nome}}
+                                    </md-tooltip>
+                                </a>
+                            </div>
+                        </md-list-item>
+                    </div>
+                    <div md-whiteframe="1 ">
+                        <md-subheader class="md-no-sticky ">{{'messages.seguidores' | translate}} - {{ vmProfile.usuario.seguidores.length | number }}</md-subheader>
+                        <md-list-item>
+                            <div class="m-xs">
+                                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
+                                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
+                                    <md-tooltip md-direction="top ">
+                                        {{seguidor.nome}}
+                                    </md-tooltip>
+                                </a>
+                            </div>
+                        </md-list-item>
+                    </div>
                     <div md-whiteframe="1">
                         <md-subheader class="md-no-sticky">{{'messages.campeonato_list' | translate}}</md-subheader>
                         <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
@@ -48,36 +74,11 @@
                             </div>
                         </md-list-item>
                     </div>
-                    <div md-whiteframe="1 ">
-                        <md-subheader class="md-no-sticky ">{{'messages.seguindo' | translate}}</md-subheader>
-                        <md-list-item>
-                            <div class="m-xs">
-                                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
-                                    <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle img-md m-xs">
-                                    <md-tooltip md-direction="top ">
-                                        {{seguindo.nome}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </md-list-item>
-                    </div>
-                    <div md-whiteframe="1 ">
-                        <md-subheader class="md-no-sticky ">{{'messages.seguidores' | translate}}</md-subheader>
-                        <md-list-item>
-                            <div class="m-xs">
-                                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
-                                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
-                                    <md-tooltip md-direction="top ">
-                                        {{seguidor.nome}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </md-list-item>
-                    </div>
                 </md-list>
             </md-content>
         </md-sidenav>
 
+        <div flex ng-include="'app/components/profile/feed.html'"></div>
 
     </div>
 
