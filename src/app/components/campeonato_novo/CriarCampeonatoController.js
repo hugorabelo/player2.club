@@ -16,9 +16,30 @@
             vm.campeonato = {};
             vm.checkBoxCriteriosClassificacao = {};
 
-            $scope.$watch('campeonato.ida_volta', function () {
-                if (!vm.campeonato.ida_volta) {
-                    vm.campeonato.fora_casa = {};
+            vm.opcoesEditor = {
+                lang: 'pt',
+                btnsDef: {
+                    // Customizables dropdowns
+                    image: {
+                        dropdown: ['insertImage'],
+                        ico: 'insertImage'
+                    }
+                },
+                btns: [
+                ['viewHTML '], ['undo', 'redo'], ['formatting'],
+                'btnGrp-design', ['link'], ['image'],
+                'btnGrp-justify',
+                'btnGrp-lists', ['foreColor', 'backColor'], ['preformatted'], ['horizontalRule'], ['fullscreen']],
+                plugins: {
+
+                }
+            };
+
+            $scope.$watch(angular.bind(vm, function () {
+                return vm.campeonato.detalhes.ida_volta;
+            }), function () {
+                if (!vm.campeonato.detalhes.ida_volta) {
+                    vm.campeonato.detalhes.fora_casa = {};
                 }
             });
 
@@ -120,7 +141,7 @@
 
             vm.salvarCampeonato = function () {
                 vm.atualizaCriteriosClassificacao();
-                vm.campeonato.criador = $rootScope.usuarioLogado;
+                vm.campeonato.criador = $rootScope.usuarioLogado.id;
                 Campeonato.save(vm.campeonato)
                     .success(function (data) {
                         Campeonato.get()

@@ -1,75 +1,82 @@
-<md-card ng-init="vmCriarCampeonato.create()">
-    <md-toolbar class="md-toolbar-tools">
-        <h2 translate>messages.campeonato_create</h2>
-    </md-toolbar>
-    <md-card-content>
-        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
-            <div class="form-group">
-                <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
-                <div class="col-md-9">
-                    <input type="text" id="descricao" class="form-control" ng-model="vmCriarCampeonato.campeonato.descricao" required />
-                </div>
-            </div>
+<div flex layout="row" layout-margin>
+    <div flex class="caixa-flutuante" layout-padding>
+        <md-card ng-init="vmCriarCampeonato.create()">
+            <md-toolbar class="md-toolbar-tools">
+                <h2>{{'messages.campeonato_create' | translate}}</h2>
+            </md-toolbar>
+            <md-card-content>
+                <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+                    <md-input-container class="md-block">
+                        <label>{{'fields.descricao' | translate}}</label>
+                        <input ng-model="vmCriarCampeonato.campeonato.descricao" required>
+                    </md-input-container>
 
-            <div class="form-group">
-                <label for="acesso" class="col-md-3 control-label" translate>fields.acesso</label>
-                <div class="col-md-9">
-                    <select id="acesso_campeonato_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.acesso_campeonato_id" ng-options="tipoAcesso.id as tipoAcesso.descricao for tipoAcesso in vmCriarCampeonato.tiposDeAcessosDoCampeonato" required>
-                    </select>
-                </div>
-            </div>
+                    <md-input-container class="md-block">
+                        <label>{{'fields.acesso' | translate}}</label>
+                        <md-select ng-model="vmCriarCampeonato.campeonato.acesso_campeonato_id" required>
+                            <md-option ng-repeat="tipoAcesso in vmCriarCampeonato.tiposDeAcessosDoCampeonato" ng-value="tipoAcesso.id">
+                                {{tipoAcesso.descricao}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
 
-            <div class="form-group">
-                <label for="data_inicio" class="col-md-3 control-label" translate>fields.data_inicio</label>
-                <div class="col-md-3">
-                    <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_inicio" md-placeholder="" md-open-on-focus></md-datepicker>
-                </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label>{{'fields.data_inicio' | translate}}</label>
+                            <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_inicio" md-open-on-focus></md-datepicker>
+                        </md-input-container>
 
-                <label for="data_fim" class="col-md-3 control-label" translate>fields.data_fim</label>
-                <div class="col-md-3">
-                    <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_fim" md-placeholder="" md-open-on-focus></md-datepicker>
-                </div>
-            </div>
+                        <md-input-container flex="50">
+                            <label>{{'fields.data_fim' | translate}}</label>
+                            <md-datepicker ng-model="vmCriarCampeonato.campeonato.fases.data_fim" md-open-on-focus></md-datepicker>
+                        </md-input-container>
 
-            <div class="form-group">
-                <label for="regras" class="col-md-3 control-label" translate>fields.detalhes</label>
-                <div class="col-md-9">
-                    <!--                    <summernote ng-model="vmCriarCampeonato.campeonato.regras" required></summernote>-->
-                    <textarea name="" id="" cols="30" rows="10" ng-model="vmCriarCampeonato.campeonato.regras"></textarea>
-                </div>
-            </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="plataformas_id" class="col-md-3 control-label" translate>fields.plataformas_id</label>
-                <div class="col-md-3">
-                    <select id="plataformas_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in vmCriarCampeonato.plataformas" ng-change="vmCriarCampeonato.carregaJogosDaPlataforma()" required>
-                    </select>
-                </div>
+                    <md-input-container class="md-block md-input-has-value">
+                        <label>{{'fields.detalhes' | translate}}</label>
+                        <div flex>
+                            <div trumbowyg-ng ng-model="vmCriarCampeonato.campeonato.regras" editor-config="vmCriarCampeonato.opcoesEditor"></div>
+                        </div>
+                    </md-input-container>
 
-                <label for="jogos_id" class="col-md-3 control-label" translate>fields.jogos_id</label>
-                <div class="col-md-3">
-                    <select id="jogos_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.jogos_id" ng-options="jogo.id as jogo.descricao for jogo in vmCriarCampeonato.jogos" ng-change="vmCriarCampeonato.carregaTiposDeCampeonatoDoJogo()" required>
-                    </select>
-                </div>
+                    <div layout="row">
+                        <md-input-container class="md-block" flex="33">
+                            <label>{{'fields.plataformas_id' | translate}}</label>
+                            <md-select ng-model="vmCriarCampeonato.campeonato.plataformas_id" ng-change="vmCriarCampeonato.carregaJogosDaPlataforma()" required>
+                                <md-option ng-repeat="plataforma in vmCriarCampeonato.plataformas" ng-value="plataforma.id">
+                                    {{plataforma.descricao}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
 
-            </div>
+                        <md-input-container class="md-block" flex="33">
+                            <label>{{'fields.jogos_id' | translate}}</label>
+                            <md-select ng-model="vmCriarCampeonato.campeonato.jogos_id" ng-change="vmCriarCampeonato.carregaTiposDeCampeonatoDoJogo()" required>
+                                <md-option ng-repeat="jogo in vmCriarCampeonato.jogos" ng-value="jogo.id">
+                                    {{jogo.descricao}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
 
-            <div class="form-group">
-                <label for="campeonato_tipos_id" class="col-md-3 control-label" translate>fields.campeonatotipos_id</label>
-                <div class="col-md-9">
-                    <select id="campeonato_tipos_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.campeonato_tipos_id" ng-options="campeonatoTipo.id as campeonatoTipo.descricao for campeonatoTipo in vmCriarCampeonato.campeonatoTipos" ng-change="vmCriarCampeonato.carregaDetalhesCampeonato()" required>
-                    </select>
-                </div>
-            </div>
+                        <md-input-container class="md-block" flex="33">
+                            <label>{{'fields.campeonatotipos_id' | translate}}</label>
+                            <md-select ng-model="vmCriarCampeonato.campeonato.campeonato_tipos_id" ng-change="vmCriarCampeonato.carregaDetalhesCampeonato()" required>
+                                <md-option ng-repeat="campeonatoTipo in vmCriarCampeonato.campeonatoTipos" ng-value="campeonatoTipo.id">
+                                    {{campeonatoTipo.descricao}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
 
-            <div class="form-group">
-                <div class="col-md-9 col-md-offset-3" ng-include src="vmCriarCampeonato.templateDetalhes"></div>
-            </div>
+                    <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes"></div>
 
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button>{{'fields.cancel' | translate}}</md-button>
-                <md-button ng-click="vmCriarCampeonato.salvarCampeonato()">{{'fields.save' | translate}}</md-button>
-            </md-card-actions>
-        </form>
-    </md-card-content>
-</md-card>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button>{{'fields.cancel' | translate}}</md-button>
+                        <md-button ng-click="vmCriarCampeonato.salvarCampeonato()">{{'fields.save' | translate}}</md-button>
+                    </md-card-actions>
+                </form>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

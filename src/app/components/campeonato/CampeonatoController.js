@@ -46,14 +46,6 @@
             }
         };
 
-        $scope.$watch(angular.bind(vm, function () {
-            return vm.campeonatoEditar.detalhes.ida_volta;
-        }), function () {
-            if (!vm.campeonatoEditar.detalhes.ida_volta) {
-                vm.campeonatoEditar.detalhes.fora_casa = {};
-            }
-        });
-
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
             vm.currentNavItem = 'tabela';
@@ -497,29 +489,22 @@
                 });
         };
 
-
-        //
-        //
-        //
-        //        vm.save = function (campeonato) {
-        //            $rootScope.loading = true;
-        //            Campeonato.save(campeonato)
-        //                .success(function (data) {
-        //                    Campeonato.get()
-        //                        .success(function (getData) {
-        //                            vm.campeonatos = getData;
-        //                            $rootScope.loading = false;
-        //                        }).error(function (getData) {
-        //                            vm.message = getData;
-        //                            $rootScope.loading = false;
-        //                        });
-        //                    $rootScope.loading = false;
-        //                }).error(function (data, status) {
-        //                    vm.messages = data.errors;
-        //                    vm.status = status;
-        //                    $rootScope.loading = false;
-        //                });
-        //        };
+        vm.save = function () {
+            Campeonato.save(vm.campeonatoEditar)
+                .success(function (data) {
+                    console.log('deu certo');
+                    //                    Campeonato.get()
+                    //                        .success(function (getData) {
+                    //                            vm.campeonatos = getData;
+                    //                        }).error(function (getData) {
+                    //                            vm.message = getData;
+                    //                        });
+                }).error(function (data, status) {
+                    console.log('deu errado');
+                    //                    vm.messages = data.errors;
+                    //                    vm.status = status;
+                });
+        };
         //
         //        vm.delete = function (ev, id) {
         //            vm.idRegistroExcluir = id;

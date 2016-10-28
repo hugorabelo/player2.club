@@ -1,81 +1,68 @@
-<div class="panel panel-primary">
-    <div class="panel-heading" translate>
-        messages.campeonato_detalhes
-    </div>
-    <div class="panel-body">
-        <div class="col-md-7">
-            <div class="form-group">
-                <label for="tipo_competidor_id" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
-                <div class="col-md-4">
-                    <select id="tipo_competidor_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_competidor_id" ng-options="tipoCompetidor.id as tipoCompetidor.descricao for tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" required>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="quantidade_competidores" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
-                <div class="col-md-4">
-                    <input type="number" id="quantidade_competidores" class="form-control" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="quantidade_grupos" class="col-md-8 control-label" translate>fields.qtde_grupos</label>
-                <div class="col-md-4">
-                    <input type="number" id="quantidade_grupos" class="form-control" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_grupos" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="classificados_proxima_fase" class="col-md-8 control-label" translate>fields.qtde_classificados</label>
-                <div class="col-md-4">
-                    <input type="number" id="classificados_proxima_fase" class="form-control" ng-model="vmCriarCampeonato.campeonato.detalhes.classificados_proxima_fase" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="ida_volta" class="col-md-8 control-label" translate>fields.ida_volta</label>
-                <div class="col-md-4">
-                    <label class="m-r m-b">
-                        <input icheck type="radio" id="ida_volta" ng-model="vmCriarCampeonato.campeonato.detalhes.ida_volta" ng-value="true" required /> {{ 'messages.yes' | translate }}
-                    </label>
-                    <label>
-                        <input icheck type="radio" id="ida_volta" ng-model="vmCriarCampeonato.campeonato.detalhes.ida_volta" ng-value="false" required /> {{ 'messages.no' | translate }}
-                    </label>
-                </div>
-            </div>
-            <div class="form-group" ng-show="vmCriarCampeonato.campeonato.detalhes.ida_volta">
-                <label for="fora_casa" class="col-md-8 control-label" translate>fields.fora_casa</label>
-                <div class="col-md-4">
-                    <label class="m-r m-b">
-                        <input icheck type="radio" id="fora_casa" ng-model="vmCriarCampeonato.campeonato.detalhes.fora_casa" ng-value="true" /> {{ 'messages.yes' | translate }}
-                    </label>
-                    <label>
-                        <input icheck type="radio" id="fora_casa" ng-model="vmCriarCampeonato.campeonato.detalhes.fora_casa" ng-value="false" /> {{ 'messages.no' | translate }}
-                    </label>
-                </div>
-            </div>
+<md-card>
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" layout-margin>
+        <div flex="70">
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.qtde_grupos' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_grupos" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.qtde_classificados' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.classificados_proxima_fase" required>
+            </md-input-container>
+
+            <md-input-container class="md-block md-input-has-value">
+                <label>{{'fields.ida_volta' | translate}}</label>
+                <md-radio-group ng-model="vmCriarCampeonato.campeonato.detalhes.ida_volta" class="md-primary" layout="row" required>
+                    <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+
+            <md-input-container class="md-block md-input-has-value" ng-show="vmCriarCampeonato.campeonato.detalhes.ida_volta">
+                <label>{{'fields.fora_casa' | translate}}</label>
+                <md-radio-group ng-model="vmCriarCampeonato.campeonato.detalhes.fora_casa" class="md-primary" layout="row" required>
+                    <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
         </div>
-        <div class="col-md-5">
+        <div flex="70">
             <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
-            <div class="row">
-                <div class="col-md-4  text-center">
-                    <label for="vitoria" class="control-label" translate>fields.vitoria</label>
-                </div>
-                <div class="col-md-4 text-center">
-                    <label for="empate" class="control-label" translate>fields.empate</label>
-                </div>
-                <div class="col-md-4 text-center">
-                    <label for="derrota" class="control-label" translate>fields.derrota</label>
-                </div>
+            <div layout="row">
+                <md-input-container class="md-block">
+                    <label>{{'fields.vitoria' | translate}}</label>
+                    <input type="number" ng-model="vmCriarCampeonato.campeonato.pontuacao.vitoria" required>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>{{'fields.empate' | translate}}</label>
+                    <input type="number" ng-model="vmCriarCampeonato.campeonato.pontuacao.empate" required>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>{{'fields.derrota' | translate}}</label>
+                    <input type="number" ng-model="vmCriarCampeonato.campeonato.pontuacao.derrota" required>
+                </md-input-container>
             </div>
-            <div class="form-group">
-                <div class="col-md-4">
-                    <input type="number" id="vitoria" class="form-control" ng-model="vmCriarCampeonato.campeonato.pontuacao.vitoria" required>
-                </div>
-                <div class="col-md-4">
-                    <input type="number" id="empate" class="form-control" ng-model="vmCriarCampeonato.campeonato.pontuacao.empate" required>
-                </div>
-                <div class="col-md-4">
-                    <input type="number" id="derrota" class="form-control" ng-model="vmCriarCampeonato.campeonato.pontuacao.derrota" required>
-                </div>
-            </div>
+
             <h4 class="text-center" translate>messages.criterios_classificacao</h4>
             <div>
                 <ul ng-sortable="barConfig" class="todo-list m-t small-list">
@@ -87,5 +74,5 @@
                 </ul>
             </div>
         </div>
-    </div>
-</div>
+    </md-card-content>
+</md-card>

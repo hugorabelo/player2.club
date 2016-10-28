@@ -1,5 +1,5 @@
 <div flex layout="row" layout-margin>
-    <div flex="20" class="caixa-flutuante" layout-padding>
+    <div flex="20" layout="column" class="caixa-flutuante" layout-padding>
         <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
         <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
         <md-button>Campeonatos</md-button>
@@ -7,7 +7,11 @@
         <md-button>Seguidores</md-button>
     </div>
     <div flex layout="column" class="caixa-flutuante" layout-padding>
-        <md-card class="escrever_post">
+        <div class="escrever_post">
+            <img alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+            <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmHome.novoPost"></textarea>
+        </div>
+        <md-card class="escrever_post" ng-show="false">
             <md-card-header>
                 <md-card-header-text>
                     <span class="md-subhead">
@@ -23,6 +27,9 @@
                 <md-button ng-click="vmHome.criarPost()">{{'messages.publicar' | translate}}</md-button>
             </md-card-actions>
         </md-card>
+
+        <div flex ng-include="'app/components/profile/feed.html'"></div>
+
         <md-card>
             <div class="social-avatar">
                 <a href="" class="pull-left">
@@ -152,7 +159,7 @@
 
         </md-card>
     </div>
-    <div flex="20" class="caixa-flutuante" layout-padding>
+    <div flex="20" layout="column" class="caixa-flutuante" layout-padding>
         <md-card>
             <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
         </md-card>
