@@ -1,236 +1,73 @@
-<div flex layout="row" layout-wrap class="header-profile" layout-align="start center" ng-show="false">
+<div flex layout="column" layout-margin>
 
-    <div class="profile-image">
-        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle circle-border" alt="profile">
+    <div class="caixa-flutuante">
+        <md-nav-bar md-selected-nav-item="vmCampeonato.currentNavItem" nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
+            <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
+            <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
+            <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
+            <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
+            <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
+        </md-nav-bar>
     </div>
-    <div class="profile-info">
-        <h2 class="no-margins">
-               {{vmCampeonato.campeonato.descricao}}
-            </h2>
-        <h4>
-                {{vmCampeonato.campeonato.plataforma.descricao}}
-            </h4>
-        <h4>
-                {{vmCampeonato.campeonato.jogo.descricao}}
-            </h4>
-    </div>
-    <span flex></span>
-    <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmCampeonato.seguir()" ng-hide="vmCampeonato.campeonato.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
-    </md-button>
-    <md-button id="botao-seguir" class="md-raised" ng-click="vmCampeonato.deixarDeSeguir()" ng-show="vmCampeonato.campeonato.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
 
-</div>
+    <div flex layout="row" layout-margin>
+        <div flex="80" ng-init="vmCampeonato.carregaCampeonato()" class="caixa-flutuante" layout-padding>
+            <div ng-show="vmCampeonato.currentNavItem == 'tabela'">
+                <div ng-include="'app/components/campeonato/tabela.html'"></div>
+            </div>
 
-<md-nav-bar md-selected-nav-item="vmCampeonato.currentNavItem" nav-bar-aria-label="navigation links">
-    <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
-    <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
-    <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
-    <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
-    <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
-    <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
-</md-nav-bar>
+            <div flex layout="row" ng-show="vmCampeonato.currentNavItem == 'regras'">
+                <md-card flex>
+                    <md-card-content>
+                        <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
+                    </md-card-content>
+                </md-card>
+            </div>
 
-<div flex layout="row">
-    <div flex="80" ng-init="vmCampeonato.carregaCampeonato()">
-        <div ng-show="vmCampeonato.currentNavItem == 'tabela'">
-            <div ng-include="'app/components/campeonato/tabela.html'"></div>
+            <div ng-show="vmCampeonato.currentNavItem == 'participantes'">
+                <div flex layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
+            </div>
+
+            <div ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
+                <div flex layout="row" ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
+            </div>
+
+            <div ng-show="vmCampeonato.currentNavItem == 'detalhes'">
+                <div flex layout="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
+            </div>
+
+            <div ng-show="vmCampeonato.currentNavItem == 'editar'">
+                <div flex layout="row" ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
+            </div>
+
+
         </div>
 
-        <div flex layout="row" ng-show="vmCampeonato.currentNavItem == 'regras'">
-            <md-card flex>
+        <div flex="20" class="caixa-flutuante" layout-padding>
+            <md-card>
+                <md-toolbar class="md-toolbar-tools">
+                    {{vmCampeonato.campeonato.descricao}}
+                </md-toolbar>
                 <md-card-content>
-                    <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
+                    <div class="profile-image-lg">
+                        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle" alt="profile">
+                    </div>
+                    <h2 class="text-center m-t" ng-show="false">
+                    {{vmCampeonato.campeonato.descricao}}
+                </h2>
+                    <h4 class="text-center m-t">
+                    {{vmCampeonato.campeonato.plataforma.descricao}}
+                </h4>
+                    <h4 class="text-center">
+                    {{vmCampeonato.campeonato.jogo.descricao}}
+                </h4>
+                    <h4 class="text-center">
+                {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
+                </h4>
                 </md-card-content>
             </md-card>
         </div>
 
-        <div ng-show="vmCampeonato.currentNavItem == 'participantes'">
-            <div flex layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
-        </div>
-
-        <div ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
-            <div flex layout="row" ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
-        </div>
-
-        <div ng-show="vmCampeonato.currentNavItem == 'detalhes'">
-            <div flex layout="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
-        </div>
-
-        <div ng-show="vmCampeonato.currentNavItem == 'editar'">
-            <div flex layout="row" ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
-        </div>
-
-
     </div>
-
-    <div flex="20">
-        <md-card>
-            <md-toolbar class="md-toolbar-tools">
-                {{vmCampeonato.campeonato.descricao}}
-            </md-toolbar>
-            <md-card-content>
-                <div class="profile-image-lg">
-                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle" alt="profile">
-                </div>
-                <h2 class="text-center m-t" ng-show="false">
-                    {{vmCampeonato.campeonato.descricao}}
-                </h2>
-                <h4 class="text-center m-t">
-                    {{vmCampeonato.campeonato.plataforma.descricao}}
-                </h4>
-                <h4 class="text-center">
-                    {{vmCampeonato.campeonato.jogo.descricao}}
-                </h4>
-                <h4 class="text-center">
-                {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
-                </h4>
-            </md-card-content>
-        </md-card>
-    </div>
-
 </div>
-
-<!--
-
-
-
-   <md-card>
-    <md-toolbar class="md-toolbar-tools">
-        <h2 translate>messages.campeonato_list</h2>
-        <span flex></span>
-        <md-button class="md-raised" ng-click="vmCampeonato.create($event)">
-            {{'messages.campeonato_add' | translate}}
-        </md-button>
-    </md-toolbar>
-    <md-card-content>
-        <table class="table">
-            <tr>
-                <th translate>fields.descricao</th>
-                <th translate class="visible-lg-block">fields.detalhes</th>
-                <th translate>fields.plataformas_id</th>
-                <th translate>fields.jogos_id</th>
-                <th translate>fields.campeonatotipos_id</th>
-                <th>&nbsp;</th>
-            </tr>
-            <tr ng-repeat="campeonato in vmCampeonato.campeonatos | orderBy:'descricao'">
-                <td>{{ campeonato.descricao }}</td>
-                <td class="visible-lg-block"><a ng-click="vmCampeonato.exibirRegrasCampeonato($event, campeonato.id)" translate>messages.exibir_regras_campeonato</a></td>
-                <td>{{ campeonato.plataforma }}</td>
-                <td>{{ campeonato.jogo }}</td>
-                <td>{{ campeonato.campeonatoTipo }}</td>
-                <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-info" ng-click="vmCampeonato.detalhes(campeonato.id)" tooltip="{{'messages.campeonato_detalhes' | translate}}">
-                        <i class="fa fa-info fa-fw"></i>
-                    </button>
-                    <button type="button" class="btn btn-warning" ng-click="vmCampeonato.edit($event, campeonato.id)" tooltip="{{'fields.edit' | translate}}">
-                        <i class="fa fa-pencil fa-fw"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger" ng-click="vmCampeonato.delete($event, campeonato.id)" tooltip="{{'fields.delete' | translate}}">
-                        <i class="fa fa-trash-o fa-fw"></i>
-                    </button>
-                </td>
-            </tr>
-        </table>
-    </md-card-content>
-</md-card>
-
-<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="detalhesCampeonato">
-
-    <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools" translate>messages.campeonato_detalhes</h1>
-    </md-toolbar>
-    <md-content layout-padding>
-        <div class="panel panel-primary">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title" translate>
-                        messages.campeonatoAdmin_list
-                    </h4>
-            </div>
-            <div class="panel-body">
-                <div class="row" ng-show="messages">
-                    <div class="col-md-10 col-md-offset-2">
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li class="error" ng-repeat="message in messages">
-                                    {{ message }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <select id="novoAdministrador" class="form-control" ng-model="vmCampeonato.novoAdministrador" ng-options="usuario.users_id as usuario.usuario for usuario in vmCampeonato.campeonatoUsuarios" required>
-                    </select>
-                    <span class="input-group-btn">
-                            <button type="button" class="btn btn-success" ng-click="vmCampeonato.salvaAdministrador()">
-                                <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    </span>
-
-                </div>
-            </div>
-
-            <ul class="list-group" ng-repeat="administrador in vmCampeonato.campeonatoAdministradores | orderBy:'usuario'">
-                <div class="input-group">
-                    <li class="list-group-item form-control">{{ administrador.usuario }}</li>
-                    <span class="input-group-btn">
-                            <button type="button" class="btn btn-danger" ng-click="vmCampeonato.excluiAdministrador(administrador.id)"
-                                    tooltip="{{'messages.campeonatoAdmin_delete' | translate}}">
-                                <i class="fa fa-trash-o fa-fw"></i>
-                            </button>
-                        </span>
-                </div>
-            </ul>
-            <br clear="all" />
-
-        </div>
-
-        <div class="panel panel-primary">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title" translate>
-                        messages.campeonatoFase_list
-                    </h4>
-            </div>
-            <div class="panel-body">
-                <div class="row" ng-show="messages">
-                    <div class="col-md-10 col-md-offset-2">
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li class="error" ng-repeat="message in messages">
-                                    {{ message }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-success btn-block" ng-click="vmCampeonato.adicionaFase()">
-                    <span class="glyphicon glyphicon-plus"></span> <span translate>messages.campeonatoFase_add</span>
-                </button>
-            </div>
-
-            <ul class="list-group" ng-repeat="fase in vmCampeonato.campeonatoFases">
-                <div class="input-group">
-                    <li class="list-group-item form-control" translate>{{ fase.descricao }}</li>
-                    <span class="input-group-btn">
-                            <button type="button" class="btn btn-info" ng-click="vmCampeonato.detalhesFase(fase.id, fase.descricao)"
-                                    tooltip="{{'messages.campeonatoFase_detalhes_exibir' | translate}}">
-                                <i class="fa fa-list fa-fw"></i>
-                            </button>
-                            <button type="button" class="btn btn-warning" ng-click="vmCampeonato.editaFase($event, fase.id)"
-                                    tooltip="{{'messages.campeonatoFase_edit' | translate}}">
-                                <i class="fa fa-pencil fa-fw"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger" ng-click="vmCampeonato.excluiFase($event, fase.id)"
-                                    tooltip="{{'messages.campeonatoFase_delete' | translate}}">
-                                <i class="fa fa-trash-o fa-fw"></i>
-                            </button>
-                        </span>
-                </div>
-            </ul>
-            <br clear="all" />
-        </div>
-    </md-content>
-
-</md-sidenav>-->

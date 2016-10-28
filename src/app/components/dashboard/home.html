@@ -1,5 +1,12 @@
-<div flex layout="row">
-    <div flex layout="column">
+<div flex layout="row" layout-margin>
+    <div flex="20" class="caixa-flutuante" layout-padding>
+        <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
+        <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
+        <md-button>Campeonatos</md-button>
+        <md-button>Seguindo</md-button>
+        <md-button>Seguidores</md-button>
+    </div>
+    <div flex layout="column" class="caixa-flutuante" layout-padding>
         <md-card class="escrever_post">
             <md-card-header>
                 <md-card-header-text>
@@ -80,13 +87,77 @@
             </div>
 
         </md-card>
+        <md-card>
+            <div class="social-avatar">
+                <a href="" class="pull-left">
+                    <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+                </a>
+                <div class="media-body">
+                    <a ui-sref="profile({idUsuario: 34})">
+                                        Andrew Williams
+                                    </a>
+                    <small class="text-muted">Today 4:21 pm - 12.06.2014</small>
+                </div>
+            </div>
+            <div class="social-body">
+                <p>
+                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Packages and web page editors now use Lorem Ipsum as their default model text.
+                </p>
+
+                <div class="btn-group">
+                    <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>
+                    <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
+                    <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>
+                </div>
+            </div>
+            <div class="social-footer">
+                <div class="social-comment">
+                    <a href="" class="pull-left">
+                        <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+                    </a>
+                    <div class="media-body">
+                        <a ui-sref="profile({idUsuario: 34})">
+                                            Andrew Williams
+                                        </a> Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words.
+                        <br>
+                        <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                        <small class="text-muted">12.06.2014</small>
+                    </div>
+                </div>
+
+                <div class="social-comment">
+                    <a href="" class="pull-left">
+                        <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+                    </a>
+                    <div class="media-body">
+                        <a ui-sref="profile({idUsuario: 34})">
+                                            Andrew Williams
+                                        </a> Making this the first true generator on the Internet. It uses a dictionary of.
+                        <br>
+                        <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 11 Like this!</a> -
+                        <small class="text-muted">10.07.2014</small>
+                    </div>
+                </div>
+
+                <div class="social-comment">
+                    <a href="" class="pull-left">
+                        <img alt="image" src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg">
+                    </a>
+                    <div class="media-body">
+                        <textarea class="form-control" placeholder="Write comment..."></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+        </md-card>
     </div>
-    <md-sidenav md-is-locked-open="true" class="md-whiteframe-1dp" hide-xs>
-        <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
-        <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
-        <md-button>Campeonatos</md-button>
-        <md-button>Seguindo</md-button>
-        <md-button>Seguidores</md-button>
-        <md-card>Equipe</md-card>
-    </md-sidenav>
+    <div flex="20" class="caixa-flutuante" layout-padding>
+        <md-card>
+            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eius, inventore vero itaque amet, doloribus veritatis sequi totam natus velit temporibus obcaecati ex nesciunt quae aliquid accusamus a consequuntur minima?</md-card-content>
+        </md-card>
+    </div>
 </div>
