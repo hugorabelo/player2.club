@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo) {
 
         var vm = this;
 
@@ -21,6 +21,7 @@
         vm.idCampeonato = $stateParams.idCampeonato;
         vm.campeonato = {};
         vm.campeonatoEditar = {};
+        vm.campeonatoEditar.detalhes = {};
 
         vm.rodada_atual = [];
 
@@ -44,6 +45,14 @@
 
             }
         };
+
+        $scope.$watch(angular.bind(vm, function () {
+            return vm.campeonatoEditar.detalhes.ida_volta;
+        }), function () {
+            if (!vm.campeonatoEditar.detalhes.ida_volta) {
+                vm.campeonatoEditar.detalhes.fora_casa = {};
+            }
+        });
 
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
@@ -403,6 +412,7 @@
                     vm.carregaTiposDeAcessoDoCampeonato();
                     vm.carregaTiposDeCompetidores();
                     vm.carregaCriteriosClassificacao(vm.campeonato.tipo.modelo_campeonato_id);
+                    console.log(vm.campeonatoEditar);
                 });
         };
 
@@ -442,33 +452,52 @@
                 });
         };
 
-        //        vm.create = function (ev) {
-        //            Campeonato.create()
-        //                .success(function (data) {
-        //                    $mdDialog
-        //                        .show({
-        //                            locals: {
-        //                                tituloModal: 'messages.campeonato_create',
-        //                                novoItem: true,
-        //                                campeonato: {},
-        //                                campeonatoTipos: data.campeonatoTipos,
-        //                                jogos: data.jogos,
-        //                                plataformas: data.plataformas
-        //                            },
-        //                            controller: DialogController,
-        //                            templateUrl: 'app/components/campeonato/formModal.html',
-        //                            parent: angular.element(document.body),
-        //                            targetEvent: ev,
-        //                            clickOutsideToClose: true,
-        //                            fullscreen: true // Only for -xs, -sm breakpoints.
-        //                        })
-        //                        .then(function () {
-        //
-        //                        }, function () {
-        //
-        //                        });
-        //                });
-        //        };
+        vm.create = function (ev) {
+            Campeonato.create()
+                .success(function (data) {
+                    vm.campeonatoEditar = {}
+                    vm.campeonatoEditar.novo = true;
+                    vm.carregaTiposDeAcessoDoCampeonato();
+                    vm.carregaTiposDeCompetidores();
+                    vm.listaPlataformas = data.plataformas;
+                });
+        };
+
+        vm.carregaJogosDaPlataforma = function () {
+            Plataforma.getJogos(vm.campeonatoEditar.plataformas_id)
+                .success(function (data) {
+                    vm.listaJogos = data;
+                    if (vm.listaJogos.length > 0) {
+                        vm.campeonatoEditar.jogos_id = vm.listaJogos[0].id;
+                        vm.carregaTiposDeCampeonatoDoJogo();
+                    }
+                    vm.messages = null;
+                });
+        };
+
+        vm.carregaTiposDeCampeonatoDoJogo = function () {
+            Jogo.getTiposDeCampeonato(vm.campeonatoEditar.jogos_id)
+                .success(function (data) {
+                    vm.listaCampeonatoTipos = data;
+                    if (vm.listaCampeonatoTipos.length > 0) {
+                        vm.campeonatoEditar.campeonato_tipos_id = vm.listaCampeonatoTipos[0].id;
+                        vm.carregaDetalhesCampeonato();
+                    }
+                    vm.messages = null;
+                });
+        };
+
+
+        vm.carregaDetalhesCampeonato = function () {
+            CampeonatoTipo.edit(vm.campeonatoEditar.campeonato_tipos_id)
+                .success(function (data) {
+                    vm.campeonatoEditar.arquivo_detalhes = data.arquivo_detalhes;
+                    vm.carregaCriteriosClassificacao(data.modelo_campeonato_id);
+                    vm.messages = null;
+                });
+        };
+
+
         //
         //
         //
@@ -487,23 +516,6 @@
         //                    $rootScope.loading = false;
         //                }).error(function (data, status) {
         //                    vm.messages = data.errors;
-        //                    vm.status = status;
-        //                    $rootScope.loading = false;
-        //                });
-        //        };
-        //
-        //        vm.update = function (campeonato) {
-        //            $rootScope.loading = true;
-        //            Campeonato.update(campeonato)
-        //                .success(function (data) {
-        //                    Campeonato.get()
-        //                        .success(function (getData) {
-        //                            vm.campeonatos = getData;
-        //                            $rootScope.loading = false;
-        //                        });
-        //                    $rootScope.loading = false;
-        //                }).error(function (data, status) {
-        //                    vm.message = data.errors;
         //                    vm.status = status;
         //                    $rootScope.loading = false;
         //                });

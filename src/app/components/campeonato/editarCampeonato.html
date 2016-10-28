@@ -41,21 +41,51 @@
             </div>
 
             <div layout="row">
-                <md-input-container class="md-block" flex="33">
+                <md-input-container class="md-block" flex="33" ng-hide="vmCampeonato.campeonatoEditar.novo">
                     <label>{{'fields.plataformas_id' | translate}}</label>
-                    <input ng-model="vmCampeonato.campeonatoEditar.plataforma.descricao" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input ng-model="vmCampeonato.campeonatoEditar.plataforma.descricao" required>
                 </md-input-container>
-                <md-input-container class="md-block" flex="33">
+
+                <md-input-container class="md-block" flex="33" ng-show="vmCampeonato.campeonatoEditar.novo">
+                    <label>{{'fields.plataformas_id' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.campeonatoEditar.plataformas_id" ng-change="vmCampeonato.carregaJogosDaPlataforma()" required>
+                        <md-option ng-repeat="plataforma in vmCampeonato.listaPlataformas" ng-value="plataforma.id">
+                            {{plataforma.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex="33" ng-hide="vmCampeonato.campeonatoEditar.novo">
                     <label>{{'fields.jogos_id' | translate}}</label>
-                    <input ng-model="vmCampeonato.campeonatoEditar.jogo.descricao" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input ng-model="vmCampeonato.campeonatoEditar.jogo.descricao" required>
                 </md-input-container>
-                <md-input-container class="md-block" flex="33">
+
+                <md-input-container class="md-block" flex="33" ng-show="vmCampeonato.campeonatoEditar.novo">
+                    <label>{{'fields.jogos_id' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.campeonatoEditar.jogos_id" ng-change="vmCampeonato.carregaTiposDeCampeonatoDoJogo()" required ng-show="vmCampeonato.campeonatoEditar.novo">
+                        <md-option ng-repeat="jogo in vmCampeonato.listaJogos" ng-value="jogo.id">
+                            {{jogo.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex="33" ng-hide="vmCampeonato.campeonatoEditar.novo">
                     <label>{{'fields.campeonatotipos_id' | translate}}</label>
-                    <input ng-model="vmCampeonato.campeonatoEditar.tipo.descricao" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input ng-model="vmCampeonato.campeonatoEditar.tipo.descricao" required>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex="33" ng-show="vmCampeonato.campeonatoEditar.novo">
+                    <label>{{'fields.campeonatotipos_id' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.campeonatoEditar.campeonato_tipos_id" ng-change="vmCampeonato.carregaDetalhesCampeonato()" required>
+                        <md-option ng-repeat="campeonatoTipo in vmCampeonato.listaCampeonatoTipos" ng-value="campeonatoTipo.id">
+                            {{campeonatoTipo.descricao}}
+                        </md-option>
+                    </md-select>
                 </md-input-container>
             </div>
 
-            <div ng-include src="'app/components/campeonato/modelos/' + vmCampeonato.campeonatoEditar.tipo.arquivo_detalhes"></div>
+            <div ng-include src="'app/components/campeonato/modelos/' + vmCampeonato.campeonatoEditar.tipo.arquivo_detalhes" ng-hide="vmCampeonato.campeonatoEditar.novo"></div>
+            <div ng-include src="'app/components/campeonato/modelos/' + vmCampeonato.campeonatoEditar.arquivo_detalhes" ng-show="vmCampeonato.campeonatoEditar.novo"></div>
 
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="vmCampeonato.carregaCampeonato()">{{'fields.cancel' | translate}}</md-button>

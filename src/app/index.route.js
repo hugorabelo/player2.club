@@ -133,7 +133,7 @@
             })
             .state('criar_campeonato', {
                 url: "/criar_campeonato",
-                templateUrl: "app/components/campeonato/editarCampeonato.html",
+                templateUrl: "app/components/campeonato/novoCampeonato.html",
                 controller: 'CampeonatoController as vmCampeonato',
                 data: {
                     pageTitle: "messages.campeonato_create",

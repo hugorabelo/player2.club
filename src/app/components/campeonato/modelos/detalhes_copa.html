@@ -37,6 +37,14 @@
                     <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
             </md-input-container>
+
+            <md-input-container class="md-block md-input-has-value" ng-show="vmCampeonato.campeonatoEditar.detalhes.ida_volta">
+                <label>{{'fields.fora_casa' | translate}}</label>
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.fora_casa" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
         </div>
         <div flex="50">
             <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>

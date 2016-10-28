@@ -5,26 +5,36 @@
         </md-card-header-text>
     </md-card-header>
     <md-card-content layout="row" layout-margin>
-        <md-input-container class="md-block">
-            <label>{{'fields.tipo_competidor' | translate}}</label>
-            <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id" required>
-                <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
-                    {{tipoCompetidor.descricao}}
-                </md-option>
-            </md-select>
-        </md-input-container>
+        <div flex="50">
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
 
-        <md-input-container class="md-block">
-            <label>{{'fields.quantidade_usuarios' | translate}}</label>
-            <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
-        </md-input-container>
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+            </md-input-container>
 
-        <md-input-container class="md-block md-input-has-value">
-            <label>{{'fields.ida_volta' | translate}}</label>
-            <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
-                <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
-                <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
-            </md-radio-group>
-        </md-input-container>
+            <md-input-container class="md-block md-input-has-value">
+                <label>{{'fields.ida_volta' | translate}}</label>
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+
+            <md-input-container class="md-block md-input-has-value" ng-show="vmCampeonato.campeonatoEditar.detalhes.ida_volta">
+                <label>{{'fields.fora_casa' | translate}}</label>
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.fora_casa" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+        </div>
     </md-card-content>
 </md-card>
