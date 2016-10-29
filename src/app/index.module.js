@@ -16,7 +16,8 @@
         'trumbowyg-ng',
         'ui.checkbox',
         'ngMaterial',
-        'lfNgMdFileInput'
+        'lfNgMdFileInput',
+        'monospaced.elastic'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
