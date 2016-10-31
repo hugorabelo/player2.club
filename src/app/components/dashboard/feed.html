@@ -1,5 +1,82 @@
 <md-card ng-repeat="atividade in vmHome.atividades track by $index">
-    <!--            {{atividade}}-->
+    <!-- curtir post -->
+    <!-- publicar post -->
+    <div ng-show="{{atividade.post_id}}">
+        <div class="social-body" ng-hide="post.editar">
+            <p>
+                {{atividade.objeto.texto}}
+            </p>
+        </div>
+        <div class="social-avatar" ng-hide="post.editar" layout="row">
+
+            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+            </a>
+
+            <div class="media-body" flex>
+                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+
+                <div class="clearfix"></div>
+                <small class="text-muted">
+                    {{ vmHome.exibeData(atividade.created_at) }}
+                </small>
+                <p>
+                    <a class="small"><i class="fa fa-thumbs-up"></i> 2 {{'messages.curtiram' | translate}}!</a>
+                </p>
+                <p ng-show="post.quantidade_curtidas">
+                    <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
+                </p>
+            </div>
+
+
+            <div class="botoes_acao" layout="row" layout-align="end end">
+                <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <md-tooltip md-direction="top">
+                        {{'fields.edit' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">edit</i>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <md-tooltip md-direction="top">
+                        {{'fields.delete' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">delete</i>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
+                    <md-tooltip md-direction="top">
+                        {{'messages.curtir' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">thumb_up</i>
+                </md-button>
+
+                <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
+                    <md-tooltip md-direction="top">
+                        {{'messages.comentar' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">mode_comment</i>
+                </md-button>
+
+                <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                    <md-tooltip md-direction="top">
+                        {{'messages.compartilhar' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">share</i>
+                </md-button>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- compartilhar post -->
+    <!-- comentar -->
+    <!-- seguir usuário -->
+    <!-- curtir comentário -->
+    <!-- seguir jogo -->
+
+    <div class="feed-activity-list">
+        <div class="feed-element"></div>
+    </div>
+
     <div class="dropdown" ng-show="post.usuario.id == usuarioLogado.id && !post.editar">
         <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
             <md-fab-trigger>
@@ -52,7 +129,7 @@
         </a>
 
         <div class="media-body">
-            <!-- seguir jogo -->
+
 
             <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
 
