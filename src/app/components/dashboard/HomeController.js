@@ -32,8 +32,12 @@
             Usuario.getFeed($rootScope.usuarioLogado.id)
                 .success(function (data) {
                     vm.atividades = data;
-                    console.log(data);
                 });
+        };
+
+        vm.exibeData = function (data) {
+            var dataExibida = new Date(data);
+            return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
         /*
