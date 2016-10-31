@@ -180,6 +180,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getFeed: function (idUsuario) {
+            return $http.get('api/usuario/feed/' + idUsuario);
         }
     }
 }]);

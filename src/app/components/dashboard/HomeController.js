@@ -15,6 +15,8 @@
             $scope.textoInscrever = translations['messages.inscrever'];
         });
 
+        //vm.getFeedDoUsuario();
+
         vm.criarPost = function () {
             var post = {};
             post.users_id = $rootScope.usuarioLogado.id;
@@ -24,6 +26,14 @@
                     vm.novoPost = '';
                     //TODO
                 })
+        };
+
+        vm.getFeedDoUsuario = function () {
+            Usuario.getFeed($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    vm.atividades = data;
+                    console.log(data);
+                });
         };
 
         /*

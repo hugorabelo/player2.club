@@ -17,7 +17,8 @@
         'ui.checkbox',
         'ngMaterial',
         'lfNgMdFileInput',
-        'monospaced.elastic'
+        'monospaced.elastic',
+        'ngScrollSpy'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests;
 
 class PostController extends Controller
@@ -34,6 +32,7 @@ class PostController extends Controller
 
         if ($validation->passes())
         {
+
             Post::create(Input::all());
 
             return Response::json(array('success'=>true));

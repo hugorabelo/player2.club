@@ -196,7 +196,6 @@ class UsersController extends Controller {
 		if($usuario == null) {
 			return Response::json();
 		}
-		Log::info(($idCampeonato));
 		$partidas = $usuario->partidas($idCampeonato);
 		return Response::json($partidas);
 	}
@@ -309,6 +308,41 @@ class UsersController extends Controller {
         $usuario->deixarDeSeguirJogo($idJogo);
         return Response::json();
     }
+
+	public function getFeed($idUsuario) {
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		$atividades = $usuario->getAtividades();
+		foreach ($atividades as $atividade) {
+			if(isset($atividade->curtida_id)) {
+				$atividade->descricao = 'messages.curtiu';
+			} else if(isset($atividade->post_id)) {
+				$post = Post::find($atividade->post_id);
+				if(isset($post->post_id)) {
+					$atividade->descricao = 'messages.compartilhou';
+				} else {
+					$atividade->descricao = 'messages.publicou';
+				}
+			} else if(isset($atividade->comentarios_id)) {
+				$comentario = Comentario::find($atividade->comentarios_id);
+				$atividade->descricao = 'messages.comentou';
+			} else if(isset($atividade->seguidor_id)) {
+				$atividade->descricao = 'messages.seguiu';
+			} else if(isset($atividade->curtida_comentario_id)) {
+				$atividade->descricao = 'messages.curtiu_comentario';
+			} else if(isset($atividade->seguidor_jogo_id)) {
+				$seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
+				$jogo = Jogo::find($seguidor_jogo->jogos_id);
+				$atividade->descricao = 'messages.seguiu_jogo';
+				$atividade->objeto = $jogo;
+			}
+			$usuario = User::find($atividade->users_id);
+			$atividade->usuario = $usuario;
+		}
+		return Response::json($atividades);
+	}
 
 
 }

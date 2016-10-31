@@ -21,7 +21,7 @@ class Post extends Model
     }
 
     public function curtidas() {
-        return $this->belongsToMany('User', 'curtida', 'post_id', 'users_id');
+        return $this->belongsToMany('User', 'curtida', 'post_id', 'users_id')->withTimestamps();
     }
 
     public function quantidadeCurtidas() {
@@ -34,6 +34,12 @@ class Post extends Model
             $this->curtidas()->detach($idUsuario);
         } else {
             $this->curtidas()->attach($idUsuario);
+            $curtida_id = $this->curtidas()->withPivot('id')->first()->pivot->id;
+
+            $atividade = new Atividade();
+            $atividade->users_id = $idUsuario;
+            $atividade->curtida_id = $curtida_id;
+            $atividade->save();
         }
     }
 

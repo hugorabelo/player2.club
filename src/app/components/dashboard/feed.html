@@ -1,4 +1,7 @@
-<md-card ng-repeat="post in vmHome.posts track by $index">
+<md-card ng-repeat="atividade in vmHome.atividades track by $index">
+    <!--            {{atividade}}-->
+    <a ui-sref="profile({idUsuario: atividade.usuario.id})">{{atividade.usuario.nome}}</a> {{atividade.descricao | translate}} {{atividade.objeto.descricao}}
+
     <div class="dropdown" ng-show="post.usuario.id == usuarioLogado.id && !post.editar">
         <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
             <md-fab-trigger>

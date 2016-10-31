@@ -249,6 +249,14 @@
         "mensagem": "Mensagem",
         "visitar_perfil": "Visitar Perfil",
         "filtro": "Filtre os resultados",
-        "ultimos_jogos": "Últimas Partidas"
+        "ultimos_jogos": "Últimas Partidas",
+
+        "curtiu": " curtiu o post de ",
+        "compartilhou": " compartilhou o post de ",
+        "publicou": " publicou ",
+        "comentou": " comentou o post de ",
+        "seguiu": " começou a seguir ",
+        "curtiu_comentario": " curtiu o comentário de ",
+        "seguiu_jogo": " começou a seguir o jogo "
     }
 }

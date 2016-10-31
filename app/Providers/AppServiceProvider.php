@@ -12,6 +12,19 @@ class AppServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		//
+		\Post::created(function ($post) {
+			$atividade = new \Atividade();
+			$atividade->users_id = $post->users_id;
+			$atividade->post_id = $post->id;
+			$atividade->save();
+		});
+
+		\Comentario::created(function ($comentario) {
+			$atividade = new \Atividade();
+			$atividade->users_id = $comentario->users_id;
+			$atividade->comentarios_id = $comentario->id;
+			$atividade->save();
+		});
 	}
 
 	/**

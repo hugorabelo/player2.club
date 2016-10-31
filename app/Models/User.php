@@ -74,15 +74,22 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function seguidores() {
-		return $this->belongsToMany('User', 'seguidor', 'users_id_mestre', 'users_id_seguidor');
+		return $this->belongsToMany('User', 'seguidor', 'users_id_mestre', 'users_id_seguidor')->withTimestamps();
 	}
 
 	public function seguindo() {
-		return $this->belongsToMany('User', 'seguidor', 'users_id_seguidor', 'users_id_mestre');
+		return $this->belongsToMany('User', 'seguidor', 'users_id_seguidor', 'users_id_mestre')->withTimestamps();
 	}
 
 	public function seguir($idUsuario) {
 	    $this->seguindo()->attach($idUsuario);
+
+		$seguidor_id = $this->seguindo()->withPivot('id')->first()->pivot->id;
+
+		$atividade = new Atividade();
+		$atividade->users_id = $this->id;
+		$atividade->seguidor_id = $seguidor_id;
+		$atividade->save();
     }
     public function deixarDeSeguir($idUsuario) {
         $this->seguindo()->detach($idUsuario);
@@ -122,15 +129,28 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	}
 
 	public function jogos() {
-        return $this->belongsToMany('Jogo', 'seguidor_jogo', 'users_id', 'jogos_id');
+        return $this->belongsToMany('Jogo', 'seguidor_jogo', 'users_id', 'jogos_id')->withTimestamps();
     }
 
     public function seguirJogo($idJogo) {
         $this->jogos()->attach($idJogo);
+
+		$seguidor_jogo_id = $this->jogos()->withPivot(['id', 'created_at'])->orderBy('pivot_created_at', 'desc')->first()->pivot->id;
+
+		$atividade = new Atividade();
+		$atividade->users_id = $this->id;
+		$atividade->seguidor_jogo_id = $seguidor_jogo_id;
+		$atividade->save();
     }
 
     public function deixarDeSeguirJogo($idJogo) {
         $this->jogos()->detach($idJogo);
     }
+
+	public function getAtividades() {
+		//TODO Caso seja o profile do usuário, aqui está correto, mas caso seja a pagina inicial, deve pegar os feeds dos seguidores
+		$atividades = Atividade::where('users_id','=', $this->id)->orderBy('created_at', 'desc')->get();
+		return $atividades;
+	}
 
 }

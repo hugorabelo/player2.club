@@ -28,7 +28,8 @@
     "lf-ng-md-file-input": "^1.4.8",
     "trumbowyg": "^v2.4.1",
     "trumbowyg-ng": "^0.0.3",
-    "angular-elastic": "^2.5.1"
+    "angular-elastic": "^2.5.1",
+    "ngScrollSpy": "^1.0.10"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0"
@@ -53,10 +54,15 @@
         "fonts/fontawesome-webfont.woff",
         "fonts/fontawesome-webfont.woff2"
       ]
+    },
+    "angular-jquery": {
+      "main": [
+        "dist/angular-jquery.js "
+      ]
     }
   },
   "resolutions": {
     "jquery": "~2.1.4",
-    "angular": "~1.5.0"
+    "angular": "1.5.8"
   }
 }

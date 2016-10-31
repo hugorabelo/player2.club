@@ -60,6 +60,7 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
     Route::post('usuario/removeSeguidorJogo', 'UsersController@removeSeguidorJogo');
     Route::post('usuario/segueJogo', 'UsersController@segueJogo');
+    Route::get('usuario/feed/{id}', 'UsersController@getFeed');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -125,7 +126,7 @@ Route::any('{catchall}', function() {
  */
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
-//    Log::info($query->sql);
+    //Log::info($query->sql);
     //DB::getQueryLog();
 });
 /* */

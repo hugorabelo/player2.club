@@ -1,6 +1,6 @@
 <md-card ng-repeat="post in vmProfile.posts track by $index">
     <div class="dropdown" ng-show="post.usuario.id == usuarioLogado.id && !post.editar">
-        <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
+        <md-fab-speed-dial md-open="fabSpeed" md-direction="down" class="md-scale md-fab-top-right">
             <md-fab-trigger>
                 <md-button aria-label="menu" class="md-icon-button">
                     <i class="fa fa-bars" aria-hidden="true"></i>

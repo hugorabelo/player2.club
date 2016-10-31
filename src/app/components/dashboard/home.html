@@ -1,4 +1,6 @@
-<div flex layout="row" layout-margin>
+<div flex layout="row" layout-margin ng-init="vmHome.getFeedDoUsuario()">
+
+
     <div flex="20" layout="column" class="caixa-flutuante" layout-padding>
         <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
         <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
@@ -6,6 +8,8 @@
         <md-button>Seguindo</md-button>
         <md-button>Seguidores</md-button>
     </div>
+
+
     <div flex layout="column" class="caixa-flutuante" layout-padding>
         <div class="escrever_post">
             <div class="icones">
@@ -13,29 +17,13 @@
                     <i class="fa fa-camera" aria-hidden="true"></i>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="vmHome.criarPost()">
-                    <i class="fa fa-cloud-upload" ng-click="vmHome.criarPost()" aria-hidden="true"></i>
+                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
                 </md-button>
             </div>
             <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
             <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmHome.novoPost">
             </textarea>
         </div>
-        <md-card class="escrever_post" ng-show="false">
-            <md-card-header>
-                <md-card-header-text>
-                    <span class="md-subhead">
-                        <i class="fa fa-camera" aria-hidden="true"></i> {{'messages.foto' | translate}}
-                    </span>
-                </md-card-header-text>
-            </md-card-header>
-            <md-card-content flex layout="row">
-                <img alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-                <textarea rows="10" msd-elastic placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmHome.novoPost"></textarea>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="vmHome.criarPost()">{{'messages.publicar' | translate}}</md-button>
-            </md-card-actions>
-        </md-card>
 
         <div flex ng-include="'app/components/dashboard/feed.html'"></div>
 

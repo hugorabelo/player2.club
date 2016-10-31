@@ -248,6 +248,14 @@
         "mensagem": "Message",
         "visitar_perfil": "View Profile",
         "filtro": "Filter Results",
-        "ultimos_jogos": "Last Matches"
+        "ultimos_jogos": "Last Matches",
+
+        "curtiu": "<vazio>",
+        "compartilhou": "<vazio>",
+        "publicou": "<vazio>",
+        "comentou": "<vazio>",
+        "seguiu": "<vazio>",
+        "curtiu_comentario": "<vazio>",
+        "seguiu_jogo": "<vazio>"
     }
 }
