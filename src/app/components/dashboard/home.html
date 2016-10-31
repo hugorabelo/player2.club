@@ -1,7 +1,7 @@
 <div flex layout="row" layout-margin ng-init="vmHome.getFeedDoUsuario()">
 
 
-    <div flex="20" layout="column" class="caixa-flutuante" layout-padding>
+    <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
         <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
         <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
         <md-button>Campeonatos</md-button>
@@ -10,14 +10,20 @@
     </div>
 
 
-    <div flex layout="column" class="caixa-flutuante" layout-padding>
+    <div flex layout="column" class="caixa-flutuante" layout-margin>
         <div class="escrever_post">
             <div class="icones">
                 <md-button class="md-icon-button" ng-click="vmHome.adicionarImagem()">
-                    <i class="fa fa-camera" aria-hidden="true"></i>
+                    <md-tooltip md-direction="top">
+                        {{'messages.inserir_foto' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">photo_camera</i>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="vmHome.criarPost()">
-                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                    <md-tooltip md-direction="top">
+                        {{'messages.publicar' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">send</i>
                 </md-button>
             </div>
             <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
@@ -25,44 +31,9 @@
             </textarea>
         </div>
 
-        <div flex ng-include="'app/components/dashboard/feed.html'"></div>
-
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
-        </md-card>
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eius, inventore vero itaque amet, doloribus veritatis sequi totam natus velit temporibus obcaecati ex nesciunt quae aliquid accusamus a consequuntur minima?</md-card-content>
-        </md-card>
-
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
-        </md-card>
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eius, inventore vero itaque amet, doloribus veritatis sequi totam natus velit temporibus obcaecati ex nesciunt quae aliquid accusamus a consequuntur minima?</md-card-content>
-        </md-card>
-
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
-        </md-card>
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eius, inventore vero itaque amet, doloribus veritatis sequi totam natus velit temporibus obcaecati ex nesciunt quae aliquid accusamus a consequuntur minima?</md-card-content>
-        </md-card>
-
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
-        </md-card>
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eius, inventore vero itaque amet, doloribus veritatis sequi totam natus velit temporibus obcaecati ex nesciunt quae aliquid accusamus a consequuntur minima?</md-card-content>
-        </md-card>
-
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
-        </md-card>
-        <md-card>
-            <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eius, inventore vero itaque amet, doloribus veritatis sequi totam natus velit temporibus obcaecati ex nesciunt quae aliquid accusamus a consequuntur minima?</md-card-content>
-        </md-card>
+        <div ng-include="'app/components/dashboard/feed.html'" layout="column" layout-fill></div>
     </div>
-    <div flex="20" layout="column" class="caixa-flutuante" layout-padding>
+    <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
         <md-card>
             <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
         </md-card>

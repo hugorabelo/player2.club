@@ -12,33 +12,33 @@
     </div>
 
     <div flex layout="row" layout-margin>
-        <div flex="80" ng-init="vmCampeonato.carregaCampeonato()" class="caixa-flutuante" layout-padding>
-            <div ng-show="vmCampeonato.currentNavItem == 'tabela'">
-                <div ng-include="'app/components/campeonato/tabela.html'"></div>
+        <div flex="80" ng-init="vmCampeonato.carregaCampeonato()" class="caixa-flutuante" layout-margin>
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'tabela'">
+                <div layout-fill ng-include="'app/components/campeonato/tabela.html'"></div>
             </div>
 
-            <div flex layout="row" ng-show="vmCampeonato.currentNavItem == 'regras'">
-                <md-card flex>
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
+                <md-card>
                     <md-card-content>
                         <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
                     </md-card-content>
                 </md-card>
             </div>
 
-            <div ng-show="vmCampeonato.currentNavItem == 'participantes'">
-                <div flex layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'participantes'">
+                <div layout-fill layout="row" ng-include="'app/components/campeonato/participantes.html'"></div>
             </div>
 
-            <div ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
-                <div flex layout="row" ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
+                <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
             </div>
 
-            <div ng-show="vmCampeonato.currentNavItem == 'detalhes'">
-                <div flex layout="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'detalhes'">
+                <div layout-fill layout="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
             </div>
 
-            <div ng-show="vmCampeonato.currentNavItem == 'editar'">
-                <div flex layout="row" ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'editar'">
+                <div layout-fill ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
             </div>
 
 
@@ -50,9 +50,7 @@
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
                 <md-card-content>
-                    <div class="profile-image-lg">
-                        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-circle" alt="profile">
-                    </div>
+                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
                     <h2 class="text-center m-t" ng-show="false">
                     {{vmCampeonato.campeonato.descricao}}
                 </h2>
