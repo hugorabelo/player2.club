@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Post extends Eloquent
 {
     protected $guarded = array();
 
@@ -21,7 +21,9 @@ class Post extends Model
     }
 
     public function curtidas() {
-        return $this->belongsToMany('User', 'curtida', 'post_id', 'users_id')->withTimestamps();
+//        $atividade = Atividade::where('post_id','=', $this->id)->get()->first();
+        $this->atividade = $this->hasOne('Atividade', 'post_id');
+        return $this->atividade->curtidas;
     }
 
     public function quantidadeCurtidas() {

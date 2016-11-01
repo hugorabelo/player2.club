@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Atividade extends Model
+class Atividade extends Eloquent
 {
     protected $guarded = array();
 
@@ -11,4 +11,16 @@ class Atividade extends Model
     public static $rules = array(
         'users_id' => 'required'
     );
+
+    public function curtidas() {
+        return $this->belongsToMany('User', 'curtida', 'atividade_id', 'users_id')->withTimestamps();
+    }
+
+    public function curtir($idUsuario) {
+        if($this->curtiu($idUsuario)) {
+            $this->curtidas()->detach($idUsuario);
+        } else {
+            $this->curtidas()->attach($idUsuario);
+        }
+    }
 }
