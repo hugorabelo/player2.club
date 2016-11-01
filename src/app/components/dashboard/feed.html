@@ -1,13 +1,13 @@
 <md-card ng-repeat="atividade in vmHome.atividades track by $index">
     <!-- curtir post -->
     <!-- publicar post -->
-    <div ng-show="{{atividade.post_id}}">
-        <div class="social-body" ng-hide="post.editar">
+    <div ng-show="atividade.post_id && !atividade.objeto.post_id">
+        <div class="social-body">
             <p>
                 {{atividade.objeto.texto}}
             </p>
         </div>
-        <div class="social-avatar" ng-hide="post.editar" layout="row">
+        <div class="social-avatar" layout="row">
 
             <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
                 <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
@@ -66,40 +66,188 @@
 
 
         </div>
+        <div class="social-footer">
+            <div class="social-comment" ng-repeat="comentario in post.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
+                <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado.id">
+                    <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale md-fab-top-right" ng-show="options">
+                        <md-fab-trigger>
+                            <md-button aria-label="menu" class="md-icon-button m-r-0">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </md-button>
+                        </md-fab-trigger>
+
+                        <md-fab-actions>
+                            <md-button aria-label="Twitter" class="md-icon-button" ng-click="vmHome.ediComentario(comentario)">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </md-button>
+                            <md-button aria-label="Facebook" class="md-icon-button" ng-click="vmHome.deleteComentario($event, comentario, post)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </md-button>
+                        </md-fab-actions>
+                    </md-fab-speed-dial>
+                </div>
+                <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
+                </a>
+                <div class="media-body">
+                    <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
+                    <span ng-hide="comentario.editar">{{comentario.texto}}</span>
+                    <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.updateComentario($event, comentario)" ng-model="comentario.texto" ng-show="comentario.editar"></textarea>
+                    <br>
+                    <button class="btn btn-white btn-xs" ng-click="vmHome.curtirComentario(comentario)" ng-class="{'curtiu': comentario.curtiu}"><i class="fa fa-thumbs-up"></i></button>
+                    <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
+                    {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
+                </a>
+                    <small class="text-muted">{{vmHome.exibeData(comentario.created_at)}}</small>
+                </div>
+            </div>
+
+            <div class="social-comment">
+                <a href="" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+                </a>
+                <div class="media-body">
+                    <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.salvarComentario($event, post)" ng-model="post.novoComentario" id="comentario{{$index}}"></textarea>
+                </div>
+            </div>
+
+        </div>
     </div>
+
     <!-- compartilhar post -->
+    <div ng-show="atividade.post_id && atividade.objeto.post_id">
+        <div class="social-body">
+            <p>
+                {{atividade.objeto.texto}}
+            </p>
+        </div>
+        <div class="social-avatar" layout="row">
+
+            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+            </a>
+            <div class="media-body" flex>
+                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+                <span ng-hide="{{atividade.descricao == 'messages.publicou'}}">{{atividade.descricao | translate}}</span>
+                <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})"> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
+
+                <div class="clearfix"></div>
+                <small class="text-muted">
+                    {{ vmHome.exibeData(atividade.created_at) }}
+                </small>
+                <p>
+                    <a class="small"><i class="fa fa-thumbs-up"></i> 2 {{'messages.curtiram' | translate}}!</a>
+                </p>
+                <p ng-show="post.quantidade_curtidas">
+                    <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
+                </p>
+                <div class="social-avatar post_compartilhado">
+                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})" class="pull-left">
+                        <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}}">
+                    </a>
+                    <div class="media-body">
+                        <p> {{atividade.objeto.compartilhamento.texto}}
+                        </p>
+                    </div>
+                    <small class="text-muted pull-right">
+                            {{vmHome.exibeData(atividade.objeto.compartilhamento.created_at)}}
+</small>
+                </div>
+            </div>
+            <div class="botoes_acao" layout="row" layout-align="end end">
+                <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <md-tooltip md-direction="top">
+                        {{'fields.edit' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">edit</i>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <md-tooltip md-direction="top">
+                        {{'fields.delete' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">delete</i>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
+                    <md-tooltip md-direction="top">
+                        {{'messages.curtir' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">thumb_up</i>
+                </md-button>
+
+                <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
+                    <md-tooltip md-direction="top">
+                        {{'messages.comentar' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">mode_comment</i>
+                </md-button>
+
+                <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                    <md-tooltip md-direction="top">
+                        {{'messages.compartilhar' | translate}}
+                    </md-tooltip>
+                    <i class="material-icons">share</i>
+                </md-button>
+            </div>
+
+
+
+        </div>
+        <div class="social-footer">
+            <div class="social-comment" ng-repeat="comentario in post.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
+                <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado.id">
+                    <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale md-fab-top-right" ng-show="options">
+                        <md-fab-trigger>
+                            <md-button aria-label="menu" class="md-icon-button m-r-0">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </md-button>
+                        </md-fab-trigger>
+
+                        <md-fab-actions>
+                            <md-button aria-label="Twitter" class="md-icon-button" ng-click="vmHome.ediComentario(comentario)">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </md-button>
+                            <md-button aria-label="Facebook" class="md-icon-button" ng-click="vmHome.deleteComentario($event, comentario, post)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </md-button>
+                        </md-fab-actions>
+                    </md-fab-speed-dial>
+                </div>
+                <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
+                </a>
+                <div class="media-body">
+                    <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
+                    <span ng-hide="comentario.editar">{{comentario.texto}}</span>
+                    <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.updateComentario($event, comentario)" ng-model="comentario.texto" ng-show="comentario.editar"></textarea>
+                    <br>
+                    <button class="btn btn-white btn-xs" ng-click="vmHome.curtirComentario(comentario)" ng-class="{'curtiu': comentario.curtiu}"><i class="fa fa-thumbs-up"></i></button>
+                    <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
+                    {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
+                </a>
+                    <small class="text-muted">{{vmHome.exibeData(comentario.created_at)}}</small>
+                </div>
+            </div>
+
+            <div class="social-comment">
+                <a href="" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+                </a>
+                <div class="media-body">
+                    <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.salvarComentario($event, post)" ng-model="post.novoComentario" id="comentario{{$index}}"></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <!-- comentar -->
     <!-- seguir usuário -->
     <!-- curtir comentário -->
     <!-- seguir jogo -->
 
-    <div class="feed-activity-list">
-        <div class="feed-element"></div>
-    </div>
-
-    <div class="dropdown" ng-show="post.usuario.id == usuarioLogado.id && !post.editar">
-        <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
-            <md-fab-trigger>
-                <md-button aria-label="menu" class="md-icon-button">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                </md-button>
-            </md-fab-trigger>
-
-            <md-fab-actions>
-                <md-button aria-label="Twitter" class="md-fab md-mini md-raised" ng-click="vmHome.editPost(post)">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </md-button>
-                <md-button aria-label="Facebook" class="md-fab md-mini md-raised" ng-click="vmHome.deletePost($event, post, $index)">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </md-button>
-            </md-fab-actions>
-        </md-fab-speed-dial>
-    </div>
-
-    <div class="social-body" ng-hide="post.editar">
-        <p>
-            {{atividade.objeto.texto}}
-        </p>
+    <div ng-show="false">
+        <div class="feed-activity-list">
+            <div class="feed-element"></div>
+        </div>
 
         <div class="social-avatar post_compartilhado" ng-show="post.post_id">
             <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})" class="pull-left">
@@ -107,145 +255,178 @@
             </a>
             <div class="media-body">
                 <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})">
+                    <div class="dropdown" ng-show="post.usuario.id == usuarioLogado.id && !post.editar">
+                        <md-fab-speed-dial md-open="false" md-direction="down" class="md-scale md-fab-top-right">
+                            <md-fab-trigger>
+                                <md-button aria-label="menu" class="md-icon-button">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </md-button>
+                            </md-fab-trigger>
+
+                            <md-fab-actions>
+                                <md-button aria-label="Twitter" class="md-fab md-mini md-raised" ng-click="vmHome.editPost(post)">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </md-button>
+                                <md-button aria-label="Facebook" class="md-fab md-mini md-raised" ng-click="vmHome.deletePost($event, post, $index)">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </md-button>
+                            </md-fab-actions>
+                        </md-fab-speed-dial>
+                    </div>
+
+                    <div class="social-body" ng-hide="post.editar">
+                        <p>
+                            {{atividade.objeto.texto}}
+                        </p>
+
+                        <div class="social-avatar post_compartilhado" ng-show="post.post_id">
+                            <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})" class="pull-left">
+                                <img class="img-circle" alt="image" src="uploads/usuarios/{{post.postCompartilhado.usuario.imagem_perfil}}">
+                            </a>
+                            <div class="media-body">
+                                <a ui-sref="profile({idUsuario: post.postCompartilhado.usuario.id})">
                     {{post.postCompartilhado.usuario.nome}}
                 </a>
-                <div class="clearfix"></div>
-                <small class="text-muted">
+                                <div class="clearfix"></div>
+                                <small class="text-muted">
                     {{vmHome.exibeData(post.postCompartilhado.created_at)}}
                 </small>
 
-            </div>
-            <div class="clearfix"></div>
-            <p> {{post.postCompartilhado.texto}}
-            </p>
-        </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <p> {{post.postCompartilhado.texto}}
+                            </p>
+                        </div>
 
-    </div>
+                    </div>
 
-    <div class="social-avatar" ng-hide="post.editar">
+                    <div class="social-avatar" ng-hide="post.editar">
 
-        <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-            <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
-        </a>
+                        <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                            <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                        </a>
 
-        <div class="media-body">
+                        <div class="media-body">
 
 
-            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+                            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
 
-            <span ng-hide="{{atividade.descricao == 'messages.publicou'}}">{{atividade.descricao | translate}}</span>
+                            <span ng-hide="{{atividade.descricao == 'messages.publicou'}}">{{atividade.descricao | translate}}</span>
 
-            <!-- seguir jogo -->
-            <a ui-sref="jogo({idJogo: atividade.objeto.id})" ng-show="{{atividade.seguidor_jogo_id}}">
+                            <!-- seguir jogo -->
+                            <a ui-sref="jogo({idJogo: atividade.objeto.id})" ng-show="{{atividade.seguidor_jogo_id}}">
                 {{atividade.objeto.descricao}}
                 <img class="img-circle pull-right" alt="image" src="uploads/{{atividade.objeto.imagem_capa}}">
             </a>
 
-            <!-- seguir usuario -->
-            <a ui-sref="profile({idUsuario: atividade.objeto.id})" ng-show="{{atividade.seguidor_id}}"> {{atividade.objeto.nome}}
-                <img class="img-circle pull-right" alt="image" src="uploads/usuarios/{{atividade.objeto.imagem_perfil}}">
-            </a>
+                            <!-- seguir usuario -->
+                            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+                            <span ng-hide="{{atividade.descricao == 'messages.publicou'}}">{{atividade.descricao | translate}}</span>
+                            <a ui-sref="profile({idUsuario: atividade.objeto.id})" ng-show="{{atividade.seguidor_id}}"> {{atividade.objeto.nome}}
+                                <img class="img-circle pull-right" alt="image" src="uploads/usuarios/{{atividade.objeto.imagem_perfil}}">
+                            </a>
 
-            <!-- curtir post -->
-            <a ui-sref="post({idPost: atividade.objeto.id})" ng-show="{{atividade.curtida_id}}">
+                            <!-- curtir post -->
+                            <a ui-sref="post({idPost: atividade.objeto.id})" ng-show="{{atividade.curtida_id}}">
                 {{atividade.objeto.descricao}}
                 <img class="img-circle pull-right" alt="image" src="uploads/{{atividade.objeto.imagem_capa}}">
             </a>
 
-            <div class="clearfix"></div>
-            <small class="text-muted">
+                            <div class="clearfix"></div>
+                            <small class="text-muted">
                 {{ vmHome.exibeData(atividade.created_at) }}
 <!--                <span class="clearfix"></span>-->
             </small>
 
 
-        </div>
+                        </div>
 
-        <p ng-show="post.quantidade_curtidas">
-            <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
-        </p>
+                        <p ng-show="post.quantidade_curtidas">
+                            <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
+                        </p>
 
-        <div class="botoes_acao pull-right">
-            <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
-                <md-tooltip md-direction="top">
-                    {{'messages.curtir' | translate}}
-                </md-tooltip>
-                <i class="material-icons">thumb_up</i>
-            </md-button>
+                        <div class="botoes_acao pull-right">
+                            <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
+                                <md-tooltip md-direction="top">
+                                    {{'messages.curtir' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons">thumb_up</i>
+                            </md-button>
 
-            <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
-                <md-tooltip md-direction="top">
-                    {{'messages.comentar' | translate}}
-                </md-tooltip>
-                <i class="material-icons">mode_comment</i>
-            </md-button>
+                            <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
+                                <md-tooltip md-direction="top">
+                                    {{'messages.comentar' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons">mode_comment</i>
+                            </md-button>
 
-            <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
-                <md-tooltip md-direction="top">
-                    {{'messages.compartilhar' | translate}}
-                </md-tooltip>
-                <i class="material-icons">share</i>
-            </md-button>
-        </div>
+                            <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                                <md-tooltip md-direction="top">
+                                    {{'messages.compartilhar' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons">share</i>
+                            </md-button>
+                        </div>
 
 
-    </div>
+                    </div>
 
-    <div class="escrever_post" ng-show="post.editar">
-        <md-card-content flex layout="row">
-            <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-            <textarea class="form-control" ng-model="post.texto"></textarea>
-        </md-card-content>
-        <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-click="post.editar = false">{{'fields.cancel' | translate}}</md-button>
-            <md-button ng-click="vmHome.updatePost($event, post)">{{'fields.update' | translate}}</md-button>
-        </md-card-actions>
-    </div>
-    <div class="social-footer">
-        <div class="social-comment" ng-repeat="comentario in post.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
-            <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado.id">
-                <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale md-fab-top-right" ng-show="options">
-                    <md-fab-trigger>
-                        <md-button aria-label="menu" class="md-icon-button m-r-0">
-                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                        </md-button>
-                    </md-fab-trigger>
+                    <div class="escrever_post" ng-show="post.editar">
+                        <md-card-content flex layout="row">
+                            <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+                            <textarea class="form-control" ng-model="post.texto"></textarea>
+                        </md-card-content>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-button ng-click="post.editar = false">{{'fields.cancel' | translate}}</md-button>
+                            <md-button ng-click="vmHome.updatePost($event, post)">{{'fields.update' | translate}}</md-button>
+                        </md-card-actions>
+                    </div>
+                    <div class="social-footer">
+                        <div class="social-comment" ng-repeat="comentario in post.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
+                            <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado.id">
+                                <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale md-fab-top-right" ng-show="options">
+                                    <md-fab-trigger>
+                                        <md-button aria-label="menu" class="md-icon-button m-r-0">
+                                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                        </md-button>
+                                    </md-fab-trigger>
 
-                    <md-fab-actions>
-                        <md-button aria-label="Twitter" class="md-icon-button" ng-click="vmHome.ediComentario(comentario)">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </md-button>
-                        <md-button aria-label="Facebook" class="md-icon-button" ng-click="vmHome.deleteComentario($event, comentario, post)">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </md-button>
-                    </md-fab-actions>
-                </md-fab-speed-dial>
-            </div>
-            <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
-            </a>
-            <div class="media-body">
-                <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
-                <span ng-hide="comentario.editar">{{comentario.texto}}</span>
-                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.updateComentario($event, comentario)" ng-model="comentario.texto" ng-show="comentario.editar"></textarea>
-                <br>
-                <button class="btn btn-white btn-xs" ng-click="vmHome.curtirComentario(comentario)" ng-class="{'curtiu': comentario.curtiu}"><i class="fa fa-thumbs-up"></i></button>
-                <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
+                                    <md-fab-actions>
+                                        <md-button aria-label="Twitter" class="md-icon-button" ng-click="vmHome.ediComentario(comentario)">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </md-button>
+                                        <md-button aria-label="Facebook" class="md-icon-button" ng-click="vmHome.deleteComentario($event, comentario, post)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </md-button>
+                                    </md-fab-actions>
+                                </md-fab-speed-dial>
+                            </div>
+                            <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
+                                <img class="img-circle" alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
+                            </a>
+                            <div class="media-body">
+                                <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
+                                <span ng-hide="comentario.editar">{{comentario.texto}}</span>
+                                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.updateComentario($event, comentario)" ng-model="comentario.texto" ng-show="comentario.editar"></textarea>
+                                <br>
+                                <button class="btn btn-white btn-xs" ng-click="vmHome.curtirComentario(comentario)" ng-class="{'curtiu': comentario.curtiu}"><i class="fa fa-thumbs-up"></i></button>
+                                <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
                     {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
                 </a>
-                <small class="text-muted">{{vmHome.exibeData(comentario.created_at)}}</small>
-            </div>
-        </div>
+                                <small class="text-muted">{{vmHome.exibeData(comentario.created_at)}}</small>
+                            </div>
+                        </div>
 
-        <div class="social-comment">
-            <a href="" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-            </a>
-            <div class="media-body">
-                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.salvarComentario($event, post)" ng-model="post.novoComentario" id="comentario{{$index}}"></textarea>
-            </div>
-        </div>
+                        <div class="social-comment">
+                            <a href="" class="pull-left">
+                                <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+                            </a>
+                            <div class="media-body">
+                                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.salvarComentario($event, post)" ng-model="post.novoComentario" id="comentario{{$index}}"></textarea>
+                            </div>
+                        </div>
 
-    </div>
-    <div></div>
+                    </div>
+                    <div></div>
+            </div>
 </md-card>

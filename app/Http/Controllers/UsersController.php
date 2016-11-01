@@ -325,7 +325,9 @@ class UsersController extends Controller {
 				$post = Post::find($atividade->post_id);
 				if(isset($post->post_id)) {
 					$post_compartilhado = Post::find($post->post_id);
-					$atividade->objeto = $post_compartilhado;
+					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
+					$post->compartilhamento = $post_compartilhado;
+					$atividade->objeto = $post;
 					$atividade->descricao = 'messages.compartilhou';
 				} else {
 					$atividade->objeto = $post;

@@ -32,6 +32,7 @@
             Usuario.getFeed($rootScope.usuarioLogado.id)
                 .success(function (data) {
                     vm.atividades = data;
+                    console.log(vm.atividades);
                 });
         };
 
