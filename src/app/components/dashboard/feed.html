@@ -30,38 +30,42 @@
 
 
             <div class="botoes_acao" layout="row" layout-align="end end">
-                <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-tooltip md-direction="top">
-                        {{'fields.edit' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">edit</i>
-                </md-button>
-                <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-tooltip md-direction="top">
-                        {{'fields.delete' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">delete</i>
-                </md-button>
-                <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
-                    <md-tooltip md-direction="top">
-                        {{'messages.curtir' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">thumb_up</i>
-                </md-button>
+                <div>
+                    <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
+                        <md-tooltip md-direction="top">
+                            {{'messages.curtir' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">thumb_up</i>
+                    </md-button>
 
-                <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
-                    <md-tooltip md-direction="top">
-                        {{'messages.comentar' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">mode_comment</i>
-                </md-button>
+                    <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
+                        <md-tooltip md-direction="top">
+                            {{'messages.comentar' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">mode_comment</i>
+                    </md-button>
 
-                <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
-                    <md-tooltip md-direction="top">
-                        {{'messages.compartilhar' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">share</i>
-                </md-button>
+                    <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                        <md-tooltip md-direction="top">
+                            {{'messages.compartilhar' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">share</i>
+                    </md-button>
+                </div>
+                <div ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)">
+                        <md-tooltip md-direction="top">
+                            {{'fields.edit' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">edit</i>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)" ng-show="atividade.usuario.id == usuarioLogado.id">
+                        <md-tooltip md-direction="top">
+                            {{'fields.delete' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">delete</i>
+                    </md-button>
+                </div>
             </div>
 
 
@@ -158,38 +162,42 @@
         </div>
         <div class="social-avatar" flex>
             <div class="botoes_acao" layout="row" layout-align="end end">
-                <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-tooltip md-direction="top">
-                        {{'fields.edit' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">edit</i>
-                </md-button>
-                <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-tooltip md-direction="top">
-                        {{'fields.delete' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">delete</i>
-                </md-button>
-                <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
-                    <md-tooltip md-direction="top">
-                        {{'messages.curtir' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">thumb_up</i>
-                </md-button>
+                <div>
+                    <md-button class="md-icon-button" ng-click="vmHome.curtirPost(post)" ng-class="{'curtiu': post.curtiu}">
+                        <md-tooltip md-direction="top">
+                            {{'messages.curtir' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">thumb_up</i>
+                    </md-button>
 
-                <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
-                    <md-tooltip md-direction="top">
-                        {{'messages.comentar' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">mode_comment</i>
-                </md-button>
+                    <md-button class="md-icon-button" ng-click="vmHome.comentar('comentario'+$index)">
+                        <md-tooltip md-direction="top">
+                            {{'messages.comentar' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">mode_comment</i>
+                    </md-button>
 
-                <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
-                    <md-tooltip md-direction="top">
-                        {{'messages.compartilhar' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">share</i>
-                </md-button>
+                    <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                        <md-tooltip md-direction="top">
+                            {{'messages.compartilhar' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">share</i>
+                    </md-button>
+                </div>
+                <div ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)">
+                        <md-tooltip md-direction="top">
+                            {{'fields.edit' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">edit</i>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)">
+                        <md-tooltip md-direction="top">
+                            {{'fields.delete' | translate}}
+                        </md-tooltip>
+                        <i class="material-icons md-18">delete</i>
+                    </md-button>
+                </div>
             </div>
 
 
