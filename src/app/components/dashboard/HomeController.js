@@ -32,7 +32,11 @@
             Usuario.getFeed($rootScope.usuarioLogado.id)
                 .success(function (data) {
                     vm.atividades = data;
-                    console.log(vm.atividades);
+                    angular.forEach(vm.atividades, function (atividade) {
+                        if (atividade.post_id) {
+                            atividade.objeto.curtidas = vm.getCurtidasDoPost(atividade.post_id);
+                        }
+                    })
                 });
         };
 
@@ -40,6 +44,10 @@
             var dataExibida = new Date(data);
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
+
+        vm.getCurtidasDoPost = function (idPost) {
+            return 'testou: ' + atividade.id;
+        }
 
         /*
         vm.usuario = {};

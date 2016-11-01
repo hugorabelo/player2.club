@@ -24,7 +24,7 @@
                     <a class="small"><i class="fa fa-thumbs-up"></i> 2 {{'messages.curtiram' | translate}}!</a>
                 </p>
                 <p ng-show="post.quantidade_curtidas">
-                    <a class="small"><i class="fa fa-thumbs-up"></i> {{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
+                    <a class="small"><i class="fa fa-thumbs-up"></i>{{post.quantidade_curtidas}} {{'messages.curtiram' | translate}}!</a>
                 </p>
             </div>
 
@@ -128,7 +128,7 @@
             </a>
             <div class="media-body" flex>
                 <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
-                <span ng-hide="{{atividade.descricao == 'messages.publicou'}}">{{atividade.descricao | translate}}</span>
+                <span ng-hide="{{atividade.descricao == 'messages.publicou'}}" class="text-muted">{{atividade.descricao | translate}}</span>
                 <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})"> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
 
                 <div class="clearfix"></div>
@@ -148,12 +148,15 @@
                     <div class="media-body">
                         <p> {{atividade.objeto.compartilhamento.texto}}
                         </p>
+
                     </div>
                     <small class="text-muted pull-right">
                             {{vmHome.exibeData(atividade.objeto.compartilhamento.created_at)}}
 </small>
                 </div>
             </div>
+        </div>
+        <div class="social-avatar" flex>
             <div class="botoes_acao" layout="row" layout-align="end end">
                 <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)" md-colors="::{color: 'player2-primary-500'}" ng-show="atividade.usuario.id == usuarioLogado.id">
                     <md-tooltip md-direction="top">
