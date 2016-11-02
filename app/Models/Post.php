@@ -21,9 +21,7 @@ class Post extends Eloquent
     }
 
     public function curtidas() {
-//        $atividade = Atividade::where('post_id','=', $this->id)->get()->first();
-        $this->atividade = $this->hasOne('Atividade', 'post_id');
-        return $this->atividade->curtidas;
+        return $this->getAtividade()->curtidas();
     }
 
     public function quantidadeCurtidas() {
@@ -32,20 +30,15 @@ class Post extends Eloquent
     }
 
     public function curtir($idUsuario) {
-        if($this->curtiu($idUsuario)) {
-            $this->curtidas()->detach($idUsuario);
-        } else {
-            $this->curtidas()->attach($idUsuario);
-            $curtida_id = $this->curtidas()->withPivot('id')->first()->pivot->id;
-
-            $atividade = new Atividade();
-            $atividade->users_id = $idUsuario;
-            $atividade->curtida_id = $curtida_id;
-            $atividade->save();
-        }
+        $this->getAtividade()->curtir($idUsuario);
     }
 
     public function curtiu($idUsuario) {
-        return $this->curtidas()->wherePivot('users_id', '=', $idUsuario)->get()->count() > 0;
+        return $this->getAtividade()->curtiu($idUsuario);
+    }
+
+    public function getAtividade() {
+        $atividade = $this->hasOne('Atividade', 'post_id')->first();
+        return $atividade;
     }
 }
