@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
         var vm = this;
 
@@ -33,10 +33,12 @@
                 .success(function (data) {
                     vm.atividades = data;
                     angular.forEach(vm.atividades, function (atividade) {
-                        if (atividade.post_id) {
-                            atividade.objeto.curtidas = vm.getCurtidasDoPost(atividade.post_id);
-                        }
-                    })
+                            if (atividade.post_id) {
+                                atividade.objeto.curtidas = vm.getCurtidasDoPost(atividade.post_id);
+                                console.log(atividade.objeto.curtidas);
+                            }
+                        })
+                        //                    console.log(vm.atividades);
                 });
         };
 
@@ -45,8 +47,17 @@
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
-        vm.getCurtidasDoPost = function (idPost) {
-            return 'testou: ' + atividade.id;
+        vm.getCurtidasDoPost = function (idAtividade) {
+            Atividade.getCurtidas(idAtividade)
+                .success(function (data) {
+                    console.log(data);
+                    return data;
+                })
+                .error(function (data, status) {
+                    console.log('erro');
+                });
+            console.log('deu nada');
+            return [];
         }
 
         /*

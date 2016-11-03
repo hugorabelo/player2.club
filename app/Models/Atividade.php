@@ -24,6 +24,12 @@ class Atividade extends Eloquent
         }
     }
 
+    public function quantidadeCurtidas() {
+        $curtidas = $this->curtidas()->get();
+        return $curtidas->count();
+    }
+
+
     public function curtiu($idUsuario) {
         return $this->curtidas()->wherePivot('users_id', '=', $idUsuario)->get()->count() > 0;
     }

@@ -113,6 +113,11 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('post/getComentarios', 'PostController@getComentarios');
     Route::resource('post', 'PostController');
 
+    Route::post('atividade/curtir', 'AtividadeController@curtir');
+    Route::post('atividade/usuarioCurtiu', 'AtividadeController@usuarioCurtiu');
+    Route::post('atividade/curtidas/{id}', 'AtividadeController@getCurtidas');
+    Route::resource('atividade', 'AtividadeController');
+
     Route::post('comentario/curtir', 'ComentarioController@curtir');
     Route::resource('comentario', 'ComentarioController');
 
