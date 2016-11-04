@@ -110,6 +110,57 @@
                 });
         };
 
+        vm.salvarCompartilhar = function (novoPost) {
+            novoPost.users_id = $rootScope.usuarioLogado.id;
+            Post.salvar(novoPost)
+                .success(function (data) {
+
+                });
+        };
+
+        vm.compartilhar = function (ev, atividade) {
+            console.log(atividade);
+            $mdDialog.show({
+                    locals: {
+                        atividade: atividade,
+                        novoPost: {}
+                    },
+                    controller: DialogController,
+                    templateUrl: 'app/components/dashboard/compartilhar.tmpl.html',
+                    targetEvent: ev,
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function (novoPost) {
+                    vm.salvarCompartilhar(novoPost);
+                }, function () {
+                    $scope.status = 'cancel';
+                });
+        };
+
+        function DialogController($scope, $mdDialog, atividade) {
+            $scope.atividade = atividade;
+            $scope.novoPost = {};
+            $scope.novoPost.post_id = atividade.post_id;
+
+            $scope.exibeData = function (novaData) {
+                return vm.exibeData(novaData);
+            }
+
+            $scope.adicionarImagem = function () {
+                console.log('adicionar imagem');
+            };
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.compartilhar = function () {
+                $mdDialog.hide($scope.novoPost);
+            };
+        }
+
         /*
         vm.usuario = {};
         vm.exibeFormulario = false;

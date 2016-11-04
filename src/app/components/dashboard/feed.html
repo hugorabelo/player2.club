@@ -42,7 +42,7 @@
                         <i class="material-icons md-18">mode_comment</i>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                    <md-button class="md-icon-button" ng-click="vmHome.compartilhar($event, atividade)">
                         <md-tooltip md-direction="top">
                             {{'messages.compartilhar' | translate}}
                         </md-tooltip>
@@ -50,13 +50,13 @@
                     </md-button>
                 </div>
                 <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)">
+                    <md-button class="md-icon-button" ng-click="vmHome.editar(atividade)">
                         <md-tooltip md-direction="top">
                             {{'fields.edit' | translate}}
                         </md-tooltip>
                         <i class="material-icons md-18">edit</i>
                     </md-button>
-                    <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)">
+                    <md-button class="md-icon-button" ng-click="vmHome.excluir(atividade)">
                         <md-tooltip md-direction="top">
                             {{'fields.delete' | translate}}
                         </md-tooltip>
@@ -79,18 +79,20 @@
             <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
                 <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
             </a>
-            <div class="media-body" flex>
-                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
-                <span class="text-muted">{{atividade.descricao | translate}}</span>
-                <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})"> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
+            <div class="media-body" flex layout="column">
+                <div class="social-avatar corpo_post">
+                    <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+                    <span class="text-muted">{{atividade.descricao | translate}}</span>
+                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})"> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
 
-                <div class="clearfix"></div>
-                <small class="text-muted">
-                    {{ vmHome.exibeData(atividade.created_at) }}
-                </small>
-                <p ng-show="atividade.curtidas.length">
-                    <a class="small"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
-                </p>
+                    <div class="clearfix"></div>
+                    <small class="text-muted">
+                        {{ vmHome.exibeData(atividade.created_at) }}
+                    </small>
+                    <p ng-show="atividade.curtidas.length">
+                        <a class="small"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
+                    </p>
+                </div>
                 <div class="social-avatar post_compartilhado">
                     <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})" class="pull-left">
                         <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}}">
@@ -123,7 +125,7 @@
                         <i class="material-icons md-18">mode_comment</i>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="vmHome.compartilharPost($event, post)">
+                    <md-button class="md-icon-button" ng-click="vmHome.compartilhar($event, atividade)">
                         <md-tooltip md-direction="top">
                             {{'messages.compartilhar' | translate}}
                         </md-tooltip>
@@ -131,13 +133,13 @@
                     </md-button>
                 </div>
                 <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)">
+                    <md-button class="md-icon-button" ng-click="vmHome.editar(atividade)">
                         <md-tooltip md-direction="top">
                             {{'fields.edit' | translate}}
                         </md-tooltip>
                         <i class="material-icons md-18">edit</i>
                     </md-button>
-                    <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)">
+                    <md-button class="md-icon-button" ng-click="vmHome.excluir(atividade)">
                         <md-tooltip md-direction="top">
                             {{'fields.delete' | translate}}
                         </md-tooltip>
@@ -179,13 +181,13 @@
                         </md-button>
                     </div>
                     <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                        <md-button class="md-icon-button" ng-click="vmHome.editarPost(post)">
+                        <md-button class="md-icon-button" ng-click="vmHome.editarComentario(comentario)">
                             <md-tooltip md-direction="top">
                                 {{'fields.edit' | translate}}
                             </md-tooltip>
                             <i class="material-icons">edit</i>
                         </md-button>
-                        <md-button class="md-icon-button" ng-click="vmHome.excluirPost(post)">
+                        <md-button class="md-icon-button" ng-click="vmHome.excluirComentario(comentario)">
                             <md-tooltip md-direction="top">
                                 {{'fields.delete' | translate}}
                             </md-tooltip>
