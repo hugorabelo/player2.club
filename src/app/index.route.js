@@ -26,7 +26,7 @@
             .state('home', {
                 url: "/home",
                 templateUrl: "app/components/dashboard/home.html",
-                controller: 'HomeController as vmHome',
+                //                controller: 'FeedController as vmHome',
                 acesso: 'registrado'
             })
             .state('naoAutorizado', {
@@ -143,7 +143,7 @@
             .state('profile', {
                 url: "/profile/{idUsuario}",
                 templateUrl: "app/components/profile/index.html",
-                controller: 'HomeController as vmProfile',
+                controller: 'ProfileController as vmProfile',
                 data: {
                     pageTitle: "messages.profile_usuario"
                 }

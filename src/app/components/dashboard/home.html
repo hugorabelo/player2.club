@@ -1,4 +1,4 @@
-<div flex layout="row" layout-margin ng-init="vmHome.inicializa()">
+<div flex layout="row" layout-margin>
 
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
@@ -10,16 +10,16 @@
     </div>
 
 
-    <div flex layout="column" class="caixa-flutuante" layout-margin>
+    <div flex layout="column" class="caixa-flutuante" layout-margin ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()">
         <div class="escrever_post">
             <div class="icones">
-                <md-button class="md-icon-button" ng-click="vmHome.adicionarImagem()">
+                <md-button class="md-icon-button" ng-click="vmFeed.adicionarImagem()">
                     <md-tooltip md-direction="top">
                         {{'messages.inserir_foto' | translate}}
                     </md-tooltip>
                     <i class="material-icons">photo_camera</i>
                 </md-button>
-                <md-button class="md-icon-button" ng-click="vmHome.criarPost()">
+                <md-button class="md-icon-button" ng-click="vmFeed.criarPost()">
                     <md-tooltip md-direction="top">
                         {{'messages.publicar' | translate}}
                     </md-tooltip>
@@ -27,7 +27,7 @@
                 </md-button>
             </div>
             <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-            <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmHome.novoPost">
+            <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmFeed.novoPost">
             </textarea>
         </div>
 
