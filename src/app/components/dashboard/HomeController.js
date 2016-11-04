@@ -15,8 +15,6 @@
             $scope.textoInscrever = translations['messages.inscrever'];
         });
 
-        //vm.getFeedDoUsuario();
-
         vm.criarPost = function () {
             var post = {};
             post.users_id = $rootScope.usuarioLogado.id;
@@ -24,7 +22,7 @@
             Post.salvar(post)
                 .success(function (data) {
                     vm.novoPost = '';
-                    //TODO
+                    vm.getFeedDoUsuario();
                 })
         };
 
@@ -114,7 +112,7 @@
             novoPost.users_id = $rootScope.usuarioLogado.id;
             Post.salvar(novoPost)
                 .success(function (data) {
-
+                    vm.getFeedDoUsuario();
                 });
         };
 
