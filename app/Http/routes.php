@@ -60,7 +60,7 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
     Route::post('usuario/removeSeguidorJogo', 'UsersController@removeSeguidorJogo');
     Route::post('usuario/segueJogo', 'UsersController@segueJogo');
-    Route::get('usuario/feed/{id}', 'UsersController@getFeed');
+    Route::get('usuario/feed/{id}/{todos?}', 'UsersController@getFeed');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 

@@ -147,9 +147,13 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $this->jogos()->detach($idJogo);
     }
 
-	public function getAtividades() {
-		//TODO Caso seja o profile do usuário, aqui está correto, mas caso seja a pagina inicial, deve pegar os feeds dos seguidores
-		$atividades = Atividade::where('users_id','=', $this->id)->orderBy('created_at', 'desc')->get();
+	public function getAtividades($todos) {
+	    if($todos) {
+            //TODO Caso seja o profile do usuário, aqui está correto, mas caso seja a pagina inicial, deve pegar os feeds dos seguidores
+            $atividades = Atividade::where('users_id','=', $this->id)->orderBy('created_at', 'desc')->get();
+        } else {
+            $atividades = Atividade::where('users_id','=', $this->id)->orderBy('created_at', 'desc')->get();
+        }
 		return $atividades;
 	}
 

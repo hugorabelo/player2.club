@@ -143,7 +143,7 @@
             .state('profile', {
                 url: "/profile/{idUsuario}",
                 templateUrl: "app/components/profile/index.html",
-                controller: 'ProfileController as vmProfile',
+                controller: 'HomeController as vmProfile',
                 data: {
                     pageTitle: "messages.profile_usuario"
                 }

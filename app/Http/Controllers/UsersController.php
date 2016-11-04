@@ -309,12 +309,12 @@ class UsersController extends Controller {
         return Response::json();
     }
 
-	public function getFeed($idUsuario) {
+	public function getFeed($idUsuario, $todos = false) {
 		$usuario = $this->user->find($idUsuario);
 		if($usuario == null) {
 			return Response::json();
 		}
-		$atividades = $usuario->getAtividades();
+		$atividades = $usuario->getAtividades($todos);
 		foreach ($atividades as $atividade) {
 			if(isset($atividade->curtida_id)) {
 				$curtida = DB::table('curtida')->where('id','=',$atividade->curtida_id)->first();

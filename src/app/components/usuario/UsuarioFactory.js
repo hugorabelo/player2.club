@@ -182,8 +182,12 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
-        getFeed: function (idUsuario) {
-            return $http.get('api/usuario/feed/' + idUsuario);
+        getFeed: function (idUsuario, todos) {
+            if (todos !== undefined) {
+                return $http.get('api/usuario/feed/' + idUsuario + '/' + todos);
+            } else {
+                return $http.get('api/usuario/feed/' + idUsuario);
+            }
         }
     }
 }]);

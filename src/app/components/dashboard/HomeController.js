@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
         var vm = this;
 
@@ -15,6 +15,25 @@
             $scope.textoInscrever = translations['messages.inscrever'];
         });
 
+        vm.idUsuario = $stateParams.idUsuario
+
+        vm.inicializa = function () {
+            if (vm.idUsuario !== undefined) {
+                Usuario.get(vm.idUsuario)
+                    .success(function (data) {
+                        vm.usuario = data;
+                        vm.getFeedDoUsuario(true);
+                    });
+            } else {
+                vm.idUsuario = $rootScope.usuarioLogado.id;
+                Usuario.get(vm.idUsuario)
+                    .success(function (data) {
+                        vm.usuario = data;
+                        vm.getFeedDoUsuario(false);
+                    });
+            }
+        }
+
         vm.criarPost = function () {
             var post = {};
             post.users_id = $rootScope.usuarioLogado.id;
@@ -26,8 +45,11 @@
                 })
         };
 
-        vm.getFeedDoUsuario = function () {
-            Usuario.getFeed($rootScope.usuarioLogado.id)
+        vm.getFeedDoUsuario = function (todos) {
+            if (todos == undefined) {
+                todos = false;
+            }
+            Usuario.getFeed(vm.idUsuario, todos)
                 .success(function (data) {
                     vm.atividades = data;
                     angular.forEach(vm.atividades, function (atividade) {
