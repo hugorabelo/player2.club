@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('HomeController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
 
         var vm = this;
 
@@ -33,12 +33,12 @@
                 .success(function (data) {
                     vm.atividades = data;
                     angular.forEach(vm.atividades, function (atividade) {
-                            if (atividade.post_id) {
-                                atividade.objeto.curtidas = vm.getCurtidasDoPost(atividade.post_id);
-                                console.log(atividade.objeto.curtidas);
-                            }
-                        })
-                        //                    console.log(vm.atividades);
+                        if (atividade.post_id) {
+                            vm.getCurtidas(atividade);
+                            vm.usuarioCurtiu(atividade);
+                            vm.getComentariosDoPost(atividade.objeto);
+                        }
+                    })
                 });
         };
 
@@ -47,18 +47,68 @@
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
-        vm.getCurtidasDoPost = function (idAtividade) {
-            Atividade.getCurtidas(idAtividade)
+        vm.curtir = function (atividade) {
+            console.log(atividade);
+            var curtida = {};
+            curtida.atividade_id = atividade.id;
+            curtida.users_id = $rootScope.usuarioLogado.id;
+            Atividade.curtir(curtida)
                 .success(function (data) {
-                    console.log(data);
-                    return data;
+                    vm.getCurtidas(atividade);
+                    atividade.curtiu = !atividade.curtiu;
+                }).error(function (data, status) {
+                    vm.messages = data.errors;
+                    vm.status = status;
+                });
+        };
+
+        vm.getCurtidas = function (atividade) {
+            Atividade.getCurtidas(atividade.id)
+                .success(function (data) {
+                    atividade.curtidas = data;
                 })
                 .error(function (data, status) {
-                    console.log('erro');
+                    return [];
                 });
-            console.log('deu nada');
-            return [];
-        }
+        };
+
+        vm.usuarioCurtiu = function (atividade) {
+            var curtida = {};
+            curtida.atividade_id = atividade.id;
+            curtida.users_id = $rootScope.usuarioLogado.id;
+            Atividade.usuarioCurtiuAtividade(curtida)
+                .success(function (data) {
+                    atividade.curtiu = data.curtiu;
+                })
+        };
+
+        vm.comentar = function (elemento) {
+            var elementoNovo = $window.document.getElementById(elemento);
+            elementoNovo.focus();
+        };
+
+        vm.salvarComentario = function (ev, post) {
+            if (ev.keyCode === 13) {
+                var comentario = {};
+                comentario.post_id = post.id;
+                comentario.users_id = $rootScope.usuarioLogado.id;
+                comentario.texto = post.novoComentario;
+                ev.preventDefault();
+                Post.salvarComentario(comentario)
+                    .success(function (data) {
+                        post.comentarios = data;
+                        post.novoComentario = '';
+                    })
+            }
+        };
+
+        vm.getComentariosDoPost = function (post) {
+            Post.getComentarios(post.id, $rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    post.comentarios = data;
+                    $rootScope.loading = false;
+                });
+        };
 
         /*
         vm.usuario = {};

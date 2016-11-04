@@ -89,7 +89,7 @@
             },
 
             getComentarios: function (idPost, idUsuarioLeitor) {
-                dados = {
+                var dados = {
                     idPost: idPost,
                     idUsuarioLeitor: idUsuarioLeitor
                 };

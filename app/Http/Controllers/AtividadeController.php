@@ -99,7 +99,6 @@ class AtividadeController extends Controller
     }
 
     public function getCurtidas($idAtividade) {
-        Log::info($idAtividade);
         $atividade = Atividade::find($idAtividade);
         $curtidas = $atividade->curtidas()->get();
         return Response::json($curtidas);

@@ -15,7 +15,6 @@
             },
 
             getCurtidas: function (idAtividade) {
-                console.log('api/atividade/curtidas/' + idAtividade);
                 return $http.get('api/atividade/curtidas/' + idAtividade);
             },
 
