@@ -31,14 +31,15 @@ class ComentarioController extends Controller
      */
     public function store() {
         $input = Input::all();
+        Log::info($input);
         $validation = Validator::make($input, Comentario::$rules);
 
         if ($validation->passes())
         {
             Comentario::create($input);
 
-            $post = Post::find($input['post_id']);
-            $comentarios = $post->comentarios($input['users_id']);
+            $atividade = Atividade::find($input['atividade_id']);
+            $comentarios = $atividade->comentarios($input['users_id']);
 
             return Response::json($comentarios);
         }

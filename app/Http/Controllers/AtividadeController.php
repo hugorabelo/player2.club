@@ -103,4 +103,11 @@ class AtividadeController extends Controller
         $curtidas = $atividade->curtidas()->get();
         return Response::json($curtidas);
     }
+
+    public function getComentarios() {
+        $input = Input::all();
+        $atividade = Atividade::find($input['idAtividade']);
+        $comentarios = $atividade->comentarios($input['idUsuarioLeitor']);
+        return Response::json($comentarios);
+    }
 }

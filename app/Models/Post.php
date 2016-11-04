@@ -14,7 +14,7 @@ class Post extends Eloquent
         $comentarios = $this->hasMany('Comentario', 'post_id')->orderBy('created_at')->get();
         foreach ($comentarios as $comentario) {
             $comentario->usuario = User::find($comentario->users_id);
-            $comentario->quantidade_curtidas = $comentario->quantidadeCurtidas();
+            //$comentario->quantidade_curtidas = $comentario->quantidadeCurtidas();
             $comentario->curtiu = $comentario->curtiu($idUsuarioLeitor);
         }
         return $comentarios;

@@ -1,4 +1,4 @@
-<md-card ng-repeat="atividade in vmHome.atividades track by $index+1">
+<md-card ng-repeat="atividade in vmHome.atividades track by $index">
     <!-- curtir post -->
     <!-- publicar post -->
     <div ng-show="atividade.post_id && !atividade.objeto.post_id">
@@ -150,7 +150,7 @@
     </div>
 
     <div class="social-footer" ng-show="atividade.post_id">
-        <div class="social-comment" ng-repeat="comentario in atividade.objeto.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
+        <div class="social-comment" ng-repeat="comentario in atividade.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
             <div class="dropdown" ng-show="comentario.usuario.id == usuarioLogado.id">
                 <md-fab-speed-dial md-open="false" md-direction="left" class="md-scale md-fab-top-right" ng-show="options">
                     <md-fab-trigger>
@@ -190,7 +190,7 @@
                 <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
             </a>
             <div class="media-body">
-                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.salvarComentario($event, atividade.objeto)" ng-model="atividade.objeto.novoComentario" id="comentario{{$index}}"></textarea>
+                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmHome.salvarComentario($event, atividade)" ng-model="atividade.novoComentario" id="comentario{{$index}}"></textarea>
             </div>
         </div>
 

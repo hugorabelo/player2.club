@@ -36,7 +36,7 @@
                         if (atividade.post_id) {
                             vm.getCurtidas(atividade);
                             vm.usuarioCurtiu(atividade);
-                            vm.getComentariosDoPost(atividade.objeto);
+                            vm.getComentarios(atividade);
                         }
                     })
                 });
@@ -87,25 +87,25 @@
             elementoNovo.focus();
         };
 
-        vm.salvarComentario = function (ev, post) {
+        vm.salvarComentario = function (ev, atividade) {
             if (ev.keyCode === 13) {
                 var comentario = {};
-                comentario.post_id = post.id;
+                comentario.atividade_id = atividade.id;
                 comentario.users_id = $rootScope.usuarioLogado.id;
-                comentario.texto = post.novoComentario;
+                comentario.texto = atividade.novoComentario;
                 ev.preventDefault();
-                Post.salvarComentario(comentario)
+                Atividade.salvarComentario(comentario)
                     .success(function (data) {
-                        post.comentarios = data;
-                        post.novoComentario = '';
+                        atividade.comentarios = data;
+                        atividade.novoComentario = '';
                     })
             }
         };
 
-        vm.getComentariosDoPost = function (post) {
-            Post.getComentarios(post.id, $rootScope.usuarioLogado.id)
+        vm.getComentarios = function (atividade) {
+            Atividade.getComentarios(atividade.id, $rootScope.usuarioLogado.id)
                 .success(function (data) {
-                    post.comentarios = data;
+                    atividade.comentarios = data;
                     $rootScope.loading = false;
                 });
         };

@@ -19,12 +19,6 @@ class AppServiceProvider extends ServiceProvider {
 			$atividade->save();
 		});
 
-		\Comentario::created(function ($comentario) {
-			$atividade = new \Atividade();
-			$atividade->users_id = $comentario->users_id;
-			$atividade->comentarios_id = $comentario->id;
-			$atividade->save();
-		});
 	}
 
 	/**

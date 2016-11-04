@@ -27,6 +27,32 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
+            },
+
+            getComentarios: function (idAtividade, idUsuarioLeitor) {
+                var dados = {
+                    idAtividade: idAtividade,
+                    idUsuarioLeitor: idUsuarioLeitor
+                };
+                return $http({
+                    method: 'POST',
+                    url: 'api/atividade/getComentarios',
+                    data: $.param(dados),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+            },
+
+            salvarComentario: function (comentario) {
+                return $http({
+                    method: 'POST',
+                    url: 'api/comentario',
+                    data: $.param(comentario),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
             }
         }
     }]);
