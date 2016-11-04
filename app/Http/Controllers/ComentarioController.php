@@ -31,7 +31,6 @@ class ComentarioController extends Controller
      */
     public function store() {
         $input = Input::all();
-        Log::info($input);
         $validation = Validator::make($input, Comentario::$rules);
 
         if ($validation->passes())
