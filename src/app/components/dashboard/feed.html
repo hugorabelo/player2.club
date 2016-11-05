@@ -56,7 +56,7 @@
                         </md-tooltip>
                         <i class="material-icons md-18">edit</i>
                     </md-button>
-                    <md-button class="md-icon-button" ng-click="vmFeed.excluir(atividade)">
+                    <md-button class="md-icon-button" ng-click="vmFeed.excluir($event, atividade, $index)">
                         <md-tooltip md-direction="top">
                             {{'fields.delete' | translate}}
                         </md-tooltip>
@@ -139,7 +139,7 @@
                         </md-tooltip>
                         <i class="material-icons md-18">edit</i>
                     </md-button>
-                    <md-button class="md-icon-button" ng-click="vmFeed.excluir(atividade)">
+                    <md-button class="md-icon-button" ng-click="vmFeed.excluir($event, atividade, $index)">
                         <md-tooltip md-direction="top">
                             {{'fields.delete' | translate}}
                         </md-tooltip>

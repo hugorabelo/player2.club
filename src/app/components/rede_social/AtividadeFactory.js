@@ -53,6 +53,10 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
+            },
+
+            destroy: function (id) {
+                return $http.delete('api/atividade/' + id);
             }
         }
     }]);

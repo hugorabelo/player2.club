@@ -7,12 +7,12 @@
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
-            $scope.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
-            $scope.textoYes = translations['messages.yes'];
-            $scope.textoNo = translations['messages.no'];
-            $scope.textoDesistirCampeonato = translations['messages.confirma_desistir_campeonato'];
-            $scope.textoInscreverTitulo = translations['messages.inscrever_titulo'];
-            $scope.textoInscrever = translations['messages.inscrever'];
+            vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
+            vm.textoYes = translations['messages.yes'];
+            vm.textoNo = translations['messages.no'];
+            vm.textoDesistirCampeonato = translations['messages.confirma_desistir_campeonato'];
+            vm.textoInscreverTitulo = translations['messages.inscrever_titulo'];
+            vm.textoInscrever = translations['messages.inscrever'];
         });
 
         vm.idUsuario = $stateParams.idUsuario
@@ -179,7 +179,29 @@
             $scope.compartilhar = function () {
                 $mdDialog.hide($scope.novoPost);
             };
-        }
+        };
+
+        vm.excluir = function (ev, atividade, index) {
+
+            vm.idRegistroExcluir = atividade.id;
+            var confirm = $mdDialog.confirm(atividade.id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                Atividade.destroy(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        vm.atividades.splice(index, 1);
+                    });
+            }, function () {
+
+            });
+        };
 
         /*
         vm.usuario = {};
