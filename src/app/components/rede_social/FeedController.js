@@ -22,14 +22,14 @@
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
                         vm.usuario = data;
-                        vm.getFeedDoUsuario(true);
+                        vm.getFeedDoUsuario(false);
                     });
             } else {
                 vm.idUsuario = $rootScope.usuarioLogado.id;
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
                         vm.usuario = data;
-                        vm.getFeedDoUsuario(false);
+                        vm.getFeedDoUsuario(true);
                     });
             }
         }
