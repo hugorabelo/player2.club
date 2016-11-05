@@ -50,7 +50,7 @@
                     </md-button>
                 </div>
                 <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-button class="md-icon-button" ng-click="vmFeed.editar(atividade)">
+                    <md-button class="md-icon-button" ng-click="vmFeed.editar($event, atividade)">
                         <md-tooltip md-direction="top">
                             {{'fields.edit' | translate}}
                         </md-tooltip>
@@ -133,7 +133,7 @@
                     </md-button>
                 </div>
                 <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-button class="md-icon-button" ng-click="vmFeed.editar(atividade)">
+                    <md-button class="md-icon-button" ng-click="vmFeed.editar($event, atividade)">
                         <md-tooltip md-direction="top">
                             {{'fields.edit' | translate}}
                         </md-tooltip>

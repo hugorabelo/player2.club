@@ -139,14 +139,13 @@
         };
 
         vm.compartilhar = function (ev, atividade) {
-            console.log(atividade);
             $mdDialog.show({
                     locals: {
                         atividade: atividade,
                         novoPost: {}
                     },
                     controller: DialogController,
-                    templateUrl: 'app/components/dashboard/compartilhar.tmpl.html',
+                    templateUrl: 'app/components/rede_social/compartilhar.tmpl.html',
                     targetEvent: ev,
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
@@ -201,6 +200,53 @@
             }, function () {
 
             });
+        };
+
+        vm.atualizar = function (post) {
+            Post.update(post)
+                .success(function (data) {
+                    //vm.getFeedDoUsuario();
+                });
+        };
+
+        vm.editar = function (ev, atividade) {
+            $mdDialog.show({
+                    locals: {
+                        atividade: atividade
+                    },
+                    controller: DialogControllerEditar,
+                    templateUrl: 'app/components/rede_social/editar.tmpl.html',
+                    targetEvent: ev,
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function (post) {
+                    vm.atualizar(post);
+                }, function () {
+                    $scope.status = 'cancel';
+                });
+        };
+
+        function DialogControllerEditar($scope, $mdDialog, atividade) {
+            $scope.atividade = atividade;
+            $scope.post = atividade.objeto;
+
+            $scope.exibeData = function (novaData) {
+                return vm.exibeData(novaData);
+            }
+
+            $scope.adicionarImagem = function () {
+                console.log('adicionar imagem');
+            };
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvar = function () {
+                $mdDialog.hide($scope.post);
+            };
         };
 
         /*
