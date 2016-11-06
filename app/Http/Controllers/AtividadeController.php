@@ -108,6 +108,9 @@ class AtividadeController extends Controller
         $input = Input::all();
         $atividade = Atividade::find($input['idAtividade']);
         $comentarios = $atividade->comentarios($input['idUsuarioLeitor']);
+        foreach ($comentarios as $comentario) {
+            $comentario->atividade = $comentario->getAtividade();
+        }
         return Response::json($comentarios);
     }
 }

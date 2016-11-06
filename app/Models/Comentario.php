@@ -28,7 +28,7 @@ class Comentario extends Model
     }
 
     public function getAtividade() {
-        $atividade = $this->hasOne('Atividade', 'comentarios_id')->first();
+        $atividade = $this->hasOne('Atividade', 'comentario_id')->first();
         return $atividade;
     }
 }

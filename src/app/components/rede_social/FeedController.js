@@ -68,7 +68,6 @@
         };
 
         vm.curtir = function (atividade) {
-            console.log(atividade);
             var curtida = {};
             curtida.atividade_id = atividade.id;
             curtida.users_id = $rootScope.usuarioLogado.id;
@@ -126,7 +125,11 @@
             Atividade.getComentarios(atividade.id, $rootScope.usuarioLogado.id)
                 .success(function (data) {
                     atividade.comentarios = data;
-                    $rootScope.loading = false;
+                    angular.forEach(atividade.comentarios, function (comentario) {
+                        vm.getCurtidas(comentario.atividade);
+                        vm.usuarioCurtiu(comentario.atividade);
+                        vm.getComentarios(comentario.atividade);
+                    });
                 });
         };
 
@@ -247,6 +250,28 @@
             $scope.salvar = function () {
                 $mdDialog.hide($scope.post);
             };
+        };
+
+        vm.excluirComentario = function (ev, atividade, atividadePai) {
+
+            vm.idRegistroExcluir = atividade.id;
+            var confirm = $mdDialog.confirm(atividade.id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                Atividade.destroy(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        vm.getComentarios(atividadePai);
+                    });
+            }, function () {
+
+            });
         };
 
         /*

@@ -161,12 +161,12 @@
                 <span>{{comentario.texto}}</span>
                 <br>
                 <small class="text-muted">{{vmFeed.exibeData(comentario.created_at)}}</small>
-                <a href="#" class="small" ng-show="comentario.quantidade_curtidas">
-                    {{comentario.quantidade_curtidas}} {{'messages.curtiram' | translate}}!
+                <a href="#" class="small" ng-show="comentario.atividade.curtidas.length">
+                    {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                 </a>
                 <div class="botoes_acao" layout="row" layout-align="start start">
                     <div>
-                        <md-button class="md-icon-button" ng-click="vmFeed.curtirComentario(comentario)" ng-class="{'curtiu': comentario.curtiu}">
+                        <md-button class="md-icon-button" ng-click="vmFeed.curtir(comentario.atividade)" ng-class="{'curtiu': comentario.atividade.curtiu}">
                             <md-tooltip md-direction="top">
                                 {{'messages.curtir' | translate}}
                             </md-tooltip>
@@ -180,14 +180,14 @@
                             <i class="material-icons">mode_comment</i>
                         </md-button>
                     </div>
-                    <div ng-show="atividade.usuario.id == usuarioLogado.id">
+                    <div ng-show="comentario.atividade.users_id == usuarioLogado.id">
                         <md-button class="md-icon-button" ng-click="vmFeed.editarComentario(comentario)">
                             <md-tooltip md-direction="top">
                                 {{'fields.edit' | translate}}
                             </md-tooltip>
                             <i class="material-icons">edit</i>
                         </md-button>
-                        <md-button class="md-icon-button" ng-click="vmFeed.excluirComentario(comentario)">
+                        <md-button class="md-icon-button" ng-click="vmFeed.excluirComentario($event, comentario.atividade, atividade)">
                             <md-tooltip md-direction="top">
                                 {{'fields.delete' | translate}}
                             </md-tooltip>

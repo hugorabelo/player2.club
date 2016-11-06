@@ -19,6 +19,22 @@ class AppServiceProvider extends ServiceProvider {
 			$atividade->save();
 		});
 
+		\Comentario::created(function ($comentario) {
+			$atividade = new \Atividade();
+			$atividade->users_id = $comentario->users_id;
+			$atividade->comentario_id = $comentario->id;
+			$atividade->save();
+		});
+
+		\Atividade::deleted(function ($atividade) {
+			if(isset($atividade->post_id)) {
+				\Post::destroy($atividade->post_id);
+			}
+			if(isset($atividade->comentario_id)) {
+				\Comentario::destroy($atividade->comentario_id);
+			}
+		});
+
 	}
 
 	/**
