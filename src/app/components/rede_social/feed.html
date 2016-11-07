@@ -21,46 +21,66 @@
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
                 <p ng-show="atividade.curtidas.length" class="m-n">
-                    <a class="small"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
+                    <!--
+                    <md-menu md-offset="0 20" class="md-dense">
+                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
+                        <md-menu-content width="4">
+                            <md-menu-item ng-repeat="curtida in atividade.curtidas">
+                                <md-button ui-sref="profile({idUsuario: curtida.id})">
+                                    {{curtida.nome}}
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+-->
+                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                    <md-tooltip md-direction="top">
+                        <span ng-repeat="curtida in atividade.curtidas">
+                           {{curtida.nome}} |
+                       </span>
+                    </md-tooltip>
+                    </a>
                 </p>
+
+
             </div>
 
 
-            <div class="botoes_acao" layout="row" layout-align="end end">
+            <div class=" botoes_acao " layout="row " layout-align="end end ">
                 <div>
-                    <md-button class="md-icon-button" ng-click="vmFeed.curtir(atividade)" ng-class="{'curtiu': atividade.curtiu}">
+                    <md-button class="md-icon-button " ng-click="vmFeed.curtir(atividade) " ng-class="{ 'curtiu': atividade.curtiu} ">
                         <md-tooltip md-direction="top">
                             {{'messages.curtir' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">thumb_up</i>
+                        <i class="material-icons md-18 ">thumb_up</i>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="vmFeed.comentar('comentario'+$index)">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) ">
+                        <md-tooltip md-direction="top ">
                             {{'messages.comentar' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">mode_comment</i>
+                        <i class="material-icons md-18 ">mode_comment</i>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="vmFeed.compartilhar($event, atividade)">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.compartilhar($event, atividade) ">
+                        <md-tooltip md-direction="top ">
                             {{'messages.compartilhar' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">share</i>
+                        <i class="material-icons md-18 ">share</i>
                     </md-button>
                 </div>
-                <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-button class="md-icon-button" ng-click="vmFeed.editar($event, atividade)">
-                        <md-tooltip md-direction="top">
+                <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                    <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
+                        <md-tooltip md-direction="top ">
                             {{'fields.edit' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">edit</i>
+                        <i class="material-icons md-18 ">edit</i>
                     </md-button>
-                    <md-button class="md-icon-button" ng-click="vmFeed.excluir($event, atividade, $index)">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.excluir($event, atividade, $index) ">
+                        <md-tooltip md-direction="top ">
                             {{'fields.delete' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">delete</i>
+                        <i class="material-icons md-18 ">delete</i>
                     </md-button>
                 </div>
             </div>
@@ -68,82 +88,82 @@
     </div>
 
     <!-- compartilhar post -->
-    <div ng-show="atividade.post_id && atividade.objeto.post_id">
-        <div class="social-body">
+    <div ng-show="atividade.post_id && atividade.objeto.post_id ">
+        <div class="social-body ">
             <p>
                 {{atividade.objeto.texto}}
             </p>
         </div>
-        <div class="social-avatar" layout="row">
+        <div class="social-avatar " layout="row ">
 
-            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+            <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left ">
+                <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.usuario.imagem_perfil}} ">
             </a>
-            <div class="media-body" flex layout="column">
-                <div class="social-avatar corpo_post">
-                    <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
-                    <span class="text-muted">{{atividade.descricao | translate}}</span>
-                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})"> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
+            <div class="media-body " flex layout="column ">
+                <div class="social-avatar corpo_post ">
+                    <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
+                    <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id}) "> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
 
-                    <div class="clearfix"></div>
-                    <small class="text-muted">
+                    <div class="clearfix "></div>
+                    <small class="text-muted ">
                         {{ vmFeed.exibeData(atividade.created_at) }}
                     </small>
-                    <p ng-show="atividade.curtidas.length" class="m-n">
-                        <a class="small"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
+                    <p ng-show="atividade.curtidas.length " class="m-n ">
+                        <a class="small "><i class="fa fa-thumbs-up "></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
                     </p>
                 </div>
-                <div class="social-avatar post_compartilhado">
-                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id})" class="pull-left">
-                        <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}}">
+                <div class="social-avatar post_compartilhado ">
+                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id}) " class="pull-left ">
+                        <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}} ">
                     </a>
-                    <div class="media-body">
+                    <div class="media-body ">
                         <p> {{atividade.objeto.compartilhamento.texto}}
                         </p>
 
                     </div>
-                    <small class="text-muted pull-right">
+                    <small class="text-muted pull-right ">
                             {{vmFeed.exibeData(atividade.objeto.compartilhamento.created_at)}}
                     </small>
                 </div>
             </div>
         </div>
-        <div class="social-avatar" flex>
-            <div class="botoes_acao" layout="row" layout-align="end end">
+        <div class="social-avatar " flex>
+            <div class="botoes_acao " layout="row " layout-align="end end ">
                 <div>
-                    <md-button class="md-icon-button" ng-click="vmFeed.curtir(atividade)" ng-class="{'curtiu': atividade.curtiu}">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.curtir(atividade) " ng-class="{ 'curtiu': atividade.curtiu} ">
+                        <md-tooltip md-direction="top ">
                             {{'messages.curtir' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">thumb_up</i>
+                        <i class="material-icons md-18 ">thumb_up</i>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="vmFeed.comentar('comentario'+$index)">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) ">
+                        <md-tooltip md-direction="top ">
                             {{'messages.comentar' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">mode_comment</i>
+                        <i class="material-icons md-18 ">mode_comment</i>
                     </md-button>
 
-                    <md-button class="md-icon-button" ng-click="vmFeed.compartilhar($event, atividade)">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.compartilhar($event, atividade) ">
+                        <md-tooltip md-direction="top ">
                             {{'messages.compartilhar' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">share</i>
+                        <i class="material-icons md-18 ">share</i>
                     </md-button>
                 </div>
-                <div ng-show="atividade.usuario.id == usuarioLogado.id">
-                    <md-button class="md-icon-button" ng-click="vmFeed.editar($event, atividade)">
-                        <md-tooltip md-direction="top">
+                <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                    <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
+                        <md-tooltip md-direction="top ">
                             {{'fields.edit' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">edit</i>
+                        <i class="material-icons md-18 ">edit</i>
                     </md-button>
-                    <md-button class="md-icon-button" ng-click="vmFeed.excluir($event, atividade, $index)">
-                        <md-tooltip md-direction="top">
+                    <md-button class="md-icon-button " ng-click="vmFeed.excluir($event, atividade, $index) ">
+                        <md-tooltip md-direction="top ">
                             {{'fields.delete' | translate}}
                         </md-tooltip>
-                        <i class="material-icons md-18">delete</i>
+                        <i class="material-icons md-18 ">delete</i>
                     </md-button>
                 </div>
             </div>
@@ -151,60 +171,60 @@
 
     </div>
 
-    <div class="social-footer" ng-show="atividade.post_id">
-        <div class="social-comment" ng-repeat="comentario in atividade.comentarios" ng-mouseenter="options=true" ng-mouseleave="options=false">
-            <a ui-sref="profile({idUsuario: comentario.usuario.id})" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{comentario.usuario.imagem_perfil}}">
+    <div class="social-footer " ng-show="atividade.post_id ">
+        <div class="social-comment " ng-repeat="comentario in atividade.comentarios " ng-mouseenter="options=true " ng-mouseleave="options=false ">
+            <a ui-sref="profile({idUsuario: comentario.usuario.id}) " class="pull-left ">
+                <img class="img-circle " alt="image " src="uploads/usuarios/{{comentario.usuario.imagem_perfil}} ">
             </a>
-            <div class="media-body">
-                <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
-                <span ng-hide="comentario.edicao">{{comentario.texto}}</span>
-                <textarea class="form-control" rows="1" ng-model="comentario.texto" ng-show="comentario.edicao" ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade)"></textarea>
+            <div class="media-body ">
+                <a ui-sref="profile({idUsuario: comentario.usuario.id}) ">{{comentario.usuario.nome}}</a>
+                <span ng-hide="comentario.edicao ">{{comentario.texto}}</span>
+                <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-show="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
                 <br>
-                <small class="text-muted">{{vmFeed.exibeData(comentario.created_at)}}</small>
-                <a href="#" class="small" ng-show="comentario.atividade.curtidas.length">
+                <small class="text-muted ">{{vmFeed.exibeData(comentario.created_at)}}</small>
+                <a href="# " class="small " ng-show="comentario.atividade.curtidas.length ">
                     {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                 </a>
-                <div class="botoes_acao" layout="row" layout-align="start start">
+                <div class="botoes_acao " layout="row " layout-align="start start ">
                     <div>
-                        <md-button class="md-icon-button" ng-click="vmFeed.curtir(comentario.atividade)" ng-class="{'curtiu': comentario.atividade.curtiu}">
-                            <md-tooltip md-direction="top">
+                        <md-button class="md-icon-button " ng-click="vmFeed.curtir(comentario.atividade) " ng-class="{ 'curtiu': comentario.atividade.curtiu} ">
+                            <md-tooltip md-direction="top ">
                                 {{'messages.curtir' | translate}}
                             </md-tooltip>
-                            <i class="material-icons">thumb_up</i>
+                            <i class="material-icons ">thumb_up</i>
                         </md-button>
 
-                        <md-button class="md-icon-button" ng-click="vmFeed.comentar('comentario'+$index)">
-                            <md-tooltip md-direction="top">
+                        <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) ">
+                            <md-tooltip md-direction="top ">
                                 {{'messages.comentar' | translate}}
                             </md-tooltip>
-                            <i class="material-icons">mode_comment</i>
+                            <i class="material-icons ">mode_comment</i>
                         </md-button>
                     </div>
-                    <div ng-show="comentario.atividade.users_id == usuarioLogado.id">
-                        <md-button class="md-icon-button" ng-click="vmFeed.editarComentario($event, comentario)">
-                            <md-tooltip md-direction="top">
+                    <div ng-show="comentario.atividade.users_id == usuarioLogado.id ">
+                        <md-button class="md-icon-button " ng-click="vmFeed.editarComentario($event, comentario) ">
+                            <md-tooltip md-direction="top ">
                                 {{'fields.edit' | translate}}
                             </md-tooltip>
-                            <i class="material-icons">edit</i>
+                            <i class="material-icons ">edit</i>
                         </md-button>
-                        <md-button class="md-icon-button" ng-click="vmFeed.excluirComentario($event, comentario.atividade, atividade)">
-                            <md-tooltip md-direction="top">
+                        <md-button class="md-icon-button " ng-click="vmFeed.excluirComentario($event, comentario.atividade, atividade) ">
+                            <md-tooltip md-direction="top ">
                                 {{'fields.delete' | translate}}
                             </md-tooltip>
-                            <i class="material-icons">delete</i>
+                            <i class="material-icons ">delete</i>
                         </md-button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="social-comment">
-            <a href="" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+        <div class="social-comment ">
+            <a href=" " class="pull-left ">
+                <img class="img-circle " alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
             </a>
-            <div class="media-body">
-                <textarea class="form-control" placeholder="{{'messages.escrever_comentario' | translate}}" ng-keypress="vmFeed.salvarComentario($event, atividade)" ng-model="atividade.novoComentario" id="comentario{{$index}}"></textarea>
+            <div class="media-body ">
+                <textarea class="form-control " placeholder="{{ 'messages.escrever_comentario' | translate}} " ng-keypress="vmFeed.salvarComentario($event, atividade) " ng-model="atividade.novoComentario " id="comentario{{$index}} "></textarea>
             </div>
         </div>
 

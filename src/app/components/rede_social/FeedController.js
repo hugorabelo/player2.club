@@ -288,6 +288,10 @@
             }
         };
 
+        vm.exibeCurtidas = function ($mdOpenMenu, ev) {
+            $mdOpenMenu(ev);
+        };
+
         /*
         vm.usuario = {};
         vm.exibeFormulario = false;
