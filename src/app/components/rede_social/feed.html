@@ -158,7 +158,8 @@
             </a>
             <div class="media-body">
                 <a ui-sref="profile({idUsuario: comentario.usuario.id})">{{comentario.usuario.nome}}</a>
-                <span>{{comentario.texto}}</span>
+                <span ng-hide="comentario.edicao">{{comentario.texto}}</span>
+                <textarea class="form-control" rows="1" ng-model="comentario.texto" ng-show="comentario.edicao" ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade)"></textarea>
                 <br>
                 <small class="text-muted">{{vmFeed.exibeData(comentario.created_at)}}</small>
                 <a href="#" class="small" ng-show="comentario.atividade.curtidas.length">
@@ -181,7 +182,7 @@
                         </md-button>
                     </div>
                     <div ng-show="comentario.atividade.users_id == usuarioLogado.id">
-                        <md-button class="md-icon-button" ng-click="vmFeed.editarComentario(comentario)">
+                        <md-button class="md-icon-button" ng-click="vmFeed.editarComentario($event, comentario)">
                             <md-tooltip md-direction="top">
                                 {{'fields.edit' | translate}}
                             </md-tooltip>

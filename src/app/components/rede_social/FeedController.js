@@ -115,7 +115,7 @@
                 ev.preventDefault();
                 Atividade.salvarComentario(comentario)
                     .success(function (data) {
-                        atividade.comentarios = data;
+                        vm.getComentarios(atividade);
                         atividade.novoComentario = '';
                     })
             }
@@ -272,6 +272,20 @@
             }, function () {
 
             });
+        };
+
+        vm.editarComentario = function ($ev, comentario) {
+            comentario.edicao = true;
+        };
+
+        vm.atualizarComentario = function (ev, comentario, atividade) {
+            if (ev.keyCode === 13) {
+                ev.preventDefault();
+                Atividade.atualizarComentario(comentario)
+                    .success(function (data) {
+                        vm.getComentarios(atividade);
+                    })
+            }
         };
 
         /*

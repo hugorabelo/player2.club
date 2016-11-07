@@ -55,6 +55,17 @@
                 });
             },
 
+            atualizarComentario: function (comentario) {
+                return $http({
+                    method: 'PUT',
+                    url: 'api/comentario/' + comentario.id,
+                    data: $.param(comentario),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+            },
+
             destroy: function (id) {
                 return $http.delete('api/atividade/' + id);
             }
