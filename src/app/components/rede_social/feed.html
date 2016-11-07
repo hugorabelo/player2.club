@@ -21,22 +21,10 @@
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
                 <p ng-show="atividade.curtidas.length" class="m-n">
-                    <!--
-                    <md-menu md-offset="0 20" class="md-dense">
-                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
-                        <md-menu-content width="4">
-                            <md-menu-item ng-repeat="curtida in atividade.curtidas">
-                                <md-button ui-sref="profile({idUsuario: curtida.id})">
-                                    {{curtida.nome}}
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
--->
                     <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
-                    <md-tooltip md-direction="top">
+                    <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
-                           {{curtida.nome}} |
+                           {{curtida.nome}} <br>
                        </span>
                     </md-tooltip>
                     </a>
@@ -48,7 +36,7 @@
 
             <div class=" botoes_acao " layout="row " layout-align="end end ">
                 <div>
-                    <md-button class="md-icon-button " ng-click="vmFeed.curtir(atividade) " ng-class="{ 'curtiu': atividade.curtiu} ">
+                    <md-button class="md-icon-button" ng-click="vmFeed.curtir(atividade) " ng-class="{ 'curtiu': atividade.curtiu} ">
                         <md-tooltip md-direction="top">
                             {{'messages.curtir' | translate}}
                         </md-tooltip>
@@ -110,7 +98,13 @@
                         {{ vmFeed.exibeData(atividade.created_at) }}
                     </small>
                     <p ng-show="atividade.curtidas.length " class="m-n ">
-                        <a class="small "><i class="fa fa-thumbs-up "></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!</a>
+                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                    <md-tooltip md-direction="top" class="tt-curtida">
+                        <span ng-repeat="curtida in atividade.curtidas">
+                           {{curtida.nome}} <br>
+                       </span>
+                    </md-tooltip>
+                    </a>
                     </p>
                 </div>
                 <div class="social-avatar post_compartilhado ">
@@ -182,8 +176,13 @@
                 <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-show="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
                 <br>
                 <small class="text-muted ">{{vmFeed.exibeData(comentario.created_at)}}</small>
-                <a href="# " class="small " ng-show="comentario.atividade.curtidas.length ">
-                    {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)" ng-show="comentario.atividade.curtidas.length ">
+                    <i class="fa fa-thumbs-up"></i> {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                    <md-tooltip md-direction="top" class="tt-curtida">
+                        <span ng-repeat="curtida in comentario.atividade.curtidas">
+                           {{curtida.nome}} <br>
+                       </span>
+                    </md-tooltip>
                 </a>
                 <div class="botoes_acao " layout="row " layout-align="start start ">
                     <div>
@@ -194,7 +193,7 @@
                             <i class="material-icons ">thumb_up</i>
                         </md-button>
 
-                        <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) ">
+                        <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) " ng-show="futuro">
                             <md-tooltip md-direction="top ">
                                 {{'messages.comentar' | translate}}
                             </md-tooltip>
