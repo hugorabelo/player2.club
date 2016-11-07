@@ -70,8 +70,9 @@ class Campeonato extends Eloquent {
             return 'messages.placares_existente';
         }
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
-		return $nomeClasse::salvarPlacarPartida($partida);
-	}
+        $retorno = $nomeClasse::salvarPlacarPartida($partida);
+        return $retorno;
+    }
 
     public function abreFase($dadosFase, $faseAtual, $campeonato) {
         $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;

@@ -72,6 +72,7 @@ class Partida extends Eloquent {
         $this->usuario_placar = $partida['usuarioLogado'];
         $this->data_placar = date('Y-m-d H:i:s');
         $this->save();
+
         return 1;
     }
 

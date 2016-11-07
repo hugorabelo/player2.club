@@ -48,6 +48,15 @@ class PartidasController extends Controller
             return Response::json(array('success' => false,
                 'errors' => array($retorno)), 300);
         }
+        $novaPartida = $this->partida->find($dados['id']);
+
+        foreach ($novaPartida->usuarios() as $usuarioPartida) {
+            Log::info($usuarioPartida);
+            $atividade = new Atividade();
+            $atividade->users_id = $usuarioPartida->users_id;
+            $atividade->partidas_id = $novaPartida->id;
+            $atividade->save();
+        }
         return Response::json(array('success' => true));
     }
 
@@ -132,6 +141,11 @@ class PartidasController extends Controller
 
         $partida = $this->partida->find($id);
         $partida->cancelarPlacar($input['usuarioLogado']);
+
+        $atividades = Atividade::where('partidas_id','=',$id)->get();
+        foreach ($atividades as $atividade) {
+            Atividade::destroy($atividade->id);
+        }
 
         return Response::json(array('success' => true));
     }
