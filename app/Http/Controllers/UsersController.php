@@ -166,7 +166,6 @@ class UsersController extends Controller {
 		}
 		$campeonatosDisponiveisNaPlataforma = Campeonato::whereIn("plataformas_id", $plataformasDoUsuario)->whereNotIn("id", $campeonatosUsuario)->get();
 		foreach($campeonatosDisponiveisNaPlataforma as $campeonato) {
-			//Log::info($campeonato->id.': '.$campeonato->maximoUsuarios());
 		}
 
 		return Response::json($campeonatosDisponiveisNaPlataforma);
