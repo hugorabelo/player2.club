@@ -83,7 +83,6 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
             })
             .error(function (data) {
                 console.log(data.errors);
-                $rootScope.loading = false;
             });
     }
 

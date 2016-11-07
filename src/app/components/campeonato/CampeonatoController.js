@@ -404,7 +404,6 @@
                     vm.carregaTiposDeAcessoDoCampeonato();
                     vm.carregaTiposDeCompetidores();
                     vm.carregaCriteriosClassificacao(vm.campeonato.tipo.modelo_campeonato_id);
-                    console.log(vm.campeonatoEditar);
                 });
         };
 
@@ -492,7 +491,6 @@
         vm.save = function () {
             Campeonato.save(vm.campeonatoEditar)
                 .success(function (data) {
-                    console.log('deu certo');
                     //                    Campeonato.get()
                     //                        .success(function (getData) {
                     //                            vm.campeonatos = getData;
@@ -500,7 +498,6 @@
                     //                            vm.message = getData;
                     //                        });
                 }).error(function (data, status) {
-                    console.log('deu errado');
                     //                    vm.messages = data.errors;
                     //                    vm.status = status;
                 });

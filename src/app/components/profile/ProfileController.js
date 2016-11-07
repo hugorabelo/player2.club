@@ -266,9 +266,7 @@
             elementoNovo.focus();
         };
 
-        vm.carregaCampeonato = function (idCampeonato) {
-            //            console.log(idCampeonato);
-        };
+        vm.carregaCampeonato = function (idCampeonato) {};
 
         vm.getJogos = function (id) {
             Usuario.getJogos(id)
