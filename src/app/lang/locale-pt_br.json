@@ -258,6 +258,8 @@
         "comentou": " comentou o post de ",
         "seguiu": " começou a seguir ",
         "curtiu_comentario": " curtiu o comentário de ",
-        "seguiu_jogo": " começou a seguir o jogo "
+        "seguiu_jogo": " começou a seguir o jogo ",
+        "disputou_partida": " disputou uma partida ",
+        "inscreveu_campeonato": " se inscreveu no campeonato "
     }
 }

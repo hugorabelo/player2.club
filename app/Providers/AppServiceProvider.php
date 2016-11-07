@@ -26,6 +26,13 @@ class AppServiceProvider extends ServiceProvider {
 			$atividade->save();
 		});
 
+        \CampeonatoUsuario::created(function ($campeonatoUsuario) {
+            $atividade = new \Atividade();
+            $atividade->users_id = $campeonatoUsuario->users_id;
+            $atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
+            $atividade->save();
+        });
+
 		\Atividade::deleted(function ($atividade) {
 			if(isset($atividade->post_id)) {
 				\Post::destroy($atividade->post_id);

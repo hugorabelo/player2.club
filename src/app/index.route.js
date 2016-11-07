@@ -26,7 +26,7 @@
             .state('home', {
                 url: "/home",
                 templateUrl: "app/components/dashboard/home.html",
-                //                controller: 'FeedController as vmHome',
+                controller: 'HomeController as vmHome',
                 acesso: 'registrado'
             })
             .state('naoAutorizado', {

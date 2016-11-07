@@ -53,7 +53,7 @@
                 .success(function (data) {
                     vm.atividades = data;
                     angular.forEach(vm.atividades, function (atividade) {
-                        if (atividade.post_id) {
+                        if (atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id) {
                             vm.getCurtidas(atividade);
                             vm.usuarioCurtiu(atividade);
                             vm.getComentarios(atividade);

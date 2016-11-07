@@ -351,7 +351,17 @@ class UsersController extends Controller {
 				$jogo = Jogo::find($seguidor_jogo->jogos_id);
 				$atividade->objeto = $jogo;
 				$atividade->descricao = 'messages.seguiu_jogo';
-			}
+			} else if(isset($atividade->partidas_id)) {
+			    $partida = Partida::find($atividade->partidas_id);
+                $partida->usuarios = $partida->usuarios();
+                $atividade->objeto = $partida;
+                $atividade->descricao = 'messages.disputou_partida';
+            } else if(isset($atividade->campeonato_usuarios_id)) {
+                $campeonatoUsuario = CampeonatoUsuario::find($atividade->campeonato_usuarios_id);
+                $campeonato = Campeonato::find($campeonatoUsuario->campeonatos_id);
+                $atividade->objeto = $campeonato;
+                $atividade->descricao = 'messages.inscreveu_campeonato';
+            }
 			$usuario = User::find($atividade->users_id);
 			$atividade->usuario = $usuario;
 		}

@@ -257,6 +257,8 @@
         "comentou": "<vazio>",
         "seguiu": "<vazio>",
         "curtiu_comentario": "<vazio>",
-        "seguiu_jogo": "<vazio>"
+        "seguiu_jogo": "<vazio>",
+        "disputou_partida": "<vazio>",
+        "inscreveu_campeonato": "<vazio>"
     }
 }
