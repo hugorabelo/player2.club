@@ -28,6 +28,22 @@
     </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
+        <h3 class="caixa-informacao-titulo" layout="row">{{'messages.usuario_gamertags' | translate}}</h3>
+        <md-card class="caixa-informacao">
+            <div class="m-xs">
+                <md-list-item ng-repeat="gamertag in vmProfile.gamertags">
+                    <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
+                </md-list-item>
+                <!--
+                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
+<img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-xs">
+<md-tooltip md-direction="top ">
+    {{seguindo.nome}}
+</md-tooltip>
+</a>
+-->
+            </div>
+        </md-card>
         <h3 class="caixa-informacao-titulo" layout="row">{{'messages.seguindo' | translate}}</h3>
         <md-card class="caixa-informacao">
             <div class="m-xs">
@@ -68,7 +84,7 @@
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
-                    <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n" aria-hidden="true"></i> {{campeonato.descricao}}
+                    <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
                 </md-list-item>
             </div>
         </md-card>

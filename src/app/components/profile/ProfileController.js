@@ -27,7 +27,7 @@
                 vm.usuario = data;
                 vm.carregaDadosUsuario(vm.usuario.id);
                 vm.carregaPosts(vm.idUsuario);
-
+                vm.getGamertagsDoUsuario(vm.idUsuario);
             })
             .error(function (data, status) {});
 
@@ -277,6 +277,18 @@
 
         vm.carregaCampeonato = function (id) {
             $location.path('/campeonato/' + id);
+        };
+
+        vm.getGamertagsDoUsuario = function (idUsuario) {
+            vm.gamertags = {};
+            UserPlataforma.getPlataformasDoUsuario(idUsuario)
+                .success(function (data) {
+                    vm.gamertags = data;
+                    console.log(data);
+                })
+                .error(function (data) {
+
+                });
         };
 
     }]);
