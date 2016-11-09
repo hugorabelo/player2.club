@@ -165,69 +165,6 @@
 
     </div>
 
-    <div class="social-footer " ng-show="atividade.post_id ">
-        <div class="social-comment " ng-repeat="comentario in atividade.comentarios " ng-mouseenter="options=true " ng-mouseleave="options=false ">
-            <a ui-sref="profile({idUsuario: comentario.usuario.id}) " class="pull-left ">
-                <img class="img-circle " alt="image " src="uploads/usuarios/{{comentario.usuario.imagem_perfil}} ">
-            </a>
-            <div class="media-body ">
-                <a ui-sref="profile({idUsuario: comentario.usuario.id}) ">{{comentario.usuario.nome}}</a>
-                <span ng-hide="comentario.edicao ">{{comentario.texto}}</span>
-                <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-show="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
-                <br>
-                <small class="text-muted ">{{vmFeed.exibeData(comentario.created_at)}}</small>
-                <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)" ng-show="comentario.atividade.curtidas.length ">
-                    <i class="fa fa-thumbs-up"></i> {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
-                    <md-tooltip md-direction="top" class="tt-curtida">
-                        <span ng-repeat="curtida in comentario.atividade.curtidas">
-                           {{curtida.nome}} <br>
-                       </span>
-                    </md-tooltip>
-                </a>
-                <div class="botoes_acao " layout="row " layout-align="start start ">
-                    <div>
-                        <md-button class="md-icon-button " ng-click="vmFeed.curtir(comentario.atividade) " ng-class="{ 'curtiu': comentario.atividade.curtiu} ">
-                            <md-tooltip md-direction="top ">
-                                {{'messages.curtir' | translate}}
-                            </md-tooltip>
-                            <i class="material-icons ">thumb_up</i>
-                        </md-button>
-
-                        <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) " ng-show="futuro">
-                            <md-tooltip md-direction="top ">
-                                {{'messages.comentar' | translate}}
-                            </md-tooltip>
-                            <i class="material-icons ">mode_comment</i>
-                        </md-button>
-                    </div>
-                    <div ng-show="comentario.atividade.users_id == usuarioLogado.id ">
-                        <md-button class="md-icon-button " ng-click="vmFeed.editarComentario($event, comentario) ">
-                            <md-tooltip md-direction="top ">
-                                {{'fields.edit' | translate}}
-                            </md-tooltip>
-                            <i class="material-icons ">edit</i>
-                        </md-button>
-                        <md-button class="md-icon-button " ng-click="vmFeed.excluirComentario($event, comentario.atividade, atividade) ">
-                            <md-tooltip md-direction="top ">
-                                {{'fields.delete' | translate}}
-                            </md-tooltip>
-                            <i class="material-icons ">delete</i>
-                        </md-button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="social-comment ">
-            <a href=" " class="pull-left ">
-                <img class="img-circle " alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
-            </a>
-            <div class="media-body ">
-                <textarea class="form-control " placeholder="{{ 'messages.escrever_comentario' | translate}} " ng-keypress="vmFeed.salvarComentario($event, atividade) " ng-model="atividade.novoComentario " id="comentario{{$index}} "></textarea>
-            </div>
-        </div>
-
-    </div>
     <!-- comentar -->
     <!-- seguir usuário -->
     <!-- curtir comentário -->
@@ -389,5 +326,72 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="social-footer " ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
+        <div class="social-comment " ng-repeat="comentario in atividade.comentarios " ng-mouseenter="options=true " ng-mouseleave="options=false ">
+            <a ui-sref="profile({idUsuario: comentario.usuario.id}) " class="pull-left ">
+                <img class="img-circle " alt="image " src="uploads/usuarios/{{comentario.usuario.imagem_perfil}} ">
+            </a>
+            <div class="media-body ">
+                <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-show="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
+                <div class="grupo_comentario" ng-hide="comentario.edicao">
+                    <a ui-sref="profile({idUsuario: comentario.usuario.id}) ">{{comentario.usuario.nome}}</a>
+                    <span>{{comentario.texto}}</span>
+                    <br>
+                    <small class="text-muted ">{{vmFeed.exibeData(comentario.created_at)}}</small>
+                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)" ng-show="comentario.atividade.curtidas.length ">
+                        <i class="fa fa-thumbs-up"></i> {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                        <md-tooltip md-direction="top" class="tt-curtida">
+                            <span ng-repeat="curtida in comentario.atividade.curtidas">
+                           {{curtida.nome}} <br>
+                       </span>
+                        </md-tooltip>
+                    </a>
+                    <div class="botoes_acao " layout="row " layout-align="start start ">
+                        <div>
+                            <md-button class="md-icon-button " ng-click="vmFeed.curtir(comentario.atividade) " ng-class="{ 'curtiu': comentario.atividade.curtiu} ">
+                                <md-tooltip md-direction="top ">
+                                    {{'messages.curtir' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons ">thumb_up</i>
+                            </md-button>
+
+                            <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) " ng-show="futuro">
+                                <md-tooltip md-direction="top ">
+                                    {{'messages.comentar' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons ">mode_comment</i>
+                            </md-button>
+                        </div>
+                        <div ng-show="comentario.atividade.users_id == usuarioLogado.id ">
+                            <md-button class="md-icon-button " ng-click="vmFeed.editarComentario($event, comentario) ">
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.edit' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons ">edit</i>
+                            </md-button>
+                            <md-button class="md-icon-button " ng-click="vmFeed.excluirComentario($event, comentario.atividade, atividade) ">
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.delete' | translate}}
+                                </md-tooltip>
+                                <i class="material-icons ">delete</i>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="social-comment ">
+            <a href=" " class="pull-left ">
+                <img class="img-circle " alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+            </a>
+            <div class="media-body ">
+                <textarea class="form-control " placeholder="{{ 'messages.escrever_comentario' | translate}} " ng-keypress="vmFeed.salvarComentario($event, atividade) " ng-model="atividade.novoComentario " id="comentario{{$index}} "></textarea>
+            </div>
+        </div>
+
     </div>
 </md-card>

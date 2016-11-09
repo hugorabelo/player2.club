@@ -51,7 +51,6 @@ class PartidasController extends Controller
         $novaPartida = $this->partida->find($dados['id']);
 
         foreach ($novaPartida->usuarios() as $usuarioPartida) {
-            Log::info($usuarioPartida);
             $atividade = new Atividade();
             $atividade->users_id = $usuarioPartida->users_id;
             $atividade->partidas_id = $novaPartida->id;
