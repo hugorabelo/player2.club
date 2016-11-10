@@ -315,12 +315,7 @@ class UsersController extends Controller {
 		}
 		$atividades = $usuario->getAtividades($todos);
 		foreach ($atividades as $atividade) {
-			if(isset($atividade->curtida_id)) {
-				$curtida = DB::table('curtida')->where('id','=',$atividade->curtida_id)->first();
-				$post = Post::find($curtida->post_id);
-				$atividade->objeto = $post;
-				$atividade->descricao = 'messages.curtiu';
-			} else if(isset($atividade->post_id)) {
+			if(isset($atividade->post_id)) {
 				$post = Post::find($atividade->post_id);
 				if(isset($post->post_id)) {
 					$post_compartilhado = Post::find($post->post_id);
@@ -341,11 +336,6 @@ class UsersController extends Controller {
 				$usuarioMestre = User::find($seguidor->users_id_mestre);
 				$atividade->objeto = $usuarioMestre;
 				$atividade->descricao = 'messages.seguiu';
-			} else if(isset($atividade->curtida_comentario_id)) {
-				$curtida_comentario = DB::table('curtida_comentario')->where('id','=',$atividade->curtida_comentario_id)->first();
-				$comentario_curtido = Post::find($curtida_comentario->comentario_id);
-				$atividade->objeto = $comentario_curtido;
-				$atividade->descricao = 'messages.curtiu_comentario';
 			} else if(isset($atividade->seguidor_jogo_id)) {
 				$seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
 				$jogo = Jogo::find($seguidor_jogo->jogos_id);
