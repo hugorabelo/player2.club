@@ -11,7 +11,6 @@
                         <td class="client-avatar"><img alt="image" class="img-circle" src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
                         <td>{{participante.nome}}</td>
                         <td>{{participante.localizacao}}</td>
-                        <td>{{participante.descricao}}</td>
                         <td class="client-status"><span class="label label-primary">Active</span></td>
                     </tr>
                 </tbody>
@@ -19,7 +18,7 @@
         </div>
     </md-card-content>
 </md-card>
-<md-card flex="33" ng-show="vmCampeonato.participanteDestaque.nome">
+<md-card flex ng-show="vmCampeonato.participanteDestaque.nome">
     <md-card-content>
         <div class="tab-pane active">
             <div class="row m-b-lg">
