@@ -1,10 +1,10 @@
 <md-card class="md-block" flex>
     <md-toolbar class="md-toolbar-tools">
-        <h2 translate>messages.minhasPartidas_list</h2>
+        <h2 translate>messages.campeonatoContestacoes</h2>
     </md-toolbar>
     <md-card-content>
         <md-list flex>
-            <md-list-item class="noright" ng-repeat="partida in vmCampeonato.partidasDoUsuario">
+            <md-list-item class="noright" ng-repeat="partida in vmCampeonato.partidasContestadas">
                 <div class="col-xs-3 text-right">
                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
                     <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante hidden-xs" alt="profile">

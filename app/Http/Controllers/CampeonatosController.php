@@ -191,4 +191,16 @@ class CampeonatosController extends Controller
         return Response::json($partidas);
     }
 
+    public function getPartidas($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        $partidas = $campeonato->partidas();
+        return Response::json($partidas);
+    }
+
+    public function getPartidasContestadas($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        $partidas = $campeonato->partidasContestadas();
+        return Response::json($partidas);
+    }
+
 }

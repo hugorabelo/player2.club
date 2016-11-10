@@ -503,4 +503,31 @@ class Campeonato extends Eloquent {
 
         return $novoCampeonato->pontuacoes($idFase);
     }
+
+    public function partidas() {
+        $partidasDoCampeonato = app()->make(Collection::class);
+        $fases = $this->fases();
+        foreach ($fases as $fase) {
+            $grupos = $fase->grupos();
+            foreach ($grupos as $grupo) {
+                $partidas = $grupo->partidas();
+                foreach ($partidas as $partida) {
+                    $partida->usuarios = $partida->usuarios();
+                    $partidasDoCampeonato->add($partida);
+                }
+            }
+        }
+        return $partidasDoCampeonato;
+    }
+
+    public function partidasContestadas() {
+        $partidasContestadas = app()->make(Collection::class);
+        $partidas = $this->partidas();
+        foreach ($partidas as $partida) {
+            if($partida->contestada()) {
+                $partidasContestadas->add($partida);
+            }
+        }
+        return $partidasContestadas;
+    }
 }

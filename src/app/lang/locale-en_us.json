@@ -173,6 +173,7 @@
         "campeonatosEmAndamento": "Championships Underway",
         "campeonatosEncerrados": "Finished Championships",
         "campeonatosParticipantes": "Participants",
+        "campeonatoContestacoes": "<vazio>",
 
         "campeonatoAdmin_list": "Championship Admin",
         "campeonatoAdmin_add": "Add Championship Admin",

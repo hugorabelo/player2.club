@@ -31,6 +31,8 @@ Route::group(array('prefix'=>'api'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
+    Route::get('campeonato/partidas/{idCampeonato}', 'CampeonatosController@getPartidas');
+    Route::get('campeonato/partidasContestadas/{idCampeonato}', 'CampeonatosController@getPartidasContestadas');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');

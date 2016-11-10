@@ -73,15 +73,14 @@
         };
 
         vm.carregaInformacoesCampeonato = function (id) {
-            $rootScope.loading = true;
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     vm.campeonato = data;
                     vm.carregaFases(id);
                     vm.getParticipantes(id);
                     vm.carregaAdministradores(id);
-                    vm.carregaPartidasDoUsuario()
-                    $rootScope.loading = false;
+                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasContestadas();
                 });
         };
 
@@ -298,6 +297,13 @@
             Usuario.getPartidas($rootScope.usuarioLogado.id, vm.campeonato.id)
                 .success(function (data) {
                     vm.partidasDoUsuario = data;
+                });
+        };
+
+        vm.carregaPartidasContestadas = function () {
+            Campeonato.getPartidasContestadas(vm.campeonato.id)
+                .success(function (data) {
+                    vm.partidasContestadas = data;
                 });
         };
 

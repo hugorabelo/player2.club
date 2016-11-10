@@ -7,6 +7,7 @@
             <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
             <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
             <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
+            <md-nav-item md-nav-click name="contestacoes">{{'messages.campeonatoContestacoes' | translate}}</md-nav-item>
             <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
         </md-nav-bar>
     </div>
@@ -59,8 +60,15 @@
                 <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
             </div>
 
+
+
             <div layout-fill ng-show="vmCampeonato.currentNavItem == 'detalhes'">
                 <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
+            </div>
+
+
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'contestacoes'">
+                <div layout-fill ng-include="'app/components/campeonato/contestacoes.html'"></div>
             </div>
 
             <div layout-fill ng-show="vmCampeonato.currentNavItem == 'editar'">

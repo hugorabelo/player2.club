@@ -201,6 +201,14 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                 stringCampeonato = '';
             }
             return $http.get('api/campeonato/ultimasPartidasUsuario/' + idUsuario + stringCampeonato);
+        },
+
+        getPartidas: function (idCampeonato) {
+            return $http.get('api/campeonato/partidas/' + idCampeonato);
+        },
+
+        getPartidasContestadas: function (idCampeonato) {
+            return $http.get('api/campeonato/partidasContestadas/' + idCampeonato);
         }
 
     }
