@@ -73,26 +73,4 @@ class ComentarioController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $comentario = $this->comentario->find($id);
-        $idPost = $comentario->post_id;
-        $comentario->delete();
-
-        return Response::json(array('success'=>true, 'id_post'=>$idPost));
-    }
-
-    public function curtir() {
-        $input = Input::all();
-        $comentario = Comentario::find($input['comentario_id']);
-        $comentario->curtir($input['users_id']);
-        $quantidadeCurtidas = $comentario->quantidadeCurtidas();
-        return Response::json(array('success'=>true, 'quantidadeCurtidas'=>$quantidadeCurtidas));
-    }
 }

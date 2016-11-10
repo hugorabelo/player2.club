@@ -83,25 +83,4 @@ class PostController extends Controller
         return Response::json(array('success'=>true, 'idUsuario'=>$idUsuario));
     }
 
-    public function getComentarios() {
-        $input = Input::all();
-        $post = Post::find($input['idPost']);
-        $comentarios = $post->comentarios($input['idUsuarioLeitor']);
-        return Response::json($comentarios);
-    }
-
-    public function curtir() {
-        $input = Input::all();
-        $post = Post::find($input['post_id']);
-        $post->curtir($input['users_id']);
-        $quantidadeCurtidas = $post->quantidadeCurtidas();
-        return Response::json(array('success'=>true, 'quantidadeCurtidas'=>$quantidadeCurtidas));
-    }
-
-    public function usuarioCurtiu() {
-        $input = Input::all();
-        $post = Post::find($input['post_id']);
-        $curtiu = $post->curtiu($input['users_id']);
-        return Response::json(array('success'=>true, 'curtiu'=>$curtiu));
-    }
 }
