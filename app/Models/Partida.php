@@ -76,11 +76,17 @@ class Partida extends Eloquent {
         return 1;
     }
 
-    public function confirmarPlacar($id_usuario) {
+    public function confirmarPlacar($id_usuario, $placarContestado = false) {
         // Computar Pontuação e posição do usuario_partidas
         $this->usuario_confirmacao = $id_usuario;
         $this->data_confirmacao = date('Y-m-d H:i:s');
         $this->save();
+
+        if($placarContestado) {
+            $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->first();
+            $contestacao->resolvida = true;
+            $contestacao->save();
+        }
     }
 
     public function confirmarPlacarAutomaticamente() {
@@ -143,8 +149,11 @@ class Partida extends Eloquent {
     }
 
     public function contestada() {
-        $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->get();
-        return !$contestacao->isEmpty();
+        $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->first();
+        if(isset($contestacao)) {
+            return !$contestacao->resolvida;
+        }
+        return false;
     }
 
     public function fase() {

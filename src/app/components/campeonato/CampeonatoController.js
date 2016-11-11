@@ -308,7 +308,6 @@
         };
 
         vm.salvarPlacar = function (partida) {
-
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
@@ -317,7 +316,6 @@
                 .error(function (data) {
                     //TODO melhorar a exibição deste erro
                 });
-
         };
 
         vm.confirmarPlacar = function (id_partida) {
@@ -377,6 +375,63 @@
                     vm.messages = data.errors;
                     vm.status = status;
                 });
+        };
+
+        vm.cancelarPlacarContestado = function (partida) {
+            partida.edita_contestacao = true;
+        };
+
+        vm.confirmarPlacarContestacao = function (id_partida) {
+            var dados = {};
+            dados.id_partida = id_partida;
+            dados.usuarioLogado = $rootScope.usuarioLogado.id;
+            dados.placarContestado = true;
+            Partida.confirmarPlacar(dados)
+                .success(function () {
+                    vm.carregaPartidasContestadas();
+                    vm.carregaPartidasDoUsuario();
+                })
+                .error(function (data) {});
+        };
+
+        vm.salvarPlacarContestacao = function (partida) {
+            partida.usuarioLogado = $rootScope.usuarioLogado.id;
+            Partida.salvarPlacar(partida)
+                .success(function () {
+                    vm.confirmarPlacarContestacao(partida.id);
+                })
+                .error(function (data) {
+                    //TODO melhorar a exibição deste erro
+                });
+        };
+
+        vm.exibirInformacoesContestacao = function (ev, contestacao) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'fields.info_contestacao',
+                        contestacao: contestacao
+                    },
+                    controller: DialogControllerContestacaoInformacao,
+                    templateUrl: 'app/components/campeonato/infoContestacaoResultado.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+        function DialogControllerContestacaoInformacao($scope, $mdDialog, tituloModal, contestacao) {
+            $scope.tituloModal = tituloModal;
+            $scope.contestacao = contestacao;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
         };
 
         vm.exibeDataLimite = function (data_limite) {

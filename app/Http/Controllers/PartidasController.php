@@ -90,7 +90,7 @@ class PartidasController extends Controller
         $input = Input::all();
 
         $partida = $this->partida->find($id);
-        $partida->confirmarPlacar($input['usuarioLogado']);
+        $partida->confirmarPlacar($input['usuarioLogado'], isset($input['placarContestado']));
 
         return Response::json(array('success' => true));
     }

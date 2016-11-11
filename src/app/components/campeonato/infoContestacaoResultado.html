@@ -1,0 +1,24 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{tituloModal | translate}}</h2>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2>{{'fields.descricao' | translate}}</h2>
+            <p>
+                {{contestacao.comentarios}}
+            </p>
+
+            <h2>{{'fields.printscreen' | translate}}</h2>
+            <img src="uploads/{{contestacao.imagem}}" class="img-responsive" alt="">
+        </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+        <md-button ng-click="fechar()">{{'messages.close' | translate}}</md-button>
+    </md-dialog-actions>
+</md-dialog>

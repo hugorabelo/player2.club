@@ -89,6 +89,10 @@
         "printscreen": "Printscreen Proof",
         "partida_contestada": "The game score was contested. Pending judgment by the moderators",
         "cancelar_resultado": "Cancel match's score",
+        "info_contestacao": "<vazio>",
+        "confirmar_contestacao": "<vazio>",
+        "editar_placar_contestado": "<vazio>",
+        "salvar_placar_contestado": "<vazio>",
 
         "acesso": "Access",
         "publico": "Public",

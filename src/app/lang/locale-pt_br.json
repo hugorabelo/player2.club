@@ -89,6 +89,10 @@
         "printscreen": "Printscreen de comprovação",
         "partida_contestada": "O resultado da partida foi contestado. Aguardando julgamento por parte dos moderadores",
         "cancelar_resultado": "Cancelar resultado partida",
+        "info_contestacao": "Exibir informações da contestação",
+        "confirmar_contestacao": "Confirmar o placar original",
+        "editar_placar_contestado": "Editar placar contestado",
+        "salvar_placar_contestado": "Salvar o novo placar após análise",
 
         "acesso": "Acesso",
         "publico": "Público",
