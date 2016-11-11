@@ -7,6 +7,10 @@
 
     <md-dialog-content>
         <div class="md-dialog-content">
+            <h2>{{'fields.usuario_id' | translate}}</h2>
+            <img src="uploads/usuarios/{{contestacao.usuario.imagem_perfil}}" class="img-circle img-sm m-r pull-left" alt="">
+            <h3>{{contestacao.usuario.nome}}</h3>
+            <div class="clearfix"></div>
             <h2>{{'fields.descricao' | translate}}</h2>
             <p>
                 {{contestacao.comentarios}}

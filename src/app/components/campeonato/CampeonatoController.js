@@ -405,7 +405,16 @@
                 });
         };
 
+        vm.getInformacaoUsuarioContestacao = function (contestacao) {
+            Usuario.show(contestacao.users_id)
+                .success(function (data) {
+                    contestacao.usuario = data;
+                })
+        };
+
         vm.exibirInformacoesContestacao = function (ev, contestacao) {
+            contestacao.usuario = vm.getInformacaoUsuarioContestacao(contestacao);
+            console.log(contestacao);
             $mdDialog.show({
                     locals: {
                         tituloModal: 'fields.info_contestacao',
