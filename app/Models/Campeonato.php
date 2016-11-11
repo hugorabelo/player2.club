@@ -66,7 +66,7 @@ class Campeonato extends Eloquent {
 
 	public function salvarPlacar($partida) {
 	    $partidaBD = Partida::find($partida['id']);
-        $contestada = $partida['edita_contestacao'];
+        $contestada = isset($partida['edita_contestacao']);
         if(isset($partidaBD->data_placar) && !$contestada) {
             return 'messages.placares_existente';
         }
