@@ -181,6 +181,12 @@ class CampeonatoFasesController extends Controller {
                 'messages'=>array('messages.operacao_nao_permitida_nao_administrador')),300);
 		}
 
+		// Verificar se existem partidas contestadas na fase
+		if($campeonato->partidasContestadas()->count() > 0) {
+			return Response::json(array('success'=>false,
+				'messages'=>array('messages.fase_com_partidas_contestadas')),300);
+		}
+
 		$campeonato->fechaFase($dadosFase);
 		// contabilizar jogos sem resultado (0 pontos para todos os participantes)
 		// contabilizar pontuação e quantidade de classificados (por grupo)
