@@ -50,6 +50,11 @@ class PartidasController extends Controller
         }
         $novaPartida = $this->partida->find($dados['id']);
 
+        $atividadesExistentes = Atividade::where('partidas_id','=',$novaPartida->id)->get();
+        foreach ($atividadesExistentes as $atividadesExistente) {
+            $atividadesExistente->delete();
+        }
+
         foreach ($novaPartida->usuarios() as $usuarioPartida) {
             $atividade = new Atividade();
             $atividade->users_id = $usuarioPartida->users_id;
