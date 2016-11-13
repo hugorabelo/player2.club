@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, $location, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
 
             var vm = this;
 
@@ -144,15 +144,10 @@
                 vm.campeonato.criador = $rootScope.usuarioLogado.id;
                 Campeonato.save(vm.campeonato)
                     .success(function (data) {
-                        Campeonato.get()
-                            .success(function (getData) {
-                                vm.campeonatos = getData;
-                            });
-                        $rootScope.loading = false;
+                        $location.path('/campeonato/' + data.id);
                     }).error(function (data, status) {
                         vm.messages = data.errors;
                         vm.status = status;
-                        $rootScope.loading = false;
                     });
             };
 

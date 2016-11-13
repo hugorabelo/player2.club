@@ -11,7 +11,19 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+
+		\Campeonato::created(function ($campeonato) {
+			$administrador = new \CampeonatoAdmin();
+			$administrador->users_id = $campeonato->criador;
+			$administrador->campeonatos_id = $campeonato->id;
+			$administrador->save();
+
+			$usuario = new \CampeonatoUsuario();
+			$usuario->users_id = $campeonato->criador;
+			$usuario->campeonatos_id = $campeonato->id;
+			$usuario->save();
+		});
+
 		\Post::created(function ($post) {
 			$atividade = new \Atividade();
 			$atividade->users_id = $post->users_id;

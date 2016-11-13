@@ -6,10 +6,10 @@
                 <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
                 <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
                 <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="contestacoes">{{'messages.campeonatoContestacoes' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="minhasPartidas" ng-show="vmCampeonato.campeonato.usuarioInscrito">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="detalhes" ng-show="vmCampeonato.campeonato.usuarioAdministrador">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="contestacoes" ng-show="vmCampeonato.campeonato.usuarioAdministrador">{{'messages.campeonatoContestacoes' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar" ng-show="vmCampeonato.campeonato.usuarioAdministrador">{{'messages.campeonato_edit' | translate}}</md-nav-item>
             </md-nav-bar>
         </div>
     </div>
@@ -35,7 +35,7 @@
                         <h4 class="m-l">
                             {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
                         </h4>
-                        <md-button>Inscrever</md-button>
+                        <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito">Inscrever</md-button>
                     </div>
                 </md-card-content>
             </md-card>
@@ -85,7 +85,7 @@
                 <md-toolbar class="md-toolbar-tools">
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
-                <md-card-content>
+                <md-card-content layout-align="center center" layout="column">
                     <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
                     <h2 class="text-center m-t" ng-show="false">
                         {{vmCampeonato.campeonato.descricao}}
@@ -99,7 +99,7 @@
                     <h4 class="text-center">
                         {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
                     </h4>
-                    <md-button>Inscrever</md-button>
+                    <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito">Inscrever</md-button>
                 </md-card-content>
             </md-card>
         </div>

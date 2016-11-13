@@ -83,6 +83,7 @@
                     vm.carregaAdministradores(id);
                     vm.carregaPartidasDoUsuario();
                     vm.carregaPartidasContestadas();
+                    vm.campeonato.usuarioAdministrador = true;
                 });
         };
 
@@ -90,6 +91,12 @@
             Campeonato.getParticipantes(id)
                 .success(function (data) {
                     vm.campeonato.participantes = data;
+                    vm.campeonato.usuarioInscrito = false;
+                    angular.forEach(data, function (usuario) {
+                        if (usuario.id == $rootScope.usuarioLogado.id) {
+                            vm.campeonato.usuarioInscrito = true;
+                        }
+                    });
                 });
         };
 
@@ -97,15 +104,20 @@
             Campeonato.getAdministradores(id)
                 .success(function (data) {
                     vm.campeonato.campeonatoAdministradores = data;
+                    console.log(data);
+                    vm.campeonato.usuarioAdministrador = false;
+                    angular.forEach(data, function (administrador) {
+                        if (administrador.users_id == $rootScope.usuarioLogado.id) {
+                            vm.campeonato.usuarioAdministrador = true;
+                        }
+                    });
                 });
         };
 
         vm.carregaListaCampeonatos = function () {
-            $rootScope.loading = true;
             Campeonato.get()
                 .success(function (data) {
                     vm.campeonatos = data;
-                    $rootScope.loading = false;
                 });
         };
 

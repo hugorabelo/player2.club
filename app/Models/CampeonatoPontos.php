@@ -30,7 +30,7 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
 //      3. Cria regras de pontuação para cada fase
 //      4. Cria grupos da primeira fase
         $this->criaFases();
-
+        return $this->campeonato;
     }
 
     public function criaFases() {

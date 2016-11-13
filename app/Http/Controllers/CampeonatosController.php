@@ -43,6 +43,7 @@ class CampeonatosController extends Controller
         $campeonato->tipo = CampeonatoTipo::find($campeonato->campeonato_tipos_id);
         $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
         $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        $campeonato->status = $campeonato->status();
         return Response::json($campeonato);
     }
 
@@ -73,9 +74,10 @@ class CampeonatosController extends Controller
                 return Response::json(array('success' => false,
                     'errors' => array($validacaoNumeroCompetidores)), 300);
             }
-            $campeonato->salvar($input);
+            $campeonatoSalvo = $campeonato->salvar($input);
 
-            return Response::json(array('success' => true));
+
+            return Response::json(array('success' => true, 'id'=> $campeonatoSalvo->id));
         }
 
         return Response::json(array('success' => false,
