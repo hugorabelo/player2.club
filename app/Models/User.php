@@ -132,8 +132,9 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	public function getAtividades($todos) {
 	    if($todos) {
-            //TODO Caso seja o profile do usuário, aqui está correto, mas caso seja a pagina inicial, deve pegar os feeds dos seguidores
-            $atividades = Atividade::where('users_id','=', $this->id)->orderBy('created_at', 'desc')->get();
+			$idSeguidores = $this->seguindo()->getRelatedIds();
+			$idSeguidores->push($this->id);
+            $atividades = Atividade::whereIn('users_id', $idSeguidores)->orderBy('created_at', 'desc')->get();
         } else {
             $atividades = Atividade::where('users_id','=', $this->id)->orderBy('created_at', 'desc')->get();
         }

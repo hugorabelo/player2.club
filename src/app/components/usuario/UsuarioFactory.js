@@ -183,7 +183,7 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
         },
 
         getFeed: function (idUsuario, todos) {
-            if (todos !== undefined) {
+            if (todos) {
                 return $http.get('api/usuario/feed/' + idUsuario + '/' + todos);
             } else {
                 return $http.get('api/usuario/feed/' + idUsuario);
