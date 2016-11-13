@@ -29,6 +29,8 @@
 
         vm.opcoesEditor = {
             lang: 'pt',
+            svgPath: 'assets/icons/trumbowyg.svg',
+
             btnsDef: {
                 // Customizables dropdowns
                 image: {
