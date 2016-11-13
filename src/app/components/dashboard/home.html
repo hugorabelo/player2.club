@@ -1,7 +1,7 @@
 <div flex layout="row" layout-margin ng-init="vmHome.inicializa()">
 
 
-    <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
+    <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs>
         <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
         <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
         <md-button>Campeonatos</md-button>
@@ -33,7 +33,7 @@
 
         <div ng-include="'app/components/rede_social/feed.html'" layout="column" layout-fill></div>
     </div>
-    <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
+    <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm>
         <li ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
             {{ campeonato.descricao }}
             <a ng-click="vmHome.inscreverCampeonato($event, campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever</a>

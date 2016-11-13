@@ -1,15 +1,17 @@
 <div flex layout="column" layout-margin>
 
-    <div class="caixa-flutuante">
-        <md-nav-bar md-selected-nav-item="vmCampeonato.currentNavItem" nav-bar-aria-label="navigation links">
-            <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
-            <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
-            <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
-            <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
-            <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
-            <md-nav-item md-nav-click name="contestacoes">{{'messages.campeonatoContestacoes' | translate}}</md-nav-item>
-            <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
-        </md-nav-bar>
+    <div flex layout-gt-md="row" layout-margin>
+        <div class="caixa-flutuante" flex>
+            <md-nav-bar md-selected-nav-item="vmCampeonato.currentNavItem" nav-bar-aria-label="navigation links">
+                <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="minhasPartidas">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="detalhes">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click name="contestacoes">{{'messages.campeonatoContestacoes' | translate}}</md-nav-item>
+                <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar">{{'messages.campeonato_edit' | translate}}</md-nav-item>
+            </md-nav-bar>
+        </div>
     </div>
 
     <div layout-gt-md="row" layout-margin>
@@ -20,7 +22,7 @@
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
                 <md-card-content layout="row">
-                    <div flex="20">
+                    <div flex="20" flex-gt-xs="10">
                         <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
                     </div>
                     <div flex>
