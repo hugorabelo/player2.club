@@ -102,5 +102,12 @@
 
             });
         };
+
+        vm.editaPerfil = function () {
+            Usuario.show($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    vm.perfilEditar = data;
+                });
+        }
     }]);
 }());

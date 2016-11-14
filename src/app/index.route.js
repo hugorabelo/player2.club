@@ -23,15 +23,21 @@
                     pageTitle: "fields.login"
                 }
             })
+            .state('naoAutorizado', {
+                url: "/erro",
+                templateUrl: "app/components/comum/acessoNaoAutorizado.html",
+                acesso: 'registrado'
+            })
             .state('home', {
                 url: "/home",
                 templateUrl: "app/components/dashboard/home.html",
                 controller: 'HomeController as vmHome',
                 acesso: 'registrado'
             })
-            .state('naoAutorizado', {
-                url: "/erro",
-                templateUrl: "app/components/comum/acessoNaoAutorizado.html",
+            .state('editar_perfil', {
+                url: "/editar_perfil",
+                templateUrl: "app/components/dashboard/editarPerfil.html",
+                controller: 'HomeController as vmHome',
                 acesso: 'registrado'
             })
             .state('campeonato', {

@@ -1,14 +1,8 @@
 <div flex layout="row" layout-margin ng-init="vmHome.inicializa()">
 
-
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs>
-        <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
-        <md-button ui-sref="criar_campeonato">Criar Campeonato</md-button>
-        <md-button>Campeonatos</md-button>
-        <md-button>Seguindo</md-button>
-        <md-button>Seguidores</md-button>
+        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
-
 
     <div flex layout="column" class="caixa-flutuante" layout-margin ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()">
         <div class="escrever_post">
