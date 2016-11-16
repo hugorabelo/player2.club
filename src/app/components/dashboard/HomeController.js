@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Usuario', 'Campeonato', 'CampeonatoUsuario', function ($scope, $rootScope, $mdDialog, $translate, Usuario, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', function ($scope, $rootScope, $mdDialog, $translate, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -107,7 +107,58 @@
             Usuario.show($rootScope.usuarioLogado.id)
                 .success(function (data) {
                     vm.perfilEditar = data;
+                    vm.getGamertagsDoUsuario(vm.perfilEditar.id);
                 });
-        }
+        };
+
+        vm.getGamertagsDoUsuario = function (idUsuario) {
+            vm.gamertags = {};
+            UserPlataforma.getPlataformasDoUsuario(idUsuario)
+                .success(function (data) {
+                    vm.gamertags = data;
+                })
+                .error(function (data) {
+
+                });
+        };
+
+        vm.adicionarGamerTag = function () {
+            console.log('adiciona gamertag');
+        };
+
+        vm.excluirGamertag = function (ev, id) {
+            vm.idRegistroExcluir = id;
+            var confirm = $mdDialog.confirm(id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                UserPlataforma.destroy(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        vm.getGamertagsDoUsuario(vm.perfilEditar.id);
+                        $rootScope.loading = false;
+                    });
+            }, function () {
+
+            });
+        };
+
+
+        vm.salvaUserPlataforma = function () {
+            UserPlataforma.save(vm.userPlataforma)
+                .success(function (data) {
+                    vm.carregaDadosUsuario(vm.usuario.id);
+                    vm.exibeFormulario = false;
+                }).error(function (data, status) {
+                    vm.messagePontuacao = data.message;
+                    vm.status = status;
+                });
+        };
+
     }]);
 }());
