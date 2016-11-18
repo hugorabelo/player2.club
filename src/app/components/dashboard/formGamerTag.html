@@ -24,7 +24,7 @@
                 <md-input-container class="md-block">
                     <label>{{'fields.plataformas_id' | translate}}</label>
                     <md-select ng-model="userPlataforma.plataformas_id" required>
-                        <md-option ng-repeat="plataforma in vmHome.plataformas" ng-value="plataforma.id">
+                        <md-option ng-repeat="plataforma in plataformas" ng-value="plataforma.id">
                             {{plataforma.descricao}}
                         </md-option>
                     </md-select>
@@ -32,7 +32,7 @@
 
                 <md-input-container class="md-block" flex>
                     <label>{{'fields.gamertag' | translate}}</label>
-                    <input ng-model="vmHome.userPlataforma.gamertag" required>
+                    <input ng-model="userPlataforma.gamertag" required>
                 </md-input-container>
 
             </div>

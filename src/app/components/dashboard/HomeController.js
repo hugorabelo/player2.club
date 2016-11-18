@@ -108,7 +108,12 @@
                 .success(function (data) {
                     vm.perfilEditar = data;
                     vm.getGamertagsDoUsuario(vm.perfilEditar.id);
+                    vm.carregaPlataformas();
                 });
+        };
+
+        vm.salvarPerfil = function () {
+
         };
 
         vm.getGamertagsDoUsuario = function (idUsuario) {
@@ -123,12 +128,13 @@
         };
 
         vm.adicionarGamerTag = function (ev) {
-            vm.user_plataforma = {};
-            vm.user_plataforma.users_id = $rootScope.usuarioLogado.id;
+            vm.userPlataforma = {};
+            vm.userPlataforma.users_id = $rootScope.usuarioLogado.id;
             $mdDialog.show({
                     locals: {
                         tituloModal: 'messages.partida_contestar',
-                        user_plataforma: vm.user_plataforma
+                        userPlataforma: vm.userPlataforma,
+                        plataformas: vm.plataformas
                     },
                     controller: DialogControllerGamerTag,
                     templateUrl: 'app/components/dashboard/formGamerTag.html',
@@ -144,16 +150,17 @@
                 });
         };
 
-        function DialogControllerGamerTag($scope, $mdDialog, tituloModal, user_plataforma) {
+        function DialogControllerGamerTag($scope, $mdDialog, tituloModal, userPlataforma, plataformas) {
             $scope.tituloModal = tituloModal;
-            $scope.user_plataforma = user_plataforma;
+            $scope.userPlataforma = userPlataforma;
+            $scope.plataformas = plataformas;
 
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
 
             $scope.salvarGamerTag = function () {
-                vm.salvarGamerTag($scope.user_plataforma);
+                vm.salvarGamerTag($scope.userPlataforma);
                 $mdDialog.hide();
             }
         };
@@ -180,13 +187,13 @@
         };
 
 
-        vm.salvaGamertag = function () {
+        vm.salvarGamerTag = function () {
+            vm.userPlataforma.users_id = $rootScope.usuarioLogado.id;
             UserPlataforma.save(vm.userPlataforma)
                 .success(function (data) {
-                    vm.carregaDadosUsuario(vm.usuario.id);
-                    vm.exibeFormulario = false;
+                    vm.getGamertagsDoUsuario(vm.perfilEditar.id);
                 }).error(function (data, status) {
-                    vm.messagePontuacao = data.message;
+                    vm.message = data.message;
                     vm.status = status;
                 });
         };
