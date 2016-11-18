@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', function ($scope, $rootScope, $mdDialog, $translate, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -122,8 +122,40 @@
                 });
         };
 
-        vm.adicionarGamerTag = function () {
-            console.log('adiciona gamertag');
+        vm.adicionarGamerTag = function (ev) {
+            vm.user_plataforma = {};
+            vm.user_plataforma.users_id = $rootScope.usuarioLogado.id;
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.partida_contestar',
+                        user_plataforma: vm.user_plataforma
+                    },
+                    controller: DialogControllerGamerTag,
+                    templateUrl: 'app/components/dashboard/formGamerTag.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+        function DialogControllerGamerTag($scope, $mdDialog, tituloModal, user_plataforma) {
+            $scope.tituloModal = tituloModal;
+            $scope.user_plataforma = user_plataforma;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarGamerTag = function () {
+                vm.salvarGamerTag($scope.user_plataforma);
+                $mdDialog.hide();
+            }
         };
 
         vm.excluirGamertag = function (ev, id) {
@@ -141,7 +173,6 @@
                 UserPlataforma.destroy(vm.idRegistroExcluir)
                     .success(function (data) {
                         vm.getGamertagsDoUsuario(vm.perfilEditar.id);
-                        $rootScope.loading = false;
                     });
             }, function () {
 
@@ -149,7 +180,7 @@
         };
 
 
-        vm.salvaUserPlataforma = function () {
+        vm.salvaGamertag = function () {
             UserPlataforma.save(vm.userPlataforma)
                 .success(function (data) {
                     vm.carregaDadosUsuario(vm.usuario.id);
@@ -157,6 +188,14 @@
                 }).error(function (data, status) {
                     vm.messagePontuacao = data.message;
                     vm.status = status;
+                });
+        };
+
+        vm.carregaPlataformas = function () {
+            $rootScope.loading = true;
+            Plataforma.get()
+                .success(function (data) {
+                    vm.plataformas = data;
                 });
         };
 
