@@ -280,15 +280,6 @@ a.disabled:hover {
     height: 30px;
 }
 
-.md-dialog-container {
-    width: 100%;
-    height: 100%;
-    top: 0 !important;
-    bottom: 0px;
-    left: 0px !important;
-    position: fixed;
-}
-
 md-menu-item > a.md-button {
     padding-top: 0;
 }
@@ -603,4 +594,8 @@ md-tooltip.multiline {
 
 md-content[md-scroll-y] {
     overflow-y: hidden;
+}
+
+body.md-dialog-is-showing {
+    overflow: visible !important;
 }
