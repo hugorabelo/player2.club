@@ -114,17 +114,12 @@ class UsersController extends Controller {
 			 */
 			$arquivoPerfil = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil') : null;
 
-			Log::info('1');
-
 			if (isset($arquivoPerfil) && $arquivoPerfil->isValid()) {
-				Log::info('2');
 				$destinationPath = 'uploads/usuarios/';
 				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivoPerfil->getClientOriginalExtension();
 				$arquivoPerfil->move($destinationPath, $fileName);
 				$input['imagem_perfil'] = $fileName;
-				Log::info('3');
 			} else {
-				Log::info('4');
 				array_pull($input, 'imagem_perfil');
 			}
 
