@@ -112,16 +112,31 @@ class UsersController extends Controller {
 			/*
 			 * Movendo o arquivo para o diretório correto
 			 */
-			$arquivo = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil')
-				: null;
+			$arquivoPerfil = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil') : null;
 
-			if (isset($arquivo) && $arquivo->isValid()) {
+			Log::info('1');
+
+			if (isset($arquivoPerfil) && $arquivoPerfil->isValid()) {
+				Log::info('2');
 				$destinationPath = 'uploads/usuarios/';
-				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
-				$arquivo->move($destinationPath, $fileName);
+				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivoPerfil->getClientOriginalExtension();
+				$arquivoPerfil->move($destinationPath, $fileName);
 				$input['imagem_perfil'] = $fileName;
+				Log::info('3');
 			} else {
+				Log::info('4');
 				array_pull($input, 'imagem_perfil');
+			}
+
+			$arquivoCapa = Input::hasFile('imagem_capa') ? Input::file('imagem_capa') : null;
+
+			if (isset($arquivoCapa) && $arquivoCapa->isValid()) {
+				$destinationPath = 'uploads/usuarios/capa/';
+				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivoCapa->getClientOriginalExtension();
+				$arquivoCapa->move($destinationPath, $fileName);
+				$input['imagem_capa'] = $fileName;
+			} else {
+				array_pull($input, 'imagem_capa');
 			}
 
 			$user->update($input);

@@ -41,15 +41,15 @@
                         <div layout="row" layout-margin>
                             <div flex>
                                 <h2>{{'messages.usuario_imagem_perfil' | translate}}</h2>
-                                <lf-ng-md-file-input lf-files="files_perfil"></lf-ng-md-file-input>
-                                <img src="{{files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="files_perfil[0].lfDataUrl">
-                                <img src="uploads/usuarios/{{vmHome.perfilEditar.imagem_perfil}}" ng-hide="files_perfil[0].lfDataUrl" class="img-responsive" alt="">
+                                <lf-ng-md-file-input lf-files="vmHome.files_perfil"></lf-ng-md-file-input>
+                                <img src="{{vmHome.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_perfil[0].lfDataUrl">
+                                <img src="uploads/usuarios/{{vmHome.perfilEditar.imagem_perfil}}" ng-hide="vmHome.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
                             </div>
                             <div flex>
                                 <h2>{{'messages.usuario_imagem_capa' | translate}}</h2>
-                                <lf-ng-md-file-input lf-files="files_capa"></lf-ng-md-file-input>
-                                <img src="{{files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="files_capa[0].lfDataUrl">
-                                <img src="uploads/usuarios/capa/{{vmHome.perfilEditar.imagem_capa}}" ng-hide="files_capa[0].lfDataUrl" class="img-responsive" alt="">
+                                <lf-ng-md-file-input lf-files="vmHome.files_capa"></lf-ng-md-file-input>
+                                <img src="{{vmHome.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_capa[0].lfDataUrl">
+                                <img src="uploads/usuarios/capa/{{vmHome.perfilEditar.imagem_capa}}" ng-hide="vmHome.files_capa[0].lfDataUrl" class="img-responsive" alt="">
                             </div>
                         </div>
                     </md-card-content>
@@ -85,7 +85,7 @@
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ui-sref="home">{{'fields.cancel' | translate}}</md-button>
-                <md-button ng-click="vmCampeonato.updatePerfil()">{{'fields.save' | translate}}</md-button>
+                <md-button ng-click="vmHome.updatePerfil()">{{'fields.save' | translate}}</md-button>
             </md-card-actions>
         </md-card>
     </div>

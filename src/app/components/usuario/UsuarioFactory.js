@@ -31,7 +31,8 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/usuario/' + id + '/edit');
         },
 
-        update: function (usuario, arquivo) {
+        update: function (usuario, arquivoPerfil, arquivoCapa) {
+            console.log(usuario);
             return $http({
                 method: 'POST',
                 url: 'api/usuario/' + usuario.id,
@@ -43,8 +44,11 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     angular.forEach(usuario, function (value, key) {
                         formData.append(key, value);
                     });
-                    if (arquivo != null) {
-                        formData.append("imagem_perfil", arquivo.lfFile);
+                    if (arquivoPerfil != null) {
+                        formData.append("imagem_perfil", arquivoPerfil.lfFile);
+                    }
+                    if (arquivoCapa != null) {
+                        formData.append("imagem_capa", arquivoCapa.lfFile);
                     }
                     return formData;
                 }

@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, $location, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -112,8 +112,14 @@
                 });
         };
 
-        vm.salvarPerfil = function () {
+        vm.updatePerfil = function () {
+            Usuario.update(vm.perfilEditar, vm.files_perfil[0], vm.files_capa[0])
+                .success(function (data) {
+                    $location.path('/home');
+                })
+                .error(function (data) {
 
+                })
         };
 
         vm.getGamertagsDoUsuario = function (idUsuario) {
