@@ -354,6 +354,7 @@ class UsersController extends Controller {
 			} else if(isset($atividade->partidas_id)) {
 			    $partida = Partida::find($atividade->partidas_id);
                 $partida->usuarios = $partida->usuarios();
+				$partida->campeonato = $partida->campeonato();
                 $atividade->objeto = $partida;
                 $atividade->descricao = 'messages.disputou_partida';
             } else if(isset($atividade->campeonato_usuarios_id)) {
