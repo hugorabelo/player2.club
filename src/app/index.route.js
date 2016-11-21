@@ -7,6 +7,7 @@
 
     /** @ngInject */
     function routerConfig($stateProvider, $urlRouterProvider, $locationProvider) {
+
         $stateProvider
 
             .state('index', {
@@ -30,8 +31,25 @@
             })
             .state('home', {
                 url: "/home",
+                abstract: true,
+                redirectTo: 'home.feed',
                 templateUrl: "app/components/dashboard/home.html",
                 controller: 'HomeController as vmHome',
+                acesso: 'registrado'
+            })
+            .state('home.feed', {
+                url: "/feed",
+                templateUrl: "app/components/rede_social/feed.html",
+                acesso: 'registrado'
+            })
+            .state('home.seguidores', {
+                url: "/seguidores",
+                templateUrl: "app/components/rede_social/seguidores.html",
+                acesso: 'registrado'
+            })
+            .state('home.seguindo', {
+                url: "/seguindo",
+                templateUrl: "app/components/rede_social/seguindo.html",
                 acesso: 'registrado'
             })
             .state('editar_perfil', {
@@ -166,7 +184,10 @@
                 url: "/logout"
             });
 
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.when('/', '/home/feed');
+        $urlRouterProvider.when('', '/home/feed');
+        $urlRouterProvider.otherwise('/home/feed');
+
     }
 
 })();
