@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Collection;
+
 class UsersController extends Controller {
 
 	/**
@@ -175,10 +177,14 @@ class UsersController extends Controller {
 			$campeonatosUsuario = array("campeonatos_id"=>0);
 		}
 		$campeonatosDisponiveisNaPlataforma = Campeonato::whereIn("plataformas_id", $plataformasDoUsuario)->whereNotIn("id", $campeonatosUsuario)->get();
+		$campeonatosAbertos = app()->make(Collection::class);
 		foreach($campeonatosDisponiveisNaPlataforma as $campeonato) {
+			if($campeonato->status() == 1) {
+				$campeonatosAbertos->push($campeonato);
+			}
 		}
 
-		return Response::json($campeonatosDisponiveisNaPlataforma);
+		return Response::json($campeonatosAbertos);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <div flex layout="row" layout-margin ng-init="vmHome.inicializa()">
 
-    <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs>
+    <div flex="15" layout="column" class="caixa-flutuante" layout-margin hide-xs>
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
 
@@ -28,10 +28,11 @@
         <div ng-include="'app/components/rede_social/feed.html'" layout="column" layout-fill></div>
     </div>
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm>
-        <li ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
+        <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>
+        <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
             {{ campeonato.descricao }}
-            <a ng-click="vmHome.inscreverCampeonato($event, campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever</a>
-        </li>
+<!--            <a ng-click="vmHome.inscreverCampeonato($event, campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever</a>-->
+        </a>
         <md-card>
             <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
         </md-card>

@@ -266,6 +266,8 @@
         "curtiu_comentario": " curtiu o comentário de ",
         "seguiu_jogo": " começou a seguir o jogo ",
         "disputou_partida": " disputou uma partida do campeonato ",
-        "inscreveu_campeonato": " se inscreveu no campeonato "
+        "inscreveu_campeonato": " se inscreveu no campeonato ",
+
+        "ultimas_novidades": "O que tá rolando"
     }
 }
