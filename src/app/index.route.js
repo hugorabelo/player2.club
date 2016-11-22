@@ -40,11 +40,13 @@
             .state('home.feed', {
                 url: "/feed",
                 templateUrl: "app/components/rede_social/feed.html",
+                controller: 'FeedController as vmFeed',
                 acesso: 'registrado'
             })
             .state('home.seguidores', {
                 url: "/seguidores",
                 templateUrl: "app/components/rede_social/seguidores.html",
+                controller: 'ProfileController as vmProfile',
                 acesso: 'registrado'
             })
             .state('home.seguindo', {
@@ -52,7 +54,7 @@
                 templateUrl: "app/components/rede_social/seguindo.html",
                 acesso: 'registrado'
             })
-            .state('editar_perfil', {
+            .state('home.editar_perfil', {
                 url: "/editar_perfil",
                 templateUrl: "app/components/dashboard/editarPerfil.html",
                 controller: 'HomeController as vmHome',

@@ -1,3 +1,23 @@
+<div class="escrever_post m-b" ng-init="vmFeed.inicializa()">
+    <div class="icones">
+        <md-button class="md-icon-button" ng-click="vmFeed.adicionarImagem()">
+            <md-tooltip md-direction="top">
+                {{'messages.inserir_foto' | translate}}
+            </md-tooltip>
+            <i class="material-icons">photo_camera</i>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="vmFeed.criarPost()">
+            <md-tooltip md-direction="top">
+                {{'messages.publicar' | translate}}
+            </md-tooltip>
+            <i class="material-icons">send</i>
+        </md-button>
+    </div>
+    <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
+    <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmFeed.novoPost">
+    </textarea>
+</div>
+
 <md-card ng-repeat="atividade in vmFeed.atividades track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->

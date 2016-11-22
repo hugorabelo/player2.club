@@ -1,93 +1,83 @@
-<div flex layout="row" layout-margin ng-init="vmHome.editaPerfil()">
-
-    <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs>
-        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
-    </div>
-
-    <div flex class="caixa-flutuante">
-        <md-card flex>
-            <md-toolbar class="md-toolbar-tools">
-                <h2>{{'messages.usuario_edit' | translate}}</h2>
-            </md-toolbar>
-            <md-card-content layout-margin>
-                <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
-                    <md-input-container class="md-block">
-                        <label>{{'fields.nome' | translate}}</label>
-                        <input ng-model="vmHome.perfilEditar.nome" required>
-                    </md-input-container>
-                    <div layout="column" layout-gt-xs="row" layout-fill>
-                        <md-input-container class="md-block" flex>
-                            <label>{{'fields.sigla' | translate}}</label>
-                            <input ng-model="vmHome.perfilEditar.sigla" required maxlength="3">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex>
-                            <label>{{'fields.localizacao' | translate}}</label>
-                            <input ng-model="vmHome.perfilEditar.localizacao" required>
-                        </md-input-container>
+<md-card ng-init="vmHome.editaPerfil()">
+    <md-toolbar class="md-toolbar-tools">
+        <h2>{{'messages.usuario_edit' | translate}}</h2>
+    </md-toolbar>
+    <md-card-content layout-margin>
+        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+            <md-input-container class="md-block">
+                <label>{{'fields.nome' | translate}}</label>
+                <input ng-model="vmHome.perfilEditar.nome" required>
+            </md-input-container>
+            <div layout="column" layout-gt-xs="row" layout-fill>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.sigla' | translate}}</label>
+                    <input ng-model="vmHome.perfilEditar.sigla" required maxlength="3">
+                </md-input-container>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.localizacao' | translate}}</label>
+                    <input ng-model="vmHome.perfilEditar.localizacao" required>
+                </md-input-container>
+            </div>
+            <md-input-container class="md-block">
+                <label>{{'fields.descricao' | translate}}</label>
+                <!--                        <input ng-model="vmHome.perfilEditar.descricao" required>-->
+                <textarea name="" ng-model="vmHome.perfilEditar.descricao" c></textarea>
+            </md-input-container>
+        </form>
+        <md-card class="m-b">
+            <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+                <md-card-header-text>
+                    {{'messages.usuario_imagens' | translate}}
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+                <div layout="row" layout-margin>
+                    <div flex>
+                        <h2>{{'fields.usuario_imagem_perfil' | translate}}</h2>
+                        <lf-ng-md-file-input lf-files="vmHome.files_perfil"></lf-ng-md-file-input>
+                        <img src="{{vmHome.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_perfil[0].lfDataUrl">
+                        <img src="uploads/usuarios/{{vmHome.perfilEditar.imagem_perfil}}" ng-hide="vmHome.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
                     </div>
-                    <md-input-container class="md-block">
-                        <label>{{'fields.descricao' | translate}}</label>
-                        <!--                        <input ng-model="vmHome.perfilEditar.descricao" required>-->
-                        <textarea name="" ng-model="vmHome.perfilEditar.descricao" c></textarea>
-                    </md-input-container>
-                </form>
-                <md-card class="m-b">
-                    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
-                        <md-card-header-text>
-                            {{'messages.usuario_imagens' | translate}}
-                        </md-card-header-text>
-                    </md-card-header>
-                    <md-card-content>
-                        <div layout="row" layout-margin>
-                            <div flex>
-                                <h2>{{'messages.usuario_imagem_perfil' | translate}}</h2>
-                                <lf-ng-md-file-input lf-files="vmHome.files_perfil"></lf-ng-md-file-input>
-                                <img src="{{vmHome.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_perfil[0].lfDataUrl">
-                                <img src="uploads/usuarios/{{vmHome.perfilEditar.imagem_perfil}}" ng-hide="vmHome.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
-                            </div>
-                            <div flex>
-                                <h2>{{'messages.usuario_imagem_capa' | translate}}</h2>
-                                <lf-ng-md-file-input lf-files="vmHome.files_capa"></lf-ng-md-file-input>
-                                <img src="{{vmHome.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_capa[0].lfDataUrl">
-                                <img src="uploads/usuarios/capa/{{vmHome.perfilEditar.imagem_capa}}" ng-hide="vmHome.files_capa[0].lfDataUrl" class="img-responsive" alt="">
-                            </div>
-                        </div>
-                    </md-card-content>
-                </md-card>
-                <md-card>
-                    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
-                        <md-card-header-text>
-                            {{'messages.usuario_gamertags' | translate}}
-                        </md-card-header-text>
-                        <md-button class="md-fab md-mini" ng-click="vmHome.adicionarGamerTag($event)">
-                            <md-icon class="md-avatar-icon">library_add</md-icon>
-                            <md-tooltip md-direction="top "> {{'fields.adicionar' | translate}}
+                    <div flex>
+                        <h2>{{'fields.usuario_imagem_capa' | translate}}</h2>
+                        <lf-ng-md-file-input lf-files="vmHome.files_capa"></lf-ng-md-file-input>
+                        <img src="{{vmHome.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_capa[0].lfDataUrl">
+                        <img src="uploads/usuarios/capa/{{vmHome.perfilEditar.imagem_capa}}" ng-hide="vmHome.files_capa[0].lfDataUrl" class="img-responsive" alt="">
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+                <md-card-header-text>
+                    {{'messages.usuario_gamertags' | translate}}
+                </md-card-header-text>
+                <md-button class="md-fab md-mini" ng-click="vmHome.adicionarGamerTag($event)">
+                    <md-icon class="md-avatar-icon">library_add</md-icon>
+                    <md-tooltip md-direction="top "> {{'fields.adicionar' | translate}}
+                    </md-tooltip>
+                </md-button>
+            </md-card-header>
+            <md-card-content layout="row" layout-fill>
+                <md-list ng-cloak flex>
+                    <md-list-item ng-repeat="tag in vmHome.gamertags" class="secondary-button-padding">
+                        <img alt="{{ tag.nome_plataforma }}" ng-src="uploads/{{ tag.imagem_plataforma }}" class="md-avatar" />
+                        <p>{{ tag.gamertag }}</p>
+                        <md-button class="md-fab md-mini md-warn" ng-click="vmHome.excluirGamertag($event, tag.id)">
+                            <md-icon class="material-icons step">
+                                delete
+                            </md-icon>
+                            <md-tooltip md-direction="top ">
+                                {{'fields.delete' | translate}}
                             </md-tooltip>
                         </md-button>
-                    </md-card-header>
-                    <md-card-content layout="row" layout-fill>
-                        <md-list ng-cloak flex>
-                            <md-list-item ng-repeat="tag in vmHome.gamertags" class="secondary-button-padding">
-                                <img alt="{{ tag.nome_plataforma }}" ng-src="uploads/{{ tag.imagem_plataforma }}" class="md-avatar" />
-                                <p>{{ tag.gamertag }}</p>
-                                <md-button class="md-fab md-mini md-warn" ng-click="vmHome.excluirGamertag($event, tag.id)">
-                                    <md-icon class="material-icons step">
-                                        delete
-                                    </md-icon>
-                                    <md-tooltip md-direction="top ">
-                                        {{'fields.delete' | translate}}
-                                    </md-tooltip>
-                                </md-button>
-                            </md-list-item>
-                        </md-list>
-                    </md-card-content>
-                </md-card>
+                    </md-list-item>
+                </md-list>
             </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ui-sref="home">{{'fields.cancel' | translate}}</md-button>
-                <md-button ng-click="vmHome.updatePerfil()">{{'fields.save' | translate}}</md-button>
-            </md-card-actions>
         </md-card>
-    </div>
-
-</div>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button ui-sref="home">{{'fields.cancel' | translate}}</md-button>
+        <md-button ng-click="vmHome.updatePerfil()">{{'fields.save' | translate}}</md-button>
+    </md-card-actions>
+</md-card>

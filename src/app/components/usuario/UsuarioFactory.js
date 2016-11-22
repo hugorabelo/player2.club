@@ -32,7 +32,6 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
         },
 
         update: function (usuario, arquivoPerfil, arquivoCapa) {
-            console.log(usuario);
             return $http({
                 method: 'POST',
                 url: 'api/usuario/' + usuario.id,

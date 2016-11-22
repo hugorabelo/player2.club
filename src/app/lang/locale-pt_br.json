@@ -121,7 +121,10 @@
         "tipo_sorteio_matamata": "Tipo de Sorteio",
         "sorteio_aleatorio": "Aleatório",
         "sorteio_geral": "Classificação Geral",
-        "sorteio_grupo": "Entre Grupos"
+        "sorteio_grupo": "Entre Grupos",
+
+        "usuario_imagem_perfil": "Imagem do Perfil",
+        "usuario_imagem_capa": "Imagem de Capa"
     },
 
     "messages": {

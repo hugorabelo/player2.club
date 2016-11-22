@@ -4,36 +4,12 @@
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
 
-    <div flex layout="column" class="caixa-flutuante" layout-margin ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()">
-        <div class="escrever_post">
-            <div class="icones">
-                <md-button class="md-icon-button" ng-click="vmFeed.adicionarImagem()">
-                    <md-tooltip md-direction="top">
-                        {{'messages.inserir_foto' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">photo_camera</i>
-                </md-button>
-                <md-button class="md-icon-button" ng-click="vmFeed.criarPost()">
-                    <md-tooltip md-direction="top">
-                        {{'messages.publicar' | translate}}
-                    </md-tooltip>
-                    <i class="material-icons">send</i>
-                </md-button>
-            </div>
-            <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-            <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmFeed.novoPost">
-            </textarea>
-        </div>
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin></div>
 
-        <!--        <div ng-include="'app/components/rede_social/feed.html'" layout="column" layout-fill></div>-->
-
-        <div ui-view></div>
-    </div>
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm>
         <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>
         <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
             {{ campeonato.descricao }}
-<!--            <a ng-click="vmHome.inscreverCampeonato($event, campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever</a>-->
         </a>
         <md-card>
             <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda quis corrupti repudiandae dolores velit tenetur eaque, cum placeat laudantium delectus voluptate, quisquam minima, quos dolorum fuga illo aspernatur accusamus illum!</md-card-content>
