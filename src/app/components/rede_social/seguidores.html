@@ -1,18 +1,16 @@
-<h3 class="secao_titulo">{{'messages.seguidores' | translate}}</h3> {{vmHome.usuario}}
-<br> ###
-<br> {{vmProfile.usuario}}
-<div class="col-md-3" ng-repeat="participante in vmCampeonato.campeonato.participantes">
+<h3 class="secao_titulo" ng-init="vmSeguidores.inicializa()">{{'messages.seguidores' | translate}}</h3>
+<div class="col-md-3" ng-repeat="seguidor in vmSeguidores.seguidores">
     <div class="contact-box center-version">
 
-        <a ui-sref="profile({idUsuario: participante.id})">
+        <a ui-sref="profile({idUsuario: seguidor.id})">
 
-            <img alt="image" class="img-circle" src="uploads/usuarios/{{participante.imagem_perfil}}">
+            <img alt="image" class="img-circle" src="uploads/usuarios/{{seguidor.imagem_perfil}}">
 
-            <h3 class="m-b-xs"><strong>{{participante.nome}}</strong></h3>
+            <h3 class="m-b-xs"><strong>{{seguidor.nome}}</strong></h3>
 
-            <div class="font-bold">{{participante.localizacao}}</div>
+            <div class="font-bold">{{seguidor.localizacao}}</div>
             <address class="m-t-md">
-                                {{participante.descricao}}
+                                {{seguidor.descricao}}
                             </address>
 
         </a>

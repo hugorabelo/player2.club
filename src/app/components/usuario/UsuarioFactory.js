@@ -191,6 +191,14 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             } else {
                 return $http.get('api/usuario/feed/' + idUsuario);
             }
+        },
+
+        getSeguidores: function (idUsuario) {
+            return $http.get('api/usuario/seguidores/' + idUsuario);
+        },
+
+        getSeguindo: function (idUsuario) {
+            return $http.get('api/usuario/seguindo/' + idUsuario);
         }
     }
 }]);

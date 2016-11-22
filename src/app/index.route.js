@@ -46,7 +46,7 @@
             .state('home.seguidores', {
                 url: "/seguidores",
                 templateUrl: "app/components/rede_social/seguidores.html",
-                controller: 'ProfileController as vmProfile',
+                controller: 'SeguidoresController as vmSeguidores',
                 acesso: 'registrado'
             })
             .state('home.seguindo', {
