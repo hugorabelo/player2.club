@@ -1,0 +1,7 @@
+<h3 class="secao_titulo" ng-init="vmProfile.getCampeonatosUsuario()">{{'messages.campeonatos_usuario' | translate}}</h3>
+<md-list ng-cloak>
+    <md-list-item class="item-lista" ng-repeat="campeonato in vmProfile.campeonatosDoUsuario">
+        <p>{{campeonato.descricao}}</p>
+        <md-button class="md-secondary md-primary md-raised" ui-sref="campeonato({idCampeonato: campeonato.id})">{{'messages.campeonato_detalhes' | translate}}</md-button>
+    </md-list-item>
+</md-list>

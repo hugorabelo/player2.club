@@ -271,6 +271,7 @@
         "disputou_partida": " disputou uma partida do campeonato ",
         "inscreveu_campeonato": " se inscreveu no campeonato ",
 
-        "ultimas_novidades": "O que tá rolando"
+        "ultimas_novidades": "O que tá rolando",
+        "campeonatos_usuario": "Campeonatos do Usuário"
     }
 }

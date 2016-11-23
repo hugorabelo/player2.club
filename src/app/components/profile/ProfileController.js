@@ -101,5 +101,11 @@
                 });
         };
 
+        vm.getCampeonatosUsuario = function () {
+            if (vm.idUsuario === undefined) {
+                vm.getCampeonatosInscritos($rootScope.usuarioLogado.id);
+            }
+        };
+
     }]);
 }());

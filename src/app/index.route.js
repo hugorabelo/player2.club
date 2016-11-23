@@ -47,6 +47,12 @@
                 controller: 'SeguidoresController as vmSeguidores',
                 acesso: 'registrado'
             })
+            .state('home.campeonatos', {
+                url: "/campeonatos",
+                templateUrl: "app/components/campeonato/listaCampeonatos.html",
+                controller: 'ProfileController as vmProfile',
+                acesso: 'registrado'
+            })
             .state('home.editar_perfil', {
                 url: "/editar_perfil",
                 templateUrl: "app/components/dashboard/editarPerfil.html",
@@ -177,6 +183,12 @@
                 url: "/seguindo",
                 templateUrl: "app/components/rede_social/seguindo.html",
                 controller: 'SeguidoresController as vmSeguidores',
+                acesso: 'registrado'
+            })
+            .state('profile.campeonatos', {
+                url: "/campeonatos",
+                templateUrl: "app/components/campeonato/listaCampeonatos.html",
+                controller: 'ProfileController as vmProfile',
                 acesso: 'registrado'
             })
             .state('jogo', {
