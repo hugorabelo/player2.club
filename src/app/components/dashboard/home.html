@@ -4,7 +4,9 @@
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
 
-    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin></div>
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()"></div>
+    </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm>
         <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>

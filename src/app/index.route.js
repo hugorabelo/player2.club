@@ -31,16 +31,8 @@
             })
             .state('home', {
                 url: "/home",
-                abstract: true,
-                redirectTo: 'home.feed',
                 templateUrl: "app/components/dashboard/home.html",
                 controller: 'HomeController as vmHome',
-                acesso: 'registrado'
-            })
-            .state('home.feed', {
-                url: "/feed",
-                templateUrl: "app/components/rede_social/feed.html",
-                controller: 'FeedController as vmFeed',
                 acesso: 'registrado'
             })
             .state('home.seguidores', {
@@ -199,9 +191,7 @@
                 url: "/logout"
             });
 
-        $urlRouterProvider.when('/', '/home/feed');
-        $urlRouterProvider.when('', '/home/feed');
-        $urlRouterProvider.otherwise('/home/feed');
+        $urlRouterProvider.otherwise('/home');
 
     }
 
