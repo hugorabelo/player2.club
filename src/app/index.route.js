@@ -52,6 +52,7 @@
             .state('home.seguindo', {
                 url: "/seguindo",
                 templateUrl: "app/components/rede_social/seguindo.html",
+                controller: 'SeguidoresController as vmSeguidores',
                 acesso: 'registrado'
             })
             .state('home.editar_perfil', {
@@ -173,6 +174,18 @@
                 data: {
                     pageTitle: "messages.profile_usuario"
                 }
+            })
+            .state('profile.seguidores', {
+                url: "/seguidores",
+                templateUrl: "app/components/rede_social/seguidores.html",
+                controller: 'SeguidoresController as vmSeguidores',
+                acesso: 'registrado'
+            })
+            .state('profile.seguindo', {
+                url: "/seguindo",
+                templateUrl: "app/components/rede_social/seguindo.html",
+                controller: 'SeguidoresController as vmSeguidores',
+                acesso: 'registrado'
             })
             .state('jogo', {
                 url: "/jogo/{idJogo}",

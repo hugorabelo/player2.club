@@ -186,7 +186,8 @@
             var lowercaseQuery = angular.lowercase(query);
 
             return function filterFn(participante) {
-                return (participante.nome.indexOf(lowercaseQuery) >= 0);
+                var lowercaseNome = angular.lowercase(participante.nome);
+                return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
             };
 
         };

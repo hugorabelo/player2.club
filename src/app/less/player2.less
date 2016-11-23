@@ -578,12 +578,30 @@ md-tooltip.multiline {
 }
 
 .caixa-informacao-titulo {
-    background-color: transparent !important;
-    color: @verde-padrao;
-    margin-bottom: 0;
-    text-transform: uppercase;
-    font-family: 'Oswald', sans-serif;
-    font-weight: normal;
+    position: relative;
+    h3 {
+        background-color: transparent !important;
+        color: @verde-padrao;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        font-weight: normal;
+        float: left;
+    }
+    a {
+        position: absolute;
+        right: 0;
+        color: @cinza-escuro;
+        &:hover {
+            color: @verde-padrao;
+        }
+        i {
+            transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -ms-transform: scaleX(-1);
+        }
+    }
 }
 
 .circle-border-sm {
@@ -664,4 +682,36 @@ h3.secao_titulo {
 
 a.menu-acessorio {
     font-size: 16px;
+}
+
+.card-usuarios {
+    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    color: @black;
+    .body-content {
+        padding: 15px;
+        overflow: hidden;
+    }
+    img {
+        margin: 0 auto;
+    }
+}
+
+.caixa-pesquisa {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    md-input-container {
+        margin-bottom: 0;
+        .md-errors-spacer {
+            min-height: 0;
+        }
+    }
+}
+
+.link-todos {
+    float: right;
+}
+
+i.material-icons {
+    vertical-align: middle;
 }

@@ -1,6 +1,8 @@
 <div flex layout="row" layout-wrap class="header-profile" layout-align="start end" style="background-image: url('uploads/usuarios/capa/{{vmProfile.usuario.imagem_capa}}');">
     <div class="profile-image">
-        <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+        <a ui-sref="profile({idUsuario: vmProfile.usuario.id})">
+            <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+        </a>
     </div>
     <div class="profile-info">
         <div class="">
@@ -24,28 +26,32 @@
 </div>
 
 <div flex layout="row" layout-margin>
+    <!--
     <div flex layout="column" class="caixa-flutuante" layout-margin>
-        <div ng-include="'app/components/rede_social/feed.html'" layout="column" layout-fill ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()"></div>
+</div>
+-->
+
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()"></div>
     </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
-        <h3 class="caixa-informacao-titulo" layout="row">{{'messages.usuario_gamertags' | translate}}</h3>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.usuario_gamertags' | translate}}</h3>
+        </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <md-list-item ng-repeat="gamertag in vmProfile.gamertags">
                     <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
                 </md-list-item>
-                <!--
-                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
-<img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-xs">
-<md-tooltip md-direction="top ">
-    {{seguindo.nome}}
-</md-tooltip>
-</a>
--->
             </div>
         </md-card>
-        <h3 class="caixa-informacao-titulo" layout="row">{{'messages.seguindo' | translate}}</h3>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.seguindo' | translate}}</h3>
+            <a ui-sref=".seguindo">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
@@ -56,7 +62,12 @@
                 </a>
             </div>
         </md-card>
-        <h3 class="caixa-informacao-titulo" layout="row">{{'messages.seguidores' | translate}}</h3>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.seguidores' | translate}}</h3>
+            <a ui-sref=".seguidores">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
@@ -68,7 +79,9 @@
             </div>
         </md-card>
 
-        <h3 class="caixa-informacao-titulo" layout="row">{{'messages.jogo_list' | translate}}</h3>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.jogo_list' | translate}}</h3>
+        </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
@@ -81,7 +94,9 @@
 
         </md-card>
 
-        <h3 class="caixa-informacao-titulo" layout="row">{{'messages.campeonato_list' | translate}}</h3>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.campeonato_list' | translate}}</h3>
+        </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
