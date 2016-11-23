@@ -3,11 +3,15 @@
         <a href="/" flex="20">
             <img height="50" alt="" src="assets/images/player2.png" data-pin-nopin="true">
         </a>
-        <!--        <span flex></span>-->
-        <div flex="60">
+        <div flex="60" layout="row" layout-align="space-between center">
             <input type="number" placeholder="Usuário Logado" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)">
+            <div class="icones-topo">
+                <i class="material-icons md-24">home</i>
+                <i class="material-icons md-24">comment</i>
+                <i class="material-icons md-24">videogame_asset</i>
+            </div>
         </div>
-        <div layout="row" flex layout-align="end end">
+        <div flex="20" layout="row" flex layout-align="end end">
 
 
             <md-menu md-position-mode="target-right target" md-offset="-10 64">
