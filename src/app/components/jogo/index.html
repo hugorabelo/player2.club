@@ -1,4 +1,54 @@
-<div flex>
+<div flex layout="row" layout-margin>
+
+    <div flex="33" layout="column" class="caixa-flutuante" layout-margin hide-xs>
+        <!--        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>-->
+        <div class="detalhes-jogo">
+            <h3 class="titulo-jogo">{{vmJogo.jogo.descricao}}</h3>
+            <img src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
+            <div layout="row" layout-align="space-around center">
+                <span class="info">
+                   <i class="material-icons">style</i>
+                    genero
+                </span>
+                <span class="info">
+                   <i class="material-icons">extension</i>
+                    produtora
+                </span>
+                <span class="info">
+                   <i class="material-icons">date_range</i>
+                    data
+                </span>
+            </div>
+            <uib-rating ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
+        </div>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.analises' | translate}}</h3>
+            <a ui-sref=".seguindo">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.campeonato_list' | translate}}</h3>
+            <a ui-sref=".seguindo">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.melhores_jogadores' | translate}}</h3>
+            <a ui-sref=".seguindo">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+    </div>
+
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()"></div>
+    </div>
+
+</div>
+
+
+<div flex ng-show="false">
     <div flex layout="row" layout-wrap class="header-profile" layout-align="start center" style="background-image: url('uploads/{{vmJogo.jogo.imagem_paisagem}}');">
         <div class="profile-image">
             <img src="uploads/{{vmJogo.jogo.imagem_capa}}" class="img-circle circle-border m-b-md" alt="profile">
