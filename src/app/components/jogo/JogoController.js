@@ -21,15 +21,9 @@
         vm.exibeFormularioPerfil = false;
         vm.exibeFormularioImagem = false;
 
-        //$rootScope.loading = true;
-        Jogo.show(vm.idJogo)
-            .success(function (data) {
-                vm.jogo = data;
-                vm.carregaDadosJogo(vm.jogo.id);
-                //                vm.carregaPosts(vm.idUsuario);
-
-            })
-            .error(function (data, status) {});
+        vm.inicializa = function () {
+            vm.carregaDadosJogo(vm.idJogo);
+        };
 
         function DialogController($scope, $mdDialog, tituloModal, post) {
             $scope.tituloModal = tituloModal;
@@ -85,10 +79,11 @@
         vm.getCampeonatos = function (idJogo) {
             Jogo.getCampeonatos(idJogo)
                 .success(function (data) {
-                    vm.campeonatosInscricoesAbertas = data.campeonatosInscricoesAbertas;
-                    vm.campeonatosAIniciar = data.campeonatosAIniciar;
-                    vm.campeonatosEmAndamento = data.campeonatosEmAndamento;
-                    vm.campeonatosEncerrados = data.campeonatosEncerrados;
+                    vm.campeonatos = data;
+//                    vm.campeonatosInscricoesAbertas = data.campeonatosInscricoesAbertas;
+//                    vm.campeonatosAIniciar = data.campeonatosAIniciar;
+//                    vm.campeonatosEmAndamento = data.campeonatosEmAndamento;
+//                    vm.campeonatosEncerrados = data.campeonatosEncerrados;
                 })
         };
 
@@ -150,6 +145,11 @@
                 .success(function (data) {
                     vm.jogo.seguido = data.segue;
                 })
+        };
+
+        vm.exibeData = function (data) {
+            var dataExibida = new Date(data);
+            return $filter('date')(dataExibida, 'dd/MM/yyyy');
         };
 
         //        vm.editPost = function (post) {

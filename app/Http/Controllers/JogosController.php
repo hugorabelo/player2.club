@@ -19,6 +19,8 @@ class JogosController extends Controller {
     public function show($id) {
         $jogo = Jogo::find($id);
         $jogo->seguidores = $jogo->seguidores()->get();
+		$jogo->produtora = $jogo->produtora()->nome;
+		$jogo->genero = $jogo->genero()->nome;
         return Response::json($jogo);
     }
 
@@ -147,7 +149,19 @@ class JogosController extends Controller {
 		$campeonatosEmAndamento = app()->make(Collection::class);
 		$campeonatosEncerrados = app()->make(Collection::class);
 		$campeonatosDoJogo = Campeonato::where("jogos_id", "=", $idJogo)->get();
+
 		foreach ($campeonatosDoJogo as $campeonato) {
+			$campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+			$campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+			$campeonato->plataforma = $campeonato->plataforma()->descricao;
+		}
+
+		return $campeonatosDoJogo;
+
+		/*
+		foreach ($campeonatosDoJogo as $campeonato) {
+		$campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
 			switch ($campeonato->status()) {
 				case 1:
 					$campeonatosInscricoesAbertas->add($campeonato);
@@ -163,8 +177,8 @@ class JogosController extends Controller {
 					break;
 			}
 		}
-
-		return Response::json(compact('campeonatosInscricoesAbertas', 'campeonatosAIniciar', 'campeonatosEmAndamento', 'campeonatosEncerrados'));
+		*/
+		//return Response::json(compact('campeonatosInscricoesAbertas', 'campeonatosAIniciar', 'campeonatosEmAndamento', 'campeonatosEncerrados'));
 	}
 
 }

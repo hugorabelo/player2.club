@@ -272,6 +272,13 @@
         "inscreveu_campeonato": " se inscreveu no campeonato ",
 
         "ultimas_novidades": "O que tá rolando",
-        "campeonatos_usuario": "Campeonatos do Usuário"
+        "campeonatos_usuario": "Campeonatos do Usuário",
+
+        "analises": "Análises",
+        "melhores_jogadores": "Melhores Jogadores"
+    },
+
+    "generos": {
+        "Soccer": "Futebol"
     }
 }

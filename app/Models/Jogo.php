@@ -25,4 +25,14 @@ class Jogo extends Eloquent {
         return $this->belongsToMany('User', 'seguidor_jogo', 'jogos_id', 'users_id');
     }
 
+	public function produtora() {
+		$produtora = Produtora::find($this->produtora_id);
+		return $produtora;
+	}
+
+	public function genero() {
+		$genero = Genero::find($this->genero_id);
+		return $genero;
+	}
+
 }
