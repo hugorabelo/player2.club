@@ -5,12 +5,22 @@
         </a>
         <div flex="60" layout="row" layout-align="space-between center">
             <input type="number" placeholder="Usuário Logado" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)">
-            <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name" md-min-length="0" placeholder="Pick an Angular repository" md-menu-class="autocomplete-custom-template">
+            <md-autocomplete
+               md-no-cache="vmTopNav.noCache"
+               md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)"
+               md-search-text="vmTopNav.searchText"
+               md-selected-item-change="vmTopNav.selectedItemChange(item)"
+               md-items="item in vmTopNav.querySearch(vmTopNav.searchText)"
+               md-min-length="2"
+               md-item-text="item.nome"
+               placeholder="Pesquise algo"
+               md-menu-class="autocomplete-custom-template">
                 <md-item-template>
                     <span class="item-title">
-                        <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
-                        <span> {{item.name}} </span>
+                        <img src="uploads/usuarios/{{item.imagem_perfil}}" class="img-circle img-sm">
+                        <span> {{item.nome}} </span>
                     </span>
+<!--
                     <span class="item-metadata">
                         <span class="item-metastat">
                           <strong>{{item.watchers}}</strong> watchers
@@ -19,6 +29,7 @@
                           <strong>{{item.forks}}</strong> forks
                         </span>
                     </span>
+-->
                 </md-item-template>
                 <!--
 PESQUISA autocomplete

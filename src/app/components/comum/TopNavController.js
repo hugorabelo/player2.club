@@ -2,11 +2,13 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', 'Auth', 'Usuario', function ($rootScope, $scope, $translate, $location, $mdDateLocale, Auth, Usuario) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, Auth, Usuario, Atividade) {
 
         var vm = this;
 
         var originatorEv;
+
+        vm.itensPesquisa = {};
 
         vm.openMenu = function ($mdOpenMenu, ev) {
             originatorEv = ev;
@@ -57,6 +59,37 @@
                         $location.path('/');
                     });
             }
+        };
+
+        vm.getItensPesquisa = function (texto) {
+            Atividade.getPesquisaveis(texto)
+                .success(function (data) {
+                    vm.itensPesquisa = data;
+                });
+        };
+
+        vm.querySearch = function (query) {
+            var results = query ? vm.itensPesquisa.filter(vm.createFilterFor(query)) : vm.itensPesquisa,
+                deferred;
+            return results;
+        };
+
+        vm.createFilterFor = function (query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(item) {
+                var lowercaseNome = angular.lowercase(item.nome);
+                return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
+            };
+
+        };
+
+        vm.searchTextChange = function (text) {
+            vm.getItensPesquisa(text);
+        };
+
+        vm.selectedItemChange = function (item) {
+            $location.path('/profile/' + item.id);
         };
 
     }]);

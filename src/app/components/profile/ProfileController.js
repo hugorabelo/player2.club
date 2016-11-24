@@ -77,8 +77,6 @@
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
-        vm.carregaCampeonato = function (idCampeonato) {};
-
         vm.getJogos = function (id) {
             Usuario.getJogos(id)
                 .success(function (data) {

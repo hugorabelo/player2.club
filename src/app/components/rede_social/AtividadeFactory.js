@@ -68,6 +68,10 @@
 
             destroy: function (id) {
                 return $http.delete('api/atividade/' + id);
+            },
+
+            getPesquisaveis: function (texto) {
+                return $http.get('api/atividade/pesquisa/' + texto);
             }
         }
     }]);
