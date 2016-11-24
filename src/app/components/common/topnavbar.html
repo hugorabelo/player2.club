@@ -5,6 +5,30 @@
         </a>
         <div flex="60" layout="row" layout-align="space-between center">
             <input type="number" placeholder="Usuário Logado" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)">
+            <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name" md-min-length="0" placeholder="Pick an Angular repository" md-menu-class="autocomplete-custom-template">
+                <md-item-template>
+                    <span class="item-title">
+                        <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
+                        <span> {{item.name}} </span>
+                    </span>
+                    <span class="item-metadata">
+                        <span class="item-metastat">
+                          <strong>{{item.watchers}}</strong> watchers
+                        </span>
+                    <span class="item-metastat">
+                          <strong>{{item.forks}}</strong> forks
+                        </span>
+                    </span>
+                </md-item-template>
+                <!--
+PESQUISA autocomplete
+select id, nome as descricao, imagem_perfil as imagem, 'usuario' as tipo from users where lower(nome) like lower('%a%')
+union
+select id, descricao, imagem_capa as imagem, 'jogo'  as tipo from jogos where lower(descricao) like lower('%a%')
+union
+select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where lower(descricao) like lower('%a%')
+-->
+            </md-autocomplete>
             <div class="icones-topo">
                 <i class="material-icons md-24">home</i>
                 <i class="material-icons md-24">comment</i>

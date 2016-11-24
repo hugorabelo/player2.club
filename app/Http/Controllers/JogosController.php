@@ -19,8 +19,8 @@ class JogosController extends Controller {
     public function show($id) {
         $jogo = Jogo::find($id);
         $jogo->seguidores = $jogo->seguidores()->get();
-		$jogo->produtora = $jogo->produtora()->nome;
-		$jogo->genero = $jogo->genero()->nome;
+		$jogo->produtora = $jogo->produtora() != null ? $jogo->produtora()->nome : '';
+		$jogo->genero = $jogo->genero() != null ? $jogo->genero()->nome : '';
         return Response::json($jogo);
     }
 
