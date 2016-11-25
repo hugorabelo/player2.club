@@ -113,4 +113,9 @@ class AtividadeController extends Controller
         }
         return Response::json($comentarios);
     }
+
+    public function getItensPesquisa($textoPesquisa) {
+        $atividade = new Atividade();
+        return Response::json($atividade->getItensPesquisa($textoPesquisa));
+    }
 }

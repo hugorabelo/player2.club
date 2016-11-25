@@ -275,7 +275,8 @@
         "campeonatos_usuario": "Campeonatos do Usuário",
 
         "analises": "Análises",
-        "melhores_jogadores": "Melhores Jogadores"
+        "melhores_jogadores": "Melhores Jogadores",
+        "texto_pesquisa": "Encontre jogadores, jogos ou campeonatos"
     },
 
     "generos": {

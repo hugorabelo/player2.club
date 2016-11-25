@@ -1,26 +1,19 @@
 <md-toolbar ng-controller="TopNavController as vmTopNav" class="md-accent topo-principal">
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-        <a href="/" flex="20">
+        <a href="/" flex="15">
             <img height="50" alt="" src="assets/images/player2.png" data-pin-nopin="true">
         </a>
-        <div flex="60" layout="row" layout-align="space-between center">
-            <input type="number" placeholder="Usuário Logado" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)">
-            <md-autocomplete
-               md-no-cache="vmTopNav.noCache"
-               md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)"
-               md-search-text="vmTopNav.searchText"
-               md-selected-item-change="vmTopNav.selectedItemChange(item)"
-               md-items="item in vmTopNav.querySearch(vmTopNav.searchText)"
-               md-min-length="2"
-               md-item-text="item.nome"
-               placeholder="Pesquise algo"
-               md-menu-class="autocomplete-custom-template">
+        <div flex="65" layout="row" layout-align="space-between center">
+
+
+            <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template">
                 <md-item-template>
                     <span class="item-title">
-                        <img src="uploads/usuarios/{{item.imagem_perfil}}" class="img-circle img-sm">
-                        <span> {{item.nome}} </span>
+                        <img src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-show="item.tipo == 'profile'">
+                        <img src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
+                        <span> {{item.descricao}} </span>
                     </span>
-<!--
+                    <!--
                     <span class="item-metadata">
                         <span class="item-metastat">
                           <strong>{{item.watchers}}</strong> watchers
@@ -33,7 +26,7 @@
                 </md-item-template>
                 <!--
 PESQUISA autocomplete
-select id, nome as descricao, imagem_perfil as imagem, 'usuario' as tipo from users where lower(nome) like lower('%a%')
+select id, nome as descricao, imagem_perfil as imagem, 'profile' as tipo from users where lower(nome) like lower('%a%')
 union
 select id, descricao, imagem_capa as imagem, 'jogo'  as tipo from jogos where lower(descricao) like lower('%a%')
 union
@@ -46,8 +39,8 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
                 <i class="material-icons md-24">videogame_asset</i>
             </div>
         </div>
-        <div flex="20" layout="row" flex layout-align="end end">
-
+        <div flex="20" layout="row" flex layout-align="end center">
+            <input type="number" placeholder="" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)" style="width: 50px; margin-right: 10px">
 
             <md-menu md-position-mode="target-right target" md-offset="-10 64">
                 <div layout="column" layout-align="center center" ng-click="$mdOpenMenu()">

@@ -119,6 +119,7 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('atividade/usuarioCurtiu', 'AtividadeController@usuarioCurtiu');
     Route::get('atividade/curtidas/{id}', 'AtividadeController@getCurtidas');
     Route::post('atividade/getComentarios', 'AtividadeController@getComentarios');
+    Route::get('atividade/pesquisa/{textoPesquisa}', 'AtividadeController@getItensPesquisa');
     Route::resource('atividade', 'AtividadeController');
 
     Route::post('comentario/curtir', 'ComentarioController@curtir');
@@ -134,7 +135,7 @@ Route::any('{catchall}', function() {
  */
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
-    //Log::info($query->sql);
+    Log::info($query->sql);
     //DB::getQueryLog();
 });
 /* */

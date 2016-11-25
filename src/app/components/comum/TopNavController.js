@@ -71,6 +71,7 @@
         vm.querySearch = function (query) {
             var results = query ? vm.itensPesquisa.filter(vm.createFilterFor(query)) : vm.itensPesquisa,
                 deferred;
+            console.log(results);
             return results;
         };
 
@@ -78,7 +79,7 @@
             var lowercaseQuery = angular.lowercase(query);
 
             return function filterFn(item) {
-                var lowercaseNome = angular.lowercase(item.nome);
+                var lowercaseNome = angular.lowercase(item.descricao);
                 return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
             };
 
@@ -89,7 +90,8 @@
         };
 
         vm.selectedItemChange = function (item) {
-            $location.path('/profile/' + item.id);
+            console.log(item);
+            $location.path('/' + item.tipo + '/' + item.id);
         };
 
     }]);
