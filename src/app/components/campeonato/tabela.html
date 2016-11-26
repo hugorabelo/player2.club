@@ -33,7 +33,8 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="jogadorGrupo in grupo.classificacao" ng-class="{'font-bold':jogadorGrupo.pivot.users_id == usuarioLogado.id}">
-                                    <td>{{jogadorGrupo.nome}} - {{jogadorGrupo.id}} </td>
+                                    <td>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})">{{jogadorGrupo.nome}} - {{jogadorGrupo.id}}</a></td>
                                     <td class="text-center">{{jogadorGrupo.pontuacao}}</td>
                                     <td class="text-center">{{jogadorGrupo.jogos}}</td>
                                     <td class="text-center">{{jogadorGrupo.vitorias}}</td>
