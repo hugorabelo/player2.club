@@ -212,5 +212,12 @@
                 });
         };
 
+        vm.carregaPartidas = function () {
+            Usuario.getPartidas($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    vm.partidasDoUsuario = data;
+                });
+        };
+
     }]);
 }());
