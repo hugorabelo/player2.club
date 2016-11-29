@@ -33,7 +33,7 @@ union
 select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where lower(descricao) like lower('%a%')
 -->
             </md-autocomplete>
-            <div class="icones-topo">
+            <div class="icones-topo" ng-show="false">
                 <i class="material-icons md-24">home</i>
                 <i class="material-icons md-24">comment</i>
                 <i class="material-icons md-24">videogame_asset</i>

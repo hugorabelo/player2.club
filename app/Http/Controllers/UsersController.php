@@ -215,6 +215,15 @@ class UsersController extends Controller {
 		return Response::json($partidas);
 	}
 
+    public function listaPartidasEmAberto($idUsuario) {
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $partidas = $usuario->partidasEmAberto();
+        return Response::json($partidas);
+    }
+
 	public function adicionaSeguidor() {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];

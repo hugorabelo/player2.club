@@ -79,6 +79,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/partidasParaUsuario/' + id + stringCampeonato);
         },
 
+        getPartidasEmAberto: function (id) {
+            return $http.get('api/partidasEmAberto/' + id);
+        },
+
         seguir: function (idSeguidor, usuario) {
             dados = {
                 idUsuarioMestre: usuario.id,

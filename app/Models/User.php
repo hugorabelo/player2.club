@@ -69,6 +69,25 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return $partidas;
 	}
 
+	public function partidasEmAberto() {
+        $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
+        $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortByDesc('data_placar');
+        foreach($partidas as $partida) {
+            $partida->confirmarPlacarAutomaticamente();
+            if($partida->contestada()) {
+                $partida->contestada = true;
+            }
+            $usuarios = $partida->usuarios();
+            $partida->usuarios = $usuarios;
+            if($partida->data_placar != null) {
+                $partida->data_placar_limite = $partida->getDataLimitePlacar();
+            }
+            $partida->campeonato = $partida->campeonato();
+        }
+        $partidas = $partidas->values();
+        return $partidas;
+    }
+
 	public function campeonatos() {
 		// Exibir campeonatos do usuário
 		// Cada campeonato, possuirá uma coleção das partidas do usuário

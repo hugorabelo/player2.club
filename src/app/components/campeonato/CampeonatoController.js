@@ -315,6 +315,13 @@
                 });
         };
 
+        vm.carregaPartidasEmAbertoDoUsuario = function() {
+            Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    vm.partidasDoUsuario = data;
+                });
+        };
+
         vm.carregaPartidasContestadas = function () {
             Campeonato.getPartidasContestadas(vm.campeonato.id)
                 .success(function (data) {
@@ -323,6 +330,7 @@
         };
 
         vm.salvarPlacar = function (partida) {
+            console.log(partida);
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {

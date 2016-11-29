@@ -213,7 +213,7 @@
         };
 
         vm.carregaPartidas = function () {
-            Usuario.getPartidas($rootScope.usuarioLogado.id)
+            Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
                 .success(function (data) {
                     vm.partidasDoUsuario = data;
                 });
