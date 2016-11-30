@@ -62,7 +62,7 @@
             .state('home.partidas_usuario', {
                 url: "/partidas_usuario",
                 templateUrl: "app/components/dashboard/partidasUsuario.html",
-                controller: 'HomeController as vmHome',
+                controller: 'CampeonatoController as vmCampeonato',
                 acesso: 'registrado'
             })
             .state('campeonato', {

@@ -27,6 +27,8 @@
 
         vm.partidasDaRodada = [];
 
+        vm.partidasAbertas = false;
+
         vm.opcoesEditor = {
             lang: 'pt',
             svgPath: 'assets/icons/trumbowyg.svg',
@@ -81,7 +83,7 @@
                     vm.carregaFases(id);
                     vm.getParticipantes(id);
                     vm.carregaAdministradores(id);
-                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                     vm.carregaPartidasContestadas();
                     vm.campeonato.usuarioAdministrador = true;
                 });
@@ -308,19 +310,32 @@
                 });
         };
 
-        vm.carregaPartidasDoUsuario = function () {
-            Usuario.getPartidas($rootScope.usuarioLogado.id, vm.campeonato.id)
-                .success(function (data) {
-                    vm.partidasDoUsuario = data;
-                });
+        vm.carregaPartidasDoUsuario = function (abertas) {
+            if (abertas === undefined) {
+                abertas = false;
+            }
+            if (abertas) {
+                Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
+                    .success(function (data) {
+                        vm.partidasDoUsuario = data;
+                        vm.partidasAbertas = true;
+                    });
+            } else {
+                Usuario.getPartidas($rootScope.usuarioLogado.id, vm.campeonato.id)
+                    .success(function (data) {
+                        vm.partidasDoUsuario = data;
+                        vm.partidasAbertas = false;
+                    });
+
+            }
         };
 
-        vm.carregaPartidasEmAbertoDoUsuario = function() {
-            Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
-                .success(function (data) {
-                    vm.partidasDoUsuario = data;
-                });
-        };
+        //        vm.carregaPartidasEmAbertoDoUsuario = function () {
+        //            Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
+        //                .success(function (data) {
+        //                    vm.partidasDoUsuario = data;
+        //                });
+        //        };
 
         vm.carregaPartidasContestadas = function () {
             Campeonato.getPartidasContestadas(vm.campeonato.id)
@@ -334,7 +349,7 @@
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
-                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 })
                 .error(function (data) {
                     //TODO melhorar a exibição deste erro
@@ -347,7 +362,7 @@
             dados.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.confirmarPlacar(dados)
                 .success(function () {
-                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 })
                 .error(function (data) {
                     //                    $rootScope.loading = false;
@@ -383,7 +398,7 @@
             dados.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.cancelarPlacar(dados)
                 .success(function () {
-                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 })
                 .error(function (data) {
                     console.log(data.errors);
@@ -393,7 +408,7 @@
         vm.salvarContestacao = function (contestacao_resultado, arquivo) {
             Partida.contestarResultado(contestacao_resultado, arquivo)
                 .success(function (data) {
-                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 }).error(function (data, status) {
                     vm.messages = data.errors;
                     vm.status = status;
@@ -412,7 +427,7 @@
             Partida.confirmarPlacar(dados)
                 .success(function () {
                     vm.carregaPartidasContestadas();
-                    vm.carregaPartidasDoUsuario();
+                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 })
                 .error(function (data) {});
         };

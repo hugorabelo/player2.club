@@ -1,4 +1,4 @@
-<md-card class="md-block" flex ng-init="vmHome.carregaPartidas()">
+<md-card class="md-block" flex ng-init="vmCampeonato.carregaPartidasDoUsuario(true)">
 
     <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.minhasPartidasAbertas_list</h2>
@@ -6,136 +6,80 @@
 
     <md-card-content>
         <md-list flex>
-            <md-list-item class="noright" ng-repeat="partida in vmHome.partidasDoUsuario">
-                <div class="col-xs-3 text-right">
-                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
-                    <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante hidden-xs" alt="profile">
-                </div>
-                <div class="col-xs-1 text-center">
-                    <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar">
-                </div>
-                <div class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>
-                <div class="col-xs-1 text-center">
-                    <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar">
-                </div>
-                <div class="col-xs-3 text-left">
-                    <img src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante hidden-xs" alt="profile">
-                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
-                </div>
-                <div class="col-xs-3">
-
-                    <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao">
-                        <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">
-                            <i class="fa fa-save fa-fw"></i>
-                            <md-tooltip md-direction="top ">
-                                {{'fields.salvar_resultado' | translate}}
-                            </md-tooltip>
-                        </md-button>
-
-                        <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
-                            <i class="fa fa-check fa-fw"></i>
-                            <md-tooltip md-direction="top ">
-                                {{'fields.confirmar_resultado' | translate}}
-                            </md-tooltip>
-                        </md-button>
-
-                        <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
-                            <i class="fa fa-gavel fa-fw"></i>
-                            <md-tooltip md-direction="top ">
-                                {{'fields.contestar_resultado' | translate}}
-                            </md-tooltip>
-                        </md-button>
-
-                        <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
-                            <i class="fa fa-times fa-fw"></i>
-                            <md-tooltip md-direction="top ">
-                                {{'fields.cancelar_resultado' | translate}}
-                            </md-tooltip>
-                        </md-button>
+            <div ng-repeat="partida in vmCampeonato.partidasDoUsuario">
+                <div flex-offset="25" flex="30" class="partida-detalhe-campeonato">{{partida.campeonato}} - {{partida.fase | translate}} - {{partida.rodada}} {{'messages.rodada' | translate}} </div>
+                <md-list-item class="noright">
+                    <div flex="25" class="text-right">
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
+                        <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante hidden-xs" alt="profile">
                     </div>
-                    <div id="icones" class="pull-right" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
-                        <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-show="partida.contestada">
-                            <i class="fa fa-balance-scale fa-lg"></i>
-                            <md-tooltip md-direction="top ">
-                                {{'fields.partida_contestada' | translate}}
-                            </md-tooltip>
-                        </md-button>
-                        <md-button class="md-icon-button" md-colors="::{color: 'player2-accent-900'}" ng-show="partida.data_confirmacao">
-                            <i class="fa fa-check fa-lg"></i>
-                            <md-tooltip md-direction="top ">
-                                {{'fields.placar_confirmado' | translate}}
-                            </md-tooltip>
-                        </md-button>
-                        <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
-                            <i class="fa fa-hourglass fa-lg"></i>
-                            <md-tooltip md-direction="top" class="multiline">
-                                {{'fields.aguardando_confirmacao' | translate}}
-                                <br> {{'fields.tempo_restante' | translate}} {{vmCampeonato.exibeDataLimite(partida.data_placar_limite.date)}}
-                            </md-tooltip>
-                        </md-button>
+                    <div flex="10" class="text-center">
+                        <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar">
                     </div>
-                </div>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-list-item>
-        </md-list>
-    </md-card-content>
-</md-card>
-
-
-
-
-<md-card ng-show="false">
-    <md-toolbar class="md-toolbar-tools">
-        <h2 translate>messages.minhasPartidas_list</h2>
-    </md-toolbar>
-    <md-card-content>
-        <md-list flex>
-            <md-list-item class="md-3-line" ng-repeat="partida in vmHome.partidasDoUsuario">
-                <div translate class="col-xs-3 text-right">{{partida.usuarios[0].nome}}</div>
-                <div translate class="col-xs-1 text-center">
-                    <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar">
-                </div>
-                <div translate class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></div>
-                <div translate class="col-xs-1 text-center">
-                    <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar">
-                </div>
-                <div translate class="col-xs-3 text-left">{{partida.usuarios[1].nome}}</div>
-                <div class="col-xs-3">
-                    <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao">
-                        <button type="button" class="btn btn-success" ng-click="vmPartida.salvarPlacar(partida)" tooltip="{{'fields.salvar_resultado' | translate}}" ng-hide="partida.data_placar">
-                            <i class="fa fa-save fa-fw"></i>
-                        </button>
-                        <button type="button" class="btn btn-primary" ng-click="vmPartida.confirmarPlacar(partida.id)" tooltip="{{'fields.confirmar_resultado' | translate}}" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
-                            <i class="fa fa-share fa-fw"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger" ng-click="vmPartida.contestarPlacar($event, partida.id)" tooltip="{{'fields.contestar_resultado' | translate}}" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
-                            <i class="fa fa-gavel fa-fw"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger" ng-click="vmPartida.cancelarPlacar(partida.id)" tooltip="{{'fields.cancelar_resultado' | translate}}" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
-                            <i class="fa fa-times fa-fw"></i>
-                        </button>
+                    <div flex="10" class="text-center"><i class="fa fa-close fa-fw"></i></div>
+                    <div flex="10" class="text-center">
+                        <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar">
                     </div>
-                    <div id="icones" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
-                        <span class="fa-stack fa-lg" tooltip="{{'fields.aguardando_confirmacao' | translate}}" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
-					  <i class="fa fa-circle fa-stack-2x text-warning disabled"></i>
-					  <i class="fa fa-hourglass fa-stack-1x fa-inverse"></i>
-					</span>
-                        <span class="fa-stack fa-lg" tooltip="{{'fields.partida_contestada' | translate}}" ng-show="partida.contestada">
-					  <i class="fa fa-circle fa-stack-2x text-danger"></i>
-					  <i class="fa fa-balance-scale fa-stack-1x fa-inverse"></i>
-					</span>
-                        <span class="fa-stack fa-lg" tooltip="{{'fields.placar_confirmado' | translate}}" ng-show="partida.data_confirmacao">
-					  <i class="fa fa-circle fa-stack-2x text-info"></i>
-					  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-					</span>
-                        <br>
-                        <span class="badge badge-info" tooltip="{{'fields.tempo_para_confirmacao' | translate}}" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
-					  {{'fields.tempo_restante' | translate}} {{vmPartida.exibeDataLimite(partida.data_placar_limite.date)}}
-					</span>
+                    <div flex="25" class="text-left">
+                        <img src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante hidden-xs" alt="profile">
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
                     </div>
-                </div>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-list-item>
+                    <div flex="20">
+
+                        <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao">
+                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">
+                                <i class="fa fa-save fa-fw"></i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.salvar_resultado' | translate}}
+                                </md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
+                                <i class="fa fa-check fa-fw"></i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.confirmar_resultado' | translate}}
+                                </md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
+                                <i class="fa fa-gavel fa-fw"></i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.contestar_resultado' | translate}}
+                                </md-tooltip>
+                            </md-button>
+
+                            <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
+                                <i class="fa fa-times fa-fw"></i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.cancelar_resultado' | translate}}
+                                </md-tooltip>
+                            </md-button>
+                        </div>
+                        <div id="icones" class="pull-right" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
+                            <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-show="partida.contestada">
+                                <i class="fa fa-balance-scale fa-lg"></i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.partida_contestada' | translate}}
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" md-colors="::{color: 'player2-accent-900'}" ng-show="partida.data_confirmacao">
+                                <i class="fa fa-check fa-lg"></i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.placar_confirmado' | translate}}
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
+                                <i class="fa fa-hourglass fa-lg"></i>
+                                <md-tooltip md-direction="top" class="multiline">
+                                    {{'fields.aguardando_confirmacao' | translate}}
+                                    <br> {{'fields.tempo_restante' | translate}} {{vmCampeonato.exibeDataLimite(partida.data_placar_limite.date)}}
+                                </md-tooltip>
+                            </md-button>
+                        </div>
+                    </div>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-list-item>
+            </div>
         </md-list>
     </md-card-content>
 </md-card>

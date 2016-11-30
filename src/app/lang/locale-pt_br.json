@@ -239,6 +239,7 @@
         "matamata16": "Oitavas de Final",
         "matamata32": "16 avos de Final",
         "matamata64": "32 avos de Final",
+        "rodada": "ª Rodada",
 
         "competidores_nao_mutiplo_grupos": "O número de competidores não é múltiplo do número de grupos",
         "classificados_nao_mutiplo_grupos": "O número de classificados para o mata-mata não é múltiplo do número de grupos",
