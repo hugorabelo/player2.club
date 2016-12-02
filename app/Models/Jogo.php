@@ -35,4 +35,10 @@ class Jogo extends Eloquent {
 		return $genero;
 	}
 
+	public function getAtividades() {
+		$postsDestinatarios = Post::where('jogos_id','=', $this->id)->get(array('id'));
+		$atividades = Atividade::WhereIn('post_id', $postsDestinatarios)->orderBy('created_at', 'desc')->get();
+		return $atividades;
+	}
+
 }

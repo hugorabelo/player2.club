@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo) {
 
         var vm = this;
 
@@ -17,8 +17,13 @@
 
         vm.idUsuario = $stateParams.idUsuario
 
+        vm.idJogo = $stateParams.idJogo;
+
         vm.inicializa = function () {
-            if (vm.idUsuario !== undefined) {
+            if (vm.idJogo !== undefined) {
+                vm.idUsuario = $rootScope.usuarioLogado.id;
+                vm.getFeedDoJogo(vm.idJogo);
+            } else if (vm.idUsuario !== undefined) {
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
                         vm.usuario = data;
@@ -36,12 +41,22 @@
 
         vm.criarPost = function () {
             var post = {};
+            if (vm.idUsuario != $rootScope.usuarioLogado.id) {
+                post.destinatario_id = vm.idUsuario;
+            }
+            if (vm.idJogo !== undefined) {
+                post.jogos_id = vm.idJogo;
+            }
             post.users_id = $rootScope.usuarioLogado.id;
             post.texto = vm.novoPost;
             Post.salvar(post)
                 .success(function (data) {
                     vm.novoPost = '';
-                    vm.getFeedDoUsuario();
+                    if (vm.idJogo !== undefined) {
+                        vm.getFeedDoJogo();
+                    } else {
+                        vm.getFeedDoUsuario();
+                    }
                 })
         };
 
@@ -61,6 +76,20 @@
                     })
                 });
         };
+
+        vm.getFeedDoJogo = function () {
+            Jogo.getFeed(vm.idJogo)
+                .success(function (data) {
+                    vm.atividades = data;
+                    angular.forEach(vm.atividades, function (atividade) {
+                        if (atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id) {
+                            vm.getCurtidas(atividade);
+                            vm.usuarioCurtiu(atividade);
+                            vm.getComentarios(atividade);
+                        }
+                    })
+                });
+        }
 
         vm.exibeData = function (data) {
             var dataExibida = new Date(data);

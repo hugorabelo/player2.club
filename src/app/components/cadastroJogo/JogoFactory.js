@@ -66,6 +66,9 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
 
         getCampeonatos: function (id) {
             return $http.get('api/campeonatosDoJogo/' + id);
+        },
+        getFeed: function (id) {
+            return $http.get('api/jogos/feed/' + id);
         }
     }
 }]);

@@ -181,4 +181,56 @@ class JogosController extends Controller {
 		//return Response::json(compact('campeonatosInscricoesAbertas', 'campeonatosAIniciar', 'campeonatosEmAndamento', 'campeonatosEncerrados'));
 	}
 
+	public function getFeed($idJogo)
+	{
+		$jogo = $this->jogo->find($idJogo);
+		if($jogo == null) {
+			return Response::json();
+		}
+		$atividades = $jogo->getAtividades();
+		foreach ($atividades as $atividade) {
+			if(isset($atividade->post_id)) {
+				$post = Post::find($atividade->post_id);
+				if(isset($post->post_id)) {
+					$post_compartilhado = Post::find($post->post_id);
+					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
+					$post->compartilhamento = $post_compartilhado;
+					$atividade->objeto = $post;
+					$atividade->descricao = 'messages.compartilhou';
+				} else {
+					$atividade->objeto = $post;
+					$atividade->descricao = 'messages.publicou';
+				}
+			} else if(isset($atividade->comentarios_id)) {
+				$comentario = Comentario::find($atividade->comentarios_id);
+				$atividade->objeto = $comentario;
+				$atividade->descricao = 'messages.comentou';
+			} else if(isset($atividade->seguidor_id)) {
+				$seguidor = DB::table('seguidor')->where('id','=',$atividade->seguidor_id)->first();
+				$usuarioMestre = User::find($seguidor->users_id_mestre);
+				$atividade->objeto = $usuarioMestre;
+				$atividade->descricao = 'messages.seguiu';
+			} else if(isset($atividade->seguidor_jogo_id)) {
+				$seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
+				$jogo = Jogo::find($seguidor_jogo->jogos_id);
+				$atividade->objeto = $jogo;
+				$atividade->descricao = 'messages.seguiu_jogo';
+			} else if(isset($atividade->partidas_id)) {
+				$partida = Partida::find($atividade->partidas_id);
+				$partida->usuarios = $partida->usuarios();
+				$partida->campeonato = $partida->campeonato();
+				$atividade->objeto = $partida;
+				$atividade->descricao = 'messages.disputou_partida';
+			} else if(isset($atividade->campeonato_usuarios_id)) {
+				$campeonatoUsuario = CampeonatoUsuario::find($atividade->campeonato_usuarios_id);
+				$campeonato = Campeonato::find($campeonatoUsuario->campeonatos_id);
+				$atividade->objeto = $campeonato;
+				$atividade->descricao = 'messages.inscreveu_campeonato';
+			}
+			$usuario = User::find($atividade->users_id);
+			$atividade->usuario = $usuario;
+		}
+		return Response::json($atividades);
+	}
+
 }

@@ -44,6 +44,7 @@ Route::group(array('prefix'=>'api'), function() {
 
     Route::get('tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
     Route::get('campeonatosDoJogo/{id}', 'JogosController@getCampeonatos');
+    Route::get('jogos/feed/{id}', 'JogosController@getFeed');
     Route::resource('jogos', 'JogosController');
     Route::post('jogos/{id}', 'JogosController@update');
 
@@ -137,6 +138,5 @@ Route::any('{catchall}', function() {
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
     Log::info($query->sql);
-    //DB::getQueryLog();
 });
 /* */
