@@ -14,8 +14,13 @@
         </md-button>
     </div>
     <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-    <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmFeed.novoPost">
+    <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmFeed.novoPost.texto">
     </textarea>
+    <md-chips class="imagens_post" ng-show="vmFeed.novoPost.imagens">
+        <md-chip ng-repeat="imagem in vmFeed.novoPost.imagens" md-removable="true">
+            {{imagem.lfFileName}}
+        </md-chip>
+    </md-chips>
 </div>
 
 <md-card class="feed" ng-repeat="atividade in vmFeed.atividades track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">

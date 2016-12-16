@@ -19,6 +19,8 @@
 
         vm.idJogo = $stateParams.idJogo;
 
+        vm.novoPost = {};
+
         vm.inicializa = function () {
             if (vm.idJogo !== undefined) {
                 vm.idUsuario = $rootScope.usuarioLogado.id;
@@ -48,10 +50,11 @@
                 post.jogos_id = vm.idJogo;
             }
             post.users_id = $rootScope.usuarioLogado.id;
-            post.texto = vm.novoPost;
+            post.texto = vm.novoPost.texto;
+            post.imagens = vm.novoPost.imagens;
             Post.salvar(post)
                 .success(function (data) {
-                    vm.novoPost = '';
+                    vm.novoPost = {};
                     if (vm.idJogo !== undefined) {
                         vm.getFeedDoJogo();
                     } else {
@@ -328,7 +331,7 @@
                         imagens: {}
                     },
                     controller: DialogControllerImagem,
-                    templateUrl: 'app/components/rede_social/compartilhar.tmpl.html',
+                    templateUrl: 'app/components/rede_social/postarImagem.tmpl.html',
                     targetEvent: ev,
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
@@ -351,9 +354,13 @@
                 $mdDialog.cancel();
             };
 
-            $scope.salvar = function () {
-                $mdDialog.hide($scope.post);
+            $scope.salvarImagens = function () {
+                $mdDialog.hide($scope.files);
             };
+        };
+
+        vm.salvarImagens = function (imagens) {
+            vm.novoPost.imagens = imagens;
         };
 
     }]);

@@ -35,6 +35,8 @@ class PostController extends Controller
 
             Post::create(Input::all());
 
+            //TODO Inserir Imagens capturadas do array imagens
+
             return Response::json(array('success'=>true));
         }
 

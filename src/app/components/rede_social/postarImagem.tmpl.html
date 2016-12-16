@@ -1,0 +1,28 @@
+<md-dialog aria-label="{{'messages.compartilhar' | translate}}" flex="70">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'messages.inserir_imagem' | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <lf-ng-md-file-input lf-files="files" multiple preview drag></lf-ng-md-file-input>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+                {{'fields.cancel' | translate}}
+            </md-button>
+            <md-button ng-click="salvarImagens()">
+                {{'fields.save' | translate}}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

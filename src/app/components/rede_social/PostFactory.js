@@ -7,9 +7,26 @@
                 return $http({
                     method: 'POST',
                     url: 'api/post',
-                    data: $.param(post),
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': undefined
+                    },
+                    transformRequest: function (data) {
+                        var formData = new FormData();
+                        angular.forEach(post.imagens, function (obj) {
+                            formData.append('imagens[]', obj.lfFile);
+                        });
+
+                        angular.forEach(post, function (value, key) {
+                            console.log(key);
+                            formData.append(key, value);
+                        });
+
+
+                        return formData;
+                        //                    },
+                        //                    data: {
+                        //                        descricao: jogo.descricao,
+                        //                        imagem_capa: arquivo
                     }
                 });
             },
