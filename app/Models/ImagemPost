@@ -1,0 +1,13 @@
+<?php
+
+use Illuminate\Database\Eloquent\Model;
+
+class ImagemPost extends Eloquent
+{
+    protected $guarded = array();
+
+    protected $table = 'imagens';
+
+    public static $rules = array();
+    
+}

@@ -27,15 +27,26 @@ class PostController extends Controller
      * @return Response
      */
     public function store() {
-        $input = Input::all();
+        $input = Input::except('imagens');
+        $inputImagens = Input::all();
+        $imagens = $inputImagens['imagens'];
         $validation = Validator::make($input, Post::$rules);
 
         if ($validation->passes())
         {
 
-            Post::create(Input::all());
+            $post = Post::create($input);
 
             //TODO Inserir Imagens capturadas do array imagens
+            foreach($imagens as $arquivo) {
+                if (isset($arquivo) && $arquivo->isValid()) {
+                    $destinationPath = 'uploads/imagens/';
+                    $fileName = 'imagepost_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
+                    $arquivo->move($destinationPath, $fileName);
+
+                    ImagemPost::create(array('url'=>$fileName, 'post_id'=>$post->id));
+                }
+            }
 
             return Response::json(array('success'=>true));
         }
