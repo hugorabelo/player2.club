@@ -26,78 +26,88 @@
 <md-card class="feed" ng-repeat="atividade in vmFeed.atividades track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->
-    <div ng-show="atividade.post_id && !atividade.objeto.post_id">
-        <div class="social-body">
-            <p>
-                {{atividade.objeto.texto}}
-            </p>
-        </div>
-        <div class="social-avatar" layout="row">
+    <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row">
+        <div flex layout="column" layout-align="space-between">
+            <div class="social-body">
+                <p>
+                    {{atividade.objeto.texto}}
+                </p>
+            </div>
+            <div class="social-avatar" layout="row">
 
-            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
-            </a>
+                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                </a>
 
-            <div class="media-body" flex>
-                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+                <div class="media-body" flex>
+                    <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
 
-                <div class="clearfix"></div>
-                <small class="text-muted">
+                    <div class="clearfix"></div>
+                    <small class="text-muted">
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
-                <p ng-show="atividade.curtidas.length" class="m-n">
-                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                    <p ng-show="atividade.curtidas.length" class="m-n">
+                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
                            {{curtida.nome}} <br>
                        </span>
                     </md-tooltip>
                     </a>
-                </p>
+                    </p>
 
 
-            </div>
-
-
-            <div class=" botoes_acao " layout="row " layout-align="end end ">
-                <div>
-                    <md-button class="md-icon-button" ng-click="vmFeed.curtir(atividade) " ng-class="{ 'curtiu': atividade.curtiu} ">
-                        <md-tooltip md-direction="top">
-                            {{'messages.curtir' | translate}}
-                        </md-tooltip>
-                        <i class="material-icons md-18 ">thumb_up</i>
-                    </md-button>
-
-                    <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) ">
-                        <md-tooltip md-direction="top ">
-                            {{'messages.comentar' | translate}}
-                        </md-tooltip>
-                        <i class="material-icons md-18 ">mode_comment</i>
-                    </md-button>
-
-                    <md-button class="md-icon-button " ng-click="vmFeed.compartilhar($event, atividade) ">
-                        <md-tooltip md-direction="top ">
-                            {{'messages.compartilhar' | translate}}
-                        </md-tooltip>
-                        <i class="material-icons md-18 ">share</i>
-                    </md-button>
                 </div>
-                <div ng-show="atividade.usuario.id == usuarioLogado.id ">
-                    <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
-                        <md-tooltip md-direction="top ">
-                            {{'fields.edit' | translate}}
-                        </md-tooltip>
-                        <i class="material-icons md-18 ">edit</i>
-                    </md-button>
-                    <md-button class="md-icon-button " ng-click="vmFeed.excluir($event, atividade, $index) ">
-                        <md-tooltip md-direction="top ">
-                            {{'fields.delete' | translate}}
-                        </md-tooltip>
-                        <i class="material-icons md-18 ">delete</i>
-                    </md-button>
+
+
+                <div class=" botoes_acao " layout="row " layout-align="end end ">
+                    <div>
+                        <md-button class="md-icon-button" ng-click="vmFeed.curtir(atividade) " ng-class="{ 'curtiu': atividade.curtiu} ">
+                            <md-tooltip md-direction="top">
+                                {{'messages.curtir' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons md-18 ">thumb_up</i>
+                        </md-button>
+
+                        <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) ">
+                            <md-tooltip md-direction="top ">
+                                {{'messages.comentar' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons md-18 ">mode_comment</i>
+                        </md-button>
+
+                        <md-button class="md-icon-button " ng-click="vmFeed.compartilhar($event, atividade) ">
+                            <md-tooltip md-direction="top ">
+                                {{'messages.compartilhar' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons md-18 ">share</i>
+                        </md-button>
+                    </div>
+                    <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                        <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
+                            <md-tooltip md-direction="top ">
+                                {{'fields.edit' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons md-18 ">edit</i>
+                        </md-button>
+                        <md-button class="md-icon-button " ng-click="vmFeed.excluir($event, atividade, $index) ">
+                            <md-tooltip md-direction="top ">
+                                {{'fields.delete' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons md-18 ">delete</i>
+                        </md-button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <ul id="imagens" class="images-post" ng-show="atividade.objeto.imagens.length" flex="33">
+            <li ng-repeat="imagem in atividade.objeto.imagens track by $index">
+                <a ng-click="vmFeed.openLightboxModal(atividade.objeto.imagens, $index)">
+                    <img src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
+                </a>
+            </li>
+        </ul>
     </div>
 
     <!-- compartilhar post -->

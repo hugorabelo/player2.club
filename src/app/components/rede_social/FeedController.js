@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo) {
+    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
 
         var vm = this;
 
@@ -361,6 +361,14 @@
 
         vm.salvarImagens = function (imagens) {
             vm.novoPost.imagens = imagens;
+        };
+
+        vm.openLightboxModal = function (images, index) {
+            var novasImagens = images;
+            angular.forEach(novasImagens, function (image) {
+                image.url = "uploads/imagens/" + image.url;
+            })
+            Lightbox.openModal(novasImagens, index);
         };
 
     }]);

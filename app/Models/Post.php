@@ -41,4 +41,9 @@ class Post extends Eloquent
         $atividade = $this->hasOne('Atividade', 'post_id')->first();
         return $atividade;
     }
+
+    public function getImages() {
+        $imagens = $this->hasMany('ImagemPost', 'post_id')->getResults();
+        return $imagens;
+    }
 }

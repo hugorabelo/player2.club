@@ -18,7 +18,8 @@
         'ngMaterial',
         'lfNgMdFileInput',
         'monospaced.elastic',
-        'ngScrollSpy'
+        'ngScrollSpy',
+        'bootstrapLightbox'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

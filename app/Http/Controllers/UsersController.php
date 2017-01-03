@@ -342,6 +342,7 @@ class UsersController extends Controller {
 		foreach ($atividades as $atividade) {
 			if(isset($atividade->post_id)) {
 				$post = Post::find($atividade->post_id);
+				$post->imagens = $post->getImages();
 				if(isset($post->post_id)) {
 					$post_compartilhado = Post::find($post->post_id);
 					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
