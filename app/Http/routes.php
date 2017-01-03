@@ -137,6 +137,12 @@ Route::any('{catchall}', function() {
  */
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
-    Log::info($query->sql);
+    $sql = str_replace('?', '%s', $query->sql);
+
+//    Log::error($sql);
+//    Log::alert(implode(',', $query->bindings));
+    Log::info('##'.$query->time.'##'.vsprintf($sql, $query->bindings));
+//    Log::info('##'.$query->time.'##'.$query->sql);
+//    Log::warning(implode(',', $query->bindings));
 });
 /* */
