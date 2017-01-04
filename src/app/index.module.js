@@ -84,6 +84,27 @@
                 return config || $q.when(config);
             }
         }
-    }
+    };
+
+    angular.module('player2').config(function (LightboxProvider) {
+        LightboxProvider.templateUrl = 'app/components/common/lightbox-modal.html';
+
+        LightboxProvider.calculateModalDimensions = function (dimensions) {
+            var width = Math.max(400, dimensions.imageDisplayWidth + 60);
+
+            if (width >= dimensions.windowWidth - 20 || dimensions.windowWidth < 768) {
+                width = 'auto';
+            }
+
+            return {
+                'width': width, // default
+                'height': 'auto' // custom
+            };
+        };
+
+        LightboxProvider.getImageUrl = function (image) {
+            return 'uploads/imagens/' + image.url;
+        };
+    });
 
 })();

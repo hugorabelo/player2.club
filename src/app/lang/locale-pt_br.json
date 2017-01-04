@@ -279,7 +279,11 @@
         "analises": "Análises",
         "melhores_jogadores": "Melhores Jogadores",
         "texto_pesquisa": "Encontre jogadores, jogos ou campeonatos",
-        "inserir_imagem": "Inserir imagens"
+        "inserir_imagem": "Inserir imagens",
+
+        "anterior": "Anterior",
+        "proximo": "Proximo",
+        "nova_aba": "Abrir em uma nova aba"
     },
 
     "generos": {

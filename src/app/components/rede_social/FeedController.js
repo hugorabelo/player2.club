@@ -364,11 +364,7 @@
         };
 
         vm.openLightboxModal = function (images, index) {
-            var novasImagens = images;
-            angular.forEach(novasImagens, function (image) {
-                image.url = "uploads/imagens/" + image.url;
-            })
-            Lightbox.openModal(novasImagens, index);
+            Lightbox.openModal(images, index);
         };
 
     }]);
