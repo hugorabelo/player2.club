@@ -29,7 +29,7 @@ class PostController extends Controller
     public function store() {
         $input = Input::except('imagens');
         $inputImagens = Input::all();
-        $imagens = $inputImagens['imagens'];
+        $imagens = isset($inputImagens['imagens'])? $inputImagens['imagens'] : array();
         $validation = Validator::make($input, Post::$rules);
 
         if ($validation->passes())

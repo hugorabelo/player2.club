@@ -44,19 +44,17 @@
 
                     <div class="clearfix"></div>
                     <small class="text-muted">
-                    {{ vmFeed.exibeData(atividade.created_at) }}
-                </small>
+                        {{ vmFeed.exibeData(atividade.created_at) }}
+                    </small>
                     <p ng-show="atividade.curtidas.length" class="m-n">
                         <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
-                    <md-tooltip md-direction="top" class="tt-curtida">
-                        <span ng-repeat="curtida in atividade.curtidas">
-                           {{curtida.nome}} <br>
-                       </span>
-                    </md-tooltip>
-                    </a>
+                            <md-tooltip md-direction="top" class="tt-curtida">
+                                <span ng-repeat="curtida in atividade.curtidas">
+                                   {{curtida.nome}} <br>
+                               </span>
+                            </md-tooltip>
+                        </a>
                     </p>
-
-
                 </div>
 
 
@@ -156,6 +154,13 @@
                     </small>
                 </div>
             </div>
+            <ul id="imagens" class="images-post" ng-show="atividade.objeto.compartilhamento.imagens.length" flex="33">
+                <li ng-repeat="imagem in atividade.objeto.compartilhamento.imagens track by $index">
+                    <a ng-click="vmFeed.openLightboxModal(atividade.objeto.compartilhamento.imagens, $index)">
+                            <img src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
+                        </a>
+                </li>
+            </ul>
         </div>
         <div class="social-avatar " flex>
             <div class="botoes_acao " layout="row " layout-align="end end ">
