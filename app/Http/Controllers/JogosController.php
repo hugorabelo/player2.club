@@ -191,15 +191,21 @@ class JogosController extends Controller {
 		foreach ($atividades as $atividade) {
 			if(isset($atividade->post_id)) {
 				$post = Post::find($atividade->post_id);
+				if(isset($post->jogos_id)) {
+					$post->descricao_jogo = $jogo->descricao;
+					$atividade->descricao = 'messages.escreveu_sobre_jogo';
+				}
+				$post->imagens = $post->getimages();
 				if(isset($post->post_id)) {
 					$post_compartilhado = Post::find($post->post_id);
 					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
+					$post_compartilhado->imagens = $post_compartilhado->getimages();
 					$post->compartilhamento = $post_compartilhado;
 					$atividade->objeto = $post;
-					$atividade->descricao = 'messages.compartilhou';
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.compartilhou';
 				} else {
 					$atividade->objeto = $post;
-					$atividade->descricao = 'messages.publicou';
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.publicou';
 				}
 			} else if(isset($atividade->comentarios_id)) {
 				$comentario = Comentario::find($atividade->comentarios_id);

@@ -342,6 +342,14 @@ class UsersController extends Controller {
 		foreach ($atividades as $atividade) {
 			if(isset($atividade->post_id)) {
 				$post = Post::find($atividade->post_id);
+				if(isset($post->jogos_id)) {
+					$post->descricao_jogo = Jogo::find($post->jogos_id)->descricao;
+					$atividade->descricao = 'messages.escreveu_sobre_jogo';
+				}
+				if(isset($post->destinatario_id)) {
+					$post->descricao_destinatario = User::find($post->destinatario_id)->nome;
+					$atividade->descricao = 'messages.mensagem_para_usuario';
+				}
 				$post->imagens = $post->getimages();
 				if(isset($post->post_id)) {
 					$post_compartilhado = Post::find($post->post_id);
@@ -349,10 +357,10 @@ class UsersController extends Controller {
 					$post_compartilhado->imagens = $post_compartilhado->getimages();
 					$post->compartilhamento = $post_compartilhado;
 					$atividade->objeto = $post;
-					$atividade->descricao = 'messages.compartilhou';
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.compartilhou';
 				} else {
 					$atividade->objeto = $post;
-					$atividade->descricao = 'messages.publicou';
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.publicou';
 				}
 			} else if(isset($atividade->comentarios_id)) {
 				$comentario = Comentario::find($atividade->comentarios_id);

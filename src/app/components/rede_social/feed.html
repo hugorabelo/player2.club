@@ -42,6 +42,20 @@
                 <div class="media-body" flex>
                     <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
 
+                    <!-- mensagem sobre jogo -->
+                    <div ng-show="atividade.objeto.jogos_id">
+                        <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                        <!-- escreveu sobre jogo -->
+                        <a ui-sref="jogo({idJogo: atividade.objeto.jogos_id}) "> {{atividade.objeto.descricao_jogo}}</a>
+                    </div>
+
+                    <!-- mensagem para usuário -->
+                    <div ng-show="atividade.objeto.destinatario_id">
+                        <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                        <!-- falou para usuário -->
+                        <a ui-sref="profile({idUsuario: atividade.objeto.destinatario_id}) "> {{atividade.objeto.descricao_destinatario}}</a>
+                    </div>
+
                     <div class="clearfix"></div>
                     <small class="text-muted">
                         {{ vmFeed.exibeData(atividade.created_at) }}
@@ -273,6 +287,7 @@
             </div>
         </div>
     </div>
+
     <!-- jogou partida -->
     <div ng-show="atividade.partidas_id">
         <div class="placar-jogo-equipes">
