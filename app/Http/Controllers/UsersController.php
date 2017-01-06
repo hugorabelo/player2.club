@@ -17,6 +17,7 @@ class UsersController extends Controller {
 	}
 
 	public function show($id) {
+	    $colunas = array('id', 'nome');
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->get();
         $usuario->seguindo = $usuario->seguindo()->get();
