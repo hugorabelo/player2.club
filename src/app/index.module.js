@@ -19,7 +19,8 @@
         'lfNgMdFileInput',
         'monospaced.elastic',
         'ngScrollSpy',
-        'bootstrapLightbox'
+        'bootstrapLightbox',
+        'toastr'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
@@ -105,6 +106,18 @@
         LightboxProvider.getImageUrl = function (image) {
             return 'uploads/imagens/' + image.url;
         };
+    });
+
+    angular.module('player2').config(function (toastrConfig) {
+        angular.extend(toastrConfig, {
+            newestOnTop: true,
+            positionClass: 'toast-bottom-center',
+            preventDuplicates: true,
+            extendedTimeOut: 1000,
+            progressBar: true,
+            tapToDismiss: true,
+            timeOut: 2000
+        });
     });
 
 })();

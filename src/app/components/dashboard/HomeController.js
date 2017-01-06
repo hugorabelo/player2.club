@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, $location, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', 'toastr', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, $location, toastr, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {

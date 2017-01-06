@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
+    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'toastr', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, toastr, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
 
         var vm = this;
 
@@ -363,5 +363,5 @@
             Lightbox.openModal(images, index);
         };
 
-    }]);
+                }]);
 }());
