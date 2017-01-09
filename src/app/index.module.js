@@ -116,7 +116,8 @@
             extendedTimeOut: 1000,
             progressBar: true,
             tapToDismiss: true,
-            timeOut: 2000
+            timeOut: 2000,
+            allowHtml: true
         });
     });
 

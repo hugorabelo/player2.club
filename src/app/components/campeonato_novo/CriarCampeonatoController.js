@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, $location, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', 'toastr', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, $location, toastr, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
 
             var vm = this;
 
@@ -36,10 +36,14 @@
             };
 
             $scope.$watch(angular.bind(vm, function () {
-                return vm.campeonato.detalhes.ida_volta;
+                if (vm.campeonato.detalhes !== undefined) {
+                    return vm.campeonato.detalhes.ida_volta;
+                }
             }), function () {
-                if (!vm.campeonato.detalhes.ida_volta) {
-                    vm.campeonato.detalhes.fora_casa = {};
+                if (vm.campeonato.detalhes !== undefined) {
+                    if (!vm.campeonato.detalhes.ida_volta) {
+                        vm.campeonato.detalhes.fora_casa = {};
+                    }
                 }
             });
 
@@ -146,6 +150,11 @@
                     .success(function (data) {
                         $location.path('/campeonato/' + data.id);
                     }).error(function (data, status) {
+                        var listaErros = '';
+                        angular.forEach(data.errors, function (erro) {
+                            listaErros += "<br>" + erro;
+                        });
+                        toastr.error('<h3>' + data.message + '</h3>' + listaErros);
                         vm.messages = data.errors;
                         vm.status = status;
                     });
