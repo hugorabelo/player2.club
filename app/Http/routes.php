@@ -127,6 +127,10 @@ Route::group(array('prefix'=>'api'), function() {
     Route::post('comentario/curtir', 'ComentarioController@curtir');
     Route::resource('comentario', 'ComentarioController');
 
+    Route::get('protected', array('middleware' => 'auth0.jwt', function() {
+        return "Hello " . Auth0::jwtuser()->name;
+    }));
+
 });
 
 Route::any('{catchall}', function() {
