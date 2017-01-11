@@ -13,6 +13,10 @@
         .module('player2')
         .run(redireciona);
 
+    angular
+        .module('player2')
+        .run(runAuth);
+
     function mudaState($rootScope, $state) {
         $rootScope.$state = $state;
         if ($rootScope.usuarioLogado == null) {
@@ -35,6 +39,22 @@
                 })
             }
         });
+    }
+
+    runAuth.$inject = ['$rootScope', 'authService', 'lock'];
+
+    function runAuth($rootScope, authService, lock) {
+        // Put the authService on $rootScope so its methods
+        // can be accessed from the nav bar
+        $rootScope.authService = authService;
+
+        // Register the authentication listener that is
+        // set up in auth.service.js
+        authService.registerAuthenticationListener();
+
+        // Register the synchronous hash parser
+        // when using UI Router
+        lock.interceptHash();
     }
 
 })();

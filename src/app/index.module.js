@@ -20,7 +20,9 @@
         'monospaced.elastic',
         'ngScrollSpy',
         'bootstrapLightbox',
-        'toastr'
+        'toastr',
+        'auth0.lock',
+        'angular-jwt'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
@@ -118,6 +120,13 @@
             tapToDismiss: true,
             timeOut: 2000,
             allowHtml: true
+        });
+    });
+
+    angular.module('player2').config(function (lockProvider) {
+        lockProvider.init({
+            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
+            domain: 'hugorabelo.auth0.com'
         });
     });
 

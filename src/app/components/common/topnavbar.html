@@ -90,6 +90,10 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
+            <div ng-if="isAuthenticated" ng-controller="LoginController as vmAuth">
+                <p>Thank you for logging in!</p>
+                <button ng-click="vmAuth.authService.logout()">Log Out</button>
+            </div>
         </div>
     </div>
 </md-toolbar>
