@@ -33,6 +33,15 @@ union
 select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where lower(descricao) like lower('%a%')
 -->
             </md-autocomplete>
+
+            ## {{authService.userProfile.name}} ##
+            <div ng-if="isAuthenticated" ng-controller="LoginController as vmAuth">
+                <button ng-click="vmAuth.authService.logout()">Log Out</button>
+            </div>
+            <div ng-if="!isAuthenticated" ng-controller="LoginController as vmAuth">
+                <button ng-click="vmAuth.authService.login()">Login</button>
+            </div>
+
             <div class="icones-topo" ng-show="false">
                 <i class="material-icons md-24">home</i>
                 <i class="material-icons md-24">comment</i>
@@ -90,10 +99,6 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-            <div ng-if="isAuthenticated" ng-controller="LoginController as vmAuth">
-                <p>Thank you for logging in!</p>
-                <button ng-click="vmAuth.authService.logout()">Log Out</button>
-            </div>
         </div>
     </div>
 </md-toolbar>

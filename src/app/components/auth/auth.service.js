@@ -6,7 +6,11 @@
         .module('player2')
         .service('authService', authService);
 
+    authService.$inject = ['lock', 'authManager'];
+
     function authService(lock, authManager) {
+
+        var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
         function login() {
             lock.show();
@@ -18,17 +22,30 @@
             lock.on('authenticated', function (authResult) {
                 localStorage.setItem('id_token', authResult.idToken);
                 authManager.authenticate();
-            });
-        }
 
-        return {
-            login: login,
-            registerAuthenticationListener: registerAuthenticationListener
+                lock.getProfile(authResult.idToken, function (error, profile) {
+                    if (error) {
+                        console.log(error);
+                    }
+
+                    localStorage.setItem('profile', JSON.stringify(profile));
+                    //                    $rootScope.$broadcast('userProfileSet', profile);
+                });
+            });
         }
 
         function logout() {
             localStorage.removeItem('id_token');
+            localStorage.removeItem('profile');
             authManager.unauthenticate();
+            userProfile = {};
+        }
+
+        return {
+            userProfile: userProfile,
+            login: login,
+            logout: logout,
+            registerAuthenticationListener: registerAuthenticationListener
         }
     }
 })();

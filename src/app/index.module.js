@@ -123,11 +123,26 @@
         });
     });
 
-    angular.module('player2').config(function (lockProvider) {
+    //    config.$inject = ['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider'];
+
+    angular.module('player2').config(function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
         lockProvider.init({
             clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
             domain: 'hugorabelo.auth0.com'
         });
+
+        // Configuration for angular-jwt
+        jwtOptionsProvider.config({
+            tokenGetter: function () {
+                return localStorage.getItem('id_token');
+            },
+            whiteListedDomains: ['localhost'],
+            unauthenticatedRedirectPath: '/login'
+        });
+
+        // Add the jwtInterceptor to the array of HTTP interceptors
+        // so that JWTs are attached as Authorization headers
+        $httpProvider.interceptors.push('jwtInterceptor');
     });
 
 })();
