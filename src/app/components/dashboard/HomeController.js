@@ -14,6 +14,14 @@
             vm.textoInscrever = translations['messages.inscrever'];
         });
 
+        vm.getAutenticacao = function () {
+            Usuario.getAutenticacao()
+                .success(function (data) {
+                    console.log(data);
+                    vm.autenticacao = data;
+                })
+        }
+
         vm.inicializa = function () {
             vm.idUsuario = $rootScope.usuarioLogado.id;
             Usuario.show(vm.idUsuario)
