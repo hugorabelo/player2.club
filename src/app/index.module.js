@@ -133,9 +133,12 @@
 
         // Configuration for angular-jwt
         jwtOptionsProvider.config({
-            tokenGetter: function () {
+            tokenGetter: ['options', function (options) {
+                if (options && options.url.indexOf('http://auth0.com') === 0) {
+                    return localStorage.getItem('auth0.id_token');
+                }
                 return localStorage.getItem('id_token');
-            },
+            }],
             whiteListedDomains: ['localhost'],
             unauthenticatedRedirectPath: '/login'
         });
