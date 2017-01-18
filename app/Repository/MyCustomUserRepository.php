@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use Auth0\Login\Contract\Auth0UserRepository;
+use User;
 
 class MyCustomUserRepository implements Auth0UserRepository {
 
@@ -17,6 +18,8 @@ class MyCustomUserRepository implements Auth0UserRepository {
     }
 
     public function getUserByUserInfo($userInfo) {
+        \Log::alert($userInfo);
+
         return $this->upsertUser($userInfo['profile']);
     }
 
@@ -24,12 +27,15 @@ class MyCustomUserRepository implements Auth0UserRepository {
 
         $user = User::where("auth0id", $profile->user_id)->first();
 
+        \Log::warning(get_object_vars($profile));
+
         if ($user === null) {
             // If not, create one
             $user = new User();
+
             $user->email = $profile->email; // you should ask for the email scope
             $user->auth0id = $profile->user_id;
-            $user->name = $profile->name; // you should ask for the name scope
+            $user->nome = $profile->name; // you should ask for the name scope
             $user->save();
         }
 

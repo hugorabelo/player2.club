@@ -1,21 +1,27 @@
 (function () {
 
-  'use strict';
+    'use strict';
 
-  angular
-    .module('player2')
-    .controller('PingController', PingController);
+    angular
+        .module('player2')
+        .controller('PingController', PingController);
 
-  function PingController($http) {
+    function PingController($http) {
 
-    vm.ping = function () {
-      $http.get('http://localhost/player2/public/api/protected')
-        .then(function (result) {
-          vm.pingResult = result.data.text;
-        }, function (error) {
-          vm.pingResult = error.statusText;
-        });
+        var vm = this;
+
+        vm.ping = function () {
+            console.log('ping');
+            $http.get('api/protected')
+                .then(function (result) {
+                    console.log('ok');
+                    console.log(result);
+                    vm.pingResult = result.data.text;
+                }, function (error) {
+                    console.log(error);
+                    vm.pingResult = error.statusText;
+                });
+        }
     }
-  }
 
 }());

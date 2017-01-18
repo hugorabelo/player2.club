@@ -34,6 +34,11 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
 -->
             </md-autocomplete>
 
+            <div ng-controller="PingController as vmPing">
+                <button ng-click="vmPing.ping()">ping</button>
+                {{vmPing.pingResult}}
+            </div>
+
             ## {{authService.userProfile.name}} ##
             <div ng-if="isAuthenticated" ng-controller="LoginController as vmAuth">
                 <button ng-click="vmAuth.authService.logout()">Log Out</button>
