@@ -29,15 +29,12 @@ class MyCustomUserRepository implements Auth0UserRepository {
             // If not, create one
             $user = new User();
 
-            //$user->email = $profile->email; // you should ask for the email scope
+            $user->email = $profile->email; // you should ask for the email scope
             $user->auth0id = $profile->user_id;
-            //$user->nome = $profile->name; // you should ask for the name scope
+            $user->nome = $profile->name; // you should ask for the name scope
 
-            $user->nome = 'Hugo';
-            $user->email = 'hugo@player2.club';
             $user->password = 'xxx';
             $user->usuario_tipos_id = 1;
-            \Log::emergency($user);
 
             $user->save();
         }
@@ -47,6 +44,7 @@ class MyCustomUserRepository implements Auth0UserRepository {
 
     public function getUserByIdentifier($identifier) {
         //Get the user info of the user logged in (probably in session)
+
         $user = \App::make('auth0')->getUser();
 
         if ($user === null) return null;

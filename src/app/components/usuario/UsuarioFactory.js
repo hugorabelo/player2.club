@@ -1,7 +1,6 @@
 angular.module('player2').factory('Usuario', ['$http', function ($http) {
     return {
         getAutenticacao: function () {
-            console.log(localStorage.getItem('id_token'));
             return $http({
                 url: 'api/protected',
                 headers: {

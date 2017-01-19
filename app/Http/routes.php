@@ -128,7 +128,9 @@ Route::group(array('prefix'=>'api'), function() {
     Route::resource('comentario', 'ComentarioController');
 
     Route::get('protected', array('middleware' => 'auth0.jwt', function() {
-        return "Hello " . Auth0::jwtuser()->nome;
+        Log::debug(Auth::getUser());
+        //return "Hello " . Auth0::jwtuser()->name;
+        return "Hello " . Auth::getUser()->nome;
     }));
 
     Route::get('callback', '\Auth0\Login\Auth0Controller@callback');

@@ -21,7 +21,7 @@
         $rootScope.$state = $state;
         if ($rootScope.usuarioLogado == null) {
             $rootScope.usuarioLogado = {};
-            $rootScope.usuarioLogado.id = 35;
+            $rootScope.usuarioLogado.id = 44;
         }
     }
 

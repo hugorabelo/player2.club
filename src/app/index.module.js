@@ -128,8 +128,16 @@
     angular.module('player2').config(function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
         lockProvider.init({
             clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
-            domain: 'hugorabelo.auth0.com'
+            domain: 'hugorabelo.auth0.com',
+            options: {
+                auth: {
+                    params: {
+                        scope: 'openid email picture name'
+                    },
+                }
+            }
         });
+        console.log(lockProvider);
 
         // Configuration for angular-jwt
         jwtOptionsProvider.config({
