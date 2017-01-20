@@ -134,10 +134,18 @@
                     params: {
                         scope: 'openid email picture name'
                     },
-                }
+                },
+                theme: {
+                    logo: 'http://www.player2.club/landing/img/player2_azul.png',
+                    primaryColor: "#0c486b"
+                },
+                languageDictionary: {
+                    title: ""
+                },
+                language: "pt-BR",
+                allowSignUp: true
             }
         });
-        console.log(lockProvider);
 
         // Configuration for angular-jwt
         jwtOptionsProvider.config({
