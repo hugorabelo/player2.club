@@ -133,6 +133,10 @@ Route::group(array('prefix'=>'api'), function() {
         return "Hello " . Auth::getUser()->nome;
     }));
 
+    Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
+        return Response::json(Auth::check());
+    }));
+
     Route::get('callback', '\Auth0\Login\Auth0Controller@callback');
 
 });

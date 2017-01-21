@@ -143,7 +143,7 @@
                     title: ""
                 },
                 language: "pt-BR",
-                allowSignUp: true
+                allowSignUp: false
             }
         });
 

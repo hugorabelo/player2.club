@@ -12,7 +12,7 @@
 
         vm.ping = function () {
             console.log('ping');
-            $http.get('api/protected')
+            $http.get('api/validaAutenticacao')
                 .then(function (result) {
                     console.log('ok');
                     console.log(result);

@@ -13,18 +13,22 @@ class MyCustomUserRepository implements Auth0UserRepository {
          * and it is always the `user_id`
          */
         $jwt->user_id = $jwt->sub;
+        \Log::info('getUserByDecodedJWT');
 
         return $this->upsertUser($jwt);
     }
 
     public function getUserByUserInfo($userInfo) {
+        \Log::info('getUserByUserInfo');
         return $this->upsertUser($userInfo['profile']);
     }
 
     protected function upsertUser($profile) {
+        \Log::info('upsertUser')
 
         $user = User::where("auth0id", $profile->user_id)->first();
 
+        /*
         if ($user === null) {
             // If not, create one
             $user = new User();
@@ -38,11 +42,13 @@ class MyCustomUserRepository implements Auth0UserRepository {
 
             $user->save();
         }
+        */
 
         return $user;
     }
 
     public function getUserByIdentifier($identifier) {
+        \Log::info('getUserByIdentifier');
         //Get the user info of the user logged in (probably in session)
 
         $user = \App::make('auth0')->getUser();
@@ -54,7 +60,8 @@ class MyCustomUserRepository implements Auth0UserRepository {
 
         // it is not the same user as logged in, it is not valid
         if ($user && $user->auth0id == $identifier) {
-            return $auth0User;
+            //return $auth0User;
+            return null;
         }
     }
 
