@@ -6,9 +6,9 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['lock', 'authManager', '$http'];
+    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window'];
 
-    function authService(lock, authManager, $http) {
+    function authService(lock, authManager, $http, $rootScope, $window) {
 
         var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
@@ -19,7 +19,9 @@
         // Set up the logic for when a user authenticates
         // This method is called from app.run.js
         function registerAuthenticationListener() {
+            console.log('registerAuthenticationListener');
             lock.on('authenticated', function (authResult) {
+                console.log('authenticated');
                 // Chamar um validaAutenticacao
                 localStorage.setItem('id_token', authResult.idToken);
                 $http.get('api/validaAutenticacao')
@@ -32,10 +34,15 @@
                             }
 
                             localStorage.setItem('profile', JSON.stringify(profile));
-                            //                    $rootScope.$broadcast('userProfileSet', profile);
+                            $rootScope.$broadcast('userProfileSet', profile);
+                            $window.localStorage.setItem('usuarioLogado', angular.toJson(result.data));
+                            console.log(localStorage.getItem('usuarioLogado'));
+                            //                            $rootScope.usuarioLogado = result.data;
+                            //                            console.log($rootScope.usuarioLogado);
                         });
                     }, function (error) {
                         localStorage.removeItem('id_token');
+                        console.log('usuário não existe');
                     });
             });
         }

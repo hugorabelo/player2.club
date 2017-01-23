@@ -17,11 +17,14 @@
         .module('player2')
         .run(runAuth);
 
-    function mudaState($rootScope, $state) {
+    function mudaState($rootScope, $state, $window) {
         $rootScope.$state = $state;
         if ($rootScope.usuarioLogado == null) {
-            $rootScope.usuarioLogado = {};
-            $rootScope.usuarioLogado.id = 44;
+            $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
+            console.log($window.localStorage);
+            //            $http.get('api/validaAutenticacao')
+            //            $rootScope.usuarioLogado = {};
+            //            $rootScope.usuarioLogado.id = 44;
         }
     }
 

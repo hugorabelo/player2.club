@@ -134,7 +134,7 @@ Route::group(array('prefix'=>'api'), function() {
     }));
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
-        return Response::json(Auth::check());
+        return Response::json(Auth::getUser());
     }));
 
     Route::get('callback', '\Auth0\Login\Auth0Controller@callback');
