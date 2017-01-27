@@ -3,7 +3,7 @@
 
     angular
         .module('player2')
-        .run(mudaState)
+        .run(mudaState);
 
     angular
         .module('player2')
@@ -17,15 +17,18 @@
         .module('player2')
         .run(runAuth);
 
-    function mudaState($rootScope, $state, $window) {
+    function mudaState($rootScope, $state, $window, $http) {
         $rootScope.$state = $state;
-        if ($rootScope.usuarioLogado == null) {
-            $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
-            console.log($window.localStorage);
-            //            $http.get('api/validaAutenticacao')
-            //            $rootScope.usuarioLogado = {};
-            //            $rootScope.usuarioLogado.id = 44;
-        }
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
+            $http.get('api/validaAutenticacao');
+            if ($rootScope.usuarioLogado == null) {
+                $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
+                //                console.log($window.localStorage);
+                //            $http.get('api/validaAutenticacao')
+                //                runAuth();
+            }
+        });
     }
 
     function defaultErrorMessageResolver(defaultErrorMessageResolver) {
@@ -47,6 +50,7 @@
     runAuth.$inject = ['$rootScope', 'authService', 'authManager', 'lock'];
 
     function runAuth($rootScope, authService, authManager, lock) {
+        console.log('runAuth');
         // Register the synchronous hash parser
         // when using UI Router
         lock.interceptHash();

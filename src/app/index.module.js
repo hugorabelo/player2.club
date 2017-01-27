@@ -136,7 +136,7 @@
                     },
                 },
                 theme: {
-                    logo: 'http://www.player2.club/landing/img/player2_azul.png',
+                    logo: 'http://www.player2.club/img/player2_azul.png',
                     primaryColor: "#0c486b"
                 },
                 languageDictionary: {
