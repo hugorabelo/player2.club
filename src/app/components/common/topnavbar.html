@@ -41,7 +41,7 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
 
             ## {{authService.userProfile.name}} ##
             <div ng-if="isAuthenticated" ng-controller="LoginController as vmAuth">
-                <button ng-click="vmAuth.authService.logout()">Log Out</button>
+                <button ng-click="vmAuth.logout()">Log Out</button>
             </div>
             <div ng-if="!isAuthenticated" ng-controller="LoginController as vmAuth">
                 <button ng-click="vmAuth.authService.login()">Login</button>

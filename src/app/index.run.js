@@ -24,9 +24,6 @@
             $http.get('api/validaAutenticacao');
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
-                //                console.log($window.localStorage);
-                //            $http.get('api/validaAutenticacao')
-                //                runAuth();
             }
         });
     }
@@ -47,10 +44,9 @@
         });
     }
 
-    runAuth.$inject = ['$rootScope', 'authService', 'authManager', 'lock'];
+    runAuth.$inject = ['$rootScope', '$window', 'authService', 'authManager', 'lock'];
 
-    function runAuth($rootScope, authService, authManager, lock) {
-        console.log('runAuth');
+    function runAuth($rootScope, $window, authService, authManager, lock) {
         // Register the synchronous hash parser
         // when using UI Router
         lock.interceptHash();
@@ -71,6 +67,14 @@
         // Listen for 401 unauthorized requests and redirect
         // the user to the login page
         authManager.redirectWhenUnauthenticated();
+
+        verificaUsuarioLogado($rootScope, $window);
+    }
+
+    function verificaUsuarioLogado($rootScope, $window) {
+        if ($rootScope.usuarioLogado == null) {
+            $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
+        }
     }
 
 })();

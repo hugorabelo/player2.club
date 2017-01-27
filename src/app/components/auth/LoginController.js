@@ -3,15 +3,18 @@
 
     angular
         .module('player2')
-        .controller('LoginController', LoginController);
+        .controller('LoginController', ['$rootScope', 'authService', function ($rootScope, authService) {
 
-    LoginController.$inject = ['authService'];
+            var vm = this;
 
-    function LoginController(authService) {
+            vm.inicializa = function () {
+                $rootScope.escondeBarra = true;
+                authService.login();
+            }
 
-        var vm = this;
+            vm.logout = function () {
+                authService.logout();
+            }
 
-        vm.authService = authService;
-
-    }
+    }]);
 })();

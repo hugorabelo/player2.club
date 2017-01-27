@@ -19,9 +19,7 @@
         // Set up the logic for when a user authenticates
         // This method is called from app.run.js
         function registerAuthenticationListener() {
-            console.log('registerAuthenticationListener');
             lock.on('authenticated', function (authResult) {
-                console.log('authenticated');
                 // Chamar um validaAutenticacao
                 localStorage.setItem('id_token', authResult.idToken);
                 $http.get('api/validaAutenticacao')
@@ -36,8 +34,7 @@
                             localStorage.setItem('profile', JSON.stringify(profile));
                             $rootScope.$broadcast('userProfileSet', profile);
                             $window.localStorage.setItem('usuarioLogado', angular.toJson(result.data));
-                            //                            $rootScope.usuarioLogado = result.data;
-                            //                            console.log($rootScope.usuarioLogado);
+                            $rootScope.usuarioLogado = result.data;
                         });
                     }, function (error) {
                         localStorage.removeItem('id_token');
