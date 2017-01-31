@@ -23,7 +23,8 @@
         'toastr',
         'auth0.lock',
         'angular-jwt',
-        'LocalStorageModule'
+        'LocalStorageModule',
+        'ng-sortable'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

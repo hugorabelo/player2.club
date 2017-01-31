@@ -36,7 +36,8 @@
     "auth0-lock": "10.4.0",
     "angular-lock": "^1.0.5",
     "angular-jwt": "^0.1.8",
-    "angular-local-storage": "^0.5.2"
+    "angular-local-storage": "^0.5.2",
+    "Sortable": "sortablejs#^1.4.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0"
