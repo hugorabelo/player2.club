@@ -24,9 +24,11 @@ class MyCustomUserRepository implements Auth0UserRepository {
     }
 
     protected function upsertUser($profile) {
-        \Log::warning('upsertUser');
+        \Log::warning(get_object_vars($profile));
 
-        $user = User::where("auth0id", $profile->user_id)->first();
+        $user = User::where("email", $profile->email)->first();
+
+        \Log::warning($user);
 
         /*
         if ($user === null) {

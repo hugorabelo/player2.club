@@ -287,7 +287,8 @@
         "proximo": "Proximo",
         "nova_aba": "Abrir em uma nova aba",
 
-        "fazerLogin": "Fazer Login"
+        "fazerLogin": "Fazer Login",
+        "logout": "Sair"
     },
 
     "generos": {

@@ -27,7 +27,7 @@ Route::get('/', function()
 
 //Route::group(array('before'=>'auth'), function() {
 //Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
-Route::group(array('prefix'=>'api'), function() {
+Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
