@@ -21,7 +21,7 @@
             </div>
             <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
         </div>
-        <div class="caixa-informacao-titulo">
+        <div class="caixa-informacao-titulo" ng-show="false">
             <h3>{{'messages.analises' | translate}}</h3>
             <a ui-sref=".analises">
                 <i class="material-icons">more</i>
@@ -38,7 +38,7 @@
                 <a ui-sref="campeonato({idCampeonato: campeonato.id})">{{campeonato.descricao}} <span class="pull-right">{{campeonato.plataforma}}</span> </a>
             </li>
         </ul>
-        <div class="caixa-informacao-titulo">
+        <div class="caixa-informacao-titulo" ng-show="false">
             <h3>{{'messages.melhores_jogadores' | translate}}</h3>
             <a ui-sref=".ranking">
                 <i class="material-icons">more</i>

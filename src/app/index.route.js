@@ -194,7 +194,7 @@
             .state('profile.campeonatos', {
                 url: "/campeonatos",
                 templateUrl: "app/components/campeonato/listaCampeonatos.html",
-                controller: 'ProfileController as vmProfile',
+                controller: 'ProfileController as vmCampeonato',
                 acesso: 'registrado'
             })
             .state('jogo', {
@@ -204,6 +204,12 @@
                 data: {
                     pageTitle: "menus.jogos"
                 }
+            })
+            .state('jogo.campeonatos', {
+                url: "/campeonatos",
+                templateUrl: "app/components/campeonato/listaCampeonatos.html",
+                controller: 'JogoController as vmCampeonato',
+                acesso: 'registrado'
             })
             .state('logout', {
                 url: "/logout"

@@ -80,11 +80,15 @@
             Jogo.getCampeonatos(idJogo)
                 .success(function (data) {
                     vm.campeonatos = data;
-//                    vm.campeonatosInscricoesAbertas = data.campeonatosInscricoesAbertas;
-//                    vm.campeonatosAIniciar = data.campeonatosAIniciar;
-//                    vm.campeonatosEmAndamento = data.campeonatosEmAndamento;
-//                    vm.campeonatosEncerrados = data.campeonatosEncerrados;
+                    //                    vm.campeonatosInscricoesAbertas = data.campeonatosInscricoesAbertas;
+                    //                    vm.campeonatosAIniciar = data.campeonatosAIniciar;
+                    //                    vm.campeonatosEmAndamento = data.campeonatosEmAndamento;
+                    //                    vm.campeonatosEncerrados = data.campeonatosEncerrados;
                 })
+        };
+
+        vm.getCampeonatosUsuario = function () {
+            vm.getCampeonatos(vm.idJogo);
         };
 
         //        vm.salvarComentario = function (ev, post) {
