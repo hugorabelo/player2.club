@@ -211,6 +211,12 @@
                 controller: 'JogoController as vmCampeonato',
                 acesso: 'registrado'
             })
+            .state('jogo.seguidores', {
+                url: "/seguidores",
+                templateUrl: "app/components/rede_social/seguidores.html",
+                controller: 'SeguidoresController as vmSeguidores',
+                acesso: 'registrado'
+            })
             .state('logout', {
                 url: "/logout"
             });

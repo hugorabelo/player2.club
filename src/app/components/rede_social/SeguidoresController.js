@@ -2,11 +2,12 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('SeguidoresController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario) {
+    angular.module('player2').controller('SeguidoresController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo) {
 
         var vm = this;
 
         vm.idUsuario = $stateParams.idUsuario;
+        vm.idJogo = $stateParams.idJogo;
 
         vm.inicializa = function (tipo) {
             if (vm.idUsuario == undefined) {
@@ -17,11 +18,19 @@
             }
 
             if (tipo == 'seguidor') {
-                Usuario.getSeguidores(vm.idUsuario)
-                    .success(function (data) {
-                        vm.seguidores = data;
-                    })
-                    .error(function (data, status) {});
+                if (vm.idJogo === undefined) {
+                    Usuario.getSeguidores(vm.idUsuario)
+                        .success(function (data) {
+                            vm.seguidores = data;
+                        })
+                        .error(function (data, status) {});
+                } else {
+                    console.log('seguidores do Jogo');
+                    Jogo.show(vm.idJogo)
+                        .success(function (data) {
+                            vm.seguidores = data.seguidores;
+                        });
+                }
             }
             if (tipo == 'seguindo') {
                 Usuario.getSeguindo(vm.idUsuario)

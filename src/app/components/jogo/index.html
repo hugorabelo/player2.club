@@ -3,8 +3,12 @@
     <div flex="33" layout="column" class="caixa-flutuante infobar" layout-margin hide-xs>
         <!--        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>-->
         <div class="detalhes-jogo">
-            <h3 class="titulo-jogo">{{vmJogo.jogo.descricao}}</h3>
-            <img src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
+            <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
+                <h3 class="titulo-jogo">{{vmJogo.jogo.descricao}}</h3>
+            </a>
+            <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
+                <img src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
+            </a>
             <div layout="row" layout-align="space-around center">
                 <span class="info">
                    <i class="material-icons">style</i>
@@ -19,7 +23,11 @@
                     {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
                 </span>
             </div>
-            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></uib-rating>
+            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+
+            <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+            </md-button>
+            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
         </div>
         <div class="caixa-informacao-titulo" ng-show="false">
             <h3>{{'messages.analises' | translate}}</h3>
@@ -44,6 +52,20 @@
                 <i class="material-icons">more</i>
             </a>
         </div>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.seguidores' | translate}}</h3>
+            <a ui-sref=".seguidores">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <ul class="itens">
+            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
+                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
+                <md-tooltip md-direction="top ">
+                    {{seguidor.nome}}
+                </md-tooltip>
+            </a>
+        </ul>
     </div>
 
     <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
