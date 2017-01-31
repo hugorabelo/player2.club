@@ -13,18 +13,15 @@ class MyCustomUserRepository implements Auth0UserRepository {
          * and it is always the `user_id`
          */
         $jwt->user_id = $jwt->sub;
-        \Log::warning('getUserByDecodedJWT');
 
         return $this->upsertUser($jwt);
     }
 
     public function getUserByUserInfo($userInfo) {
-        \Log::warning('getUserByUserInfo');
         return $this->upsertUser($userInfo['profile']);
     }
 
     protected function upsertUser($profile) {
-        \Log::warning(get_object_vars($profile));
         $user = User::where("email", $profile->email)->first();
         if(!isset($user->auth0id) || !isset($user->imagem_perfil) || ($user->nome === 'username')) {
             if(!isset($user->auth0id)) {
@@ -61,7 +58,6 @@ class MyCustomUserRepository implements Auth0UserRepository {
     }
 
     public function getUserByIdentifier($identifier) {
-        \Log::warning('getUserByIdentifier');
         //Get the user info of the user logged in (probably in session)
 
         $user = \App::make('auth0')->getUser();

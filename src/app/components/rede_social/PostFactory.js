@@ -17,16 +17,11 @@
                         });
 
                         angular.forEach(post, function (value, key) {
-                            console.log(key);
                             formData.append(key, value);
                         });
 
 
                         return formData;
-                        //                    },
-                        //                    data: {
-                        //                        descricao: jogo.descricao,
-                        //                        imagem_capa: arquivo
                     }
                 });
             },

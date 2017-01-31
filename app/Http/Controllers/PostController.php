@@ -30,6 +30,9 @@ class PostController extends Controller
         $input = Input::except('imagens');
         $inputImagens = Input::all();
         $imagens = isset($inputImagens['imagens'])? $inputImagens['imagens'] : array();
+        if($imagens == 'undefined') {
+            $imagens = array();
+        }
         $validation = Validator::make($input, Post::$rules);
 
         if ($validation->passes())
