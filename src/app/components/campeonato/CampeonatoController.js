@@ -106,7 +106,6 @@
             Campeonato.getAdministradores(id)
                 .success(function (data) {
                     vm.campeonato.campeonatoAdministradores = data;
-                    console.log(data);
                     vm.campeonato.usuarioAdministrador = false;
                     angular.forEach(data, function (administrador) {
                         if (administrador.users_id == $rootScope.usuarioLogado.id) {
