@@ -11,7 +11,7 @@
                         <input ng-model="vmCriarCampeonato.campeonato.descricao" required>
                     </md-input-container>
 
-                    <md-input-container class="md-block">
+                    <md-input-container class="md-block" ng-show="false">
                         <label>{{'fields.acesso' | translate}}</label>
                         <md-select ng-model="vmCriarCampeonato.campeonato.acesso_campeonato_id" required>
                             <md-option ng-repeat="tipoAcesso in vmCriarCampeonato.tiposDeAcessosDoCampeonato" ng-value="tipoAcesso.id">
