@@ -32,7 +32,11 @@
     "ngScrollSpy": "^1.0.10",
     "material-design-icons": "^3.0.1",
     "angular-bootstrap-lightbox": "^0.12.0",
-    "angular-toastr": "^2.1.1"
+    "angular-toastr": "^2.1.1",
+    "auth0-lock": "10.4.0",
+    "angular-lock": "^1.0.5",
+    "angular-jwt": "^0.1.8",
+    "angular-local-storage": "^0.5.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0"

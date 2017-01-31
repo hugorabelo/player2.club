@@ -27,7 +27,7 @@ Route::get('/', function()
 
 //Route::group(array('before'=>'auth'), function() {
 //Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
-Route::group(array('prefix'=>'api'), function() {
+Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
@@ -126,6 +126,18 @@ Route::group(array('prefix'=>'api'), function() {
 
     Route::post('comentario/curtir', 'ComentarioController@curtir');
     Route::resource('comentario', 'ComentarioController');
+
+    Route::get('protected', array('middleware' => 'auth0.jwt', function() {
+        Log::debug(Auth::getUser());
+        //return "Hello " . Auth0::jwtuser()->name;
+        return "Hello " . Auth::getUser()->nome;
+    }));
+
+    Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
+        return Response::json(Auth::getUser());
+    }));
+
+    Route::get('callback', '\Auth0\Login\Auth0Controller@callback');
 
 });
 

@@ -17,8 +17,8 @@
             })
             .state('login', {
                 url: "/login",
-                templateUrl: "app/components/comum/login.html",
-                controller: 'AuthController',
+                templateUrl: "app/components/auth/login.html",
+                controller: 'LoginController as vmAuth',
                 acesso: 'publico',
                 data: {
                     pageTitle: "fields.login"

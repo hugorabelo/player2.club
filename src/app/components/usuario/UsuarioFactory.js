@@ -205,4 +205,4 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/usuario/seguindo/' + idUsuario);
         }
     }
-}]);
+                    }]);

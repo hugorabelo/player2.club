@@ -20,7 +20,10 @@
         'monospaced.elastic',
         'ngScrollSpy',
         'bootstrapLightbox',
-        'toastr'
+        'toastr',
+        'auth0.lock',
+        'angular-jwt',
+        'LocalStorageModule'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
@@ -119,6 +122,54 @@
             timeOut: 2000,
             allowHtml: true
         });
+    });
+
+    //    config.$inject = ['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider'];
+
+    angular.module('player2').config(function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
+        lockProvider.init({
+            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
+            domain: 'hugorabelo.auth0.com',
+            options: {
+                auth: {
+                    params: {
+                        scope: 'openid email picture name'
+                    },
+                },
+                theme: {
+                    logo: 'http://www.player2.club/img/player2_azul.png',
+                    primaryColor: "#0c486b"
+                },
+                languageDictionary: {
+                    title: ""
+                },
+                language: "pt-BR",
+                allowSignUp: false
+            }
+        });
+
+        // Configuration for angular-jwt
+        jwtOptionsProvider.config({
+            tokenGetter: ['options', function (options) {
+                if (options && options.url.indexOf('http://auth0.com') === 0) {
+                    return localStorage.getItem('auth0.id_token');
+                }
+                return localStorage.getItem('id_token');
+            }],
+            whiteListedDomains: ['localhost'],
+            unauthenticatedRedirectPath: '/login'
+        });
+
+        // Add the jwtInterceptor to the array of HTTP interceptors
+        // so that JWTs are attached as Authorization headers
+        $httpProvider.interceptors.push('jwtInterceptor');
+    });
+
+    angular.module('player2').config(function (localStorageServiceProvider) {
+        localStorageServiceProvider
+            .setStorageType('sessionStorage')
+            .setNotify(true, true)
+            .setDefaultToCookie(false);
     });
 
 })();

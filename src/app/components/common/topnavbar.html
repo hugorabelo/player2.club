@@ -33,6 +33,7 @@ union
 select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where lower(descricao) like lower('%a%')
 -->
             </md-autocomplete>
+
             <div class="icones-topo" ng-show="false">
                 <i class="material-icons md-24">home</i>
                 <i class="material-icons md-24">comment</i>
@@ -40,7 +41,6 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
             </div>
         </div>
         <div flex="20" layout="row" flex layout-align="end center">
-            <input type="number" placeholder="" ng-model="idUsuarioLogado" ng-keypress="vmTopNav.carregaUsuarioLogado($event, idUsuarioLogado)" style="width: 50px; margin-right: 10px">
 
             <md-menu md-position-mode="target-right target" md-offset="-10 64">
                 <div layout="column" layout-align="center center" ng-click="$mdOpenMenu()">
@@ -63,31 +63,41 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
                         </md-button>
                     </md-menu-item>
                     <md-menu-divider></md-menu-divider>
-                    <md-menu-item>
-                        <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
+                    <md-menu-item ng-controller="LoginController as vmAuth">
+                        <md-button ng-click="vmAuth.logout()">
+                            <div layout="row" flex>
+                                <i class="flag-icon flag-icon-us"></i> {{'messages.logout' | translate}}
+                            </div>
+                        </md-button>
                     </md-menu-item>
-                    <md-menu-item>
-                        <md-button ui-sref="cadastroJogo">{{'menus.jogos' | translate}}</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ui-sref="plataforma">{{'menus.plataformas' | translate}}</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ui-sref="campeonatoTipo">{{'menus.campeonatoTipos' | translate}}</md-button>
-                    </md-menu-item>
-                    <md-menu-divider></md-menu-divider>
-                    <md-menu-item>
-                        <md-button ui-sref="usuario">{{'menus.usuarios' | translate}}</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ui-sref="usuarioTipo">{{'menus.usuarioTipos' | translate}}</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ui-sref="menu">{{'menus.menus' | translate}}</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ui-sref="permissao">{{'menus.permissoes' | translate}}</md-button>
-                    </md-menu-item>
+                    <div ng-show="false">
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="cadastroJogo">{{'menus.jogos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="plataforma">{{'menus.plataformas' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="campeonatoTipo">{{'menus.campeonatoTipos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ui-sref="usuario">{{'menus.usuarios' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="usuarioTipo">{{'menus.usuarioTipos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="menu">{{'menus.menus' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="permissao">{{'menus.permissoes' | translate}}</md-button>
+                        </md-menu-item>
+                    </div>
                 </md-menu-content>
             </md-menu>
         </div>

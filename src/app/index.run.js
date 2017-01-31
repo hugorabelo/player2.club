@@ -3,7 +3,7 @@
 
     angular
         .module('player2')
-        .run(mudaState)
+        .run(mudaState);
 
     angular
         .module('player2')
@@ -13,12 +13,19 @@
         .module('player2')
         .run(redireciona);
 
-    function mudaState($rootScope, $state) {
+    angular
+        .module('player2')
+        .run(runAuth);
+
+    function mudaState($rootScope, $state, $window, $http, localStorageService) {
         $rootScope.$state = $state;
-        if ($rootScope.usuarioLogado == null) {
-            $rootScope.usuarioLogado = {};
-            $rootScope.usuarioLogado.id = 35;
-        }
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
+            $http.get('api/validaAutenticacao');
+            if ($rootScope.usuarioLogado == null) {
+                $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
+            }
+        });
     }
 
     function defaultErrorMessageResolver(defaultErrorMessageResolver) {
@@ -36,5 +43,38 @@
             }
         });
     }
+
+    runAuth.$inject = ['$rootScope', '$window', 'authService', 'authManager', 'lock', 'localStorageService'];
+
+    function runAuth($rootScope, $window, authService, authManager, lock, localStorageService) {
+        // Register the synchronous hash parser
+        // when using UI Router
+        lock.interceptHash();
+
+        // Put the authService on $rootScope so its methods
+        // can be accessed from the nav bar
+        $rootScope.authService = authService;
+
+        // Register the authentication listener that is
+        // set up in auth.service.js
+        authService.registerAuthenticationListener();
+
+        // Use the authManager from angular-jwt to check for
+        // the user's authentication state when the page is
+        // refreshed and maintain authentication
+        authManager.checkAuthOnRefresh();
+
+        // Listen for 401 unauthorized requests and redirect
+        // the user to the login page
+        authManager.redirectWhenUnauthenticated();
+
+//        verificaUsuarioLogado($rootScope, $window, localStorageService);
+    }
+
+//    function verificaUsuarioLogado($rootScope, $window, localStorageService) {
+        //        if ($rootScope.usuarioLogado == null) {
+        //            $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
+        //        }
+        //    }
 
 })();

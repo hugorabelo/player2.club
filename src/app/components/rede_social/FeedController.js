@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'toastr', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, toastr, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
+    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'toastr', 'localStorageService', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, toastr, localStorageService, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
 
         var vm = this;
 
@@ -21,9 +21,14 @@
 
         vm.novoPost = {};
 
+        $scope.$on('userProfileSet', function () {
+            vm.inicializa();
+        });
+
         vm.inicializa = function () {
             if (vm.idJogo !== undefined) {
-                vm.idUsuario = $rootScope.usuarioLogado.id;
+                var usuarioLogado = localStorageService.get('usuarioLogado');
+                vm.idUsuario = usuarioLogado.id;
                 vm.getFeedDoJogo(vm.idJogo);
             } else if (vm.idUsuario !== undefined) {
                 Usuario.show(vm.idUsuario)
@@ -32,24 +37,27 @@
                         vm.getFeedDoUsuario(false);
                     });
             } else {
-                vm.idUsuario = $rootScope.usuarioLogado.id;
-                Usuario.show(vm.idUsuario)
-                    .success(function (data) {
-                        vm.usuario = data;
-                        vm.getFeedDoUsuario(true);
-                    });
+                var usuarioLogado = localStorageService.get('usuarioLogado');
+                if (usuarioLogado !== null) {
+                    vm.idUsuario = usuarioLogado.id;
+                    Usuario.show(vm.idUsuario)
+                        .success(function (data) {
+                            vm.usuario = data;
+                            vm.getFeedDoUsuario(true);
+                        });
+                }
             }
         }
 
         vm.criarPost = function () {
             var post = {};
-            if (vm.idUsuario != $rootScope.usuarioLogado.id) {
+            if (vm.idUsuario != localStorageService.get('usuarioLogado').id) {
                 post.destinatario_id = vm.idUsuario;
             }
             if (vm.idJogo !== undefined) {
                 post.jogos_id = vm.idJogo;
             }
-            post.users_id = $rootScope.usuarioLogado.id;
+            post.users_id = localStorageService.get('usuarioLogado').id;
             post.texto = vm.novoPost.texto;
             post.imagens = vm.novoPost.imagens;
             Post.salvar(post)
@@ -102,7 +110,7 @@
         vm.curtir = function (atividade) {
             var curtida = {};
             curtida.atividade_id = atividade.id;
-            curtida.users_id = $rootScope.usuarioLogado.id;
+            curtida.users_id = localStorageService.get('usuarioLogado').id;
             Atividade.curtir(curtida)
                 .success(function (data) {
                     vm.getCurtidas(atividade);
@@ -126,7 +134,7 @@
         vm.usuarioCurtiu = function (atividade) {
             var curtida = {};
             curtida.atividade_id = atividade.id;
-            curtida.users_id = $rootScope.usuarioLogado.id;
+            curtida.users_id = localStorageService.get('usuarioLogado').id;
             Atividade.usuarioCurtiuAtividade(curtida)
                 .success(function (data) {
                     atividade.curtiu = data.curtiu;
@@ -142,7 +150,7 @@
             if (ev.keyCode === 13) {
                 var comentario = {};
                 comentario.atividade_id = atividade.id;
-                comentario.users_id = $rootScope.usuarioLogado.id;
+                comentario.users_id = localStorageService.get('usuarioLogado').id;
                 comentario.texto = atividade.novoComentario;
                 ev.preventDefault();
                 Atividade.salvarComentario(comentario)
@@ -154,7 +162,7 @@
         };
 
         vm.getComentarios = function (atividade) {
-            Atividade.getComentarios(atividade.id, $rootScope.usuarioLogado.id)
+            Atividade.getComentarios(atividade.id, localStorageService.get('usuarioLogado').id)
                 .success(function (data) {
                     atividade.comentarios = data;
                     angular.forEach(atividade.comentarios, function (comentario) {
@@ -166,7 +174,7 @@
         };
 
         vm.salvarCompartilhar = function (novoPost) {
-            novoPost.users_id = $rootScope.usuarioLogado.id;
+            novoPost.users_id = localStorageService.get('usuarioLogado').id;
             Post.salvar(novoPost)
                 .success(function (data) {
                     vm.getFeedDoUsuario();

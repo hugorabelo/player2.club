@@ -285,7 +285,10 @@
 
         "anterior": "Anterior",
         "proximo": "Proximo",
-        "nova_aba": "Abrir em uma nova aba"
+        "nova_aba": "Abrir em uma nova aba",
+
+        "fazerLogin": "Fazer Login",
+        "logout": "Sair"
     },
 
     "generos": {
