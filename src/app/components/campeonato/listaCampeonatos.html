@@ -1,4 +1,4 @@
-<div ng-show="vmCampeonato.idUsuario">
+<div ng-hide="vmCampeonato.idJogo">
     <h3 class="secao_titulo" ng-init="vmCampeonato.getCampeonatosUsuario()">{{'messages.campeonatos_usuario' | translate}}</h3>
     <md-list ng-cloak>
         <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatosDoUsuario">

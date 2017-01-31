@@ -50,7 +50,7 @@
             .state('home.campeonatos', {
                 url: "/campeonatos",
                 templateUrl: "app/components/campeonato/listaCampeonatos.html",
-                controller: 'ProfileController as vmProfile',
+                controller: 'ProfileController as vmCampeonato',
                 acesso: 'registrado'
             })
             .state('home.editar_perfil', {
