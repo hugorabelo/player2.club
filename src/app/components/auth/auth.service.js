@@ -6,9 +6,9 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location'];
+    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location', 'localStorageService'];
 
-    function authService(lock, authManager, $http, $rootScope, $window, $location) {
+    function authService(lock, authManager, $http, $rootScope, $window, $location, localStorageService) {
 
         var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
@@ -32,9 +32,10 @@
                             }
 
                             localStorage.setItem('profile', JSON.stringify(profile));
+                            localStorageService.set('usuarioLogado', result.data);
                             $rootScope.$broadcast('userProfileSet', profile);
-                            $window.localStorage.setItem('usuarioLogado', angular.toJson(result.data));
-                            $rootScope.usuarioLogado = result.data;
+                            //                            $window.localStorage.setItem('usuarioLogado', angular.toJson(result.data));
+                            //                            $rootScope.usuarioLogado = result.data;
                         });
                     }, function (error) {
                         localStorage.removeItem('id_token');
@@ -49,7 +50,8 @@
             localStorage.removeItem('usuarioLogado');
             authManager.unauthenticate();
             userProfile = {};
-            $rootScope.usuarioLogado = {};
+            //            $rootScope.usuarioLogado = {};
+            localStorageService.remove('usuarioLogado');
             $location.path('/login');
         }
 

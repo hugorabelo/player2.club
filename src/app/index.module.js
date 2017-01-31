@@ -22,7 +22,8 @@
         'bootstrapLightbox',
         'toastr',
         'auth0.lock',
-        'angular-jwt'
+        'angular-jwt',
+        'LocalStorageModule'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
@@ -162,6 +163,13 @@
         // Add the jwtInterceptor to the array of HTTP interceptors
         // so that JWTs are attached as Authorization headers
         $httpProvider.interceptors.push('jwtInterceptor');
+    });
+
+    angular.module('player2').config(function (localStorageServiceProvider) {
+        localStorageServiceProvider
+            .setStorageType('sessionStorage')
+            .setNotify(true, true)
+            .setDefaultToCookie(false);
     });
 
 })();

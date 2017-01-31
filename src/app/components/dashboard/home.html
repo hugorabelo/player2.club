@@ -13,10 +13,5 @@
         <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
             {{ campeonato.descricao }}
         </a>
-
-        <button ng-click="vmHome.getAutenticacao()">
-            Get Autenticação
-        </button>
-        {{vm.autenticacao}} ## {{usuarioLogado}}
     </div>
 </div>

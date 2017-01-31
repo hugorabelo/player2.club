@@ -1,29 +1,5 @@
 angular.module('player2').factory('Usuario', ['$http', function ($http) {
     return {
-        getAutenticacao: function () {
-            return $http({
-                url: 'api/protected',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('id_token')
-                },
-                method: 'GET',
-                cache: false
-            });
-            //            var getFoos = fetch('/api/foo', {
-            //                headers: {
-            //                    'Authorization': 'Bearer ' + localStorage.getItem('userToken')
-            //                },
-            //                method: 'GET',
-            //                cache: false
-            //            });
-            //
-            //            getFoos.then(function (response) {
-            //                response.json().then(function (foos) {
-            //                    console.log('the foos:', foos);
-            //                });
-            //            });
-        },
-
         show: function (id) {
             return $http.get('api/usuario/' + id);
         },

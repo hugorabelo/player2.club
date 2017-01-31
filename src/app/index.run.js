@@ -17,13 +17,13 @@
         .module('player2')
         .run(runAuth);
 
-    function mudaState($rootScope, $state, $window, $http) {
+    function mudaState($rootScope, $state, $window, $http, localStorageService) {
         $rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
             $http.get('api/validaAutenticacao');
             if ($rootScope.usuarioLogado == null) {
-                $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
+                $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
             }
         });
     }
@@ -44,9 +44,9 @@
         });
     }
 
-    runAuth.$inject = ['$rootScope', '$window', 'authService', 'authManager', 'lock'];
+    runAuth.$inject = ['$rootScope', '$window', 'authService', 'authManager', 'lock', 'localStorageService'];
 
-    function runAuth($rootScope, $window, authService, authManager, lock) {
+    function runAuth($rootScope, $window, authService, authManager, lock, localStorageService) {
         // Register the synchronous hash parser
         // when using UI Router
         lock.interceptHash();
@@ -68,13 +68,13 @@
         // the user to the login page
         authManager.redirectWhenUnauthenticated();
 
-        verificaUsuarioLogado($rootScope, $window);
+//        verificaUsuarioLogado($rootScope, $window, localStorageService);
     }
 
-    function verificaUsuarioLogado($rootScope, $window) {
-        if ($rootScope.usuarioLogado == null) {
-            $rootScope.usuarioLogado = JSON.parse($window.localStorage.getItem('usuarioLogado'));
-        }
-    }
+//    function verificaUsuarioLogado($rootScope, $window, localStorageService) {
+        //        if ($rootScope.usuarioLogado == null) {
+        //            $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
+        //        }
+        //    }
 
 })();
