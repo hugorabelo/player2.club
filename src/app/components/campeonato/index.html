@@ -23,14 +23,18 @@
                 </md-toolbar>
                 <md-card-content layout="row">
                     <div flex="20" flex-gt-xs="10">
-                        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
+                        <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                            <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
+                        </a>
                     </div>
                     <div flex>
                         <h4 class="m-l">
                             {{vmCampeonato.campeonato.plataforma.descricao}}
                         </h4>
                         <h4 class="m-l">
+                           <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                             {{vmCampeonato.campeonato.jogo.descricao}}
+                            </a>
                         </h4>
                         <h4 class="m-l">
                             {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
@@ -86,7 +90,9 @@
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
                 <md-card-content layout-align="center center" layout="column">
-                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
+                    <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
+                    </a>
                     <h2 class="text-center m-t" ng-show="false">
                         {{vmCampeonato.campeonato.descricao}}
                     </h2>
@@ -94,7 +100,9 @@
                         {{vmCampeonato.campeonato.plataforma.descricao}}
                     </h4>
                     <h4 class="text-center">
+                       <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                         {{vmCampeonato.campeonato.jogo.descricao}}
+                        </a>
                     </h4>
                     <h4 class="text-center">
                         {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
