@@ -17,12 +17,6 @@ header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
 */
 
-Route::get('/teste', function()
-{
-    Log::info('testado');
-    return redirect('/');
-});
-
 Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
@@ -124,9 +118,9 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::resource('comentario', 'ComentarioController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
-        return Response::json(Auth::getUser());
+        $retornoValidacao = Response::json(Auth::getUser());
+        return $retornoValidacao;
     }));
-
 
 });
 

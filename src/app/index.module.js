@@ -27,9 +27,9 @@
         'ng-sortable'
     ]);
 
-    //    angular.module('player2').config(function ($locationProvider) {
-    //        $locationProvider.html5Mode(true);
-    //    });
+    angular.module('player2').config(function ($locationProvider) {
+        $locationProvider.html5Mode(true);
+    });
 
 
 
@@ -71,8 +71,8 @@
             $httpProvider.interceptors.push(apiInterceptor);
         });
 
-    var API_URL = 'http://localhost/player2/public/';
-    //    var API_URL = '/';
+    //    var API_URL = 'http://localhost/player2/public/';
+    var API_URL = '/';
 
     function apiInterceptor($q) {
         return {
