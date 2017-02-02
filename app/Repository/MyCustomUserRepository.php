@@ -13,7 +13,6 @@ class MyCustomUserRepository implements Auth0UserRepository {
          * and it is always the `user_id`
          */
         $jwt->user_id = $jwt->sub;
-
         return $this->upsertUser($jwt);
     }
 
@@ -33,7 +32,7 @@ class MyCustomUserRepository implements Auth0UserRepository {
                 $user->imagem_perfil = $fileName;
             }
             if($user->nome === 'username') {
-                $user->nome = $profile->name;https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/10474254_747590795292744_6156217768799817805_n.jpg?oh=397bec29457fb279a99348fd9a073beb&oe=594B8E92
+                $user->nome = $profile->name;
             }
             $user->save();
         }

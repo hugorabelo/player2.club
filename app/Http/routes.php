@@ -10,23 +10,19 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+/*
 header('Access-Control-Allow-Origin:  *');
 header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
+*/
 
-Route::get('login', 'LoginController@getLogar');
-
-Route::post('login', 'LoginController@postLogar');
-
-Route::get('api/logout', 'LoginController@logout');
-
-Route::get('/', function()
+Route::get('/teste', function()
 {
-    return View::make('inicio');
+    Log::info('testado');
+    return redirect('/');
 });
 
-//Route::group(array('before'=>'auth'), function() {
-//Route::group(array('middleware' => 'cors', 'prefix'=>'api'), function() {
 Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
@@ -127,22 +123,15 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('comentario/curtir', 'ComentarioController@curtir');
     Route::resource('comentario', 'ComentarioController');
 
-    Route::get('protected', array('middleware' => 'auth0.jwt', function() {
-        Log::debug(Auth::getUser());
-        //return "Hello " . Auth0::jwtuser()->name;
-        return "Hello " . Auth::getUser()->nome;
-    }));
-
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         return Response::json(Auth::getUser());
     }));
 
-    Route::get('callback', '\Auth0\Login\Auth0Controller@callback');
 
 });
 
 Route::any('{catchall}', function() {
-    return View::make('inicio');
+    return redirect('/');
 })->where('catchall', '.*');
 
 /*

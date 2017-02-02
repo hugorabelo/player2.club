@@ -39,7 +39,7 @@ return array(
     |
     */
 
-    'redirect_uri'  => 'http://localhost/player/public/api/callback',
+    //'redirect_uri'  => 'api/callback',
 
     /*
     |--------------------------------------------------------------------------
