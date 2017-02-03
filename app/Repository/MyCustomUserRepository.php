@@ -21,7 +21,11 @@ class MyCustomUserRepository implements Auth0UserRepository {
     }
 
     protected function upsertUser($profile) {
-        $user = User::where("email", $profile->email)->first();
+        if(isset($profile->email)) {
+            $user = User::where("email", $profile->email)->first();
+        } else {
+            $user = User::where("auth0id", $profile->user_id)->first();
+        }
         if(!isset($user->auth0id) || !isset($user->imagem_perfil) || ($user->nome === 'username')) {
             if(!isset($user->auth0id)) {
                 $user->auth0id = $profile->user_id;

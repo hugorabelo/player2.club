@@ -27,7 +27,7 @@ class Kernel extends HttpKernel {
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
 		'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
-		'cors' => \App\Http\Middleware\Cors::class,
+		'cors' => '\App\Http\Middleware\Cors',
 		'auth0.jwt' => '\Auth0\Login\Middleware\Auth0JWTMiddleware',
 		'auth0.jwt_verification' => '\Auth0\Login\Middleware\Auth0OptionalJWTMiddleware',
 		'auth0.jwt_force' => '\Auth0\Login\Middleware\ForceAuthMiddleware',

@@ -127,7 +127,7 @@
 
     //    config.$inject = ['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider'];
 
-    angular.module('player2').config(function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
+    angular.module('player2').config(['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
         lockProvider.init({
             clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
             domain: 'hugorabelo.auth0.com',
@@ -164,7 +164,7 @@
         // Add the jwtInterceptor to the array of HTTP interceptors
         // so that JWTs are attached as Authorization headers
         $httpProvider.interceptors.push('jwtInterceptor');
-    });
+    }]);
 
     angular.module('player2').config(function (localStorageServiceProvider) {
         localStorageServiceProvider

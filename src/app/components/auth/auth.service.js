@@ -34,8 +34,6 @@
                             localStorage.setItem('profile', JSON.stringify(profile));
                             localStorageService.set('usuarioLogado', result.data);
                             $rootScope.$broadcast('userProfileSet', profile);
-                            //                            $window.localStorage.setItem('usuarioLogado', angular.toJson(result.data));
-                            //                            $rootScope.usuarioLogado = result.data;
                         });
                     }, function (error) {
                         localStorage.removeItem('id_token');
@@ -50,7 +48,6 @@
             localStorage.removeItem('usuarioLogado');
             authManager.unauthenticate();
             userProfile = {};
-            //            $rootScope.usuarioLogado = {};
             localStorageService.remove('usuarioLogado');
             $location.path('/login');
         }

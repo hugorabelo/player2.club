@@ -39,7 +39,7 @@ return array(
     |
     */
 
-    //'redirect_uri'  => 'api/callback',
+    'redirect_uri'  => 'http://beta.player2.club/api/callback',
 
     /*
     |--------------------------------------------------------------------------
