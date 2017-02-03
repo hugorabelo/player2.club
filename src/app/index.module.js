@@ -134,7 +134,7 @@
             options: {
                 auth: {
                     params: {
-                        scope: 'openid email picture name'
+                        scope: 'openid email picture name picture_large'
                     },
                 },
                 theme: {

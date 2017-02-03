@@ -32,7 +32,7 @@ class MyCustomUserRepository implements Auth0UserRepository {
             }
             if(!isset($user->imagem_perfil)) {
                 $fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.jpg';
-                file_put_contents( "uploads/usuarios/$fileName", fopen( $profile->picture, "r" ), FILE_APPEND );
+                file_put_contents( "uploads/usuarios/$fileName", fopen( $profile->picture_large, "r" ), FILE_APPEND );
                 $user->imagem_perfil = $fileName;
             }
             if($user->nome === 'username') {
