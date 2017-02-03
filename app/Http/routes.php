@@ -139,7 +139,6 @@ Route::any('{catchall}', function() {
 })->where('catchall', '.*');
 
 /*
- */
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
     if(count($query->bindings) == 0) {
