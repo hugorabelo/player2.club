@@ -25,7 +25,6 @@
                         })
                         .error(function (data, status) {});
                 } else {
-                    console.log('seguidores do Jogo');
                     Jogo.show(vm.idJogo)
                         .success(function (data) {
                             vm.seguidores = data.seguidores;

@@ -71,7 +71,6 @@
         vm.querySearch = function (query) {
             var results = query ? vm.itensPesquisa.filter(vm.createFilterFor(query)) : vm.itensPesquisa,
                 deferred;
-            console.log(results);
             return results;
         };
 
@@ -90,7 +89,6 @@
         };
 
         vm.selectedItemChange = function (item) {
-            console.log(item);
             $location.path('/' + item.tipo + '/' + item.id);
         };
 

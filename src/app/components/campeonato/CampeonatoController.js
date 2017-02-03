@@ -344,7 +344,6 @@
         };
 
         vm.salvarPlacar = function (partida) {
-            console.log(partida);
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
@@ -451,7 +450,6 @@
 
         vm.exibirInformacoesContestacao = function (ev, contestacao) {
             contestacao.usuario = vm.getInformacaoUsuarioContestacao(contestacao);
-            console.log(contestacao);
             $mdDialog.show({
                     locals: {
                         tituloModal: 'fields.info_contestacao',

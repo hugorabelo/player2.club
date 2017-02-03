@@ -275,10 +275,6 @@
                 return vm.exibeData(novaData);
             }
 
-            $scope.adicionarImagem = function () {
-                console.log('adicionar imagem');
-            };
-
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
@@ -349,11 +345,6 @@
         };
 
         function DialogControllerImagem($scope, $mdDialog) {
-
-            $scope.adicionarImagem = function () {
-                console.log('adicionar imagem');
-            };
-
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
