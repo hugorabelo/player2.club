@@ -62,10 +62,12 @@
         };
 
         vm.getItensPesquisa = function (texto) {
-            Atividade.getPesquisaveis(texto)
-                .success(function (data) {
-                    vm.itensPesquisa = data;
-                });
+            if (texto != '') {
+                Atividade.getPesquisaveis(texto)
+                    .success(function (data) {
+                        vm.itensPesquisa = data;
+                    });
+            }
         };
 
         vm.querySearch = function (query) {
