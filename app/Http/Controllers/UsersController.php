@@ -395,5 +395,13 @@ class UsersController extends Controller {
 		return Response::json($atividades);
 	}
 
+	public function desistirCampeonato($idCampeonato) {
+		$idUsuario = Auth::getUser()->id;
+		$idUsuarioCampeonato = CampeonatoUsuario::where('users_id','=',$idUsuario)->where('campeonatos_id','=',$idCampeonato)->first()->id;
+		$usuarioCampeonato = CampeonatoUsuario::find($idUsuarioCampeonato);
+		$usuarioCampeonato->delete();
+
+		return Response::json(array('success'=>true));
+	}
 
 }

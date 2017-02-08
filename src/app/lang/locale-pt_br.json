@@ -94,6 +94,7 @@
         "confirmar_contestacao": "Confirmar o placar original",
         "editar_placar_contestado": "Editar placar contestado",
         "salvar_placar_contestado": "Salvar o novo placar após análise",
+        "sigla": "Sigla",
 
         "acesso": "Acesso",
         "publico": "Público",
@@ -168,6 +169,7 @@
         "usuario_edit": "Editar Perfil de Usuário",
         "usuario_empty": "Não existe nenhum Usuário cadastrado",
         "usuario_gamertags": "Gamertags do Usuário",
+        "usuario_imagens": "Imagens do Usuário",
 
         "campeonato_list": "Campeonatos",
         "campeonato_add": "Adicionar Campeonato",

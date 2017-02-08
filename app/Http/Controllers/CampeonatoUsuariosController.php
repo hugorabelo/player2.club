@@ -51,12 +51,13 @@ class CampeonatoUsuariosController extends Controller {
 	public function store()
 	{
 		$input = Input::all();
+		$input['users_id'] = Auth::getUser()->id;
 		$validation = Validator::make($input, CampeonatoUsuario::$rules);
 
 		if ($validation->passes())
 		{
-            $campeonato = Campeonato::find($input['campeonatos_id']);
-            if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
+			$campeonato = Campeonato::find($input['campeonatos_id']);
+			if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
                 $this->campeonatoUsuario->create($input);
 
                 return Response::json(array('success'=>true));

@@ -2,11 +2,11 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario) {
 
         var vm = this;
 
-        $translate(['messages.confirma_exclusao', 'messages.confirma_iniciar_fase', 'messages.explica_iniciar_fase', 'messages.confirma_fechar_fase', 'messages.yes', 'messages.no', 'messages.close']).then(function (translations) {
+        $translate(['messages.confirma_exclusao', 'messages.confirma_iniciar_fase', 'messages.explica_iniciar_fase', 'messages.confirma_fechar_fase', 'messages.yes', 'messages.no', 'messages.close', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
             vm.textoConfirmaExclusao = translations['messages.confirma_exclusao'];
             vm.textoConfirmaIniciarFase = translations['messages.confirma_iniciar_fase'];
             vm.textoExplicaIniciarfase = translations['messages.explica_iniciar_fase'];
@@ -14,6 +14,9 @@
             vm.textoYes = translations['messages.yes'];
             vm.textoNo = translations['messages.no'];
             vm.textoClose = translations['messages.close'];
+            vm.textoDesistirCampeonato = translations['messages.confirma_desistir_campeonato'];
+            vm.textoInscreverTitulo = translations['messages.inscrever_titulo'];
+            vm.textoInscrever = translations['messages.inscrever'];
         });
 
         vm.exibeDetalhes = false;
@@ -607,34 +610,51 @@
                     //                    vm.status = status;
                 });
         };
-        //
-        //        vm.delete = function (ev, id) {
-        //            vm.idRegistroExcluir = id;
-        //            var confirm = $mdDialog.confirm(id)
-        //                .title(vm.textoConfirmaExclusao)
-        //                .ariaLabel(vm.textoConfirmaExclusao)
-        //                .targetEvent(ev)
-        //                .ok(vm.textoYes)
-        //                .cancel(vm.textoNo)
-        //                .theme('player2');
-        //
-        //            $mdDialog.show(confirm).then(function () {
-        //                $rootScope.loading = true;
-        //                Campeonato.destroy(vm.idRegistroExcluir)
-        //                    .success(function (data) {
-        //                        Campeonato.get()
-        //                            .success(function (data) {
-        //                                vm.campeonatos = data;
-        //                                $rootScope.loading = false;
-        //                            });
-        //                        $rootScope.loading = false;
-        //                    });
-        //            }, function () {
-        //
-        //            });
-        //        };
-        //
-        //
-        //
-                }]);
+
+        vm.inscreverCampeonato = function (ev, id) {
+            var confirm = $mdDialog.confirm(vm.campeonato.id)
+                .title(vm.textoInscreverTitulo)
+                .ariaLabel(vm.textoInscreverTitulo)
+                .targetEvent(ev)
+                .ok(vm.textoInscrever)
+                .cancel(vm.textoNo)
+                .theme('player2');
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                CampeonatoUsuario.save(vm.campeonato.id)
+                    .success(function (data) {
+                        vm.campeonato.usuarioInscrito = true;
+                    })
+                    .error(function (data) {
+
+                    });
+            }, function () {
+
+            });
+        };
+
+        vm.sairCampeonato = function (ev) {
+            var confirm = $mdDialog.confirm(vm.campeonato.id)
+                .title(vm.textoDesistirCampeonato)
+                .ariaLabel(vm.textoDesistirCampeonato)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                var i, id_campeonato_usuario;
+                $rootScope.loading = true;
+                Usuario.desistirCampeonato(vm.campeonato.id)
+                    .success(function (data) {
+                        vm.campeonato.usuarioInscrito = false;
+                    })
+                    .error(function (data) {
+
+                    });
+            }, function () {
+
+            });
+        };
+    }]);
 }());

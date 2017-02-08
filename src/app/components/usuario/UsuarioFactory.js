@@ -203,6 +203,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         getSeguindo: function (idUsuario) {
             return $http.get('api/usuario/seguindo/' + idUsuario);
+        },
+
+        desistirCampeonato: function (idCampeonato) {
+            return $http.delete('api/usuario/desistirCampeonato/' + idCampeonato);
         }
     }
-                    }]);
+}]);
