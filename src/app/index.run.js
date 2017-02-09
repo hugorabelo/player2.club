@@ -17,11 +17,20 @@
         .module('player2')
         .run(runAuth);
 
-    function mudaState($rootScope, $state, $window, $http, localStorageService) {
+    function mudaState($rootScope, $state, $window, $http, localStorageService, lock) {
         $rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
-            $http.get('api/validaAutenticacao');
+            $http.get('api/validaAutenticacao')
+                .then(function (result) {
+                    lock.getProfile(localStorage.getItem('idToken'), function (error, profile) {
+                        localStorageService.set('usuarioLogado', result.data);
+                        $rootScope.$broadcast('userProfileSet', profile);
+                    });
+                }, function (error) {
+                    localStorage.removeItem('id_token');
+                    console.log('usuário não existe');
+                });
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
             }
@@ -68,13 +77,13 @@
         // the user to the login page
         authManager.redirectWhenUnauthenticated();
 
-//        verificaUsuarioLogado($rootScope, $window, localStorageService);
+        //        verificaUsuarioLogado($rootScope, $window, localStorageService);
     }
 
-//    function verificaUsuarioLogado($rootScope, $window, localStorageService) {
-        //        if ($rootScope.usuarioLogado == null) {
-        //            $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
-        //        }
-        //    }
+    //    function verificaUsuarioLogado($rootScope, $window, localStorageService) {
+    //        if ($rootScope.usuarioLogado == null) {
+    //            $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
+    //        }
+    //    }
 
 })();
