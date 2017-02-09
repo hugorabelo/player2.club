@@ -99,6 +99,11 @@ class UsersController extends Controller {
 	public function update($id)
 	{
 		$input = array_except(Input::all(), array('_method', '_token'));
+		foreach ($input as $key=>$valor) {
+			if($valor == 'undefined') {
+				$input[$key] = null;
+			}
+		}
 		User::$rules['email'] = 'required|email|unique:users,email,' . $id;
 		User::$rules['password'] = '';
 		$validation = Validator::make($input, User::$rules);
