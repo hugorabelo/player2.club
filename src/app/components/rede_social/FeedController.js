@@ -39,8 +39,7 @@
             } else {
                 var usuarioLogado = localStorageService.get('usuarioLogado');
                 if (usuarioLogado !== null) {
-                    vm.idUsuario = usuarioLogado.id;
-                    Usuario.show(vm.idUsuario)
+                    Usuario.show(usuarioLogado.id)
                         .success(function (data) {
                             vm.usuario = data;
                             vm.getFeedDoUsuario(true);
@@ -75,7 +74,12 @@
             if (todos == undefined) {
                 todos = false;
             }
-            Usuario.getFeed(vm.idUsuario, todos)
+            if (vm.idUsuario == undefined) {
+                var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
+            } else {
+                var idUsuarioLogado = vm.idUsuario;
+            }
+            Usuario.getFeed(idUsuarioLogado, todos)
                 .success(function (data) {
                     vm.atividades = data;
                     angular.forEach(vm.atividades, function (atividade) {
