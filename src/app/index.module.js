@@ -136,6 +136,8 @@
                     params: {
                         scope: 'openid email picture name picture_large'
                     },
+                    redirectUrl: 'http://beta.player2.club/',
+                    responseType: 'token'
                 },
                 theme: {
                     logo: 'http://www.player2.club/img/player2_azul.png',
