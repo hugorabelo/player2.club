@@ -13,7 +13,9 @@
             <div class="font-bold">{{seguidor.localizacao}}</div>
         </div>
         <md-grid-tile-footer class="center-block">
-            <md-button ui-sref="profile({idUsuario: seguidor.id})" class="md-primary  md-raised"><i class="material-icons">account_box</i> {{'messages.visitar_perfil' | translate}}</md-button>
+            <md-button ui-sref="profile({idUsuario: seguidor.id})" class="md-primary  md-raised"><i class="material-icons">account_box</i>
+                <span hide-xs>{{'messages.visitar_perfil' | translate}}</span>
+            </md-button>
         </md-grid-tile-footer>
     </md-grid-tile>
 </md-grid-list>
