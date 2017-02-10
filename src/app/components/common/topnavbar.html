@@ -1,9 +1,10 @@
 <md-toolbar ng-controller="TopNavController as vmTopNav" class="md-accent topo-principal">
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-        <a href="/" flex="15">
-            <img height="50" alt="" src="assets/images/player2.png" data-pin-nopin="true">
+        <a href="/" flex="20">
+            <img alt="" height="50" src="assets/images/player2.png" data-pin-nopin="true" hide-xs>
+            <img alt="" height="50" src="assets/images/player2_xs.png" data-pin-nopin="true" hide-gt-xs>
         </a>
-        <div flex="65" layout="row" layout-align="space-between center">
+        <div flex="60" layout="row" layout-align="space-between center">
 
 
             <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template">
@@ -13,25 +14,7 @@
                         <img src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
                         <span> {{item.descricao}} </span>
                     </span>
-                    <!--
-                    <span class="item-metadata">
-                        <span class="item-metastat">
-                          <strong>{{item.watchers}}</strong> watchers
-                        </span>
-                    <span class="item-metastat">
-                          <strong>{{item.forks}}</strong> forks
-                        </span>
-                    </span>
--->
                 </md-item-template>
-                <!--
-PESQUISA autocomplete
-select id, nome as descricao, imagem_perfil as imagem, 'profile' as tipo from users where lower(nome) like lower('%a%')
-union
-select id, descricao, imagem_capa as imagem, 'jogo'  as tipo from jogos where lower(descricao) like lower('%a%')
-union
-select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where lower(descricao) like lower('%a%')
--->
             </md-autocomplete>
 
             <div class="icones-topo" ng-show="false">
@@ -59,6 +42,49 @@ select id, descricao, '' as imagem, 'campeonato' as tipo from campeonatos where 
                         <md-button ng-click="vmTopNav.mudaIdioma('en_us')">
                             <div layout="row" flex>
                                 <i class="flag-icon flag-icon-us"></i> {{'menus.lang_en' | translate}}
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-divider></md-menu-divider>
+                    <md-menu-item>
+                        <md-button ui-sref="home.editar_perfil">
+                            <div layout="row" flex>
+                                Editar Perfil
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="criar_campeonato">
+                            <div layout="row" flex>
+                                Criar Campeonato
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="home.campeonatos">
+                            <div layout="row" flex>
+                                Campeonatos
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-controller="HomeController as vmHome">
+                        <md-button ui-sref="home.seguindo({idUsuario: vmHome.usuario.id})">
+                            <div layout="row" flex>
+                                Seguindo
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-controller="HomeController as vmHome">
+                        <md-button ui-sref="home.seguidores({idUsuario: vmHome.usuario.id})">
+                            <div layout="row" flex>
+                                Seguidores
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="home.partidas_usuario">
+                            <div layout="row" flex>
+                                Minhas Partidas
                             </div>
                         </md-button>
                     </md-menu-item>

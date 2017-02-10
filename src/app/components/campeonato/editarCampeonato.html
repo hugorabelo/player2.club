@@ -20,13 +20,13 @@
                 </md-select>
             </md-input-container>
 
-            <div layout="row">
-                <md-input-container flex="50">
+            <div layout-gt-xs="row">
+                <md-input-container flex-gt-xs="50">
                     <label>{{'fields.data_inicio' | translate}}</label>
                     <md-datepicker ng-model="vmCampeonato.campeonatoEditar.dataInicio" md-open-on-focus></md-datepicker>
                 </md-input-container>
 
-                <md-input-container flex="50">
+                <md-input-container flex-gt-xs="50">
                     <label>{{'fields.data_fim' | translate}}</label>
                     <md-datepicker ng-model="vmCampeonato.campeonatoEditar.dataFinal" md-open-on-focus></md-datepicker>
                 </md-input-container>
@@ -40,18 +40,18 @@
                 </div>
             </md-input-container>
 
-            <div layout="row">
-                <md-input-container class="md-block" flex="33">
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs="33">
                     <label>{{'fields.plataformas_id' | translate}}</label>
                     <input ng-model="vmCampeonato.campeonatoEditar.plataforma.descricao" required readonly>
                 </md-input-container>
 
-                <md-input-container class="md-block" flex="33">
+                <md-input-container class="md-block" flex-gt-xs="33">
                     <label>{{'fields.jogos_id' | translate}}</label>
                     <input ng-model="vmCampeonato.campeonatoEditar.jogo.descricao" required readonly>
                 </md-input-container>
 
-                <md-input-container class="md-block" flex="33">
+                <md-input-container class="md-block" flex-gt-xs="33">
                     <label>{{'fields.campeonatotipos_id' | translate}}</label>
                     <input ng-model="vmCampeonato.campeonatoEditar.tipo.descricao" required readonly>
                 </md-input-container>

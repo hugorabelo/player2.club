@@ -4,8 +4,8 @@
             {{'messages.campeonato_detalhes' | translate}}
         </md-card-header-text>
     </md-card-header>
-    <md-card-content layout="row" layout-margin>
-        <div flex="70">
+    <md-card-content layout-gt-xs="row" layout-margin>
+        <div flex-gt-xs="70">
             <md-input-container class="md-block" ng-show="false">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
                 <md-select ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_competidor_id">
@@ -46,7 +46,7 @@
                 </md-radio-group>
             </md-input-container>
         </div>
-        <div flex="70">
+        <div flex-gt-xs="70">
             <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
             <div layout="row">
                 <md-input-container class="md-block">

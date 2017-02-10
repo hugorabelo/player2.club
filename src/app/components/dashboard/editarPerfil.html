@@ -31,7 +31,7 @@
                 </md-card-header-text>
             </md-card-header>
             <md-card-content>
-                <div layout="row" layout-margin>
+                <div layout-gt-xs="row" layout-margin>
                     <div flex>
                         <h2>{{'fields.usuario_imagem_perfil' | translate}}</h2>
                         <lf-ng-md-file-input lf-files="vmHome.files_perfil"></lf-ng-md-file-input>
@@ -67,7 +67,7 @@
                             <md-icon class="material-icons step">
                                 delete
                             </md-icon>
-                            <md-tooltip md-direction="top ">
+                            <md-tooltip md-direction="top">
                                 {{'fields.delete' | translate}}
                             </md-tooltip>
                         </md-button>
