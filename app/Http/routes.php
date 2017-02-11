@@ -80,6 +80,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('menuTree', 'MenuController@getMenuTree');
     Route::resource('menu', 'MenuController');
 
+    Route::post('permissao/bugReport', 'PermissaoController@reportarBug');
     Route::resource('permissao', 'PermissaoController');
 
     Route::resource('userPlataforma', 'UserPlataformaController');

@@ -125,7 +125,10 @@
         "sorteio_grupo": "Entre Grupos",
 
         "usuario_imagem_perfil": "Imagem do Perfil",
-        "usuario_imagem_capa": "Imagem de Capa"
+        "usuario_imagem_capa": "Imagem de Capa",
+        "screenshot": "Screenshots",
+        "descreva_problema": "Descreva o problema",
+        "titulo": "Titulo"
     },
 
     "messages": {
@@ -291,7 +294,8 @@
         "nova_aba": "Abrir em uma nova aba",
 
         "fazerLogin": "Fazer Login",
-        "logout": "Sair"
+        "logout": "Sair",
+        "feedback": "Dar um feedback"
     },
 
     "generos": {
