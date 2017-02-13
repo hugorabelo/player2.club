@@ -31,7 +31,8 @@
         $locationProvider.html5Mode(true);
     });
 
-
+    var API_URL = '/';
+    //    var API_URL = 'http://localhost/player2/public/';
 
     angular.module('player2').config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
@@ -71,8 +72,6 @@
             $httpProvider.interceptors.push(apiInterceptor);
         });
 
-    //    var API_URL = 'http://localhost/player2/public/';
-    var API_URL = '/';
 
     function apiInterceptor($q) {
         return {

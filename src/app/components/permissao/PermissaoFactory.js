@@ -20,7 +20,6 @@ angular.module('player2').factory('Permissao', ['$http', function ($http) {
         },
 
         reportarBug: function (feedback) {
-            console.log(feedback);
             return $http({
                 method: 'POST',
                 url: 'api/permissao/bugReport',

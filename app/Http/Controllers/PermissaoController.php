@@ -64,15 +64,19 @@ class PermissaoController extends Controller {
 			$message->to('incoming+hugorabelo/ligavirtual+7o1aq39cb9drxtwn31x3awu83@gitlab.com', $name = 'GitLab');
 			$message->subject($input['titulo']);
 
-			foreach($files as $arquivo) {
-				if (isset($arquivo) && $arquivo->isValid()) {
-					$destinationPath = 'uploads/bugs/';
-					$fileName = 'imagepost_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
-					$arquivo->move($destinationPath, $fileName);
-					$message->attach($destinationPath.$fileName);
-				}
-			}
+            if($files != null) {
+                foreach ($files as $arquivo) {
+                    if (isset($arquivo) && $arquivo->isValid()) {
+                        $destinationPath = 'uploads/bugs/';
+                        $fileName = 'imagepost_' . str_replace('.', '', microtime(true)) . '.' . $arquivo->getClientOriginalExtension();
+                        $arquivo->move($destinationPath, $fileName);
+                        $message->attach($destinationPath . $fileName);
+                    }
+                }
+            }
 		});
+
+        return Response::json(array('success'=>true));
 	}
 
 }

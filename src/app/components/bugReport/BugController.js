@@ -41,7 +41,7 @@
                         toastr.success('Feedback cadastrado com sucesso');
                     })
                     .error(function (error) {
-                        toastr.error(error);
+                        toastr.error('Ocorreu um problema ao salvar o feedback');
                     });
             }
 
