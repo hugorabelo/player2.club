@@ -6,11 +6,12 @@
 
     <md-card-content>
         <md-list flex>
-            <div ng-repeat="partida in vmCampeonato.partidasDoUsuario">
-                <div flex-offset="25" flex="30" class="partida-detalhe-campeonato">{{partida.campeonato}} - {{partida.fase | translate}} - {{partida.rodada}} {{'messages.rodada' | translate}} </div>
+            <div layout="column" ng-repeat="partida in vmCampeonato.partidasDoUsuario">
+                <div flex class="partida-detalhe-campeonato">{{partida.campeonato}} - {{partida.fase | translate}} - {{partida.rodada}} {{'messages.rodada' | translate}} </div>
                 <md-list-item class="noright">
                     <div flex="25" class="text-right">
-                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla}}</span>
                         <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante hidden-xs" alt="profile">
                     </div>
                     <div flex="10" class="text-center">
@@ -22,9 +23,10 @@
                     </div>
                     <div flex="25" class="text-left">
                         <img src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante hidden-xs" alt="profile">
-                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla}}</span>
                     </div>
-                    <div flex="20">
+                    <div flex-gt-xs="20" flex-xs="5">
 
                         <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao">
                             <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">

@@ -1,6 +1,6 @@
-<div flex layout="row" layout-margin ng-init="vmJogo.inicializa()">
+<div flex layout-gt-xs="row" layout-xs="column" layout-margin ng-init="vmJogo.inicializa()">
 
-    <div flex="33" layout="column" class="caixa-flutuante infobar" layout-margin hide-xs>
+    <div flex-gt-xs="33" layout="column" class="caixa-flutuante infobar" layout-margin>
         <!--        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>-->
         <div class="detalhes-jogo">
             <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
@@ -18,7 +18,7 @@
                    <i class="material-icons">extension</i>
                    {{vmJogo.jogo.produtora}}
                 </span>
-                <span class="info">
+                <span class="info" hide-xs>
                    <i class="material-icons">date_range</i>
                     {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
                 </span>
