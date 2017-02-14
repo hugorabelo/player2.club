@@ -115,12 +115,12 @@
         angular.extend(toastrConfig, {
             newestOnTop: true,
             positionClass: 'toast-bottom-center',
-            preventDuplicates: true,
             extendedTimeOut: 1000,
             progressBar: true,
             tapToDismiss: true,
-            timeOut: 2000,
-            allowHtml: true
+            timeOut: 8000,
+            allowHtml: true,
+            closeButton: true
         });
     });
 
