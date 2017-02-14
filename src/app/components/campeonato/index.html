@@ -2,15 +2,45 @@
 
     <div flex layout-gt-md="row" layout-margin>
         <div class="caixa-flutuante" flex>
-            <md-nav-bar md-selected-nav-item="vmCampeonato.currentNavItem" nav-bar-aria-label="navigation links">
-                <md-nav-item md-nav-click name="tabela">{{'messages.tabelaCampeonato_list' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="participantes">{{'messages.campeonatosParticipantes' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="regras">{{'messages.exibir_regras_campeonato' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="minhasPartidas" ng-show="vmCampeonato.campeonato.usuarioInscrito">{{'messages.minhasPartidas_list' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="detalhes" ng-show="vmCampeonato.campeonato.usuarioAdministrador">{{'messages.campeonato_detalhes' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click name="contestacoes" ng-show="vmCampeonato.campeonato.usuarioAdministrador">{{'messages.campeonatoContestacoes' | translate}}</md-nav-item>
-                <md-nav-item md-nav-click="vmCampeonato.edit()" name="editar" ng-show="vmCampeonato.campeonato.usuarioAdministrador">{{'messages.campeonato_edit' | translate}}</md-nav-item>
-            </md-nav-bar>
+            <md-tabs md-dynamic-height md-border-bottom hide-xs>
+                <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.currentNavItem = 'tabela'">
+                </md-tab>
+                <md-tab label="{{'messages.campeonatosParticipantes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'participantes'">
+                </md-tab>
+                <md-tab label="{{'messages.exibir_regras_campeonato' | translate}}" ng-click="vmCampeonato.currentNavItem = 'regras'">
+                </md-tab>
+                <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.currentNavItem = 'minhasPartidas'" ng-if="vmCampeonato.campeonato.usuarioInscrito">
+                </md-tab>
+                <md-tab label="{{'messages.campeonato_detalhes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'detalhes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                </md-tab>
+                <md-tab label="{{'messages.campeonatoContestacoes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'contestacoes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                </md-tab>
+                <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.currentNavItem = 'editar'; vmCampeonato.edit()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                </md-tab>
+            </md-tabs>
+            <md-tabs md-dynamic-height md-border-bottom hide-gt-xs>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'tabela'">
+                    <i class="material-icons">format_list_numbered</i>
+                </md-tab>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'participantes'">
+                    <i class="material-icons">group</i>
+                </md-tab>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'regras'">
+                    <i class="material-icons">assignment</i>
+                </md-tab>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'minhasPartidas'" ng-if="vmCampeonato.campeonato.usuarioInscrito">
+                    <i class="material-icons">local_play</i>
+                </md-tab>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'detalhes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                    <i class="material-icons">details</i>
+                </md-tab>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'contestacoes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                    <i class="material-icons">gavel</i>
+                </md-tab>
+                <md-tab ng-click="vmCampeonato.currentNavItem = 'editar'; vmCampeonato.edit()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                    <i class="material-icons">mode_edit</i>
+                </md-tab>
+            </md-tabs>
         </div>
     </div>
 
