@@ -10,7 +10,6 @@ angular.module('player2').factory('CampeonatoUsuario', ['$http', function ($http
         },
 
         save: function (id_campeonato) {
-            console.log(id_campeonato);
             return $http({
                 method: 'POST',
                 url: 'api/campeonatoUsuario',
