@@ -156,7 +156,8 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	    if($todos) {
 			$idSeguidores = $this->seguindo()->getRelatedIds();
 			$idSeguidores->push($this->id);
-            $atividades = Atividade::whereIn('users_id', $idSeguidores)->orderBy('created_at', 'desc')->get();
+            $postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
+            $atividades = Atividade::whereIn('users_id', $idSeguidores)->orWhereIn('post_id', $postsDestinatarios)->orderBy('created_at', 'desc')->get();
         } else {
 			$postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
             $atividades = Atividade::where('users_id','=', $this->id)->orWhereIn('post_id', $postsDestinatarios)->orderBy('created_at', 'desc')->get();
