@@ -151,9 +151,15 @@ class JogosController extends Controller {
 		$campeonatosDoJogo = Campeonato::where("jogos_id", "=", $idJogo)->get();
 
 		foreach ($campeonatosDoJogo as $campeonato) {
-			$campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
-			$campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
-			$campeonato->plataforma = $campeonato->plataforma()->descricao;
+			if($campeonato->faseInicial() != null) {
+				$campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+			}
+			if($campeonato->faseFinal() != null) {
+				$campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+			}
+			if($campeonato->plataforma() != null) {
+				$campeonato->plataforma = $campeonato->plataforma()->descricao;
+			}
 		}
 
 		return $campeonatosDoJogo;

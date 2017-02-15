@@ -37,6 +37,9 @@ class Campeonato extends Eloquent {
 		/*
 		 * Alterar para quantidade maxima de usuarios da fase inicial
 		 */
+        if($this->faseInicial() == null) {
+            return 0;
+        }
         $quantidade_maxima = $this->faseInicial()->quantidade_usuarios;
 		return $quantidade_maxima;
 	}
@@ -480,6 +483,9 @@ class Campeonato extends Eloquent {
          * 3. Em andamento
          * 4. Encerrado
          */
+        if($this->faseInicial() == null || $this->faseFinal() == null) {
+            return 4;
+        }
         if($this->usuariosInscritos()->count() < $this->maximoUsuarios()) {
             return 1;
         }
