@@ -59,6 +59,15 @@
                 controller: 'HomeController as vmHome',
                 acesso: 'registrado'
             })
+            .state('home.criar_campeonato', {
+                url: "/criar_campeonato",
+                templateUrl: "app/components/campeonato_novo/cadastroCampeonato.html",
+                controller: 'CriarCampeonatoController as vmCriarCampeonato',
+                data: {
+                    pageTitle: "messages.campeonato_create",
+                    novo: true
+                }
+            })
             .state('home.partidas_usuario', {
                 url: "/partidas_usuario",
                 templateUrl: "app/components/dashboard/partidasUsuario.html",
@@ -160,15 +169,6 @@
                 controller: 'CampeonatoFrontController as vmCampeonatoFront',
                 data: {
                     pageTitle: "menus.tabela_campeonato"
-                }
-            })
-            .state('criar_campeonato', {
-                url: "/criar_campeonato",
-                templateUrl: "app/components/campeonato_novo/cadastroCampeonato.html",
-                controller: 'CriarCampeonatoController as vmCriarCampeonato',
-                data: {
-                    pageTitle: "messages.campeonato_create",
-                    novo: true
                 }
             })
             .state('profile', {

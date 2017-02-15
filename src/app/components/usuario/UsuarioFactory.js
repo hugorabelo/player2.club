@@ -1,9 +1,7 @@
 angular.module('player2').factory('Usuario', ['$http', function ($http) {
     return {
         show: function (id) {
-            if (id != undefined) {
-                return $http.get('api/usuario/' + id);
-            }
+            return $http.get('api/usuario/' + id);
         },
 
         get: function () {
@@ -30,9 +28,7 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
         },
 
         edit: function (id) {
-            if (id != undefined) {
-                return $http.get('api/usuario/' + id + '/edit');
-            }
+            return $http.get('api/usuario/' + id + '/edit');
         },
 
         update: function (usuario, arquivoPerfil, arquivoCapa) {
