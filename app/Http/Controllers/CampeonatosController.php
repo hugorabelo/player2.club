@@ -122,11 +122,20 @@ class CampeonatosController extends Controller
         $validation = Validator::make($input, Campeonato::$rules);
 
         if ($validation->passes()) {
+            if($input['acesso_campeonato_id'] == null) {
+                unset($input['acesso_campeonato_id']);
+            }
+            if($input['imagem_logo'] == null) {
+                unset($input['imagem_logo']);
+            }
+
             $campeonato = $this->campeonato->find($id);
             $campeonato->update($input);
 
             $detalhes = $campeonato->detalhes();
-            $detalhes->tipo_competidor_id = $inputDetalhes['tipo_competidor_id'];
+            if($inputDetalhes['tipo_competidor_id'] != null) {
+                $detalhes->tipo_competidor_id = $inputDetalhes['tipo_competidor_id'];
+            }
             $detalhes->update();
 
             $faseInicial = $campeonato->faseInicial();
