@@ -620,17 +620,18 @@
                 .cancel(vm.textoNo)
                 .theme('player2');
             $mdDialog.show(confirm).then(function () {
-                $rootScope.loading = true;
-                CampeonatoUsuario.save(vm.campeonato.id)
-                    .success(function (data) {
-                        vm.campeonato.usuarioInscrito = true;
-                    })
-                    .error(function (data) {
-                        toastr.error(data.errors[0]);
-                    });
-            }, function () {
+                    $rootScope.loading = true;
+                    CampeonatoUsuario.save(vm.campeonato.id)
+                        .success(function (data) {
+                            vm.campeonato.usuarioInscrito = true;
+                        })
+                        .error(function (data) {
+                            toastr.error($filter('translate')(data.errors[0]), $filter('translate')('messages.erro_inscricao'));
+                        });
+                },
+                function () {
 
-            });
+                });
         };
 
         vm.sairCampeonato = function (ev) {
@@ -656,5 +657,5 @@
 
             });
         };
-    }]);
+                }]);
 }());
