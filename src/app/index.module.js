@@ -13,7 +13,6 @@
         'pascalprecht.translate',
         'jcs-autoValidate',
         'ui.tree',
-        'trumbowyg-ng',
         'ui.checkbox',
         'ngMaterial',
         'lfNgMdFileInput',
@@ -24,12 +23,13 @@
         'auth0.lock',
         'angular-jwt',
         'LocalStorageModule',
-        'ng-sortable'
+        'ng-sortable',
+        'froala'
     ]);
 
-    angular.module('player2').config(function ($locationProvider) {
-        $locationProvider.html5Mode(true);
-    });
+    //    angular.module('player2').config(function ($locationProvider) {
+    //        $locationProvider.html5Mode(true);
+    //    });
 
     var API_URL = '/';
     //    var API_URL = 'http://localhost/player2/public/';
