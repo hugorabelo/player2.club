@@ -47,8 +47,10 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
             } else {
                 $faseCriada['permite_empate'] = false;
             }
-            $faseCriada['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
-            $faseCriada['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
+            $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
+            $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+            $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
+            $faseCriada['data_fim'] = Carbon::parse($dataFim);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;

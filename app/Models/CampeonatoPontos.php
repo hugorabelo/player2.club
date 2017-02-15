@@ -45,8 +45,10 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase = array();
         $primeiraFase['descricao'] = 'messages.primeira_fase';
         $primeiraFase['permite_empate'] = true;
-        $primeiraFase['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
-        $primeiraFase['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
+        $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
+        $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+        $primeiraFase['data_inicio'] = Carbon::parse($dataInicio);
+        $primeiraFase['data_fim'] = Carbon::parse($dataFim);
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
         $primeiraFase['inicial'] = true;
