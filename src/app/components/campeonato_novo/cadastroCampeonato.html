@@ -72,7 +72,7 @@
                     <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-show="vmCriarCampeonato.templateDetalhes"></div>
 
                     <md-card-actions layout="row" layout-align="end center">
-                        <md-button>{{'fields.cancel' | translate}}</md-button>
+                        <md-button ng-click="vmCriarCampeonato.cancel()">{{'fields.cancel' | translate}}</md-button>
                         <md-button ng-click="vmCriarCampeonato.salvarCampeonato()">{{'fields.save' | translate}}</md-button>
                     </md-card-actions>
                 </form>

@@ -160,6 +160,10 @@
                     });
             };
 
+            vm.cancel = function () {
+                $location.path('/home');
+            };
+
             vm.atualizaCriteriosClassificacao = function () {
                 vm.campeonato.criteriosClassificacaoSelecionados = [];
                 angular.forEach(vm.criteriosClassificacao, function (criterio) {
