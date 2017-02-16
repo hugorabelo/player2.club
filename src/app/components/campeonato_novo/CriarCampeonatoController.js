@@ -17,23 +17,9 @@
             vm.checkBoxCriteriosClassificacao = {};
 
             vm.opcoesEditor = {
-                lang: 'pt',
-                btnsDef: {
-                    // Customizables dropdowns
-                    image: {
-                        dropdown: ['insertImage'],
-                        ico: 'insertImage'
-                    }
-                },
-                btns: [
-                ['viewHTML '], ['undo', 'redo'], ['formatting'],
-                'btnGrp-design', ['link'], ['image'],
-                'btnGrp-justify',
-                'btnGrp-lists', ['foreColor', 'backColor'], ['preformatted'], ['horizontalRule'], ['fullscreen']],
-                plugins: {
-
-                }
-            };
+    language: 'pt_br',
+    //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+};
 
             $scope.$watch(angular.bind(vm, function () {
                 if (vm.campeonato.detalhes !== undefined) {

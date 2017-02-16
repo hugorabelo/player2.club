@@ -33,8 +33,9 @@
         vm.partidasAbertas = false;
 
         vm.opcoesEditor = {
-            language: 'pt_br'
-        }
+            language: 'pt_br',
+            //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+        };
 
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
@@ -231,6 +232,7 @@
 
         //
         vm.iniciaFase = function (ev, fase) {
+            console.log(fase);
             var confirm = $mdDialog.confirm(fase.id)
                 .title(vm.textoConfirmaIniciarFase)
                 .textContent(vm.textoExplicaIniciarfase)
