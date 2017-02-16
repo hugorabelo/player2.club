@@ -20,13 +20,33 @@
                             formData.append(key, value);
                         });
 
-
                         return formData;
                     }
                 });
             },
 
             update: function (post) {
+                if (post.files.length > 0) {
+                    return $http({
+                        method: 'POST',
+                        url: 'api/post/' + post.id,
+                        headers: {
+                            'Content-Type': undefined
+                        },
+                        transformRequest: function (data) {
+                            var formData = new FormData();
+                            angular.forEach(post.files, function (obj) {
+                                formData.append('files[]', obj.lfFile);
+                            });
+
+                            angular.forEach(post, function (value, key) {
+                                formData.append(key, value);
+                            });
+
+                            return formData;
+                        }
+                    });
+                }
                 return $http({
                     method: 'PUT',
                     url: 'api/post/' + post.id,

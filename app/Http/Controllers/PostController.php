@@ -67,7 +67,13 @@ class PostController extends Controller
      */
     public function update($id)
     {
-        $input = array_except(Input::all(), array('_method', '_token'));
+        $input = array_except(Input::all(), array('_method', '_token', 'imagens'));
+        $inputImagens = Input::all();
+        $imagens = isset($inputImagens['files'])? $inputImagens['files'] : array();
+        if($imagens == 'undefined') {
+            $imagens = array();
+        }
+
         $validation = Validator::make($input, Post::$rules);
 
         if ($validation->passes())
@@ -75,6 +81,22 @@ class PostController extends Controller
             $post = $this->post->find($id);
             $dadosPost = array('id'=>$id, 'texto'=>$input['texto']);
             $post->update($dadosPost);
+
+            if(isset($input['imagensRemover']) && is_array($input['imagensRemover'])) {
+                foreach ($input['imagensRemover'] as $imagemRemovida) {
+                    ImagemPost::destroy($imagemRemovida);
+                }
+            }
+
+            foreach($imagens as $arquivo) {
+                if (isset($arquivo) && $arquivo->isValid()) {
+                    $destinationPath = 'uploads/imagens/';
+                    $fileName = 'imagepost_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
+                    $arquivo->move($destinationPath, $fileName);
+
+                    ImagemPost::create(array('url'=>$fileName, 'post_id'=>$post->id));
+                }
+            }
 
             return Response::json(array('success'=>true, 'post'=>$post));
         }

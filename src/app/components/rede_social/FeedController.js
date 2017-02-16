@@ -248,7 +248,7 @@
         vm.atualizar = function (post) {
             Post.update(post)
                 .success(function (data) {
-                    //vm.getFeedDoUsuario();
+                    toastr.success('Post atualizado com sucesso');
                 });
         };
 
@@ -274,9 +274,31 @@
         function DialogControllerEditar($scope, $mdDialog, atividade) {
             $scope.atividade = atividade;
             $scope.post = atividade.objeto;
+            $scope.imagensDoPost = [];
+            angular.copy(atividade.objeto.imagens, $scope.imagensDoPost);
+            $scope.post.imagensRemover = [];
 
             $scope.exibeData = function (novaData) {
                 return vm.exibeData(novaData);
+            }
+
+            $scope.adicionarImagem = function () {
+                if ($scope.inserirImagem) {
+                    $scope.inserirImagem = false;
+                } else {
+                    $scope.inserirImagem = true;
+                }
+            }
+
+            $scope.removeImagemEditar = function (id) {
+                $scope.post.imagensRemover.push(id);
+                var indice = 0;
+                angular.forEach($scope.imagensDoPost, function (imagem) {
+                    if (imagem.id == id) {
+                        $scope.imagensDoPost.splice(indice, 1);
+                    }
+                    indice++;
+                });
             }
 
             $scope.cancel = function () {
