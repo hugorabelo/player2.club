@@ -32,26 +32,9 @@
 
         vm.partidasAbertas = false;
 
-//        vm.opcoesEditor = {
-//            lang: 'pt',
-//            svgPath: 'assets/icons/trumbowyg.svg',
-//
-//            btnsDef: {
-//                // Customizables dropdowns
-//                image: {
-//                    dropdown: ['insertImage'],
-//                    ico: 'insertImage'
-//                }
-//            },
-//            btns: [
-//                ['viewHTML '], ['undo', 'redo'], ['formatting'],
-//                'btnGrp-design', ['link'], ['image'],
-//                'btnGrp-justify',
-//                'btnGrp-lists', ['foreColor', 'backColor'], ['preformatted'], ['horizontalRule'], ['fullscreen']],
-//            plugins: {
-//
-//            }
-//        };
+        vm.opcoesEditor = {
+            language: 'pt_br'
+        }
 
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
