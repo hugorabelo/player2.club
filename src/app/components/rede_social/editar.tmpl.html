@@ -24,7 +24,7 @@
                     <textarea rows="1" class="animate msd-elastic: \n; compartilhar" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="post.texto">
                     </textarea>
                 </div>
-                <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="8" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="4px" md-gutter-gt-sm="2px">
+                <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="8" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="4px" md-gutter-gt-sm="2px" ng-show="imagensDoPost.length > 0">
                     <md-grid-tile ng-repeat="imagem in imagensDoPost">
                         <img src="uploads/imagens/{{imagem.url}}" width="100%" alt="">
                         <md-grid-tile-footer>
@@ -35,7 +35,7 @@
                     </md-grid-tile>
                 </md-grid-list>
                 <div class="adicionar_imagem" ng-show="inserirImagem">
-                    <lf-ng-md-file-input lf-files="post.files" multiple preview drag></lf-ng-md-file-input>
+                    <lf-ng-md-file-input lf-files="post.imagens" multiple preview drag></lf-ng-md-file-input>
                 </div>
             </div>
         </md-dialog-content>

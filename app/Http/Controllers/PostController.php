@@ -69,7 +69,7 @@ class PostController extends Controller
     {
         $input = array_except(Input::all(), array('_method', '_token', 'imagens'));
         $inputImagens = Input::all();
-        $imagens = isset($inputImagens['files'])? $inputImagens['files'] : array();
+        $imagens = isset($inputImagens['imagens'])? $inputImagens['imagens'] : array();
         if($imagens == 'undefined') {
             $imagens = array();
         }
@@ -119,6 +119,11 @@ class PostController extends Controller
         $post->delete();
 
         return Response::json(array('success'=>true, 'idUsuario'=>$idUsuario));
+    }
+
+    public function getImagens($id) {
+        $listaImagens = ImagemPost::where('post_id', '=', $id)->get(array('id', 'url'));
+        return Response::json($listaImagens);
     }
 
 }

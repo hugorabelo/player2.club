@@ -108,6 +108,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('post/usuarioCurtiu', 'PostController@usuarioCurtiu');
     Route::post('post/getComentarios', 'PostController@getComentarios');
     Route::post('post/{id}', 'PostController@update');
+    Route::get('post/imagens/{id}', 'PostController@getImagens');
     Route::resource('post', 'PostController');
 
     Route::post('atividade/curtir', 'AtividadeController@curtir');

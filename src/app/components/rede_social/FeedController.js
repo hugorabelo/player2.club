@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', 'toastr', 'localStorageService', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, toastr, localStorageService, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
+    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', '$timeout', 'toastr', 'localStorageService', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, $timeout, toastr, localStorageService, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
 
         var vm = this;
 
@@ -245,10 +245,14 @@
             });
         };
 
-        vm.atualizar = function (post) {
+        vm.atualizar = function (post, atividade) {
             Post.update(post)
                 .success(function (data) {
                     toastr.success('Post atualizado com sucesso');
+                    Post.getImagens(post.id)
+                        .success(function (data) {
+                            atividade.objeto.imagens = data;
+                        });
                 });
         };
 
@@ -265,13 +269,16 @@
                     fullscreen: true
                 })
                 .then(function (post) {
-                    vm.atualizar(post);
+                    vm.atualizar(post, atividade);
                 }, function () {
                     $scope.status = 'cancel';
                 });
         };
 
         function DialogControllerEditar($scope, $mdDialog, atividade) {
+            $timeout(function () {
+                $scope.$broadcast("elastic:adjust"); // <-- this is the workaround
+            }, 500);
             $scope.atividade = atividade;
             $scope.post = atividade.objeto;
             $scope.imagensDoPost = [];
@@ -388,5 +395,5 @@
             Lightbox.openModal(images, index);
         };
 
-                }]);
+        }]);
 }());

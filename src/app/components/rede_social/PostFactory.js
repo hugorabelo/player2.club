@@ -26,7 +26,7 @@
             },
 
             update: function (post) {
-                if (post.files.length > 0) {
+                if (post.imagens.length > 0) {
                     return $http({
                         method: 'POST',
                         url: 'api/post/' + post.id,
@@ -35,8 +35,8 @@
                         },
                         transformRequest: function (data) {
                             var formData = new FormData();
-                            angular.forEach(post.files, function (obj) {
-                                formData.append('files[]', obj.lfFile);
+                            angular.forEach(post.imagens, function (obj) {
+                                formData.append('imagens[]', obj.lfFile);
                             });
 
                             angular.forEach(post, function (value, key) {
@@ -133,6 +133,14 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
+            },
+
+            show: function (idPost) {
+                return $http.get('api/post/' + idPost);
+            },
+
+            getImagens: function (idPost) {
+                return $http.get('api/post/imagens/' + idPost);
             }
         }
     }]);
