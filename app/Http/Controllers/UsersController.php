@@ -100,7 +100,7 @@ class UsersController extends Controller {
 	{
 		$input = array_except(Input::all(), array('_method', '_token'));
 		foreach ($input as $key=>$valor) {
-			if($valor == 'undefined') {
+			if($valor == 'undefined' || $valor == 'null') {
 				$input[$key] = null;
 			}
 		}

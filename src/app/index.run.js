@@ -76,14 +76,6 @@
         // Listen for 401 unauthorized requests and redirect
         // the user to the login page
         authManager.redirectWhenUnauthenticated();
-
-        //        verificaUsuarioLogado($rootScope, $window, localStorageService);
     }
-
-    //    function verificaUsuarioLogado($rootScope, $window, localStorageService) {
-    //        if ($rootScope.usuarioLogado == null) {
-    //            $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
-    //        }
-    //    }
 
 })();
