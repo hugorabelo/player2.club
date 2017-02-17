@@ -78,73 +78,83 @@
         authManager.redirectWhenUnauthenticated();
     }
 
-    //    angular.module('player2')
-    //        .factory('validacaoCustomizada', ['toastr',
-    //            function (toastr) {
-    //                var
-    //                /**
-    //                 * @ngdoc function
-    //                 * @name myCustomElementModifier#makeValid
-    //                 * @methodOf myCustomElementModifier
-    //                 *
-    //                 * @description
-    //                 * Makes an element appear valid by apply custom styles and child elements.
-    //                 *
-    //                 * @param {Element} el - The input control element that is the target of the validation.
-    //                 */
-    //                    makeValid = function (el) {
-    //                        // do some code here...
-    //                    },
-    //
-    //                    /**
-    //                     * @ngdoc function
-    //                     * @name myCustomElementModifier#makeInvalid
-    //                     * @methodOf myCustomElementModifier
-    //                     *
-    //                     * @description
-    //                     * Makes an element appear invalid by apply custom styles and child elements.
-    //                     *
-    //                     * @param {Element} el - The input control element that is the target of the validation.
-    //                     * @param {String} errorMsg - The validation error message to display to the user.
-    //                     */
-    //                    makeInvalid = function (el, errorMsg) {
-    //                        toastr.error(errorMsg, 'Erro de Validação');
-    //                        // do some code here...
-    //                    },
-    //
-    //
-    //                    /**
-    //                     * @ngdoc function
-    //                     * @name myCustomElementModifier#makeDefault
-    //                     * @methodOf myCustomElementModifier
-    //                     *
-    //                     * @description
-    //                     * Makes an element appear in its default visual state.
-    //                     *
-    //                     * @param {Element} el - The input control element that is the target of the validation.
-    //                     */
-    //                    makeDefault = function (el) {
-    //                        // return the element to a default visual state i.e. before any form of validation was applied
-    //                    };
-    //
-    //                return {
-    //                    makeValid: makeValid,
-    //                    makeInvalid: makeInvalid,
-    //                    makeDefault: makeDefault,
-    //                    key: 'myCustomModifierKey'
-    //                };
-    //            }
-    //        ]);
-    //
-    //    // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
-    //    angular.module('player2')
-    //        .run([
-    //        'validator',
-    //        'validacaoCustomizada',
-    //        function (validator, myCustomElementModifier) {
-    //                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
-    //                validator.setDefaultElementModifier(myCustomElementModifier.key);
-    //        }
-    //    ]);
+    angular.module('player2')
+        .factory('validacaoCustomizada', [
+                    function () {
+                var
+                /**
+                 * @ngdoc function
+                 * @name myCustomElementModifier#makeValid
+                 * @methodOf myCustomElementModifier
+                 *
+                 * @description
+                 * Makes an element appear valid by apply custom styles and child elements.
+                 *
+                 * @param {Element} el - The input control element that is the target of the validation.
+                 */
+                    makeValid = function (el) {
+                        // do some code here...
+                    },
+
+                    /**
+                     * @ngdoc function
+                     * @name myCustomElementModifier#makeInvalid
+                     * @methodOf myCustomElementModifier
+                     *
+                     * @description
+                     * Makes an element appear invalid by apply custom styles and child elements.
+                     *
+                     * @param {Element} el - The input control element that is the target of the validation.
+                     * @param {String} errorMsg - The validation error message to display to the user.
+                     */
+                    makeInvalid = function (el, errorMsg) {
+                        var name = el[0].id + '-error';
+                        var objeto = document.getElementById(name);
+                        if (objeto == null) {
+                            var sp1 = document.createElement("span");
+                            sp1.id = name;
+                            console.log(sp1.id);
+                            sp1.className = "validation-error";
+                            sp1.innerHTML = errorMsg;
+                            el[0].parentNode.insertBefore(sp1, el[0].nextSibling);
+                        } else {
+                            objeto.innerHTML = errorMsg;
+                        }
+                    },
+
+
+                    /**
+                     * @ngdoc function
+                     * @name myCustomElementModifier#makeDefault
+                     * @methodOf myCustomElementModifier
+                     *
+                     * @description
+                     * Makes an element appear in its default visual state.
+                     *
+                     * @param {Element} el - The input control element that is the target of the validation.
+                     */
+                    makeDefault = function (el) {
+                        // return the element to a default visual state i.e. before any form of validation was applied
+                    };
+
+                return {
+                    makeValid: makeValid,
+                    makeInvalid: makeInvalid,
+                    makeDefault: makeDefault,
+                    key: 'myCustomModifierKey'
+                };
+                    }
+                ]);
+
+    // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
+    angular.module('player2')
+        .run([
+                'validator',
+                'validacaoCustomizada',
+                function (validator, myCustomElementModifier) {
+                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
+                validator.setDefaultElementModifier(myCustomElementModifier.key);
+                }
+            ]);
 
 })();
