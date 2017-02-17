@@ -297,7 +297,17 @@
         "logout": "Sair",
         "feedback": "Dar um feedback",
         "erro_inscricao": "Houve um erro na inscrição",
-        "usuario_sem_plataforma": "Você não possui nenhum id de usuário compatível com o console deste campeonato. Você pode cadastrar algum ao editar o seu perfil."
+        "usuario_sem_plataforma": "Você não possui nenhum id de usuário compatível com o console deste campeonato. Você pode cadastrar algum ao editar o seu perfil.",
+
+        "dados_invalidos": "Dados Inválidos",
+        "preencher_campos": "Você deve preencher todos os campos",
+        "operacao_nao_concluida": "A operação não foi concluída",
+
+        "fase_anterior_aberta": "A fase anterior está aberta",
+        "fase_sem_quantidade_minima_usuarios": "A fase não possui a quantidade mínima de usuários cadastrados",
+        "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
+        "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase"
+
     },
 
     "generos": {

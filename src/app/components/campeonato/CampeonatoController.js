@@ -243,17 +243,21 @@
                 .theme('player2');
 
             $mdDialog.show(confirm).then(function () {
-                fase.dadosFase.id = fase.id;
-                Campeonato.abreFase(fase.dadosFase)
-                    .success(function (data) {
-                        fase.aberta = true;
-                    }).error(function (data, status) {
-                        vm.messageOperacaoFase = data.messages;
-                        vm.status = status;
-                    });
-            }, function () {
+                    if (fase.dadosFase == undefined) {
+                        toastr.error($filter('translate')('messages.preencher_campos'), $filter('translate')('messages.dados_invalidos'));
+                    } else {
+                        fase.dadosFase.id = fase.id;
+                        Campeonato.abreFase(fase.dadosFase)
+                            .success(function (data) {
+                                fase.aberta = true;
+                            }).error(function (data, status) {
+                                toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                            });
+                    }
+                },
+                function () {
 
-            });
+                });
         };
 
         vm.encerraFase = function (ev, fase) {
@@ -272,8 +276,7 @@
                         fase.encerrada = true;
                         fase.aberta = false;
                     }).error(function (data, status) {
-                        vm.messageOperacaoFase = data.messages;
-                        vm.status = status;
+                        toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                     });
             }, function () {
 
