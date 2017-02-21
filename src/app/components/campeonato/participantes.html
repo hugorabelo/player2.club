@@ -10,8 +10,7 @@
                     <tr ng-repeat="participante in vmCampeonato.querySearch(vmCampeonato.searchText)" ng-click="vmCampeonato.carregaParticipanteDestaque(participante)">
                         <td class="client-avatar"><img alt="image" class="img-circle" src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
                         <td>{{participante.nome}}</td>
-                        <td>{{participante.localizacao}}</td>
-                        <td class="client-status"><span class="label label-primary">Active</span></td>
+                        <td hide-xs>{{participante.localizacao}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -29,7 +28,7 @@
                         <img alt="image" class="img-circle" src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}" style="width: 62px">
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" layout="column">
                     <strong>
                             {{'messages.sobre_mim' | translate}}
                         </strong>
@@ -52,11 +51,13 @@
                 <tbody>
                     <tr ng-repeat="partida in vmCampeonato.participanteDestaque.ultimos_jogos">
                         <td class="col-xs-1 text-right">{{partida.rodada}}ª</td>
-                        <td class="col-xs-4 text-right">{{partida.usuarios[0].nome}}</td>
+                        <td class="col-xs-4 text-right" hide-xs>{{partida.usuarios[0].nome}}</td>
+                        <td class="col-xs-4 text-right" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</td>
                         <td class="col-xs-1 text-center">{{partida.usuarios[0].placar}}</td>
                         <td class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></td>
                         <td class="col-xs-1 text-center">{{partida.usuarios[1].placar}}</td>
-                        <td class="col-xs-4 text-left">{{partida.usuarios[1].nome}}</td>
+                        <td class="col-xs-4 text-left" hide-xs>{{partida.usuarios[1].nome}}</td>
+                        <td class="col-xs-4 text-left" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</td>
                     </tr>
                 </tbody>
             </table>
