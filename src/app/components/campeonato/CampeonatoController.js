@@ -612,6 +612,7 @@
                     CampeonatoUsuario.save(vm.campeonato.id)
                         .success(function (data) {
                             vm.campeonato.usuarioInscrito = true;
+                            vm.getParticipantes(vm.campeonato.id);
                         })
                         .error(function (data) {
                             toastr.error($filter('translate')(data.errors[0]), $filter('translate')('messages.erro_inscricao'));
@@ -637,6 +638,7 @@
                 Usuario.desistirCampeonato(vm.campeonato.id)
                     .success(function (data) {
                         vm.campeonato.usuarioInscrito = false;
+                        vm.getParticipantes(vm.campeonato.id);
                     })
                     .error(function (data) {
 
