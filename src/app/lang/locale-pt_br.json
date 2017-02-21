@@ -77,7 +77,7 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "Gamertag",
+        "gamertag": "Nome de Usuário",
         "localizacao": "Localização",
         "grupo": "Grupo",
         "salvar_resultado": "Salvar resultado",
@@ -171,7 +171,7 @@
         "usuario_create": "Criar Usuário",
         "usuario_edit": "Editar Perfil de Usuário",
         "usuario_empty": "Não existe nenhum Usuário cadastrado",
-        "usuario_gamertags": "Gamertags do Usuário",
+        "usuario_gamertags": "Plataformas do Usuário",
         "usuario_imagens": "Imagens do Usuário",
 
         "campeonato_list": "Campeonatos",
