@@ -1,26 +1,29 @@
-<div flex layout="row" layout-wrap class="header-profile" layout-align="start end" style="background-image: url('uploads/usuarios/capa/{{vmProfile.usuario.imagem_capa}}');">
-    <div class="profile-image">
-        <a ui-sref="profile({idUsuario: vmProfile.usuario.id})">
-            <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
-        </a>
-    </div>
-    <div class="profile-info">
-        <div class="">
-            <div>
-                <h2 class="no-margins">
+<div flex layout="row" layout-xs="column" layout-wrap class="header-profile" layout-align="space-between end" layout-align-xs="center end" style="background-image: url('uploads/usuarios/capa/{{vmProfile.usuario.imagem_capa}}');">
+    <div layout="row" layout-xs="column" layout-align="start end" layout-align-xs="center end">
+        <div class="profile-image">
+            <a ui-sref="profile({idUsuario: vmProfile.usuario.id})">
+                <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+            </a>
+        </div>
+        <div class="profile-info">
+            <div class="">
+                <div>
+                    <h2 class="no-margins">
                         {{vmProfile.usuario.nome}} {{idUsuario}}
                     </h2>
-                <h4>{{vmProfile.usuario.sigla}}</h4>
-                <small>
-                        {{vmProfile.usuario.descricao}}
-                    </small>
+                    <h4 hide-xs>{{vmProfile.usuario.sigla}}</h4>
+                    <small hide-xs hide-sm>
+                    {{vmProfile.usuario.descricao}}
+                </small>
+                </div>
             </div>
         </div>
     </div>
-    <span flex></span>
-    <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
-    </md-button>
-    <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+    <div>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+    </div>
     <!--    <div class="coverBorder"></div>-->
 
 </div>
