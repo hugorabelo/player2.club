@@ -58,8 +58,9 @@ class PermissaoController extends Controller {
 		$input = Input::except('files');
 		$inputFiles = Input::all();
 		$files = isset($inputFiles['files'])? $inputFiles['files'] : array();
+		$texto = isset($input['texto']) ? $input['texto']: '';
 
-		Mail::send('emailBugReport', ['conteudo' => $input['texto']], function($message) use ($input, $files) {
+		Mail::send('emailBugReport', ['conteudo' => $texto], function($message) use ($input, $files) {
 			$message->from('contato@player2.club', $name = 'player2.club');
 			$message->to('incoming+hugorabelo/ligavirtual+7o1aq39cb9drxtwn31x3awu83@gitlab.com', $name = 'GitLab');
 			$message->subject($input['titulo']);
