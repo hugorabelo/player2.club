@@ -26,49 +26,51 @@
 <md-card class="feed" ng-repeat="atividade in vmFeed.atividades track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->
-    <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row">
+    <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">
         <div flex layout="column" layout-align="space-between">
             <div class="social-body">
                 <p>
                     {{atividade.objeto.texto}}
                 </p>
             </div>
-            <div class="social-avatar" layout="row">
+            <div class="social-avatar" layout="column">
 
-                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                    <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
-                </a>
+                <div>
+                    <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                        <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                    </a>
 
-                <div class="media-body" flex>
-                    <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
+                    <div class="media-body" flex>
+                        <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
 
-                    <!-- mensagem sobre jogo -->
-                    <div ng-show="atividade.objeto.jogos_id">
-                        <span class="text-muted ">{{atividade.descricao | translate}}</span>
-                        <!-- escreveu sobre jogo -->
-                        <a ui-sref="jogo({idJogo: atividade.objeto.jogos_id}) "> {{atividade.objeto.descricao_jogo}}</a>
-                    </div>
+                        <!-- mensagem sobre jogo -->
+                        <div ng-show="atividade.objeto.jogos_id">
+                            <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                            <!-- escreveu sobre jogo -->
+                            <a ui-sref="jogo({idJogo: atividade.objeto.jogos_id}) "> {{atividade.objeto.descricao_jogo}}</a>
+                        </div>
 
-                    <!-- mensagem para usuário -->
-                    <div ng-show="atividade.objeto.destinatario_id">
-                        <span class="text-muted ">{{atividade.descricao | translate}}</span>
-                        <!-- falou para usuário -->
-                        <a ui-sref="profile({idUsuario: atividade.objeto.destinatario_id}) "> {{atividade.objeto.descricao_destinatario}}</a>
-                    </div>
+                        <!-- mensagem para usuário -->
+                        <div ng-show="atividade.objeto.destinatario_id">
+                            <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                            <!-- falou para usuário -->
+                            <a ui-sref="profile({idUsuario: atividade.objeto.destinatario_id}) "> {{atividade.objeto.descricao_destinatario}}</a>
+                        </div>
 
-                    <div class="clearfix"></div>
-                    <small class="text-muted">
+                        <div class="clearfix"></div>
+                        <small class="text-muted">
                         {{ vmFeed.exibeData(atividade.created_at) }}
                     </small>
-                    <p ng-show="atividade.curtidas.length" class="m-n">
-                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                        <p ng-show="atividade.curtidas.length" class="m-n">
+                            <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                             <md-tooltip md-direction="top" class="tt-curtida">
                                 <span ng-repeat="curtida in atividade.curtidas">
                                    {{curtida.nome}} <br>
                                </span>
                             </md-tooltip>
                         </a>
-                    </p>
+                        </p>
+                    </div>
                 </div>
 
 
@@ -113,7 +115,7 @@
             </div>
         </div>
 
-        <ul id="imagens" class="images-post" ng-show="atividade.objeto.imagens.length" flex="33">
+        <ul id="imagens" class="images-post" ng-show="atividade.objeto.imagens.length" flex="33" flex-xs="100" flex-order-xs="-1">
             <li ng-repeat="imagem in atividade.objeto.imagens track by $index">
                 <a ng-click="vmFeed.openLightboxModal(atividade.objeto.imagens, $index)">
                     <img src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
@@ -129,30 +131,31 @@
                 {{atividade.objeto.texto}}
             </p>
         </div>
-        <div class="social-avatar " layout="row ">
+        <div class="social-avatar" layout="row" layout-xs="column">
+            <div layout-fill>
+                <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left ">
+                    <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.usuario.imagem_perfil}} ">
+                </a>
+                <div class="media-body " flex layout="column ">
+                    <div class="social-avatar corpo_post ">
+                        <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
+                        <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                        <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id}) "> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
 
-            <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left ">
-                <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.usuario.imagem_perfil}} ">
-            </a>
-            <div class="media-body " flex layout="column ">
-                <div class="social-avatar corpo_post ">
-                    <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
-                    <span class="text-muted ">{{atividade.descricao | translate}}</span>
-                    <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id}) "> {{atividade.objeto.compartilhamento.usuario.nome}}</a>
-
-                    <div class="clearfix "></div>
-                    <small class="text-muted ">
+                        <div class="clearfix "></div>
+                        <small class="text-muted ">
                         {{ vmFeed.exibeData(atividade.created_at) }}
                     </small>
-                    <p ng-show="atividade.curtidas.length " class="m-n ">
-                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                        <p ng-show="atividade.curtidas.length " class="m-n ">
+                            <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
                            {{curtida.nome}} <br>
                        </span>
                     </md-tooltip>
                     </a>
-                    </p>
+                        </p>
+                    </div>
                 </div>
                 <div class="social-avatar post_compartilhado ">
                     <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id}) " class="pull-left ">
@@ -168,7 +171,7 @@
                     </small>
                 </div>
             </div>
-            <ul id="imagens" class="images-post" ng-show="atividade.objeto.compartilhamento.imagens.length" flex="33">
+            <ul id="imagens" class="images-post" ng-show="atividade.objeto.compartilhamento.imagens.length" flex="33" flex-xs="100" flex-order-xs="-1">
                 <li ng-repeat="imagem in atividade.objeto.compartilhamento.imagens track by $index">
                     <a ng-click="vmFeed.openLightboxModal(atividade.objeto.compartilhamento.imagens, $index)">
                             <img src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
@@ -226,33 +229,32 @@
     <!-- entrou em campeonato -->
     <div ng-show="atividade.campeonato_usuarios_id">
         <p></p>
-        <div class="social-avatar" layout="row">
-            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
-            </a>
+        <div class="social-avatar" layout="column">
+            <div>
+                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                </a>
 
-            <div class="media-body" flex>
-                <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
-                <span class="text-muted ">{{atividade.descricao | translate}}</span>
-                <a ui-sref="campeonato({idCampeonato: atividade.objeto.id}) "> {{atividade.objeto.descricao}}</a>
+                <div class="media-body" flex>
+                    <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
+                    <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                    <a ui-sref="campeonato({idCampeonato: atividade.objeto.id}) "> {{atividade.objeto.descricao}}</a>
 
-                <div class="clearfix"></div>
-                <small class="text-muted">
+                    <div class="clearfix"></div>
+                    <small class="text-muted">
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
-                <p ng-show="atividade.curtidas.length" class="m-n">
-                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                    <p ng-show="atividade.curtidas.length" class="m-n">
+                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
                            {{curtida.nome}} <br>
                        </span>
                     </md-tooltip>
                     </a>
-                </p>
-
-
+                    </p>
+                </div>
             </div>
-
 
             <div class=" botoes_acao " layout="row " layout-align="end end ">
                 <div>
@@ -292,7 +294,8 @@
     <div ng-show="atividade.partidas_id">
         <div class="placar-jogo-equipes">
             <div class="placar-jogo-equipes-mandante col-xs-4">
-                <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[0].nome}}">{{atividade.objeto.usuarios[0].nome}}</span>
+                <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[0].nome}}" hide-xs>{{atividade.objeto.usuarios[0].nome}}</span>
+                <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[0].nome}}" hide-gt-xs>{{atividade.objeto.usuarios[0].sigla}}</span>
                 <img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{atividade.objeto.usuarios[0].distintivo}}" title="{{atividade.objeto.usuarios[0].nome}}">
             </div>
             <div class="placar-jogo-equipes-placar col-xs-4">
@@ -304,37 +307,37 @@
             </div>
             <div class="placar-jogo-equipes-visitante col-xs-4">
                 <img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" src="uploads/usuarios/{{atividade.objeto.usuarios[1].distintivo}}" title="{{atividade.objeto.usuarios[0].nome}}">
-                <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[1].nome}}">{{atividade.objeto.usuarios[1].nome}}</span>
+                <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[1].nome}}" hide-xs>{{atividade.objeto.usuarios[1].nome}}</span>
+                <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[1].nome}}" hide-gt-xs>{{atividade.objeto.usuarios[1].sigla}}</span>
             </div>
         </div>
 
-        <div class="social-avatar" layout="row">
-            <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
-            </a>
+        <div class="social-avatar" layout="column">
+            <div>
+                <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
+                    <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                </a>
 
-            <div class="media-body" flex>
-                <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
-                <span class="text-muted ">{{atividade.descricao | translate}}</span>
-                <a ui-sref="campeonato({idCampeonato: atividade.objeto.campeonato.id})">{{atividade.objeto.campeonato.descricao}}</a>
+                <div class="media-body" flex>
+                    <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left m-r-xs ">{{atividade.usuario.nome}}</a>
+                    <span class="text-muted ">{{atividade.descricao | translate}}</span>
+                    <a ui-sref="campeonato({idCampeonato: atividade.objeto.campeonato.id})">{{atividade.objeto.campeonato.descricao}}</a>
 
-                <div class="clearfix"></div>
-                <small class="text-muted">
+                    <div class="clearfix"></div>
+                    <small class="text-muted">
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
-                <p ng-show="atividade.curtidas.length" class="m-n">
-                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
+                    <p ng-show="atividade.curtidas.length" class="m-n">
+                        <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
                            {{curtida.nome}} <br>
                        </span>
                     </md-tooltip>
                     </a>
-                </p>
-
-
+                    </p>
+                </div>
             </div>
-
 
             <div class=" botoes_acao " layout="row " layout-align="end end ">
                 <div>

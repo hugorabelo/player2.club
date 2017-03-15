@@ -468,7 +468,9 @@ md-tabs.md-player2-theme,
         }
     }
     &.post_compartilhado {
-        border-left: 2px solid @cinza-escuro;
+        border-left: 4px solid @cinza-escuro;
+        margin-top: 10px;
+        padding-left: 25px;
         .img-circle {
             width: 40px;
             height: 40px;
@@ -777,6 +779,12 @@ md-card.feed {
     }
     img {
         border: 1px solid @cinza-escuro;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .images-post {
+        margin-bottom: 10px;
     }
 }
 
