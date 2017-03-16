@@ -33,7 +33,7 @@
                     <div class="col-md-9">
                         <lf-ng-md-file-input name="files" lf-files="files" lf-required></lf-ng-md-file-input>
                         <div ng-messages="formulario.files.$error" class="validation-error">
-                            <div ng-message="required">{{'messages.campo_obrigatorio' | translate}}</div>
+                            <div ng-message="required" ng-show="formulario.$submitted">{{'messages.campo_obrigatorio' | translate}}</div>
                         </div>
                     </div>
                 </div>
