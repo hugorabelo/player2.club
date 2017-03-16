@@ -48,7 +48,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			//TODO exibir apenas partidas de um determinado campeonato
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
 			$grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
-			$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortByDesc('created_at');
+			$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortByDesc('id');
 		} else {
 			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
 		}
