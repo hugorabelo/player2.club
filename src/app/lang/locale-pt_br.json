@@ -306,8 +306,9 @@
         "fase_anterior_aberta": "A fase anterior está aberta",
         "fase_sem_quantidade_minima_usuarios": "A fase não possui a quantidade mínima de usuários cadastrados",
         "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
-        "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase"
+        "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase",
 
+        "campo_obrigatorio": "Este campo é obrigatório"
     },
 
     "generos": {
