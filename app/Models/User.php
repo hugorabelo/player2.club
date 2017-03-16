@@ -71,7 +71,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	public function partidasEmAberto() {
         $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
-        $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortByDesc('data_placar');
+        $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
         foreach($partidas as $partida) {
             $partida->confirmarPlacarAutomaticamente();
             if($partida->contestada()) {
