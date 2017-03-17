@@ -21,7 +21,7 @@
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
             </div>
-            <div>
+            <div flex="20">
 
                 <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao" hide-xs>
                     <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">
@@ -93,7 +93,7 @@
                             {{'fields.placar_confirmado' | translate}}
                         </md-tooltip>
                     </md-button>
-                    <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
+                    <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada" hide-xs>
                         <i class="fa fa-hourglass fa-lg"></i>
                         <md-tooltip md-direction="top" class="multiline">
                             {{'fields.aguardando_confirmacao' | translate}}

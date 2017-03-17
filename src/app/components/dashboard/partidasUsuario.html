@@ -14,7 +14,7 @@
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
                         <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante hidden-xs" alt="profile">
                     </div>
-                    <div flex="30" flex-xs="40" class="text-center" layout-align="space-around center">
+                    <div flex="30" flex-xs="40" class="text-center" layout-align="space-around center" layout="row">
                         <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar">
                         <i class="fa fa-close fa-fw"></i>
                         <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar">
