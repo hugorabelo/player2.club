@@ -107,7 +107,7 @@ angular.module('player2').controller('UsuarioTipoController', ['$scope', '$rootS
             .targetEvent(ev)
             .ok($scope.textoYes)
             .cancel($scope.textoNo)
-            .theme('default');
+            .theme('player2');
 
         $mdDialog.show(confirm).then(function () {
             $rootScope.loading = true;

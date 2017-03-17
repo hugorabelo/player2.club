@@ -1,31 +1,47 @@
-<form name="formularioGamertag" novalidate="novalidate" ng-submit="vmProfile.salvaUserPlataforma()">
-
-    <div class="row" ng-show="messageUserPlataforma">
-        <div class="col-md-12">
-            <div class="alert alert-danger error">
-                {{ messageUserPlataforma }}
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
             </div>
-        </div>
-    </div>
+        </md-toolbar>
 
-    <div class="form-group">
-        <label for="plataforma" class="sr-only" translate>fields.plataformas_id</label>
-        <select id="plataformas_id" class="form-control" ng-model="vmProfile.userPlataforma.plataformas_id" ng-options="plataforma.id as plataforma.descricao for plataforma in vmProfile.plataformas" required>
-        </select>
-    </div>
+        <md-dialog-content>
+            <div class="md-dialog-content">
 
-    <div class="form-group">
-        <label for="gamertag" class="sr-only" translate>fields.gamertag</label>
-        <input type="text" id="gamertag" class="form-control" ng-model="vmProfile.userPlataforma.gamertag" required placeholder="{{ 'fields.gamertag' | translate }}" />
-    </div>
+                <div class="row" ng-show="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="form-group" ng-hide="true">
-        <div class="col-md-9">
-            <input type="text" id="users_id" class="form-control" ng-model="vmProfile.userPlataforma.users_id" required />
-        </div>
-    </div>
+                <md-input-container class="md-block">
+                    <label>{{'fields.plataformas_id' | translate}}</label>
+                    <md-select ng-model="userPlataforma.plataformas_id" required>
+                        <md-option ng-repeat="plataforma in plataformas" ng-value="plataforma.id">
+                            {{plataforma.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
-    <div class="form-group pull-right">
-        <button type="submit" class="btn btn-primary" translate>fields.save</button>
-    </div>
-</form>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.gamertag' | translate}}</label>
+                    <input ng-model="userPlataforma.gamertag" required>
+                </md-input-container>
+
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="salvarGamerTag()">{{'fields.save' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

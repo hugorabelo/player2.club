@@ -8,7 +8,6 @@ class Campeonato extends Eloquent {
 
 	public static $rules = array(
 		'descricao' => 'required',
-		'regras' => 'required',
 		'jogos_id' => 'required',
 		'campeonato_tipos_id' => 'required',
 		'plataformas_id' => 'required'
@@ -38,6 +37,9 @@ class Campeonato extends Eloquent {
 		/*
 		 * Alterar para quantidade maxima de usuarios da fase inicial
 		 */
+        if($this->faseInicial() == null) {
+            return 0;
+        }
         $quantidade_maxima = $this->faseInicial()->quantidade_usuarios;
 		return $quantidade_maxima;
 	}
@@ -62,23 +64,25 @@ class Campeonato extends Eloquent {
 	}
 
 	public function detalhes() {
-		return $this->hasMany('CampeonatoDetalhes', 'campeonatos_id')->get()->first();
+		return $this->hasOne('CampeonatoDetalhes', 'campeonatos_id')->getResults();
 	}
 
 	public function salvarPlacar($partida) {
 	    $partidaBD = Partida::find($partida['id']);
-        if(isset($partidaBD->data_placar)) {
+        $contestada = isset($partida['edita_contestacao']);
+        if(isset($partidaBD->data_placar) && !$contestada) {
             return 'messages.placares_existente';
         }
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
-		return $nomeClasse::salvarPlacarPartida($partida);
-	}
+        $retorno = $nomeClasse::salvarPlacarPartida($partida);
+        return $retorno;
+    }
 
-    public function abreFase($dadosFase) {
+    public function abreFase($dadosFase, $faseAtual, $campeonato) {
         $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
 		$novoCampeonato = new $nomeClasse($this->toArray());
 
-        return $novoCampeonato->iniciaFase($dadosFase);
+        return $novoCampeonato->iniciaFase($dadosFase, $faseAtual, $campeonato);
     }
 
 	public function fechaFase($dadosFase) {
@@ -122,6 +126,7 @@ class Campeonato extends Eloquent {
 	public function ordenarUsuariosPorCriterioDeClassificacao($usuarios) {
 		$criteriosDeClassificacao = $this->criteriosOrdenados();
 
+        /*
 		$makeComparer = function($criteria) {
 			$comparer = function ($first, $second) use ($criteria) {
 				foreach ($criteria as $key => $orderType) {
@@ -136,21 +141,28 @@ class Campeonato extends Eloquent {
 			};
 			return $comparer;
 		};
+        */
 
 		$sort = app()->make(Collection::class);
 		foreach ($criteriosDeClassificacao as $criterio) {
 			$sort->put($criterio->valor, $criterio->ordenacao);
 		}
 		$sort = $sort->toArray();
+        /*
 		$comparer = $makeComparer($sort);
-		$usuarios->sort($comparer);
+		$usuariosRetorno = $usuarios->sort($comparer);
+        $usuariosRetorno->values()->all();
+        */
 
-		$usuarios->values()->all();
+        $comparer = app()->make("collection.multiSort",$sort);
+        $sorted = $usuarios->sort($comparer);
+        $usuariosRetorno = app()->make(Collection::class);
+        $usuariosRetorno = $sorted->values();
 
-		return $usuarios;
+		return $usuariosRetorno;
 	}
 
-    public function iniciaFase($dadosFase)
+    public function iniciaFase($dadosFase, $faseAtual, $campeonato)
     {
         /*
          * Objeto Fase deve conter os seguintes atributos:
@@ -166,9 +178,6 @@ class Campeonato extends Eloquent {
          */
 
         /** 2. Inscrever usuários classificados da fase anterior */
-        $faseAtual = CampeonatoFase::find($dadosFase['id']);
-        $campeonato = Campeonato::find($faseAtual->campeonatos_id);
-
         if ($faseAtual == $campeonato->faseInicial()) {
             $usuariosDaFase = $campeonato->usuariosInscritos();
             foreach ($usuariosDaFase as $posicao => $usuario) {
@@ -465,5 +474,68 @@ class Campeonato extends Eloquent {
             }
         }
         return null;
+    }
+
+    public function status() {
+        /*
+         * 1. Inscrições abertas
+         * 2. A iniciar
+         * 3. Em andamento
+         * 4. Encerrado
+         */
+        if($this->faseInicial() == null || $this->faseFinal() == null) {
+            return 4;
+        }
+        if($this->usuariosInscritos()->count() < $this->maximoUsuarios()) {
+            return 1;
+        }
+        if($this->faseFinal()->encerrada) {
+            return 4;
+        }
+        $fase = $this->faseInicial();
+        if($fase->aberta) {
+            return 3;
+        }
+        while($fase = $fase->proximaFase()) {
+            if($fase->aberta) {
+                return 3;
+            }
+        }
+        return 2;
+    }
+
+    public function pontuacoes($idFase = null) {
+        $nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
+        $novoCampeonato = new $nomeClasse($this->toArray());
+
+        return $novoCampeonato->pontuacoes($idFase);
+    }
+
+    public function partidas() {
+        $partidasDoCampeonato = app()->make(Collection::class);
+        $fases = $this->fases();
+        foreach ($fases as $fase) {
+            $grupos = $fase->grupos();
+            foreach ($grupos as $grupo) {
+                $partidas = $grupo->partidas();
+                foreach ($partidas as $partida) {
+                    $partida->usuarios = $partida->usuarios();
+                    $partidasDoCampeonato->add($partida);
+                }
+            }
+        }
+        return $partidasDoCampeonato;
+    }
+
+    public function partidasContestadas() {
+        $partidasContestadas = app()->make(Collection::class);
+        $partidas = $this->partidas();
+        foreach ($partidas as $partida) {
+            if($partida->contestada()) {
+                $partida->contestacao = ContestacaoResultado::where('partidas_id','=',$partida->id)->first();
+                $partidasContestadas->add($partida);
+            }
+        }
+        return $partidasContestadas;
     }
 }

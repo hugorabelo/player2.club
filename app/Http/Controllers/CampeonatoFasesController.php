@@ -164,7 +164,7 @@ class CampeonatoFasesController extends Controller {
 			}
 		}
 
-		$usuariosDaFase = $campeonato->abreFase($dadosFase);
+		$usuariosDaFase = $campeonato->abreFase($dadosFase, $faseAtual, $campeonato);
 
         return Response::json($usuariosDaFase);
     }
@@ -179,6 +179,12 @@ class CampeonatoFasesController extends Controller {
 		if(!$administradores->contains($usuarioLogado->id)) {
 			return Response::json(array('success'=>false,
                 'messages'=>array('messages.operacao_nao_permitida_nao_administrador')),300);
+		}
+
+		// Verificar se existem partidas contestadas na fase
+		if($campeonato->partidasContestadas()->count() > 0) {
+			return Response::json(array('success'=>false,
+				'messages'=>array('messages.fase_com_partidas_contestadas')),300);
 		}
 
 		$campeonato->fechaFase($dadosFase);

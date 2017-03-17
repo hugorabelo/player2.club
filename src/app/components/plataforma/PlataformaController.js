@@ -109,7 +109,7 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
             .targetEvent(ev)
             .ok(vm.textoYes)
             .cancel(vm.textoNo)
-            .theme('default');
+            .theme('player2');
 
         $mdDialog.show(confirm).then(function () {
             $rootScope.loading = true;

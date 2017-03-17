@@ -1,0 +1,28 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{tituloModal | translate}}</h2>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2>{{'fields.usuario_id' | translate}}</h2>
+            <img src="uploads/usuarios/{{contestacao.usuario.imagem_perfil}}" class="img-circle img-sm m-r pull-left" alt="">
+            <h3>{{contestacao.usuario.nome}}</h3>
+            <div class="clearfix"></div>
+            <h2>{{'fields.descricao' | translate}}</h2>
+            <p>
+                {{contestacao.comentarios}}
+            </p>
+
+            <h2>{{'fields.printscreen' | translate}}</h2>
+            <img src="uploads/{{contestacao.imagem}}" class="img-responsive" alt="">
+        </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+        <md-button ng-click="fechar()">{{'messages.close' | translate}}</md-button>
+    </md-dialog-actions>
+</md-dialog>

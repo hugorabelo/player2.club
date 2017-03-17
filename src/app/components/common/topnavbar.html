@@ -1,36 +1,131 @@
-<div class="row border-bottom" ng-controller="TopNavController as vmTopNav">
-    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <span minimaliza-sidebar></span>
-            <form role="search" class="navbar-form-custom" method="post" action="">
-                <div class="form-group">
-                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                </div>
-            </form>
-        </div>
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="number" class="form-control" placeholder="Usuário Logado" ng-model="vmTopNav.usuarioLogado">
+<md-toolbar ng-controller="TopNavController as vmTopNav" class="md-accent topo-principal">
+    <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <a href="/" flex="20">
+            <img alt="" height="50" src="assets/images/player2.png" data-pin-nopin="true" hide-xs>
+            <img alt="" height="50" src="assets/images/player2_xs.png" data-pin-nopin="true" hide-gt-xs>
+        </a>
+        <div flex="60" layout="row" layout-align="space-between center">
+
+
+            <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template">
+                <md-item-template>
+                    <span class="item-title">
+                        <img src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-show="item.tipo == 'profile'">
+                        <img src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
+                        <span> {{item.descricao}} </span>
+                    </span>
+                </md-item-template>
+            </md-autocomplete>
+
+            <div class="icones-topo" ng-show="false">
+                <i class="material-icons md-24">home</i>
+                <i class="material-icons md-24">comment</i>
+                <i class="material-icons md-24">videogame_asset</i>
             </div>
-            <button class="btn btn-default" ng-click="vmTopNav.mudaUsuarioLogado()">OK</button>
-        </form>
-        <ul class="nav navbar-top-links navbar-right">
-            <!--
-            <li class="dropdown">
-<a href="" class="dropdown-toggle" data-toggle="dropdown">
-    <i class="fa fa-fw fa-language"></i> <span translate>menus.language</span> <i class="caret"></i>
-</a>
-<ul class="dropdown-menu" role="menu">
-</ul>
-</li>
--->
-            <li><a ng-click="vmTopNav.mudaIdioma('pt_br')"><i class="flag-icon flag-icon-br"></i> <span translate>menus.lang_br</span></a></li>
-            <li><a ng-click="vmTopNav.mudaIdioma('en_us')"><i class="flag-icon flag-icon-us"></i> <span translate>menus.lang_en</span></a></li>
-            <li>
-                <a href="">
-                    <i class="fa fa-sign-out"></i> Log out
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
+        </div>
+        <div flex="20" layout="row" flex layout-align="end center">
+
+            <md-menu md-position-mode="target-right target" md-offset="-10 64">
+                <div layout="column" layout-align="center center" ng-click="$mdOpenMenu()">
+                    <img class="img-circle img-xs m-t-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+                    <h5 hide-xs><span>{{usuarioLogado.nome}}</span></h5>
+                </div>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="vmTopNav.mudaIdioma('pt_br')">
+                            <div layout="row" flex>
+                                <i class="flag-icon flag-icon-br"></i> {{'menus.lang_br' | translate}}
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vmTopNav.mudaIdioma('en_us')">
+                            <div layout="row" flex>
+                                <i class="flag-icon flag-icon-us"></i> {{'menus.lang_en' | translate}}
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-divider></md-menu-divider>
+                    <md-menu-item>
+                        <md-button ui-sref="home.editar_perfil">
+                            <div layout="row" flex>
+                                Editar Perfil
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="criar_campeonato">
+                            <div layout="row" flex>
+                                Criar Campeonato
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="home.campeonatos">
+                            <div layout="row" flex>
+                                Campeonatos
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-controller="HomeController as vmHome">
+                        <md-button ui-sref="home.seguindo({idUsuario: vmHome.usuario.id})">
+                            <div layout="row" flex>
+                                Seguindo
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-controller="HomeController as vmHome">
+                        <md-button ui-sref="home.seguidores({idUsuario: vmHome.usuario.id})">
+                            <div layout="row" flex>
+                                Seguidores
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ui-sref="home.partidas_usuario">
+                            <div layout="row" flex>
+                                Minhas Partidas
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-divider></md-menu-divider>
+                    <md-menu-item ng-controller="LoginController as vmAuth">
+                        <md-button ng-click="vmAuth.logout()">
+                            <div layout="row" flex>
+                                <i class="flag-icon flag-icon-us"></i> {{'messages.logout' | translate}}
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                    <div ng-show="false">
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="cadastroJogo">{{'menus.jogos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="plataforma">{{'menus.plataformas' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="campeonatoTipo">{{'menus.campeonatoTipos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ui-sref="usuario">{{'menus.usuarios' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="usuarioTipo">{{'menus.usuarioTipos' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="menu">{{'menus.menus' | translate}}</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ui-sref="permissao">{{'menus.permissoes' | translate}}</md-button>
+                        </md-menu-item>
+                    </div>
+                </md-menu-content>
+            </md-menu>
+        </div>
+    </div>
+</md-toolbar>

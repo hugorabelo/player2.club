@@ -1,0 +1,38 @@
+<md-dialog aria-label="{{'messages.feedback' | translate}}" flex="70">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'messages.feedback' | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container class="md-block">
+                    <label>{{'fields.titulo' | translate}}</label>
+                    <input ng-model="feedback.titulo" required>
+                </md-input-container>
+                <label for="">{{'fields.descreva_problema' | translate}}</label>
+                <div class="escrever_post">
+                    <textarea rows="1" class="animate msd-elastic: \n; compartilhar" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="feedback.texto" required>
+                    </textarea>
+                </div>
+                <label for="">{{'fields.screenshot' | translate}}</label>
+                <lf-ng-md-file-input lf-files="feedback.files" multiple preview drag></lf-ng-md-file-input>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+                {{'fields.cancel' | translate}}
+            </md-button>
+            <md-button ng-click="salvar()">
+                {{'fields.save' | translate}}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -13,17 +13,26 @@
         'pascalprecht.translate',
         'jcs-autoValidate',
         'ui.tree',
-        'summernote',
         'ui.checkbox',
         'ngMaterial',
-        'lfNgMdFileInput'
+        'lfNgMdFileInput',
+        'monospaced.elastic',
+        'ngScrollSpy',
+        'bootstrapLightbox',
+        'toastr',
+        'auth0.lock',
+        'angular-jwt',
+        'LocalStorageModule',
+        'ng-sortable',
+        'froala'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
     //        $locationProvider.html5Mode(true);
     //    });
 
-
+    var API_URL = '/';
+    //    var API_URL = 'http://localhost/player2/public/';
 
     angular.module('player2').config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
@@ -39,23 +48,17 @@
     });
 
     angular.module('player2')
-        .config(function ($mdThemingProvider) {
-            $mdThemingProvider.theme('default')
-                .primaryPalette('teal')
-                .accentPalette('orange');
-        });
-
-    angular.module('player2')
         .config(function ($mdDateLocaleProvider, $translateProvider) {
-
-            $mdDateLocaleProvider.formatDate = function (date) {
-                return date ? moment(date).format('DD/MM/YYYY') : '';
-            };
 
             $mdDateLocaleProvider.parseDate = function (dateString) {
                 var m = moment(dateString, 'DD/MM/YYYY', true);
                 return m.isValid() ? m.toDate() : new Date(NaN);
             };
+
+            $mdDateLocaleProvider.formatDate = function (date) {
+                return date ? moment(date).format('DD/MM/YYYY') : '';
+            };
+
 
             $mdDateLocaleProvider.months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
             $mdDateLocaleProvider.shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
@@ -63,5 +66,110 @@
             $mdDateLocaleProvider.shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
         });
+
+    angular.module('player2')
+        .config(function ($httpProvider) {
+            $httpProvider.interceptors.push(apiInterceptor);
+        });
+
+
+    function apiInterceptor($q) {
+        return {
+            request: function (config) {
+                var url = config.url;
+
+                // ignore template requests
+                var extensao = url.substr(url.length - 5);
+                if (extensao == '.html' || extensao == '.json') {
+                    return config || $q.when(config);
+                }
+
+                config.url = API_URL + config.url;
+                return config || $q.when(config);
+            }
+        }
+    };
+
+    angular.module('player2').config(function (LightboxProvider) {
+        LightboxProvider.templateUrl = 'app/components/common/lightbox-modal.html';
+
+        LightboxProvider.calculateModalDimensions = function (dimensions) {
+            var width = Math.max(400, dimensions.imageDisplayWidth + 60);
+
+            if (width >= dimensions.windowWidth - 20 || dimensions.windowWidth < 768) {
+                width = 'auto';
+            }
+
+            return {
+                'width': width, // default
+                'height': 'auto' // custom
+            };
+        };
+
+        LightboxProvider.getImageUrl = function (image) {
+            return 'uploads/imagens/' + image.url;
+        };
+    });
+
+    angular.module('player2').config(function (toastrConfig) {
+        angular.extend(toastrConfig, {
+            newestOnTop: true,
+            positionClass: 'toast-bottom-center',
+            extendedTimeOut: 1000,
+            progressBar: true,
+            tapToDismiss: true,
+            timeOut: 8000,
+            allowHtml: true,
+            closeButton: true
+        });
+    });
+
+    angular.module('player2').config(['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
+        lockProvider.init({
+            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
+            domain: 'hugorabelo.auth0.com',
+            options: {
+                auth: {
+                    params: {
+                        scope: 'openid email picture name picture_large'
+                    },
+                    redirectUrl: 'http://beta.player2.club/',
+                    responseType: 'token'
+                },
+                theme: {
+                    logo: 'http://www.player2.club/img/player2_azul.png',
+                    primaryColor: "#0c486b"
+                },
+                languageDictionary: {
+                    title: ""
+                },
+                language: "pt-BR",
+                allowSignUp: false
+            }
+        });
+
+        // Configuration for angular-jwt
+        jwtOptionsProvider.config({
+            tokenGetter: ['options', function (options) {
+                if (options && options.url.indexOf('http://auth0.com') === 0) {
+                    return localStorage.getItem('auth0.id_token');
+                }
+                return localStorage.getItem('id_token');
+            }],
+            whiteListedDomains: ['localhost'],
+            unauthenticatedRedirectPath: '/login'
+        });
+
+        // Add the jwtInterceptor to the array of HTTP interceptors
+        // so that JWTs are attached as Authorization headers
+        $httpProvider.interceptors.push('jwtInterceptor');
+    }]);
+
+    angular.module('player2').config(function (localStorageServiceProvider) {
+        localStorageServiceProvider
+            .setStorageType('sessionStorage')
+            .setNotify(true, true)
+            .setDefaultToCookie(false);
+    });
 
 })();

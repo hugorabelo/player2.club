@@ -1,4 +1,21 @@
 // out: null
+@borda-imagem: #CCC;
+@cinza-escuro: #999;
+@cor-primaria: #0b486b;
+@verde-padrao: #c7f464;
+@black: #000;
+@white: #FFF;
+@fontsize-default: 14px;
+body {
+    font-family: Roboto, sans-serif;
+    font-size: @font-size-base;
+}
+
+/* Rules for sizing the icon. */
+
+i.material-icons {
+    vertical-align: middle;
+}
 figure.foto_perfil {
     position: relative;
 }
@@ -10,7 +27,7 @@ figure.foto_perfil figcaption {
     margin: 0;
     position: absolute;
     width: 100%;
-    background-color: #fff;
+    background-color: @white;
     background-color: rgba(255, 255, 255, 0.5);
     color: rgba(255, 255, 255, 0.5);
 }
@@ -78,6 +95,12 @@ input.placar-input {
 .tabela-classificacao {
     /*	background-color: chartreuse;*/
     border-bottom: 1px solid rgb(192, 192, 192);
+    a {
+        color: @black;
+        &:hover {
+            color: @black;
+        }
+    }
 }
 .placar-jogo-equipes,
 .placar-jogo-equipes-matamata {
@@ -91,21 +114,21 @@ input.placar-input {
 }
 .placar-jogo-equipes-matamata {
     border: 1px solid rgb(192, 192, 192);
+    border: 1px solid @cinza-escuro;
     margin: -1px 0 0 -1px;
     overflow: hidden;
     background: white;
+    padding-left: 10px;
 }
 .placar-jogo-equipes-mandante,
 .placar-jogo-equipes-visitante,
 .placar-jogo-equipes-placar {
     padding: 0;
 }
-.placar-jogo-equipes-mandante,
-.placar-jogo-equipes-placar-mandante {
+.placar-jogo-equipes-mandante {
     text-align: right;
 }
-.placar-jogo-equipes-visitante,
-.placar-jogo-equipes-placar-visitante {
+.placar-jogo-equipes-visitante {
     text-align: left;
 }
 .placar-jogo-equipes-placar-matamata {
@@ -113,6 +136,7 @@ input.placar-input {
     height: 70px;
     line-height: 70px;
     border: 1px solid rgb(192, 192, 192);
+    border: 1px solid @cinza-escuro;
     margin: -1px 0 0 -1px;
     /*    background: #eee;*/
     background-image: linear-gradient(to bottom, white, #ddd);
@@ -126,10 +150,10 @@ input.placar-input {
     width: 25px;
 }
 .placar-jogo-equipes-escudo-mandante {
-    margin: 0 8px;
+    //    margin: 0 8px;
 }
 .placar-jogo-equipes-escudo-visitante {
-    margin: 0 8px
+    //    margin: 0 8px
 }
 .placar-jogo-equipes-placar-mandante,
 .placar-jogo-equipes-placar-visitante,
@@ -149,27 +173,30 @@ input.placar-input {
     margin-bottom: 20px;
 }
 .lista-de-jogos-item {
-    background: white;
+    //    background: rgba(255, 255, 255, 0.7);
+    background: transparent;
     margin-left: 0;
 }
 .mata-conector1 {
-    border: 1px solid rgb(192, 192, 192);
+    //    border: 1px solid rgb(192, 192, 192);
+    border: 1px solid @cinza-escuro;
     height: 187px;
     /*	position: absolute;*/
     /*	width: 100%;*/
     margin-top: -256px;
-    margin-right: 5%;
+    margin-right: -5px;
     border-left: 0;
     background: transparent;
     z-index: -3;
 }
 .mata-conector2 {
-    background: rgb(192, 192, 192);
+    //    background: rgb(192, 192, 192);
+    background: @cinza-escuro;
     height: 1px;
-    width: 5%;
+    width: 10px;
     /*	position: absolute;*/
-    margin-top: -95px;
-    margin-right: 0;
+    margin-top: -165px;
+    margin-right: -15px;
     z-index: -3;
     float: right;
 }
@@ -177,7 +204,7 @@ input.placar-input {
     width: 100%;
 }
 a.disabled {
-    color: #999999;
+    color: @cinza-escuro;
 }
 a.disabled:hover {
     text-decoration: none;
@@ -187,11 +214,528 @@ a.disabled:hover {
 .gamertag-element img {
     height: 30px;
 }
-.md-dialog-container {
+md-menu-item > a.md-button {
+    padding-top: 0;
+}
+.header-profile {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    color: white;
+    text-rendering: optimizeLegibility;
+    text-shadow: 0 0 3px rgba(0, 0, 0, .8);
+    font-size: 24px;
+    height: 200px;
+    position: relative;
+}
+.profile-image {
+    margin: 10px;
+}
+.user-rating {
+    color: yellow;
+    font-size: 3em;
+    text-align: center;
+}
+textarea {
+    resize: none;
+}
+.escrever_post {
+    md-card-header {
+        padding: 0;
+        margin: 8px 16px 0;
+    }
+    md-card-content {
+        margin: 0 16px;
+        padding: 8px 0;
+        border-top: 1px solid #e5e6e7;
+        border-bottom: 1px solid #e5e6e7;
+    }
+    textarea {
+        border: none;
+        height: auto;
+        min-height: 60px;
+        padding-left: 100px;
+        padding-right: 50px;
+        color: @black;
+        width: 100%;
+        &.compartilhar {
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+    }
+    img {
+        background: @borda-imagem;
+        height: 80px;
+        width: 80px;
+        border: 3px solid @borda-imagem;
+        border-radius: 50%;
+        position: absolute;
+        margin-top: -10px;
+        margin-left: 10px;
+    }
+    .icones {
+        margin-bottom: -60px;
+        position: relative;
+        margin-right: 0;
+        float: right;
+        width: 40px;
+        i {
+            color: @borda-imagem;
+        }
+        .md-icon-button {
+            margin: 0;
+            padding: 0;
+            height: 30px;
+            width: 30px;
+            min-height: 0;
+            line-height: normal;
+        }
+    }
+    .imagens_post {
+        background: @white;
+        display: block;
+        padding: 20px 12px 0;
+        md-chips-wrap {
+            border-top: 1px solid #E6E6E6;
+        }
+    }
+}
+.curtiu,
+.curtiu:hover,
+.curtiu:focus,
+.curtiu:active {
+    color: @cor-primaria !important;
+}
+.dropdown {
+    .md-fab-top-right {
+        top: 0;
+        right: 0;
+    }
+}
+.m-r-0 {
+    margin-right: 0 !important;
+}
+.texto_compartilhamento {
+    font-size: 14px;
+    margin-left: 4px;
+    a {
+        display: inline !important;
+    }
+}
+.badge-primary,
+.label-primary {
+    background-color: #0b486b;
+}
+.client-detail {
+    //    height: auto;
+}
+.md-nav-bar {
+    .md-button {
+        color: #0b486b !important;
+    }
+}
+.md-toolbar-tools {
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+}
+body:before {
+    content: "";
+    background: url('../assets/images/background/background_estadio.jpg');
+    //    background: url('../assets/images/background/gears_of_war_brotherhood.jpg');
+    background-position: center center;
+    //background-size: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    display: block;
     width: 100%;
     height: 100%;
-    top: 0 !important;
-    bottom: 0px;
-    left: 0px !important;
+    filter: blur(5px);
+}
+md-content.conteudo-principal {
+    background-color: transparent !important;
+}
+md-card.md-player2-theme,
+md-nav-bar.md-player2-theme .md-nav-bar,
+md-tabs.md-player2-theme,
+{
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0;
+}
+.social-body {
+    font-size: @fontsize-default;
+}
+.social-avatar {
+    padding: 15px;
+    padding-top: 0;
+    img {
+        height: auto;
+        width: auto;
+        margin: 0;
+    }
+    .img-circle {
+        border: 2px solid @borda-imagem;
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+    .media-body {
+        font-size: @fontsize-default;
+        a {
+            font-size: @fontsize-default;
+            color: @cor-primaria;
+            text-transform: uppercase;
+            display: inline;
+            &.small {
+                text-transform: none;
+                font-size: 10px;
+            }
+        }
+        .text-muted {
+            color: #676767;
+        }
+    }
+    .botoes_acao {
+        .md-icon-button {
+            margin: 0 -5px;
+            padding: 0;
+            //            width: 30px;
+            //            height: 30px;
+            color: @cinza-escuro;
+            &:hover {
+                color: @white;
+            }
+        }
+    }
+    &.corpo_post {
+        p {
+            margin: 0;
+        }
+    }
+    &.post_compartilhado {
+        border-left: 4px solid @cinza-escuro;
+        margin-top: 10px;
+        padding-left: 25px;
+        .img-circle {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+    }
+}
+.social-footer {
+    border-color: @borda-imagem;
+    background-color: rgba(255, 255, 255, 0.3);
+    .botoes_acao {
+        .md-icon-button {
+            margin: -10px -5px 0;
+            padding: 0;
+            //            width: 30px;
+            //            height: 30px;
+            color: @cinza-escuro;
+            &:hover {
+                color: @white;
+            }
+            i.material-icons {
+                font-size: 14px;
+            }
+        }
+    }
+}
+.profile-image-lg {
+    img {
+        width: 220px;
+        height: 220px;
+    }
+}
+.img-lg {
+    height: 80px !important;
+    width: 80px !important;
+}
+.img-md {
+    height: 50px !important;
+    width: 50px !important;
+}
+.img-sm {
+    height: 40px !important;
+    width: 40px !important;
+}
+.img-xs {
+    height: 32px !important;
+    width: 32px !important;
+}
+.social-comment {
+    margin-top: 0;
+    textarea {
+        margin-bottom: 10px;
+    }
+}
+.caixa-flutuante {
+    background: rgba(0, 0, 0, 0.5);
+    color: @white;
+    padding: 12px;
+}
+.box-include {
+    margin: 0 !important;
+}
+.topo_teste {
+    background-color: rgba(199, 244, 100, 0.4);
+    color: rgba(0, 0, 0, 0.87);
+    background-image: linear-gradient(to right, #404e27, rgba(199, 244, 100, 0.5));
+}
+.animate:focus {
+    -webkit-transition: height 50ms ease-in-out;
+    -moz-transition: height 50ms ease-in-out;
+    -o-transition: height 50ms ease-in-out;
+    transition: height 50ms ease-in-out;
+}
+md-tooltip.tt-curtida,
+md-tooltip.multiline {
+    .md-content {
+        height: auto;
+    }
+}
+.caixa-informacao-titulo {
+    position: relative;
+    h3 {
+        background-color: transparent !important;
+        color: @verde-padrao;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        font-weight: normal;
+        float: left;
+    }
+    a {
+        position: absolute;
+        right: 0;
+        color: @cinza-escuro;
+        &:hover {
+            color: @verde-padrao;
+        }
+        i {
+            transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -ms-transform: scaleX(-1);
+        }
+    }
+}
+.circle-border-sm {
+    border: 2px solid @cinza-escuro;
+    border-radius: 50%;
+}
+.profile-image {
+    .img-capa-jogo {
+        width: 95px;
+        height: 120px;
+    }
+}
+md-content[md-scroll-y] {
+    overflow-y: hidden;
+}
+// Corrigir problema do mdDialog que aparecia desalinhado
+body.md-dialog-is-showing {
+    overflow: visible !important;
+}
+.coverBorder {
+    background: url('../assets/images/coverBorder.png') bottom left repeat-x;
+    border-bottom-color: rgba(0, 0, 0, .4);
+    border: 1px solid #000;
+    border-color: rgba(0, 0, 0, .25);
+    border-top-color: rgba(0, 0, 0, .1);
+    border: none;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.topo-principal {
+    background: url('../assets/images/topo_bg_extendido.png') top center no-repeat;
+    .img-circle {
+        border: 1px solid @white;
+        border-radius: 50%;
+        background: @white;
+    }
+    h5 {
+        color: @white;
+    }
+    .md-menu {
+        margin: 0;
+    }
+    md-autocomplete {
+        width: 70%;
+        margin-left: 16px;
+    }
+}
+a.menu-usuario,
+h3.menu-acessorio_titulo,
+h3.secao_titulo,
+a.menu-acessorio {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #E6E6E6;
+    font-weight: 300;
+    &:hover {
+        color: @verde-padrao;
+    }
+}
+h3.menu-acessorio_titulo,
+h3.secao_titulo {
+    font-weight: 400;
+    color: @verde-padrao;
+    text-align: center;
+}
+h3.secao_titulo {
+    font-size: 20px;
+    text-align: left;
+}
+a.menu-acessorio {
+    font-size: 16px;
+}
+.card-usuarios {
+    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    color: @black;
+    .body-content {
+        padding: 15px;
+        overflow: hidden;
+    }
+    img {
+        margin: 0 auto;
+    }
+}
+.caixa-pesquisa {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    md-input-container {
+        margin-bottom: 0;
+        .md-errors-spacer {
+            min-height: 0;
+        }
+    }
+}
+md-card.feed {
+    margin-left: 0;
+    margin-right: 0;
+}
+.item-lista {
+    background-color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3px;
+    color: @black;
+}
+.icones-topo {
+    margin-right: 16px;
+    color: @white;
+}
+.infobar {
+    .detalhes-jogo {
+        text-align: center;
+        border-bottom: 2px solid #E6E6E6;
+        padding-bottom: 10px;
+        .titulo-jogo {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: @white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        img {
+            width: 60%;
+            margin: 10px auto 20px;
+        }
+        .info {
+            font-weight: bold;
+            i {
+                color: @verde-padrao;
+                margin-right: 5px;
+            }
+        }
+    }
+    ul.itens {
+        padding: 0;
+        list-style-type: none;
+        li {
+            padding: 0;
+            margin-bottom: 2px;
+            a {
+                height: 30px;
+                line-height: 30px;
+                padding: 0 3px;
+                color: @white;
+                display: block;
+                font-size: 14px;
+                font-weight: 400;
+                &:hover {
+                    background: rgba(255, 255, 255, 0.2);
+                }
+            }
+        }
+    }
+}
+.partida-detalhe-campeonato {
+    font-size: 12px;
+    text-align: center;
+    height: 30px;
+    line-height: 20px;
+    padding-top: 10px;
+    font-weight: bold;
+}
+.images-post {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    .img-thumb {
+        width: 33%;
+        float: left;
+    }
+    img {
+        border: 1px solid @cinza-escuro;
+    }
+}
+@media screen and (max-width: 599px) {
+    .images-post {
+        margin-bottom: 10px;
+    }
+}
+.box_login {
+    margin-top: 100px;
+    img {
+        width: 500px;
+    }
+}
+body {
+    margin-bottom: 50px;
+}
+#barra-report {
     position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(196, 77, 88, 0.6);
+    z-index: 999;
+    .versao {
+        color: @white;
+        font-size: 10px;
+        margin-left: 10px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .auth0-lock.auth0-lock {
+        position: fixed !important;
+    }
+}
+.fr-box.fr-basic.fr-top > div > a {
+    display: none !important;
+}
+.validation-error {
+    font-size: 0.8em;
+    text-align: left;
+    width: 100%;
+    color: #9f353f;
+}
+.altura-maxima {
+    min-height: 100%;
 }

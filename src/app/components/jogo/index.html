@@ -1,51 +1,75 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2 translate>messages.jogo_list</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.config</a>
-            </li>
-            <li>
-                <a ui-sref="jogo" translate>menus.jogos</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
+<div flex layout-gt-xs="row" layout-xs="column" layout-margin ng-init="vmJogo.inicializa()">
 
-    </div>
-</div>
+    <div flex-gt-xs="33" layout="column" class="caixa-flutuante infobar" layout-margin>
+        <!--        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>-->
+        <div class="detalhes-jogo">
+            <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
+                <h3 class="titulo-jogo">{{vmJogo.jogo.descricao}}</h3>
+            </a>
+            <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
+                <img src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
+            </a>
+            <div layout="row" layout-align="space-around center">
+                <span class="info">
+                   <i class="material-icons">style</i>
+                    {{vmJogo.jogo.genero}}
+                </span>
+                <span class="info">
+                   <i class="material-icons">extension</i>
+                   {{vmJogo.jogo.produtora}}
+                </span>
+                <span class="info" hide-xs>
+                   <i class="material-icons">date_range</i>
+                    {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
+                </span>
+            </div>
+            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
 
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
-
-        <p>
-            <md-button class="md-primary md-raised" ng-click="vmJogo.create($event)">
-                {{'messages.jogo_add' | translate}}
+            <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
             </md-button>
-        </p>
-
-        <table class="table table-striped">
-            <tr>
-                <th translate>fields.descricao</th>
-                <th translate>fields.imagem_capa</th>
-                <th>&nbsp;</th>
-            </tr>
-            <tr ng-repeat="jogo in vmJogo.jogos">
-                <td>{{ jogo.descricao }}</td>
-                <td class="col-xs-2"><img ng-src="uploads/{{jogo.imagem_capa}}" class="img-responsive" /></td>
-                <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-warning" ng-click="vmJogo.edit($event, jogo.id)" tooltip="{{'fields.edit' | translate}}">
-                        <i class="fa fa-pencil fa-fw"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger" ng-click="vmJogo.delete($event, jogo.id)" tooltip="{{'fields.delete' | translate}}">
-                        <i class="fa fa-trash-o fa-fw"></i>
-                    </button>
-                </td>
-            </tr>
-        </table>
-
+            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        </div>
+        <div class="caixa-informacao-titulo" ng-show="false">
+            <h3>{{'messages.analises' | translate}}</h3>
+            <a ui-sref=".analises">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.campeonato_list' | translate}}</h3>
+            <a ui-sref=".campeonatos">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <ul class="itens">
+            <li ng-repeat="campeonato in vmJogo.campeonatos">
+                <a ui-sref="campeonato({idCampeonato: campeonato.id})">{{campeonato.descricao}} <span class="pull-right">{{campeonato.plataforma}}</span> </a>
+            </li>
+        </ul>
+        <div class="caixa-informacao-titulo" ng-show="false">
+            <h3>{{'messages.melhores_jogadores' | translate}}</h3>
+            <a ui-sref=".ranking">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.seguidores' | translate}}</h3>
+            <a ui-sref=".seguidores">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <ul class="itens">
+            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
+                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
+                <md-tooltip md-direction="top ">
+                    {{seguidor.nome}}
+                </md-tooltip>
+            </a>
+        </ul>
     </div>
+
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()"></div>
+    </div>
+
 </div>

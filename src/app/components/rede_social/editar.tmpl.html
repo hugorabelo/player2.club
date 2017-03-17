@@ -1,0 +1,52 @@
+<md-dialog aria-label="{{'fields.edit' | translate}}" flex="70">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'fields.edit' | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="escrever_post">
+                    <div class="icones">
+                        <md-button class="md-icon-button" ng-click="adicionarImagem()">
+                            <md-tooltip md-direction="top">
+                                {{'messages.inserir_foto' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons">photo_camera</i>
+                        </md-button>
+                    </div>
+                    <textarea rows="1" class="animate msd-elastic: \n; compartilhar" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="post.texto">
+                    </textarea>
+                </div>
+                <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="8" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="4px" md-gutter-gt-sm="2px" ng-show="imagensDoPost.length > 0">
+                    <md-grid-tile ng-repeat="imagem in imagensDoPost">
+                        <img src="uploads/imagens/{{imagem.url}}" width="100%" alt="">
+                        <md-grid-tile-footer layout="column">
+                            <md-button ng-click="removeImagemEditar(imagem.id)">
+                                <i class="material-icons">delete</i>
+                            </md-button>
+                        </md-grid-tile-footer>
+                    </md-grid-tile>
+                </md-grid-list>
+                <div class="adicionar_imagem" ng-show="inserirImagem">
+                    <lf-ng-md-file-input lf-files="post.imagens" multiple preview drag></lf-ng-md-file-input>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">
+                {{'fields.cancel' | translate}}
+            </md-button>
+            <md-button ng-click="salvar()">
+                {{'fields.update' | translate}}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

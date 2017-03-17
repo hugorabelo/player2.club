@@ -1,32 +1,13 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+<md-card>
+    <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.usuario_list</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.config</a>
-            </li>
-            <li>
-                <a ui-sref="usuario" translate>menus.usuarios</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
-
-    </div>
-</div>
-
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
-
-        <p>
-            <md-button class="md-primary md-raised" ng-click="vmUsuario.create($event)"> {{'messages.usuario_add' | translate}}
-            </md-button>
-        </p>
-
-        <table class="table table-striped">
+        <span flex></span>
+        <md-button class="md-raised" ng-click="vmUsuario.create($event)">
+            {{'messages.usuario_add' | translate}}
+        </md-button>
+    </md-toolbar>
+    <md-card-content>
+        <table class="table">
             <tr>
                 <th translate>fields.nome</th>
                 <th translate>fields.email</th>
@@ -48,10 +29,5 @@
                 </td>
             </tr>
         </table>
-
-    </div>
-</div>
-
-<div formulario-usuario></div>
-
-<div modal-confirma></div>
+    </md-card-content>
+</md-card>

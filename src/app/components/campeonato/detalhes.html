@@ -1,0 +1,75 @@
+<md-card flex>
+
+    <md-toolbar class="md-toolbar-tools">
+        <h2 translate>messages.operacao_list</h2>
+    </md-toolbar>
+
+    <md-card-content>
+
+        <md-tabs class="md-primary">
+            <md-tab ng-repeat="fase in vmCampeonato.campeonatoFases">
+                <md-tab-label>{{ fase.descricao | translate }}</md-tab-label>
+                <md-tab-body>
+                    <md-content class="md-padding">
+                        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-hide="fase.encerrada">
+                            <md-input-container class="md-block" flex ng-hide="fase.aberta">
+                                <label>{{'fields.data_fim' | translate}}</label>
+                                <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim"></md-datepicker>
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block" flex ng-hide="fase.aberta || !fase.matamata">
+                                <label>{{'fields.tipo_sorteio_matamata' | translate}}</label>
+                                <md-select ng-model="fase.dadosFase.tipo_sorteio_matamata">
+                                    <md-option value="aleatorio">{{'fields.sorteio_aleatorio' | translate}}</md-option>
+                                    <md-option value="geral">{{'fields.sorteio_geral' | translate}}</md-option>
+                                    <md-option value="grupo">{{'fields.sorteio_grupo' | translate}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
+                                <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+
+    </md-card-content>
+</md-card>
+<md-card flex flex-gt-sm="33">
+
+    <md-toolbar class="md-toolbar-tools">
+        <h2 translate>messages.campeonatoAdmin_list</h2>
+    </md-toolbar>
+
+    <md-card-content>
+
+        <div layout="row">
+            <md-input-container class="md-icon-float md-block" flex>
+                <label>{{'fields.usuario_id' | translate}}</label>
+                <md-select ng-model="vmCampeonato.novoAdministrador">
+                    <md-option ng-repeat="participante in vmCampeonato.campeonato.participantes" value="{{participante.id}}">
+                        {{participante.nome}}
+                    </md-option>
+                </md-select>
+
+            </md-input-container>
+            <div class=" m-t">
+                <md-button class="md-icon-button" ng-click="vmCampeonato.salvaAdministrador()"><i class="fa fa-plus fa-lg" aria-label="Salvar Administrador" aria-hidden="true"></i>
+                </md-button>
+            </div>
+        </div>
+
+        <md-list-item ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores | orderBy:'usuario'" class="noright">
+            <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="md-avatar" />
+            <p>{{ administrador.usuario.nome }}</p>
+            <md-button class="md-icon-button" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador($event, administrador.id)">
+                <i class="fa fa-trash-o fa-fw"></i>
+                <md-tooltip md-direction="top ">
+                    {{'messages.campeonatoAdmin_delete' | translate}}
+                </md-tooltip>
+            </md-button>
+        </md-list-item>
+
+    </md-card-content>
+</md-card>

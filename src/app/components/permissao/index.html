@@ -1,26 +1,8 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+<md-card>
+    <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.permissao_list</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.config</a>
-            </li>
-            <li>
-                <a ui-sref="permissao" translate>menus.permissoes</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
-
-    </div>
-</div>
-
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
-
+    </md-toolbar>
+    <md-card-content>
         <div class="ibox-content">
             <h2 translate>messages.usuarioTipo_select</h2>
             <select id="menu_pai" class="form-control" ng-model="vmPermissao.permissao.usuario_tipos_id" ng-options="usuarioTipo.id as usuarioTipo.descricao for usuarioTipo in vmPermissao.usuarioTipos" required ng-change="vmPermissao.getPermissoes()">
@@ -57,11 +39,10 @@
                 </li>
             </ol>
 
-            <br clear="all" />
-
-            <button type="button" class="btn btn-primary" ng-click="vmPermissao.save()" translate>fields.save</button>
-            <button type="button" class="btn btn-default" ng-click="vmPermissao.cancel()" translate>fields.cancel</button>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="vmPermissao.cancel()">{{'fields.cancel' | translate}}</md-button>
+                <md-button ng-click="vmPermissao.save()">{{'fields.save' | translate}}</md-button>
+            </md-card-actions>
         </div>
-
-    </div>
-</div>
+    </md-card-content>
+</md-card>

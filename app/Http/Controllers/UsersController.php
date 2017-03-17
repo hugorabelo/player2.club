@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Collection;
+
 class UsersController extends Controller {
 
 	/**
@@ -15,7 +17,10 @@ class UsersController extends Controller {
 	}
 
 	public function show($id) {
+	    $colunas = array('id', 'nome');
 		$usuario = User::find($id);
+        $usuario->seguidores = $usuario->seguidores()->get();
+        $usuario->seguindo = $usuario->seguindo()->get();
 		return Response::json($usuario);
 	}
 
@@ -94,6 +99,11 @@ class UsersController extends Controller {
 	public function update($id)
 	{
 		$input = array_except(Input::all(), array('_method', '_token'));
+		foreach ($input as $key=>$valor) {
+			if($valor == 'undefined' || $valor == 'null') {
+				$input[$key] = null;
+			}
+		}
 		User::$rules['email'] = 'required|email|unique:users,email,' . $id;
 		User::$rules['password'] = '';
 		$validation = Validator::make($input, User::$rules);
@@ -110,16 +120,26 @@ class UsersController extends Controller {
 			/*
 			 * Movendo o arquivo para o diretório correto
 			 */
-			$arquivo = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil')
-				: null;
+			$arquivoPerfil = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil') : null;
 
-			if (isset($arquivo) && $arquivo->isValid()) {
+			if (isset($arquivoPerfil) && $arquivoPerfil->isValid()) {
 				$destinationPath = 'uploads/usuarios/';
-				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivo->getClientOriginalExtension();
-				$arquivo->move($destinationPath, $fileName);
+				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivoPerfil->getClientOriginalExtension();
+				$arquivoPerfil->move($destinationPath, $fileName);
 				$input['imagem_perfil'] = $fileName;
 			} else {
 				array_pull($input, 'imagem_perfil');
+			}
+
+			$arquivoCapa = Input::hasFile('imagem_capa') ? Input::file('imagem_capa') : null;
+
+			if (isset($arquivoCapa) && $arquivoCapa->isValid()) {
+				$destinationPath = 'uploads/usuarios/capa/';
+				$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.'.$arquivoCapa->getClientOriginalExtension();
+				$arquivoCapa->move($destinationPath, $fileName);
+				$input['imagem_capa'] = $fileName;
+			} else {
+				array_pull($input, 'imagem_capa');
 			}
 
 			$user->update($input);
@@ -163,21 +183,24 @@ class UsersController extends Controller {
 			$campeonatosUsuario = array("campeonatos_id"=>0);
 		}
 		$campeonatosDisponiveisNaPlataforma = Campeonato::whereIn("plataformas_id", $plataformasDoUsuario)->whereNotIn("id", $campeonatosUsuario)->get();
+		$campeonatosAbertos = app()->make(Collection::class);
 		foreach($campeonatosDisponiveisNaPlataforma as $campeonato) {
-			//Log::info($campeonato->id.': '.$campeonato->maximoUsuarios());
+			if($campeonato->status() == 1) {
+				$campeonatosAbertos->push($campeonato);
+			}
 		}
 
-		return Response::json($campeonatosDisponiveisNaPlataforma);
+		return Response::json($campeonatosAbertos);
 	}
 
 	/**
 	 * Retorna uma lista com os campeonatos nos quais o usuario esta inscrito
 	 *
-	 * @param int $id_usuario
+	 * @param int $idUsuario
 	 * @return Response
 	 */
-	public function listaCampeonatosInscritos($id_usuario) {
-		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $id_usuario)->get(array("campeonatos_id"))->toArray();
+	public function listaCampeonatosInscritos($idUsuario) {
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
 
 		return Response::json($campeonatosInscritos);
@@ -186,17 +209,204 @@ class UsersController extends Controller {
 	/**
 	 * Retorna uma lista com todas as partidas do usuário
 	 *
-	 * @param int $id_usuario
+	 * @param int $idUsuario
 	 * @return Response
 	 */
-	public function listaPartidas($id_usuario) {
-		$usuario = $this->user->find($id_usuario);
+	public function listaPartidas($idUsuario, $idCampeonato = null) {
+		$usuario = $this->user->find($idUsuario);
 		if($usuario == null) {
 			return Response::json();
 		}
-		$partidas = $usuario->partidas();
+		$partidas = $usuario->partidas($idCampeonato);
 		return Response::json($partidas);
 	}
 
+    public function listaPartidasEmAberto($idUsuario) {
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $partidas = $usuario->partidasEmAberto();
+        return Response::json($partidas);
+    }
+
+	public function adicionaSeguidor() {
+		$input = Input::except('_token');
+		$idUsuario = $input['idUsuarioSeguidor'];
+        $idMestre = $input['idUsuarioMestre'];
+	    $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->seguir($idMestre);
+        return Response::json();
+    }
+
+    public function removeSeguidor() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuarioSeguidor'];
+        $idMestre = $input['idUsuarioMestre'];
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->deixarDeSeguir($idMestre);
+        return Response::json();
+    }
+
+    public function seguidores($idUsuario) {
+        $usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+        $seguidores = $usuario->seguidores()->get();
+        return Response::json($seguidores);
+    }
+
+    public function seguindo($idUsuario) {
+        $usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+        $seguindo = $usuario->seguindo()->get();
+        return Response::json($seguindo);
+    }
+
+    public function listaPostsUsuario() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuario'];
+        $idUsuarioLeitor = $input['idUsuarioLeitor'];
+        $quantidade = $input['quantidade'];
+        $usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+        $posts = $usuario->getPosts($idUsuarioLeitor, $quantidade);
+        return Response::json($posts);
+    }
+
+	public function segue() {
+		$input = Input::except('_token');
+		$idUsuario = $input['idUsuarioSeguidor'];
+		$idMestre = $input['idUsuarioMestre'];
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		return Response::json(array('segue'=>$usuario->segue($idMestre)));
+	}
+
+	public function segueJogo() {
+		$input = Input::except('_token');
+		$idUsuario = $input['idUsuarioSeguidor'];
+		$idJogo = $input['idJogo'];
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		return Response::json(array('segue'=>$usuario->segueJogo($idJogo)));
+	}
+
+	public function listaJogos($idUsuario) {
+	    $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $jogos = $usuario->jogos()->get();
+        return Response::json(array('jogos'=> $jogos));
+    }
+
+    public function seguirJogo() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuarioSeguidor'];
+        $idJogo = $input['idJogo'];
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->seguirJogo($idJogo);
+    }
+
+    public function removeSeguidorJogo() {
+        $input = Input::except('_token');
+        $idUsuario = $input['idUsuarioSeguidor'];
+        $idJogo = $input['idJogo'];
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $usuario->deixarDeSeguirJogo($idJogo);
+        return Response::json();
+    }
+
+	public function getFeed($idUsuario, $todos = false) {
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		$atividades = $usuario->getAtividades($todos);
+		foreach ($atividades as $atividade) {
+			if(isset($atividade->post_id)) {
+				$post = Post::find($atividade->post_id);
+				if(isset($post->jogos_id)) {
+					$post->descricao_jogo = Jogo::find($post->jogos_id)->descricao;
+					$atividade->descricao = 'messages.escreveu_sobre_jogo';
+				}
+				if(isset($post->destinatario_id)) {
+					$post->descricao_destinatario = User::find($post->destinatario_id)->nome;
+					$atividade->descricao = 'messages.mensagem_para_usuario';
+				}
+				$post->imagens = $post->getimages();
+				if(isset($post->post_id)) {
+					$post_compartilhado = Post::find($post->post_id);
+					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
+					$post_compartilhado->imagens = $post_compartilhado->getimages();
+					$post->compartilhamento = $post_compartilhado;
+					$atividade->objeto = $post;
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.compartilhou';
+				} else {
+					$atividade->objeto = $post;
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.publicou';
+				}
+			} else if(isset($atividade->comentarios_id)) {
+				$comentario = Comentario::find($atividade->comentarios_id);
+				$atividade->objeto = $comentario;
+				$atividade->descricao = 'messages.comentou';
+			} else if(isset($atividade->seguidor_id)) {
+				$seguidor = DB::table('seguidor')->where('id','=',$atividade->seguidor_id)->first();
+				$usuarioMestre = User::find($seguidor->users_id_mestre);
+				$atividade->objeto = $usuarioMestre;
+				$atividade->descricao = 'messages.seguiu';
+			} else if(isset($atividade->seguidor_jogo_id)) {
+				$seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
+				$jogo = Jogo::find($seguidor_jogo->jogos_id);
+				$atividade->objeto = $jogo;
+				$atividade->descricao = 'messages.seguiu_jogo';
+			} else if(isset($atividade->partidas_id)) {
+			    $partida = Partida::find($atividade->partidas_id);
+                $partida->usuarios = $partida->usuarios();
+				$partida->campeonato = $partida->campeonato();
+                $atividade->objeto = $partida;
+                $atividade->descricao = 'messages.disputou_partida';
+            } else if(isset($atividade->campeonato_usuarios_id)) {
+                $campeonatoUsuario = CampeonatoUsuario::find($atividade->campeonato_usuarios_id);
+                $campeonato = Campeonato::find($campeonatoUsuario->campeonatos_id);
+                $atividade->objeto = $campeonato;
+                $atividade->descricao = 'messages.inscreveu_campeonato';
+            }
+			$usuario = User::find($atividade->users_id);
+			$atividade->usuario = $usuario;
+		}
+		return Response::json($atividades);
+	}
+
+	public function desistirCampeonato($idCampeonato) {
+		$idUsuario = Auth::getUser()->id;
+		$idUsuarioCampeonato = CampeonatoUsuario::where('users_id','=',$idUsuario)->where('campeonatos_id','=',$idCampeonato)->first()->id;
+		$usuarioCampeonato = CampeonatoUsuario::find($idUsuarioCampeonato);
+		$usuarioCampeonato->delete();
+
+		return Response::json(array('success'=>true));
+	}
 
 }

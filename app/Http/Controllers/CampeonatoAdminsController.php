@@ -27,7 +27,7 @@ class CampeonatoAdminsController extends Controller {
 	{
 		$campeonatoAdmins = CampeonatoAdmin::where('campeonatos_id','=',$id)->get();
 		foreach($campeonatoAdmins as $admin) {
-			$admin->usuario = $admin->usuario()->nome;
+			$admin->usuario = $admin->usuario();
 		}
 		return Response::json($campeonatoAdmins);
 	}

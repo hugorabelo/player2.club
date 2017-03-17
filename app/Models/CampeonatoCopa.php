@@ -41,7 +41,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 //      3. Cria regras de pontuação para cada fase
 //      4. Cria grupos da primeira fase
         $this->criaFases();
-
+        return $this->campeonato;
     }
 
     private function criaFases()
@@ -60,8 +60,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase = array();
         $primeiraFase['descricao'] = 'messages.primeira_fase';
         $primeiraFase['permite_empate'] = true;
-        $primeiraFase['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
-        $primeiraFase['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
+        $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
+        $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+        $primeiraFase['data_inicio'] = Carbon::parse($dataInicio);
+        $primeiraFase['data_fim'] = Carbon::parse($dataFim);
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
         $primeiraFase['inicial'] = true;
@@ -120,8 +122,10 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             } else {
                 $faseCriada['permite_empate'] = false;
             }
-            $faseCriada['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
-            $faseCriada['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
+            $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
+            $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+            $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
+            $faseCriada['data_fim'] = Carbon::parse($dataFim);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
@@ -216,6 +220,30 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             return 'messages.classificados_nao_potencia_dois';
         }
         return "";
+    }
+
+    public function pontuacoes($idFase = null) {
+        if(isset($idFase)) {
+            $fase = CampeonatoFase::find($idFase);
+        } else {
+            $fase = $this->faseInicial();
+        }
+        $pontuacoes = $fase->hasMany('PontuacaoRegra', 'campeonato_fases_id')->getResults();
+        $pontuacaoRetorno = new stdClass();
+        foreach ($pontuacoes as $pontuacao) {
+            switch ($pontuacao->posicao) {
+                case 1:
+                    $pontuacaoRetorno->vitoria = $pontuacao->qtde_pontos;
+                    break;
+                case 2:
+                    $pontuacaoRetorno->derrota = $pontuacao->qtde_pontos;
+                    break;
+                case 0:
+                    $pontuacaoRetorno->empate = $pontuacao->qtde_pontos;
+                    break;
+            }
+        }
+        return $pontuacaoRetorno;
     }
 
 

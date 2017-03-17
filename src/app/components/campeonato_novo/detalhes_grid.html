@@ -1,51 +1,57 @@
-<div class="panel panel-primary">
-    <div class="panel-heading" translate>
-        messages.campeonato_detalhes
-    </div>
-    <div class="panel-body">
-        <div class="col-md-7">
-            <div class="form-group">
-                <label for="tipo_competidor" class="col-md-8 control-label" translate>fields.tipo_competidor</label>
-                <div class="col-md-4">
-                    <select id="tipo_competidor_id" class="form-control" ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_competidor_id" ng-options="tipoCompetidor.id as tipoCompetidor.descricao for tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" required>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="quantidade_usuarios" class="col-md-8 control-label" translate>fields.quantidade_usuarios</label>
-                <div class="col-md-4">
-                    <input type="number" id="quantidade_usuarios" class="form-control" ng-model="vmCriarCampeonato.campeonato.quantidade_usuarios" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="tipo_classificacao" class="col-md-8 control-label" translate>fields.tipo_classificacao</label>
-                <div class="col-md-4">
-                    <select id="tipo_classificacao" class="form-control" ng-model="vmCriarCampeonato.campeonato.tipo_classificacao" ng-options="jogo.id as jogo.descricao for jogo in vmCriarCampeonato.jogos" required>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="ordem_classificacao" class="col-md-8 control-label" translate>fields.ordem_classificacao</label>
-                <div class="col-md-4">
-                    <select id="ordem_classificacao" class="form-control" ng-model="vmCriarCampeonato.campeonato.ordem_classificacao" ng-options="jogo.id as jogo.descricao for jogo in jogos" required>
-                    </select>
-                </div>
-            </div>
+<md-card>
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout="row" layout-margin>
+        <div flex="60">
+            <md-input-container class="md-block" ng-show="false">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_competidor_id">
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_classificacao' | translate}}</label>
+                <md-select ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_classificacao" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.ordem_classificacao' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.ordem_classificacao_id" required>
+                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
         </div>
-        <div class="col-md-5">
+        <div flex="40">
             <h4 class="text-center" translate>messages.pontuacaoRegra_list</h4>
-            <div class="form-group">
-                <label for="zona_classificacao" class="col-md-8 control-label" translate>fields.zona_classificacao</label>
-                <div class="col-md-4">
-                    <input type="number" id="zona_classificacao" class="form-control" ng-model="vmCriarCampeonato.campeonato.zona_classificacao" ng-change="vmCriarCampeonato.criaZonaClassificacao()" />
-                </div>
-            </div>
-            <div class="form-group" ng-repeat="n in vmCriarCampeonato.pontosZonaClassificacao track by $index">
-                <label for="pontuacao" class="col-md-8 control-label">{{$index+1}}{{'fields.lugar' | translate}}</label>
-                <div class="col-md-4">
-                    <input type="number" id="pontuacao" class="form-control" ng-model="vmCriarCampeonato.campeonato.pontuacao[$index]" required>
-                </div>
+            <md-input-container class="md-block">
+                <label>{{'fields.zona_classificacao' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.zona_classificacao" ng-change="vmCriarCampeonato.criaZonaClassificacao()">
+            </md-input-container>
+            <div>
+                <md-input-container class="md-block col-md-6" ng-repeat="n in vmCriarCampeonato.pontosZonaClassificacao track by $index">
+                    <label>{{$index+1}}{{'fields.lugar' | translate}}</label>
+                    <input type="number" ng-model="vmCriarCampeonato.campeonato.pontuacao[$index]">
+                </md-input-container>
+
             </div>
         </div>
-    </div>
-</div>
+    </md-card-content>
+</md-card>

@@ -8,6 +8,10 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             return $http.get('api/campeonato/' + id);
         },
 
+        getParticipantes: function (id) {
+            return $http.get('api/campeonato/participantes/' + id);
+        },
+
         create: function () {
             return $http.get('api/campeonato/create');
         },
@@ -188,6 +192,23 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getUltimasPartidasDoUsuario: function (idUsuario, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/campeonato/ultimasPartidasUsuario/' + idUsuario + stringCampeonato);
+        },
+
+        getPartidas: function (idCampeonato) {
+            return $http.get('api/campeonato/partidas/' + idCampeonato);
+        },
+
+        getPartidasContestadas: function (idCampeonato) {
+            return $http.get('api/campeonato/partidasContestadas/' + idCampeonato);
         }
 
     }

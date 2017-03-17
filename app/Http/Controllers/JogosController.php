@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 class JogosController extends Controller {
 
 	/**
@@ -13,6 +15,14 @@ class JogosController extends Controller {
 	{
 		$this->jogo = $jogo;
 	}
+
+    public function show($id) {
+        $jogo = Jogo::find($id);
+        $jogo->seguidores = $jogo->seguidores()->get();
+		$jogo->produtora = $jogo->produtora() != null ? $jogo->produtora()->nome : '';
+		$jogo->genero = $jogo->genero() != null ? $jogo->genero()->nome : '';
+        return Response::json($jogo);
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -130,6 +140,109 @@ class JogosController extends Controller {
 			return Response::json($jogo->tiposCampeonato());
 		}
 		return Response::json();
+	}
+
+	public function getCampeonatos($idJogo) {
+		//TODO filtrar por campeonatos abertos e em andamento
+		$campeonatosInscricoesAbertas = app()->make(Collection::class);
+		$campeonatosAIniciar = app()->make(Collection::class);
+		$campeonatosEmAndamento = app()->make(Collection::class);
+		$campeonatosEncerrados = app()->make(Collection::class);
+		$campeonatosDoJogo = Campeonato::where("jogos_id", "=", $idJogo)->get();
+
+		foreach ($campeonatosDoJogo as $campeonato) {
+			if($campeonato->faseInicial() != null) {
+				$campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+			}
+			if($campeonato->faseFinal() != null) {
+				$campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+			}
+			if($campeonato->plataforma() != null) {
+				$campeonato->plataforma = $campeonato->plataforma()->descricao;
+			}
+		}
+
+		return $campeonatosDoJogo;
+
+		/*
+		foreach ($campeonatosDoJogo as $campeonato) {
+		$campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+			switch ($campeonato->status()) {
+				case 1:
+					$campeonatosInscricoesAbertas->add($campeonato);
+					break;
+				case 2:
+					$campeonatosAIniciar->add($campeonato);
+					break;
+				case 3:
+					$campeonatosEmAndamento->add($campeonato);
+					break;
+				case 4:
+					$campeonatosEncerrados->add($campeonato);
+					break;
+			}
+		}
+		*/
+		//return Response::json(compact('campeonatosInscricoesAbertas', 'campeonatosAIniciar', 'campeonatosEmAndamento', 'campeonatosEncerrados'));
+	}
+
+	public function getFeed($idJogo)
+	{
+		$jogo = $this->jogo->find($idJogo);
+		if($jogo == null) {
+			return Response::json();
+		}
+		$atividades = $jogo->getAtividades();
+		foreach ($atividades as $atividade) {
+			if(isset($atividade->post_id)) {
+				$post = Post::find($atividade->post_id);
+				if(isset($post->jogos_id)) {
+					$post->descricao_jogo = $jogo->descricao;
+					$atividade->descricao = 'messages.escreveu_sobre_jogo';
+				}
+				$post->imagens = $post->getimages();
+				if(isset($post->post_id)) {
+					$post_compartilhado = Post::find($post->post_id);
+					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
+					$post_compartilhado->imagens = $post_compartilhado->getimages();
+					$post->compartilhamento = $post_compartilhado;
+					$atividade->objeto = $post;
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.compartilhou';
+				} else {
+					$atividade->objeto = $post;
+					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.publicou';
+				}
+			} else if(isset($atividade->comentarios_id)) {
+				$comentario = Comentario::find($atividade->comentarios_id);
+				$atividade->objeto = $comentario;
+				$atividade->descricao = 'messages.comentou';
+			} else if(isset($atividade->seguidor_id)) {
+				$seguidor = DB::table('seguidor')->where('id','=',$atividade->seguidor_id)->first();
+				$usuarioMestre = User::find($seguidor->users_id_mestre);
+				$atividade->objeto = $usuarioMestre;
+				$atividade->descricao = 'messages.seguiu';
+			} else if(isset($atividade->seguidor_jogo_id)) {
+				$seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
+				$jogo = Jogo::find($seguidor_jogo->jogos_id);
+				$atividade->objeto = $jogo;
+				$atividade->descricao = 'messages.seguiu_jogo';
+			} else if(isset($atividade->partidas_id)) {
+				$partida = Partida::find($atividade->partidas_id);
+				$partida->usuarios = $partida->usuarios();
+				$partida->campeonato = $partida->campeonato();
+				$atividade->objeto = $partida;
+				$atividade->descricao = 'messages.disputou_partida';
+			} else if(isset($atividade->campeonato_usuarios_id)) {
+				$campeonatoUsuario = CampeonatoUsuario::find($atividade->campeonato_usuarios_id);
+				$campeonato = Campeonato::find($campeonatoUsuario->campeonatos_id);
+				$atividade->objeto = $campeonato;
+				$atividade->descricao = 'messages.inscreveu_campeonato';
+			}
+			$usuario = User::find($atividade->users_id);
+			$atividade->usuario = $usuario;
+		}
+		return Response::json($atividades);
 	}
 
 }

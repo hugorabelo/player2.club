@@ -15,8 +15,6 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 
     public function salvar($input) {
 
-        Log::info($input);
-
         $dadosCampeonato = array_except($input, array('criteriosClassificacaoSelecionados', 'detalhes', 'pontuacao', 'fases'));
         $detalhes = $input['detalhes'];
         $this->detalhesFases = $input['fases'];
@@ -30,7 +28,7 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 //      3. Cria regras de pontuação para cada fase
 //      4. Cria grupos da primeira fase
         $this->criaFases();
-
+        return $this->campeonato;
     }
 
     public function criaFases() {
@@ -49,8 +47,10 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
             } else {
                 $faseCriada['permite_empate'] = false;
             }
-            $faseCriada['data_inicio'] = Carbon::parse($this->detalhesFases['data_inicio']);
-            $faseCriada['data_fim'] = Carbon::parse($this->detalhesFases['data_fim']);
+            $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
+            $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+            $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
+            $faseCriada['data_fim'] = Carbon::parse($dataFim);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
@@ -125,6 +125,10 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         $partida->data_placar = date('Y-m-d H:i:s');
         $partida->save();
         return '';
+    }
+
+    public function pontuacoes($idFase = null) {
+        return null;
     }
 
 }

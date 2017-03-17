@@ -1,66 +1,17 @@
-<div class="row" ng-controller="ProfileController as vmProfile">
-    <div class="col-md-12">
-        <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-lg-10">
-                <h2 translate>messages.titulo_dashboard</h2>
-                <ol class="breadcrumb">
-                    <li>
-                        <a ui-sref="/">Home</a>
-                    </li>
-                    <li>
-                        <a ui-sref="home" translate>menus.home</a>
-                    </li>
-                </ol>
-            </div>
-            <div class="col-lg-2">
+<div flex layout="row" layout-margin ng-init="vmHome.inicializa()">
 
-            </div>
-        </div>
-        <div class="wrapper wrapper-content animated fadeIn">
-            <div class="col-md-4" ng-include="'app/components/dashboard/profile.html'">
-            </div>
-            <div class="col-md-8">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Próximas Partidas
-                    </div>
-                    <div class="panel-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Meus Campeonatos
-                    </div>
-                    <div class="panel-body">
-                        <ul class="todo-list m-t small-list">
-                            <li ng-repeat="campeonato in vmProfile.userCampeonatosInscritos">
-                                {{ campeonato.descricao }}
-                                <a ng-click="vmProfile.sairCampeonato($event, campeonato.id)" class="btn btn-xs btn-danger pull-right" translate> messages.desistir
-								</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Campeonatos Disponíveis
-                    </div>
-                    <div class="panel-body">
-                        <ul class="todo-list m-t small-list">
-                            <li ng-repeat="campeonato in vmProfile.userCampeonatosDisponiveis">
-                                {{ campeonato.descricao }}
-                                <a ng-click="vmProfile.inscreverCampeonato($event, campeonato.id)" class="btn btn-xs btn-success pull-right" translate> messages.inscrever
-								</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div flex="15" layout="column" class="caixa-flutuante" layout-margin hide-xs>
+        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
+    </div>
+
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" ng-init="vmFeed.inicializa()"></div>
+    </div>
+
+    <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm hide-md>
+        <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>
+        <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
+            {{ campeonato.descricao }}
+        </a>
     </div>
 </div>

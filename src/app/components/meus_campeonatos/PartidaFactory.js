@@ -33,7 +33,7 @@ angular.module('player2').factory('Partida', ['$http', function ($http) {
                     var formData = new FormData();
                     formData.append("comentarios", dados.comentarios);
                     formData.append("partidas_id", dados.partidas_id);
-                    formData.append("usuario_partidas_id", dados.usuario_partidas_id);
+                    formData.append("users_id", dados.users_id);
                     if (arquivo != null) {
                         formData.append("imagem", arquivo.lfFile);
                     }
@@ -42,7 +42,7 @@ angular.module('player2').factory('Partida', ['$http', function ($http) {
                 data: {
                     comentarios: dados.comentarios,
                     partidas_id: dados.partidas_id,
-                    usuario_partidas_id: dados.usuario_partidas_id,
+                    users_id: dados.users_id,
                     imagem: arquivo
                 }
             });

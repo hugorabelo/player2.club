@@ -1,0 +1,69 @@
+<md-card flex>
+    <!--
+    <md-toolbar class="md-toolbar-tools">
+        <h2>{{'messages.campeonato_edit' | translate}}</h2>
+    </md-toolbar>
+-->
+    <md-card-content>
+        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+            <md-input-container class="md-block">
+                <label>{{'fields.descricao' | translate}}</label>
+                <input ng-model="vmCampeonato.campeonatoEditar.descricao" required>
+            </md-input-container>
+
+            <md-input-container class="md-block" ng-show="false">
+                <label>{{'fields.acesso' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonatoEditar.acesso_campeonato_id">
+                    <md-option ng-repeat="tipoAcesso in vmCampeonato.tiposDeAcessosDoCampeonato" ng-value="tipoAcesso.id">
+                        {{tipoAcesso.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <div layout-gt-xs="row">
+                <md-input-container flex-gt-xs="50">
+                    <label>{{'fields.data_inicio' | translate}}</label>
+                    <md-datepicker ng-model="vmCampeonato.campeonatoEditar.dataInicio" md-open-on-focus></md-datepicker>
+                </md-input-container>
+
+                <md-input-container flex-gt-xs="50">
+                    <label>{{'fields.data_fim' | translate}}</label>
+                    <md-datepicker ng-model="vmCampeonato.campeonatoEditar.dataFinal" md-open-on-focus></md-datepicker>
+                </md-input-container>
+
+            </div>
+
+            <md-input-container class="md-block md-input-has-value">
+                <label>{{'fields.detalhes' | translate}}</label>
+                <div flex>
+                    <textarea froala="vmCampeonato.opcoesEditor" ng-model="vmCampeonato.campeonatoEditar.regras"></textarea>
+                </div>
+            </md-input-container>
+
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs="33">
+                    <label>{{'fields.plataformas_id' | translate}}</label>
+                    <input ng-model="vmCampeonato.campeonatoEditar.plataforma.descricao" required readonly>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-xs="33">
+                    <label>{{'fields.jogos_id' | translate}}</label>
+                    <input ng-model="vmCampeonato.campeonatoEditar.jogo.descricao" required readonly>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-xs="33">
+                    <label>{{'fields.campeonatotipos_id' | translate}}</label>
+                    <input ng-model="vmCampeonato.campeonatoEditar.tipo.descricao" required readonly>
+                </md-input-container>
+            </div>
+
+            <div ng-include src="'app/components/campeonato/modelos/' + vmCampeonato.campeonatoEditar.tipo.arquivo_detalhes"></div>
+
+
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="vmCampeonato.carregaCampeonato()">{{'fields.cancel' | translate}}</md-button>
+                <md-button ng-click="vmCampeonato.update()">{{'fields.update' | translate}}</md-button>
+            </md-card-actions>
+        </form>
+    </md-card-content>
+</md-card>

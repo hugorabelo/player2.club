@@ -54,4 +54,30 @@ class PermissaoController extends Controller {
 
 	}
 
+	public function reportarBug() {
+		$input = Input::except('files');
+		$inputFiles = Input::all();
+		$files = isset($inputFiles['files'])? $inputFiles['files'] : array();
+		$texto = isset($input['texto']) ? $input['texto']: '';
+
+		Mail::send('emailBugReport', ['conteudo' => $texto], function($message) use ($input, $files) {
+			$message->from('contato@player2.club', $name = 'player2.club');
+			$message->to('incoming+hugorabelo/ligavirtual+7o1aq39cb9drxtwn31x3awu83@gitlab.com', $name = 'GitLab');
+			$message->subject($input['titulo']);
+
+            if($files != null) {
+                foreach ($files as $arquivo) {
+                    if (isset($arquivo) && $arquivo->isValid()) {
+                        $destinationPath = 'uploads/bugs/';
+                        $fileName = 'imagepost_' . str_replace('.', '', microtime(true)) . '.' . $arquivo->getClientOriginalExtension();
+                        $arquivo->move($destinationPath, $fileName);
+                        $message->attach($destinationPath . $fileName);
+                    }
+                }
+            }
+		});
+
+        return Response::json(array('success'=>true));
+	}
+
 }

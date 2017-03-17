@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', 'toastr', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, $location, toastr, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
 
             var vm = this;
 
@@ -16,9 +16,20 @@
             vm.campeonato = {};
             vm.checkBoxCriteriosClassificacao = {};
 
-            $scope.$watch('campeonato.ida_volta', function () {
-                if (!vm.campeonato.ida_volta) {
-                    vm.campeonato.fora_casa = {};
+            vm.opcoesEditor = {
+    language: 'pt_br',
+    //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+};
+
+            $scope.$watch(angular.bind(vm, function () {
+                if (vm.campeonato.detalhes !== undefined) {
+                    return vm.campeonato.detalhes.ida_volta;
+                }
+            }), function () {
+                if (vm.campeonato.detalhes !== undefined) {
+                    if (!vm.campeonato.detalhes.ida_volta) {
+                        vm.campeonato.detalhes.fora_casa = {};
+                    }
                 }
             });
 
@@ -120,19 +131,23 @@
 
             vm.salvarCampeonato = function () {
                 vm.atualizaCriteriosClassificacao();
-                vm.campeonato.criador = $rootScope.usuarioLogado;
+                vm.campeonato.criador = $rootScope.usuarioLogado.id;
                 Campeonato.save(vm.campeonato)
                     .success(function (data) {
-                        Campeonato.get()
-                            .success(function (getData) {
-                                vm.campeonatos = getData;
-                            });
-                        $rootScope.loading = false;
+                        $location.path('/campeonato/' + data.id);
                     }).error(function (data, status) {
+                        var listaErros = '';
+                        angular.forEach(data.errors, function (erro) {
+                            listaErros += "<br>" + erro;
+                        });
+                        toastr.error('<h3>' + data.message + '</h3>' + listaErros);
                         vm.messages = data.errors;
                         vm.status = status;
-                        $rootScope.loading = false;
                     });
+            };
+
+            vm.cancel = function () {
+                $location.path('/home');
             };
 
             vm.atualizaCriteriosClassificacao = function () {
@@ -148,7 +163,7 @@
                 $event.preventDefault();
                 $event.stopPropagation();
 
-                if (objeto == 'inicio') {
+                if (objeto === 'inicio') {
                     vm.openedInicio = true;
                 } else {
                     vm.openedFim = true;

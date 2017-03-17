@@ -51,12 +51,20 @@ class CampeonatoUsuariosController extends Controller {
 	public function store()
 	{
 		$input = Input::all();
+        $usuario = Auth::getUser();
+		$input['users_id'] = $usuario->id;
 		$validation = Validator::make($input, CampeonatoUsuario::$rules);
 
 		if ($validation->passes())
 		{
-            $campeonato = Campeonato::find($input['campeonatos_id']);
-            if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
+			$campeonato = Campeonato::find($input['campeonatos_id']);
+            $usuarioPlataforma = UserPlataforma::where('users_id', '=', $usuario->id)->where('plataformas_id', '=', $campeonato->plataformas_id)->first();
+            if($usuarioPlataforma == null) {
+                return Response::json(array('success' => false,
+                    'errors' => array('messages.usuario_sem_plataforma')), 300);
+            }
+
+			if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
                 $this->campeonatoUsuario->create($input);
 
                 return Response::json(array('success'=>true));

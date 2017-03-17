@@ -4,14 +4,17 @@
 
     //Directive used to set metisMenu and minimalize button
     angular.module('player2')
-        .directive('pageTitle', function ($rootScope, $timeout) {
+        .directive('pageTitle', function ($rootScope, $timeout, $filter) {
             return {
                 link: function (scope, element) {
                     var listener = function (event, toState, toParams, fromState, fromParams) {
                         // Default title - load on Dashboard 1
                         var title = 'player2.club';
                         // Create your own title pattern
-                        if (toState.data && toState.data.pageTitle) title = 'player2.club | ' + toState.data.pageTitle;
+                        //toState.data.pageTitle
+                        var titleComplemento = '';
+                        //                        titleComplemento = $filter('translate')(toState.data.pageTitle);
+                        if (toState.data && titleComplemento) title = title + ' | ' + titleComplemento;
                         $timeout(function () {
                             element.text(title);
                         });

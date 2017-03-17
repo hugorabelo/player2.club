@@ -1,32 +1,13 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+<md-card>
+    <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.usuarioTipo_list</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a translate>menus.config</a>
-            </li>
-            <li>
-                <a ui-sref="usuarioTipo" translate>menus.usuarioTipos</a>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
-
-    </div>
-</div>
-
-<div class="wrapper wrapper-content animated fadeIn">
-    <div class="ibox-content">
-
-        <p>
-            <md-button class="md-primary md-raised" ng-click="vmUsuarioTipo.create($event)"> {{'messages.usuarioTipo_add' | translate}}
-            </md-button>
-        </p>
-
-        <table class="table table-striped">
+        <span flex></span>
+        <md-button class="md-raised" ng-click="vmUsuarioTipo.create($event)">
+            {{'messages.usuarioTipo_add' | translate}}
+        </md-button>
+    </md-toolbar>
+    <md-card-content>
+        <table class="table">
             <tr>
                 <th translate>fields.descricao</th>
                 <th translate>fields.prioridade</th>
@@ -45,6 +26,5 @@
                 </td>
             </tr>
         </table>
-
-    </div>
-</div>
+    </md-card-content>
+</md-card>

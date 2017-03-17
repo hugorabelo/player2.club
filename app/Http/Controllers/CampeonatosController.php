@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class CampeonatosController extends Controller
 {
 
@@ -35,7 +37,14 @@ class CampeonatosController extends Controller
 
     public function show($id)
     {
-        return Response::json(Campeonato::find($id));
+        $campeonato = Campeonato::find($id);
+        $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
+        $campeonato->jogo = Jogo::find($campeonato->jogos_id);
+        $campeonato->tipo = CampeonatoTipo::find($campeonato->campeonato_tipos_id);
+        $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        $campeonato->status = $campeonato->status();
+        return Response::json($campeonato);
     }
 
     public function create()
@@ -65,9 +74,10 @@ class CampeonatosController extends Controller
                 return Response::json(array('success' => false,
                     'errors' => array($validacaoNumeroCompetidores)), 300);
             }
-            $campeonato->salvar($input);
+            $campeonatoSalvo = $campeonato->salvar($input);
 
-            return Response::json(array('success' => true));
+
+            return Response::json(array('success' => true, 'id'=> $campeonatoSalvo->id));
         }
 
         return Response::json(array('success' => false,
@@ -83,12 +93,17 @@ class CampeonatosController extends Controller
      */
     public function edit($id)
     {
-        $campeonato = $this->campeonato->find($id);
+        $campeonato = Campeonato::find($id);
+        $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
+        $campeonato->jogo = Jogo::find($campeonato->jogos_id);
+        $campeonato->tipo = CampeonatoTipo::find($campeonato->campeonato_tipos_id);
+        $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        $campeonato->detalhes = $campeonato->detalhes();
+        $campeonato->criterios = $campeonato->criteriosOrdenados();
+        $campeonato->pontuacao = $campeonato->pontuacoes();
+        return Response::json($campeonato);
 
-        $jogos = Jogo::get();
-        $campeonatoTipos = CampeonatoTipo::get();
-        $plataformas = Plataforma::get();
-        return Response::json(compact('campeonato', 'jogos', 'campeonatoTipos', 'plataformas'));
     }
 
     /**
@@ -99,12 +114,37 @@ class CampeonatosController extends Controller
      */
     public function update($id)
     {
-        $input = array_except(Input::all(), '_method');
+        $inputAll = Input::all();
+        $inputDetalhes = $inputAll['detalhes'];
+        $dataInicial = $inputAll['dataInicio'];
+        $dataFinal = $inputAll['dataFinal'];
+        $input = array_except($inputAll, ['_method', 'criterios', 'dataFinal', 'dataInicio', 'detalhes', 'jogo', 'plataforma', 'pontuacao', 'tipo', 'novo']);
         $validation = Validator::make($input, Campeonato::$rules);
 
         if ($validation->passes()) {
+            if($input['acesso_campeonato_id'] == null) {
+                unset($input['acesso_campeonato_id']);
+            }
+            if($input['imagem_logo'] == null) {
+                unset($input['imagem_logo']);
+            }
+
             $campeonato = $this->campeonato->find($id);
             $campeonato->update($input);
+
+            $detalhes = $campeonato->detalhes();
+            if($inputDetalhes['tipo_competidor_id'] != null) {
+                $detalhes->tipo_competidor_id = $inputDetalhes['tipo_competidor_id'];
+            }
+            $detalhes->update();
+
+            $faseInicial = $campeonato->faseInicial();
+            $faseInicial->data_inicio = Carbon::parse($dataInicial);
+            $faseInicial->update();
+
+            $faseFinal = $campeonato->faseFinal();
+            $faseFinal->data_fim = Carbon::parse($dataFinal);
+            $faseFinal->update();
 
             return Response::json(array('success' => true));
         }
@@ -148,6 +188,30 @@ class CampeonatosController extends Controller
         $fase_inicial = $campeonato->faseInicial();
         foreach ($campeonato->usuariosInscritos() as $usuario) {
         }
+    }
+
+    public function getParticipantes($id) {
+        $campeonato = Campeonato::find($id);
+        $participantes = $campeonato->usuariosInscritos();
+        return Response::json($participantes);
+    }
+
+    public function getUltimasPartidasUsuario($idUsuario, $idCampeonato = null) {
+        $usuario = User::find($idUsuario);
+        $partidas = $usuario->partidas($idCampeonato)->take(6);
+        return Response::json($partidas);
+    }
+
+    public function getPartidas($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        $partidas = $campeonato->partidas();
+        return Response::json($partidas);
+    }
+
+    public function getPartidasContestadas($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        $partidas = $campeonato->partidasContestadas();
+        return Response::json($partidas);
     }
 
 }

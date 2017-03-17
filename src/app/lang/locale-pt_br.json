@@ -27,6 +27,7 @@
         "cancel": "Cancelar",
         "save": "Salvar",
         "update": "Atualizar",
+        "adicionar": "Adicionar",
 
         "descricao": "Descrição",
         "logomarca": "Logomarca",
@@ -76,7 +77,7 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "Gamertag",
+        "gamertag": "Nome de Usuário",
         "localizacao": "Localização",
         "grupo": "Grupo",
         "salvar_resultado": "Salvar resultado",
@@ -88,6 +89,12 @@
         "tempo_para_confirmacao": "Data limite para que seja feita a confirmação da partida",
         "printscreen": "Printscreen de comprovação",
         "partida_contestada": "O resultado da partida foi contestado. Aguardando julgamento por parte dos moderadores",
+        "cancelar_resultado": "Cancelar resultado partida",
+        "info_contestacao": "Exibir informações da contestação",
+        "confirmar_contestacao": "Confirmar o placar original",
+        "editar_placar_contestado": "Editar placar contestado",
+        "salvar_placar_contestado": "Salvar o novo placar após análise",
+        "sigla": "Sigla",
 
         "acesso": "Acesso",
         "publico": "Público",
@@ -115,7 +122,13 @@
         "tipo_sorteio_matamata": "Tipo de Sorteio",
         "sorteio_aleatorio": "Aleatório",
         "sorteio_geral": "Classificação Geral",
-        "sorteio_grupo": "Entre Grupos"
+        "sorteio_grupo": "Entre Grupos",
+
+        "usuario_imagem_perfil": "Imagem do Perfil",
+        "usuario_imagem_capa": "Imagem de Capa",
+        "screenshot": "Screenshots",
+        "descreva_problema": "Descreva o problema",
+        "titulo": "Titulo"
     },
 
     "messages": {
@@ -123,6 +136,10 @@
         "confirma_exclusao": "Deseja realmente apagar este registro?",
         "yes": "Sim",
         "no": "Não",
+        "close": "Fechar",
+        "confirma_iniciar_fase": "Deseja realmente iniciar esta fase?",
+        "explica_iniciar_fase": "Caso a fase anterior esteja aberta, ela será fechada automaticamente. Os jogos serão sorteados e as partidas desta fase já poderão ser disputadas.",
+        "confirma_fechar_fase": "Deseja realmente encerrar esta fase?",
 
         "plataforma_list": "Plataformas",
         "plataforma_add": "Adicionar Plataforma",
@@ -152,17 +169,25 @@
         "usuario_list": "Usuários",
         "usuario_add": "Adicionar Usuário",
         "usuario_create": "Criar Usuário",
-        "usuario_edit": "Editar Usuário",
+        "usuario_edit": "Editar Perfil de Usuário",
         "usuario_empty": "Não existe nenhum Usuário cadastrado",
-        "usuario_gamertags": "Gamertags do Usuário",
+        "usuario_gamertags": "Plataformas do Usuário",
+        "usuario_imagens": "Imagens do Usuário",
 
         "campeonato_list": "Campeonatos",
         "campeonato_add": "Adicionar Campeonato",
         "campeonato_create": "Criar Campeonato",
         "campeonato_edit": "Editar Campeonato",
         "campeonato_empty": "Não existe nenhum Campeonato cadastrado",
-        "campeonato_detalhes": "Detalhes do Campeonato",
-        "exibir_regras_campeonato": "Exibir Regras do Campeonato",
+        "campeonato_detalhes": "Detalhes",
+        "exibir_regras_campeonato": "Regras",
+        "campeonatosInscricoesAbertas": "Campeonatos Abertos",
+        "campeonatosAIniciar": "Campeonatos Aguardando Início",
+        "campeonatosEmAndamento": "Campeonatos em Andamento",
+        "campeonatosEncerrados": "Campeonatos Encerrados",
+        "campeonatosParticipantes": "Participantes",
+        "campeonatoContestacoes": "Resultados Contestados",
+
 
         "campeonatoAdmin_list": "Administradores do Campeonato",
         "campeonatoAdmin_add": "Adicionar Administrador do Campeonato",
@@ -183,7 +208,7 @@
 
         "pontuacaoRegra_list": "Regras de Pontuação",
         "grupo_list": "Grupos",
-        "operacao_list": "Operações",
+        "operacao_list": "Gerenciamento das Fases do Campeonato",
 
         "menu_create": "Criar Menu",
         "menu_edit": "Editar Menu",
@@ -207,6 +232,7 @@
         "confirma_desistir_campeonato": "Deseja realmente desistir deste campeonato?",
 
         "minhasPartidas_list": "Minhas Partidas",
+        "minhasPartidasAbertas_list": "Minhas Partidas Em Aberto",
         "tabelaCampeonato_list": "Tabela de Classificação",
         "partida_contestar": "Contestar Resultado da Partida",
 
@@ -218,10 +244,74 @@
         "matamata16": "Oitavas de Final",
         "matamata32": "16 avos de Final",
         "matamata64": "32 avos de Final",
+        "rodada": "ª Rodada",
 
         "competidores_nao_mutiplo_grupos": "O número de competidores não é múltiplo do número de grupos",
         "classificados_nao_mutiplo_grupos": "O número de classificados para o mata-mata não é múltiplo do número de grupos",
         "classificados_nao_potencia_dois": "O número de classificados não é correspondente ao chaveamento do mata-mata. Para isso, o número deve ser uma potência de 2",
-        "numero_competidores_maior_zero": "O número de competidores deve ser maior que zero"
+        "numero_competidores_maior_zero": "O número de competidores deve ser maior que zero",
+
+        "escrever_comentario": "Escreva um comentário...",
+        "curtir": "Curtir",
+        "comentar": "Comentar",
+        "compartilhar": "Compartilhar",
+        "curtiram": "Curtiram isso",
+        "publicar": "Publicar",
+        "inserir_foto": "Adicionar Foto",
+        "foto": "Foto",
+        "compartilhar_post": "Compartilhar Post",
+        "seguir": "Seguir",
+        "seguindo": "Seguindo",
+        "seguidores": "Seguidores",
+        "mensagem": "Mensagem",
+        "visitar_perfil": "Visitar Perfil",
+        "filtro": "Filtre os resultados",
+        "ultimos_jogos": "Últimas Partidas",
+
+        "curtiu": " curtiu o post de ",
+        "compartilhou": " compartilhou o post de ",
+        "publicou": " publicou ",
+        "comentou": " comentou o post de ",
+        "seguiu": " começou a seguir ",
+        "curtiu_comentario": " curtiu o comentário de ",
+        "seguiu_jogo": " começou a seguir o jogo ",
+        "disputou_partida": " disputou uma partida do campeonato ",
+        "inscreveu_campeonato": " se inscreveu no campeonato ",
+        "escreveu_sobre_jogo": " publicou sobre ",
+        "mensagem_para_usuario": " falou para ",
+
+        "ultimas_novidades": "O que tá rolando",
+        "campeonatos_usuario": "Campeonatos do Usuário",
+        "campeonatos_jogo": "Campeonatos do Jogo",
+
+        "analises": "Análises",
+        "melhores_jogadores": "Melhores Jogadores",
+        "texto_pesquisa": "Encontre jogadores, jogos ou campeonatos",
+        "inserir_imagem": "Inserir imagens",
+
+        "anterior": "Anterior",
+        "proximo": "Proximo",
+        "nova_aba": "Abrir em uma nova aba",
+
+        "fazerLogin": "Fazer Login",
+        "logout": "Sair",
+        "feedback": "Dar um feedback",
+        "erro_inscricao": "Houve um erro na inscrição",
+        "usuario_sem_plataforma": "Você não possui nenhum id de usuário compatível com o console deste campeonato. Você pode cadastrar algum ao editar o seu perfil.",
+
+        "dados_invalidos": "Dados Inválidos",
+        "preencher_campos": "Você deve preencher todos os campos",
+        "operacao_nao_concluida": "A operação não foi concluída",
+
+        "fase_anterior_aberta": "A fase anterior está aberta",
+        "fase_sem_quantidade_minima_usuarios": "A fase não possui a quantidade mínima de usuários cadastrados",
+        "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
+        "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase",
+
+        "campo_obrigatorio": "Este campo é obrigatório"
+    },
+
+    "generos": {
+        "Soccer": "Futebol"
     }
 }
