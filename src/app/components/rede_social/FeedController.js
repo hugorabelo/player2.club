@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', '$timeout', 'toastr', 'localStorageService', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, $timeout, toastr, localStorageService, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox) {
+    angular.module('player2').controller('FeedController', ['$rootScope', '$scope', '$filter', '$mdDialog', '$translate', '$window', '$stateParams', '$timeout', 'toastr', 'localStorageService', 'Atividade', 'Post', 'Usuario', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Jogo', 'Lightbox', 'Feed', function ($rootScope, $scope, $filter, $mdDialog, $translate, $window, $stateParams, $timeout, toastr, localStorageService, Atividade, Post, Usuario, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Jogo, Lightbox, Feed) {
 
         var vm = this;
 
@@ -395,5 +395,37 @@
             Lightbox.openModal(images, index);
         };
 
-        }]);
+        var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
+        vm.feedFactory = new Feed(idUsuarioLogado);
+
+        //        vm.carregaMaisAtividades = function () {
+        //            if (vm.ocupado) {
+        //                console.log('voltando false');
+        //                return;
+        //            }
+        //            vm.ocupado = true;
+        //            console.log('carregando feed - ' + vm.ocupado);
+        //            //            if (vm.idJogo !== undefined) {
+        //            //                vm.getFeedDoJogo(vm.idJogo);
+        //            //            } else if (vm.idUsuario !== undefined) {
+        //            //                vm.getFeedDoUsuario(false);
+        //            //            } else {
+        //            var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
+        //            Usuario.getFeed(idUsuarioLogado, true)
+        //                .success(function (data) {
+        //                    var novasAtividades = data;
+        //                    angular.forEach(novasAtividades, function (atividade) {
+        //                        if (atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id) {
+        //                            vm.getCurtidas(atividade);
+        //                            vm.usuarioCurtiu(atividade);
+        //                            vm.getComentarios(atividade);
+        //                        }
+        //                        vm.atividades.push(atividade);
+        //                    })
+        //                });
+        //            //            //            }
+        //            vm.ocupado = false;
+        //        }
+    }]);
+
 }());

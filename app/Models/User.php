@@ -152,15 +152,15 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $this->jogos()->detach($idJogo);
     }
 
-	public function getAtividades($todos) {
+	public function getAtividades($todos, $offset, $quantidade) {
 	    if($todos) {
 			$idSeguidores = $this->seguindo()->getRelatedIds();
 			$idSeguidores->push($this->id);
             $postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
-            $atividades = Atividade::whereIn('users_id', $idSeguidores)->orWhereIn('post_id', $postsDestinatarios)->orderBy('created_at', 'desc')->get();
+            $atividades = Atividade::whereIn('users_id', $idSeguidores)->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         } else {
 			$postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
-            $atividades = Atividade::where('users_id','=', $this->id)->orWhereIn('post_id', $postsDestinatarios)->orderBy('created_at', 'desc')->get();
+            $atividades = Atividade::where('users_id','=', $this->id)->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         }
 		return $atividades;
 	}

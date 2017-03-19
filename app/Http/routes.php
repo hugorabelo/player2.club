@@ -54,7 +54,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
     Route::post('usuario/removeSeguidorJogo', 'UsersController@removeSeguidorJogo');
     Route::post('usuario/segueJogo', 'UsersController@segueJogo');
-    Route::get('usuario/feed/{id}/{todos?}', 'UsersController@getFeed');
+    Route::get('usuario/feed/{id}/{todos?}/{offset?}/{quantidade?}', 'UsersController@getFeed');
     Route::delete('usuario/desistirCampeonato/{idCampeonato}', 'UsersController@desistirCampeonato');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');

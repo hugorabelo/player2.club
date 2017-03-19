@@ -23,7 +23,7 @@
     </md-chips>
 </div>
 
-<md-card class="feed" ng-repeat="atividade in vmFeed.atividades track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
+<md-card class="feed" ng-repeat="atividade in vmFeed.feedFactory.items track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->
     <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">
