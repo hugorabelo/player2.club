@@ -21,6 +21,8 @@
 
         vm.novoPost = {};
 
+        vm.feedFactory = {};
+
         $scope.$on('userProfileSet', function () {
             vm.inicializa();
         });
@@ -34,7 +36,8 @@
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
                         vm.usuario = data;
-                        vm.getFeedDoUsuario(false);
+                        //                        vm.getFeedDoUsuario(false);
+                        //                        vm.feedFactory = new Feed(vm.idUsuario, false);
                     });
             } else {
                 var usuarioLogado = localStorageService.get('usuarioLogado');
@@ -42,11 +45,15 @@
                     Usuario.show(usuarioLogado.id)
                         .success(function (data) {
                             vm.usuario = data;
-                            vm.getFeedDoUsuario(true);
                         });
                 }
+                console.log(vm.feedFactory.items);
             }
-        }
+        };
+        var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
+        vm.feedFactory = new Feed(idUsuarioLogado, true);
+
+
 
         vm.criarPost = function () {
             var post = {};
@@ -394,9 +401,6 @@
         vm.openLightboxModal = function (images, index) {
             Lightbox.openModal(images, index);
         };
-
-        var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
-        vm.feedFactory = new Feed(idUsuarioLogado);
 
         //        vm.carregaMaisAtividades = function () {
         //            if (vm.ocupado) {
