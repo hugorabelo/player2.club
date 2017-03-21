@@ -147,7 +147,7 @@
                 vm.userPlataforma.users_id = localStorageService.get('usuarioLogado').id;
                 $mdDialog.show({
                         locals: {
-                            tituloModal: 'messages.partida_contestar',
+                            tituloModal: 'messages.adicionar_gamertag',
                             userPlataforma: vm.userPlataforma,
                             plataformas: vm.plataformas
                         },
