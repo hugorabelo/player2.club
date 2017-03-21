@@ -77,7 +77,7 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "Nome de Usuário",
+        "gamertag": "ID de Usuário",
         "localizacao": "Localização",
         "grupo": "Grupo",
         "salvar_resultado": "Salvar resultado",
@@ -298,7 +298,9 @@
         "logout": "Sair",
         "feedback": "Dar um feedback",
         "erro_inscricao": "Houve um erro na inscrição",
-        "usuario_sem_plataforma": "Você não possui nenhum id de usuário compatível com o console deste campeonato. Você pode cadastrar algum ao editar o seu perfil.",
+        "sucesso_inscricao": "Inscrição realizada com sucesso",
+        "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um id de usuário da plataforma ",
+        "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
 
         "dados_invalidos": "Dados Inválidos",
         "preencher_campos": "Você deve preencher todos os campos",
