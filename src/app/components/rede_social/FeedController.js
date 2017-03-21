@@ -36,8 +36,7 @@
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
                         vm.usuario = data;
-                        //                        vm.getFeedDoUsuario(false);
-                        //                        vm.feedFactory = new Feed(vm.idUsuario, false);
+                        vm.feedFactory = new Feed(vm.idUsuario, 0);
                     });
             } else {
                 var usuarioLogado = localStorageService.get('usuarioLogado');
@@ -45,15 +44,11 @@
                     Usuario.show(usuarioLogado.id)
                         .success(function (data) {
                             vm.usuario = data;
+                            vm.feedFactory = new Feed(usuarioLogado.id, 1);
                         });
                 }
-                console.log(vm.feedFactory.items);
             }
         };
-        var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
-        vm.feedFactory = new Feed(idUsuarioLogado, true);
-
-
 
         vm.criarPost = function () {
             var post = {};
@@ -402,34 +397,6 @@
             Lightbox.openModal(images, index);
         };
 
-        //        vm.carregaMaisAtividades = function () {
-        //            if (vm.ocupado) {
-        //                console.log('voltando false');
-        //                return;
-        //            }
-        //            vm.ocupado = true;
-        //            console.log('carregando feed - ' + vm.ocupado);
-        //            //            if (vm.idJogo !== undefined) {
-        //            //                vm.getFeedDoJogo(vm.idJogo);
-        //            //            } else if (vm.idUsuario !== undefined) {
-        //            //                vm.getFeedDoUsuario(false);
-        //            //            } else {
-        //            var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
-        //            Usuario.getFeed(idUsuarioLogado, true)
-        //                .success(function (data) {
-        //                    var novasAtividades = data;
-        //                    angular.forEach(novasAtividades, function (atividade) {
-        //                        if (atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id) {
-        //                            vm.getCurtidas(atividade);
-        //                            vm.usuarioCurtiu(atividade);
-        //                            vm.getComentarios(atividade);
-        //                        }
-        //                        vm.atividades.push(atividade);
-        //                    })
-        //                });
-        //            //            //            }
-        //            vm.ocupado = false;
-        //        }
     }]);
 
 }());
