@@ -24,7 +24,8 @@
         'angular-jwt',
         'LocalStorageModule',
         'ng-sortable',
-        'froala'
+        'froala',
+        'infinite-scroll'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

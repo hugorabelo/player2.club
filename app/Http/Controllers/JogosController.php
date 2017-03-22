@@ -187,13 +187,13 @@ class JogosController extends Controller {
 		//return Response::json(compact('campeonatosInscricoesAbertas', 'campeonatosAIniciar', 'campeonatosEmAndamento', 'campeonatosEncerrados'));
 	}
 
-	public function getFeed($idJogo)
+	public function getFeed($idJogo, $offset = 0, $quantidade = 5)
 	{
 		$jogo = $this->jogo->find($idJogo);
 		if($jogo == null) {
 			return Response::json();
 		}
-		$atividades = $jogo->getAtividades();
+		$atividades = $jogo->getAtividades($offset, $quantidade);
 		foreach ($atividades as $atividade) {
 			if(isset($atividade->post_id)) {
 				$post = Post::find($atividade->post_id);
