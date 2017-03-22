@@ -339,12 +339,12 @@ class UsersController extends Controller {
         return Response::json();
     }
 
-	public function getFeed($idUsuario, $todos = false) {
+	public function getFeed($idUsuario, $todos = false, $offset = 0, $quantidade = 5) {
 		$usuario = $this->user->find($idUsuario);
 		if($usuario == null) {
 			return Response::json();
 		}
-		$atividades = $usuario->getAtividades($todos);
+		$atividades = $usuario->getAtividades($todos, $offset, $quantidade);
 		foreach ($atividades as $atividade) {
 			if(isset($atividade->post_id)) {
 				$post = Post::find($atividade->post_id);
