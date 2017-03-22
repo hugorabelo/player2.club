@@ -25,6 +25,11 @@ class FaseGrupo extends Eloquent
     public function usuarios()
     {
         $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
+        foreach ($usuarios as $usuario) {
+            if(($usuario->sigla == '') || ($usuario->sigla == null)) {
+                $usuario->sigla = substr($usuario->nome, 0, 3);
+            }
+        }
         return $usuarios;
     }
 

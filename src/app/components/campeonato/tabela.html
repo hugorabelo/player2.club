@@ -38,8 +38,12 @@
                                         {{$index+1}}
                                     </td>
                                     <td>
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs>{{jogadorGrupo.nome}}</a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs><img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}</a>
+                                        <!--
+                                        Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
                                         <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs>{{jogadorGrupo.sigla | uppercase}}</a>
+-->
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs><img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"></a>
                                     </td>
                                     <td class="text-center">{{jogadorGrupo.pontuacao}}</td>
                                     <td class="text-center">{{jogadorGrupo.jogos}}</td>
@@ -73,8 +77,13 @@
                         <div class="lista-de-jogos-item" ng-repeat="partida in vmCampeonato.partidasDaRodada[$index]">
                             <div class="placar-jogo-equipes" flex layout="row" layout-align="space-between center">
                                 <div class="placar-jogo-equipes-mandante" flex>
+                                    <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+                                    <img class="placar-jogo-equipes-escudo-mandante" itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+                                    <!--
+                                   Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
                                     <img class="placar-jogo-equipes-escudo-mandante" hide-xs itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+-->
                                 </div>
                                 <div class="placar-jogo-equipes-placar" flex layout="row" layout-align="space-around center">
                                     <span class="placar-jogo-equipes-placar-mandante">{{partida.usuarios[0].placar}}</span>
@@ -82,8 +91,13 @@
                                     <span class="placar-jogo-equipes-placar-visitante">{{partida.usuarios[1].placar}}</span>
                                 </div>
                                 <div class="placar-jogo-equipes-visitante" flex>
+                                    <img class="placar-jogo-equipes-escudo-visitante" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                                    <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                                    <!--
+                                   Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
                                     <img class="placar-jogo-equipes-escudo-visitante" hide-xs itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+-->
                                 </div>
                             </div>
                         </div>
@@ -92,28 +106,6 @@
             </div>
         </div>
         <!--        MATA-MATA-->
-
-        <!--
-        <div class="row grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-show="vmCampeonato.fase_atual.matamata">
-            <div class="col-sm-12">
-                <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
-                <div class="lista-de-jogos-item row" ng-repeat="usuario in grupo.usuarios">
-                    <div class="placar-jogo-equipes-matamata col-xs-9">
-                        <img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
-                        <span class="placar-jogo-equipes-sigla" title="{{usuario.nome}}">{{usuario.nome}}</span>
-                    </div>
-                    <div class="placar-jogo-equipes-placar-matamata col-xs-1" ng-repeat="placar in usuario.placares track by $index">
-                        {{placar}}
-                    </div>
-                </div>
-                <div ng-show="$odd && grupo.usuarios != null">
-                    <div class="mata-conector1" hide-xs></div>
-                    <div class="mata-conector2" hide-xs></div>
-                </div>
-            </div>
-        </div>
--->
-
         <div class="grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-show="vmCampeonato.fase_atual.matamata" flex layout="column">
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
             <div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios" flex layout="row">
