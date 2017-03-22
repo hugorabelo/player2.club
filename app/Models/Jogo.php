@@ -35,14 +35,14 @@ class Jogo extends Eloquent {
 		return $genero;
 	}
 
-	public function getAtividades() {
+	public function getAtividades($offset, $quantidade) {
 		$campeonatos = Campeonato::where('jogos_id','=',$this->id)->get(array('id'));
 		$fases = CampeonatoFase::whereIn('campeonatos_id', $campeonatos)->get(array('id'));
 		$grupos = FaseGrupo::whereIn('campeonato_fases_id',$fases)->get(array('id'));
 		$partidasDisputadas = Partida::whereIn('fase_grupos_id', $grupos)->get(array('id'));
 
 		$postsDestinatarios = Post::where('jogos_id','=', $this->id)->get(array('id'));
-		$atividades = Atividade::WhereIn('post_id', $postsDestinatarios)->orWhereIn('partidas_id',$partidasDisputadas)->orderBy('created_at', 'desc')->get();
+		$atividades = Atividade::WhereIn('post_id', $postsDestinatarios)->orWhereIn('partidas_id',$partidasDisputadas)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
 		return $atividades;
 	}
 

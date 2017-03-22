@@ -37,7 +37,9 @@ class PostController extends Controller
 
         if ($validation->passes())
         {
-
+            if(isset($input['destinatario_id']) && $input['destinatario_id'] == 'undefined') {
+                $input['destinatario_id'] = null;
+            }
             $post = Post::create($input);
 
             //TODO Inserir Imagens capturadas do array imagens

@@ -16,7 +16,12 @@
                 return;
             }
             this.ocupado = true;
-            $http.get('api/usuario/feed/' + this.idUsuario + '/' + this.todos + '/' + this.after + '/5')
+            if (this.idJogo != undefined) {
+                this.url = 'api/jogos/feed/' + this.idJogo + '/' + this.after + '/5';
+            } else {
+                this.url = 'api/usuario/feed/' + this.idUsuario + '/' + this.todos + '/' + this.after + '/5';
+            }
+            $http.get(this.url)
                 .success(function (data) {
                     var items = data;
                     for (var i = 0; i < items.length; i++) {

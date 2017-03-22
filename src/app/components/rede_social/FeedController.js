@@ -31,7 +31,7 @@
             if (vm.idJogo !== undefined) {
                 var usuarioLogado = localStorageService.get('usuarioLogado');
                 vm.idUsuario = usuarioLogado.id;
-                vm.getFeedDoJogo(vm.idJogo);
+                vm.feedFactory = new Feed(vm.idUsuario, 0, vm.idJogo);
             } else if (vm.idUsuario !== undefined) {
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
@@ -52,7 +52,7 @@
 
         vm.criarPost = function () {
             var post = {};
-            if (vm.idUsuario != localStorageService.get('usuarioLogado').id) {
+            if ((vm.idUsuario != undefined) && (vm.idUsuario != localStorageService.get('usuarioLogado').id)) {
                 post.destinatario_id = vm.idUsuario;
             }
             if (vm.idJogo !== undefined) {
@@ -65,48 +65,15 @@
                 .success(function (data) {
                     vm.novoPost = {};
                     if (vm.idJogo !== undefined) {
-                        vm.getFeedDoJogo();
+                        vm.feedFactory = new Feed(vm.idUsuario, 0, vm.idJogo);
+                    } else if (vm.idUsuario !== undefined) {
+                        vm.feedFactory = new Feed(vm.idUsuario, 0);
                     } else {
-                        vm.getFeedDoUsuario();
+                        vm.feedFactory = new Feed(post.users_id, 1);
                     }
+                    vm.feedFactory.proximaPagina();
                 })
         };
-
-        vm.getFeedDoUsuario = function (todos) {
-            if (todos == undefined) {
-                todos = false;
-            }
-            if (vm.idUsuario == undefined) {
-                var idUsuarioLogado = localStorageService.get('usuarioLogado').id;
-            } else {
-                var idUsuarioLogado = vm.idUsuario;
-            }
-            Usuario.getFeed(idUsuarioLogado, todos)
-                .success(function (data) {
-                    vm.atividades = data;
-                    angular.forEach(vm.atividades, function (atividade) {
-                        if (atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id) {
-                            vm.getCurtidas(atividade);
-                            vm.usuarioCurtiu(atividade);
-                            vm.getComentarios(atividade);
-                        }
-                    })
-                });
-        };
-
-        vm.getFeedDoJogo = function () {
-            Jogo.getFeed(vm.idJogo)
-                .success(function (data) {
-                    vm.atividades = data;
-                    angular.forEach(vm.atividades, function (atividade) {
-                        if (atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id) {
-                            vm.getCurtidas(atividade);
-                            vm.usuarioCurtiu(atividade);
-                            vm.getComentarios(atividade);
-                        }
-                    })
-                });
-        }
 
         vm.exibeData = function (data) {
             var dataExibida = new Date(data);
@@ -183,7 +150,12 @@
             novoPost.users_id = localStorageService.get('usuarioLogado').id;
             Post.salvar(novoPost)
                 .success(function (data) {
-                    vm.getFeedDoUsuario();
+                    if (vm.idUsuario !== undefined) {
+                        vm.feedFactory = new Feed(vm.idUsuario, 0);
+                    } else {
+                        vm.feedFactory = new Feed(novoPost.users_id, 1);
+                    }
+                    vm.feedFactory.proximaPagina();
                 });
         };
 
@@ -240,7 +212,7 @@
                 $rootScope.loading = true;
                 Atividade.destroy(vm.idRegistroExcluir)
                     .success(function (data) {
-                        vm.atividades.splice(index, 1);
+                        vm.feedFactory.items.splice(index, 1);
                     });
             }, function () {
 
@@ -397,6 +369,6 @@
             Lightbox.openModal(images, index);
         };
 
-    }]);
+        }]);
 
 }());
