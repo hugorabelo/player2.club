@@ -2,9 +2,11 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, Auth, Usuario, Atividade) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, Auth, Usuario, Atividade) {
 
         var vm = this;
+
+        $rootScope.telaMobile = $mdMedia('xs');
 
         var originatorEv;
 

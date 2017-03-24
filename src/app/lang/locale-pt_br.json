@@ -190,7 +190,7 @@
         "campeonatoContestacoes": "Resultados Contestados",
 
 
-        "campeonatoAdmin_list": "Administradores do Campeonato",
+        "campeonatoAdmin_list": "Administradores",
         "campeonatoAdmin_add": "Adicionar Administrador do Campeonato",
         "campeonatoAdmin_create": "Inserir Administrador do Campeonato",
         "campeonatoAdmin_edit": "Editar Administrador do Campeonato",
@@ -209,7 +209,7 @@
 
         "pontuacaoRegra_list": "Regras de Pontuação",
         "grupo_list": "Grupos",
-        "operacao_list": "Gerenciamento das Fases do Campeonato",
+        "operacao_list": "Gerenciamento de Fases",
 
         "menu_create": "Criar Menu",
         "menu_edit": "Editar Menu",
