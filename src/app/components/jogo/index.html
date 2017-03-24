@@ -1,6 +1,6 @@
-<div flex layout-gt-xs="row" layout-xs="column" layout-margin ng-init="vmJogo.inicializa()">
+<div flex layout-gt-xs="row" layout-xs="column" layout-margin ng-init="vmJogo.inicializa()" ng-class="{'m-n': telaMobile}">
 
-    <div flex-gt-xs="33" layout="column" class="caixa-flutuante infobar" layout-margin>
+    <div flex-gt-xs="33" layout="column" class="caixa-flutuante infobar" layout-margin ng-class="{'m-n': telaMobile}">
         <!--        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>-->
         <div class="detalhes-jogo">
             <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
@@ -68,7 +68,11 @@
         </ul>
     </div>
 
-    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+    <div hide-xs flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado' infinite-scroll-distance='0.2'></div>
+    </div>
+
+    <div hide-gt-xs layout-fill ui-view class="p-h-sm">
         <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado' infinite-scroll-distance='0.2'></div>
     </div>
 

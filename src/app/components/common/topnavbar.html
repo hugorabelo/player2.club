@@ -1,4 +1,4 @@
-<md-toolbar ng-controller="TopNavController as vmTopNav" class="md-accent topo-principal" hide-xs>
+<md-toolbar class="md-accent topo-principal" hide-xs>
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <a href="/" flex="20">
             <img alt="" height="50" src="assets/images/player2.png" data-pin-nopin="true" hide-xs>
@@ -132,7 +132,7 @@
 
 <md-toolbar hide-gt-xs layout="row">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-hide="vmTopNav.isOpenSideNav()">
             <i class="material-icons md-24">menu</i>
         </md-button>
         <span flex class="text-center">
@@ -145,3 +145,19 @@
         </md-button>
     </div>
 </md-toolbar>
+
+<md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sideNavPrincipal">
+
+    <md-toolbar layout="row" layout-align="left center">
+        <img class="img-circle img-sm m-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+        <h5><span>{{usuarioLogado.nome}}</span></h5>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vmTopNav.closeSideNav()" aria-label="Close">
+            <i class="material-icons md-24">close</i>
+        </md-button>
+    </md-toolbar>
+    <md-content class="md-primary">
+        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
+    </md-content>
+
+</md-sidenav>

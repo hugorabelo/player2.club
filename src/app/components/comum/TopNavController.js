@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, Auth, Usuario, Atividade) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, Auth, Usuario, Atividade) {
 
         var vm = this;
 
@@ -95,6 +95,29 @@
         vm.selectedItemChange = function (item) {
             $location.path('/' + item.tipo + '/' + item.id);
         };
+
+        vm.isOpenSideNav = function () {
+            return $mdSidenav('sideNavPrincipal').isOpen();
+        };
+
+        vm.toggleSideNav = buildToggler('sideNavPrincipal');
+
+        function buildToggler(navID) {
+            return function () {
+                $mdSidenav(navID)
+                    .toggle()
+                    .then(function () {
+                        //                        console.log("toggle " + navID + " is done");
+                    });
+            };
+        };
+
+        vm.closeSideNav = function () {
+            $mdSidenav('sideNavPrincipal').close()
+                .then(function () {
+                    //          $log.debug("close LEFT is done");
+                });
+        }
 
     }]);
 }());

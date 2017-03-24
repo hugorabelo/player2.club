@@ -695,11 +695,6 @@ md-card.feed {
         border: 1px solid @cinza-escuro;
     }
 }
-@media screen and (max-width: 599px) {
-    .images-post {
-        margin-bottom: 10px;
-    }
-}
 .box_login {
     margin-top: 100px;
     img {
@@ -722,11 +717,6 @@ body {
         margin-left: 10px;
     }
 }
-@media screen and (max-width: 480px) {
-    .auth0-lock.auth0-lock {
-        position: fixed !important;
-    }
-}
 .fr-box.fr-basic.fr-top > div > a {
     display: none !important;
 }
@@ -738,4 +728,23 @@ body {
 }
 .altura-maxima {
     min-height: 100%;
+}
+@media screen and (max-width: 599px) {
+    .images-post {
+        margin-bottom: 10px;
+    }
+    a.menu-usuario {
+        color: #777;
+        &:hover {
+            color: @cor-primaria;
+        }
+    }
+    .background-branco {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}
+@media screen and (max-width: 480px) {
+    .auth0-lock.auth0-lock {
+        position: fixed !important;
+    }
 }
