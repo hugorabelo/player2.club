@@ -130,7 +130,7 @@
     </div>
 </md-toolbar>
 
-<md-toolbar hide-gt-xs layout="row">
+<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-hide="vmTopNav.isOpenSideNav()">
             <i class="material-icons md-24">menu</i>
@@ -140,10 +140,26 @@
             <img alt="" height="40" src="assets/images/player2.png" data-pin-nopin="true" hide-gt-xs>
             </a>
         </span>
-        <md-button class="md-icon-button" aria-label="Settings">
+
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch">
             <i class="material-icons md-24">search</i>
         </md-button>
     </div>
+</md-toolbar>
+<md-toolbar hide-gt-xs class="md-accent md-hue-1" ng-show="showSearch">
+    <div class="md-toolbar-tools" layout-align="space-between center">
+        <md-button class="md-icon-button" ng-click="showSearch = !showSearch" aria-label="Back">
+            <i class="material-icons md-24">arrow_back</i>
+        </md-button>
+        <md-input-container md-theme="input" flex>
+            <label>&nbsp;</label>
+            <input ng-model="search.who" placeholder="enter search">
+        </md-input-container>
+        <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+            <i class="material-icons md-24">search</i>
+        </md-button>
+    </div>
+
 </md-toolbar>
 
 <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sideNavPrincipal">

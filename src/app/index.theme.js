@@ -200,6 +200,9 @@ angular.module('player2')
             })
             .warnPalette('grandmaspillow');
 
+        $mdThemingProvider.theme('input')
+            .primaryPalette('grey')
+
         //        $mdThemingProvider.alwaysWatchTheme(true);
         $mdThemingProvider.setDefaultTheme('player2');
     });

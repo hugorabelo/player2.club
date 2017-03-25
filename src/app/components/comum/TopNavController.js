@@ -17,6 +17,11 @@
             $mdOpenMenu(ev);
         };
 
+        vm.searchBox = {
+            isOpen: false,
+            count: 0
+        };
+
         vm.mudaIdioma = function (idioma) {
             $translate.use(idioma);
 
