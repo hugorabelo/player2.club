@@ -20,7 +20,9 @@
     function mudaState($rootScope, $state, $window, $http, localStorageService, lock) {
         $rootScope.$state = $state;
 
+
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
+            $rootScope.stateHome = ($state.current.name == 'home');
             $http.get('api/validaAutenticacao')
                 .then(function (result) {
                     lock.getProfile(localStorage.getItem('idToken'), function (error, profile) {

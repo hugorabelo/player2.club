@@ -69,11 +69,11 @@
     </div>
 
     <div hide-xs flex class="caixa-flutuante" ui-view layout="column" layout-margin>
-        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado' infinite-scroll-distance='0.2'></div>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
 
     <div hide-gt-xs layout-fill ui-view class="p-h-sm">
-        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado' infinite-scroll-distance='0.2'></div>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
 
 </div>

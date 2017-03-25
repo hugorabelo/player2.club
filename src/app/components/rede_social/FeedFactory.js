@@ -27,8 +27,12 @@
                     for (var i = 0; i < items.length; i++) {
                         this.items.push(items[i]);
                     }
-                    this.after = this.items.length;
-                    this.ocupado = false;
+                    if (this.after == this.items.length) {
+                        this.ocupado = true;
+                    } else {
+                        this.after = this.items.length;
+                        this.ocupado = false;
+                    }
                 }.bind(this));
         };
 
