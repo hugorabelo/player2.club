@@ -146,24 +146,24 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-toolbar hide-gt-xs class="md-accent md-hue-1" ng-show="showSearch">
+<md-toolbar hide-gt-xs class="md-accent md-hue-1" ng-show="showSearch" id="toolbarSearch">
     <div class="md-toolbar-tools" layout-align="space-between center">
         <md-button class="md-icon-button" ng-click="showSearch = !showSearch" aria-label="Back">
             <i class="material-icons md-24">arrow_back</i>
         </md-button>
-        <md-input-container md-theme="input" flex>
-            <label>&nbsp;</label>
-            <input ng-model="search.who" placeholder="enter search">
-        </md-input-container>
-        <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
-            <i class="material-icons md-24">search</i>
-        </md-button>
+        <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template" flex>
+            <md-item-template>
+                <span class="item-title">
+                        <img src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-show="item.tipo == 'profile'">
+                        <img src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
+                        <span> {{item.descricao}} </span>
+                </span>
+            </md-item-template>
+        </md-autocomplete>
     </div>
-
 </md-toolbar>
 
 <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sideNavPrincipal">
-
     <md-toolbar layout="row" layout-align="left center">
         <img class="img-circle img-sm m-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
         <h5><span>{{usuarioLogado.nome}}</span></h5>
@@ -175,5 +175,4 @@
     <md-content class="md-primary">
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </md-content>
-
 </md-sidenav>
