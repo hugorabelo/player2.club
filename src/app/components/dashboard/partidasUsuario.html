@@ -4,11 +4,11 @@
         <h2 translate>messages.minhasPartidasAbertas_list</h2>
     </md-toolbar>
 
-    <md-card-content>
+    <md-card-content ng-class="{'p-w-xs': telaMobile}">
         <md-list flex>
             <div layout="column" ng-repeat="partida in vmCampeonato.partidasDoUsuario">
                 <div flex class="partida-detalhe-campeonato">{{partida.campeonato}} - {{partida.fase | translate}} <span hide-xs>- {{partida.rodada}} {{'messages.rodada' | translate}}</span></div>
-                <md-list-item class="noright">
+                <md-list-item class="noright" ng-class="{'no-padding': telaMobile}">
                     <div flex="25" class="text-right" layout-align-xs="space-around center">
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
