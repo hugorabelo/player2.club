@@ -48,7 +48,12 @@
                                     {{'fields.contestar_resultado' | translate}}
                                 </md-tooltip>
                             </md-button>
-
+                            <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
+                                <i class="material-icons">clear</i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.cancelar_resultado' | translate}}
+                                </md-tooltip>
+                            </md-button>
                         </div>
                         <div id="icones" class="pull-right" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
                             <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-show="partida.contestada">
