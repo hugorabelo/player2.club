@@ -1,11 +1,11 @@
-<h3 class="secao_titulo" ng-init="vmSeguidores.inicializa('seguindo')">{{'messages.seguindo' | translate}}</h3>
-<div class="caixa-pesquisa">
+<h3 class="secao_titulo" ng-init="vmSeguidores.inicializa('seguindo')" hide-xs>{{'messages.seguindo' | translate}}</h3>
+<div class="caixa-pesquisa" hide-xs>
     <md-input-container class="md-block md-primary">
         <label>{{'messages.filtro' | translate}}</label>
         <input ng-model="vmSeguidores.searchTextSeguindo">
     </md-input-container>
 </div>
-<md-grid-list md-cols-xs="2" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px">
+<md-grid-list md-cols-xs="2" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px" hide-xs>
     <md-grid-tile class="card-usuarios" ng-repeat="seguidor in vmSeguidores.querySearchSeguindo(vmSeguidores.searchTextSeguindo)" layout="column">
         <div layout="column" layout-fill class="body-content">
             <img alt="image" class="img-circle img-lg" src="uploads/usuarios/{{seguidor.imagem_perfil}}">
@@ -19,3 +19,28 @@
         </md-grid-tile-footer>
     </md-grid-tile>
 </md-grid-list>
+
+<md-card hide-gt-xs class="m-n">
+    <md-toolbar class="md-toolbar-tools">
+        <h2 class="secao_titulo" ng-init="vmSeguidores.inicializa('seguindo')">{{'messages.seguindo' | translate}}</h2>
+    </md-toolbar>
+    <div class="caixa-pesquisa m-b-sm">
+        <md-input-container class="md-block md-primary">
+            <label>{{'messages.filtro' | translate}}</label>
+            <input ng-model="vmSeguidores.searchTextSeguindo">
+        </md-input-container>
+    </div>
+    <md-grid-list md-cols-xs="2" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px" class="m-l-sm m-r-sm">
+        <md-grid-tile class="card-usuarios" ng-repeat="seguidor in vmSeguidores.querySearchSeguindo(vmSeguidores.searchTextSeguindo)" layout="column">
+            <div layout="column" layout-fill class="body-content">
+                <img alt="image" class="img-circle img-lg" src="uploads/usuarios/{{seguidor.imagem_perfil}}">
+                <h3 class="m-b-xs"><strong>{{seguidor.nome}}</strong></h3>
+            </div>
+            <md-grid-tile-footer class="center-block">
+                <md-button ui-sref="profile({idUsuario: seguidor.id})" class="md-primary  md-raised"><i class="material-icons">account_box</i>
+                    <span hide-xs>{{'messages.visitar_perfil' | translate}}</span>
+                </md-button>
+            </md-grid-tile-footer>
+        </md-grid-tile>
+    </md-grid-list>
+</md-card>
