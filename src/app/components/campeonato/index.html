@@ -47,7 +47,7 @@
     <div layout-gt-md="row" layout-margin>
 
         <div flex hide-gt-md class="caixa-flutuante" layout-padding>
-            <md-card class="m-n">
+            <md-card ng-class="{'m-n': telaMobile}">
                 <md-toolbar class="md-toolbar-tools">
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
@@ -86,7 +86,7 @@
             </div>
 
             <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
-                <md-card class="m-n h-300">
+                <md-card class="h-300" ng-class="{'m-n': telaMobile}">
                     <md-card-content>
                         <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
                     </md-card-content>
@@ -113,7 +113,7 @@
         </div>
 
         <div flex flex-gt-md="20" hide-xs hide-sm hide-md show-gt-md class="caixa-flutuante" layout-padding>
-            <md-card class="m-n">
+            <md-card ng-class="{'m-n': telaMobile}">
                 <md-toolbar class="md-toolbar-tools">
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
@@ -170,7 +170,7 @@
     </div>
 
     <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
-        <md-card class="m-n h-300">
+        <md-card class="h-300" ng-class="{'m-n': telaMobile}">
             <md-card-content>
                 <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
             </md-card-content>
