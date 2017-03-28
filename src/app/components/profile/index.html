@@ -27,11 +27,6 @@
 </div>
 
 <div flex layout="row" layout-margin hide-xs>
-    <!--
-    <div flex layout="column" class="caixa-flutuante" layout-margin>
-</div>
--->
-
     <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
         <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
@@ -134,106 +129,105 @@
 
 </div>
 
+<div hide-gt-xs>
+    <md-tabs md-dynamic-height md-border-bottom hide-gt-xs ng-show="false">
+        <md-tab ng-click="vmProfile.currentNavItem = 'feed'">
+            <i class="material-icons">rss_feed</i>
+        </md-tab>
+        <md-tab ng-click="vmProfile.currentNavItem = 'gamertag'">
+            <i class="material-icons">gamepad</i>
+        </md-tab>
+        <md-tab ng-click="vmProfile.currentNavItem = 'seguindo'">
+            <i class="material-icons">people</i>
+        </md-tab>
+        <md-tab ng-click="vmProfile.currentNavItem = 'seguidores'">
+            <i class="material-icons">record_voice_over</i>
+        </md-tab>
+        <md-tab ng-click="vmProfile.currentNavItem = 'jogos'">
+            <i class="material-icons">videogame_asset</i>
+        </md-tab>
+        <md-tab ng-click="vmProfile.currentNavItem = 'campeonatos'">
+            <i class="material-icons">format_list_numbered</i>
+        </md-tab>
+    </md-tabs>
 
-<md-tabs md-dynamic-height md-border-bottom hide-gt-xs>
-    <md-tab ng-click="vmProfile.currentNavItem = 'feed'">
-        <i class="material-icons">rss_feed</i>
-    </md-tab>
-    <md-tab ng-click="vmProfile.currentNavItem = 'gamertag'">
-        <i class="material-icons">gamepad</i>
-    </md-tab>
-    <md-tab ng-click="vmProfile.currentNavItem = 'seguindo'">
-        <i class="material-icons">people</i>
-    </md-tab>
-    <md-tab ng-click="vmProfile.currentNavItem = 'seguidores'">
-        <i class="material-icons">record_voice_over</i>
-    </md-tab>
-    <md-tab ng-click="vmProfile.currentNavItem = 'jogos'">
-        <i class="material-icons">videogame_asset</i>
-    </md-tab>
-    <md-tab ng-click="vmProfile.currentNavItem = 'campeonatos'">
-        <i class="material-icons">format_list_numbered</i>
-    </md-tab>
-</md-tabs>
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">gamepad</i> {{'messages.usuario_gamertags' | translate}}
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <md-list-item ng-repeat="gamertag in vmProfile.gamertags">
+                <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
+            </md-list-item>
+        </div>
+    </md-card>
 
-<div ui-view layout="column" layout-fill ng-show="vmProfile.currentNavItem == 'feed'" class="m-t-md">
-    <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">people</i>{{'messages.seguindo' | translate}}
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
+                <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-xs">
+                <md-tooltip md-direction="top ">
+                    {{seguindo.nome}}
+                </md-tooltip>
+            </a>
+        </div>
+    </md-card>
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">record_voice_over</i>{{'messages.seguidores' | translate}}
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
+                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xs">
+                <md-tooltip md-direction="top ">
+                    {{seguidor.nome}}
+                </md-tooltip>
+            </a>
+        </div>
+    </md-card>
+
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">videogame_asset</i>{{'messages.jogo_list' | translate}}
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
+                <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xs">
+                <md-tooltip md-direction="top ">
+                    {{jogo.descricao}}
+                </md-tooltip>
+            </a>
+        </div>
+    </md-card>
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonato_list' | translate}}
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
+                <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+            </md-list-item>
+        </div>
+    </md-card>
+
+
+    <div ui-view layout="column" layout-fill class="m-t-md">
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
+    </div>
 </div>
-
-
-<md-card class="caixa-informacao m-n" ng-show="vmProfile.currentNavItem == 'gamertag'">
-    <md-card-title>
-        <md-card-title-text>
-            {{'messages.usuario_gamertags' | translate}}
-        </md-card-title-text>
-    </md-card-title>
-    <div class="m-xs">
-        <md-list-item ng-repeat="gamertag in vmProfile.gamertags">
-            <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
-        </md-list-item>
-    </div>
-</md-card>
-
-
-<md-card class="caixa-informacao m-n" ng-show="vmProfile.currentNavItem == 'seguindo'">
-    <md-card-title>
-        <md-card-title-text>
-            {{'messages.seguindo' | translate}}
-        </md-card-title-text>
-    </md-card-title>
-    <div class="m-xs">
-        <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
-            <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-xs">
-            <md-tooltip md-direction="top ">
-                {{seguindo.nome}}
-            </md-tooltip>
-        </a>
-    </div>
-</md-card>
-
-
-<md-card class="caixa-informacao m-n" ng-show="vmProfile.currentNavItem == 'seguidores'">
-    <md-card-title>
-        <md-card-title-text>
-            {{'messages.seguidores' | translate}}
-        </md-card-title-text>
-    </md-card-title>
-    <div class="m-xs">
-        <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
-            <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xs">
-            <md-tooltip md-direction="top ">
-                {{seguidor.nome}}
-            </md-tooltip>
-        </a>
-    </div>
-</md-card>
-
-
-<md-card class="caixa-informacao m-n" ng-show="vmProfile.currentNavItem == 'jogos'">
-    <md-card-title>
-        <md-card-title-text>
-            {{'messages.jogo_list' | translate}}
-        </md-card-title-text>
-    </md-card-title>
-    <div class="m-xs">
-        <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
-            <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xs">
-            <md-tooltip md-direction="top ">
-                {{jogo.descricao}}
-            </md-tooltip>
-        </a>
-    </div>
-</md-card>
-
-<md-card class="caixa-informacao m-n" ng-show="vmProfile.currentNavItem == 'campeonatos'">
-    <md-card-title>
-        <md-card-title-text>
-            {{'messages.campeonato_list' | translate}}
-        </md-card-title-text>
-    </md-card-title>
-    <div class="m-xs">
-        <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
-            <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
-        </md-list-item>
-    </div>
-</md-card>
