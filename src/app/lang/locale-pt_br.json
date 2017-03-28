@@ -312,7 +312,8 @@
         "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
         "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase",
 
-        "campo_obrigatorio": "Este campo é obrigatório"
+        "campo_obrigatorio": "Este campo é obrigatório",
+        "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado"
     },
 
     "generos": {

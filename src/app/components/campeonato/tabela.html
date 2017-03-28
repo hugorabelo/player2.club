@@ -1,5 +1,5 @@
 <md-card ng-class="{'m-n': telaMobile}">
-    <md-card-content>
+    <md-card-content ng-show="vmCampeonato.campeonato.status > 2">
         <nav class="tabela-navegacao tabela-navegacao-fases">
             <a ng-click="vmCampeonato.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonato.indice_fase == 0}">
                 <i class="fa fa-chevron-left pull-left"></i>
@@ -123,5 +123,9 @@
                 <div class="mata-conector2"></div>
             </div>
         </div>
+    </md-card-content>
+
+    <md-card-content ng-show="vmCampeonato.campeonato.status < 3">
+        <h4>{{'messages.campeonato_nao_iniciado' | translate}}</h4>
     </md-card-content>
 </md-card>
