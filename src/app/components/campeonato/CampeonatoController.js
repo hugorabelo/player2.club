@@ -343,10 +343,11 @@
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
+                    toastr.success($filter('translate')('messages.sucesso_placar'));
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 })
                 .error(function (data) {
-                    //TODO melhorar a exibição deste erro
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         };
 
@@ -357,9 +358,10 @@
             Partida.confirmarPlacar(dados)
                 .success(function () {
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    toastr.success($filter('translate')('messages.sucesso_confirmacao'));
                 })
                 .error(function (data) {
-                    //                    $rootScope.loading = false;
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         };
 
@@ -380,7 +382,7 @@
                     fullscreen: true // Only for -xs, -sm breakpoints.
                 })
                 .then(function () {
-
+                    toastr.success($filter('translate')('messages.sucesso_contestacao_solicitada'));
                 }, function () {
 
                 });
@@ -393,9 +395,10 @@
             Partida.cancelarPlacar(dados)
                 .success(function () {
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    toastr.success($filter('translate')('messages.sucesso_cancelar_placar'));
                 })
                 .error(function (data) {
-                    console.log(data.errors);
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         }
 
