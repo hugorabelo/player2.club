@@ -27,6 +27,7 @@
                 vm.usuario = data;
                 vm.carregaDadosUsuario(vm.usuario.id);
                 vm.getGamertagsDoUsuario(vm.idUsuario);
+                vm.currentNavItem = 'feed';
             })
             .error(function (data, status) {});
 
