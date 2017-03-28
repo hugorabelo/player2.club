@@ -77,7 +77,7 @@
                     vm.carregaAdministradores(id);
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                     vm.carregaPartidasContestadas();
-                    vm.campeonato.usuarioAdministrador = true;
+                    //                    vm.campeonato.usuarioAdministrador = true;
                 });
         };
 
