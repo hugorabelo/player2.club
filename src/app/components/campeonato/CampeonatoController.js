@@ -42,6 +42,36 @@
             //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
         };
 
+        vm.abaTabela = function () {
+            vm.currentNavItem = 'tabela';
+            vm.carregaFases(vm.idCampeonato);
+        };
+
+        vm.abaPartidas = function () {
+            vm.currentNavItem = 'minhasPartidas';
+            vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+        };
+
+        vm.abaParticipantes = function () {
+            vm.currentNavItem = 'participantes';
+            vm.getParticipantes(vm.idCampeonato);
+        };
+
+        vm.abaGerenciar = function () {
+            vm.currentNavItem = 'detalhes';
+            vm.carregaAdministradores(vm.idCampeonato);
+        };
+
+        vm.abaContestacoes = function () {
+            vm.currentNavItem = 'contestacoes';
+            vm.carregaPartidasContestadas();
+        };
+
+        vm.abaEditar = function () {
+            vm.currentNavItem = 'editar';
+            vm.edit();
+        };
+
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
             vm.currentNavItem = 'tabela';
@@ -73,11 +103,7 @@
                 .success(function (data) {
                     vm.campeonato = data;
                     vm.carregaFases(id);
-                    vm.getParticipantes(id);
-                    vm.carregaAdministradores(id);
-                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
-                    vm.carregaPartidasContestadas();
-                    //                    vm.campeonato.usuarioAdministrador = true;
+                    vm.campeonato.usuarioAdministrador = true;
                 });
         };
 

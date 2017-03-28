@@ -3,19 +3,19 @@
     <div flex layout-gt-md="row" layout-margin>
         <div class="caixa-flutuante" flex>
             <md-tabs md-dynamic-height md-border-bottom hide-xs>
-                <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.currentNavItem = 'tabela'">
+                <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.abaTabela()">
                 </md-tab>
-                <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.currentNavItem = 'minhasPartidas'" ng-if="vmCampeonato.campeonato.usuarioInscrito">
+                <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.abaPartidas()" ng-if="vmCampeonato.campeonato.usuarioInscrito">
                 </md-tab>
-                <md-tab label="{{'messages.campeonatosParticipantes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'participantes'">
+                <md-tab label="{{'messages.campeonatosParticipantes' | translate}}" ng-click="vmCampeonato.abaParticipantes()">
                 </md-tab>
                 <md-tab label="{{'messages.exibir_regras_campeonato' | translate}}" ng-click="vmCampeonato.currentNavItem = 'regras'">
                 </md-tab>
-                <md-tab label="{{'messages.campeonato_detalhes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'detalhes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                <md-tab label="{{'messages.campeonato_detalhes' | translate}}" ng-click="vmCampeonato.abaGerenciar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
                 </md-tab>
-                <md-tab label="{{'messages.campeonatoContestacoes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'contestacoes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                <md-tab label="{{'messages.campeonatoContestacoes' | translate}}" ng-click="vmCampeonato.abaContestacoes()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
                 </md-tab>
-                <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.currentNavItem = 'editar'; vmCampeonato.edit()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.abaEditar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
                 </md-tab>
             </md-tabs>
             <md-tabs md-dynamic-height md-border-bottom hide-gt-xs>
