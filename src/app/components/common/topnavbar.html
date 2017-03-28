@@ -166,7 +166,14 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sideNavPrincipal">
     <md-toolbar layout="row" layout-align="left center">
         <img class="img-circle img-sm m-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
-        <h5><span>{{usuarioLogado.nome}}</span></h5>
+        <div layout="column" layout-align="center center" ng-controller="LoginController as vmAuth">
+            <h5 class="m-b-none m-t-md">
+                {{usuarioLogado.nome}}
+            </h5>
+            <md-button ng-click="vmAuth.logout()" class="m-t-none">
+                {{'messages.logout' | translate}}
+            </md-button>
+        </div>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="vmTopNav.closeSideNav()" aria-label="Close">
             <i class="material-icons md-24">close</i>
