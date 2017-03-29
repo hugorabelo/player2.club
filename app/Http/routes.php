@@ -50,7 +50,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
     Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::post('usuario/segue', 'UsersController@segue');
-    Route::get('usuario/getJogos/{id}', 'UsersController@listaJogos');
+    Route::get('usuario/getJogos/{id}/{count?}', 'UsersController@listaJogos');
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
     Route::post('usuario/removeSeguidorJogo', 'UsersController@removeSeguidorJogo');
     Route::post('usuario/segueJogo', 'UsersController@segueJogo');
@@ -123,6 +123,11 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $retornoValidacao = Response::json(Auth::getUser());
+        return $retornoValidacao;
+    }));
+
+    Route::get('checkAutenticacao', array('middleware' => 'auth0.jwt', function() {
+        $retornoValidacao = Response::json(Auth::check());
         return $retornoValidacao;
     }));
 });

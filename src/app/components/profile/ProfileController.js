@@ -21,7 +21,6 @@
         vm.exibeFormularioPerfil = false;
         vm.exibeFormularioImagem = false;
 
-        //$rootScope.loading = true;
         Usuario.show(vm.idUsuario)
             .success(function (data) {
                 vm.usuario = data;
@@ -38,9 +37,6 @@
                     vm.segue();
                     vm.getCampeonatosInscritos(id);
                     vm.getJogos(id);
-                    //                    vm.getPlataformasDoUsuario();
-                    //                    vm.getPlataformas();
-                    //                    vm.getCampeonatosDisponiveis();
                 })
                 .error(function (data, status) {});
         };
@@ -79,7 +75,7 @@
         };
 
         vm.getJogos = function (id) {
-            Usuario.getJogos(id)
+            Usuario.getJogos(id, 6)
                 .success(function (data) {
                     vm.usuario.jogos = data.jogos;
                 });
