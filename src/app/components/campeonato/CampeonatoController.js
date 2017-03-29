@@ -250,7 +250,6 @@
 
         //
         vm.iniciaFase = function (ev, fase) {
-            console.log(fase);
             var confirm = $mdDialog.confirm(fase.id)
                 .title(vm.textoConfirmaIniciarFase)
                 .textContent(vm.textoExplicaIniciarfase)

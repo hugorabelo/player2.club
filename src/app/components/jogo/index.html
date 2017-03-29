@@ -26,7 +26,7 @@
             <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
 
             <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}</md-button>
-<md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
         </div>
         <div class="caixa-informacao-titulo" ng-show="false">
             <h3>{{'messages.analises' | translate}}</h3>
@@ -97,48 +97,63 @@
         </md-button>
         <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
     </md-card>
-    <div class="caixa-informacao-titulo" ng-show="false">
-        <h3>{{'messages.analises' | translate}}</h3>
-        <a ui-sref=".analises">
-            <i class="material-icons">more</i>
-        </a>
-    </div>
-    <md-toolbar class="md-toolbar-tools m-l-none m-r-none m-b-none">
-        <h3>{{'messages.campeonato_list' | translate}}</h3>
-        <a ui-sref=".campeonatos" class="ver-mais">
-            <i class="material-icons">more</i>
-        </a>
-    </md-toolbar>
-    <md-card class="infobar m-n p-w-xs">
-        <ul class="itens">
-            <li ng-repeat="campeonato in vmJogo.campeonatos">
-                <a ui-sref="campeonato({idCampeonato: campeonato.id})">{{campeonato.descricao}} <span class="pull-right">{{campeonato.plataforma}}</span> </a>
-            </li>
-        </ul>
-    </md-card>
-    <div class="caixa-informacao-titulo" ng-show="false">
-        <h3>{{'messages.melhores_jogadores' | translate}}</h3>
-        <a ui-sref=".ranking">
-            <i class="material-icons">more</i>
-        </a>
-    </div>
-    <md-toolbar class="md-toolbar-tools m-l-none m-r-none m-b-none">
-        <h3>{{'messages.seguidores' | translate}}</h3>
-        <a ui-sref=".seguidores" class="ver-mais">
-            <i class="material-icons">more</i>
-        </a>
-    </md-toolbar>
-    <md-card class="infobar m-n p-w-xs">
-        <ul class="itens">
-            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
-                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
-                <md-tooltip md-direction="top ">
-                    {{seguidor.nome}}
-                </md-tooltip>
+
+    <div layout-fill ui-view>
+        <div class="caixa-informacao-titulo" ng-show="false">
+            <h3>{{'messages.analises' | translate}}</h3>
+            <a ui-sref=".analises">
+                <i class="material-icons">more</i>
             </a>
-        </ul>
-    </md-card>
-    <div layout-fill ui-view class="p-h-sm">
-        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
+        </div>
+
+        <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center">
+                    <i class="material-icons m-r-sm md-primary">format_list_numbered</i> {{'messages.campeonato_list' | translate}}
+                    <span flex></span>
+                    <a ui-sref=".campeonatos" class="more">
+                        <i class="material-icons">more</i>
+                    </a>
+                </md-card-title-text>
+            </md-card-title>
+            <div class="m-xs">
+                <md-list-item ng-repeat="campeonato in vmJogo.campeonatos" class="m-b-xxs" ui-sref="campeonato({idCampeonato: campeonato.id})">
+                    {{campeonato.descricao}}
+                    <span flex></span>
+                    <span class="pull-right">{{campeonato.plataforma}}</span>
+                </md-list-item>
+            </div>
+        </md-card>
+
+        <div class="caixa-informacao-titulo" ng-show="false">
+            <h3>{{'messages.melhores_jogadores' | translate}}</h3>
+            <a ui-sref=".ranking">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+
+        <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center">
+                    <i class="material-icons m-r-sm md-primary">record_voice_over</i> {{'messages.seguidores' | translate}}
+                    <span flex></span>
+                    <a ui-sref=".seguidores" class="more">
+                        <i class="material-icons">more</i>
+                    </a>
+                </md-card-title-text>
+            </md-card-title>
+            <div class="m-xs">
+                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
+                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+                    <md-tooltip md-direction="top ">
+                        {{seguidor.nome}}
+                    </md-tooltip>
+                </a>
+            </div>
+        </md-card>
+
+        <div layout-fill class="p-h-sm">
+            <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
+        </div>
     </div>
 </div>

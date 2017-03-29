@@ -42,6 +42,21 @@
                 </md-list-item>
             </div>
         </md-card>
+
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.campeonato_list' | translate}}</h3>
+            <a ui-sref=".campeonatos">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <md-card class="caixa-informacao">
+            <div class="m-xs">
+                <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
+                    <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+                </md-list-item>
+            </div>
+        </md-card>
+
         <div class="caixa-informacao-titulo">
             <h3>{{'messages.seguindo' | translate}}</h3>
             <a ui-sref=".seguindo">
@@ -89,20 +104,6 @@
             </div>
 
         </md-card>
-
-        <div class="caixa-informacao-titulo">
-            <h3>{{'messages.campeonato_list' | translate}}</h3>
-            <a ui-sref=".campeonatos">
-                <i class="material-icons">more</i>
-            </a>
-        </div>
-        <md-card class="caixa-informacao">
-            <div class="m-xs">
-                <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
-                    <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
-                </md-list-item>
-            </div>
-        </md-card>
     </div>
 
 </div>
@@ -113,7 +114,7 @@
     <div class="profile-info m-t-sm">
         <div>
             <h2 class="no-margins">
-                {{vmProfile.usuario.nome}} {{idUsuario}}
+                {{vmProfile.usuario.nome}} {{idUsuarseguidoresio}}
             </h2>
         </div>
     </div>
@@ -128,24 +129,45 @@
     <!--    <div class="coverBorder"></div>-->
 </div>
 
-<div hide-gt-xs>
+<div hide-gt-xs ui-view>
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+        <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
                 <i class="material-icons m-r-sm md-primary">gamepad</i> {{'messages.usuario_gamertags' | translate}}
             </md-card-title-text>
         </md-card-title>
         <div class="m-xs">
-            <md-list-item ng-repeat="gamertag in vmProfile.gamertags" md-colors="::{backgroundColor: 'background-300'}">
+            <md-list-item ng-repeat="gamertag in vmProfile.gamertags" class="m-b-xxs">
                 <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
             </md-list-item>
         </div>
     </md-card>
 
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonato_list' | translate}}
+                <span flex></span>
+                <a ui-sref=".campeonatos" class="more">
+                    <i class="material-icons">more</i>
+                </a>
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)" class="m-b-xxs">
+                <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+            </md-list-item>
+        </div>
+    </md-card>
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
                 <i class="material-icons m-r-sm md-primary">people</i>{{'messages.seguindo' | translate}}
+                <span flex></span>
+                <a ui-sref=".seguindo" class="more">
+                    <i class="material-icons">more</i>
+                </a>
             </md-card-title-text>
         </md-card-title>
         <div class="m-xxs">
@@ -159,9 +181,13 @@
     </md-card>
 
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+        <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
                 <i class="material-icons m-r-sm md-primary">record_voice_over</i>{{'messages.seguidores' | translate}}
+                <span flex></span>
+                <a ui-sref=".seguidores" class="more">
+                    <i class="material-icons">more</i>
+                </a>
             </md-card-title-text>
         </md-card-title>
         <div class="m-xxs">
@@ -176,7 +202,7 @@
 
 
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title md-colors="::{backgroundColor: 'primary'}">
+        <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
                 <i class="material-icons m-r-sm md-primary">videogame_asset</i>{{'messages.jogo_list' | translate}}
             </md-card-title-text>
@@ -191,21 +217,7 @@
         </div>
     </md-card>
 
-    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title md-colors="::{backgroundColor: 'primary'}">
-            <md-card-title-text layout="row" layout-align="start center">
-                <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonato_list' | translate}}
-            </md-card-title-text>
-        </md-card-title>
-        <div class="m-xs">
-            <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)" class="m-b-xxs" md-colors="::{backgroundColor: 'background-300'}">
-                <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
-            </md-list-item>
-        </div>
-    </md-card>
-
-
-    <div ui-view layout="column" layout-fill class="m-t-md">
+    <div layout="column" layout-fill class="m-t-md">
         <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
 </div>

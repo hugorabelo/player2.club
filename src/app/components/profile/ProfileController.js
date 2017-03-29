@@ -16,6 +16,9 @@
         });
 
         vm.idUsuario = $stateParams.idUsuario;
+        if (vm.idUsuario == undefined) {
+            vm.paginaInicial = true;
+        }
         vm.usuario = {};
         vm.exibeFormulario = false;
         vm.exibeFormularioPerfil = false;

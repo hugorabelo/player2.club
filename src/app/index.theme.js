@@ -1,5 +1,23 @@
 angular.module('player2')
     .config(function ($mdThemingProvider) {
+
+        /*
+        '50': '#ffffff', (não identificada)
+        '100': '#f3dbdd', (não identificada)
+        '200': '#e5b1b5', (não identificada)
+        '300': hue-1,
+        '400': accent hue-2,
+        '500': default,
+        '600': hover,
+        '700': accent:hover,
+        '800': hue-2,
+        '900': '#71252c', (não identificada)
+        'A100': hue-3 / accent hue-1,
+        'A200': accent,
+        'A400': '#cc646e', (não identificada)
+        'A700': accent hue-3 / accent hue-x:hover
+        */
+
         $mdThemingProvider.definePalette('mightyslate', {
             '50': '#e4e7ea',
             '100': '#b8c1c9',

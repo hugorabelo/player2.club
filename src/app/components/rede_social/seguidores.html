@@ -21,9 +21,16 @@
 </md-grid-list>
 
 <md-card hide-gt-xs class="m-n">
-    <md-toolbar class="md-toolbar-tools">
-        <h2 class="secao_titulo" ng-init="vmSeguidores.inicializa()">{{'messages.seguidores' | translate}}</h2>
+    <md-toolbar class="md-toolbar-tools" ng-show="vmSeguidores.paginaInicial">
+        <h2 class="secao_titulo" ng-init="vmSeguidores.inicializa('seguindo')">{{'messages.seguidores' | translate}}</h2>
     </md-toolbar>
+    <md-card class="caixa-informacao m-l-n m-r-n m-t-none p-w-sm" ng-hide="vmSeguidores.paginaInicial">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center" class="text-uppercase" ng-init="vmSeguidores.inicializa()">
+                <i class="material-icons m-r-sm md-primary">record_voice_over</i>{{'messages.seguidores' | translate}}
+            </md-card-title-text>
+        </md-card-title>
+    </md-card>
     <div class="caixa-pesquisa m-b-sm">
         <md-input-container class="md-block md-primary">
             <label>{{'messages.filtro' | translate}}</label>
