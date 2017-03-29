@@ -41,8 +41,8 @@ class FaseGrupo extends Eloquent
         $partidas = $this->partidas();
         $usuario1 = $usuarios->first();
         $usuario2 = $usuarios->last();
-        $usuario1->distintivo = isset($usuario1->distintivo) ? $usuario1->distintivo : $usuario1->imagem_perfil;
-        $usuario2->distintivo = isset($usuario2->distintivo) ? $usuario2->distintivo : $usuario2->imagem_perfil;
+        $usuario1->distintivo = (isset($usuario1->distintivo) && !empty($usuario1->distintivo)) ? $usuario1->distintivo : $usuario1->imagem_perfil;
+        $usuario2->distintivo = (isset($usuario2->distintivo) && !empty($usuario2->distintivo)) ? $usuario2->distintivo : $usuario2->imagem_perfil;
         $usuario1->placares = app()->make(Collection::class);
         $usuario2->placares = app()->make(Collection::class);
         foreach ($partidas as $partida) {
