@@ -29,6 +29,7 @@ class FaseGrupo extends Eloquent
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
                 $usuario->sigla = substr($usuario->nome, 0, 3);
             }
+            $usuario->distintivo = (isset($usuario->distintivo) && !empty($usuario->distintivo)) ? $usuario->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
     }
