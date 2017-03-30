@@ -220,12 +220,21 @@ class UsersController extends Controller {
 		return Response::json($partidas);
 	}
 
-    public function listaPartidasEmAberto($idUsuario) {
+    public function listaPartidasEmAberto($idUsuario, $idCampeonato = null) {
         $usuario = $this->user->find($idUsuario);
         if($usuario == null) {
             return Response::json();
         }
-        $partidas = $usuario->partidasEmAberto();
+        $partidas = $usuario->partidasEmAberto($idCampeonato);
+        return Response::json($partidas);
+    }
+
+    public function listaPartidasDisputadas($idUsuario, $idCampeonato = null) {
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $partidas = $usuario->partidasDisputadas($idCampeonato);
         return Response::json($partidas);
     }
 

@@ -207,10 +207,14 @@
 
         vm.carregaParticipanteDestaque = function (participante) {
             vm.participanteDestaque = participante;
-            Campeonato.getUltimasPartidasDoUsuario(participante.id, vm.campeonato.id)
+            Usuario.getPartidasEmAberto(participante.id, vm.campeonato.id)
                 .success(function (data) {
-                    vm.participanteDestaque.ultimos_jogos = data;
-                    vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                    vm.participanteDestaque.partidasAbertas = data;
+                    Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
+                        .success(function (disputadas) {
+                            vm.participanteDestaque.partidasDisputadas = disputadas;
+                            vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                        })
                 });
         };
 

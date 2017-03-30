@@ -82,8 +82,22 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/partidasParaUsuario/' + id + stringCampeonato);
         },
 
-        getPartidasEmAberto: function (id) {
-            return $http.get('api/partidasEmAberto/' + id);
+        getPartidasEmAberto: function (id, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/partidasEmAberto/' + id + stringCampeonato);
+        },
+
+        getPartidasDisputadas: function (id, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/partidasDisputadas/' + id + stringCampeonato);
         },
 
         seguir: function (idSeguidor, usuario) {

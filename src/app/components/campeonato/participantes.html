@@ -47,9 +47,25 @@
 
             <strong>{{'messages.ultimos_jogos' | translate}}</strong>
 
+
             <table class="table table-striped table-hover m-t">
                 <tbody>
-                    <tr ng-repeat="partida in vmCampeonato.participanteDestaque.ultimos_jogos">
+                    <tr ng-repeat="partida in vmCampeonato.participanteDestaque.partidasDisputadas">
+                        <td class="col-xs-1 text-right">{{partida.rodada}}ª</td>
+                        <td class="col-xs-4 text-right" hide-xs>{{partida.usuarios[0].nome}}</td>
+                        <td class="col-xs-4 text-right" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</td>
+                        <td class="col-xs-1 text-center">{{partida.usuarios[0].placar}}</td>
+                        <td class="col-xs-1 text-center"><i class="fa fa-close fa-fw"></i></td>
+                        <td class="col-xs-1 text-center">{{partida.usuarios[1].placar}}</td>
+                        <td class="col-xs-4 text-left" hide-xs>{{partida.usuarios[1].nome}}</td>
+                        <td class="col-xs-4 text-left" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped table-hover m-t">
+                <tbody>
+                    <tr ng-repeat="partida in vmCampeonato.participanteDestaque.partidasAbertas">
                         <td class="col-xs-1 text-right">{{partida.rodada}}ª</td>
                         <td class="col-xs-4 text-right" hide-xs>{{partida.usuarios[0].nome}}</td>
                         <td class="col-xs-4 text-right" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</td>
