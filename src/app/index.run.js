@@ -31,7 +31,7 @@
                     });
                 }, function (error) {
                     localStorage.removeItem('id_token');
-                    console.log('usuário não existe');
+                    console.log('usuário não está logado');
                 });
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
