@@ -70,6 +70,8 @@ class FaseGrupo extends Eloquent
 
     public function usuariosComClassificacao()
     {
+        $pontuacoes = $this->fase()->pontuacoes();
+        $pontuacaoVitoria = $pontuacoes[1];
         $usuarios = $this->usuarios();
         if($usuarios->isEmpty()) {
             return true;
@@ -136,6 +138,12 @@ class FaseGrupo extends Eloquent
                 $usuario->gols_pro = $num_gols_pro;
                 $usuario->gols_contra = $num_gols_contra;
                 $usuario->saldo_gols = $num_saldo_gols;
+                if($usuario->jogos > 0) {
+                    $usuario->aproveitamento = number_format(($usuario->pontuacao)/($usuario->jogos*$pontuacaoVitoria)*100, 2);
+                } else {
+                    $usuario->aproveitamento = number_format(0, 2);
+                }
+
             }
         } else {
             // Partida com mais de 2 jogadores
