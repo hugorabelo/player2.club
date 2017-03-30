@@ -17,10 +17,18 @@
                 </md-item-template>
             </md-autocomplete>
 
-            <div class="icones-topo" ng-show="false">
-                <i class="material-icons md-24">home</i>
+            <div class="icones-topo" layout="row">
+                <md-button class="md-icon-button" aria-label="Home" ui-sref="home">
+                    <i class="material-icons md-24">home</i>
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Home" ui-sref="profile({idUsuario: usuarioLogado.id})">
+                    <i class="material-icons md-24">person</i>
+                </md-button>
+
+                <!--
                 <i class="material-icons md-24">comment</i>
                 <i class="material-icons md-24">videogame_asset</i>
+-->
             </div>
         </div>
         <div flex="20" layout="row" flex layout-align="end center">

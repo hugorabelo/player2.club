@@ -633,7 +633,15 @@ md-card.feed {
 }
 .icones-topo {
     margin-right: 16px;
-    color: @white;
+    .md-icon-button {
+        margin: 0px;
+        i {
+            color: @white;
+            &:hover {
+                color: @cinza-escuro;
+            }
+        }
+    }
 }
 .infobar {
     .detalhes-jogo {
@@ -807,6 +815,9 @@ body {
     }
     .h-500 {
         min-height: 500px;
+    }
+    .no-min-height {
+        min-height: 0 !important;
     }
 }
 @media screen and (max-width: 480px) {
