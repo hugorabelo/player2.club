@@ -100,6 +100,15 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/partidasDisputadas/' + id + stringCampeonato);
         },
 
+        getPartidasNaoDisputadas: function (id, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/partidasNaoDisputadas/' + id + stringCampeonato);
+        },
+
         seguir: function (idSeguidor, usuario) {
             dados = {
                 idUsuarioMestre: usuario.id,

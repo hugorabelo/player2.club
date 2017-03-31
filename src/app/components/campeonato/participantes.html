@@ -47,7 +47,6 @@
 
             <strong>{{'messages.ultimos_jogos' | translate}}</strong>
 
-
             <table class="table table-striped table-hover m-t">
                 <tbody>
                     <tr ng-repeat="partida in vmCampeonato.participanteDestaque.partidasDisputadas">
@@ -63,9 +62,11 @@
                 </tbody>
             </table>
 
+            <strong>{{'messages.partidas_a_disputar' | translate}}</strong>
+
             <table class="table table-striped table-hover m-t">
                 <tbody>
-                    <tr ng-repeat="partida in vmCampeonato.participanteDestaque.partidasAbertas">
+                    <tr ng-repeat="partida in vmCampeonato.participanteDestaque.partidasNaoDisputadas">
                         <td class="col-xs-1 text-right">{{partida.rodada}}ª</td>
                         <td class="col-xs-4 text-right" hide-xs>{{partida.usuarios[0].nome}}</td>
                         <td class="col-xs-4 text-right" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</td>

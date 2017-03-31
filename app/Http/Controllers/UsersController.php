@@ -238,6 +238,15 @@ class UsersController extends Controller {
         return Response::json($partidas);
     }
 
+	public function listaPartidasNaoDisputadas($idUsuario, $idCampeonato = null) {
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		$partidas = $usuario->partidasNaoDisputadas($idCampeonato);
+		return Response::json($partidas);
+	}
+
 	public function adicionaSeguidor() {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];

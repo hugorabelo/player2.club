@@ -207,9 +207,9 @@
 
         vm.carregaParticipanteDestaque = function (participante) {
             vm.participanteDestaque = participante;
-            Usuario.getPartidasEmAberto(participante.id, vm.campeonato.id)
+            Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
                 .success(function (data) {
-                    vm.participanteDestaque.partidasAbertas = data;
+                    vm.participanteDestaque.partidasNaoDisputadas = data;
                     Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
                         .success(function (disputadas) {
                             vm.participanteDestaque.partidasDisputadas = disputadas;
