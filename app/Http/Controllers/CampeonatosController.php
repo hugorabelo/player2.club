@@ -29,8 +29,10 @@ class CampeonatosController extends Controller
 
         foreach ($campeonatos as $campeonato) {
             $campeonato->jogo = $campeonato->jogo()->descricao;
+            $campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
             $campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
             $campeonato->plataforma = $campeonato->plataforma()->descricao;
+            $campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
         }
         return Response::json($campeonatos);
     }

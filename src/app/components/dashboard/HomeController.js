@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -28,17 +28,30 @@
                         .success(function (data) {
                             vm.usuario = data;
                             vm.getCampeonatosDisponiveis();
+                            vm.getJogosDisponiveis();
                         });
                 }
-            }
+            };
 
             vm.getCampeonatosDisponiveis = function () {
                 vm.userCampeonatosDisponiveis = {};
-                Usuario.getCampeonatosDisponiveis(vm.usuario.id)
+                //                Usuario.getCampeonatosDisponiveis(vm.usuario.id)
+                //                    .success(function (data) {
+                //                        vm.userCampeonatosDisponiveis = data;
+                //                    })
+                //                    .error(function (data) {});
+                Campeonato.get()
                     .success(function (data) {
                         vm.userCampeonatosDisponiveis = data;
                     })
                     .error(function (data) {});
+            };
+
+            vm.getJogosDisponiveis = function () {
+                Jogo.get()
+                    .success(function (data) {
+                        vm.jogosDisponiveis = data;
+                    });
             };
 
             vm.inscreverCampeonato = function (ev, id) {
