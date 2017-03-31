@@ -1,9 +1,9 @@
-<md-card ng-init="vmHome.editaPerfil()">
+<md-card ng-init="vmHome.editaPerfil()" ng-class="{'m-n': telaMobile}">
     <md-toolbar class="md-toolbar-tools">
         <h2>{{'messages.usuario_edit' | translate}}</h2>
     </md-toolbar>
     <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="vmHome.updatePerfil()">
-        <md-card-content layout-margin>
+        <md-card-content ng-class="{'m-n': telaMobile, 'p-xs': telaMobile, 'layout-margin': !telaMobile}">
             <md-input-container class="md-block">
                 <label>{{'fields.nome' | translate}}</label>
                 <input ng-model="vmHome.perfilEditar.nome" required>

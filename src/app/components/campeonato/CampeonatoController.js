@@ -42,6 +42,36 @@
             //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
         };
 
+        vm.abaTabela = function () {
+            vm.currentNavItem = 'tabela';
+            vm.carregaFases(vm.idCampeonato);
+        };
+
+        vm.abaPartidas = function () {
+            vm.currentNavItem = 'minhasPartidas';
+            vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+        };
+
+        vm.abaParticipantes = function () {
+            vm.currentNavItem = 'participantes';
+            vm.getParticipantes(vm.idCampeonato);
+        };
+
+        vm.abaGerenciar = function () {
+            vm.currentNavItem = 'detalhes';
+            vm.carregaAdministradores(vm.idCampeonato);
+        };
+
+        vm.abaContestacoes = function () {
+            vm.currentNavItem = 'contestacoes';
+            vm.carregaPartidasContestadas();
+        };
+
+        vm.abaEditar = function () {
+            vm.currentNavItem = 'editar';
+            vm.edit();
+        };
+
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
             vm.currentNavItem = 'tabela';
@@ -73,11 +103,6 @@
                 .success(function (data) {
                     vm.campeonato = data;
                     vm.carregaFases(id);
-                    vm.getParticipantes(id);
-                    vm.carregaAdministradores(id);
-                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
-                    vm.carregaPartidasContestadas();
-                    vm.campeonato.usuarioAdministrador = true;
                 });
         };
 
@@ -85,12 +110,6 @@
             Campeonato.getParticipantes(id)
                 .success(function (data) {
                     vm.campeonato.participantes = data;
-                    vm.campeonato.usuarioInscrito = false;
-                    angular.forEach(data, function (usuario) {
-                        if (usuario.id == $rootScope.usuarioLogado.id) {
-                            vm.campeonato.usuarioInscrito = true;
-                        }
-                    });
                 });
         };
 
@@ -98,12 +117,6 @@
             Campeonato.getAdministradores(id)
                 .success(function (data) {
                     vm.campeonato.campeonatoAdministradores = data;
-                    vm.campeonato.usuarioAdministrador = false;
-                    angular.forEach(data, function (administrador) {
-                        if (administrador.users_id == $rootScope.usuarioLogado.id) {
-                            vm.campeonato.usuarioAdministrador = true;
-                        }
-                    });
                 });
         };
 
@@ -194,10 +207,14 @@
 
         vm.carregaParticipanteDestaque = function (participante) {
             vm.participanteDestaque = participante;
-            Campeonato.getUltimasPartidasDoUsuario(participante.id, vm.campeonato.id)
+            Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
                 .success(function (data) {
-                    vm.participanteDestaque.ultimos_jogos = data;
-                    vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                    vm.participanteDestaque.partidasNaoDisputadas = data;
+                    Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
+                        .success(function (disputadas) {
+                            vm.participanteDestaque.partidasDisputadas = disputadas;
+                            vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                        })
                 });
         };
 
@@ -237,7 +254,6 @@
 
         //
         vm.iniciaFase = function (ev, fase) {
-            console.log(fase);
             var confirm = $mdDialog.confirm(fase.id)
                 .title(vm.textoConfirmaIniciarFase)
                 .textContent(vm.textoExplicaIniciarfase)
@@ -343,10 +359,11 @@
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
+                    toastr.success($filter('translate')('messages.sucesso_placar'));
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
                 })
                 .error(function (data) {
-                    //TODO melhorar a exibição deste erro
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         };
 
@@ -357,9 +374,10 @@
             Partida.confirmarPlacar(dados)
                 .success(function () {
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    toastr.success($filter('translate')('messages.sucesso_confirmacao'));
                 })
                 .error(function (data) {
-                    //                    $rootScope.loading = false;
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         };
 
@@ -380,7 +398,7 @@
                     fullscreen: true // Only for -xs, -sm breakpoints.
                 })
                 .then(function () {
-
+                    toastr.success($filter('translate')('messages.sucesso_contestacao_solicitada'));
                 }, function () {
 
                 });
@@ -393,9 +411,10 @@
             Partida.cancelarPlacar(dados)
                 .success(function () {
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    toastr.success($filter('translate')('messages.sucesso_cancelar_placar'));
                 })
                 .error(function (data) {
-                    console.log(data.errors);
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         }
 

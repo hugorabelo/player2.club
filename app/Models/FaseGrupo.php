@@ -29,6 +29,7 @@ class FaseGrupo extends Eloquent
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
                 $usuario->sigla = substr($usuario->nome, 0, 3);
             }
+            $usuario->distintivo = (isset($usuario->distintivo) && !empty($usuario->distintivo)) ? $usuario->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
     }
@@ -41,8 +42,8 @@ class FaseGrupo extends Eloquent
         $partidas = $this->partidas();
         $usuario1 = $usuarios->first();
         $usuario2 = $usuarios->last();
-        $usuario1->distintivo = isset($usuario1->distintivo) ? $usuario1->distintivo : $usuario1->imagem_perfil;
-        $usuario2->distintivo = isset($usuario2->distintivo) ? $usuario2->distintivo : $usuario2->imagem_perfil;
+        $usuario1->distintivo = (isset($usuario1->distintivo) && !empty($usuario1->distintivo)) ? $usuario1->distintivo : $usuario1->imagem_perfil;
+        $usuario2->distintivo = (isset($usuario2->distintivo) && !empty($usuario2->distintivo)) ? $usuario2->distintivo : $usuario2->imagem_perfil;
         $usuario1->placares = app()->make(Collection::class);
         $usuario2->placares = app()->make(Collection::class);
         foreach ($partidas as $partida) {
@@ -69,6 +70,8 @@ class FaseGrupo extends Eloquent
 
     public function usuariosComClassificacao()
     {
+        $pontuacoes = $this->fase()->pontuacoes();
+        $pontuacaoVitoria = $pontuacoes[1];
         $usuarios = $this->usuarios();
         if($usuarios->isEmpty()) {
             return true;
@@ -135,6 +138,12 @@ class FaseGrupo extends Eloquent
                 $usuario->gols_pro = $num_gols_pro;
                 $usuario->gols_contra = $num_gols_contra;
                 $usuario->saldo_gols = $num_saldo_gols;
+                if($usuario->jogos > 0) {
+                    $usuario->aproveitamento = number_format(($usuario->pontuacao)/($usuario->jogos*$pontuacaoVitoria)*100, 2);
+                } else {
+                    $usuario->aproveitamento = number_format(0, 2);
+                }
+
             }
         } else {
             // Partida com mais de 2 jogadores

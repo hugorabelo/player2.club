@@ -1,4 +1,4 @@
-<div ng-hide="vmCampeonato.idJogo">
+<div ng-hide="vmCampeonato.idJogo" class="h-300" hide-xs>
     <h3 class="secao_titulo" ng-init="vmCampeonato.getCampeonatosUsuario()">{{'messages.campeonatos_usuario' | translate}}</h3>
     <md-list ng-cloak>
         <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatosDoUsuario" ui-sref="campeonato({idCampeonato: campeonato.id})">
@@ -6,7 +6,7 @@
         </md-list-item>
     </md-list>
 </div>
-<div ng-show="vmCampeonato.idJogo">
+<div ng-show="vmCampeonato.idJogo" class="h-300" hide-xs>
     <h3 class="secao_titulo" ng-init="vmCampeonato.getCampeonatos(vm.idJogo)">{{'messages.campeonatos_jogo' | translate}}</h3>
     <md-list ng-cloak>
         <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})">
@@ -14,3 +14,39 @@
         </md-list-item>
     </md-list>
 </div>
+
+<md-card hide-gt-xs class="m-n caixa-informacao">
+    <div ng-hide="vmCampeonato.idJogo" class="h-500">
+        <md-toolbar class="md-toolbar-tools" ng-show="vmCampeonato.paginaInicial">
+            <h2 class="secao_titulo" ng-init="vmCampeonato.getCampeonatosUsuario()">{{'menus.meus_campeonatos' | translate}}</h2>
+        </md-toolbar>
+        <md-card class="caixa-informacao m-l-n m-r-n m-t-none p-w-sm" ng-hide="vmCampeonato.paginaInicial">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center" class="text-uppercase" ng-init="vmCampeonato.getCampeonatosUsuario()">
+                    <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonatos_usuario' | translate}}
+                </md-card-title-text>
+            </md-card-title>
+        </md-card>
+
+        <md-list ng-cloak>
+            <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatosDoUsuario" ui-sref="campeonato({idCampeonato: campeonato.id})">
+                <p>{{campeonato.descricao}}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+    <div ng-show="vmCampeonato.idJogo" class="h-300">
+        <md-card class="caixa-informacao m-l-n m-r-n m-t-none p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center" class="text-uppercase" ng-init="vmCampeonato.getCampeonatos(vm.idJogo)">
+                    <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonatos_jogo' | translate}}
+                </md-card-title-text>
+            </md-card-title>
+        </md-card>
+
+        <md-list ng-cloak>
+            <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})">
+                <p>{{campeonato.descricao}}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-card>

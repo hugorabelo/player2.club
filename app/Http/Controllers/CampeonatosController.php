@@ -29,8 +29,10 @@ class CampeonatosController extends Controller
 
         foreach ($campeonatos as $campeonato) {
             $campeonato->jogo = $campeonato->jogo()->descricao;
+            $campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
             $campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
             $campeonato->plataforma = $campeonato->plataforma()->descricao;
+            $campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
         }
         return Response::json($campeonatos);
     }
@@ -44,6 +46,19 @@ class CampeonatosController extends Controller
         $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
         $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
         $campeonato->status = $campeonato->status();
+
+        $quantidadeUsuario = DB::table('campeonato_usuarios')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        $campeonato->usuarioInscrito = false;
+        if($quantidadeUsuario > 0) {
+            $campeonato->usuarioInscrito = true;
+        }
+
+        $campeonato->usuarioAdministrador = false;
+        $quantidadeAdministrador = DB::table('campeonato_admins')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        if($quantidadeAdministrador > 0) {
+            $campeonato->usuarioAdministrador = true;
+        }
+
         return Response::json($campeonato);
     }
 

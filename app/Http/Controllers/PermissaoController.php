@@ -62,7 +62,7 @@ class PermissaoController extends Controller {
 
 		Mail::send('emailBugReport', ['conteudo' => $texto], function($message) use ($input, $files) {
 			$message->from('contato@player2.club', $name = 'player2.club');
-			$message->to('incoming+hugorabelo/ligavirtual+7o1aq39cb9drxtwn31x3awu83@gitlab.com', $name = 'GitLab');
+			$message->to('incoming+hugorabelo/ligavirtual+FQ9KyRqzmyXwtCz_eD8u@gitlab.com', $name = 'GitLab');
 			$message->subject($input['titulo']);
 
             if($files != null) {

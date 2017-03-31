@@ -1,17 +1,31 @@
-<div flex layout="row" layout-margin ng-init="vmHome.inicializa()">
+<div flex layout="row" layout-margin ng-init="vmHome.inicializa()" ng-class="{'m-n': telaMobile}">
 
     <div flex="15" layout="column" class="caixa-flutuante" layout-margin hide-xs>
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
+    <div hide-xs flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !stateHome || telaMobile' infinite-scroll-distance='0.2'></div>
+    </div>
 
-    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
-        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado' infinite-scroll-distance='1'></div>
+    <div hide-gt-xs layout-fill ui-view>
+        <div class="p-h-sm" ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !stateHome || !telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm hide-md>
         <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>
-        <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis">
-            {{ campeonato.descricao }}
+        <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis" layout="row" layout-align="center center">
+            <span flex>{{ campeonato.descricao }}</span>
+            <img src="uploads/{{campeonato.plataforma_imagem}}" alt="{{campeonato.plataforma_imagem}}" class="m-r-xxs m-l-n-sm img-xs">
+            <img src="uploads/{{campeonato.jogo_imagem}} " alt="{{campeonato.jogo}} " class="img-circle img-xs m-xxs">
+        </a>
+
+        <h3 class="menu-acessorio_titulo m-t-xl">{{'messages.jogos_disponiveis' | translate}}</h3>
+        <a class="menu-acessorio" ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmHome.jogosDisponiveis">
+            <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xxs">
+            <md-tooltip md-direction="top ">
+                {{jogo.descricao}}
+            </md-tooltip>
+            <span>{{jogo.descricao}}</span>
         </a>
     </div>
 </div>

@@ -105,10 +105,6 @@
                 });
         };
 
-        vm.funcaoTeste = function (grupo, indice) {
-            grupo.placarNovo = indice;
-        };
-
         /*
             angular.forEach(listaDeGrupos, function(item) {
 				vm.rodada_atual.push(1);

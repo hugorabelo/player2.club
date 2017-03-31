@@ -1,4 +1,4 @@
-<md-toolbar ng-controller="TopNavController as vmTopNav" class="md-accent topo-principal">
+<md-toolbar class="md-accent topo-principal" hide-xs>
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <a href="/" flex="20">
             <img alt="" height="50" src="assets/images/player2.png" data-pin-nopin="true" hide-xs>
@@ -17,19 +17,30 @@
                 </md-item-template>
             </md-autocomplete>
 
-            <div class="icones-topo" ng-show="false">
-                <i class="material-icons md-24">home</i>
+            <div class="icones-topo" layout="row">
+                <md-button class="md-icon-button" aria-label="Home" ui-sref="home">
+                    <i class="material-icons md-24">home</i>
+                </md-button>
+
+                <!--
                 <i class="material-icons md-24">comment</i>
                 <i class="material-icons md-24">videogame_asset</i>
+-->
             </div>
         </div>
-        <div flex="20" layout="row" flex layout-align="end center">
+        <div flex="20" layout="row" flex layout-align="end center" class="botao-opcoes">
 
-            <md-menu md-position-mode="target-right target" md-offset="-10 64">
-                <div layout="column" layout-align="center center" ng-click="$mdOpenMenu()">
-                    <img class="img-circle img-xs m-t-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
-                    <h5 hide-xs><span>{{usuarioLogado.nome}}</span></h5>
-                </div>
+
+            <a ui-sref="profile({idUsuario: usuarioLogado.id})" layout="row" layout-align="center center">
+                <img class="img-circle img-xs m-t-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+                <div class="nome-usuario">{{usuarioLogado.nome}}</div>
+            </a>
+            <md-menu md-position-mode="target-right target" md-offset="-20 50">
+                <!--
+-->
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="$mdOpenMenu()">
+                    <i class="material-icons md-24">menu</i>
+                </md-button>
                 <md-menu-content>
                     <md-menu-item>
                         <md-button ng-click="vmTopNav.mudaIdioma('pt_br')">
@@ -45,6 +56,7 @@
                             </div>
                         </md-button>
                     </md-menu-item>
+                    <!--
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item>
                         <md-button ui-sref="home.editar_perfil">
@@ -88,6 +100,7 @@
                             </div>
                         </md-button>
                     </md-menu-item>
+-->
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item ng-controller="LoginController as vmAuth">
                         <md-button ng-click="vmAuth.logout()">
@@ -126,6 +139,62 @@
                     </div>
                 </md-menu-content>
             </md-menu>
+
+
         </div>
     </div>
 </md-toolbar>
+
+<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-hide="vmTopNav.isOpenSideNav()">
+            <i class="material-icons md-24">menu</i>
+        </md-button>
+        <span flex class="text-center">
+            <a href="/">
+            <img alt="" height="40" src="assets/images/player2.png" data-pin-nopin="true" hide-gt-xs>
+            </a>
+        </span>
+
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch">
+            <i class="material-icons md-24">search</i>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-toolbar hide-gt-xs class="md-accent md-hue-1" ng-show="showSearch" id="toolbarSearch">
+    <div class="md-toolbar-tools" layout-align="space-between center">
+        <md-button class="md-icon-button" ng-click="showSearch = !showSearch" aria-label="Back">
+            <i class="material-icons md-24">arrow_back</i>
+        </md-button>
+        <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template" flex>
+            <md-item-template>
+                <span class="item-title">
+                        <img src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-show="item.tipo == 'profile'">
+                        <img src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
+                        <span> {{item.descricao}} </span>
+                </span>
+            </md-item-template>
+        </md-autocomplete>
+    </div>
+</md-toolbar>
+
+<md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sideNavPrincipal">
+    <md-toolbar layout="row" layout-align="left center">
+        <img class="img-circle img-sm m-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+        <div layout="column" layout-align="center center" ng-controller="LoginController as vmAuth">
+            <h5 class="m-b-none m-t-md">
+                {{usuarioLogado.nome}}
+            </h5>
+            <md-button ng-click="vmAuth.logout()" class="m-t-none">
+                {{'messages.logout' | translate}}
+            </md-button>
+        </div>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vmTopNav.closeSideNav()" aria-label="Close">
+            <i class="material-icons md-24">close</i>
+        </md-button>
+    </md-toolbar>
+    <md-content class="md-primary">
+        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
+    </md-content>
+</md-sidenav>

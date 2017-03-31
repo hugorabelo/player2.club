@@ -9,6 +9,10 @@
         vm.idUsuario = $stateParams.idUsuario;
         vm.idJogo = $stateParams.idJogo;
 
+        if (vm.idUsuario == undefined && vm.idJogo == undefined) {
+            vm.paginaInicial = true;
+        }
+
         vm.inicializa = function (tipo) {
             if (vm.idUsuario == undefined) {
                 vm.idUsuario = $rootScope.usuarioLogado.id;
