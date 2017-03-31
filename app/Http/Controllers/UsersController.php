@@ -17,10 +17,9 @@ class UsersController extends Controller {
 	}
 
 	public function show($id) {
-	    $colunas = array('id', 'nome');
 		$usuario = User::find($id);
-        $usuario->seguidores = $usuario->seguidores()->get();
-        $usuario->seguindo = $usuario->seguindo()->get();
+        $usuario->seguidores = $usuario->seguidores()->get()->take(6);
+        $usuario->seguindo = $usuario->seguindo()->get()->take(6);
 		return Response::json($usuario);
 	}
 
@@ -221,14 +220,32 @@ class UsersController extends Controller {
 		return Response::json($partidas);
 	}
 
-    public function listaPartidasEmAberto($idUsuario) {
+    public function listaPartidasEmAberto($idUsuario, $idCampeonato = null) {
         $usuario = $this->user->find($idUsuario);
         if($usuario == null) {
             return Response::json();
         }
-        $partidas = $usuario->partidasEmAberto();
+        $partidas = $usuario->partidasEmAberto($idCampeonato);
         return Response::json($partidas);
     }
+
+    public function listaPartidasDisputadas($idUsuario, $idCampeonato = null) {
+        $usuario = $this->user->find($idUsuario);
+        if($usuario == null) {
+            return Response::json();
+        }
+        $partidas = $usuario->partidasDisputadas($idCampeonato);
+        return Response::json($partidas);
+    }
+
+	public function listaPartidasNaoDisputadas($idUsuario, $idCampeonato = null) {
+		$usuario = $this->user->find($idUsuario);
+		if($usuario == null) {
+			return Response::json();
+		}
+		$partidas = $usuario->partidasNaoDisputadas($idCampeonato);
+		return Response::json($partidas);
+	}
 
 	public function adicionaSeguidor() {
 		$input = Input::except('_token');
@@ -307,12 +324,15 @@ class UsersController extends Controller {
 		return Response::json(array('segue'=>$usuario->segueJogo($idJogo)));
 	}
 
-	public function listaJogos($idUsuario) {
+	public function listaJogos($idUsuario, $count = 0) {
 	    $usuario = $this->user->find($idUsuario);
         if($usuario == null) {
             return Response::json();
         }
         $jogos = $usuario->jogos()->get();
+		if($count > 0) {
+			$jogos = $jogos->take($count);
+		}
         return Response::json(array('jogos'=> $jogos));
     }
 

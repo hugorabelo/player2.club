@@ -31,9 +31,9 @@
     //    angular.module('player2').config(function ($locationProvider) {
     //        $locationProvider.html5Mode(true);
     //    });
-
-    var API_URL = '/';
-    //    var API_URL = 'http://localhost/player2/public/';
+    var apiUrlAmbiente;
+    var redirectUrlAmbiente;
+    var responseTypeAmbiente;
 
     angular.module('player2').config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
@@ -74,18 +74,21 @@
         });
 
 
-    function apiInterceptor($q) {
+    function apiInterceptor($q, $rootScope, localStorageService) {
         return {
             request: function (config) {
+                apiUrlAmbiente = localStorageService.get('API_URL');
+                redirectUrlAmbiente = localStorageService.get('redirectUrl');
+                responseTypeAmbiente = localStorageService.get('responseType');
                 var url = config.url;
 
                 // ignore template requests
                 var extensao = url.substr(url.length - 5);
-                if (extensao == '.html' || extensao == '.json') {
+                if (extensao == '.html' || extensao == '.json' || url == 'ambiente.properties') {
                     return config || $q.when(config);
                 }
 
-                config.url = API_URL + config.url;
+                config.url = apiUrlAmbiente + config.url;
                 return config || $q.when(config);
             }
         }
@@ -134,8 +137,8 @@
                     params: {
                         scope: 'openid email picture name picture_large'
                     },
-                    redirectUrl: 'http://beta.player2.club/',
-                    responseType: 'token'
+                    redirectUrl: redirectUrlAmbiente,
+                    responseType: responseTypeAmbiente
                 },
                 theme: {
                     logo: 'http://www.player2.club/img/player2_azul.png',

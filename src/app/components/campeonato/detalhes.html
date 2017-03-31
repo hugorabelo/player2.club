@@ -1,10 +1,15 @@
-<md-card flex>
+<md-card flex ng-class="{'m-n': telaMobile}">
 
-    <md-toolbar class="md-toolbar-tools">
+    <md-card-title hide-gt-xs class="p-xs">
+        <md-card-title-text>
+            <span class="md-headline">{{'messages.operacao_list' | translate}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-toolbar class="md-toolbar-tools" hide-xs>
         <h2 translate>messages.operacao_list</h2>
     </md-toolbar>
 
-    <md-card-content>
+    <md-card-content ng-class="{'p-xs': telaMobile}">
 
         <md-tabs class="md-primary">
             <md-tab ng-repeat="fase in vmCampeonato.campeonatoFases">
@@ -36,13 +41,17 @@
 
     </md-card-content>
 </md-card>
-<md-card flex flex-gt-sm="33">
-
-    <md-toolbar class="md-toolbar-tools">
+<md-card flex flex-gt-sm="33" ng-class="{'m-n': telaMobile}">
+    <md-card-title hide-gt-xs class="p-xs">
+        <md-card-title-text>
+            <span class="md-headline">{{'messages.campeonatoAdmin_list' | translate}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-toolbar class="md-toolbar-tools" hide-xs>
         <h2 translate>messages.campeonatoAdmin_list</h2>
     </md-toolbar>
 
-    <md-card-content>
+    <md-card-content ng-class="{'p-xs': telaMobile}">
 
         <div layout="row">
             <md-input-container class="md-icon-float md-block" flex>

@@ -1,44 +1,21 @@
-<div flex layout="column" layout-margin>
+<div flex layout="column" layout-margin hide-xs>
 
     <div flex layout-gt-md="row" layout-margin>
         <div class="caixa-flutuante" flex>
             <md-tabs md-dynamic-height md-border-bottom hide-xs>
-                <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.currentNavItem = 'tabela'">
+                <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.abaTabela()">
                 </md-tab>
-                <md-tab label="{{'messages.campeonatosParticipantes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'participantes'">
+                <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.abaPartidas()" ng-if="vmCampeonato.campeonato.usuarioInscrito">
+                </md-tab>
+                <md-tab label="{{'messages.campeonatosParticipantes' | translate}}" ng-click="vmCampeonato.abaParticipantes()">
                 </md-tab>
                 <md-tab label="{{'messages.exibir_regras_campeonato' | translate}}" ng-click="vmCampeonato.currentNavItem = 'regras'">
                 </md-tab>
-                <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.currentNavItem = 'minhasPartidas'" ng-if="vmCampeonato.campeonato.usuarioInscrito">
+                <md-tab label="{{'messages.campeonato_detalhes' | translate}}" ng-click="vmCampeonato.abaGerenciar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
                 </md-tab>
-                <md-tab label="{{'messages.campeonato_detalhes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'detalhes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+                <md-tab label="{{'messages.campeonatoContestacoes' | translate}}" ng-click="vmCampeonato.abaContestacoes()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
                 </md-tab>
-                <md-tab label="{{'messages.campeonatoContestacoes' | translate}}" ng-click="vmCampeonato.currentNavItem = 'contestacoes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
-                </md-tab>
-                <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.currentNavItem = 'editar'; vmCampeonato.edit()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
-                </md-tab>
-            </md-tabs>
-            <md-tabs md-dynamic-height md-border-bottom hide-gt-xs>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'tabela'">
-                    <i class="material-icons">format_list_numbered</i>
-                </md-tab>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'participantes'">
-                    <i class="material-icons">group</i>
-                </md-tab>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'regras'">
-                    <i class="material-icons">assignment</i>
-                </md-tab>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'minhasPartidas'" ng-if="vmCampeonato.campeonato.usuarioInscrito">
-                    <i class="material-icons">local_play</i>
-                </md-tab>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'detalhes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
-                    <i class="material-icons">details</i>
-                </md-tab>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'contestacoes'" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
-                    <i class="material-icons">gavel</i>
-                </md-tab>
-                <md-tab ng-click="vmCampeonato.currentNavItem = 'editar'; vmCampeonato.edit()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
-                    <i class="material-icons">mode_edit</i>
+                <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.abaEditar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
                 </md-tab>
             </md-tabs>
         </div>
@@ -47,7 +24,7 @@
     <div layout-gt-md="row" layout-margin>
 
         <div flex hide-gt-md class="caixa-flutuante" layout-padding>
-            <md-card>
+            <md-card ng-class="{'m-n': telaMobile}">
                 <md-toolbar class="md-toolbar-tools">
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
@@ -81,8 +58,12 @@
                 <div layout-fill ng-include="'app/components/campeonato/tabela.html'"></div>
             </div>
 
+            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
+                <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
+            </div>
+
             <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
-                <md-card>
+                <md-card class="h-300" ng-class="{'m-n': telaMobile}">
                     <md-card-content>
                         <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
                     </md-card-content>
@@ -92,12 +73,6 @@
             <div layout-fill ng-show="vmCampeonato.currentNavItem == 'participantes'">
                 <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/participantes.html'"></div>
             </div>
-
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
-                <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
-            </div>
-
-
 
             <div layout-fill ng-show="vmCampeonato.currentNavItem == 'detalhes'">
                 <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
@@ -112,11 +87,10 @@
                 <div layout-fill ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
             </div>
 
-
         </div>
 
         <div flex flex-gt-md="20" hide-xs hide-sm hide-md show-gt-md class="caixa-flutuante" layout-padding>
-            <md-card>
+            <md-card ng-class="{'m-n': telaMobile}">
                 <md-toolbar class="md-toolbar-tools">
                     {{vmCampeonato.campeonato.descricao}}
                 </md-toolbar>
@@ -135,7 +109,7 @@
                         {{vmCampeonato.campeonato.jogo.descricao}}
                         </a>
                     </h4>
-                    <h4 class="text-center">
+                    <h4 class="text-center" ng-show="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
                         {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
                     </h4>
                     <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
@@ -144,5 +118,87 @@
             </md-card>
         </div>
 
+    </div>
+</div>
+
+<div flex layout="column" hide-gt-xs>
+    <md-tabs md-dynamic-height md-border-bottom class="md-primary">
+        <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.abaTabela()">
+        </md-tab>
+        <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.abaPartidas()" ng-if="vmCampeonato.campeonato.usuarioInscrito">
+        </md-tab>
+        <md-tab label="{{'messages.campeonatosParticipantes' | translate}}" ng-click="vmCampeonato.abaParticipantes()">
+        </md-tab>
+        <md-tab label="{{'messages.exibir_regras_campeonato' | translate}}" ng-click="vmCampeonato.currentNavItem = 'regras'">
+        </md-tab>
+        <md-tab label="{{'messages.campeonato_detalhes' | translate}}" ng-click="vmCampeonato.abaGerenciar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+        </md-tab>
+        <md-tab label="{{'messages.campeonatoContestacoes' | translate}}" ng-click="vmCampeonato.abaContestacoes()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+        </md-tab>
+        <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.abaEditar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
+        </md-tab>
+        <md-tab label="{{'messages.campeonato_info' | translate}}" ng-click="vmCampeonato.currentNavItem = 'informacoes'">
+        </md-tab>
+    </md-tabs>
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'tabela'">
+        <div layout-fill ng-include="'app/components/campeonato/tabela.html'"></div>
+    </div>
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
+        <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
+    </div>
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
+        <md-card class="h-300" ng-class="{'m-n': telaMobile}">
+            <md-card-content>
+                <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'participantes'">
+        <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/participantes.html'"></div>
+    </div>
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'detalhes'">
+        <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
+    </div>
+
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'contestacoes'">
+        <div layout-fill ng-include="'app/components/campeonato/contestacoes.html'"></div>
+    </div>
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'editar'">
+        <div layout-fill ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
+    </div>
+
+    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'informacoes'">
+        <md-card ng-class="{'m-n': telaMobile}">
+            <md-toolbar class="md-toolbar-tools">
+                {{vmCampeonato.campeonato.descricao}}
+            </md-toolbar>
+            <md-card-content layout-align="center center" layout="column">
+                <h2 class="text-center m-t" ng-show="false">
+                        {{vmCampeonato.campeonato.descricao}}
+                    </h2>
+                <h4 class="text-center m-t">
+                        {{vmCampeonato.campeonato.plataforma.descricao}}
+                    </h4>
+                <h4 class="text-center">
+                       <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                        {{vmCampeonato.campeonato.jogo.descricao}}
+                        </a>
+                    </h4>
+                <h4 class="text-center" ng-show="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
+                        {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
+                    </h4>
+                <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
+                <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status === 1 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
+                <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive m-t" alt="profile">
+                </a>
+            </md-card-content>
+        </md-card>
     </div>
 </div>

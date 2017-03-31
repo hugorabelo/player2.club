@@ -1,6 +1,6 @@
-<div flex layout-gt-xs="row" layout-xs="column" layout-margin ng-init="vmJogo.inicializa()">
+<div flex layout="row" layout-margin ng-init="vmJogo.inicializa()" hide-xs>
 
-    <div flex-gt-xs="33" layout="column" class="caixa-flutuante infobar" layout-margin>
+    <div flex="33" layout="column" class="caixa-flutuante infobar" layout-margin>
         <!--        <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>-->
         <div class="detalhes-jogo">
             <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
@@ -18,15 +18,14 @@
                    <i class="material-icons">extension</i>
                    {{vmJogo.jogo.produtora}}
                 </span>
-                <span class="info" hide-xs>
+                <span class="info">
                    <i class="material-icons">date_range</i>
                     {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
                 </span>
             </div>
             <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
 
-            <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
-            </md-button>
+            <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}</md-button>
             <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
         </div>
         <div class="caixa-informacao-titulo" ng-show="false">
@@ -69,7 +68,92 @@
     </div>
 
     <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
-        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado' infinite-scroll-distance='1'></div>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
+</div>
 
+
+<div flex hide-gt-xs layout="column" layout-margin ng-init="vmJogo.inicializa()" class="m-n">
+    <md-toolbar class="md-toolbar-tools m-n">
+        <h2>{{vmJogo.jogo.descricao}}</h2>
+    </md-toolbar>
+    <md-card class="detalhes-jogo m-n p-xs">
+        <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
+            <img src="uploads/{{vmJogo.jogo.imagem_capa}}" class="img-responsive m-b-md" alt="profile">
+        </a>
+        <div layout="row" layout-align="space-around center" class="m-b-sm">
+            <span class="info">
+                   <i class="material-icons">style</i>
+                    {{vmJogo.jogo.genero}}
+                </span>
+            <span class="info">
+                   <i class="material-icons">extension</i>
+                   {{vmJogo.jogo.produtora}}
+                </span>
+        </div>
+        <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+
+        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+    </md-card>
+
+    <div layout-fill ui-view>
+        <div class="caixa-informacao-titulo" ng-show="false">
+            <h3>{{'messages.analises' | translate}}</h3>
+            <a ui-sref=".analises">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+
+        <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center">
+                    <i class="material-icons m-r-sm md-primary">format_list_numbered</i> {{'messages.campeonato_list' | translate}}
+                    <span flex></span>
+                    <a ui-sref=".campeonatos" class="more">
+                        <i class="material-icons">more</i>
+                    </a>
+                </md-card-title-text>
+            </md-card-title>
+            <div class="m-xs">
+                <md-list-item ng-repeat="campeonato in vmJogo.campeonatos" class="m-b-xxs" ui-sref="campeonato({idCampeonato: campeonato.id})">
+                    {{campeonato.descricao}}
+                    <span flex></span>
+                    <span class="pull-right">{{campeonato.plataforma}}</span>
+                </md-list-item>
+            </div>
+        </md-card>
+
+        <div class="caixa-informacao-titulo" ng-show="false">
+            <h3>{{'messages.melhores_jogadores' | translate}}</h3>
+            <a ui-sref=".ranking">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+
+        <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center">
+                    <i class="material-icons m-r-sm md-primary">record_voice_over</i> {{'messages.seguidores' | translate}}
+                    <span flex></span>
+                    <a ui-sref=".seguidores" class="more">
+                        <i class="material-icons">more</i>
+                    </a>
+                </md-card-title-text>
+            </md-card-title>
+            <div class="m-xs">
+                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
+                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+                    <md-tooltip md-direction="top ">
+                        {{seguidor.nome}}
+                    </md-tooltip>
+                </a>
+            </div>
+        </md-card>
+
+        <div layout-fill class="p-h-sm">
+            <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
+        </div>
+    </div>
 </div>

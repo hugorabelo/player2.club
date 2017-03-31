@@ -32,11 +32,13 @@
                 var usuarioLogado = localStorageService.get('usuarioLogado');
                 vm.idUsuario = usuarioLogado.id;
                 vm.feedFactory = new Feed(vm.idUsuario, 0, vm.idJogo);
+                vm.feedFactory.proximaPagina();
             } else if (vm.idUsuario !== undefined) {
                 Usuario.show(vm.idUsuario)
                     .success(function (data) {
                         vm.usuario = data;
                         vm.feedFactory = new Feed(vm.idUsuario, 0);
+                        vm.feedFactory.proximaPagina();
                     });
             } else {
                 var usuarioLogado = localStorageService.get('usuarioLogado');
@@ -45,9 +47,11 @@
                         .success(function (data) {
                             vm.usuario = data;
                             vm.feedFactory = new Feed(usuarioLogado.id, 1);
+                            vm.feedFactory.proximaPagina();
                         });
                 }
             }
+
         };
 
         vm.criarPost = function () {

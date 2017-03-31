@@ -43,14 +43,16 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
     Route::get('partidasParaUsuario/{id}/{idCampeonato?}', 'UsersController@listaPartidas');
-    Route::get('partidasEmAberto/{id}', 'UsersController@listaPartidasEmAberto');
+    Route::get('partidasEmAberto/{id}/{idCampeonato?}', 'UsersController@listaPartidasEmAberto');
+    Route::get('partidasDisputadas/{id}/{idCampeonato?}', 'UsersController@listaPartidasDisputadas');
+    Route::get('partidasNaoDisputadas/{id}/{idCampeonato?}', 'UsersController@listaPartidasNaoDisputadas');
     Route::post('usuario/adicionaSeguidor', 'UsersController@adicionaSeguidor');
     Route::post('usuario/removeSeguidor', 'UsersController@removeSeguidor');
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
     Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::post('usuario/segue', 'UsersController@segue');
-    Route::get('usuario/getJogos/{id}', 'UsersController@listaJogos');
+    Route::get('usuario/getJogos/{id}/{count?}', 'UsersController@listaJogos');
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
     Route::post('usuario/removeSeguidorJogo', 'UsersController@removeSeguidorJogo');
     Route::post('usuario/segueJogo', 'UsersController@segueJogo');
@@ -123,6 +125,11 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $retornoValidacao = Response::json(Auth::getUser());
+        return $retornoValidacao;
+    }));
+
+    Route::get('checkAutenticacao', array('middleware' => 'auth0.jwt', function() {
+        $retornoValidacao = Response::json(Auth::check());
         return $retornoValidacao;
     }));
 });

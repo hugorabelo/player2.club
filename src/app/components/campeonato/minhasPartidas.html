@@ -1,17 +1,17 @@
-<md-card class="md-block" flex>
+<md-card class="md-block h-300" flex ng-class="{'m-n': telaMobile}">
     <!--
     <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.minhasPartidas_list</h2>
     </md-toolbar>
 -->
-    <md-card-content>
+    <md-card-content ng-class="{'p-w-xs': telaMobile}">
         <div ng-repeat="partida in vmCampeonato.partidasDoUsuario" flex layout="row" layout-align="space-between center">
             <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center">
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
-                <!--
-                Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
+
+                <!--                Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo-->
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
--->
+
                 <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante" alt="profile">
             </div>
             <div class="text-center" flex layout="row" layout-align="space-around center">
@@ -22,14 +22,14 @@
             <div class="text-left" flex layout-xs="row" layout-align-xs="space-around center">
                 <img src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile">
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
-                <!--
-                Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
-                <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
--->
-            </div>
-            <div flex="20">
 
-                <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao" hide-xs>
+                <!--                Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo-->
+                <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
+
+            </div>
+            <div flex="20" flex-xs="35" layout-xs="row" layout-align-xs="space-between center">
+
+                <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao" layout-xs="row" layout-align-xs="center center">
                     <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">
                         <i class="material-icons">save</i>
                         <md-tooltip md-direction="top ">
@@ -58,34 +58,6 @@
                         </md-tooltip>
                     </md-button>
                 </div>
-                <!--                    EDITAR A PARTIR DAQUI-->
-                <md-menu ng-hide="partida.contestada || partida.data_confirmacao" hide-gt-xs>
-                    <md-button aria-label="+" class="md-icon-button" ng-click="$mdMenu.open()">
-                        <i class="material-icons">more_horiz</i>
-                    </md-button>
-                    <md-menu-content width="2">
-                        <md-menu-item ng-hide="partida.data_placar">
-                            <md-button class="md-raised md-primary" ng-click="vmCampeonato.salvarPlacar(partida)">
-                                <i class="material-icons">save</i> {{'fields.salvar_resultado' | translate}}
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
-                            <md-button class="md-raised" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)">
-                                <i class="material-icons">done</i> {{'fields.confirmar_resultado' | translate}}
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
-                            <md-button class="md-raised" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)">
-                                <i class="material-icons">gavel</i> {{'fields.contestar_resultado' | translate}}
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
-                            <md-button class="md-raised md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)">
-                                <i class="material-icons">clear</i> {{'fields.cancelar_resultado' | translate}}
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
                 <div id="icones" class="pull-right" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
                     <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-show="partida.contestada">
                         <i class="fa fa-balance-scale fa-lg"></i>
@@ -99,7 +71,7 @@
                             {{'fields.placar_confirmado' | translate}}
                         </md-tooltip>
                     </md-button>
-                    <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada" hide-xs>
+                    <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada && partida.usuario_placar == usuarioLogado.id">
                         <i class="fa fa-hourglass fa-lg"></i>
                         <md-tooltip md-direction="top" class="multiline">
                             {{'fields.aguardando_confirmacao' | translate}}

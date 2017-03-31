@@ -58,8 +58,11 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.delete('api/usuario/' + id);
         },
 
-        getJogos: function (id) {
-            return $http.get('api/usuario/getJogos/' + id);
+        getJogos: function (id, count) {
+            if (count == undefined) {
+                count = '0';
+            }
+            return $http.get('api/usuario/getJogos/' + id + '/' + count);
         },
 
         getCampeonatosInscritos: function (id) {
@@ -79,8 +82,31 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/partidasParaUsuario/' + id + stringCampeonato);
         },
 
-        getPartidasEmAberto: function (id) {
-            return $http.get('api/partidasEmAberto/' + id);
+        getPartidasEmAberto: function (id, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/partidasEmAberto/' + id + stringCampeonato);
+        },
+
+        getPartidasDisputadas: function (id, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/partidasDisputadas/' + id + stringCampeonato);
+        },
+
+        getPartidasNaoDisputadas: function (id, idCampeonato) {
+            if (idCampeonato !== undefined) {
+                stringCampeonato = '/' + idCampeonato;
+            } else {
+                stringCampeonato = '';
+            }
+            return $http.get('api/partidasNaoDisputadas/' + id + stringCampeonato);
         },
 
         seguir: function (idSeguidor, usuario) {

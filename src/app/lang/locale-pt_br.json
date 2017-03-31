@@ -181,6 +181,7 @@
         "campeonato_edit": "Editar Campeonato",
         "campeonato_empty": "Não existe nenhum Campeonato cadastrado",
         "campeonato_detalhes": "Gerenciar",
+        "campeonato_info": "Detalhes",
         "exibir_regras_campeonato": "Regras",
         "campeonatosInscricoesAbertas": "Campeonatos Abertos",
         "campeonatosAIniciar": "Campeonatos Aguardando Início",
@@ -190,7 +191,7 @@
         "campeonatoContestacoes": "Resultados Contestados",
 
 
-        "campeonatoAdmin_list": "Administradores do Campeonato",
+        "campeonatoAdmin_list": "Administradores",
         "campeonatoAdmin_add": "Adicionar Administrador do Campeonato",
         "campeonatoAdmin_create": "Inserir Administrador do Campeonato",
         "campeonatoAdmin_edit": "Editar Administrador do Campeonato",
@@ -209,7 +210,7 @@
 
         "pontuacaoRegra_list": "Regras de Pontuação",
         "grupo_list": "Grupos",
-        "operacao_list": "Gerenciamento das Fases do Campeonato",
+        "operacao_list": "Gerenciamento de Fases",
 
         "menu_create": "Criar Menu",
         "menu_edit": "Editar Menu",
@@ -234,7 +235,7 @@
 
         "minhasPartidas_list": "Minhas Partidas",
         "minhasPartidasAbertas_list": "Minhas Partidas Em Aberto",
-        "tabelaCampeonato_list": "Tabela de Classificação",
+        "tabelaCampeonato_list": "Tabela",
         "partida_contestar": "Contestar Resultado da Partida",
 
         "criterios_classificacao": "Critérios de Classificação",
@@ -268,6 +269,7 @@
         "visitar_perfil": "Visitar Perfil",
         "filtro": "Filtre os resultados",
         "ultimos_jogos": "Últimas Partidas",
+        "partidas_a_disputar": "Partidas a disputar",
 
         "curtiu": " curtiu o post de ",
         "compartilhou": " compartilhou o post de ",
@@ -284,6 +286,7 @@
         "ultimas_novidades": "O que tá rolando",
         "campeonatos_usuario": "Campeonatos do Usuário",
         "campeonatos_jogo": "Campeonatos do Jogo",
+        "jogos_disponiveis": "Jogos Disponíveis",
 
         "analises": "Análises",
         "melhores_jogadores": "Melhores Jogadores",
@@ -301,6 +304,10 @@
         "sucesso_inscricao": "Inscrição realizada com sucesso",
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um id de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
+        "sucesso_placar": "Resultado inserido com sucesso",
+        "sucesso_confirmacao": "Confirmação realizada com sucesso",
+        "sucesso_cancelar_placar": "Placar cancelado com sucesso",
+        "sucesso_contestacao_solicitada": "Contestação cadastrada com sucesso",
 
         "dados_invalidos": "Dados Inválidos",
         "preencher_campos": "Você deve preencher todos os campos",
@@ -311,7 +318,8 @@
         "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
         "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase",
 
-        "campo_obrigatorio": "Este campo é obrigatório"
+        "campo_obrigatorio": "Este campo é obrigatório",
+        "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado"
     },
 
     "generos": {
