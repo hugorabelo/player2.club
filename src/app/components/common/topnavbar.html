@@ -21,9 +21,6 @@
                 <md-button class="md-icon-button" aria-label="Home" ui-sref="home">
                     <i class="material-icons md-24">home</i>
                 </md-button>
-                <md-button class="md-icon-button" aria-label="Home" ui-sref="profile({idUsuario: usuarioLogado.id})">
-                    <i class="material-icons md-24">person</i>
-                </md-button>
 
                 <!--
                 <i class="material-icons md-24">comment</i>
@@ -31,13 +28,19 @@
 -->
             </div>
         </div>
-        <div flex="20" layout="row" flex layout-align="end center">
+        <div flex="20" layout="row" flex layout-align="end center" class="botao-opcoes">
 
-            <md-menu md-position-mode="target-right target" md-offset="-10 64">
-                <div layout="column" layout-align="center center" ng-click="$mdOpenMenu()">
-                    <img class="img-circle img-xs m-t-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
-                    <h5 hide-xs><span>{{usuarioLogado.nome}}</span></h5>
-                </div>
+
+            <a ui-sref="profile({idUsuario: usuarioLogado.id})" layout="row" layout-align="center center">
+                <img class="img-circle img-xs m-t-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+                <div class="nome-usuario">{{usuarioLogado.nome}}</div>
+            </a>
+            <md-menu md-position-mode="target-right target" md-offset="-20 50">
+                <!--
+-->
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="$mdOpenMenu()">
+                    <i class="material-icons md-24">menu</i>
+                </md-button>
                 <md-menu-content>
                     <md-menu-item>
                         <md-button ng-click="vmTopNav.mudaIdioma('pt_br')">
@@ -53,6 +56,7 @@
                             </div>
                         </md-button>
                     </md-menu-item>
+                    <!--
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item>
                         <md-button ui-sref="home.editar_perfil">
@@ -96,6 +100,7 @@
                             </div>
                         </md-button>
                     </md-menu-item>
+-->
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item ng-controller="LoginController as vmAuth">
                         <md-button ng-click="vmAuth.logout()">
@@ -134,6 +139,8 @@
                     </div>
                 </md-menu-content>
             </md-menu>
+
+
         </div>
     </div>
 </md-toolbar>

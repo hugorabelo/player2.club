@@ -638,8 +638,11 @@ body.md-dialog-is-showing {
         border-radius: 50%;
         background: @white;
     }
-    h5 {
-        color: @white;
+    .nome-usuario {
+        margin: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.1;
     }
     .md-menu {
         margin: 0;
@@ -647,6 +650,15 @@ body.md-dialog-is-showing {
     md-autocomplete {
         width: 70%;
         margin-left: 16px;
+    }
+    .botao-opcoes {
+        i,
+        a {
+            color: @white;
+            &:hover {
+                color: @black;
+            }
+        }
     }
 }
 
@@ -722,7 +734,7 @@ md-card.feed {
         i {
             color: @white;
             &:hover {
-                color: @cinza-escuro;
+                color: @black;
             }
         }
     }
@@ -846,10 +858,10 @@ body {
     }
 }
 
-//md-content * {
-//    -webkit-transform: translate3d(0, 0, 0) !important;
-//    -webkit-overflow-scrolling: auto !important;
-//}
+.layout-fill {
+    height: auto;
+}
+
 @media screen and (max-width: 599px) {
     body:before {
         background: none;
