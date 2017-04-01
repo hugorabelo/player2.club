@@ -84,7 +84,8 @@
 
                 // ignore template requests
                 var extensao = url.substr(url.length - 5);
-                if (extensao == '.html' || extensao == '.json' || url == 'ambiente.properties') {
+                var extensaoReduzida = url.substr(url.length - 4);
+                if (extensao == '.html' || extensao == '.json' || url == 'ambiente.properties' || extensaoReduzida == '.svg') {
                     return config || $q.when(config);
                 }
 

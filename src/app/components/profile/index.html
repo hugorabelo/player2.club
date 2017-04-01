@@ -38,7 +38,10 @@
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <md-list-item ng-repeat="gamertag in vmProfile.gamertags">
-                    <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
+                    <span></span>
+                    <md-icon md-svg-src="uploads/{{gamertag.imagem_plataforma}}" class="svg-icon icon-black m-r m-l-n-sm">
+                    </md-icon>
+                    {{gamertag.gamertag}}
                 </md-list-item>
             </div>
         </md-card>
@@ -138,7 +141,10 @@
         </md-card-title>
         <div class="m-xs">
             <md-list-item ng-repeat="gamertag in vmProfile.gamertags" class="m-b-xxs">
-                <img src="uploads/{{gamertag.imagem_plataforma}}" class="m-r m-l-n-sm" alt=""> {{gamertag.gamertag}}
+                <span></span>
+                <md-icon md-svg-src="uploads/{{gamertag.imagem_plataforma}}" class="svg-icon icon-black m-r m-l-n-sm">
+                </md-icon>
+                {{gamertag.gamertag}}
             </md-list-item>
         </div>
     </md-card>
