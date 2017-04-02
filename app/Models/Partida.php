@@ -97,7 +97,7 @@ class Partida extends Eloquent {
         if(isset($this->data_placar)) {
             $placar = new DateTime($this->data_placar);
             $diferença = $agora->diff($placar);
-            if($diferença->d >= 1) {
+            if($diferença->d >= 2) {
                 $this->confirmarPlacar(null);
             }
         }
