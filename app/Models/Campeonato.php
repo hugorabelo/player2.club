@@ -497,7 +497,7 @@ class Campeonato extends Eloquent {
             return 3;
         }
         while($fase = $fase->proximaFase()) {
-            if($fase->aberta) {
+            if($fase->aberta || $fase->encerrada) {
                 return 3;
             }
         }
