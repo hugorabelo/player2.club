@@ -3,7 +3,16 @@
     <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.minhasPartidasAbertas_list</h2>
     </md-toolbar>
-
+    <div class="caixa-pesquisa" ng-init="vmCampeonato.getCampeonatosUsuario()">
+        <md-input-container class="md-block md-primary">
+            <label>{{'messages.filtro_campeonato' | translate}}</label>
+            <md-select ng-model="vmCampeonato.campeonato.id" md-on-close="vmCampeonato.carregaPartidasDoUsuario(true)">
+                <md-option ng-repeat="campeonato in vmCampeonato.campeonatosDoUsuario" ng-value="campeonato.id">
+                    {{campeonato.descricao}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
     <md-card-content ng-class="{'p-w-xs': telaMobile}">
         <md-list flex>
             <div layout="column" ng-repeat="partida in vmCampeonato.partidasDoUsuario">

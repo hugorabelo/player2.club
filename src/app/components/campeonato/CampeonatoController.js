@@ -129,6 +129,13 @@
 
         vm.carregaListaCampeonatos();
 
+        vm.getCampeonatosUsuario = function () {
+            Usuario.getCampeonatosInscritos($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    vm.campeonatosDoUsuario = data;
+                });
+        };
+
         vm.exibeFaseAnterior = function () {
             if (vm.indice_fase > 0) {
                 vm.indice_fase = vm.indice_fase - 1;
@@ -326,7 +333,7 @@
                 abertas = false;
             }
             if (abertas) {
-                Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
+                Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id, vm.campeonato.id)
                     .success(function (data) {
                         vm.partidasDoUsuario = data;
                         vm.partidasAbertas = true;
@@ -340,13 +347,6 @@
 
             }
         };
-
-        //        vm.carregaPartidasEmAbertoDoUsuario = function () {
-        //            Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id)
-        //                .success(function (data) {
-        //                    vm.partidasDoUsuario = data;
-        //                });
-        //        };
 
         vm.carregaPartidasContestadas = function () {
             Campeonato.getPartidasContestadas(vm.campeonato.id)
