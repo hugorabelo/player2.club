@@ -223,7 +223,8 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         } else {
 			$postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
 			//TODO Quando existir atividades de seguidores e comentários, remover essas condições whereNull: ->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')
-            $atividades = Atividade::where('users_id','=', $this->id)->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')->orWhereIn('post_id', $postsDestinatarios)->an->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
+
+            $atividades = Atividade::where('users_id','=', $this->id)->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         }
 		foreach ($atividades as $atividade) {
 			$atividade->curtidas = $atividade->curtidas()->get();
