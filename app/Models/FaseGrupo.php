@@ -250,7 +250,7 @@ class FaseGrupo extends Eloquent
             }
         } else {
             $proximaFase = $fase->proximaFase();
-            $quantidadeClassificados = $proximaFase->quantidade_usuarios / $proximaFase->grupos()->count();
+            $quantidadeClassificados = $proximaFase->quantidade_usuarios / $fase->grupos()->count();
             $usuariosComClassificacao = $this->usuariosComClassificacao();
             $usuariosClassificados = $usuariosComClassificacao->take($quantidadeClassificados);
         }
