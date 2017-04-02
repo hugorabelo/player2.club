@@ -67,6 +67,11 @@ class CampeonatoUsuariosController extends Controller {
 			if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
                 $this->campeonatoUsuario->create($input);
 
+				$idJogo = $campeonato->jogo()->id;
+				if(!$usuario->segueJogo($idJogo)) {
+					$usuario->seguirJogo($idJogo);
+				}
+
                 return Response::json(array('success'=>true));
             }
 
