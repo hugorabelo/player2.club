@@ -128,7 +128,11 @@
         "usuario_imagem_capa": "Imagem de Capa",
         "screenshot": "Screenshots",
         "descreva_problema": "Descreva o problema",
-        "titulo": "Titulo"
+        "titulo": "Titulo",
+
+        "motivo_contestacao": "Motivo",
+        "resultado_errado": "Resultado Incorreto",
+        "partida_nao_realizada": "Partida Não Realizada"
     },
 
     "messages": {

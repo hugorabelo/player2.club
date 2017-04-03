@@ -115,7 +115,6 @@
                         if (objeto == null) {
                             var sp1 = document.createElement("span");
                             sp1.id = name;
-                            console.log(sp1.id);
                             sp1.className = "validation-error";
                             sp1.innerHTML = errorMsg;
                             el[0].parentNode.insertBefore(sp1, el[0].nextSibling);
@@ -149,14 +148,14 @@
                 ]);
 
     // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
-    angular.module('player2')
-        .run([
-                'validator',
-                'validacaoCustomizada',
-                function (validator, myCustomElementModifier) {
-                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
-                validator.setDefaultElementModifier(myCustomElementModifier.key);
-                }
-            ]);
+//    angular.module('player2')
+//        .run([
+//                'validator',
+//                'validacaoCustomizada',
+//                function (validator, myCustomElementModifier) {
+//                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
+//                validator.setDefaultElementModifier(myCustomElementModifier.key);
+//                }
+//            ]);
 
 })();
