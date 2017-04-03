@@ -102,6 +102,7 @@
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     vm.campeonato = data;
+                    vm.carregaAdministradores(vm.idCampeonato);
                     vm.carregaFases(id);
                 });
         };

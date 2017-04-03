@@ -39,7 +39,7 @@
                             {{vmCampeonato.campeonato.plataforma.descricao}}
                         </h4>
                         <h4 class="m-l">
-                           <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                            <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                             {{vmCampeonato.campeonato.jogo.descricao}}
                             </a>
                         </h4>
@@ -48,6 +48,15 @@
                         </h4>
                         <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
                         <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status === 1 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
+                    </div>
+                    <div class="admin-info m-n no-padding no-borders" flex>
+                        <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
+
+                        <div layout="row">
+                            <a ui-sref="profile({idUsuario: administrador.usuario.id})" ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores" layout="column" layout-align="center center" class="m-r-xs">
+                                <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="img-xs img-circle" /> {{administrador.usuario.nome}}
+                            </a>
+                        </div>
                     </div>
                 </md-card-content>
             </md-card>
@@ -105,7 +114,7 @@
                         {{vmCampeonato.campeonato.plataforma.descricao}}
                     </h4>
                     <h4 class="text-center">
-                       <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                        <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                         {{vmCampeonato.campeonato.jogo.descricao}}
                         </a>
                     </h4>
@@ -114,6 +123,13 @@
                     </h4>
                     <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
                     <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status === 1 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
+                    <div class="admin-info" layout="column">
+                        <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
+
+                        <a ui-sref="profile({idUsuario: administrador.usuario.id})" ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores">
+                            <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="img-sm img-circle m-r-sm" /> {{administrador.usuario.nome}}
+                        </a>
+                    </div>
                 </md-card-content>
             </md-card>
         </div>
@@ -180,24 +196,31 @@
             </md-toolbar>
             <md-card-content layout-align="center center" layout="column">
                 <h2 class="text-center m-t" ng-show="false">
-                        {{vmCampeonato.campeonato.descricao}}
-                    </h2>
+                    {{vmCampeonato.campeonato.descricao}}
+                </h2>
                 <h4 class="text-center m-t">
-                        {{vmCampeonato.campeonato.plataforma.descricao}}
-                    </h4>
+                    {{vmCampeonato.campeonato.plataforma.descricao}}
+                </h4>
                 <h4 class="text-center">
-                       <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
+                    <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                         {{vmCampeonato.campeonato.jogo.descricao}}
                         </a>
-                    </h4>
+                </h4>
                 <h4 class="text-center" ng-show="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
-                        {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
-                    </h4>
+                    {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
+                </h4>
                 <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
                 <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status === 1 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                 <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                     <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive m-t" alt="profile">
                 </a>
+                <div class="admin-info" layout="column">
+                    <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
+
+                    <a ui-sref="profile({idUsuario: administrador.usuario.id})" ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores">
+                        <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="img-sm img-circle m-r-sm" /> {{administrador.usuario.nome}}
+                    </a>
+                </div>
             </md-card-content>
         </md-card>
     </div>
