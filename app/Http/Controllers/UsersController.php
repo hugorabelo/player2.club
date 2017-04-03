@@ -18,8 +18,8 @@ class UsersController extends Controller {
 
 	public function show($id) {
 		$usuario = User::find($id);
-        $usuario->seguidores = $usuario->seguidores()->get()->take(6);
-        $usuario->seguindo = $usuario->seguindo()->get()->take(6);
+        $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
+        $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
 		return Response::json($usuario);
 	}
 
