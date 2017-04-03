@@ -40,6 +40,7 @@ class PostController extends Controller
             if(isset($input['destinatario_id']) && $input['destinatario_id'] == 'undefined') {
                 $input['destinatario_id'] = null;
             }
+            $input['texto'] = $this->criarLink($input['texto']);
             $post = Post::create($input);
 
             //TODO Inserir Imagens capturadas do array imagens
@@ -81,6 +82,7 @@ class PostController extends Controller
         if ($validation->passes())
         {
             $post = $this->post->find($id);
+            $input['texto'] = $this->criarLink($input['texto']);
             $dadosPost = array('id'=>$id, 'texto'=>$input['texto']);
             $post->update($dadosPost);
 
@@ -126,6 +128,33 @@ class PostController extends Controller
     public function getImagens($id) {
         $listaImagens = ImagemPost::where('post_id', '=', $id)->get(array('id', 'url'));
         return Response::json($listaImagens);
+    }
+
+    function criarLink ($texto)
+    {
+        if (!is_string ($texto))
+            return $texto;
+
+        $er = "/((http|https|ftp|ftps):\/\/(www\.|.*?\/)?|www\.)([a-zA-Z0-9]+|_|-)+(\.(([0-9a-zA-Z]|-|_|\/|\?|=|&)+))+/i";
+        preg_match_all ($er, $texto, $match);
+
+        foreach ($match[0] as $link)
+        {
+            //coloca o 'http://' caso o link não o possua
+            if(stristr($link, "http://") === false && stristr($link, "https://") === false)
+            {
+                $link_completo = "http://" . $link;
+            }else{
+                $link_completo = $link;
+            }
+
+            $link_len = strlen ($link);
+
+            $web_link = str_replace ("&", "&amp;", $link_completo);
+            $texto = str_ireplace ($link, "<a href=\"" . $web_link . "\" target=\"_blank\">". (($link_len > 60) ? substr ($web_link, 0, 25). "...". substr ($web_link, -15) : $web_link) ."</a>", $texto);
+
+        }
+        return $texto;
     }
 
 }

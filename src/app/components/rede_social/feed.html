@@ -29,8 +29,7 @@
     <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">
         <div flex layout="column" layout-align="space-between">
             <div class="social-body">
-                <p>
-                    {{atividade.objeto.texto}}
+                <p ng-bind-html="atividade.objeto.texto">
                 </p>
             </div>
             <div class="social-avatar" layout="column">
@@ -127,9 +126,7 @@
     <!-- compartilhar post -->
     <div ng-show="atividade.post_id && atividade.objeto.post_id ">
         <div class="social-body ">
-            <p>
-                {{atividade.objeto.texto}}
-            </p>
+            <p ng-bind-html="atividade.objeto.texto">
         </div>
         <div class="social-avatar" layout="row" layout-xs="column">
             <div layout-fill>
@@ -162,8 +159,7 @@
                         <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}} ">
                     </a>
                     <div class="media-body ">
-                        <p> {{atividade.objeto.compartilhamento.texto}}
-                        </p>
+                        <p ng-bind-html="atividade.objeto.compartilhamento.texto">
 
                     </div>
                     <small class="text-muted pull-right ">
@@ -382,7 +378,7 @@
                 <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-show="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
                 <div class="grupo_comentario" ng-hide="comentario.edicao">
                     <a ui-sref="profile({idUsuario: comentario.usuario.id}) ">{{comentario.usuario.nome}}</a>
-                    <span>{{comentario.texto}}</span>
+                    <span ng-bind-html="comentario.texto"></span>
                     <br>
                     <small class="text-muted ">{{vmFeed.exibeData(comentario.created_at)}}</small>
                     <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)" ng-show="comentario.atividade.curtidas.length ">
