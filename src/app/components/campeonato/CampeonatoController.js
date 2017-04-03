@@ -412,6 +412,7 @@
             Partida.cancelarPlacar(dados)
                 .success(function () {
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    vm.carregaPartidasContestadas();
                     toastr.success($filter('translate')('messages.sucesso_cancelar_placar'));
                 })
                 .error(function (data) {
@@ -429,7 +430,7 @@
                 });
         };
 
-        vm.cancelarPlacarContestado = function (partida) {
+        vm.editarPlacarContestado = function (partida) {
             partida.edita_contestacao = true;
         };
 
@@ -442,6 +443,7 @@
                 .success(function () {
                     vm.carregaPartidasContestadas();
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    toastr.success($filter('translate')('messages.sucesso_confirmacao'));
                 })
                 .error(function (data) {});
         };
@@ -451,9 +453,10 @@
             Partida.salvarPlacar(partida)
                 .success(function () {
                     vm.confirmarPlacarContestacao(partida.id);
+                    toastr.success($filter('translate')('messages.sucesso_placar'));
                 })
                 .error(function (data) {
-                    //TODO melhorar a exibição deste erro
+                    toastr.error($filter('translate')(data.errors[0]));
                 });
         };
 

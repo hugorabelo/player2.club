@@ -48,10 +48,23 @@
                         </md-tooltip>
                     </md-button>
 
-                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacarContestado(partida)" ng-hide="partida.edita_contestacao">
+                    <md-button class="md-fab md-mini md-warn" ng-click="partida.edita_contestacao = false" ng-show="partida.edita_contestacao">
                         <i class="material-icons">clear</i>
                         <md-tooltip md-direction="top ">
+                            {{'fields.cancel' | translate}}
+                        </md-tooltip>
+                    </md-button>
+
+                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" ng-hide="partida.edita_contestacao" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
+                        <i class="material-icons">edit</i>
+                        <md-tooltip md-direction="top ">
                             {{'fields.editar_placar_contestado' | translate}}
+                        </md-tooltip>
+                    </md-button>
+                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-hide="partida.edita_contestacao">
+                        <i class="material-icons">delete</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.excluir_placar_contestado' | translate}}
                         </md-tooltip>
                     </md-button>
                 </div>
@@ -59,7 +72,7 @@
                     <md-button aria-label="+" class="md-icon-button" ng-click="$mdOpenMenu()" hide-gt-xs>
                         <i class="material-icons">more_horiz</i>
                     </md-button>
-                    <md-menu-content width="2">
+                    <md-menu-content width="1">
                         <md-menu-item ng-hide="partida.edita_contestacao">
                             <md-button class="md-raised" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacarContestacao(partida.id)">
                                 <i class="material-icons">done</i> {{'fields.confirmar_contestacao' | translate}}
@@ -71,8 +84,13 @@
                             </md-button>
                         </md-menu-item>
                         <md-menu-item ng-hide="partida.edita_contestacao">
-                            <md-button class="md-raised md-warn" ng-click="vmCampeonato.cancelarPlacarContestado(partida)">
+                            <md-button class="md-raised md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
                                 <i class="material-icons">clear</i> {{'fields.editar_placar_contestado' | translate}}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-hide="partida.edita_contestacao">
+                            <md-button class="md-raised md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)">
+                                <i class="material-icons">delete</i> {{'fields.excluir_placar_contestado' | translate}}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>

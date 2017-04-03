@@ -151,6 +151,11 @@ class PartidasController extends Controller
             Atividade::destroy($atividade->id);
         }
 
+        $contestacao = ContestacaoResultado::where('partidas_id','=',$id)->first();
+        if(isset($contestacao)) {
+            ContestacaoResultado::destroy($contestacao->id);
+        }
+
         return Response::json(array('success' => true));
     }
 
