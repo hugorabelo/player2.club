@@ -60,11 +60,17 @@
         vm.abaGerenciar = function () {
             vm.currentNavItem = 'detalhes';
             vm.carregaAdministradores(vm.idCampeonato);
+            vm.carregaPartidasEmAberto();
         };
 
         vm.abaContestacoes = function () {
             vm.currentNavItem = 'contestacoes';
             vm.carregaPartidasContestadas();
+        };
+
+        vm.abaPartidasAbertas = function () {
+            vm.currentNavItem = 'partidasAbertas';
+            vm.carregaPartidasEmAberto();
         };
 
         vm.abaEditar = function () {
@@ -290,8 +296,16 @@
         };
 
         vm.encerraFase = function (ev, fase) {
+            var mensagemConfirmacao;
+            console.log(vm.partidasEmAberto);
+            if (vm.partidasEmAberto.length > 0) {
+                mensagemConfirmacao = $filter('translate')('messages.confirma_fechar_fase_partidas_aberto');
+            } else {
+                mensagemConfirmacao = $filter('translate')('messages.confirma_fechar_fase');
+            }
+
             var confirm = $mdDialog.confirm(fase.id)
-                .title(vm.textoConfirmaFecharFase)
+                .title(mensagemConfirmacao)
                 .ariaLabel(vm.textoConfirmaFecharFase)
                 .targetEvent(ev)
                 .ok(vm.textoYes)
@@ -356,12 +370,20 @@
                 });
         };
 
+        vm.carregaPartidasEmAberto = function () {
+            Campeonato.getPartidasEmAberto(vm.campeonato.id)
+                .success(function (data) {
+                    vm.partidasEmAberto = data;
+                });
+        };
+
         vm.salvarPlacar = function (partida) {
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
                     toastr.success($filter('translate')('messages.sucesso_placar'));
                     vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    vm.carregaPartidasEmAberto();
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.errors[0]));

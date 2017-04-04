@@ -215,8 +215,8 @@ class Campeonato extends Eloquent {
     {
         $fase = CampeonatoFase::find($dadosFase['id']);
         $proximaFase = $fase->proximaFase();
-        // contabilizar jogos sem resultado (0 pontos para todos os participantes)
         foreach ($fase->grupos() as $grupo) {
+            // contabilizar jogos sem resultado (0 pontos para todos os participantes)
             foreach ($grupo->partidas() as $partida) {
                 if(!isset($partida->data_placar)) {
                     foreach ($partida->usuarios(false) as $usuarioPartida) {
@@ -537,5 +537,23 @@ class Campeonato extends Eloquent {
             }
         }
         return $partidasContestadas;
+    }
+
+    public function partidasEmAberto() {
+        $fases = CampeonatoFase::where('campeonatos_id','=',$this->id)->get(array('id'))->toArray();
+        $grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
+        $partidas = Partida::whereIn('fase_grupos_id',$grupos)->whereNull('data_confirmacao')->orderBy('id')->get();
+        foreach($partidas as $partida) {
+            if($partida->contestada()) {
+                $partida->contestada = true;
+            }
+            $usuarios = $partida->usuarios();
+            $partida->usuarios = $usuarios;
+            $partida->campeonato = $partida->campeonato()->descricao;
+            $partida->fase = $partida->fase()->descricao;
+        }
+        $partidas = $partidas->values();
+        Log::warning($partidas);
+        return $partidas;
     }
 }

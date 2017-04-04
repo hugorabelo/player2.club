@@ -145,6 +145,7 @@
         "confirma_iniciar_fase": "Deseja realmente iniciar esta fase?",
         "explica_iniciar_fase": "Caso a fase anterior esteja aberta, ela será fechada automaticamente. Os jogos serão sorteados e as partidas desta fase já poderão ser disputadas.",
         "confirma_fechar_fase": "Deseja realmente encerrar esta fase?",
+        "confirma_fechar_fase_partidas_aberto": "A fase possui partidas em aberto. Caso encerre a fase, as partidas serão computadas como sem resultado. Deseja encerrar esta fase mesmo assim?",
 
         "plataforma_list": "Plataformas",
         "plataforma_add": "Adicionar Plataforma",
@@ -194,6 +195,7 @@
         "campeonatosEncerrados": "Campeonatos Encerrados",
         "campeonatosParticipantes": "Participantes",
         "campeonatoContestacoes": "Resultados Contestados",
+        "campeonato_partidas_abertas": "Partidas Em Aberto",
 
 
         "campeonatoAdmin_list": "Administradores",
@@ -326,7 +328,7 @@
         "fase_anterior_aberta": "A fase anterior está aberta",
         "fase_sem_quantidade_minima_usuarios": "A fase não possui a quantidade mínima de usuários cadastrados",
         "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
-        "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase",
+        "fase_com_partidas_contestadas": "A fase possui partidas contestadas. Você deve resolvê-las, antes de encerrar a fase",
 
         "campo_obrigatorio": "Este campo é obrigatório",
         "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado"
