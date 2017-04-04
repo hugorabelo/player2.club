@@ -58,16 +58,6 @@
             Auth.logout();
         };
 
-        vm.carregaUsuarioLogado = function (ev, idUsuario) {
-            if (ev.keyCode === 13) {
-                Usuario.show(idUsuario)
-                    .success(function (data) {
-                        $rootScope.usuarioLogado = data;
-                        $location.path('/');
-                    });
-            }
-        };
-
         vm.getItensPesquisa = function (texto) {
             if (texto != '') {
                 Atividade.getPesquisaveis(texto)

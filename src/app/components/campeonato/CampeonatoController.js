@@ -297,7 +297,6 @@
 
         vm.encerraFase = function (ev, fase) {
             var mensagemConfirmacao;
-            console.log(vm.partidasEmAberto);
             if (vm.partidasEmAberto.length > 0) {
                 mensagemConfirmacao = $filter('translate')('messages.confirma_fechar_fase_partidas_aberto');
             } else {
