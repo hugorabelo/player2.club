@@ -53,7 +53,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
 		}
 		foreach($partidas as $partida) {
-			$partida->confirmarPlacarAutomaticamente();
 			if($partida->contestada()) {
 				$partida->contestada = true;
 			}
@@ -80,7 +79,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
             $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
         }
         foreach($partidas as $partida) {
-            $partida->confirmarPlacarAutomaticamente();
             if($partida->contestada()) {
                 $partida->contestada = true;
             }
@@ -107,7 +105,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
             $partidas = Partida::whereNotNull('data_placar')->findMany($usuarioPartidas)->sortBy('id');
         }
         foreach($partidas as $partida) {
-            $partida->confirmarPlacarAutomaticamente();
             if($partida->contestada()) {
                 $partida->contestada = true;
             }
@@ -134,7 +131,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			$partidas = Partida::whereNull('data_placar')->findMany($usuarioPartidas)->sortBy('id');
 		}
 		foreach($partidas as $partida) {
-			$partida->confirmarPlacarAutomaticamente();
 			if($partida->contestada()) {
 				$partida->contestada = true;
 			}
