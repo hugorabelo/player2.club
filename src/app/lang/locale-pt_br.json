@@ -310,6 +310,10 @@
         "sucesso_inscricao": "Inscrição realizada com sucesso",
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um id de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
+        "placares_invalidos": "O placar informado é inválido",
+        "pontuacao_nao_cadastrada": "A pontuação para esta fase não está cadastrada. Favor informar ao administrador",
+        "empate_nao_permitido": "Não é permitido um resultado de empate nesta fase",
+
         "sucesso_placar": "Resultado inserido com sucesso",
         "sucesso_confirmacao": "Confirmação realizada com sucesso",
         "sucesso_cancelar_placar": "Placar cancelado com sucesso",
