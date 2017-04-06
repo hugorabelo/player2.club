@@ -251,7 +251,7 @@ a.disabled:hover {
     height: 30px;
 }
 
-md-menu-item > a.md-button {
+md-menu-item>a.md-button {
     padding-top: 0;
 }
 
@@ -827,18 +827,31 @@ body {
 #barra-report {
     position: fixed;
     bottom: 0;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(196, 77, 88, 0.6);
-    z-index: 999;
+    height: 100px;
+    width: 100px;
+    //    background-color: rgba(196, 77, 88, 0.6);
+    z-index: 79;
+    &:before {
+        content: "";
+        display: inline-block;
+        border-bottom: 100px solid rgba(196, 77, 88, 0.9);
+        border-right: 100px solid transparent;
+    }
     .versao {
         color: @white;
         font-size: 10px;
         margin-left: 10px;
+        position: absolute;
+        bottom: 10px;
+    }
+    .md-button {
+        position: absolute;
+        left: 0;
+        bottom: 25px;
     }
 }
 
-.fr-box.fr-basic.fr-top > div > a {
+.fr-box.fr-basic.fr-top>div>a {
     display: none !important;
 }
 
@@ -875,6 +888,23 @@ body {
     padding-top: 6px;
     a {
         padding: 4px 0;
+    }
+}
+
+.svg-icon {
+    fill: #fff;
+    height: 32px !important;
+    width: 32px!important;
+    &.icon-black {
+        fill: #000;
+    }
+}
+
+.count-info {
+    .label {
+        padding: 2px;
+        right: 5px;
+        top: 5px;
     }
 }
 
@@ -951,14 +981,5 @@ body {
 @media screen and (max-width: 480px) {
     .auth0-lock.auth0-lock {
         position: fixed !important;
-    }
-}
-
-.svg-icon {
-    fill: #fff;
-    height: 32px !important;
-    width: 32px!important;
-    &.icon-black {
-        fill: #000;
     }
 }
