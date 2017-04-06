@@ -104,7 +104,9 @@ class Campeonato extends Eloquent {
 		$fase->data_fim = $data;
 		$fase->update();
 
-		$outraData = $data->addDay();
+        $outraData = DB::table('campeonato_fases')->selectRaw("data_fim + '1 day' as nova_data")->where('id','=',$fase->id)->first();
+        $outraData = $outraData->nova_data;
+        $outraData = Carbon::parse($outraData);
 
 		$proximaFase = $fase;
 		while($proximaFase = $proximaFase->proximaFase()) {
@@ -553,7 +555,6 @@ class Campeonato extends Eloquent {
             $partida->fase = $partida->fase()->descricao;
         }
         $partidas = $partidas->values();
-        Log::warning($partidas);
         return $partidas;
     }
 }
