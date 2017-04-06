@@ -230,4 +230,13 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return $atividades;
 	}
 
+	public function getNotificacoes($lidas = false) {
+	    if($lidas) {
+            $notificacoes = Notificacao::where('id_destinatario', '=', $this->id)->orderBy('created_at', 'desc')->get();
+        } else {
+            $notificacoes = Notificacao::where('id_destinatario', '=', $this->id)->where('lida','=','false')->orderBy('created_at', 'desc')->get();
+        }
+        return $notificacoes;
+    }
+
 }
