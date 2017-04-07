@@ -429,4 +429,11 @@ class UsersController extends Controller {
 		return Response::json(array('success'=>true));
 	}
 
+	public function listaNotificacoes($lidas = false) {
+		$idUsuario = Auth::getUser()->id;
+		$usuario = User::find($idUsuario);
+		$notificacoes = $usuario->getNotificacoes($lidas);
+		return Response::json($notificacoes);
+	}
+
 }

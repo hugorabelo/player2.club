@@ -112,6 +112,13 @@
                 .then(function () {
                     //          $log.debug("close LEFT is done");
                 });
+        };
+
+        vm.getNotificacoesDoUsuario = function () {
+            Usuario.getNotificacoes('lidas')
+                .success(function (data) {
+                    vm.notificacoesUsuario = data;
+                });
         }
 
     }]);

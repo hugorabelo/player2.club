@@ -22,10 +22,23 @@
                     <i class="material-icons md-24">home</i>
                 </md-button>
 
-                <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home">
-                    <i class="material-icons md-24">videogame_asset</i>
-                    <span class="label label-danger">16</span>
-                </md-button>
+
+
+                <md-menu md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
+                    <md-button class="md-icon-button count-info" aria-label="Home" ng-click="$mdMenu.open()">
+                        <i class="material-icons md-24">videogame_asset</i>
+                        <span class="label label-danger">16</span>
+                    </md-button>
+                    <md-menu-content width="6">
+                        <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario">
+                            <md-button>
+                                <div layout="row" flex>
+                                    {{notificacao.mensagem}}
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
 
                 <!--
                 <i class="material-icons md-24">comment</i>
@@ -39,7 +52,7 @@
                 <img class="img-circle img-xs m-t-xs" alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
                 <div class="nome-usuario">{{usuarioLogado.nome}}</div>
             </a>
-            <md-menu md-position-mode="target-right target" md-offset="-20 50">
+            <md-menu md-position-mode="target-right target" md-offset="-20 40">
                 <!--
 -->
                 <md-button class="md-icon-button" aria-label="Settings" ng-click="$mdOpenMenu()">

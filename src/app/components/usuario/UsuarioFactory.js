@@ -233,6 +233,14 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         desistirCampeonato: function (idCampeonato) {
             return $http.delete('api/usuario/desistirCampeonato/' + idCampeonato);
+        },
+
+        getNotificacoes: function (todas) {
+            if (todas == undefined) {
+                return $http.get('api/usuario/notificacoes');
+            } else {
+                return $http.get('api/usuario/notificacoes/' + todas);
+            }
         }
     }
 }]);
