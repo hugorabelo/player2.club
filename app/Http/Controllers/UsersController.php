@@ -433,6 +433,17 @@ class UsersController extends Controller {
 		$idUsuario = Auth::getUser()->id;
 		$usuario = User::find($idUsuario);
 		$notificacoes = $usuario->getNotificacoes($lidas);
+        foreach ($notificacoes as $notificacao) {
+            $mensagem = NotificacaoEvento::find($notificacao->evento_notificacao_id)->mensagem;
+            $remetente = User::find($notificacao->id_remetente);
+            if(isset($remetente)) {
+                $nome_completo = explode(' ', $remetente->nome);
+                $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $remetente->nome;
+                $remetente->nome = $nome_completo;
+                $notificacao->remetente = $remetente;
+            }
+            $notificacao->mensagem = $mensagem;
+        }
 		return Response::json($notificacoes);
 	}
 

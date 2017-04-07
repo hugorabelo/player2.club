@@ -336,5 +336,17 @@
 
     "generos": {
         "Soccer": "Futebol"
+    },
+
+    "notificacoes": {
+        "notificacao_cadastrou_placar": " cadastrou o resultado de uma partida que realizou com você",
+        "notificacao_confirmou_placar": " confirmou o resultado de uma partida que realizou com você",
+        "notificacao_contestou_resultado": " contestou o resultado de uma partida que realizou com você",
+        "notificacao_fase_iniciada": "A fase <nome_fase> do campeonato <nome_campeonato> foi iniciada",
+        "notificacao_fase_encerrada": "A fase <nome_fase> do campeonato <nome_campeonato> foi encerrada",
+        "notificacao_fase_encerramento_breve": "A fase <nome_fase> do campeonato <nome_campeonato> irá se encerrar em breve",
+        "notificacao_comentar_post": " comentou o seu post ",
+        "notificacao_curtir_post": " curtiu o seu post ",
+        "notificacao_curtir_comentario": " curtiu o seu comentário "
     }
 }

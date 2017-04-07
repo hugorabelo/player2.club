@@ -25,17 +25,15 @@
 
 
                 <md-menu md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
-                    <md-button class="md-icon-button count-info" aria-label="Home" ng-click="$mdMenu.open()">
+                    <md-button class="md-icon-button count-info" aria-label="Home" ng-click="$mdOpenMenu()">
                         <i class="material-icons md-24">videogame_asset</i>
-                        <span class="label label-danger">16</span>
+                        <span class="label label-danger">{{vmTopNav.notificacoesUsuario.length}}</span>
                     </md-button>
                     <md-menu-content width="6">
                         <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario">
-                            <md-button>
-                                <div layout="row" flex>
-                                    {{notificacao.mensagem}}
-                                </div>
-                            </md-button>
+                            <div layout="row" flex class="item-notificacao">
+                                <img class="img-circle img-xs m-r-xs" alt="image" src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true"> {{notificacao.remetente.nome}} {{notificacao.mensagem | translate}}
+                            </div>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
