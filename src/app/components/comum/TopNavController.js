@@ -119,7 +119,11 @@
                 .success(function (data) {
                     vm.notificacoesUsuario = data;
                 });
-        }
+        };
+
+        vm.exibeDetalhesNotificacao = function (notificacao) {
+            console.log(notificacao.id);
+        };
 
     }]);
 }());

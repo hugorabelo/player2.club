@@ -24,16 +24,17 @@
 
 
 
-                <md-menu md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
+                <md-menu id="lista-notificacao" md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
                     <md-button class="md-icon-button count-info" aria-label="Home" ng-click="$mdOpenMenu()">
                         <i class="material-icons md-24">videogame_asset</i>
                         <span class="label label-danger">{{vmTopNav.notificacoesUsuario.length}}</span>
                     </md-button>
-                    <md-menu-content width="6">
-                        <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario">
-                            <div layout="row" flex class="item-notificacao">
-                                <img class="img-circle img-xs m-r-xs" alt="image" src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true"> {{notificacao.remetente.nome}} {{notificacao.mensagem | translate}}
-                            </div>
+                    <md-menu-content>
+                        <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao">
+                            <a layout="row" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)">
+                                <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-hide="notificacao.remetente">
+                                <img class="img-circle img-xs m-r-sm" alt="image" src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-show="notificacao.remetente"> {{notificacao.remetente.nome}} {{notificacao.mensagem | translate}}
+                            </a>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
@@ -71,6 +72,7 @@
                             </div>
                         </md-button>
                     </md-menu-item>
+
                     <!--
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item>
@@ -116,6 +118,7 @@
                         </md-button>
                     </md-menu-item>
 -->
+
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item ng-controller="LoginController as vmAuth">
                         <md-button ng-click="vmAuth.logout()">
