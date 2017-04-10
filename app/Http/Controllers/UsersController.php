@@ -446,7 +446,7 @@ class UsersController extends Controller {
 		$usuario = User::find($idUsuario);
 		$notificacoes = $usuario->getNotificacoes($lidas);
         foreach ($notificacoes as $notificacao) {
-            $mensagem = NotificacaoEvento::find($notificacao->evento_notificacao_id)->mensagem;
+            $evento = NotificacaoEvento::find($notificacao->evento_notificacao_id);
             $remetente = User::find($notificacao->id_remetente);
             if(isset($remetente)) {
                 $nome_completo = explode(' ', $remetente->nome);
@@ -454,7 +454,8 @@ class UsersController extends Controller {
                 $remetente->nome = $nome_completo;
                 $notificacao->remetente = $remetente;
             }
-            $notificacao->mensagem = $mensagem;
+            $notificacao->mensagem = $evento->mensagem;
+            $notificacao->tipo_evento = $evento->valor;
         }
 		return Response::json($notificacoes);
 	}

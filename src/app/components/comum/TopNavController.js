@@ -122,7 +122,27 @@
         };
 
         vm.exibeDetalhesNotificacao = function (notificacao) {
-            console.log(notificacao.id);
+            switch (notificacao.tipo_evento) {
+                case "salvou_placar":
+                case "confirmou_placar":
+                case "contestou_resultado":
+                    $location.path('home/partidas_usuario');
+                    break;
+                case "fase_iniciada":
+                case "fase_encerrada":
+                case "fase_encerramento_breve":
+                    $location.path('campeonato/' + notificacao.item_id);
+                    break;
+                case "comentar_post":
+                    break;
+                case "curtir_post":
+                    break;
+                case "curtir_comentario":
+                    break;
+                case "seguir_usuario":
+                    $location.path('profile/' + notificacao.id_remetente);
+                    break;
+            }
         };
 
     }]);

@@ -103,6 +103,7 @@ class AtividadeController extends Controller
             $notificacao->id_remetente = $usuarioLogado->id;
             $notificacao->id_destinatario = $atividade->users_id;
             $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->item_id = $atividade->id;
             $notificacao->save();
         }
 
