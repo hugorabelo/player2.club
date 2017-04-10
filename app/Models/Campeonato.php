@@ -268,6 +268,18 @@ class Campeonato extends Eloquent {
         $fase->encerrada = true;
         $fase->update();
 
+        $evento = NotificacaoEvento::where('valor','=','fase_encerrada')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+        $usuariosDaFase = $fase->usuarios();
+        foreach ($usuariosDaFase as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->save();
+        }
+
         /*
          * Cronograma de inserção de resultados para uma partida de campeonato
          * - Usuário tem até a data final da fase para inserir o resultado (Caso não exista resultado, o jogo será definido como sem resultado, onde ambos os participantes ficam com pontos de último colocado)

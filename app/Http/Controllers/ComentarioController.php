@@ -42,6 +42,17 @@ class ComentarioController extends Controller
             $atividade = Atividade::find($input['atividade_id']);
             $comentarios = $atividade->comentarios($input['users_id']);
 
+            $evento = NotificacaoEvento::where('valor','=','comentar_post')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+            }
+
+            $notificacao = new Notificacao();
+            $notificacao->id_remetente = $input['users_id'];
+            $notificacao->id_destinatario = $atividade->users_id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->save();
+
             return Response::json($comentarios);
         }
 

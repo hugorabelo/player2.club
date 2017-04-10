@@ -88,6 +88,25 @@ class AtividadeController extends Controller
         $atividade = Atividade::find($input['atividade_id']);
         $atividade->curtir($input['users_id']);
         $quantidadeCurtidas = $atividade->quantidadeCurtidas();
+
+        if(isset($atividade->post_id)) {
+            $evento = NotificacaoEvento::where('valor','=','curtir_post')->first();
+        } else if(isset($atividade->comentario_id)) {
+            $evento = NotificacaoEvento::where('valor','=','curtir_comentario')->first();
+        }
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+
+            $usuarioLogado = Auth::getUser();
+
+            $notificacao = new Notificacao();
+            $notificacao->id_remetente = $usuarioLogado->id;
+            $notificacao->id_destinatario = $atividade->users_id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->save();
+        }
+
+
         return Response::json(array('success'=>true, 'quantidadeCurtidas'=>$quantidadeCurtidas));
     }
 
