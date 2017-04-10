@@ -55,11 +55,25 @@ class PartidasController extends Controller
             $atividadesExistente->delete();
         }
 
+        $usuarioLogado = Auth::getUser();
+        $evento = NotificacaoEvento::where('valor','=','salvou_placar')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+
         foreach ($novaPartida->usuarios() as $usuarioPartida) {
             $atividade = new Atividade();
             $atividade->users_id = $usuarioPartida->users_id;
             $atividade->partidas_id = $novaPartida->id;
             $atividade->save();
+
+            if($usuarioPartida->users_id != $usuarioLogado->id) {
+                $notificacao = new Notificacao();
+                $notificacao->id_remetente = $usuarioLogado->id;
+                $notificacao->id_destinatario = $usuarioPartida->users_id;
+                $notificacao->evento_notificacao_id = $idEvento;
+                $notificacao->save();
+            }
         }
         return Response::json(array('success' => true));
     }
@@ -131,6 +145,25 @@ class PartidasController extends Controller
             }
 
             ContestacaoResultado::create($input);
+
+            $usuarioLogado = Auth::getUser();
+
+            $evento = NotificacaoEvento::where('valor','=','contestou_resultado')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+            }
+
+            $novaPartida = Partida::find($input['partidas_id']);
+            foreach ($novaPartida->usuarios() as $usuarioPartida) {
+                if($usuarioPartida->users_id != $usuarioLogado->id) {
+                    $notificacao = new Notificacao();
+                    $notificacao->id_remetente = $usuarioLogado->id;
+                    $notificacao->id_destinatario = $usuarioPartida->users_id;
+                    $notificacao->evento_notificacao_id = $idEvento;
+                    $notificacao->save();
+                }
+            }
+
 
             return Response::json(array('success'=>true));
         }

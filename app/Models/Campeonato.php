@@ -210,6 +210,17 @@ class Campeonato extends Eloquent {
         $faseAtual->aberta = true;
         $faseAtual->update();
 
+        $evento = NotificacaoEvento::where('valor','=','fase_iniciada')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+        foreach ($usuariosDaFase as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->save();
+        }
+
         return $usuariosDaFase;
     }
 

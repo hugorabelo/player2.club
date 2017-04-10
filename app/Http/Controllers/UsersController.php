@@ -256,6 +256,18 @@ class UsersController extends Controller {
             return Response::json();
         }
         $usuario->seguir($idMestre);
+
+		$evento = NotificacaoEvento::where('valor','=','seguir_usuario')->first();
+		if(isset($evento)) {
+			$idEvento = $evento->id;
+		}
+
+		$notificacao = new Notificacao();
+		$notificacao->id_remetente = $idUsuario;
+		$notificacao->id_destinatario = $idMestre;
+		$notificacao->evento_notificacao_id = $idEvento;
+		$notificacao->save();
+
         return Response::json();
     }
 
