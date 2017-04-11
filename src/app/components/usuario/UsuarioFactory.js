@@ -241,6 +241,17 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             } else {
                 return $http.get('api/usuario/notificacoes/' + todas);
             }
+        },
+
+        lerNotificacao: function (notificacao) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/lerNotificacao',
+                data: $.param(notificacao),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);

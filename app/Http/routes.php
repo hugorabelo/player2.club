@@ -60,6 +60,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('usuario/feed/{id}/{todos?}/{offset?}/{quantidade?}', 'UsersController@getFeed');
     Route::delete('usuario/desistirCampeonato/{idCampeonato}', 'UsersController@desistirCampeonato');
     Route::get('usuario/notificacoes/{lidas?}', 'UsersController@listaNotificacoes');
+    Route::post('usuario/lerNotificacao', 'UsersController@lerNotificacao');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 

@@ -115,7 +115,7 @@
         };
 
         vm.getNotificacoesDoUsuario = function () {
-            Usuario.getNotificacoes('lidas')
+            Usuario.getNotificacoes()
                 .success(function (data) {
                     vm.notificacoesUsuario = data;
                     angular.forEach(vm.notificacoesUsuario, function (notificacao) {
@@ -127,27 +127,30 @@
         };
 
         vm.exibeDetalhesNotificacao = function (notificacao) {
-            switch (notificacao.tipo_evento) {
-                case "salvou_placar":
-                case "confirmou_placar":
-                case "contestou_resultado":
-                    $location.path('home/partidas_usuario');
-                    break;
-                case "fase_iniciada":
-                case "fase_encerrada":
-                case "fase_encerramento_breve":
-                    $location.path('campeonato/' + notificacao.item_id);
-                    break;
-                case "comentar_post":
-                    break;
-                case "curtir_post":
-                    break;
-                case "curtir_comentario":
-                    break;
-                case "seguir_usuario":
-                    $location.path('profile/' + notificacao.id_remetente);
-                    break;
-            }
+            Usuario.lerNotificacao(notificacao)
+                .success(function (data) {
+                    switch (notificacao.tipo_evento) {
+                        case "salvou_placar":
+                        case "confirmou_placar":
+                        case "contestou_resultado":
+                            $location.path('home/partidas_usuario');
+                            break;
+                        case "fase_iniciada":
+                        case "fase_encerrada":
+                        case "fase_encerramento_breve":
+                            $location.path('campeonato/' + notificacao.item_id);
+                            break;
+                        case "comentar_post":
+                            break;
+                        case "curtir_post":
+                            break;
+                        case "curtir_comentario":
+                            break;
+                        case "seguir_usuario":
+                            $location.path('profile/' + notificacao.id_remetente);
+                            break;
+                    }
+                });
         };
 
     }]);

@@ -470,4 +470,11 @@ class UsersController extends Controller {
 		return Response::json($notificacoes);
 	}
 
+	function lerNotificacao() {
+        $input = Input::except('_token');
+        $notificacao = Notificacao::find($input['id']);
+        $notificacao->lida = true;
+        $notificacao->save();
+    }
+
 }
