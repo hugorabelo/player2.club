@@ -118,6 +118,11 @@
             Usuario.getNotificacoes('lidas')
                 .success(function (data) {
                     vm.notificacoesUsuario = data;
+                    angular.forEach(vm.notificacoesUsuario, function (notificacao) {
+                        if (notificacao.nome_fase != null && notificacao.nome_fase != undefined) {
+                            notificacao.nome_fase = $filter('translate')(notificacao.nome_fase);
+                        }
+                    });
                 });
         };
 

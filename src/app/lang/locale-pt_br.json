@@ -339,15 +339,15 @@
     },
 
     "notificacoes": {
-        "salvou_placar": " cadastrou o resultado de uma partida que realizou com você",
-        "confirmou_placar": " confirmou o resultado de uma partida que realizou com você",
-        "contestou_resultado": " contestou o resultado de uma partida que realizou com você",
-        "fase_iniciada": "A fase <nome_fase> do campeonato <nome_campeonato> foi iniciada",
-        "fase_encerrada": "A fase <nome_fase> do campeonato <nome_campeonato> foi encerrada",
-        "fase_encerramento_breve": "A fase <nome_fase> do campeonato <nome_campeonato> irá se encerrar em breve e você ainda tem partidas a realizar",
-        "comentar_post": " comentou o seu post ",
-        "curtir_post": " curtiu o seu post ",
-        "curtir_comentario": " curtiu o seu comentário ",
-        "seguir_usuario": " começou a seguir você"
+        "salvou_placar": "{{nome_remetente}} cadastrou o resultado de uma partida que realizou com você",
+        "confirmou_placar": "{{nome_remetente}} confirmou o resultado de uma partida que realizou com você",
+        "contestou_resultado": "{{nome_remetente}} contestou o resultado de uma partida que realizou com você",
+        "fase_iniciada": "A fase {{nome_fase}} do campeonato {{nome_campeonato}} foi iniciada",
+        "fase_encerrada": "A fase {{nome_fase}} do campeonato {{nome_campeonato}} foi encerrada",
+        "fase_encerramento_breve": "A fase {{nome_fase}} do campeonato {{nome_campeonato}} irá se encerrar em breve e você ainda tem partidas a realizar",
+        "comentar_post": "{{nome_remetente}} comentou o seu post ",
+        "curtir_post": "{{nome_remetente}} curtiu o seu post ",
+        "curtir_comentario": "{{nome_remetente}} curtiu o seu comentário ",
+        "seguir_usuario": "{{nome_remetente}} começou a seguir você"
     }
 }

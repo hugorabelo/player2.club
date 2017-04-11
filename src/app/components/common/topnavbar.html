@@ -33,7 +33,8 @@
                         <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao">
                             <a layout="row" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)">
                                 <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-hide="notificacao.remetente">
-                                <img class="img-circle img-xs m-r-sm" alt="image" src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-show="notificacao.remetente"> {{notificacao.remetente.nome}} {{notificacao.mensagem | translate}}
+                                <img class="img-circle img-xs m-r-sm" alt="image" src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-show="notificacao.remetente">
+                                <p translate="{{notificacao.mensagem}}" translate-values="{nome_remetente: notificacao.remetente.nome, nome_campeonato: notificacao.nome_campeonato, nome_fase: notificacao.nome_fase}"></p>
                             </a>
                         </md-menu-item>
                     </md-menu-content>

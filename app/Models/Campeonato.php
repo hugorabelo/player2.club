@@ -218,7 +218,7 @@ class Campeonato extends Eloquent {
             $notificacao = new Notificacao();
             $notificacao->id_destinatario = $usuario->id;
             $notificacao->evento_notificacao_id = $idEvento;
-            $notificacao->item_id = $campeonato->id;
+            $notificacao->item_id = $faseAtual->id;
             $notificacao->save();
         }
 
@@ -278,7 +278,7 @@ class Campeonato extends Eloquent {
             $notificacao = new Notificacao();
             $notificacao->id_destinatario = $usuario->id;
             $notificacao->evento_notificacao_id = $idEvento;
-            $notificacao->item_id = $fase->campeonatos_id;
+            $notificacao->item_id = $fase->id;
             $notificacao->save();
         }
 

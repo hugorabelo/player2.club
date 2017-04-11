@@ -454,6 +454,16 @@ class UsersController extends Controller {
                 $remetente->nome = $nome_completo;
                 $notificacao->remetente = $remetente;
             }
+			switch ($evento->valor) {
+				case 'fase_iniciada':
+				case 'fase_encerrada':
+				case 'fase_encerramento_breve':
+					$fase = CampeonatoFase::find($notificacao->item_id);
+					$notificacao->nome_campeonato = $fase->campeonato()->descricao;
+					$notificacao->nome_fase = $fase->descricao;
+					$notificacao->item_id = $fase->campeonato()->id;
+					break;
+			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;
         }
