@@ -17,7 +17,60 @@ class AtividadeController extends Controller
     }
 
     public function show($id) {
+        $usuarioLogado = Auth::getUser();
         $atividade = Atividade::find($id);
+        if(isset($atividade->post_id)) {
+            $post = Post::find($atividade->post_id);
+            if(isset($post->jogos_id)) {
+                $post->descricao_jogo = Jogo::find($post->jogos_id)->descricao;
+                $atividade->descricao = 'messages.escreveu_sobre_jogo';
+            }
+            if(isset($post->destinatario_id)) {
+                $post->descricao_destinatario = User::find($post->destinatario_id)->nome;
+                $atividade->descricao = 'messages.mensagem_para_usuario';
+            }
+            $post->imagens = $post->getimages();
+            if(isset($post->post_id)) {
+                $post_compartilhado = Post::find($post->post_id);
+                $post_compartilhado->usuario = User::find($post_compartilhado->users_id);
+                $post_compartilhado->imagens = $post_compartilhado->getimages();
+                $post->compartilhamento = $post_compartilhado;
+                $atividade->objeto = $post;
+                $atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.compartilhou';
+            } else {
+                $atividade->objeto = $post;
+                $atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.publicou';
+            }
+        } else if(isset($atividade->comentarios_id)) {
+            $comentario = Comentario::find($atividade->comentarios_id);
+            $atividade->objeto = $comentario;
+            $atividade->descricao = 'messages.comentou';
+        } else if(isset($atividade->seguidor_id)) {
+            $seguidor = DB::table('seguidor')->where('id','=',$atividade->seguidor_id)->first();
+            $usuarioMestre = User::find($seguidor->users_id_mestre);
+            $atividade->objeto = $usuarioMestre;
+            $atividade->descricao = 'messages.seguiu';
+        } else if(isset($atividade->seguidor_jogo_id)) {
+            $seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
+            $jogo = Jogo::find($seguidor_jogo->jogos_id);
+            $atividade->objeto = $jogo;
+            $atividade->descricao = 'messages.seguiu_jogo';
+        } else if(isset($atividade->partidas_id)) {
+            $partida = Partida::find($atividade->partidas_id);
+            $partida->usuarios = $partida->usuarios();
+            $partida->campeonato = $partida->campeonato();
+            $atividade->objeto = $partida;
+            $atividade->descricao = 'messages.disputou_partida';
+        } else if(isset($atividade->campeonato_usuarios_id)) {
+            $campeonatoUsuario = CampeonatoUsuario::find($atividade->campeonato_usuarios_id);
+            $campeonato = Campeonato::find($campeonatoUsuario->campeonatos_id);
+            $atividade->objeto = $campeonato;
+            $atividade->descricao = 'messages.inscreveu_campeonato';
+        }
+        $usuario = User::find($atividade->users_id);
+        $atividade->usuario = $usuario;
+        $atividade->comentarios = $atividade->comentarios($usuarioLogado->id);
+        $atividade->curtidas = $atividade->curtidas()->get();
         return Response::json($atividade);
     }
 
@@ -89,22 +142,27 @@ class AtividadeController extends Controller
         $atividade->curtir($input['users_id']);
         $quantidadeCurtidas = $atividade->quantidadeCurtidas();
 
-        if(isset($atividade->post_id)) {
-            $evento = NotificacaoEvento::where('valor','=','curtir_post')->first();
-        } else if(isset($atividade->comentario_id)) {
-            $evento = NotificacaoEvento::where('valor','=','curtir_comentario')->first();
-        }
-        if(isset($evento)) {
-            $idEvento = $evento->id;
+        $usuarioLogado = Auth::getUser();
 
-            $usuarioLogado = Auth::getUser();
+        if($usuarioLogado->id != $atividade->users_id) {
+            $idAtividadeNotificada = $atividade->id;
 
-            $notificacao = new Notificacao();
-            $notificacao->id_remetente = $usuarioLogado->id;
-            $notificacao->id_destinatario = $atividade->users_id;
-            $notificacao->evento_notificacao_id = $idEvento;
-            $notificacao->item_id = $atividade->id;
-            $notificacao->save();
+            if(isset($atividade->post_id)) {
+                $evento = NotificacaoEvento::where('valor','=','curtir_post')->first();
+            } else if(isset($atividade->comentario_id)) {
+                $evento = NotificacaoEvento::where('valor','=','curtir_comentario')->first();
+                $idAtividadeNotificada = Comentario::find($atividade->comentario_id)->atividade_id;
+            }
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+
+                $notificacao = new Notificacao();
+                $notificacao->id_remetente = $usuarioLogado->id;
+                $notificacao->id_destinatario = $atividade->users_id;
+                $notificacao->evento_notificacao_id = $idEvento;
+                $notificacao->item_id = $idAtividadeNotificada;
+                $notificacao->save();
+            }
         }
 
 

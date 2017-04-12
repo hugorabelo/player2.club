@@ -3,6 +3,10 @@
     'use strict';
     angular.module('player2').factory('Atividade', ['$http', function ($http) {
         return {
+            show: function (id) {
+                return $http.get('api/atividade/' + id);
+            },
+
             curtir: function (curtida) {
                 return $http({
                     method: 'POST',

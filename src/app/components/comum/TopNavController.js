@@ -145,10 +145,9 @@
                             $location.path('campeonato/' + notificacao.item_id);
                             break;
                         case "comentar_post":
-                            break;
                         case "curtir_post":
-                            break;
                         case "curtir_comentario":
+                            $location.path('home/atividade/' + notificacao.item_id);
                             break;
                         case "seguir_usuario":
                             $location.path('profile/' + notificacao.id_remetente);

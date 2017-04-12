@@ -74,6 +74,14 @@
                 controller: 'CampeonatoController as vmCampeonato',
                 acesso: 'registrado'
             })
+            .state('home.atividade', {
+                url: "/atividade/{idAtividade}",
+                templateUrl: "app/components/rede_social/atividade.html",
+                controller: 'FeedController as vmFeed',
+                data: {
+                    pageTitle: "messages.atividade"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",

@@ -373,6 +373,15 @@
             Lightbox.openModal(images, index);
         };
 
+        vm.carregaAtividadeEspecifica = function () {
+            var idAtividade = $stateParams.idAtividade;
+            Atividade.show(idAtividade)
+                .success(function (data) {
+                    $scope.atividade = data;
+                    console.log(data);
+                });
+        };
+
         }]);
 
 }());
