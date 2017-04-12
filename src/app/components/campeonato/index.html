@@ -145,6 +145,8 @@
 
 <div flex layout="column" hide-gt-xs>
     <md-tabs md-dynamic-height md-border-bottom class="md-primary">
+        <md-tab label="{{'messages.campeonato_info' | translate}}" ng-click="vmCampeonato.currentNavItem = 'informacoes'" ng-if="vmCampeonato.campeonato.status < 3">
+        </md-tab>
         <md-tab label="{{'messages.tabelaCampeonato_list' | translate}}" ng-click="vmCampeonato.abaTabela()">
         </md-tab>
         <md-tab label="{{'messages.minhasPartidas_list' | translate}}" ng-click="vmCampeonato.abaPartidas()" ng-if="vmCampeonato.campeonato.usuarioInscrito">
@@ -161,7 +163,7 @@
         </md-tab>
         <md-tab label="{{'messages.campeonato_edit' | translate}}" ng-click="vmCampeonato.abaEditar()" ng-if="vmCampeonato.campeonato.usuarioAdministrador">
         </md-tab>
-        <md-tab label="{{'messages.campeonato_info' | translate}}" ng-click="vmCampeonato.currentNavItem = 'informacoes'">
+        <md-tab label="{{'messages.campeonato_info' | translate}}" ng-click="vmCampeonato.currentNavItem = 'informacoes'" ng-if="vmCampeonato.campeonato.status > 2">
         </md-tab>
     </md-tabs>
     <div layout-fill ng-show="vmCampeonato.currentNavItem == 'tabela'">

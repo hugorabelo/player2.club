@@ -80,7 +80,6 @@
 
         vm.carregaCampeonato = function () {
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
-            vm.currentNavItem = 'tabela';
         };
 
         vm.carregaFases = function (id) {
@@ -108,6 +107,11 @@
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     vm.campeonato = data;
+                    if (vm.campeonato.status < 3) {
+                        vm.currentNavItem = 'informacoes';
+                    } else {
+                        vm.currentNavItem = 'tabela';
+                    }
                     vm.carregaAdministradores(vm.idCampeonato);
                     vm.carregaFases(id);
                 });
