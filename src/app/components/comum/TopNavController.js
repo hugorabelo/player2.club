@@ -115,12 +115,16 @@
         };
 
         vm.getNotificacoesDoUsuario = function () {
-            Usuario.getNotificacoes()
+            Usuario.getNotificacoes('lidas')
                 .success(function (data) {
                     vm.notificacoesUsuario = data;
+                    vm.quantidadeNotificacoesNaoLidas = 0;
                     angular.forEach(vm.notificacoesUsuario, function (notificacao) {
                         if (notificacao.nome_fase != null && notificacao.nome_fase != undefined) {
                             notificacao.nome_fase = $filter('translate')(notificacao.nome_fase);
+                        }
+                        if (!notificacao.lida) {
+                            vm.quantidadeNotificacoesNaoLidas++;
                         }
                     });
                 });
@@ -152,6 +156,10 @@
                     }
                 });
         };
+
+        $rootScope.$on('$stateChangeSuccess', function () {
+            vm.getNotificacoesDoUsuario();
+        });
 
     }]);
 }());
