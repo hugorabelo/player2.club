@@ -909,10 +909,12 @@ body {
 }
 
 .item-notificacao {
-    border-bottom: 1px solid #dddfe2;
-    width: 400px;
+    border-bottom: 1px solid #c0c0c0;
     font-size: 12px;
+    min-height: 60px;
     a {
+        box-sizing: border-box;
+        min-height: 60px;
         padding: 6px 16px;
         margin: 0;
         color: #333;
@@ -923,6 +925,18 @@ body {
             background-color: rgba(11, 72, 107, 0.1);
         }
     }
+    &.largura-menu {
+        width: 400px;
+    }
+    &.background-branco {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+}
+
+.ver_tudo {
+    border-bottom: 1px solid #c0c0c0;
+    text-align: center;
+    padding-bottom: 6px;
 }
 
 @media screen and (max-width: 599px) {

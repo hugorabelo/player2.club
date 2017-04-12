@@ -1,4 +1,4 @@
-<md-card class="feed" ng-init="vmFeed.carregaAtividadeEspecifica()" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
+<md-card ng-init="vmFeed.carregaAtividadeEspecifica()" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->
     <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">

@@ -331,7 +331,10 @@
         "fase_com_partidas_contestadas": "A fase possui partidas contestadas. Você deve resolvê-las, antes de encerrar a fase",
 
         "campo_obrigatorio": "Este campo é obrigatório",
-        "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado"
+        "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado",
+
+        "minhas_notificacoes": "Minhas Notificações",
+        "ver_tudo": "Ver tudo"
     },
 
     "generos": {

@@ -114,8 +114,11 @@
                 });
         };
 
-        vm.getNotificacoesDoUsuario = function () {
-            Usuario.getNotificacoes('lidas')
+        vm.getNotificacoesDoUsuario = function (tipo) {
+            if (tipo != undefined) {
+                tipo = 'lidas';
+            }
+            Usuario.getNotificacoes(tipo)
                 .success(function (data) {
                     vm.notificacoesUsuario = data;
                     vm.quantidadeNotificacoesNaoLidas = 0;
@@ -159,6 +162,12 @@
         $rootScope.$on('$stateChangeSuccess', function () {
             vm.getNotificacoesDoUsuario();
         });
+
+        vm.exibeData = function (data) {
+            var dataExibida = new Date(data);
+            return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
+        };
+
 
     }]);
 }());

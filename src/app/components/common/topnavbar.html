@@ -30,11 +30,17 @@
                         <span class="label label-danger">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
                     </md-button>
                     <md-menu-content>
-                        <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao">
-                            <a layout="row" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)" ng-class="{'notificacao-nao-lida': !notificacao.lida}">
+                        <a ui-sref="home.notificacoes" class="ver_tudo">{{'messages.ver_tudo' | translate}}</a>
+                        <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao largura-menu">
+                            <a layout="row" layout-align="start center" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)" ng-class="{'notificacao-nao-lida': !notificacao.lida}">
                                 <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-hide="notificacao.remetente">
                                 <img class="img-circle img-xs m-r-sm" alt="image" src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-show="notificacao.remetente">
-                                <p translate="{{notificacao.mensagem}}" translate-values="{nome_remetente: notificacao.remetente.nome, nome_campeonato: notificacao.nome_campeonato, nome_fase: notificacao.nome_fase}"></p>
+                                <div layout="column">
+                                    <p class="m-b-none" translate="{{notificacao.mensagem}}" translate-values="{nome_remetente: notificacao.remetente.nome, nome_campeonato: notificacao.nome_campeonato, nome_fase: notificacao.nome_fase}"></p>
+                                    <small class="text-muted m-t-none">
+                                        {{ vmTopNav.exibeData(notificacao.created_at) }}
+                                    </small>
+                                </div>
                             </a>
                         </md-menu-item>
                     </md-menu-content>
@@ -174,6 +180,11 @@
             <img alt="" height="40" src="assets/images/player2.png" data-pin-nopin="true" hide-gt-xs>
             </a>
         </span>
+
+        <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes">
+            <i class="material-icons md-24">videogame_asset</i>
+            <span class="label label-danger">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
+        </md-button>
 
         <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch">
             <i class="material-icons md-24">search</i>

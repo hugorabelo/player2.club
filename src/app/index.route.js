@@ -82,6 +82,14 @@
                     pageTitle: "messages.atividade"
                 }
             })
+            .state('home.notificacoes', {
+                url: "/notificacoes",
+                templateUrl: "app/components/dashboard/notificacoes.html",
+                controller: 'TopNavController as vmTopNav',
+                data: {
+                    pageTitle: "messages.notificacoes"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",
