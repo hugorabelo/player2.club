@@ -133,7 +133,9 @@
 
         "motivo_contestacao": "Motivo",
         "resultado_errado": "Resultado Incorreto",
-        "partida_nao_realizada": "Partida Não Realizada"
+        "partida_nao_realizada": "Partida Não Realizada",
+
+        "numero_rounds": "Número de Rounds"
     },
 
     "messages": {
@@ -334,7 +336,11 @@
         "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado",
 
         "minhas_notificacoes": "Minhas Notificações",
-        "ver_tudo": "Ver tudo"
+        "ver_tudo": "Ver tudo",
+        "disputa_unica": "Disputa Única",
+        "melhor_tres": "Melhor de 3",
+        "melhor_cinco": "Melhor de 5",
+        "melhor_sete": "Melhor de 7"
     },
 
     "generos": {
