@@ -378,7 +378,6 @@
             Atividade.show(idAtividade)
                 .success(function (data) {
                     $scope.atividade = data;
-                    console.log(data);
                 });
         };
 
