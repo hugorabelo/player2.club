@@ -45,6 +45,37 @@ class AppServiceProvider extends ServiceProvider {
             $atividade->save();
         });
 
+        \Notificacao::created(function ($notificacao) {
+            $evento = \NotificacaoEvento::find($notificacao->evento_notificacao_id);
+            $remetente = \User::find($notificacao->id_remetente);
+            $destinatario = \User::find($notificacao->id_destinatario);
+            if(isset($remetente)) {
+                $nome_completo = explode(' ', $remetente->nome);
+                $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $remetente->nome;
+                $remetente->nome = $nome_completo;
+                $notificacao->remetente = $remetente;
+            }
+            switch ($evento->valor) {
+                case 'fase_iniciada':
+                case 'fase_encerrada':
+                case 'fase_encerramento_breve':
+                    $fase = \CampeonatoFase::find($notificacao->item_id);
+                    $notificacao->nome_campeonato = $fase->campeonato()->descricao;
+                    $notificacao->nome_fase = $fase->descricao;
+                    $notificacao->item_id = $fase->campeonato()->id;
+                    break;
+            }
+            $notificacao->mensagem = $evento->mensagem;
+            $notificacao->tipo_evento = $evento->valor;
+            \Log::warning($notificacao);
+
+            \Mail::send('emailBugReport', ['conteudo' => $notificacao->mensagem], function($message) use ($destinatario) {
+                $message->from('contato@player2.club', $name = 'player2.club');
+                $message->to($destinatario->email, $name = $destinatario->nome);
+                $message->subject('Você tem uma nova notificação');
+            });
+        });
+
 		\Atividade::deleted(function ($atividade) {
 			if(isset($atividade->post_id)) {
 				\Post::destroy($atividade->post_id);
