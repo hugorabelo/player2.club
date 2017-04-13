@@ -257,7 +257,22 @@ class FaseGrupo extends Eloquent
             } else {
                 $u1 = $partidas->first()->usuarios()->first();
                 $u2 = $partidas->first()->usuarios()->last();
-                if ($u1->placar > $u2->placar) {
+
+                if(isset($detalhesDoCampeonato->numero_rounds) && $detalhesDoCampeonato->numero_rounds > 1) {
+                    $placarUsuario1 = 0;
+                    $placarUsuario2 = 0;
+                    foreach ($partidas as $partida) {
+                        if($partida->placarUsuario($u1->users_id) > $partida->placarUsuario($u2->users_id)) {
+                            $placarUsuario1++;
+                        } else if($partida->placarUsuario($u1->users_id) < $partida->placarUsuario($u2->users_id)) {
+                            $placarUsuario2++;
+                        }
+                    }
+                } else {
+                    $placarUsuario1 = $u1->placar;
+                    $placarUsuario2 = $u2->placar;
+                }
+                if ($placarUsuario1 > $placarUsuario2) {
                     $usuariosClassificados->put(1, User::find($u1->users_id));
                 } else {
                     $usuariosClassificados->put(1, User::find($u2->users_id));
