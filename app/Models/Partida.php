@@ -84,8 +84,10 @@ class Partida extends Eloquent {
 
         if($placarContestado) {
             $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->first();
-            $contestacao->resolvida = true;
-            $contestacao->save();
+            if(isset($contestacao)) {
+                $contestacao->resolvida = true;
+                $contestacao->save();
+            }
         }
     }
 

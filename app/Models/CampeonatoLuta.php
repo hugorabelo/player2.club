@@ -10,7 +10,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
-class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
+class CampeonatoLuta extends Campeonato implements CampeonatoEspecificavel
 {
 
     public function salvar($input) {
@@ -42,11 +42,8 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
             $faseCriada['descricao'] = 'messages.matamata'.$qtdeParticipantesFase;
-            if(json_decode($this->detalhesCampeonato['ida_volta'])) {
-                $faseCriada['permite_empate'] = true;
-            } else {
-                $faseCriada['permite_empate'] = false;
-            }
+            $faseCriada['permite_empate'] = false;
+
             $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
             $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
             $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
@@ -85,10 +82,8 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
     {
         $partida = Partida::find($dados['id']);
         $fase = $partida->grupo()->fase();
-        $permite_empate = $fase->permite_empate;
         $usuarios = Collection::make($dados['usuarios']);
         $usuarios = $usuarios->sortByDesc('placar');
-        $empate_computado = false;
 
         // Verificar se todos os usuários estão com o placar inserido
         foreach ($usuarios as $usuario) {
@@ -98,29 +93,18 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
         }
 
         if($usuarios->first()['placar'] == $usuarios->last()['placar']) {
-            if($permite_empate) {
-                foreach ($usuarios as $usuario) {
-                    $usuarioPartida = UsuarioPartida::find($usuario['id']);
-                    $usuarioPartida->posicao = 0;
-                    $usuarioPartida->placar = $usuario['placar'];
-                    $usuarioPartida->save();
-                }
-                $empate_computado = true;
-            } else {
-                return 'messages.empate_nao_permitido';
-            }
+            return 'messages.empate_nao_permitido';
         }
 
-        if(!$empate_computado) {
-            $i = 1;
-            foreach ($usuarios as $usuario) {
-                $usuarioPartida = UsuarioPartida::find($usuario['id']);
-                $usuarioPartida->posicao = $i;
-                $usuarioPartida->placar = $usuario['placar'];
-                $usuarioPartida->save();
-                $i++;
-            }
+        $i = 1;
+        foreach ($usuarios as $usuario) {
+            $usuarioPartida = UsuarioPartida::find($usuario['id']);
+            $usuarioPartida->posicao = $i;
+            $usuarioPartida->placar = $usuario['placar'];
+            $usuarioPartida->save();
+            $i++;
         }
+
         $partida->usuario_placar = $dados['usuarioLogado'];
         $partida->data_placar = date('Y-m-d H:i:s');
         $partida->save();
@@ -129,6 +113,63 @@ class CampeonatoMataMata extends Campeonato implements CampeonatoEspecificavel
 
     public function pontuacoes($idFase = null) {
         return null;
+    }
+
+    public function iniciaFase($dadosFase, $faseAtual, $campeonato)
+    {
+        /*
+         * Objeto Fase deve conter os seguintes atributos:
+         * - id : ID da fase
+         * - data_encerramento: Data de encerramento da fase a ser iniciada (Para cada fase seguinte, atualizar as datas de início, baseadas nesta)
+         * - tipo_sorteio_matamata: Se for uma fase de mata mata, definir o tipo de sorteio (melhor geral x pior geral | melhor grupo x pior grupo | aleatória)
+         */
+        /*
+         * 1. Verifica se a fase anterior está fechada, caso contrário fechar automaticamente (avisar ao usuário)
+         * 2. Inscrever usuários classificados da fase anterior
+         * 3. Sortear Grupos e Jogos
+         * 4. Habilitar inserção de resultados
+         */
+
+        /** 2. Inscrever usuários classificados da fase anterior */
+        if ($faseAtual == $campeonato->faseInicial()) {
+            $usuariosDaFase = $campeonato->usuariosInscritos();
+            foreach ($usuariosDaFase as $posicao => $usuario) {
+                UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
+            }
+        } else {
+            $faseAnterior = $faseAtual->faseAnterior();
+            $usuariosDaFase = $faseAnterior->usuariosClassificados();
+        }
+        $gruposDaFase = $faseAtual->grupos();
+
+        // Sortear Grupos e Jogos
+        /** 3. Sortear Grupos e Jogos */
+        $this->sorteioGrupos($gruposDaFase, $usuariosDaFase, $dadosFase);
+
+        $detalhesCampeonato = $campeonato->detalhes();
+        $idaVolta = $detalhesCampeonato->ida_volta;
+        foreach ($faseAtual->grupos() as $grupo) {
+            $this->sorteioJogosUmContraUm($grupo, $detalhesCampeonato->numero_rounds);
+        }
+
+        $campeonato->atualizarDatasFases($faseAtual, $dadosFase['data_fim']);
+
+        $faseAtual->aberta = true;
+        $faseAtual->update();
+
+        $evento = NotificacaoEvento::where('valor','=','fase_iniciada')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+        foreach ($usuariosDaFase as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->item_id = $faseAtual->id;
+            $notificacao->save();
+        }
+
+        return $usuariosDaFase;
     }
 
 }
