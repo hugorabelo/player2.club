@@ -61,6 +61,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::delete('usuario/desistirCampeonato/{idCampeonato}', 'UsersController@desistirCampeonato');
     Route::get('usuario/notificacoes/{lidas?}', 'UsersController@listaNotificacoes');
     Route::post('usuario/lerNotificacao', 'UsersController@lerNotificacao');
+    Route::post('usuario/adicionarNotificacaoEmail', 'UsersController@adicionarNotificacaoEmail');
+    Route::post('usuario/removerNotificacaoEmail', 'UsersController@removerNotificacaoEmail');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 

@@ -250,8 +250,11 @@
             };
 
             vm.editaNotificacao = function (objeto, idEvento) {
-                console.log(objeto);
-                console.log(idEvento);
+                if (objeto) {
+                    Usuario.adicionarNotificacaoEmail(idEvento);
+                } else {
+                    Usuario.removerNotificacaoEmail(idEvento);
+                }
             };
     }]);
 
