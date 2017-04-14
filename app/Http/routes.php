@@ -61,6 +61,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::delete('usuario/desistirCampeonato/{idCampeonato}', 'UsersController@desistirCampeonato');
     Route::get('usuario/notificacoes/{lidas?}', 'UsersController@listaNotificacoes');
     Route::post('usuario/lerNotificacao', 'UsersController@lerNotificacao');
+    Route::post('usuario/adicionarNotificacaoEmail', 'UsersController@adicionarNotificacaoEmail');
+    Route::post('usuario/removerNotificacaoEmail', 'UsersController@removerNotificacaoEmail');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -126,6 +128,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('comentario/curtir', 'ComentarioController@curtir');
     Route::resource('comentario', 'ComentarioController');
 
+    Route::resource('notificacaoEvento', 'NotificacaoEventoController');
+
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $retornoValidacao = Response::json(Auth::getUser());
         return $retornoValidacao;
@@ -135,6 +139,10 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
         $retornoValidacao = Response::json(Auth::check());
         return $retornoValidacao;
     }));
+
+    Route::get('mudaIdioma/{locale}', function ($locale) {
+        App::setLocale($locale);
+    });
 });
 
 Route::get('api/callback', function() {

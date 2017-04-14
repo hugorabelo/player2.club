@@ -477,6 +477,24 @@ class UsersController extends Controller {
         $notificacao = Notificacao::find($input['id']);
         $notificacao->lida = true;
         $notificacao->save();
+		return Response::json(array('success'=>true));
     }
+
+	function adicionarNotificacaoEmail() {
+		$input = Input::except('_token');
+		Log::warning($input);
+		$idEvento = $input['id_evento'];
+		$usuario = Auth::getUser();
+		$usuario->adicionaNotificacaoPorEmail($idEvento);
+		return Response::json(array('success'=>true));
+	}
+
+	function removerNotificacaoEmail() {
+		$input = Input::except('_token');
+		$idEvento = $input['id_evento'];
+		$usuario = Auth::getUser();
+		$usuario->removeNotificacaoPorEmail($idEvento);
+		return Response::json(array('success'=>true));
+	}
 
 }

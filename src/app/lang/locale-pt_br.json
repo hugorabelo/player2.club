@@ -340,7 +340,8 @@
         "disputa_unica": "Disputa Única",
         "melhor_tres": "Melhor de 3",
         "melhor_cinco": "Melhor de 5",
-        "melhor_sete": "Melhor de 7"
+        "melhor_sete": "Melhor de 7",
+        "notificacoes_email": "Configurar envio de notificações por e-mail"
     },
 
     "generos": {
@@ -357,6 +358,17 @@
         "comentar_post": "{{nome_remetente}} comentou o seu post ",
         "curtir_post": "{{nome_remetente}} curtiu o seu post ",
         "curtir_comentario": "{{nome_remetente}} curtiu o seu comentário ",
-        "seguir_usuario": "{{nome_remetente}} começou a seguir você"
+        "seguir_usuario": "{{nome_remetente}} começou a seguir você",
+
+        "descricao_salvou_placar": "Outro usuário inserir o resultado da partida",
+        "descricao_confirmou_placar": "Outro usuário confirmar o resultado que você inseriu",
+        "descricao_contestou_resultado": "Outro usuário contestar o resultado inserido por você",
+        "descricao_fase_iniciada": "Uma fase que você participa ser iniciada",
+        "descricao_fase_encerrada": "Encerramento de fase que você participa",
+        "descricao_fase_encerramento_breve": "Uma fase próxima do encerramento",
+        "descricao_comentar_post": "Usuário comentou um post seu",
+        "descricao_curtir_post": "Usuário curtiu um post seu",
+        "descricao_curtir_comentario": "Usuário curtiu o seu comentário",
+        "descricao_seguir_usuario": "Alguém começou a seguir você"
     }
 }
