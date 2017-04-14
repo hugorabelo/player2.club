@@ -334,7 +334,8 @@
         "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado",
 
         "minhas_notificacoes": "Minhas Notificações",
-        "ver_tudo": "Ver tudo"
+        "ver_tudo": "Ver tudo",
+        "notificacoes_email": "Configurar envio de notificações por e-mail"
     },
 
     "generos": {

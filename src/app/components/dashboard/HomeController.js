@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -131,6 +131,7 @@
                         vm.perfilEditar = data;
                         vm.getGamertagsDoUsuario(vm.perfilEditar.id);
                         vm.carregaPlataformas();
+                        vm.getEventosDeNotificacao();
                     });
             };
 
@@ -239,6 +240,18 @@
                     .success(function (data) {
                         vm.partidasDoUsuario = data;
                     });
+            };
+
+            vm.getEventosDeNotificacao = function () {
+                NotificacaoEvento.get()
+                    .success(function (data) {
+                        vm.eventosDeNotificacao = data;
+                    });
+            };
+
+            vm.editaNotificacao = function (objeto, idEvento) {
+                console.log(objeto);
+                console.log(idEvento);
             };
     }]);
 

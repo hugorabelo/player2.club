@@ -239,4 +239,16 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         return $notificacoes;
     }
 
+	public function emailsNotificacao() {
+		return $this->belongsToMany('NotificacaoEvento', 'notificacao_email', 'users_id', 'evento_notificacao_id')->withTimestamps();
+	}
+
+	public function adicionaNotificacaoPorEmail($idEvento) {
+		$this->emailsNotificacao()->attach($idEvento);
+	}
+
+	public function removeNotificacaoPorEmail($idEvento) {
+		$this->emailsNotificacao()->detach($idEvento);
+	}
+
 }
