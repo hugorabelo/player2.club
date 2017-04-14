@@ -31,6 +31,7 @@ angular.module('player2').factory('Partida', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
+                    formData.append("motivo", dados.motivo);
                     formData.append("comentarios", dados.comentarios);
                     formData.append("partidas_id", dados.partidas_id);
                     formData.append("users_id", dados.users_id);

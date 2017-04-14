@@ -38,6 +38,7 @@ class Atividade extends Eloquent
         $comentarios = $this->hasMany('Comentario', 'atividade_id')->orderBy('created_at')->get();
         foreach ($comentarios as $comentario) {
             $comentario->usuario = User::find($comentario->users_id);
+            $comentario->atividade = $comentario->getAtividade();
             //$comentario->quantidade_curtidas = $comentario->quantidadeCurtidas();
             //$comentario->curtiu = $comentario->curtiu($idUsuarioLeitor);
         }

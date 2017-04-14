@@ -15,13 +15,20 @@
             <img src="uploads/usuarios/{{contestacao.usuario.imagem_perfil}}" class="img-circle img-sm m-r pull-left" alt="">
             <h3>{{contestacao.usuario.nome}}</h3>
             <div class="clearfix"></div>
+            <h2>{{'fields.motivo_contestacao' | translate}}</h2>
+            <p ng-hide="contestacao.motivo == 2">
+                {{ 'fields.resultado_errado' | translate }}
+            </p>
+            <p ng-show="contestacao.motivo == 2">
+                {{ 'fields.partida_nao_realizada' | translate }}
+            </p>
             <h2>{{'fields.descricao' | translate}}</h2>
             <p>
                 {{contestacao.comentarios}}
             </p>
 
-            <h2>{{'fields.printscreen' | translate}}</h2>
-            <img src="uploads/{{contestacao.imagem}}" class="img-responsive" alt="">
+            <h2  ng-show="contestacao.imagem">{{'fields.printscreen' | translate}}</h2>
+            <img src="uploads/{{contestacao.imagem}}" class="img-responsive" alt="" ng-show="contestacao.imagem">
         </div>
 
     </md-dialog-content>

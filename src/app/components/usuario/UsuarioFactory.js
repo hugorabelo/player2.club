@@ -233,6 +233,53 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         desistirCampeonato: function (idCampeonato) {
             return $http.delete('api/usuario/desistirCampeonato/' + idCampeonato);
+        },
+
+        getNotificacoes: function (todas) {
+            if (todas == undefined) {
+                return $http.get('api/usuario/notificacoes');
+            } else {
+                return $http.get('api/usuario/notificacoes/' + todas);
+            }
+        },
+
+        lerNotificacao: function (notificacao) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/lerNotificacao',
+                data: $.param(notificacao),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        adicionarNotificacaoEmail: function (idEvento) {
+            dados = {
+                id_evento: idEvento
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/adicionarNotificacaoEmail',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        removerNotificacaoEmail: function (idEvento) {
+            dados = {
+                id_evento: idEvento
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/removerNotificacaoEmail',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);

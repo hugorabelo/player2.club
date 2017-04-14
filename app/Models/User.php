@@ -53,7 +53,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
 		}
 		foreach($partidas as $partida) {
-			$partida->confirmarPlacarAutomaticamente();
 			if($partida->contestada()) {
 				$partida->contestada = true;
 			}
@@ -80,7 +79,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
             $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
         }
         foreach($partidas as $partida) {
-            $partida->confirmarPlacarAutomaticamente();
             if($partida->contestada()) {
                 $partida->contestada = true;
             }
@@ -107,7 +105,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
             $partidas = Partida::whereNotNull('data_placar')->findMany($usuarioPartidas)->sortBy('id');
         }
         foreach($partidas as $partida) {
-            $partida->confirmarPlacarAutomaticamente();
             if($partida->contestada()) {
                 $partida->contestada = true;
             }
@@ -134,7 +131,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			$partidas = Partida::whereNull('data_placar')->findMany($usuarioPartidas)->sortBy('id');
 		}
 		foreach($partidas as $partida) {
-			$partida->confirmarPlacarAutomaticamente();
 			if($partida->contestada()) {
 				$partida->contestada = true;
 			}
@@ -232,6 +228,27 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			$atividade->curtiu = $atividade->curtiu($this->id);
 		}
 		return $atividades;
+	}
+
+	public function getNotificacoes($lidas = false) {
+	    if($lidas) {
+            $notificacoes = Notificacao::where('id_destinatario', '=', $this->id)->orderBy('created_at', 'desc')->get();
+        } else {
+            $notificacoes = Notificacao::where('id_destinatario', '=', $this->id)->where('lida','=','false')->orderBy('created_at', 'desc')->get();
+        }
+        return $notificacoes;
+    }
+
+	public function emailsNotificacao() {
+		return $this->belongsToMany('NotificacaoEvento', 'notificacao_email', 'users_id', 'evento_notificacao_id')->withTimestamps();
+	}
+
+	public function adicionaNotificacaoPorEmail($idEvento) {
+		$this->emailsNotificacao()->attach($idEvento);
+	}
+
+	public function removeNotificacaoPorEmail($idEvento) {
+		$this->emailsNotificacao()->detach($idEvento);
 	}
 
 }

@@ -75,6 +75,21 @@
                     </md-list>
                 </md-card-content>
             </md-card>
+            <md-card>
+                <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+                    <md-card-header-text>
+                        {{'messages.notificacoes_email' | translate}}
+                    </md-card-header-text>
+                </md-card-header>
+                <md-card-content layout="row" layout-fill>
+                    <md-list ng-cloak flex>
+                        <md-list-item ng-repeat="evento in vmHome.eventosDeNotificacao" class="secondary-button-padding">
+                            <p>{{ evento.descricao | translate }}</p>
+                            <md-switch class="md-primary" ng-model="evento.enabled" ng-change="vmHome.editaNotificacao(evento.enabled, evento.id)"></md-switch>
+                        </md-list-item>
+                    </md-list>
+                </md-card-content>
+            </md-card>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
             <md-button ui-sref="home">{{'fields.cancel' | translate}}</md-button>

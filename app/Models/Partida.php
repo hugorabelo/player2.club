@@ -84,8 +84,10 @@ class Partida extends Eloquent {
 
         if($placarContestado) {
             $contestacao = ContestacaoResultado::where('partidas_id','=',$this->id)->first();
-            $contestacao->resolvida = true;
-            $contestacao->save();
+            if(isset($contestacao)) {
+                $contestacao->resolvida = true;
+                $contestacao->save();
+            }
         }
     }
 
@@ -97,7 +99,7 @@ class Partida extends Eloquent {
         if(isset($this->data_placar)) {
             $placar = new DateTime($this->data_placar);
             $diferença = $agora->diff($placar);
-            if($diferença->d >= 1) {
+            if($diferença->d >= 2) {
                 $this->confirmarPlacar(null);
             }
         }
@@ -131,7 +133,10 @@ class Partida extends Eloquent {
         if($informacoes) {
             foreach($usuarios as $usuario) {
                 $usuarioBD = User::find($usuario->users_id);
-                $usuario->nome = $usuarioBD->nome;
+                $nome_completo = $usuarioBD->nome;
+                $nome_completo = explode(' ', $nome_completo);
+                $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuarioBD->nome;
+                $usuario->nome = $nome_completo;
                 $usuario->sigla = $usuarioBD->sigla != '' ? $usuarioBD->sigla : substr($usuario->nome, 0, 3);
                 $usuario->distintivo = (isset($usuarioBD->distintivo) && !empty($usuarioBD->distintivo)) ? $usuarioBD->distintivo : $usuarioBD->imagem_perfil;
             }

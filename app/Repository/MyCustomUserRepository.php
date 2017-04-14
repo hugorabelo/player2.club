@@ -42,8 +42,9 @@ class MyCustomUserRepository implements Auth0UserRepository {
             if($user->nome === 'username') {
                 $user->nome = $profile->name;
             }
-            $user->save();
         }
+        $user->ultimo_login = date('Y-m-d H:i:s');;
+        $user->save();
 
         /*
         if ($user === null) {

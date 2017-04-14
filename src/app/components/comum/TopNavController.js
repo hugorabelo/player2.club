@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, Auth, Usuario, Atividade) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, Auth, Usuario, Atividade) {
 
         var vm = this;
 
@@ -36,6 +36,8 @@
                 $mdDateLocale.msgCalendar = $translate.instant('MSG_CALENDAR');
                 $mdDateLocale.msgOpenCalendar = $translate.instant('MSG_OPEN_CALENDAR');
 
+                $http.get('api/mudaIdioma/en');
+
             } else if (idioma === 'pt_br') {
                 $mdDateLocale.formatDate = function (date) {
                     return date ? moment(date).format('DD/MM/YYYY') : '';
@@ -50,22 +52,13 @@
                 $mdDateLocale.shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                 $mdDateLocale.days = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'];
                 $mdDateLocale.shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+                $http.get('api/mudaIdioma/pt-br');
             }
 
         };
 
         vm.logout = function () {
             Auth.logout();
-        };
-
-        vm.carregaUsuarioLogado = function (ev, idUsuario) {
-            if (ev.keyCode === 13) {
-                Usuario.show(idUsuario)
-                    .success(function (data) {
-                        $rootScope.usuarioLogado = data;
-                        $location.path('/');
-                    });
-            }
         };
 
         vm.getItensPesquisa = function (texto) {
@@ -122,7 +115,62 @@
                 .then(function () {
                     //          $log.debug("close LEFT is done");
                 });
-        }
+        };
+
+        vm.getNotificacoesDoUsuario = function (tipo) {
+            if (tipo != undefined) {
+                tipo = 'lidas';
+            }
+            Usuario.getNotificacoes(tipo)
+                .success(function (data) {
+                    vm.notificacoesUsuario = data;
+                    vm.quantidadeNotificacoesNaoLidas = 0;
+                    angular.forEach(vm.notificacoesUsuario, function (notificacao) {
+                        if (notificacao.nome_fase != null && notificacao.nome_fase != undefined) {
+                            notificacao.nome_fase = $filter('translate')(notificacao.nome_fase);
+                        }
+                        if (!notificacao.lida) {
+                            vm.quantidadeNotificacoesNaoLidas++;
+                        }
+                    });
+                });
+        };
+
+        vm.exibeDetalhesNotificacao = function (notificacao) {
+            Usuario.lerNotificacao(notificacao)
+                .success(function (data) {
+                    switch (notificacao.tipo_evento) {
+                        case "salvou_placar":
+                        case "confirmou_placar":
+                        case "contestou_resultado":
+                            $location.path('home/partidas_usuario');
+                            break;
+                        case "fase_iniciada":
+                        case "fase_encerrada":
+                        case "fase_encerramento_breve":
+                            $location.path('campeonato/' + notificacao.item_id);
+                            break;
+                        case "comentar_post":
+                        case "curtir_post":
+                        case "curtir_comentario":
+                            $location.path('home/atividade/' + notificacao.item_id);
+                            break;
+                        case "seguir_usuario":
+                            $location.path('profile/' + notificacao.id_remetente);
+                            break;
+                    }
+                });
+        };
+
+        $rootScope.$on('$stateChangeSuccess', function () {
+            vm.getNotificacoesDoUsuario();
+        });
+
+        vm.exibeData = function (data) {
+            var dataExibida = new Date(data);
+            return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
+        };
+
 
     }]);
 }());

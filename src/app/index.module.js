@@ -31,9 +31,26 @@
     //    angular.module('player2').config(function ($locationProvider) {
     //        $locationProvider.html5Mode(true);
     //    });
+
+    //Ambiente: local | dev | beta
+    var ambiente = 'dev';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
     var responseTypeAmbiente;
+
+    if (ambiente == 'local') {
+        apiUrlAmbiente = "http://localhost/player2/public/";
+        redirectUrlAmbiente = "http://localhost:3000";
+        responseTypeAmbiente = "token";
+    } else if (ambiente == 'dev') {
+        apiUrlAmbiente = "/";
+        redirectUrlAmbiente = "http://dev.player2.club";
+        responseTypeAmbiente = "token";
+    } else {
+        apiUrlAmbiente = "/";
+        redirectUrlAmbiente = "http://beta.player2.club";
+        responseTypeAmbiente = "token";
+    }
 
     angular.module('player2').config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
@@ -77,9 +94,9 @@
     function apiInterceptor($q, $rootScope, localStorageService) {
         return {
             request: function (config) {
-                apiUrlAmbiente = localStorageService.get('API_URL');
-                redirectUrlAmbiente = localStorageService.get('redirectUrl');
-                responseTypeAmbiente = localStorageService.get('responseType');
+                //                apiUrlAmbiente = localStorageService.get('API_URL');
+                //                redirectUrlAmbiente = localStorageService.get('redirectUrl');
+                //                responseTypeAmbiente = localStorageService.get('responseType');
                 var url = config.url;
 
                 // ignore template requests

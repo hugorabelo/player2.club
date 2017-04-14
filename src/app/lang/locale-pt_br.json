@@ -94,6 +94,7 @@
         "confirmar_contestacao": "Confirmar o placar original",
         "editar_placar_contestado": "Editar placar contestado",
         "salvar_placar_contestado": "Salvar o novo placar após análise",
+        "excluir_placar_contestado": "Cancelar o placar contestado",
         "sigla": "Sigla",
 
         "acesso": "Acesso",
@@ -128,7 +129,13 @@
         "usuario_imagem_capa": "Imagem de Capa",
         "screenshot": "Screenshots",
         "descreva_problema": "Descreva o problema",
-        "titulo": "Titulo"
+        "titulo": "Titulo",
+
+        "motivo_contestacao": "Motivo",
+        "resultado_errado": "Resultado Incorreto",
+        "partida_nao_realizada": "Partida Não Realizada",
+
+        "numero_rounds": "Número de Rounds"
     },
 
     "messages": {
@@ -140,6 +147,7 @@
         "confirma_iniciar_fase": "Deseja realmente iniciar esta fase?",
         "explica_iniciar_fase": "Caso a fase anterior esteja aberta, ela será fechada automaticamente. Os jogos serão sorteados e as partidas desta fase já poderão ser disputadas.",
         "confirma_fechar_fase": "Deseja realmente encerrar esta fase?",
+        "confirma_fechar_fase_partidas_aberto": "A fase possui partidas em aberto. Caso encerre a fase, as partidas serão computadas como sem resultado. Deseja encerrar esta fase mesmo assim?",
 
         "plataforma_list": "Plataformas",
         "plataforma_add": "Adicionar Plataforma",
@@ -189,6 +197,7 @@
         "campeonatosEncerrados": "Campeonatos Encerrados",
         "campeonatosParticipantes": "Participantes",
         "campeonatoContestacoes": "Resultados Contestados",
+        "campeonato_partidas_abertas": "Partidas Em Aberto",
 
 
         "campeonatoAdmin_list": "Administradores",
@@ -268,6 +277,7 @@
         "mensagem": "Mensagem",
         "visitar_perfil": "Visitar Perfil",
         "filtro": "Filtre os resultados",
+        "filtro_campeonato": "Filtre por campeonato",
         "ultimos_jogos": "Últimas Partidas",
         "partidas_a_disputar": "Partidas a disputar",
 
@@ -304,6 +314,10 @@
         "sucesso_inscricao": "Inscrição realizada com sucesso",
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um id de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
+        "placares_invalidos": "O placar informado é inválido",
+        "pontuacao_nao_cadastrada": "A pontuação para esta fase não está cadastrada. Favor informar ao administrador",
+        "empate_nao_permitido": "Não é permitido um resultado de empate nesta fase",
+
         "sucesso_placar": "Resultado inserido com sucesso",
         "sucesso_confirmacao": "Confirmação realizada com sucesso",
         "sucesso_cancelar_placar": "Placar cancelado com sucesso",
@@ -316,13 +330,45 @@
         "fase_anterior_aberta": "A fase anterior está aberta",
         "fase_sem_quantidade_minima_usuarios": "A fase não possui a quantidade mínima de usuários cadastrados",
         "operacao_nao_permitida_nao_administrador": "Você precisa ser um administrador do campeonato para executar esta operação",
-        "fase_com_partidas_contestadas": "A fase anterior possui partidas contestadas. Você deve resolvê-las, antes de iniciar a nova fase",
+        "fase_com_partidas_contestadas": "A fase possui partidas contestadas. Você deve resolvê-las, antes de encerrar a fase",
 
         "campo_obrigatorio": "Este campo é obrigatório",
-        "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado"
+        "campeonato_nao_iniciado": "O campeonato ainda não foi iniciado",
+
+        "minhas_notificacoes": "Minhas Notificações",
+        "ver_tudo": "Ver tudo",
+        "disputa_unica": "Disputa Única",
+        "melhor_tres": "Melhor de 3",
+        "melhor_cinco": "Melhor de 5",
+        "melhor_sete": "Melhor de 7",
+        "notificacoes_email": "Configurar envio de notificações por e-mail"
     },
 
     "generos": {
         "Soccer": "Futebol"
+    },
+
+    "notificacoes": {
+        "salvou_placar": "{{nome_remetente}} cadastrou o resultado de uma partida que realizou com você",
+        "confirmou_placar": "{{nome_remetente}} confirmou o resultado de uma partida que realizou com você",
+        "contestou_resultado": "{{nome_remetente}} contestou o resultado de uma partida que realizou com você",
+        "fase_iniciada": "A fase {{nome_fase}} do campeonato {{nome_campeonato}} foi iniciada",
+        "fase_encerrada": "A fase {{nome_fase}} do campeonato {{nome_campeonato}} foi encerrada",
+        "fase_encerramento_breve": "A fase {{nome_fase}} do campeonato {{nome_campeonato}} irá se encerrar em breve e você ainda tem partidas a realizar",
+        "comentar_post": "{{nome_remetente}} comentou o seu post ",
+        "curtir_post": "{{nome_remetente}} curtiu o seu post ",
+        "curtir_comentario": "{{nome_remetente}} curtiu o seu comentário ",
+        "seguir_usuario": "{{nome_remetente}} começou a seguir você",
+
+        "descricao_salvou_placar": "Outro usuário inserir o resultado da partida",
+        "descricao_confirmou_placar": "Outro usuário confirmar o resultado que você inseriu",
+        "descricao_contestou_resultado": "Outro usuário contestar o resultado inserido por você",
+        "descricao_fase_iniciada": "Uma fase que você participa ser iniciada",
+        "descricao_fase_encerrada": "Encerramento de fase que você participa",
+        "descricao_fase_encerramento_breve": "Uma fase próxima do encerramento",
+        "descricao_comentar_post": "Usuário comentou um post seu",
+        "descricao_curtir_post": "Usuário curtiu um post seu",
+        "descricao_curtir_comentario": "Usuário curtiu o seu comentário",
+        "descricao_seguir_usuario": "Alguém começou a seguir você"
     }
 }

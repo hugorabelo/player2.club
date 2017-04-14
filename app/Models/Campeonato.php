@@ -104,7 +104,9 @@ class Campeonato extends Eloquent {
 		$fase->data_fim = $data;
 		$fase->update();
 
-		$outraData = $data->addDay();
+        $outraData = DB::table('campeonato_fases')->selectRaw("data_fim + '1 day' as nova_data")->where('id','=',$fase->id)->first();
+        $outraData = $outraData->nova_data;
+        $outraData = Carbon::parse($outraData);
 
 		$proximaFase = $fase;
 		while($proximaFase = $proximaFase->proximaFase()) {
@@ -208,6 +210,18 @@ class Campeonato extends Eloquent {
         $faseAtual->aberta = true;
         $faseAtual->update();
 
+        $evento = NotificacaoEvento::where('valor','=','fase_iniciada')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+        foreach ($usuariosDaFase as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->item_id = $faseAtual->id;
+            $notificacao->save();
+        }
+
         return $usuariosDaFase;
     }
 
@@ -215,8 +229,8 @@ class Campeonato extends Eloquent {
     {
         $fase = CampeonatoFase::find($dadosFase['id']);
         $proximaFase = $fase->proximaFase();
-        // contabilizar jogos sem resultado (0 pontos para todos os participantes)
         foreach ($fase->grupos() as $grupo) {
+            // contabilizar jogos sem resultado (0 pontos para todos os participantes)
             foreach ($grupo->partidas() as $partida) {
                 if(!isset($partida->data_placar)) {
                     foreach ($partida->usuarios(false) as $usuarioPartida) {
@@ -254,6 +268,19 @@ class Campeonato extends Eloquent {
         $fase->aberta = false;
         $fase->encerrada = true;
         $fase->update();
+
+        $evento = NotificacaoEvento::where('valor','=','fase_encerrada')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+        $usuariosDaFase = $fase->usuarios();
+        foreach ($usuariosDaFase as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->item_id = $fase->id;
+            $notificacao->save();
+        }
 
         /*
          * Cronograma de inserção de resultados para uma partida de campeonato
@@ -493,11 +520,11 @@ class Campeonato extends Eloquent {
             return 4;
         }
         $fase = $this->faseInicial();
-        if($fase->aberta) {
+        if($fase->aberta || $fase->encerrada) {
             return 3;
         }
         while($fase = $fase->proximaFase()) {
-            if($fase->aberta) {
+            if($fase->aberta || $fase->encerrada) {
                 return 3;
             }
         }
@@ -537,5 +564,22 @@ class Campeonato extends Eloquent {
             }
         }
         return $partidasContestadas;
+    }
+
+    public function partidasEmAberto() {
+        $fases = CampeonatoFase::where('campeonatos_id','=',$this->id)->get(array('id'))->toArray();
+        $grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
+        $partidas = Partida::whereIn('fase_grupos_id',$grupos)->whereNull('data_confirmacao')->orderBy('id')->get();
+        foreach($partidas as $partida) {
+            if($partida->contestada()) {
+                $partida->contestada = true;
+            }
+            $usuarios = $partida->usuarios();
+            $partida->usuarios = $usuarios;
+            $partida->campeonato = $partida->campeonato()->descricao;
+            $partida->fase = $partida->fase()->descricao;
+        }
+        $partidas = $partidas->values();
+        return $partidas;
     }
 }

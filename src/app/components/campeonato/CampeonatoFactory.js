@@ -209,6 +209,10 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
 
         getPartidasContestadas: function (idCampeonato) {
             return $http.get('api/campeonato/partidasContestadas/' + idCampeonato);
+        },
+
+        getPartidasEmAberto: function (idCampeonato) {
+            return $http.get('api/campeonato/partidasEmAberto/' + idCampeonato);
         }
 
     }

@@ -229,4 +229,13 @@ class CampeonatosController extends Controller
         return Response::json($partidas);
     }
 
+    public function getPartidasEmAberto($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        if($campeonato== null) {
+            return Response::json();
+        }
+        $partidas = $campeonato->partidasEmAberto();
+        return Response::json($partidas);
+    }
+
 }

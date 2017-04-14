@@ -4,14 +4,14 @@
 <h2 translate>messages.campeonatoContestacoes</h2>
 </md-toolbar>
 -->
-    <md-card-content>
+    <md-card-content ng-class="{'p-w-xs': telaMobile}">
         <!--        <md-list flex>-->
         <!--            <md-list-item class="noright" ng-repeat="partida in vmCampeonato.partidasContestadas" layout="row" layout-align="space-between center" flex>-->
-        <div class="noright" ng-repeat="partida in vmCampeonato.partidasContestadas" layout="row" layout-align="space-between center" flex>
-            <div class="text-right">
+        <div class="noright" ng-repeat="partida in vmCampeonato.partidasEmAberto" layout="row" layout-align="space-between center" flex>
+            <div class="text-right" flex layout-align-xs="space-around center">
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
-                <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante" alt="profile" hide-xs>
+                <img src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante" alt="profile">
             </div>
             <div class="text-center" flex layout="row" layout-align="space-around center">
                 <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="!partida.edita_contestacao">
@@ -26,25 +26,19 @@
                 <span class="placar-jogo-equipes-placar-visitante"><input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="!partida.edita_contestacao"></span>
             </div>
 -->
-            <div class="text-left">
-                <img src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante hidden-xs" alt="profile">
+            <div class="text-left" flex layout-align-xs="space-around center">
+                <img src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile">
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
                 <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
             </div>
-            <div class="" layout="row">
+            <div class="" layout="row" flex layout-align-xs="space-between center">
 
-                <div id="botoes" class="pull-left" hide-xs>
-                    <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-hide="partida.edita_contestacao" ng-click="vmCampeonato.confirmarPlacarContestacao(partida.id)">
-                        <i class="material-icons">done</i>
-                        <md-tooltip md-direction="top ">
-                            {{'fields.confirmar_contestacao' | translate}}
-                        </md-tooltip>
-                    </md-button>
+                <div id="botoes" class="pull-left">
 
                     <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)" ng-show="partida.edita_contestacao">
                         <i class="material-icons">save</i>
                         <md-tooltip md-direction="top ">
-                            {{'fields.salvar_placar_contestado' | translate}}
+                            {{'fields.salvar_resultado' | translate}}
                         </md-tooltip>
                     </md-button>
 
@@ -58,51 +52,27 @@
                     <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" ng-hide="partida.edita_contestacao" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
                         <i class="material-icons">edit</i>
                         <md-tooltip md-direction="top ">
-                            {{'fields.editar_placar_contestado' | translate}}
-                        </md-tooltip>
-                    </md-button>
-                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-hide="partida.edita_contestacao">
-                        <i class="material-icons">delete</i>
-                        <md-tooltip md-direction="top ">
-                            {{'fields.excluir_placar_contestado' | translate}}
+                            {{'fields.edit' | translate}}
                         </md-tooltip>
                     </md-button>
                 </div>
-                <md-menu>
+                <md-menu ng-show="false">
                     <md-button aria-label="+" class="md-icon-button" ng-click="$mdOpenMenu()" hide-gt-xs>
                         <i class="material-icons">more_horiz</i>
                     </md-button>
                     <md-menu-content width="1">
-                        <md-menu-item ng-hide="partida.edita_contestacao">
-                            <md-button class="md-raised" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacarContestacao(partida.id)">
-                                <i class="material-icons">done</i> {{'fields.confirmar_contestacao' | translate}}
-                            </md-button>
-                        </md-menu-item>
                         <md-menu-item ng-show="partida.edita_contestacao">
                             <md-button class="md-raised md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)">
-                                <i class="material-icons">save</i> {{'fields.salvar_placar_contestado' | translate}}
+                                <i class="material-icons">save</i> {{'fields.salvar_resultado' | translate}}
                             </md-button>
                         </md-menu-item>
                         <md-menu-item ng-hide="partida.edita_contestacao">
                             <md-button class="md-raised md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
-                                <i class="material-icons">clear</i> {{'fields.editar_placar_contestado' | translate}}
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item ng-hide="partida.edita_contestacao">
-                            <md-button class="md-raised md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)">
-                                <i class="material-icons">delete</i> {{'fields.excluir_placar_contestado' | translate}}
+                                <i class="material-icons">clear</i> {{'fields.edit' | translate}}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-                <div id="icones" class="pull-right">
-                    <md-button class="md-fab md-mini md-primary md-hue-1" ng-click="vmCampeonato.exibirInformacoesContestacao($event, partida.contestacao)">
-                        <i class="fa fa-info fa-lg"></i>
-                        <md-tooltip md-direction="top ">
-                            {{'fields.info_contestacao' | translate}}
-                        </md-tooltip>
-                    </md-button>
-                </div>
             </div>
             <md-divider ng-if="!$last"></md-divider>
         </div>

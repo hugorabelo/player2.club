@@ -117,7 +117,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         while ($qtdeParticipantesFase >= 2) {
             $faseCriada = array();
             $faseCriada['descricao'] = 'messages.matamata' . $qtdeParticipantesFase;
-            if ($this->detalhesCampeonato['ida_volta']) {
+            if (json_decode($this->detalhesCampeonato['ida_volta'])) {
                 $faseCriada['permite_empate'] = true;
             } else {
                 $faseCriada['permite_empate'] = false;

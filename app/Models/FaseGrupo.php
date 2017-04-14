@@ -29,6 +29,10 @@ class FaseGrupo extends Eloquent
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
                 $usuario->sigla = substr($usuario->nome, 0, 3);
             }
+            $nome_completo = $usuario->nome;
+            $nome_completo = explode(' ', $nome_completo);
+            $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuario->nome;
+            $usuario->nome = $nome_completo;
             $usuario->distintivo = (isset($usuario->distintivo) && !empty($usuario->distintivo)) ? $usuario->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
@@ -42,6 +46,17 @@ class FaseGrupo extends Eloquent
         $partidas = $this->partidas();
         $usuario1 = $usuarios->first();
         $usuario2 = $usuarios->last();
+
+        $nome_completo = $usuario1->nome;
+        $nome_completo = explode(' ', $nome_completo);
+        $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuario1->nome;
+        $usuario1->nome = $nome_completo;
+
+        $nome_completo2 = $usuario2->nome;
+        $nome_completo2 = explode(' ', $nome_completo2);
+        $nome_completo2 = count($nome_completo2) > 2 ? array_shift($nome_completo2).' '.array_pop($nome_completo2) : $usuario2->nome;
+        $usuario2->nome = $nome_completo2;
+
         $usuario1->distintivo = (isset($usuario1->distintivo) && !empty($usuario1->distintivo)) ? $usuario1->distintivo : $usuario1->imagem_perfil;
         $usuario2->distintivo = (isset($usuario2->distintivo) && !empty($usuario2->distintivo)) ? $usuario2->distintivo : $usuario2->imagem_perfil;
         $usuario1->placares = app()->make(Collection::class);
@@ -242,7 +257,22 @@ class FaseGrupo extends Eloquent
             } else {
                 $u1 = $partidas->first()->usuarios()->first();
                 $u2 = $partidas->first()->usuarios()->last();
-                if ($u1->placar > $u2->placar) {
+
+                if(isset($detalhesDoCampeonato->numero_rounds) && $detalhesDoCampeonato->numero_rounds > 1) {
+                    $placarUsuario1 = 0;
+                    $placarUsuario2 = 0;
+                    foreach ($partidas as $partida) {
+                        if($partida->placarUsuario($u1->users_id) > $partida->placarUsuario($u2->users_id)) {
+                            $placarUsuario1++;
+                        } else if($partida->placarUsuario($u1->users_id) < $partida->placarUsuario($u2->users_id)) {
+                            $placarUsuario2++;
+                        }
+                    }
+                } else {
+                    $placarUsuario1 = $u1->placar;
+                    $placarUsuario2 = $u2->placar;
+                }
+                if ($placarUsuario1 > $placarUsuario2) {
                     $usuariosClassificados->put(1, User::find($u1->users_id));
                 } else {
                     $usuariosClassificados->put(1, User::find($u2->users_id));
@@ -250,7 +280,7 @@ class FaseGrupo extends Eloquent
             }
         } else {
             $proximaFase = $fase->proximaFase();
-            $quantidadeClassificados = $proximaFase->quantidade_usuarios / $proximaFase->grupos()->count();
+            $quantidadeClassificados = $proximaFase->quantidade_usuarios / $fase->grupos()->count();
             $usuariosComClassificacao = $this->usuariosComClassificacao();
             $usuariosClassificados = $usuariosComClassificacao->take($quantidadeClassificados);
         }

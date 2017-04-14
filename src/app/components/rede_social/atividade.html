@@ -1,29 +1,4 @@
-<div class="escrever_post m-b">
-    <div class="icones">
-        <md-button class="md-icon-button" ng-click="vmFeed.adicionarImagem(ev, vmFeed.novoPost)">
-            <md-tooltip md-direction="top">
-                {{'messages.inserir_foto' | translate}}
-            </md-tooltip>
-            <i class="material-icons">photo_camera</i>
-        </md-button>
-        <md-button class="md-icon-button" ng-click="vmFeed.criarPost()">
-            <md-tooltip md-direction="top">
-                {{'messages.publicar' | translate}}
-            </md-tooltip>
-            <i class="material-icons">send</i>
-        </md-button>
-    </div>
-    <img alt="{{usuarioLogado.nome}}" src="uploads/usuarios/{{usuarioLogado.imagem_perfil}}">
-    <textarea rows="1" class="animate msd-elastic: \n;" placeholder="{{'messages.escrever_comentario' | translate}}" ng-model="vmFeed.novoPost.texto">
-    </textarea>
-    <md-chips class="imagens_post" ng-show="vmFeed.novoPost.imagens">
-        <md-chip ng-repeat="imagem in vmFeed.novoPost.imagens" md-removable="true">
-            {{imagem.lfFileName}}
-        </md-chip>
-    </md-chips>
-</div>
-
-<md-card class="feed" ng-repeat="atividade in vmFeed.feedFactory.items track by $index" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
+<md-card ng-init="vmFeed.carregaAtividadeEspecifica()" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->
     <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">

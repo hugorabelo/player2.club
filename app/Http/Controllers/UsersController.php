@@ -18,8 +18,8 @@ class UsersController extends Controller {
 
 	public function show($id) {
 		$usuario = User::find($id);
-        $usuario->seguidores = $usuario->seguidores()->get()->take(6);
-        $usuario->seguindo = $usuario->seguindo()->get()->take(6);
+        $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
+        $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
 		return Response::json($usuario);
 	}
 
@@ -256,6 +256,20 @@ class UsersController extends Controller {
             return Response::json();
         }
         $usuario->seguir($idMestre);
+
+		if($idUsuario != $idMestre) {
+			$evento = NotificacaoEvento::where('valor','=','seguir_usuario')->first();
+			if(isset($evento)) {
+				$idEvento = $evento->id;
+			}
+
+			$notificacao = new Notificacao();
+			$notificacao->id_remetente = $idUsuario;
+			$notificacao->id_destinatario = $idMestre;
+			$notificacao->evento_notificacao_id = $idEvento;
+			$notificacao->save();
+		}
+
         return Response::json();
     }
 
@@ -426,6 +440,60 @@ class UsersController extends Controller {
 		$usuarioCampeonato = CampeonatoUsuario::find($idUsuarioCampeonato);
 		$usuarioCampeonato->delete();
 
+		return Response::json(array('success'=>true));
+	}
+
+	public function listaNotificacoes($lidas = false) {
+		$idUsuario = Auth::getUser()->id;
+		$usuario = User::find($idUsuario);
+		$notificacoes = $usuario->getNotificacoes($lidas);
+        foreach ($notificacoes as $notificacao) {
+            $evento = NotificacaoEvento::find($notificacao->evento_notificacao_id);
+            $remetente = User::find($notificacao->id_remetente);
+            if(isset($remetente)) {
+                $nome_completo = explode(' ', $remetente->nome);
+                $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $remetente->nome;
+                $remetente->nome = $nome_completo;
+                $notificacao->remetente = $remetente;
+            }
+			switch ($evento->valor) {
+				case 'fase_iniciada':
+				case 'fase_encerrada':
+				case 'fase_encerramento_breve':
+					$fase = CampeonatoFase::find($notificacao->item_id);
+					$notificacao->nome_campeonato = $fase->campeonato()->descricao;
+					$notificacao->nome_fase = $fase->descricao;
+					$notificacao->item_id = $fase->campeonato()->id;
+					break;
+			}
+            $notificacao->mensagem = $evento->mensagem;
+            $notificacao->tipo_evento = $evento->valor;
+        }
+		return Response::json($notificacoes);
+	}
+
+	function lerNotificacao() {
+        $input = Input::except('_token');
+        $notificacao = Notificacao::find($input['id']);
+        $notificacao->lida = true;
+        $notificacao->save();
+		return Response::json(array('success'=>true));
+    }
+
+	function adicionarNotificacaoEmail() {
+		$input = Input::except('_token');
+		Log::warning($input);
+		$idEvento = $input['id_evento'];
+		$usuario = Auth::getUser();
+		$usuario->adicionaNotificacaoPorEmail($idEvento);
+		return Response::json(array('success'=>true));
+	}
+
+	function removerNotificacaoEmail() {
+		$input = Input::except('_token');
+		$idEvento = $input['id_evento'];
+		$usuario = Auth::getUser();
+		$usuario->removeNotificacaoPorEmail($idEvento);
 		return Response::json(array('success'=>true));
 	}
 
