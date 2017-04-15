@@ -482,7 +482,6 @@ class UsersController extends Controller {
 
 	function adicionarNotificacaoEmail() {
 		$input = Input::except('_token');
-		Log::warning($input);
 		$idEvento = $input['id_evento'];
 		$usuario = Auth::getUser();
 		$usuario->adicionaNotificacaoPorEmail($idEvento);

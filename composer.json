@@ -18,7 +18,6 @@
     },
     "autoload": {
         "classmap": [
-			"database",
 			"app/Http/Controllers",
 			"app/Models"
 		],
