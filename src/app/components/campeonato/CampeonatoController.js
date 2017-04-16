@@ -219,7 +219,7 @@
         vm.participanteDestaque = {};
 
         vm.exibeData = function (data) {
-            var dataExibida = new Date(data);
+            var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataExibida, 'dd/MM/yyyy');
         };
 
@@ -523,7 +523,7 @@
         };
 
         vm.exibeDataLimite = function (data_limite) {
-            var dataLimite = new Date(data_limite);
+            var dataLimite = moment(data_limite, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
         };
 

@@ -80,7 +80,7 @@
         };
 
         vm.exibeData = function (data) {
-            var dataExibida = new Date(data);
+            var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 

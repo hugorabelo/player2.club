@@ -100,7 +100,7 @@ angular.module('player2').controller('PartidaController', ['$scope', '$rootScope
     };
 
     vm.exibeDataLimite = function (data_limite) {
-        dataLimite = new Date(data_limite);
+        dataLimite = moment(data_limite, "YYYY-MM-DD HH:mm:ss").toDate();
         return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
     };
 
