@@ -33,7 +33,7 @@
                 <md-card-content layout="row">
                     <div flex="20" flex-gt-xs="10">
                         <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
-                            <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
+                            <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive img-circle" alt="profile">
                         </a>
                     </div>
                     <div flex>
@@ -111,7 +111,7 @@
                 </md-toolbar>
                 <md-card-content layout-align="center center" layout="column">
                     <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
-                        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive" alt="profile">
+                        <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive img-circle" alt="profile">
                     </a>
                     <h2 class="text-center m-t" ng-show="false">
                         {{vmCampeonato.campeonato.descricao}}
@@ -226,7 +226,7 @@
                 <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
                 <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status === 1 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                 <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
-                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive m-t" alt="profile">
+                    <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive m-t img-circle" alt="profile">
                 </a>
                 <div class="admin-info" layout="column">
                     <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
