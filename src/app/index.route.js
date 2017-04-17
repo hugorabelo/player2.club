@@ -90,6 +90,14 @@
                     pageTitle: "messages.notificacoes"
                 }
             })
+            .state('home.escrever_mensagem', {
+                url: "/escrever_mensagem/{idUsuario}",
+                templateUrl: "app/components/dashboard/escreverMensagem.html",
+                controller: 'HomeController as vmHome',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",

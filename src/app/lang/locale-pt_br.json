@@ -28,6 +28,7 @@
         "save": "Salvar",
         "update": "Atualizar",
         "adicionar": "Adicionar",
+        "enviar": "Enviar",
 
         "descricao": "Descrição",
         "logomarca": "Logomarca",
@@ -341,7 +342,11 @@
         "melhor_tres": "Melhor de 3",
         "melhor_cinco": "Melhor de 5",
         "melhor_sete": "Melhor de 7",
-        "notificacoes_email": "Configurar envio de notificações por e-mail"
+        "notificacoes_email": "Configurar envio de notificações por e-mail",
+        "escrever_mensagem": "Escrever uma nova mensagem",
+        "remetente": "Remetente",
+        "destinatario": "Destinatário",
+        "mensagem_enviada": "Mensagem enviada com sucesso"
     },
 
     "generos": {

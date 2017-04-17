@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -257,8 +257,54 @@
                 }
             };
 
-            vm.escreverMensagem = function () {
-                console.log('escrever mensagem');
+            vm.escreverMensagem = function (ev, idUsuario) {
+                vm.novaMensagem = {};
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.escrever_mensagem',
+                            novaMensagem: vm.novaMensagem
+                        },
+                        controller: DialogControllerMensagem,
+                        templateUrl: 'app/components/dashboard/escreverMensagem.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+                        toastr.success($filter('translate')('messages.mensagem_enviada'));
+                    }, function () {
+
+                    });
+            };
+
+            function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem) {
+                $scope.tituloModal = tituloModal;
+                $scope.novaMensagem = novaMensagem;
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.enviarMensagem = function () {
+                    console.log(novaMensagem);
+                    $mdDialog.hide();
+                }
+
+            };
+
+            vm.escreverNovaMensagem = function () {
+                var idUsuario = $stateParams.idUsuario;
+                vm.novaMensagem = {};
+                Usuario.show(idUsuario)
+                    .success(function (data) {
+                        vm.novaMensagem.destinatario = data;
+                    })
+            };
+
+            vm.enviarMensagem = function () {
+                console.log(vm.novaMensagem);
+                //                Usuario.enviarMensagem(vm.novaMensagem);
             };
     }]);
 
