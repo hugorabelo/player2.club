@@ -256,6 +256,10 @@
                     Usuario.removerNotificacaoEmail(idEvento);
                 }
             };
+
+            vm.escreverMensagem = function () {
+                console.log('escrever mensagem');
+            };
     }]);
 
 }());

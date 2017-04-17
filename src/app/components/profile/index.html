@@ -8,8 +8,8 @@
         <div class="profile-info">
             <div>
                 <h2 class="no-margins">
-                        {{vmProfile.usuario.nome}} {{idUsuario}}
-                    </h2>
+                    {{vmProfile.usuario.nome}} {{idUsuario}}
+                </h2>
                 <h4>{{vmProfile.usuario.sigla}}</h4>
                 <small hide-sm>
                     {{vmProfile.usuario.descricao}}
@@ -17,10 +17,11 @@
             </div>
         </div>
     </div>
-    <div>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+    <div layout="row" layout-align="end end">
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="material-icons">person_add</i> {{'messages.seguir' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="material-icons">people</i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem()"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 
