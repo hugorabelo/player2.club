@@ -1,0 +1,34 @@
+<md-card>
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout-gt-xs="row" layout-margin>
+        <div flex-gt-xs="70">
+            <md-input-container class="md-block" ng-show="false">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id">
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id" ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                        {{tipoCompetidor.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+            </md-input-container>
+
+            <md-input-container class="md-block md-input-has-value">
+                <label>{{'fields.numero_rounds' | translate}}</label>
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.numero_rounds" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <md-radio-button ng-value="1">{{ 'messages.disputa_unica' | translate }}</md-radio-button>
+                    <md-radio-button ng-value="3"> {{ 'messages.melhor_tres' | translate }} </md-radio-button>
+                    <md-radio-button ng-value="5"> {{ 'messages.melhor_cinco' | translate }} </md-radio-button>
+                    <md-radio-button ng-value="7"> {{ 'messages.melhor_sete' | translate }} </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+        </div>
+    </md-card-content>
+</md-card>
