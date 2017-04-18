@@ -349,7 +349,8 @@
         "mensagem_enviada": "Mensagem enviada com sucesso",
 
         "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente",
-        "minhas_mensagens": "Minhas mensagens"
+        "minhas_mensagens": "Minhas mensagens",
+        "bate_papo": "Bate Papo com {{nome_remetente}}"
     },
 
     "generos": {

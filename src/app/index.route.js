@@ -98,6 +98,14 @@
                     pageTitle: "messages.mensagens"
                 }
             })
+            .state('home.chat', {
+                url: "/chat/{idUsuario}",
+                templateUrl: "app/components/dashboard/chatMensagem.html",
+                controller: 'HomeController as vmHome',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",
