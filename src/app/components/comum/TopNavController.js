@@ -164,7 +164,7 @@
 
         $rootScope.$on('$stateChangeSuccess', function () {
             vm.getNotificacoesDoUsuario();
-            vm.getMensagensDoUsuario();
+            vm.getConversasDoUsuario();
         });
 
         vm.exibeData = function (data) {
@@ -172,14 +172,14 @@
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
-        vm.getMensagensDoUsuario = function () {
-            Usuario.getMensagens()
+        vm.getConversasDoUsuario = function () {
+            Usuario.getConversas()
                 .success(function (data) {
-                    vm.mensagensUsuario = data;
+                    vm.conversasUsuario = data;
                     vm.quantidadeMensagensNaoLidas = 0;
-                    angular.forEach(vm.mensagensUsuario, function (mensagem) {
-                        if (!mensagem.lida) {
-                            vm.quantidadeMensagensNaoLidas++;
+                    angular.forEach(vm.conversasUsuario, function (conversa) {
+                        if (conversa.nao_lidas > 0) {
+                            vm.quantidadeMensagensNaoLidas += conversa.nao_lidas;
                         }
                     });
                 });

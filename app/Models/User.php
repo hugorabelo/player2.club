@@ -251,8 +251,18 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		$this->emailsNotificacao()->detach($idEvento);
 	}
 
-	public function getMensagens() {
-		$mensagens = Mensagem::where('id_destinatario','=',$this->id)->orderBy('created_at', 'desc')->get();
+	public function getConversas() {
+		$conversas  = DB::table('mensagem as m')
+							->selectRaw('id_remetente, '.
+										'(SELECT count(lida) FROM mensagem where id_remetente = m.id_remetente AND lida is false) as nao_lidas, '.
+										'(SELECT mensagem FROM mensagem where id_remetente = m.id_remetente ORDER BY created_at DESC LIMIT 1) as ultima_mensagem, '.
+										'(SELECT created_at FROM mensagem where id_remetente = m.id_remetente ORDER BY created_at DESC LIMIT 1)')
+							->where('id_destinatario','=',$this->id)->groupBy('id_remetente')->orderBy('created_at', 'desc')->get();
+		return $conversas;
+	}
+
+	public function getMensagens($idRemetente) {
+		$mensagens = Mensagem::where('id_destinatario','=',$this->id)->where('id_remetente','=',$idRemetente)->orderBy('created_at', 'desc')->get();
 		return $mensagens;
 	}
 

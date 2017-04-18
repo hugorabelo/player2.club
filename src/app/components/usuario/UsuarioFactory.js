@@ -293,8 +293,12 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
-        getMensagens: function () {
-            return $http.get('api/usuario/mensagens');
+        getConversas: function () {
+            return $http.get('api/usuario/conversas');
+        },
+
+        getMensagens: function (idRemetente) {
+            return $http.get('api/usuario/mensagens/' + idRemetente);
         }
     }
 }]);
