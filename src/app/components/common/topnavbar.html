@@ -181,6 +181,11 @@
             </a>
         </span>
 
+        <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
+            <i class="material-icons md-24">message</i>
+            <span class="label label-danger" ng-show="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
+        </md-button>
+
         <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes">
             <i class="material-icons md-24">videogame_asset</i>
             <span class="label label-danger">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
