@@ -90,10 +90,10 @@
                     pageTitle: "messages.notificacoes"
                 }
             })
-            .state('home.escrever_mensagem', {
-                url: "/escrever_mensagem/{idUsuario}",
-                templateUrl: "app/components/dashboard/escreverMensagem.html",
-                controller: 'HomeController as vmHome',
+            .state('home.mensagens', {
+                url: "/mensagens",
+                templateUrl: "app/components/dashboard/mensagens.html",
+                controller: 'TopNavController as vmTopNav',
                 data: {
                     pageTitle: "messages.mensagens"
                 }

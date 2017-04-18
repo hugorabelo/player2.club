@@ -251,4 +251,9 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		$this->emailsNotificacao()->detach($idEvento);
 	}
 
+	public function getMensagens() {
+		$mensagens = Mensagem::where('id_destinatario','=',$this->id)->orderBy('created_at', 'desc')->get();
+		return $mensagens;
+	}
+
 }

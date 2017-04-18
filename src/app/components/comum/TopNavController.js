@@ -164,11 +164,25 @@
 
         $rootScope.$on('$stateChangeSuccess', function () {
             vm.getNotificacoesDoUsuario();
+            vm.getMensagensDoUsuario();
         });
 
         vm.exibeData = function (data) {
             var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
+        };
+
+        vm.getMensagensDoUsuario = function () {
+            Usuario.getMensagens()
+                .success(function (data) {
+                    vm.mensagensUsuario = data;
+                    vm.quantidadeMensagensNaoLidas = 0;
+                    angular.forEach(vm.mensagensUsuario, function (mensagem) {
+                        if (!mensagem.lida) {
+                            vm.quantidadeMensagensNaoLidas++;
+                        }
+                    });
+                });
         };
 
 

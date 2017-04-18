@@ -85,7 +85,7 @@ class AppServiceProvider extends ServiceProvider {
 		});
 
 		\Mensagem::created(function ($mensagem) {
-			$evento = NotificacaoEvento::where('valor','=','enviar_mensagem')->first();
+			$evento = \NotificacaoEvento::where('valor','=','enviar_mensagem')->first();
 			if(isset($evento)) {
 				$idEvento = $evento->id;
 			}

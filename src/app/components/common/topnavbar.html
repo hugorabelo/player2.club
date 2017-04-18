@@ -22,8 +22,9 @@
                     <i class="material-icons md-24">home</i>
                 </md-button>
 
-                <md-button class="md-icon-button count-info" aria-label="Messages">
+                <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
                     <i class="material-icons md-24">message</i>
+                    <span class="label label-danger" ng-show="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
                 </md-button>
 
                 <md-menu id="lista-notificacao" md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
