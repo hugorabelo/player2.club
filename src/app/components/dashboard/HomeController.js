@@ -258,53 +258,55 @@
             };
 
             vm.escreverMensagem = function (ev, idUsuario) {
-                vm.novaMensagem = {};
-                $mdDialog.show({
-                        locals: {
-                            tituloModal: 'messages.escrever_mensagem',
-                            novaMensagem: vm.novaMensagem
-                        },
-                        controller: DialogControllerMensagem,
-                        templateUrl: 'app/components/dashboard/escreverMensagem.html',
-                        parent: angular.element(document.body),
-                        targetEvent: ev,
-                        clickOutsideToClose: true,
-                        fullscreen: true // Only for -xs, -sm breakpoints.
-                    })
-                    .then(function () {
-                        toastr.success($filter('translate')('messages.mensagem_enviada'));
-                    }, function () {
+                Usuario.show(idUsuario)
+                    .success(function (data) {
+                        vm.novaMensagem = {};
+                        vm.novaMensagem.id_destinatario = data.id;
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'messages.escrever_mensagem',
+                                    novaMensagem: vm.novaMensagem,
+                                    nomeDestinatario: data.nome
+                                },
+                                controller: DialogControllerMensagem,
+                                templateUrl: 'app/components/dashboard/escreverMensagem.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
 
-                    });
+                            }, function () {
+
+                            });
+                    })
             };
 
-            function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem) {
+            function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem, nomeDestinatario) {
                 $scope.tituloModal = tituloModal;
                 $scope.novaMensagem = novaMensagem;
+                $scope.nomeDestinatario = nomeDestinatario;
 
                 $scope.cancel = function () {
                     $mdDialog.cancel();
                 };
 
                 $scope.enviarMensagem = function () {
-                    console.log(novaMensagem);
+                    vm.enviarMensagem(novaMensagem);
                     $mdDialog.hide();
                 }
 
             };
 
-            vm.escreverNovaMensagem = function () {
-                var idUsuario = $stateParams.idUsuario;
-                vm.novaMensagem = {};
-                Usuario.show(idUsuario)
+            vm.enviarMensagem = function (novaMensagem) {
+                Usuario.enviarMensagem(novaMensagem)
                     .success(function (data) {
-                        vm.novaMensagem.destinatario = data;
+                        toastr.success($filter('translate')('messages.mensagem_enviada'));
                     })
-            };
-
-            vm.enviarMensagem = function () {
-                console.log(vm.novaMensagem);
-                //                Usuario.enviarMensagem(vm.novaMensagem);
+                    .error(function (error) {
+                        toastr.error(error.message);
+                    });
             };
     }]);
 

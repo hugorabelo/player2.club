@@ -280,6 +280,17 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
-        }
+        },
+
+        enviarMensagem: function (mensagem) {
+            return $http({
+                method: 'POST',
+                url: 'api/mensagem',
+                data: $.param(mensagem),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
     }
 }]);

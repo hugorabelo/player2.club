@@ -21,7 +21,7 @@
 <md-card flex ng-show="vmCampeonato.participanteDestaque.nome" ng-class="{'m-n': telaMobile}">
     <md-card-content>
         <div class="tab-pane active">
-            <div class="row m-b-lg">
+            <div class="row">
                 <div class="col-lg-6 text-center">
                     <h2 class="no-margins">{{vmCampeonato.participanteDestaque.nome}}</h2>
 
@@ -42,8 +42,11 @@
                             <img class="pull-left img-rounded" src="uploads/{{vmCampeonato.participanteDestaque.imagem_plataforma}}"> {{vmCampeonato.participanteDestaque.gamertag}}
                         </div>
                     </div>
-                    <md-button ui-sref="profile({idUsuario: vmCampeonato.participanteDestaque.id})" class="md-raised"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
                 </div>
+            </div>
+            <div layout="row" layout-align="center center" class="m-b-lg">
+                <md-button ui-sref="profile({idUsuario: vmCampeonato.participanteDestaque.id})" class="md-raised"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
+                <md-button class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmCampeonato.participanteDestaque.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}} </md-button>
             </div>
 
             <strong>{{'messages.ultimos_jogos' | translate}}</strong>

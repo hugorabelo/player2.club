@@ -130,6 +130,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('notificacaoEvento', 'NotificacaoEventoController');
 
+    Route::resource('mensagem', 'MensagemController');
+
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $retornoValidacao = Response::json(Auth::getUser());
         return $retornoValidacao;

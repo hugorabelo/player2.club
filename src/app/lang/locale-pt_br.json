@@ -346,7 +346,9 @@
         "escrever_mensagem": "Escrever uma nova mensagem",
         "remetente": "Remetente",
         "destinatario": "Destinatário",
-        "mensagem_enviada": "Mensagem enviada com sucesso"
+        "mensagem_enviada": "Mensagem enviada com sucesso",
+
+        "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente"
     },
 
     "generos": {

@@ -9,8 +9,8 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div layout="column">
-                    <p>{{'messages.destinatario' | translate}}: <b>{{novaMensagem.destinatario.nome}}</b></p>
-                    <textarea flex rows="1" class="animate msd-elastic: \n;" ng-model="novaMensagem.texto" required>
+                    <p>{{'messages.destinatario' | translate}}: <b>{{nomeDestinatario}}</b></p>
+                    <textarea flex rows="1" cols="60" class="animate msd-elastic: \n;" ng-model="novaMensagem.mensagem" required>
                     </textarea>
                 </div>
             </div>
