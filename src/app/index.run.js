@@ -20,9 +20,9 @@
     function mudaState($rootScope, $state, $window, $http, localStorageService, lock) {
         $rootScope.$state = $state;
 
-
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
             $rootScope.stateHome = ($state.current.name == 'home');
+            $state.previous = fromState;
             $http.get('api/validaAutenticacao')
                 .then(function (result) {
                     lock.getProfile(localStorage.getItem('idToken'), function (error, profile) {
@@ -84,16 +84,16 @@
         .factory('validacaoCustomizada', [
                     function () {
                 var
-                /**
-                 * @ngdoc function
-                 * @name myCustomElementModifier#makeValid
-                 * @methodOf myCustomElementModifier
-                 *
-                 * @description
-                 * Makes an element appear valid by apply custom styles and child elements.
-                 *
-                 * @param {Element} el - The input control element that is the target of the validation.
-                 */
+                    /**
+                     * @ngdoc function
+                     * @name myCustomElementModifier#makeValid
+                     * @methodOf myCustomElementModifier
+                     *
+                     * @description
+                     * Makes an element appear valid by apply custom styles and child elements.
+                     *
+                     * @param {Element} el - The input control element that is the target of the validation.
+                     */
                     makeValid = function (el) {
                         // do some code here...
                     },
@@ -148,14 +148,14 @@
                 ]);
 
     // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
-//    angular.module('player2')
-//        .run([
-//                'validator',
-//                'validacaoCustomizada',
-//                function (validator, myCustomElementModifier) {
-//                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
-//                validator.setDefaultElementModifier(myCustomElementModifier.key);
-//                }
-//            ]);
+    //    angular.module('player2')
+    //        .run([
+    //                'validator',
+    //                'validacaoCustomizada',
+    //                function (validator, myCustomElementModifier) {
+    //                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
+    //                validator.setDefaultElementModifier(myCustomElementModifier.key);
+    //                }
+    //            ]);
 
 })();

@@ -6,9 +6,9 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location', 'localStorageService'];
+    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location', '$state', 'localStorageService'];
 
-    function authService(lock, authManager, $http, $rootScope, $window, $location, localStorageService) {
+    function authService(lock, authManager, $http, $rootScope, $window, $location, $state, localStorageService) {
 
         var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
@@ -35,11 +35,14 @@
                             localStorageService.set('usuarioLogado', result.data);
                             $rootScope.$broadcast('userProfileSet', profile);
                         });
+                        console.log($state);
+                        $state.go($state.params.toState, $state.params.toParams);
                     }, function (error) {
                         localStorage.removeItem('id_token');
                         console.log('usuário não existe');
                     });
             });
+
         }
 
         function logout() {
