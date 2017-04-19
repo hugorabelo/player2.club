@@ -35,8 +35,10 @@
                             localStorageService.set('usuarioLogado', result.data);
                             $rootScope.$broadcast('userProfileSet', profile);
                         });
-                        console.log($state);
-                        $state.go($state.params.toState, $state.params.toParams);
+                        var previousState = localStorageService.get('previousState');
+                        var previousParams = localStorageService.get('previousParams');
+                        console.log(previousState);
+                        $state.go(previousState.name, previousParams);
                     }, function (error) {
                         localStorage.removeItem('id_token');
                         console.log('usuário não existe');

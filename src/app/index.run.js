@@ -22,7 +22,10 @@
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
             $rootScope.stateHome = ($state.current.name == 'home');
-            $state.previous = fromState;
+            if (fromState.url != '^') {
+                localStorageService.set('previousState', fromState);
+                localStorageService.set('previousParams', fromParam);
+            }
             $http.get('api/validaAutenticacao')
                 .then(function (result) {
                     lock.getProfile(localStorage.getItem('idToken'), function (error, profile) {
@@ -84,16 +87,16 @@
         .factory('validacaoCustomizada', [
                     function () {
                 var
-                    /**
-                     * @ngdoc function
-                     * @name myCustomElementModifier#makeValid
-                     * @methodOf myCustomElementModifier
-                     *
-                     * @description
-                     * Makes an element appear valid by apply custom styles and child elements.
-                     *
-                     * @param {Element} el - The input control element that is the target of the validation.
-                     */
+                /**
+                 * @ngdoc function
+                 * @name myCustomElementModifier#makeValid
+                 * @methodOf myCustomElementModifier
+                 *
+                 * @description
+                 * Makes an element appear valid by apply custom styles and child elements.
+                 *
+                 * @param {Element} el - The input control element that is the target of the validation.
+                 */
                     makeValid = function (el) {
                         // do some code here...
                     },
