@@ -318,6 +318,7 @@
                     .success(function (data) {
                         if (data.length != vm.mensagensUsuario.length) {
                             vm.mensagensUsuario = data;
+                            vm.autoScroll();
                         }
                         angular.forEach(vm.mensagensUsuario, function (mensagem) {
                             if (!vm.nomeRemetente) {
@@ -363,7 +364,12 @@
             $scope.$on('$destroy', function () {
                 $interval.cancel(atualizaMensagens);
                 atualizaMensagens = undefined;
-            })
+            });
+
+            vm.autoScroll = function () {
+                var objScrDiv = document.getElementById("janela-chat");
+                objScrDiv.scrollTop = objScrDiv.scrollHeight;
+            };
 
     }]);
 

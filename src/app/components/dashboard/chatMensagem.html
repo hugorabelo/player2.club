@@ -4,7 +4,7 @@
 </md-toolbar>
 
 
-<div class="chat-discussion m-b-none" ng-init="vmHome.getMensagensDoUsuario(); vmHome.iniciarContador()">
+<div id="janela-chat" class="chat-discussion m-b-none" ng-init="vmHome.getMensagensDoUsuario(); vmHome.iniciarContador()">
     <div class="chat-message" ng-class="{left: mensagem.remetente.id != usuarioLogado.id, right:  mensagem.remetente.id == usuarioLogado.id}" ng-repeat="mensagem in vmHome.mensagensUsuario">
         <img class="message-avatar" src="uploads/usuarios/{{mensagem.remetente.imagem_perfil}}" alt="">
         <div class="message">
