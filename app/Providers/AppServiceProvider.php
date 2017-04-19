@@ -84,6 +84,7 @@ class AppServiceProvider extends ServiceProvider {
 			}
 		});
 
+		/*
 		\Mensagem::created(function ($mensagem) {
 			$evento = \NotificacaoEvento::where('valor','=','enviar_mensagem')->first();
 			if(isset($evento)) {
@@ -96,6 +97,7 @@ class AppServiceProvider extends ServiceProvider {
 			$notificacao->evento_notificacao_id = $idEvento;
 			$notificacao->save();
 		});
+		*/
 
 		\Atividade::deleted(function ($atividade) {
 			if(isset($atividade->post_id)) {

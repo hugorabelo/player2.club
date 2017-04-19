@@ -15,7 +15,7 @@
             vm.textoInscrever = translations['messages.inscrever'];
         });
 
-        vm.idUsuario = $stateParams.idUsuario
+        vm.idUsuario = $stateParams.idUsuario;
 
         vm.idJogo = $stateParams.idJogo;
 

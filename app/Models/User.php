@@ -254,15 +254,21 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	public function getConversas() {
 		$conversas  = DB::table('mensagem as m')
 							->selectRaw('id_remetente, '.
-										'(SELECT count(lida) FROM mensagem where id_remetente = m.id_remetente AND lida is false) as nao_lidas, '.
-										'(SELECT mensagem FROM mensagem where id_remetente = m.id_remetente ORDER BY created_at DESC LIMIT 1) as ultima_mensagem, '.
-										'(SELECT created_at FROM mensagem where id_remetente = m.id_remetente ORDER BY created_at DESC LIMIT 1)')
-							->where('id_destinatario','=',$this->id)->groupBy('id_remetente')->orderBy('created_at', 'desc')->get();
+										'(SELECT count(lida) FROM mensagem where id_remetente = m.id_remetente AND id_destinatario = m.id_destinatario AND lida is false) as nao_lidas, '.
+										'(SELECT mensagem FROM mensagem where id_remetente = m.id_remetente AND id_destinatario = m.id_destinatario ORDER BY created_at DESC LIMIT 1) as ultima_mensagem, '.
+										'(SELECT created_at FROM mensagem where id_remetente = m.id_remetente AND id_destinatario = m.id_destinatario ORDER BY created_at DESC LIMIT 1)')
+							->where('id_destinatario','=',$this->id)->groupBy('id_remetente')->groupBy('id_destinatario')->orderBy('created_at', 'desc')->get();
 		return $conversas;
 	}
 
 	public function getMensagens($idRemetente) {
-		$mensagens = Mensagem::where('id_destinatario','=',$this->id)->where('id_remetente','=',$idRemetente)->orderBy('created_at', 'desc')->get();
+		$mensagens = Mensagem::where('id_destinatario','=',$this->id)->where('id_remetente','=',$idRemetente)->orWhere('id_remetente','=',$this->id)->where('id_destinatario','=',$idRemetente)->orderBy('created_at')->get();
+		foreach ($mensagens as $mensagem) {
+			if($mensagem->id_destinatario == $this->id) {
+				$mensagem->lida = true;
+				$mensagem->save();
+			}
+		}
 		return $mensagens;
 	}
 
