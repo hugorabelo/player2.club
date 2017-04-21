@@ -133,7 +133,7 @@ class Partida extends Eloquent {
         if($informacoes) {
             foreach($usuarios as $usuario) {
                 $usuarioBD = User::find($usuario->users_id);
-                $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id);
+                $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
                 $nome_completo = $usuarioBD->nome;
                 $nome_completo = explode(' ', $nome_completo);
                 $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuarioBD->nome;

@@ -37,7 +37,6 @@
                         });
                         var previousState = localStorageService.get('previousState');
                         var previousParams = localStorageService.get('previousParams');
-                        console.log(previousState);
                         $state.go(previousState.name, previousParams);
                     }, function (error) {
                         localStorage.removeItem('id_token');
