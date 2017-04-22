@@ -208,6 +208,15 @@ class CampeonatosController extends Controller
     public function getParticipantes($id) {
         $campeonato = Campeonato::find($id);
         $participantes = $campeonato->usuariosInscritos();
+        foreach ($participantes as $participante) {
+            $nome_completo = $participante->nome;
+            $nome_completo = explode(' ', $nome_completo);
+            $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $participante->nome;
+            $participante->nome = $nome_completo;
+
+            $time = Time::find($participante->pivot->time_id);
+            $participante->time = $time;
+        }
         return Response::json($participantes);
     }
 

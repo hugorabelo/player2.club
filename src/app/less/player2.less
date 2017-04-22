@@ -247,8 +247,17 @@ a.disabled:hover {
     background-color: transparent;
 }
 
-.gamertag-element img {
-    height: 30px;
+.gamertag-element {
+    span {
+        font-size: 16px;
+    }
+    img {
+        height: 30px;
+    }
+    .md-icon-button {
+        padding: 0;
+        margin: 0;
+    }
 }
 
 md-menu-item>a.md-button {
@@ -967,6 +976,10 @@ body {
     border-bottom: 1px solid #c0c0c0;
     text-align: center;
     padding-bottom: 6px;
+}
+
+a.close-link {
+    text-align: right;
 }
 
 @media screen and (max-width: 599px) {

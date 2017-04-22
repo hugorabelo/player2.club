@@ -30,7 +30,7 @@ class Campeonato extends Eloquent {
     }
 
 	public function usuariosInscritos() {
-		return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->getResults();
+		return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('time_id'))->getResults();
 	}
 
 	public function maximoUsuarios() {

@@ -236,6 +236,10 @@
                 });
         };
 
+        vm.ocultaParticipanteDestaque = function () {
+            vm.participanteDestaque = {};
+        }
+
         vm.salvaAdministrador = function () {
             Campeonato.adicionaAdministrador(vm.campeonato.id, vm.novoAdministrador)
                 .success(function (data) {
