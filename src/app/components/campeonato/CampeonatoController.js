@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'toastr', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, toastr, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario) {
 
         var vm = this;
 
@@ -746,5 +746,74 @@
 
             });
         };
-                }]);
+
+        vm.editarTimeUsuario = function (ev) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.inserir_time_participante',
+                        participante: vm.participanteDestaque,
+                        times: vm.times
+                    },
+                    controller: DialogControllerTime,
+                    templateUrl: 'app/components/campeonato/formTime.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+        function DialogControllerTime($scope, $mdDialog, tituloModal, participante, time) {
+            $scope.tituloModal = tituloModal;
+            $scope.participante = participante;
+            $scope.times = times;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarTime = function () {
+                vm.salvarTime($scope.participante);
+                $mdDialog.hide();
+            }
+        };
+
+        vm.excluirTimeUsuario = function (ev, id) {
+            vm.idRegistroExcluir = id;
+            var confirm = $mdDialog.confirm(id)
+                .title(vm.textoConfirmaExclusao)
+                .ariaLabel(vm.textoConfirmaExclusao)
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                $rootScope.loading = true;
+                UserPlataforma.destroy(vm.idRegistroExcluir)
+                    .success(function (data) {
+                        vm.getGamertagsDoUsuario(vm.perfilEditar.id);
+                    });
+            }, function () {
+
+            });
+        };
+
+
+        vm.salvarTimeUsuario = function () {
+            vm.userPlataforma.users_id = localStorageService.get('usuarioLogado').id;
+            UserPlataforma.save(vm.userPlataforma)
+                .success(function (data) {
+                    vm.getGamertagsDoUsuario(vm.perfilEditar.id);
+                }).error(function (data, status) {
+                    vm.message = data.message;
+                    vm.status = status;
+                });
+        };
+    }]);
 }());

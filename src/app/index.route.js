@@ -115,15 +115,16 @@
                 }
             })
             .state('plataforma', {
+                // Layout
                 url: "/plataforma",
                 templateUrl: "app/components/plataforma/index.html",
                 controller: 'PlataformaController as vmPlataforma',
                 data: {
-
                     pageTitle: "menus.plataformas"
                 }
             })
             .state('campeonatoTipo', {
+                // Layout
                 url: "/campeonatoTipo",
                 templateUrl: "app/components/campeonatoTipo/index.html",
                 controller: 'CampeonatoTipoController as vmCampeonatoTipo',
@@ -132,6 +133,7 @@
                 }
             })
             .state('cadastroJogo', {
+                // Layout
                 url: "/cadastroJogo",
                 templateUrl: "app/components/cadastroJogo/index.html",
                 controller: 'CadastroJogoController as vmCadastroJogo',
@@ -140,6 +142,7 @@
                 }
             })
             .state('usuarioTipo', {
+                // Não está funcionando
                 url: "/usuarioTipo",
                 templateUrl: "app/components/usuarioTipo/index.html",
                 controller: 'UsuarioTipoController as vmUsuarioTipo',
@@ -148,6 +151,7 @@
                 }
             })
             .state('usuario', {
+                // Verificar
                 url: "/usuario",
                 templateUrl: "app/components/usuario/index.html",
                 controller: 'UsuarioController as vmUsuario',
@@ -156,6 +160,7 @@
                 }
             })
             .state('menu', {
+                // Remover
                 url: "/menu",
                 templateUrl: "app/components/menu/index.html",
                 controller: 'MenuController as vmMenu',
@@ -164,6 +169,7 @@
                 }
             })
             .state('permissao', {
+                // Remover
                 url: "/permissao",
                 templateUrl: "app/components/permissao/index.html",
                 controller: 'PermissaoController as vmPermissao',

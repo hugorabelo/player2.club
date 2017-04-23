@@ -136,7 +136,8 @@
         "resultado_errado": "Resultado Incorreto",
         "partida_nao_realizada": "Partida Não Realizada",
 
-        "numero_rounds": "Número de Rounds"
+        "numero_rounds": "Número de Rounds",
+        "time": "Time"
     },
 
     "messages": {
@@ -350,7 +351,8 @@
 
         "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente",
         "minhas_mensagens": "Minhas mensagens",
-        "bate_papo": "Bate Papo com {{nome_remetente}}"
+        "bate_papo": "Bate Papo com {{nome_remetente}}",
+        "inserir_time_participante": "Inserir Time do Participante"
     },
 
     "generos": {
