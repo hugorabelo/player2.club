@@ -788,28 +788,6 @@
             }
         };
 
-        vm.excluirTimeUsuario = function (ev, id) {
-            vm.idRegistroExcluir = id;
-            var confirm = $mdDialog.confirm(id)
-                .title(vm.textoConfirmaExclusao)
-                .ariaLabel(vm.textoConfirmaExclusao)
-                .targetEvent(ev)
-                .ok(vm.textoYes)
-                .cancel(vm.textoNo)
-                .theme('player2');
-
-            $mdDialog.show(confirm).then(function () {
-                $rootScope.loading = true;
-                UserPlataforma.destroy(vm.idRegistroExcluir)
-                    .success(function (data) {
-                        vm.getGamertagsDoUsuario(vm.perfilEditar.id);
-                    });
-            }, function () {
-
-            });
-        };
-
-
         vm.salvarTimeUsuario = function (participante) {
             CampeonatoUsuario.salvarTime(participante.pivot.id, participante.time.id)
                 .success(function (data) {
