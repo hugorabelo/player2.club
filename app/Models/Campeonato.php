@@ -470,6 +470,7 @@ class Campeonato extends Eloquent {
                     }
                 }
             } else {
+                //TODO: Definir se existem potes
                 foreach ($grupos as $grupo) {
                     for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
                         $usuario = $usuarios->random(1);

@@ -177,6 +177,15 @@
                     pageTitle: "menus.permissoes"
                 }
             })
+            .state('cadastroTime', {
+                // Criar
+                url: "/cadastroTime",
+                templateUrl: "app/components/cadastroTime/index.html",
+                controller: 'CadastroTimeController as vmCadastroTime',
+                data: {
+                    pageTitle: "menus.jogos"
+                }
+            })
             .state('meus_campeonatos', {
                 url: "/meus_campeonatos",
                 templateUrl: "app/components/meus_campeonatos/index.html",

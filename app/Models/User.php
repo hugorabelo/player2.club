@@ -4,6 +4,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Collection;
 
 class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -219,14 +220,26 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         } else {
 			$postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
 			//TODO Quando existir atividades de seguidores e comentários, remover essas condições whereNull: ->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')
-
             $atividades = Atividade::where('users_id','=', $this->id)->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         }
+		$partidasRegistradas = new Collection();
 		foreach ($atividades as $atividade) {
 			$atividade->curtidas = $atividade->curtidas()->get();
 			$atividade->comentarios = $atividade->comentarios($this->id);
 			$atividade->curtiu = $atividade->curtiu($this->id);
+			if(isset($atividade->partidas_id)) {
+				$idPartida = $atividade->partidas_id;
+				if($partidasRegistradas->contains($idPartida, 1)) {
+					$atividade = null;
+					Log::alert('entrou no null');
+				} else {
+					$atividade->usuariosDaPartida = Partida::find($idPartida)->usuarios(true);
+					$partidasRegistradas->put($idPartida, 1);
+				}
+			}
 		}
+		Log::debug($partidasRegistradas);
+		Log::warning($atividades);
 		return $atividades;
 	}
 
