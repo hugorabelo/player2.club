@@ -24,6 +24,20 @@ angular.module('player2').factory('CampeonatoUsuario', ['$http', function ($http
 
         destroy: function (id) {
             return $http.delete('api/campeonatoUsuario/' + id);
+        },
+
+        salvarTime: function (idUsuarioCampeonato, idTime) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonatoUsuario/salvarTime',
+                data: $.param({
+                    'idUsuario': idUsuarioCampeonato,
+                    'idTime': idTime
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     };

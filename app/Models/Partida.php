@@ -139,7 +139,11 @@ class Partida extends Eloquent {
                 $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuarioBD->nome;
                 $usuario->nome = $nome_completo;
                 $usuario->sigla = $usuarioBD->sigla != '' ? $usuarioBD->sigla : substr($usuario->nome, 0, 3);
-                $usuario->distintivo = (isset($usuarioCampeonato->distintivo) && !empty($usuarioCampeonato->distintivo)) ? $usuarioCampeonato->distintivo : $usuarioBD->imagem_perfil;
+                $time = null;
+                if(isset($usuarioCampeonato->time_id) && !empty($usuarioCampeonato->time_id)) {
+                    $time = Time::find($usuarioCampeonato->time_id);
+                }
+                $usuario->distintivo = (isset($time)) ? $time->distintivo : $usuarioBD->imagem_perfil;
             }
         }
         return $usuarios;

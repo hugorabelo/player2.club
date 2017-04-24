@@ -1,21 +1,21 @@
-angular.module('player2').factory('Jogo', ['$http', function ($http) {
+angular.module('player2').factory('Time', ['$http', function ($http) {
     return {
         show: function (id) {
-            return $http.get('api/times/' + id);
+            return $http.get('api/time/' + id);
         },
 
         get: function () {
-            return $http.get('api/times');
+            return $http.get('api/time');
         },
 
         getTimesPorModelo: function (idModeloCampeonato) {
-            return $http.get('api/times/porModelo/' + idModeloCampeonato);
+            return $http.get('api/time/porModelo/' + idModeloCampeonato);
         },
 
         save: function (time, arquivo) {
             return $http({
                 method: 'POST',
-                url: 'api/times',
+                url: 'api/time',
                 headers: {
                     'Content-Type': undefined
                 },
@@ -35,13 +35,13 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
         },
 
         edit: function (id) {
-            return $http.get('api/times/' + id + '/edit');
+            return $http.get('api/time/' + id + '/edit');
         },
 
         update: function (jogo, arquivo) {
             return $http({
                 method: 'POST',
-                url: 'api/times/' + jogo.id,
+                url: 'api/time/' + jogo.id,
                 headers: {
                     'Content-Type': undefined
                 },
@@ -61,7 +61,7 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
         },
 
         destroy: function (id) {
-            return $http.delete('api/times/' + id);
+            return $http.delete('api/time/' + id);
         }
     }
 }]);

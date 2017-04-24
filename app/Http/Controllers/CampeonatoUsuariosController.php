@@ -97,4 +97,18 @@ class CampeonatoUsuariosController extends Controller {
 		return Response::json(array('success'=>true));
 	}
 
+	public function salvarTime() {
+		$input = Input::all();
+		$campeonatoUsuario = CampeonatoUsuario::find($input['idUsuario']);
+		$time = null;
+		if(!empty($input['idTime'])) {
+			$campeonatoUsuario->time_id = $input['idTime'];
+			$time = Time::find($input['idTime']);
+		} else {
+			$campeonatoUsuario->time_id = null;
+		}
+		$campeonatoUsuario->save();
+		return $time;
+	}
+
 }

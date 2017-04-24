@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -748,27 +748,32 @@
         };
 
         vm.editarTimeUsuario = function (ev) {
-            $mdDialog.show({
-                    locals: {
-                        tituloModal: 'messages.inserir_time_participante',
-                        participante: vm.participanteDestaque,
-                        times: vm.times
-                    },
-                    controller: DialogControllerTime,
-                    templateUrl: 'app/components/campeonato/formTime.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.
-                })
-                .then(function () {
+            Time.getTimesPorModelo(vm.campeonato.tipo.modelo_campeonato_id)
+                .success(function (data) {
+                    vm.times = data;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.inserir_time_participante',
+                                participante: vm.participanteDestaque,
+                                times: vm.times
+                            },
+                            controller: DialogControllerTime,
+                            templateUrl: 'app/components/campeonato/formTime.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
 
-                }, function () {
+                        }, function () {
+
+                        });
 
                 });
         };
 
-        function DialogControllerTime($scope, $mdDialog, tituloModal, participante, time) {
+        function DialogControllerTime($scope, $mdDialog, tituloModal, participante, times) {
             $scope.tituloModal = tituloModal;
             $scope.participante = participante;
             $scope.times = times;
@@ -778,7 +783,7 @@
             };
 
             $scope.salvarTime = function () {
-                vm.salvarTime($scope.participante);
+                vm.salvarTimeUsuario($scope.participante);
                 $mdDialog.hide();
             }
         };
@@ -805,14 +810,14 @@
         };
 
 
-        vm.salvarTimeUsuario = function () {
-            vm.userPlataforma.users_id = localStorageService.get('usuarioLogado').id;
-            UserPlataforma.save(vm.userPlataforma)
+        vm.salvarTimeUsuario = function (participante) {
+            CampeonatoUsuario.salvarTime(participante.pivot.id, participante.time.id)
                 .success(function (data) {
-                    vm.getGamertagsDoUsuario(vm.perfilEditar.id);
-                }).error(function (data, status) {
-                    vm.message = data.message;
-                    vm.status = status;
+                    participante.time = data;
+                    toastr.success($filter('translate')('messages.time_salvo_sucesso'));
+                })
+                .error(function (error) {
+                    toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                 });
         };
     }]);

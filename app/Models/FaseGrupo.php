@@ -34,7 +34,11 @@ class FaseGrupo extends Eloquent
             $nome_completo = explode(' ', $nome_completo);
             $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuario->nome;
             $usuario->nome = $nome_completo;
-            $usuario->distintivo = (isset($usuarioCampeonato->distintivo) && !empty($usuarioCampeonato->distintivo)) ? $usuarioCampeonato->distintivo : $usuario->imagem_perfil;
+            $time = null;
+            if(isset($usuarioCampeonato->time_id) && !empty($usuarioCampeonato->time_id)) {
+                $time = Time::find($usuarioCampeonato->time_id);
+            }
+            $usuario->distintivo = (isset($time)) ? $time->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
     }

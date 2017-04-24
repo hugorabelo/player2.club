@@ -352,7 +352,9 @@
         "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente",
         "minhas_mensagens": "Minhas mensagens",
         "bate_papo": "Bate Papo com {{nome_remetente}}",
-        "inserir_time_participante": "Inserir Time do Participante"
+        "inserir_time_participante": "Inserir Time do Participante",
+        "sem_time": "Sem Time",
+        "time_salvo_sucesso": "Time salvo com sucesso"
     },
 
     "generos": {

@@ -71,6 +71,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::resource('campeonatoAdmin', 'CampeonatoAdminsController');
 
     Route::get('campeonatoUsuarioNaoAdministrador/{id}', 'CampeonatoUsuariosController@getUsuarioNaoAdministrador');
+    Route::post('campeonatoUsuario/salvarTime', 'CampeonatoUsuariosController@salvarTime');
     Route::resource('campeonatoUsuario', 'CampeonatoUsuariosController');
 
     Route::get('campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
@@ -133,6 +134,9 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::resource('notificacaoEvento', 'NotificacaoEventoController');
 
     Route::resource('mensagem', 'MensagemController');
+
+    Route::get('time/porModelo/{idModeloCampeonato}', 'TimeController@getTimesPorModelo');
+    Route::resource('time', 'TimeController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $retornoValidacao = Response::json(Auth::getUser());
