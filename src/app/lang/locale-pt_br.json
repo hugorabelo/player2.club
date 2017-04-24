@@ -291,6 +291,8 @@
         "curtiu_comentario": " curtiu o comentário de ",
         "seguiu_jogo": " começou a seguir o jogo ",
         "disputou_partida": " disputou uma partida do campeonato ",
+        "disputou_partida_complemento": " com ",
+        "disputou_partida_complemento_dois": " pessoas",
         "inscreveu_campeonato": " se inscreveu no campeonato ",
         "escreveu_sobre_jogo": " publicou sobre ",
         "mensagem_para_usuario": " falou para ",
