@@ -26,7 +26,7 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
                     plataforma: {}
                 },
                 controller: DialogController,
-                templateUrl: 'app/components/plataforma/formModal.html',
+                templateUrl: 'app/components/cadastroPlataforma/formModal.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,
@@ -49,7 +49,7 @@ angular.module('player2').controller('PlataformaController', ['$scope', '$rootSc
                             plataforma: data
                         },
                         controller: DialogController,
-                        templateUrl: 'app/components/plataforma/formModal.html',
+                        templateUrl: 'app/components/cadastroPlataforma/formModal.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
                         clickOutsideToClose: true,

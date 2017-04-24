@@ -1,0 +1,81 @@
+<md-card class="m-n" hide-gt-xs>
+    <md-toolbar class="md-toolbar-tools">
+        <h2 translate>messages.plataforma_list</h2>
+        <span flex></span>
+        <md-button class="md-raised" ng-click="vmPlataforma.create($event)">
+            {{'messages.plataforma_add' | translate}}
+        </md-button>
+    </md-toolbar>
+    <md-card-content>
+        <table class="table">
+            <tr>
+                <th translate>fields.descricao</th>
+                <th translate>fields.logomarca</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="plataforma in vmPlataforma.plataformas">
+                <td>{{ plataforma.descricao }}</td>
+                <td class="col-xs-2"><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive" /></td>
+                <td>
+                    <md-button class="md-fab md-mini md-accent" ng-click="vmPlataforma.edit($event, plataforma.id)">
+                        <i class="material-icons">mode_edit</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.edit' | translate}}
+                        </md-tooltip>
+                    </md-button>
+                    <md-button class="md-fab md-mini md-warn" ng-click="vmPlataforma.delete($event, plataforma.id)">
+                        <i class="material-icons">delete</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.delete' | translate}}
+                        </md-tooltip>
+                    </md-button>
+                </td>
+            </tr>
+        </table>
+    </md-card-content>
+</md-card>
+
+
+<div flex layout="row" layout-margin hide-xs>
+    <div class="caixa-flutuante" flex>
+        <h3 class="secao_titulo" ng-init="vmSeguidores.inicializa()" layout="row" layout-align="space-between center">
+            <span>{{'messages.plataforma_list' | translate}}</span>
+            <md-button class="md-raised" ng-click="vmPlataforma.create($event)">
+                {{'messages.plataforma_add' | translate}}
+            </md-button>
+        </h3>
+        <md-card class="m-n">
+            <md-card-content>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th translate>fields.descricao</th>
+                            <th translate>fields.logomarca</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="plataforma in vmPlataforma.plataformas">
+                            <td>{{ plataforma.descricao }}</td>
+                            <td><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive" /></td>
+                            <td>
+                                <md-button class="md-fab md-mini md-accent" ng-click="vmPlataforma.edit($event, plataforma.id)">
+                                    <i class="material-icons">mode_edit</i>
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.edit' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                                <md-button class="md-fab md-mini md-warn" ng-click="vmPlataforma.delete($event, plataforma.id)">
+                                    <i class="material-icons">delete</i>
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.delete' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

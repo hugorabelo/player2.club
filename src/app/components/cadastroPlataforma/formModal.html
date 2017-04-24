@@ -21,16 +21,14 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
-                    <div class="col-md-9">
-                        <input type="text" id="descricao" class="form-control" ng-model="plataforma.descricao" required />
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.descricao' | translate}}</label>
+                    <input ng-model="plataforma.descricao" required>
+                </md-input-container>
 
                 <div class="form-group">
-                    <label for="logomarca" class="col-md-3 control-label" translate>fields.logomarca</label>
-                    <div class="col-md-9">
+                    <label for="logomarca" translate>fields.logomarca</label>
+                    <div class="col-md-12">
                         <lf-ng-md-file-input lf-files="files"></lf-ng-md-file-input>
                     </div>
                 </div>

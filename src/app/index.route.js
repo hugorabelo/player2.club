@@ -117,7 +117,7 @@
             .state('plataforma', {
                 // Layout
                 url: "/plataforma",
-                templateUrl: "app/components/plataforma/index.html",
+                templateUrl: "app/components/cadastroPlataforma/index.html",
                 controller: 'PlataformaController as vmPlataforma',
                 data: {
                     pageTitle: "menus.plataformas"
