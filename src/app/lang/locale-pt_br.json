@@ -143,7 +143,9 @@
         "status.1": "Inscrições abertas",
         "status.2": "A iniciar",
         "status.3": "Em andamento",
-        "status.4": "Encerrado"
+        "status.4": "Encerrado",
+
+        "excluir_campeonato": "Excluir Campeonato"
     },
 
     "messages": {
@@ -206,6 +208,10 @@
         "campeonatosParticipantes": "Participantes",
         "campeonatoContestacoes": "Resultados Contestados",
         "campeonato_partidas_abertas": "Partidas Em Aberto",
+        "confirma_exclusao_campeonato": "Você deseja realmente apagar o campeonato {{nome_campeonato}} da plataforma {{nome_plataforma}}? Esta operação não poderá ser desfeita!",
+        "exclusao_campeonato_sucesso": "Campeonato excluído com sucesso",
+        "exclusao_campeonato_erro": "Aconteceu um erro na exclusão do campeonato",
+        "campeonato_iniciado": "O campeonato já foi iniciado",
 
 
         "campeonatoAdmin_list": "Administradores",

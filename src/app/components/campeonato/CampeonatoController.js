@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -827,6 +827,35 @@
                 .success(function (data) {
                     vm.resultadoPesquisa = data;
                 })
+        };
+
+        vm.excluirCampeonato = function (ev) {
+            var confirm = $mdDialog.confirm()
+                .title($filter('translate')('messages.confirma_exclusao_campeonato', {
+                    'nome_campeonato': vm.campeonato.descricao,
+                    'nome_plataforma': vm.campeonato.plataforma.descricao
+                }))
+                .ariaLabel($filter('translate')('messages.confirma_exclusao_campeonato', {
+                    'nome_campeonato': vm.campeonato.descricao,
+                    'nome_plataforma': vm.campeonato.plataforma.descricao
+                }))
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                Campeonato.destroy(vm.campeonato.id)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.exclusao_campeonato_sucesso'))
+                        $location.path('/home');
+                    }).error(function (data, status) {
+                        toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_campeonato_erro'));
+                    });
+            }, function () {
+
+            });
+
         };
     }]);
 }());

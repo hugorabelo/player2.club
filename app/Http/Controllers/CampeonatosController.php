@@ -177,8 +177,12 @@ class CampeonatosController extends Controller
      */
     public function destroy($id)
     {
-        $this->campeonato->find($id)->delete();
-
+        $campeonato = $this->campeonato->find($id);
+        if($campeonato->status() > 2) {
+            return Response::json(array('success' => false,
+                'errors' => 'messages.campeonato_iniciado'), 300);
+        }
+        $campeonato->delete();
         return Response::json(array('success' => true));
     }
 
