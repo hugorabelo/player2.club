@@ -798,5 +798,35 @@
                     toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                 });
         };
+
+        vm.carregaFiltrosPesquisa = function () {
+            vm.pesquisa = {};
+            Plataforma.get()
+                .success(function (data) {
+                    vm.plataformas = data;
+                });
+
+            Jogo.get()
+                .success(function (data) {
+                    vm.jogos = data;
+                });
+
+            CampeonatoTipo.get()
+                .success(function (data) {
+                    vm.campeonatoTipos = data;
+                })
+        };
+
+        vm.limparFiltros = function () {
+            vm.pesquisa = {};
+            vm.resultadoPesquisa = {};
+        }
+
+        vm.filtrar = function () {
+            Campeonato.pesquisaCampeonatosPorFiltros(vm.pesquisa)
+                .success(function (data) {
+                    vm.resultadoPesquisa = data;
+                })
+        };
     }]);
 }());

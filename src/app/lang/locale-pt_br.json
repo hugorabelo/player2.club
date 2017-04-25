@@ -137,7 +137,13 @@
         "partida_nao_realizada": "Partida Não Realizada",
 
         "numero_rounds": "Número de Rounds",
-        "time": "Time"
+        "time": "Time",
+
+        "status": "Status",
+        "status.1": "Inscrições abertas",
+        "status.2": "A iniciar",
+        "status.3": "Em andamento",
+        "status.4": "Encerrado"
     },
 
     "messages": {
@@ -358,7 +364,11 @@
         "sem_time": "Sem Time",
         "time_salvo_sucesso": "Time salvo com sucesso",
 
-        "permite_exibir": "Permite exibir na criação de campeonatos"
+        "permite_exibir": "Permite exibir na criação de campeonatos",
+        "procurar_campeonatos": "Procurar Campeonatos",
+        "filtrar": "Filtrar",
+        "pesquisar": "Pesquisar",
+        "limpar_filtros": "Limpar"
     },
 
     "generos": {

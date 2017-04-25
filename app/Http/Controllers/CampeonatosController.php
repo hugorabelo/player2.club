@@ -247,4 +247,32 @@ class CampeonatosController extends Controller
         return Response::json($partidas);
     }
 
+    public function pesquisaFiltros() {
+        $input = Input::all();
+        $pesquisa = Campeonato::whereNotNull('id');
+
+        if(isset($input['plataformas_id'])) {
+            $pesquisa->where('plataformas_id','=',$input['plataformas_id']);
+        }
+
+        if(isset($input['jogos_id'])) {
+            $pesquisa->where('jogos_id','=',$input['jogos_id']);
+        }
+
+        if(isset($input['campeonatotipos_id'])) {
+            $pesquisa->where('campeonato_tipos_id','=',$input['campeonatotipos_id']);
+        }
+
+        $resultadoPesquisa = $pesquisa->get();
+
+        if(isset($input['status_id'])) {
+            foreach ($resultadoPesquisa as $key=>$campeonato) {
+                if($campeonato->status() != $input['status_id']) {
+                    $resultadoPesquisa->pull($key);
+                }
+            }
+        }
+        return Response::json($resultadoPesquisa);
+    }
+
 }

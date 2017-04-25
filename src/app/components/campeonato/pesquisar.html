@@ -1,0 +1,130 @@
+<div class="h-300" hide-xs>
+    <h3 class="secao_titulo" ng-init="vmCampeonato.carregaFiltrosPesquisa()">{{'messages.procurar_campeonatos' | translate}}</h3>
+    <md-card class="m-n">
+        <md-card-content>
+            <div layout="row" layout-align="space-between center">
+                <md-input-container>
+                    <label>{{'fields.plataformas_id' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.pesquisa.plataformas_id">
+                        <md-option ng-repeat="plataforma in vmCampeonato.plataformas" ng-value="plataforma.id">
+                            {{plataforma.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>{{'fields.jogos_id' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.pesquisa.jogos_id">
+                        <md-option ng-repeat="jogo in vmCampeonato.jogos" ng-value="jogo.id">
+                            {{jogo.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>{{'fields.campeonatotipos_id' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.pesquisa.campeonatotipos_id">
+                        <md-option ng-repeat="campeonatoTipo in vmCampeonato.campeonatoTipos" ng-value="campeonatoTipo.id">
+                            {{campeonatoTipo.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>{{'fields.status' | translate}}</label>
+                    <md-select ng-model="vmCampeonato.pesquisa.status_id">
+                        <md-option ng-repeat="status in vmCampeonato.listaStatus" ng-value="status.id">
+                            {{status.descricao}}
+                        </md-option>
+                        <md-option value="1">{{'fields.status.1' | translate}}</md-option>
+                        <md-option value="2">{{'fields.status.2' | translate}}</md-option>
+                        <md-option value="3">{{'fields.status.3' | translate}}</md-option>
+                        <md-option value="4">{{'fields.status.4' | translate}}</md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-button class="md-raised md-warn" ng-click="vmCampeonato.limparFiltros()">
+                    <i class="material-icons">clear_all</i> {{'messages.limpar_filtros' | translate}}
+                </md-button>
+
+                <md-button class="md-raised md-primary" ng-click="vmCampeonato.filtrar()">
+                    <i class="material-icons">search</i> {{'messages.pesquisar' | translate}}
+                </md-button>
+            </div>
+        </md-card-content>
+    </md-card>
+
+    <md-list ng-cloak>
+        <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.resultadoPesquisa" ui-sref="campeonato({idCampeonato: campeonato.id})">
+            <p>{{campeonato.descricao}}</p>
+        </md-list-item>
+    </md-list>
+</div>
+
+<md-card hide-gt-xs class="m-n caixa-informacao">
+    <div class="h-500">
+        <md-toolbar class="md-toolbar-tools">
+            <h2 class="secao_titulo" ng-init="vmCampeonato.getCampeonatosUsuario()">{{'messages.procurar_campeonatos' | translate}}</h2>
+        </md-toolbar>
+
+        <div layout="column" class="m-b-md">
+            <md-input-container>
+                <label>{{'fields.plataformas_id' | translate}}</label>
+                <md-select ng-model="vmCampeonato.pesquisa.plataformas_id">
+                    <md-option ng-repeat="plataforma in vmCampeonato.plataformas" ng-value="plataforma.id">
+                        {{plataforma.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container>
+                <label>{{'fields.jogos_id' | translate}}</label>
+                <md-select ng-model="vmCampeonato.pesquisa.jogos_id">
+                    <md-option ng-repeat="jogo in vmCampeonato.jogos" ng-value="jogo.id">
+                        {{jogo.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container>
+                <label>{{'fields.campeonatotipos_id' | translate}}</label>
+                <md-select ng-model="vmCampeonato.pesquisa.campeonatotipos_id">
+                    <md-option ng-repeat="campeonatoTipo in vmCampeonato.campeonatoTipos" ng-value="campeonatoTipo.id">
+                        {{campeonatoTipo.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container>
+                <label>{{'fields.status' | translate}}</label>
+                <md-select ng-model="vmCampeonato.pesquisa.status_id">
+                    <md-option ng-repeat="status in vmCampeonato.listaStatus" ng-value="status.id">
+                        {{status.descricao}}
+                    </md-option>
+                    <md-option value="1">{{'fields.status.1' | translate}}</md-option>
+                    <md-option value="2">{{'fields.status.2' | translate}}</md-option>
+                    <md-option value="3">{{'fields.status.3' | translate}}</md-option>
+                    <md-option value="4">{{'fields.status.4' | translate}}</md-option>
+                </md-select>
+            </md-input-container>
+
+            <div layout="row" layout-align="center center">
+                <md-button class="md-raised md-warn" ng-click="vmCampeonato.limparFiltros()">
+                    <i class="material-icons">clear_all</i> {{'messages.limpar_filtros' | translate}}
+                </md-button>
+
+                <md-button class="md-raised md-primary" ng-click="vmCampeonato.filtrar()">
+                    <i class="material-icons">search</i> {{'messages.pesquisar' | translate}}
+                </md-button>
+            </div>
+        </div>
+
+        <hr class="hr-line-solid">
+
+        <md-list ng-cloak>
+            <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.resultadoPesquisa" ui-sref="campeonato({idCampeonato: campeonato.id})">
+                <p>{{campeonato.descricao}}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-card>

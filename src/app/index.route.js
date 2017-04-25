@@ -106,6 +106,14 @@
                     pageTitle: "messages.mensagens"
                 }
             })
+            .state('home.pesquisar_campeonatos', {
+                url: "/pesquisar_campeonatos",
+                templateUrl: "app/components/campeonato/pesquisar.html",
+                controller: 'CampeonatoController as vmCampeonato',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",
@@ -115,12 +123,20 @@
                 }
             })
             .state('plataforma', {
-                // Layout
                 url: "/plataforma",
                 templateUrl: "app/components/cadastroPlataforma/index.html",
                 controller: 'PlataformaController as vmPlataforma',
                 data: {
                     pageTitle: "menus.plataformas"
+                }
+            })
+            .state('modeloCampeonato', {
+                // Criar
+                url: "/modeloCampeonato",
+                templateUrl: "app/components/cadastroModeloCampeonato/index.html",
+                controller: 'ModeloCampeonatoController as vmModeloCampeonato',
+                data: {
+                    pageTitle: "menus.jogos"
                 }
             })
             .state('campeonatoTipo', {
