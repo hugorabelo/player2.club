@@ -112,37 +112,68 @@ class TimeController extends Controller
         $response = $cliente->request('GET', 'item', [
             'query' => [
                 'jsonParamObject' => '{"page":1,"quality":"bronze,silver,gold,rare_bronze,rare_silver,rare_gold"}'
-            ],
-            'proxy' => 'http://localhost:5865'
+            ]
         ]);
         $objetos = json_decode($response->getBody(), true);
         $numeroPaginas = $objetos['totalPages'];
 
         for ($i = 1; $i<= $numeroPaginas; $i++) {
-            $times = new Collection();
             $response = $cliente->request('GET', 'item', [
                 'query' => [
                     'jsonParamObject' => '{"page":'.$i.',"quality":"bronze,silver,gold,rare_bronze,rare_silver,rare_gold"}'
-                ],
-                'proxy' => 'http://localhost:5865'
+                ]
             ]);
             $objetos = json_decode($response->getBody(), true);
             $items = $objetos['items'];
+
+
+            // Salvar Nações
+
+            $times = new Collection();
+            $ligas = new Collection();
+            $nacoes = new Collection();
             foreach ($items as $item) {
+                $liga = $item['league'];
+                $ligas->put($liga['id'], $liga);
+
+                $nacao = $item['nation'];
+                $nacoes->put($nacao['id'], $nacao);
+
                 $time = $item['club'];
+                $time['id_liga'] = $liga['id'];
                 $times->put($time['id'], $time);
             }
+
+            // Salvar Ligas
+            foreach ($ligas as $liga) {
+                $novaLiga = new LigaBase();
+                $novaLiga->id = $liga['id'];
+                $novaLiga->nome = $liga['name'];
+                $novaLiga->abreviacao = $liga['abbrName'];
+
+                if(!LigaBase::find($novaLiga->id)) {
+                    $novaLiga->save();
+                }
+            }
+
+
+            // Salvar Times
             foreach ($times as $time) {
                 $novoTime = new Time();
                 $novoTime->id = $time['id'];
                 $novoTime->descricao = $time['abbrName'];
-                $novoTime->name = $time['name'];
+                $novoTime->nome = $time['name'];
 
                 $fileDistintivo = $time['imageUrls']['normal']['large'];
-                $nomeDistintivo = 'distintivo' . $novoTime->id;
+                $nomeDistintivo = 'distintivos/distintivo' . $novoTime->id.'.png';
                 $novoTime->distintivo = $nomeDistintivo;
-                //file_put_contents( "uploads/usuarios/distintivos/$nomeDistintivo", fopen( $fileDistintivo, "r" ), FILE_APPEND );
+
+                $arquivo = file_get_contents($fileDistintivo, "r" );
+                file_put_contents( "uploads/usuarios/$nomeDistintivo", $arquivo, FILE_APPEND );
+
                 $novoTime->modelo_campeonato_id = 1;
+                $novoTime->liga_base_id = $time['id_liga'];
+
                 if(!Time::find($novoTime->id)) {
                     $novoTime->save();
                 }
