@@ -22,7 +22,7 @@ angular.module('player2').factory('ModeloCampeonato', ['$http', function ($http)
         update: function (modelo) {
             return $http({
                 method: 'PUT',
-                url: 'api/modeloCampeonato',
+                url: 'api/modeloCampeonato/' + modelo.id,
                 data: $.param(modelo),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
