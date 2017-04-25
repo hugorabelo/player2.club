@@ -320,7 +320,7 @@
                     <a ui-sref="campeonato({idCampeonato: atividade.objeto.campeonato.id})">{{atividade.objeto.campeonato.descricao}}</a>
                     <span class="text-muted ">{{'messages.disputou_partida_complemento' | translate}}</span>
                     <a ui-sref="profile({idUsuario: atividade.outros_usuarios[0].users_id})" ng-show="atividade.outros_usuarios.length == 1">{{atividade.outros_usuarios[0].nome}}</a>
-                    <a ui-sref="" ng-show="atividade.outros_usuarios.length > 1">{{atividade.outros_usuarios.length}} {{'messages.disputou_partida_complemento_dois' | translate}}
+                    <a ng-show="atividade.outros_usuarios.length > 1">{{atividade.outros_usuarios.length}} {{'messages.disputou_partida_complemento_dois' | translate}}
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="outro_usuario in atividade.outros_usuarios">
                            {{outro_usuario.nome}} <br>
