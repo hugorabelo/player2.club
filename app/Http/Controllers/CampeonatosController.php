@@ -272,6 +272,16 @@ class CampeonatosController extends Controller
                 }
             }
         }
+
+        foreach ($resultadoPesquisa as $campeonato) {
+            $campeonato->nome_plataforma = $campeonato->plataforma()->descricao;
+            $campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+            $campeonato->nome_jogo = $campeonato->jogo()->descricao;
+            $campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+            $campeonato->tipo_campeonato= $campeonato->campeonatoTipo()->descricao;
+            $campeonato->status = $campeonato->status();
+        }
+
         return Response::json($resultadoPesquisa);
     }
 
