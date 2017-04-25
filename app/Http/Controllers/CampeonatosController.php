@@ -182,6 +182,13 @@ class CampeonatosController extends Controller
             return Response::json(array('success' => false,
                 'errors' => 'messages.campeonato_iniciado'), 300);
         }
+
+        $usuarioLogado = Auth::getUser();
+        if($usuarioLogado->id != $campeonato->criador) {
+            return Response::json(array('success'=>false,
+                'errors'=> 'messages.exclusao_permitida_apenas_criador'),300);
+        }
+
         $campeonato->delete();
         return Response::json(array('success' => true));
     }

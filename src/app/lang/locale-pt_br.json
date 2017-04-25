@@ -212,6 +212,7 @@
         "exclusao_campeonato_sucesso": "Campeonato excluído com sucesso",
         "exclusao_campeonato_erro": "Aconteceu um erro na exclusão do campeonato",
         "campeonato_iniciado": "O campeonato já foi iniciado",
+        "exclusao_permitida_apenas_criador": "A exclusão do campeonato só pode ser feita pelo seu criador",
 
 
         "campeonatoAdmin_list": "Administradores",
