@@ -14,6 +14,10 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
                 transformRequest: function (data) {
                     var formData = new FormData();
                     formData.append("descricao", plataforma.descricao);
+                    if (plataforma.permite_exibir == undefined) {
+                        plataforma.permite_exibir = false;
+                    }
+                    formData.append("permite_exibir", plataforma.permite_exibir);
                     //                    angular.forEach(arquivos, function (obj) {
                     //                        formData.append("files[]", obj.lfFile);
                     //                    });
@@ -39,6 +43,10 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
                 transformRequest: function (data) {
                     var formData = new FormData();
                     formData.append("descricao", plataforma.descricao);
+                    if (plataforma.permite_exibir == undefined) {
+                        plataforma.permite_exibir = false;
+                    }
+                    formData.append("permite_exibir", plataforma.permite_exibir);
                     if (arquivo != null) {
                         formData.append("imagem_logomarca", arquivo.lfFile);
                     }

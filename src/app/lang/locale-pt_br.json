@@ -356,7 +356,9 @@
         "bate_papo": "Bate Papo com {{nome_remetente}}",
         "inserir_time_participante": "Inserir Time do Participante",
         "sem_time": "Sem Time",
-        "time_salvo_sucesso": "Time salvo com sucesso"
+        "time_salvo_sucesso": "Time salvo com sucesso",
+
+        "permite_exibir": "Permite exibir na criação de campeonatos"
     },
 
     "generos": {

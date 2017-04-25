@@ -98,6 +98,8 @@ class PlataformasController extends Controller {
 				$input['imagem_logomarca'] = $fileName;
 			}
 
+			Log::info($input);
+
 			$plataforma = $this->plataforma->find($id);
 			$plataforma->update($input);
 

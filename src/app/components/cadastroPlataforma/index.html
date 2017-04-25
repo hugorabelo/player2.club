@@ -15,7 +15,7 @@
             </tr>
             <tr ng-repeat="plataforma in vmPlataforma.plataformas">
                 <td>{{ plataforma.descricao }}</td>
-                <td class="col-xs-2"><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive" /></td>
+                <td class="col-xs-2"><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-md" /></td>
                 <td>
                     <md-button class="md-fab md-mini md-accent" ng-click="vmPlataforma.edit($event, plataforma.id)">
                         <i class="material-icons">mode_edit</i>
@@ -57,7 +57,7 @@
                     <tbody>
                         <tr ng-repeat="plataforma in vmPlataforma.plataformas">
                             <td>{{ plataforma.descricao }}</td>
-                            <td><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-responsive" /></td>
+                            <td><img ng-src="uploads/{{plataforma.imagem_logomarca}}" class="img-md" /></td>
                             <td>
                                 <md-button class="md-fab md-mini md-accent" ng-click="vmPlataforma.edit($event, plataforma.id)">
                                     <i class="material-icons">mode_edit</i>
