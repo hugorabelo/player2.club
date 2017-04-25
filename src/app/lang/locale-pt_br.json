@@ -242,6 +242,11 @@
         "menu_list": "Menus",
         "menu_add": "Adicionar Menu",
 
+        "modelo_list": "Modelos de Campeonato",
+        "modelo_add": "Adicionar Modelo",
+        "modelo_create": "Inserir novo modelo de campeonato",
+        "modelo_edit": "Editar modelo de campeonato",
+
         "permissao_list": "Lista de Permissões",
         "permissao_user": "Permissões do Perfil",
 
