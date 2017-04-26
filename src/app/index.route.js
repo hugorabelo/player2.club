@@ -139,7 +139,6 @@
                 }
             })
             .state('campeonatoTipo', {
-                // Layout
                 url: "/campeonatoTipo",
                 templateUrl: "app/components/cadastroCampeonatoTipo/index.html",
                 controller: 'CampeonatoTipoController as vmCampeonatoTipo',

@@ -31,7 +31,15 @@ class JogosController extends Controller {
 	 */
 	public function index()
 	{
-		return Response::json(Jogo::get());
+        $jogos = Jogo::get();
+        foreach ($jogos as $jogo) {
+            $modelo = ModeloCampeonato::find($jogo->modelo_campeonato_id);
+            $jogo->modelo_campeonato = $modelo->descricao;
+            $jogo->produtora = $jogo->produtora() != null ? $jogo->produtora()->nome : '';
+            $jogo->genero = $jogo->genero() != null ? $jogo->genero()->nome : '';
+        }
+        $jogos = $jogos->sortBy('modelo_campeonato');
+        return Response::json($jogos->values()->all());
 	}
 
 	/**

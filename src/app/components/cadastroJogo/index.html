@@ -1,4 +1,4 @@
-<md-card>
+<md-card class="m-n" hide-gt-xs>
     <md-toolbar class="md-toolbar-tools">
         <h2 translate>messages.jogo_list</h2>
         <span flex></span>
@@ -15,16 +15,70 @@
             </tr>
             <tr ng-repeat="jogo in vmCadastroJogo.jogos">
                 <td>{{ jogo.descricao }}</td>
-                <td class="col-xs-2"><img ng-src="uploads/{{jogo.imagem_capa}}" class="img-responsive" /></td>
-                <td class="btn-group" role="group">
-                    <button type="button" class="btn btn-warning" ng-click="vmCadastroJogo.edit($event, jogo.id)" tooltip="{{'fields.edit' | translate}}">
-                        <i class="fa fa-pencil fa-fw"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger" ng-click="vmCadastroJogo.destroy($event, jogo.id)" tooltip="{{'fields.delete' | translate}}">
-                        <i class="fa fa-trash-o fa-fw"></i>
-                    </button>
+                <td><img ng-src="uploads/{{jogo.imagem_capa}}" class="img-md img-circle" /></td>
+                <td>
+                    <md-button class="md-fab md-mini md-accent" ng-click="vmCadastroJogo.edit($event, jogo.id)">
+                        <i class="material-icons">mode_edit</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.edit' | translate}}
+                        </md-tooltip>
+                    </md-button>
+                    <md-button class="md-fab md-mini md-warn" ng-click="vmCadastroJogo.destroy($event, jogo.id)">
+                        <i class="material-icons">delete</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.delete' | translate}}
+                        </md-tooltip>
+                    </md-button>
                 </td>
             </tr>
         </table>
     </md-card-content>
 </md-card>
+
+<div flex layout="row" layout-margin hide-xs>
+    <div class="caixa-flutuante" flex>
+        <h3 class="secao_titulo" layout="row" layout-align="space-between center">
+            <span>{{'messages.jogo_list' | translate}}</span>
+            <md-button class="md-raised" ng-click="vmCadastroJogo.create($event)">
+                {{'messages.jogo_add' | translate}}
+            </md-button>
+        </h3>
+        <md-card class="m-n">
+            <md-card-content>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th translate>fields.descricao</th>
+                            <th translate>fields.modelo_campeonato</th>
+                            <th translate>fields.imagem_capa</th>
+                            <th translate>fields.permite_campeonato</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="jogo in vmCadastroJogo.jogos">
+                            <td>{{ jogo.descricao }}</td>
+                            <td>{{ jogo.modelo_campeonato }}</td>
+                            <td><img ng-src="uploads/{{jogo.imagem_capa}}" class="img-lg img-circle" /></td>
+                            <td>{{ jogo.permite_campeonato }}</td>
+                            <td>
+                                <md-button class="md-fab md-mini md-accent" ng-click="vmCadastroJogo.edit($event, jogo.id)">
+                                    <i class="material-icons">mode_edit</i>
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.edit' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                                <md-button class="md-fab md-mini md-warn" ng-click="vmCadastroJogo.destroy($event, jogo.id)">
+                                    <i class="material-icons">delete</i>
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.delete' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
