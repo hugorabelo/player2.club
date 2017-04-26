@@ -17,7 +17,7 @@
             <tr ng-repeat="campeonatoTipo in vmCampeonatoTipo.campeonatoTipos">
                 <td>{{ campeonatoTipo.descricao }}</td>
                 <td>{{ campeonatoTipo.modelo_campeonato }}</td>
-                <td class="btn-group" role="group">
+                <td>
                     <md-button class="md-fab md-mini md-accent" ng-click="vmCampeonatoTipo.edit($event, campeonatoTipo.id)">
                         <i class="material-icons">mode_edit</i>
                         <md-tooltip md-direction="top ">
@@ -63,7 +63,7 @@
                             <td>{{ campeonatoTipo.modelo_campeonato }}</td>
                             <td>{{ campeonatoTipo.arquivo_detalhes }}</td>
                             <td>{{ campeonatoTipo.nome_classe_modelo }}</td>
-                            <td class="btn-group" role="group">
+                            <td>
                                 <md-button class="md-fab md-mini md-accent" ng-click="vmCampeonatoTipo.edit($event, campeonatoTipo.id)">
                                     <i class="material-icons">mode_edit</i>
                                     <md-tooltip md-direction="top ">

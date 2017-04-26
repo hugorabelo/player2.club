@@ -9,46 +9,29 @@
         <md-dialog-content>
             <div class="md-dialog-content">
 
-                <div class="row" ng-show="messages">
-                    <div class="col-md-10 col-md-offset-2">
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li class="error" ng-repeat="message in messages">
-                                    {{ message }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.descricao' | translate}}</label>
+                    <input ng-model="campeonatoTipo.descricao" required>
+                </md-input-container>
 
-                <div class="form-group">
-                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
-                    <div class="col-md-9">
-                        <input type="text" id="descricao" class="form-control" ng-model="campeonatoTipo.descricao" required />
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.arquivo_detalhes' | translate}}</label>
+                    <input ng-model="campeonatoTipo.arquivo_detalhes" required>
+                </md-input-container>
 
-                <div class="form-group">
-                    <label for="arquivo_detalhes" class="col-md-3 control-label" translate>fields.arquivo_detalhes</label>
-                    <div class="col-md-9">
-                        <input type="text" id="arquivo_detalhes" class="form-control" ng-model="campeonatoTipo.arquivo_detalhes" required />
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.nome_classe_modelo' | translate}}</label>
+                    <input ng-model="campeonatoTipo.nome_classe_modelo" required>
+                </md-input-container>
 
-                <div class="form-group">
-                    <label for="nome_classe_modelo" class="col-md-3 control-label" translate>fields.nome_classe_modelo</label>
-                    <div class="col-md-9">
-                        <input type="text" id="nome_classe_modelo" class="form-control" ng-model="campeonatoTipo.nome_classe_modelo" required />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="modelo_campeonato_id" class="col-md-3 control-label" translate>fields.modelo_campeonato</label>
-                    <div class="col-md-9">
-                        <select id="modelo_campeonato_id" class="form-control" ng-model="campeonatoTipo.modelo_campeonato_id" ng-options="modeloCampeonato.id as modeloCampeonato.descricao for modeloCampeonato in modelosCampeonato" required>
-                        </select>
-                    </div>
-                </div>
+                <md-input-container class="md-block">
+                    <label>{{'fields.modelo_campeonato' | translate}}</label>
+                    <md-select ng-model="campeonatoTipo.modelo_campeonato_id" required>
+                        <md-option ng-repeat="modeloCampeonato in modelosCampeonato" ng-value="modeloCampeonato.id">
+                            {{modeloCampeonato.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
 
             </div>
