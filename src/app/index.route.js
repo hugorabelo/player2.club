@@ -131,7 +131,6 @@
                 }
             })
             .state('modeloCampeonato', {
-                // Criar
                 url: "/modeloCampeonato",
                 templateUrl: "app/components/cadastroModeloCampeonato/index.html",
                 controller: 'ModeloCampeonatoController as vmModeloCampeonato',
@@ -142,7 +141,7 @@
             .state('campeonatoTipo', {
                 // Layout
                 url: "/campeonatoTipo",
-                templateUrl: "app/components/campeonatoTipo/index.html",
+                templateUrl: "app/components/cadastroCampeonatoTipo/index.html",
                 controller: 'CampeonatoTipoController as vmCampeonatoTipo',
                 data: {
                     pageTitle: "menus.campeonatoTipos"

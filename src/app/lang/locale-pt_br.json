@@ -35,6 +35,7 @@
 
         "maximo_jogadores_partida": "Máx. Jogadores",
         "modelo_campeonato": "Modelo do Campeonato",
+        "modelo_campeonato_min": "Modelo",
         "arquivo_detalhes": "Arquivo de Detalhes",
         "nome_classe_modelo": "Nome da Classe do Modelo",
 

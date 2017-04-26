@@ -57,7 +57,7 @@
                         modelosCampeonato: vm.modelosCampeonato
                     },
                     controller: DialogController,
-                    templateUrl: 'app/components/campeonatoTipo/formModal.html',
+                    templateUrl: 'app/components/cadastroCampeonatoTipo/formModal.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
@@ -82,7 +82,7 @@
                                 modelosCampeonato: vm.modelosCampeonato
                             },
                             controller: DialogController,
-                            templateUrl: 'app/components/campeonatoTipo/formModal.html',
+                            templateUrl: 'app/components/cadastroCampeonatoTipo/formModal.html',
                             parent: angular.element(document.body),
                             targetEvent: ev,
                             clickOutsideToClose: true,
