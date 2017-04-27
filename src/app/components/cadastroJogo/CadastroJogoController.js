@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', function ($scope, $rootScope, $mdDialog, $translate, Jogo) {
+    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', 'ModeloCampeonato', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, Jogo, ModeloCampeonato, Plataforma) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
@@ -11,10 +11,12 @@
             vm.textoNo = translations['messages.no'];
         });
 
-        function DialogController($scope, $mdDialog, tituloModal, novoItem, jogo) {
+        function DialogController($scope, $mdDialog, tituloModal, novoItem, jogo, modelosCampeonato, plataformasDisponiveis) {
             $scope.tituloModal = tituloModal;
             $scope.novoItem = novoItem;
             $scope.jogo = jogo;
+            $scope.modelosCampeonato = modelosCampeonato;
+            $scope.plataformasDisponiveis = plataformasDisponiveis;
 
             $scope.cancel = function () {
                 $mdDialog.cancel();
@@ -44,13 +46,26 @@
                 $rootScope.loading = false;
             });
 
+        ModeloCampeonato.get()
+            .success(function (data) {
+                vm.modelosCampeonato = data;
+                $rootScope.loading = false;
+            });
+
+        Plataforma.get()
+            .success(function (data) {
+                vm.plataformasDisponiveis = data;
+            });
+
         vm.create = function (ev) {
             $mdDialog
                 .show({
                     locals: {
                         tituloModal: 'messages.jogo_create',
                         novoItem: true,
-                        jogo: {}
+                        jogo: {},
+                        modelosCampeonato: vm.modelosCampeonato,
+                        plataformasDisponiveis: vm.plataformasDisponiveis
                     },
                     controller: DialogController,
                     templateUrl: 'app/components/cadastroJogo/formModal.html',
@@ -74,7 +89,9 @@
                             locals: {
                                 tituloModal: 'messages.jogo_edit',
                                 novoItem: false,
-                                jogo: data
+                                jogo: data,
+                                modelosCampeonato: vm.modelosCampeonato,
+                                plataformasDisponiveis: vm.plataformasDisponiveis
                             },
                             controller: DialogController,
                             templateUrl: 'app/components/cadastroJogo/formModal.html',
