@@ -84,27 +84,36 @@
         vm.edit = function (ev, id) {
             Jogo.edit(id)
                 .success(function (data) {
-                    $mdDialog
-                        .show({
-                            locals: {
-                                tituloModal: 'messages.jogo_edit',
-                                novoItem: false,
-                                jogo: data,
-                                modelosCampeonato: vm.modelosCampeonato,
-                                plataformasDisponiveis: vm.plataformasDisponiveis
-                            },
-                            controller: DialogController,
-                            templateUrl: 'app/components/cadastroJogo/formModal.html',
-                            parent: angular.element(document.body),
-                            targetEvent: ev,
-                            clickOutsideToClose: true,
-                            fullscreen: true // Only for -xs, -sm breakpoints.
+                    vm.jogoEdita = data;
+                    Jogo.getPlataformas(vm.jogoEdita.id)
+                        .success(function (data) {
+                            vm.jogoEdita.plataformasDoJogo = [];
+                            angular.forEach(data, function (plataforma) {
+                                this[plataforma.id] = true;
+                            }, vm.jogoEdita.plataformasDoJogo);
+                            console.log(vm.jogoEdita.plataformasDoJogo);
+                            $mdDialog
+                                .show({
+                                    locals: {
+                                        tituloModal: 'messages.jogo_edit',
+                                        novoItem: false,
+                                        jogo: vm.jogoEdita,
+                                        modelosCampeonato: vm.modelosCampeonato,
+                                        plataformasDisponiveis: vm.plataformasDisponiveis
+                                    },
+                                    controller: DialogController,
+                                    templateUrl: 'app/components/cadastroJogo/formModal.html',
+                                    parent: angular.element(document.body),
+                                    targetEvent: ev,
+                                    clickOutsideToClose: true,
+                                    fullscreen: true // Only for -xs, -sm breakpoints.
+                                })
+                                .then(function () {
+
+                                }, function () {
+
+                                });
                         })
-                        .then(function () {
-
-                        }, function () {
-
-                        });
 
                 });
         };

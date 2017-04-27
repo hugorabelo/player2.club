@@ -65,6 +65,10 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
         },
         getFeed: function (id) {
             return $http.get('api/jogos/feed/' + id);
+        },
+
+        getPlataformas: function (id) {
+            return $http.get('api/jogos/plataformas/' + id);
         }
     }
 }]);

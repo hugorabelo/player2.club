@@ -253,4 +253,9 @@ class JogosController extends Controller {
 		return Response::json($atividades);
 	}
 
+	public function getPlataformas($idJogo) {
+        $jogo = Jogo::find($idJogo);
+        return Response::json($jogo->plataformas());
+    }
+
 }
