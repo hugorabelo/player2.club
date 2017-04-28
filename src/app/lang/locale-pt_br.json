@@ -389,7 +389,9 @@
         "sortear_clubes": "Sortear clubes",
         "sortear_clubes_participantes": "Sortear clubes entre os participantes",
         "numero_times_menor": "O número de times selecionados é inferior ao número de participantes",
-        "sorteio_sucesso": "Sorteio realizado com sucesso"
+        "sorteio_sucesso": "Sorteio realizado com sucesso",
+
+        "utilizar_potes": "Utilizar o sistema de potes no sorteio"
     },
 
     "generos": {
