@@ -42,7 +42,7 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <md-checkbox ng-model="jogo.plataformasDoJogo[plataforma.id]" ng-repeat="plataforma in plataformasDisponiveis" aria-label="plataforma.descricao">
+                    <md-checkbox ng-model="jogo.plataformasSelecionadas[plataforma.id]" ng-checked="exists(plataforma.id, jogo.plataformasDoJogo)" ng-click="toggle(plataforma.id, jogo.plataformasDoJogo)" ng-repeat="plataforma in plataformasDisponiveis" aria-label="plataforma.descricao">
                         {{plataforma.descricao}}
                     </md-checkbox>
                 </md-card-content>

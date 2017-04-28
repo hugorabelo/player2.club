@@ -47,8 +47,11 @@ class Jogo extends Eloquent {
 	}
 
 	public function plataformas() {
-        $jogos = $this->belongsToMany('Plataforma', 'jogos_plataforma', 'jogos_id', 'plataformas_id')->withPivot(array())->orderBy('descricao')->getResults();
-        return $jogos->values()->all();
+		return $this->belongsToMany('Plataforma', 'jogos_plataforma', 'jogos_id', 'plataformas_id');
     }
+
+	public function adicionaPlataforma($idPlataforma) {
+		$this->plataformas()->attach($idPlataforma);
+	}
 
 }

@@ -32,6 +32,19 @@
                 $mdDialog.hide();
             };
 
+            $scope.exists = function (item, list) {
+                return list.indexOf(item) > -1;
+            };
+
+            $scope.toggle = function (item, list) {
+                var idx = list.indexOf(item);
+                if (idx > -1) {
+                    list.splice(idx, 1);
+                } else {
+                    list.push(item);
+                }
+            };
+
             $scope.$watch('files.length', function (newVal, oldVal) {});
         }
 
@@ -58,12 +71,14 @@
             });
 
         vm.create = function (ev) {
+            vm.jogoNovo = {};
+            vm.jogoNovo.plataformasDoJogo = [];
             $mdDialog
                 .show({
                     locals: {
                         tituloModal: 'messages.jogo_create',
                         novoItem: true,
-                        jogo: {},
+                        jogo: vm.jogoNovo,
                         modelosCampeonato: vm.modelosCampeonato,
                         plataformasDisponiveis: vm.plataformasDisponiveis
                     },
@@ -89,9 +104,8 @@
                         .success(function (data) {
                             vm.jogoEdita.plataformasDoJogo = [];
                             angular.forEach(data, function (plataforma) {
-                                this[plataforma.id] = true;
+                                this.push(plataforma.id);
                             }, vm.jogoEdita.plataformasDoJogo);
-                            console.log(vm.jogoEdita.plataformasDoJogo);
                             $mdDialog
                                 .show({
                                     locals: {

@@ -20,6 +20,9 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
                     formData.append("descricao", jogo.descricao);
                     formData.append("permite_campeonato", jogo.permite_campeonato);
                     formData.append("modelo_campeonato_id", jogo.modelo_campeonato_id);
+                    angular.forEach(jogo.plataformasSelecionadas, function (plataforma, key) {
+                        this.append("plataformas_do_jogo[]", key);
+                    }, formData);
                     if (arquivo != null) {
                         formData.append("imagem_capa", arquivo.lfFile);
                     }
@@ -44,6 +47,9 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
                     formData.append("descricao", jogo.descricao);
                     formData.append("permite_campeonato", jogo.permite_campeonato);
                     formData.append("modelo_campeonato_id", jogo.modelo_campeonato_id);
+                    angular.forEach(jogo.plataformasSelecionadas, function (plataforma, key) {
+                        this.append("plataformas_do_jogo[]", key);
+                    }, formData);
                     if (arquivo != null) {
                         formData.append("imagem_capa", arquivo.lfFile);
                     }
