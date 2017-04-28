@@ -17,11 +17,15 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
-                    formData.append("descricao", jogo.descricao);
-                    formData.append("permite_campeonato", jogo.permite_campeonato);
-                    formData.append("modelo_campeonato_id", jogo.modelo_campeonato_id);
+                    angular.forEach(jogo, function (value, key) {
+                        if (key != 'plataformasDoJogo' && key != 'plataformasSelecionadas') {
+                            formData.append(key, value);
+                        }
+                    });
                     angular.forEach(jogo.plataformasSelecionadas, function (plataforma, key) {
-                        this.append("plataformas_do_jogo[]", key);
+                        if (plataforma) {
+                            this.append("plataformas_do_jogo[]", key);
+                        }
                     }, formData);
                     if (arquivo != null) {
                         formData.append("imagem_capa", arquivo.lfFile);
@@ -44,11 +48,17 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
-                    formData.append("descricao", jogo.descricao);
-                    formData.append("permite_campeonato", jogo.permite_campeonato);
-                    formData.append("modelo_campeonato_id", jogo.modelo_campeonato_id);
+                    angular.forEach(jogo, function (value, key) {
+                        if (key != 'plataformasDoJogo' && key != 'plataformasSelecionadas') {
+                            if (value != null) {
+                                formData.append(key, value);
+                            }
+                        }
+                    });
                     angular.forEach(jogo.plataformasSelecionadas, function (plataforma, key) {
-                        this.append("plataformas_do_jogo[]", key);
+                        if (plataforma) {
+                            this.append("plataformas_do_jogo[]", key);
+                        }
                     }, formData);
                     if (arquivo != null) {
                         formData.append("imagem_capa", arquivo.lfFile);

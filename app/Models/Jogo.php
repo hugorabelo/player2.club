@@ -54,4 +54,8 @@ class Jogo extends Eloquent {
 		$this->plataformas()->attach($idPlataforma);
 	}
 
+    public function removePlataforma($idPlataforma) {
+        $this->plataformas()->detach($idPlataforma);
+    }
+
 }
