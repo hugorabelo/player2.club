@@ -296,4 +296,35 @@ class CampeonatosController extends Controller
         return Response::json($resultadoPesquisa);
     }
 
+    public function sortearClubes() {
+        $input = Input::all();
+        $idCampeonato = $input['idCampeonato'];
+        $timesSelecionados = $input['timesSelecionados'];
+        $campeonato = Campeonato::find($idCampeonato);
+        $usuarios = $campeonato->usuariosInscritos();
+        $usuarios = $usuarios->shuffle()->values();
+
+        $timesInseridos = array();
+
+        foreach ($usuarios as $usuario) {
+            $random = rand(0, count($timesSelecionados) - 1);
+            $time = $timesSelecionados[$random];
+            while (in_array($time['id'], $timesInseridos)) {
+                $random = rand(0, count($timesSelecionados) - 1);
+                $time = $timesSelecionados[$random];
+            }
+
+            $campeonatoUsuario = CampeonatoUsuario::find($usuario->pivot->id);
+            if(isset($campeonatoUsuario)) {
+                $campeonatoUsuario->time_id = $time['id'];
+                $campeonatoUsuario->save();
+                array_push($timesInseridos, $time['id']);
+            }
+
+        }
+
+        $campeonato->times_sorteados = true;
+        $campeonato->save();
+    }
+
 }

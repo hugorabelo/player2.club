@@ -41,7 +41,7 @@
                 <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{vmCampeonato.participanteDestaque.time.distintivo}}" ng-show="vmCampeonato.participanteDestaque.time">
                 <span ng-show="vmCampeonato.participanteDestaque.time">{{vmCampeonato.participanteDestaque.time.descricao}}</span>
                 <span ng-hide="vmCampeonato.participanteDestaque.time">{{'messages.sem_time' | translate}}</span>
-                <md-button class="md-icon-button" ng-show="vmCampeonato.campeonato.usuarioAdministrador" ng-click="vmCampeonato.editarTimeUsuario()">
+                <md-button class="md-icon-button" ng-show="vmCampeonato.campeonato.usuarioAdministrador && !vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.editarTimeUsuario()">
                     <i class="material-icons">edit</i>
                 </md-button>
             </div>
