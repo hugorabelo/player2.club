@@ -224,6 +224,17 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        sortearClubes: function (sorteio) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonato/sortearClubes',
+                data: $.param(sorteio),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

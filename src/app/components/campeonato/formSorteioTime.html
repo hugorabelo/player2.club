@@ -1,0 +1,47 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="row" flex>
+                    <md-input-container class="md-block" flex>
+                        <label>{{'fields.time' | translate}}</label>
+                        <md-select ng-model="timeSelecionado">
+                            <md-option ng-value="undefined"></md-option>
+                            <md-option ng-repeat="time in times" ng-value="time">
+                                <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{time.distintivo}}"> {{time.descricao}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div class="m-t">
+                        <md-button class="md-icon-button" ng-click="adicionarTime()"><i class="fa fa-plus fa-lg" aria-label="Adicionar Time" aria-hidden="true"></i>
+                        </md-button>
+                    </div>
+                </div>
+
+                <div class="table-responsive m-t-md">
+                    <table class="table table-striped table-hover">
+                        <tbody>
+                            <tr ng-repeat="time in timesSelecionados track by $index">
+                                <td><span>{{$index+1}}</span></td>
+                                <td><img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{time.distintivo}}"></td>
+                                <td><span>{{time.descricao}}</span></td>
+                                <td><i class="material-icons" ng-click="removerTime(time)">remove_circle_outline</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="realizarSorteio()">{{'messages.sortear_clubes' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

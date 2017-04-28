@@ -61,6 +61,7 @@
             vm.currentNavItem = 'detalhes';
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
+            vm.getParticipantes(vm.idCampeonato);
         };
 
         vm.abaContestacoes = function () {
@@ -107,7 +108,7 @@
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     vm.campeonato = data;
-                    if (vm.campeonato.status < 3) {
+                    if ((vm.campeonato.status < 3) && ($rootScope.telaMobile)) {
                         vm.currentNavItem = 'informacoes';
                     } else {
                         vm.currentNavItem = 'tabela';
@@ -856,6 +857,72 @@
 
             });
 
+        };
+
+        vm.sortearTimes = function (ev) {
+            Time.getTimesPorModelo(vm.campeonato.tipo.modelo_campeonato_id)
+                .success(function (data) {
+                    vm.times = data;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.sortear_clubes_participantes',
+                                times: vm.times
+                            },
+                            controller: DialogControllerSorteio,
+                            templateUrl: 'app/components/campeonato/formSorteioTime.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+
+                });
+        };
+
+        function DialogControllerSorteio($scope, $mdDialog, tituloModal, times) {
+            $scope.tituloModal = tituloModal;
+            $scope.times = times;
+            $scope.timesSelecionados = [];
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.realizarSorteio = function () {
+                if ($scope.timesSelecionados.length < vm.campeonato.participantes.length) {
+                    toastr.error($filter('translate')('messages.numero_times_menor'));
+                } else {
+                    var sorteio = {};
+                    sorteio.idCampeonato = vm.idCampeonato;
+                    sorteio.timesSelecionados = $scope.timesSelecionados;
+                    Campeonato.sortearClubes(sorteio)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.sorteio_sucesso'));
+                            vm.getParticipantes(sorteio.idCampeonato);
+                            vm.campeonato.times_sorteados = true;
+                            $mdDialog.hide();
+                        })
+                }
+            }
+
+            $scope.adicionarTime = function () {
+                if ($scope.timesSelecionados.indexOf($scope.timeSelecionado) == -1) {
+                    $scope.timesSelecionados.push($scope.timeSelecionado);
+                }
+                $scope.timeSelecionado = {};
+            }
+
+            $scope.removerTime = function (timeRemovido) {
+                var index = $scope.timesSelecionados.indexOf(timeRemovido);
+                if (index > -1) {
+                    $scope.timesSelecionados.splice(index, 1);
+                }
+            }
         };
     }]);
 }());
