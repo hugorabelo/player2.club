@@ -94,6 +94,8 @@ class AppServiceProvider extends ServiceProvider {
 			$penultima_mensagem = \Mensagem::where('id_remetente','=',$mensagem->id_remetente)->where('id_destinatario','=',$mensagem->id_destinatario)->where('id', '<>', $mensagem->id)->latest()->first();
 			if(isset($penultima_mensagem)) {
 				$hora_penultima = $penultima_mensagem->created_at;
+			} else {
+				$hora_penultima = Carbon::createFromDate(2000, 1, 1, 'America/Toronto');
 			}
 			$diferenca = $hora_ultima->diffInMinutes($hora_penultima);
 
