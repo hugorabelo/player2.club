@@ -16,5 +16,6 @@ return [
     "matamata64" => "32 avos de Final",
     "saudacao" => "Olá, :nome",
     "rodape" => "Você está recebendo esta mensagem de acordo com a configuração do seu perfil. Se você não deseja receber esses e-mails da player2.club no futuro, favor alterar suas configurações no perfil",
-    "copyright" => "Todos os direitos reservados"
+    "copyright" => "Todos os direitos reservados",
+    "recebeu_mensagem" => "Você recebeu uma mensagem de :nome_remetente"
 ];

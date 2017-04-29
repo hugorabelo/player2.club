@@ -1,5 +1,6 @@
 <?php namespace App\Providers;
 
+use Illuminate\Mail\Message;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -86,20 +87,32 @@ class AppServiceProvider extends ServiceProvider {
 			}
 		});
 
-		/*
+		// Enviar um e-mail caso a última mensagem enviada anteriormente tenha ocorido em um tempo acima de 6h
 		\Mensagem::created(function ($mensagem) {
-			$evento = \NotificacaoEvento::where('valor','=','enviar_mensagem')->first();
-			if(isset($evento)) {
-				$idEvento = $evento->id;
+
+			$hora_ultima = $mensagem->created_at;
+			$penultima_mensagem = \Mensagem::where('id_remetente','=',$mensagem->id_remetente)->where('id_destinatario','=',$mensagem->id_destinatario)->where('id', '<>', $mensagem->id)->latest()->first();
+			if(isset($penultima_mensagem)) {
+				$hora_penultima = $penultima_mensagem->created_at;
+			}
+			$diferenca = $hora_ultima->diffInMinutes($hora_penultima);
+
+			$remetente = \User::find($mensagem->id_remetente);
+			$nome_remetente = isset($remetente) ? $remetente->nome: '';
+
+			$destinatario = \User::find($mensagem->id_destinatario);
+
+			$conteudo = trans("messages.recebeu_mensagem", ['nome_remetente' => $nome_remetente]);
+
+			if($diferenca > 180) {
+				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario], function($message) use ($destinatario) {
+					$message->from('contato@player2.club', $name = 'player2.club');
+					$message->to($destinatario->email, $name = $destinatario->nome);
+					$message->subject('Você recebeu uma nova mensagem');
+				});
 			}
 
-			$notificacao = new \Notificacao();
-			$notificacao->id_remetente = $mensagem->id_remetente;
-			$notificacao->id_destinatario = $mensagem->id_destinatario;
-			$notificacao->evento_notificacao_id = $idEvento;
-			$notificacao->save();
 		});
-		*/
 
 		\Atividade::deleted(function ($atividade) {
 			if(isset($atividade->post_id)) {
