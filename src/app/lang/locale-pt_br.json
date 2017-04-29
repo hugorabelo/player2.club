@@ -407,6 +407,7 @@
         "curtir_post": "{{nome_remetente}} curtiu o seu post ",
         "curtir_comentario": "{{nome_remetente}} curtiu o seu comentário ",
         "seguir_usuario": "{{nome_remetente}} começou a seguir você",
+        "sorteou_clubes": "Os times do campeonato {{nome_campeonato}} foram sorteados",
 
         "descricao_salvou_placar": "Outro usuário inserir o resultado da partida",
         "descricao_confirmou_placar": "Outro usuário confirmar o resultado que você inseriu",
@@ -417,6 +418,7 @@
         "descricao_comentar_post": "Usuário comentou um post seu",
         "descricao_curtir_post": "Usuário curtiu um post seu",
         "descricao_curtir_comentario": "Usuário curtiu o seu comentário",
-        "descricao_seguir_usuario": "Alguém começou a seguir você"
+        "descricao_seguir_usuario": "Alguém começou a seguir você",
+        "descricao_sorteou_clubes": "Os clubes de um campeonato foram sorteados"
     }
 }

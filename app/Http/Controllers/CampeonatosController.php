@@ -320,11 +320,23 @@ class CampeonatosController extends Controller
                 $campeonatoUsuario->save();
                 array_push($timesInseridos, $time['id']);
             }
-
         }
 
         $campeonato->times_sorteados = true;
         $campeonato->save();
+
+        $evento = NotificacaoEvento::where('valor','=','sorteou_clubes')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+
+        foreach ($usuarios as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->item_id = $campeonato->id;
+            $notificacao->save();
+        }
     }
 
 }
