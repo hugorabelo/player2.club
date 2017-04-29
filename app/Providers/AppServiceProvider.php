@@ -74,7 +74,9 @@ class AppServiceProvider extends ServiceProvider {
 				$notificacao->mensagem = $evento->mensagem;
 				$notificacao->tipo_evento = $evento->valor;
 
-				$conteudo = trans($notificacao->mensagem, ['nome_remetente' => $notificacao->remetente->nome, 'nome_fase' => $notificacao->nome_fase, 'nome_campeonato' => $notificacao->nome_campeonato]);
+				$nome_remetente = isset($notificacao->remetente) ? $notificacao->remetente->nome: '';
+
+				$conteudo = trans($notificacao->mensagem, ['nome_remetente' => $nome_remetente, 'nome_fase' => $notificacao->nome_fase, 'nome_campeonato' => $notificacao->nome_campeonato]);
 
 				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario], function($message) use ($destinatario) {
 					$message->from('contato@player2.club', $name = 'player2.club');

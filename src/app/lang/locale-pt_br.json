@@ -389,7 +389,8 @@
         "sortear_clubes": "Sortear clubes",
         "sortear_clubes_participantes": "Sortear clubes entre os participantes",
         "numero_times_menor": "O número de times selecionados é inferior ao número de participantes",
-        "sorteio_sucesso": "Sorteio realizado com sucesso"
+        "sorteio_sucesso": "Sorteio realizado com sucesso",
+        "vagas_incompletas": "O sorteio só poderá ser realizado quando todas as vagas do campeonato estiverem preenchidas"
     },
 
     "generos": {

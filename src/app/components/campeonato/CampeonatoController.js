@@ -907,14 +907,17 @@
                             vm.campeonato.times_sorteados = true;
                             $mdDialog.hide();
                         })
+                        .error(function (error) {
+                            toastr.error($filter('translate')(error.message), $filter('translate')('messages.operacao_nao_concluida'));
+                        });
                 }
             }
 
             $scope.adicionarTime = function () {
-                if ($scope.timesSelecionados.indexOf($scope.timeSelecionado) == -1) {
+                if (($scope.timeSelecionado != undefined) && ($scope.timesSelecionados.indexOf($scope.timeSelecionado) == -1)) {
                     $scope.timesSelecionados.push($scope.timeSelecionado);
                 }
-                $scope.timeSelecionado = {};
+                $scope.timeSelecionado = undefined;
             }
 
             $scope.removerTime = function (timeRemovido) {

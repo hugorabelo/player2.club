@@ -301,6 +301,11 @@ class CampeonatosController extends Controller
         $idCampeonato = $input['idCampeonato'];
         $timesSelecionados = $input['timesSelecionados'];
         $campeonato = Campeonato::find($idCampeonato);
+        if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
+            return Response::json(array('success' => false,
+                'message' => 'messages.vagas_incompletas'), 300);
+        }
+
         $usuarios = $campeonato->usuariosInscritos();
         $usuarios = $usuarios->shuffle()->values();
 
