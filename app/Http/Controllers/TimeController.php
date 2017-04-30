@@ -28,7 +28,7 @@ class TimeController extends Controller
      * @return Response
      */
     public function index() {
-        $times = Time::get()->sortBy('descricao')->values();
+        $times = Time::get()->sortBy('nome')->values();
         return Response::json($times);
     }
 
@@ -101,7 +101,7 @@ class TimeController extends Controller
     }
 
     public function getTimesPorModelo($idModeloCampeonato) {
-        $times = Time::where('modelo_campeonato_id', '=', $idModeloCampeonato)->orderBy('descricao')->get();
+        $times = Time::where('modelo_campeonato_id', '=', $idModeloCampeonato)->orderBy('nome')->get();
         return Response::json($times);
     }
 

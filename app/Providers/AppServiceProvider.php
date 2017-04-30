@@ -75,7 +75,7 @@ class AppServiceProvider extends ServiceProvider {
 						$notificacao->item_id = $fase->campeonato()->id;
 						break;
 					case 'sorteou_clubes':
-						$campeonato = Campeonato::find($notificacao->item_id);
+						$campeonato = \Campeonato::find($notificacao->item_id);
 						$notificacao->nome_campeonato = $campeonato->descricao;
 						break;
 				}
