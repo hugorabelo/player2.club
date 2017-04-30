@@ -28,17 +28,20 @@
         "save": "Salvar",
         "update": "Atualizar",
         "adicionar": "Adicionar",
+        "enviar": "Enviar",
 
         "descricao": "Descrição",
         "logomarca": "Logomarca",
 
         "maximo_jogadores_partida": "Máx. Jogadores",
         "modelo_campeonato": "Modelo do Campeonato",
+        "modelo_campeonato_min": "Modelo",
         "arquivo_detalhes": "Arquivo de Detalhes",
         "nome_classe_modelo": "Nome da Classe do Modelo",
 
         "imagem_capa": "Capa do Jogo",
         "plataformas_id": "Plataforma",
+        "permite_campeonato": "Permite Campeonatos",
 
         "prioridade": "Prioridade",
 
@@ -135,7 +138,16 @@
         "resultado_errado": "Resultado Incorreto",
         "partida_nao_realizada": "Partida Não Realizada",
 
-        "numero_rounds": "Número de Rounds"
+        "numero_rounds": "Número de Rounds",
+        "time": "Time",
+
+        "status": "Status",
+        "status.1": "Inscrições abertas",
+        "status.2": "A iniciar",
+        "status.3": "Em andamento",
+        "status.4": "Encerrado",
+
+        "excluir_campeonato": "Excluir Campeonato"
     },
 
     "messages": {
@@ -179,9 +191,10 @@
         "usuario_create": "Criar Usuário",
         "usuario_edit": "Editar Perfil de Usuário",
         "usuario_empty": "Não existe nenhum Usuário cadastrado",
-        "usuario_gamertags": "Plataformas do Usuário",
+        "usuario_gamertags": "Plataformas",
         "adicionar_gamertag": "Adicionar ID de Usuário",
-        "usuario_imagens": "Imagens do Usuário",
+        "usuario_imagens": "Imagens",
+        "geral": "Geral",
 
         "campeonato_list": "Campeonatos",
         "campeonato_add": "Adicionar Campeonato",
@@ -198,6 +211,11 @@
         "campeonatosParticipantes": "Participantes",
         "campeonatoContestacoes": "Resultados Contestados",
         "campeonato_partidas_abertas": "Partidas Em Aberto",
+        "confirma_exclusao_campeonato": "Você deseja realmente apagar o campeonato {{nome_campeonato}} da plataforma {{nome_plataforma}}? Esta operação não poderá ser desfeita!",
+        "exclusao_campeonato_sucesso": "Campeonato excluído com sucesso",
+        "exclusao_campeonato_erro": "Aconteceu um erro na exclusão do campeonato",
+        "campeonato_iniciado": "O campeonato já foi iniciado",
+        "exclusao_permitida_apenas_criador": "A exclusão do campeonato só pode ser feita pelo seu criador",
 
 
         "campeonatoAdmin_list": "Administradores",
@@ -225,6 +243,11 @@
         "menu_edit": "Editar Menu",
         "menu_list": "Menus",
         "menu_add": "Adicionar Menu",
+
+        "modelo_list": "Modelos de Campeonato",
+        "modelo_add": "Adicionar Modelo",
+        "modelo_create": "Inserir novo modelo de campeonato",
+        "modelo_edit": "Editar modelo de campeonato",
 
         "permissao_list": "Lista de Permissões",
         "permissao_user": "Permissões do Perfil",
@@ -289,6 +312,8 @@
         "curtiu_comentario": " curtiu o comentário de ",
         "seguiu_jogo": " começou a seguir o jogo ",
         "disputou_partida": " disputou uma partida do campeonato ",
+        "disputou_partida_complemento": " com ",
+        "disputou_partida_complemento_dois": " pessoas",
         "inscreveu_campeonato": " se inscreveu no campeonato ",
         "escreveu_sobre_jogo": " publicou sobre ",
         "mensagem_para_usuario": " falou para ",
@@ -341,7 +366,31 @@
         "melhor_tres": "Melhor de 3",
         "melhor_cinco": "Melhor de 5",
         "melhor_sete": "Melhor de 7",
-        "notificacoes_email": "Configurar envio de notificações por e-mail"
+        "notificacoes_email": "Notificações por E-mail",
+        "escrever_mensagem": "Escrever uma nova mensagem",
+        "remetente": "Remetente",
+        "destinatario": "Destinatário",
+        "mensagem_enviada": "Mensagem enviada com sucesso",
+
+        "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente",
+        "minhas_mensagens": "Minhas mensagens",
+        "bate_papo": "Bate Papo com {{nome_remetente}}",
+        "inserir_time_participante": "Inserir Time do Participante",
+        "sem_time": "Sem Time",
+        "time_salvo_sucesso": "Time salvo com sucesso",
+        "times_participantes": "Times dos Participantes",
+
+        "permite_exibir": "Permite exibir na criação de campeonatos",
+        "procurar_campeonatos": "Procurar Campeonatos",
+        "filtrar": "Filtrar",
+        "pesquisar": "Pesquisar",
+        "limpar_filtros": "Limpar",
+
+        "sortear_clubes": "Sortear clubes",
+        "sortear_clubes_participantes": "Sortear clubes entre os participantes",
+        "numero_times_menor": "O número de times selecionados é inferior ao número de participantes",
+        "sorteio_sucesso": "Sorteio realizado com sucesso",
+        "vagas_incompletas": "O sorteio só poderá ser realizado quando todas as vagas do campeonato estiverem preenchidas"
     },
 
     "generos": {
@@ -359,6 +408,7 @@
         "curtir_post": "{{nome_remetente}} curtiu o seu post ",
         "curtir_comentario": "{{nome_remetente}} curtiu o seu comentário ",
         "seguir_usuario": "{{nome_remetente}} começou a seguir você",
+        "sorteou_clubes": "Os times do campeonato {{nome_campeonato}} foram sorteados",
 
         "descricao_salvou_placar": "Outro usuário inserir o resultado da partida",
         "descricao_confirmou_placar": "Outro usuário confirmar o resultado que você inseriu",
@@ -369,6 +419,7 @@
         "descricao_comentar_post": "Usuário comentou um post seu",
         "descricao_curtir_post": "Usuário curtiu um post seu",
         "descricao_curtir_comentario": "Usuário curtiu o seu comentário",
-        "descricao_seguir_usuario": "Alguém começou a seguir você"
+        "descricao_seguir_usuario": "Alguém começou a seguir você",
+        "descricao_sorteou_clubes": "Os clubes de um campeonato foram sorteados"
     }
 }

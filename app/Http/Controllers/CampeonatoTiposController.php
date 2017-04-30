@@ -25,7 +25,8 @@ class CampeonatoTiposController extends Controller {
             $modelo = ModeloCampeonato::find($campeonatoTipo->modelo_campeonato_id);
             $campeonatoTipo->modelo_campeonato = $modelo->descricao;
         }
-        return Response::json($campeonatoTipos);
+        $campeonatoTipos = $campeonatoTipos->sortBy('modelo_campeonato');
+        return Response::json($campeonatoTipos->values()->all());
 	}
 
 	/**

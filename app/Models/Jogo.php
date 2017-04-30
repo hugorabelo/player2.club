@@ -46,4 +46,16 @@ class Jogo extends Eloquent {
 		return $atividades;
 	}
 
+	public function plataformas() {
+		return $this->belongsToMany('Plataforma', 'jogos_plataforma', 'jogos_id', 'plataformas_id');
+    }
+
+	public function adicionaPlataforma($idPlataforma) {
+		$this->plataformas()->attach($idPlataforma);
+	}
+
+    public function removePlataforma($idPlataforma) {
+        $this->plataformas()->detach($idPlataforma);
+    }
+
 }

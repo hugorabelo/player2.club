@@ -26,6 +26,7 @@ class FaseGrupo extends Eloquent
     {
         $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
         foreach ($usuarios as $usuario) {
+            $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
                 $usuario->sigla = substr($usuario->nome, 0, 3);
             }
@@ -33,7 +34,11 @@ class FaseGrupo extends Eloquent
             $nome_completo = explode(' ', $nome_completo);
             $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuario->nome;
             $usuario->nome = $nome_completo;
-            $usuario->distintivo = (isset($usuario->distintivo) && !empty($usuario->distintivo)) ? $usuario->distintivo : $usuario->imagem_perfil;
+            $time = null;
+            if(isset($usuarioCampeonato->time_id) && !empty($usuarioCampeonato->time_id)) {
+                $time = Time::find($usuarioCampeonato->time_id);
+            }
+            $usuario->distintivo = (isset($time)) ? $time->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
     }
@@ -57,8 +62,8 @@ class FaseGrupo extends Eloquent
         $nome_completo2 = count($nome_completo2) > 2 ? array_shift($nome_completo2).' '.array_pop($nome_completo2) : $usuario2->nome;
         $usuario2->nome = $nome_completo2;
 
-        $usuario1->distintivo = (isset($usuario1->distintivo) && !empty($usuario1->distintivo)) ? $usuario1->distintivo : $usuario1->imagem_perfil;
-        $usuario2->distintivo = (isset($usuario2->distintivo) && !empty($usuario2->distintivo)) ? $usuario2->distintivo : $usuario2->imagem_perfil;
+        //$usuario1->distintivo = (isset($usuario1->distintivo) && !empty($usuario1->distintivo)) ? $usuario1->distintivo : $usuario1->imagem_perfil;
+        //$usuario2->distintivo = (isset($usuario2->distintivo) && !empty($usuario2->distintivo)) ? $usuario2->distintivo : $usuario2->imagem_perfil;
         $usuario1->placares = app()->make(Collection::class);
         $usuario2->placares = app()->make(Collection::class);
         foreach ($partidas as $partida) {

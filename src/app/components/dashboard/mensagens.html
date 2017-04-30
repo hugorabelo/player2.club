@@ -1,0 +1,20 @@
+<h3 class="secao_titulo" hide-xs>{{'messages.minhas_mensagens' | translate}}</h3>
+<md-toolbar hide-gt-xs class="md-toolbar-tools">
+    <h2 class="secao_titulo">{{'messages.minhas_mensagens' | translate}}</h2>
+</md-toolbar>
+<md-list class="md-dense" flex ng-init="vmTopNav.getConversasDoUsuario()">
+    <md-list-item ng-repeat="conversa in vmTopNav.conversasUsuario" class="md-3-line item-lista" ng-click="#" ui-sref="home.chat({idUsuario: conversa.remetente.id})">
+        <img class="img-circle img-xs m-r-sm" alt="image" src="uploads/usuarios/{{conversa.remetente.imagem_perfil}}" data-pin-nopin="true">
+        <div class="md-list-item-text" layout="column">
+            <h3 class="mensagem-nome">{{conversa.remetente.nome}}</h3>
+            <h4 class="mensagem-texto">{{conversa.ultima_mensagem}}</h4>
+            <h5 class="mensagem-data">{{ vmTopNav.exibeData(conversa.created_at) }}</h5>
+        </div>
+        <div class="icones" layout="row" layout-align="end center">
+            <span class="label label-danger pull-right" ng-show="conversa.nao_lidas">{{conversa.nao_lidas}}</span>
+            <!--            <md-button class="md-icon-button md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, mensagem.remetente.id)">-->
+            <i class="material-icons">reply</i>
+            <!--            </md-button>-->
+        </div>
+    </md-list-item>
+</md-list>

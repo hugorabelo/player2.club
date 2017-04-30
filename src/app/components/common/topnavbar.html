@@ -22,12 +22,15 @@
                     <i class="material-icons md-24">home</i>
                 </md-button>
 
-
+                <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
+                    <i class="material-icons md-24">message</i>
+                    <span class="label label-danger" ng-show="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
+                </md-button>
 
                 <md-menu id="lista-notificacao" md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
-                    <md-button class="md-icon-button count-info" aria-label="Home" ng-click="$mdOpenMenu()">
+                    <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="$mdOpenMenu()">
                         <i class="material-icons md-24">videogame_asset</i>
-                        <span class="label label-danger">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
+                        <span class="label label-danger" ng-show="vmTopNav.quantidadeNotificacoesNaoLidas">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
                     </md-button>
                     <md-menu-content>
                         <a ui-sref="home.notificacoes" class="ver_tudo">{{'messages.ver_tudo' | translate}}</a>
@@ -46,9 +49,6 @@
                     </md-menu-content>
                 </md-menu>
 
-                <!--
-                <i class="material-icons md-24">comment</i>
--->
             </div>
         </div>
         <div flex="20" layout="row" flex layout-align="end center" class="botao-opcoes">
@@ -180,6 +180,11 @@
             <img alt="" height="40" src="assets/images/player2.png" data-pin-nopin="true" hide-gt-xs>
             </a>
         </span>
+
+        <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
+            <i class="material-icons md-24">message</i>
+            <span class="label label-danger" ng-show="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
+        </md-button>
 
         <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes">
             <i class="material-icons md-24">videogame_asset</i>

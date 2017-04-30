@@ -1,0 +1,23 @@
+<h3 class="secao_titulo" hide-xs>{{'messages.bate_papo' | translate}} {{vmHome.nomeRemetente}}</h3>
+<md-toolbar hide-gt-xs class="md-toolbar-tools">
+    <h2 class="secao_titulo">{{'messages.bate_papo' | translate}} {{vmHome.nomeRemetente}}</h2>
+</md-toolbar>
+
+
+<div id="janela-chat" class="chat-discussion m-b-none" ng-init="vmHome.getMensagensDoUsuario(); vmHome.iniciarContador()">
+    <div class="chat-message" ng-class="{left: mensagem.remetente.id != usuarioLogado.id, right:  mensagem.remetente.id == usuarioLogado.id}" ng-repeat="mensagem in vmHome.mensagensUsuario">
+        <img class="message-avatar" src="uploads/usuarios/{{mensagem.remetente.imagem_perfil}}" alt="">
+        <div class="message">
+            <a class="message-author" ui-sref="profile({idUsuario: mensagem.id_remetente})"> {{mensagem.remetente.nome}} </a>
+            <span class="message-date"> {{vmHome.exibeData(mensagem.created_at)}} </span>
+            <span class="message-content">{{mensagem.mensagem}}</span>
+        </div>
+    </div>
+</div>
+
+<div class="chat-message-form m-t-none">
+    <div class="form-group">
+        <textarea class="form-control message-input" name="message" ng-model="textoMensagem" placeholder="{{'messages.escrever_mensagem' | translate}}" ng-keypress="vmHome.enviarMensagemChat($event, textoMensagem)"></textarea>
+    </div>
+
+</div>

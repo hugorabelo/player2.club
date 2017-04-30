@@ -31,7 +31,17 @@ class JogosController extends Controller {
 	 */
 	public function index()
 	{
-		return Response::json(Jogo::get());
+        $jogos = Jogo::get();
+        foreach ($jogos as $jogo) {
+            $modelo = ModeloCampeonato::find($jogo->modelo_campeonato_id);
+            if(isset($modelo)) {
+                $jogo->modelo_campeonato = $modelo->descricao;
+            }
+            $jogo->produtora = $jogo->produtora() != null ? $jogo->produtora()->nome : '';
+            $jogo->genero = $jogo->genero() != null ? $jogo->genero()->nome : '';
+        }
+        $jogos = $jogos->sortBy('modelo_campeonato');
+        return Response::json($jogos->values()->all());
 	}
 
 	/**
@@ -42,8 +52,9 @@ class JogosController extends Controller {
 	public function store()
 	{
 
-		$input = Input::all();
-
+		$input = array_except(Input::all(), array('plataformas_do_jogo'));
+		$inputPlataforma = Input::all();
+		$plataformasDoJogo = isset($inputPlataforma['plataformas_do_jogo']) ? $inputPlataforma['plataformas_do_jogo'] : array();
 		$validation = Validator::make($input, Jogo::$rules);
 
 		if ($validation->passes())
@@ -62,7 +73,12 @@ class JogosController extends Controller {
 				$input['imagem_capa'] = $fileName;
 			}
 
-			Jogo::create($input);
+			$jogo = Jogo::create($input);
+			$novoJogo = Jogo::find($jogo->id);
+
+			foreach ($plataformasDoJogo as $plataforma) {
+				$novoJogo->adicionaPlataforma($plataforma);
+			}
 
 			return Response::json(array('success'=>true));
 		}
@@ -91,7 +107,9 @@ class JogosController extends Controller {
 	 */
 	public function update($id)
 	{
-		$input = array_except(Input::all(), array('_method', 'imagem_capa'));
+		$input = array_except(Input::all(), array('_method', 'imagem_capa', 'plataformas_do_jogo'));
+        $inputPlataforma = Input::all();
+        $plataformasDoJogo = isset($inputPlataforma['plataformas_do_jogo']) ? $inputPlataforma['plataformas_do_jogo'] : array();
 		$validation = Validator::make($input, Jogo::$rules);
 
 		if ($validation->passes())
@@ -111,7 +129,16 @@ class JogosController extends Controller {
 			}
 
 			$jogo = $this->jogo->find($id);
+
 			$jogo->update($input);
+
+            foreach ($jogo->plataformas()->get() as $plataformaDoJogo) {
+                $jogo->removePlataforma($plataformaDoJogo->id);
+            }
+
+            foreach ($plataformasDoJogo as $plataforma) {
+                $jogo->adicionaPlataforma($plataforma);
+            }
 
 			return Response::json(array('success'=>true));
 		}
@@ -244,5 +271,11 @@ class JogosController extends Controller {
 		}
 		return Response::json($atividades);
 	}
+
+	public function getPlataformas($idJogo) {
+        $jogo = Jogo::find($idJogo);
+		$plataformas = $jogo->plataformas()->orderBy('descricao')->getResults();
+        return Response::json($plataformas->values()->all());
+    }
 
 }

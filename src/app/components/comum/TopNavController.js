@@ -148,6 +148,7 @@
                         case "fase_iniciada":
                         case "fase_encerrada":
                         case "fase_encerramento_breve":
+                        case "sorteou_clubes":
                             $location.path('campeonato/' + notificacao.item_id);
                             break;
                         case "comentar_post":
@@ -164,11 +165,25 @@
 
         $rootScope.$on('$stateChangeSuccess', function () {
             vm.getNotificacoesDoUsuario();
+            vm.getConversasDoUsuario();
         });
 
         vm.exibeData = function (data) {
-            var dataExibida = new Date(data);
+            var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
+        };
+
+        vm.getConversasDoUsuario = function () {
+            Usuario.getConversas()
+                .success(function (data) {
+                    vm.conversasUsuario = data;
+                    vm.quantidadeMensagensNaoLidas = 0;
+                    angular.forEach(vm.conversasUsuario, function (conversa) {
+                        if (conversa.nao_lidas > 0) {
+                            vm.quantidadeMensagensNaoLidas += conversa.nao_lidas;
+                        }
+                    });
+                });
         };
 
 

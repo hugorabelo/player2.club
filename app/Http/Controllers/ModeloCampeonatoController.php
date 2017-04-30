@@ -26,7 +26,8 @@ class ModeloCampeonatoController extends Controller
      * @return Response
      */
     public function index() {
-        return Response::json(ModeloCampeonato::get());
+        $modelos = ModeloCampeonato::get()->sortBy('descricao');
+        return Response::json($modelos->values()->all());
     }
 
     /**

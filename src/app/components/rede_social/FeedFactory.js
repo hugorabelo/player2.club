@@ -9,6 +9,8 @@
             this.idUsuario = idUsuario;
             this.todos = todos;
             this.idJogo = idJogo;
+            this.partidasRegistradas = [];
+            this.itemsRegistrados = [];
         };
 
         Feed.prototype.proximaPagina = function () {
@@ -25,7 +27,29 @@
                 .success(function (data) {
                     var items = data;
                     for (var i = 0; i < items.length; i++) {
-                        this.items.push(items[i]);
+                        var item = items[i];
+                        if (item.partidas_id != null) {
+                            if ((this.partidasRegistradas.indexOf(item.partidas_id) < 0) && (this.itemsRegistrados.indexOf(item.id) < 0)) {
+                                this.partidasRegistradas.push(item.partidas_id)
+
+                                var outrosUsuarios = [];
+                                var vm = this;
+                                angular.forEach(item.objeto.usuarios, function (usuario) {
+                                    if (usuario.users_id != item.users_id) {
+                                        this.push(usuario);
+                                    }
+                                }, outrosUsuarios);
+                                item.outros_usuarios = outrosUsuarios;
+
+                                this.items.push(item);
+                                this.itemsRegistrados.push(item.id);
+                            }
+                        } else {
+                            if (this.itemsRegistrados.indexOf(item.id) < 0) {
+                                this.items.push(item);
+                                this.itemsRegistrados.push(item.id);
+                            }
+                        }
                     }
                     if (this.after == this.items.length) {
                         this.ocupado = true;

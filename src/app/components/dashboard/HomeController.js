@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -256,6 +256,121 @@
                     Usuario.removerNotificacaoEmail(idEvento);
                 }
             };
+
+            vm.escreverMensagem = function (ev, idUsuario) {
+                Usuario.show(idUsuario)
+                    .success(function (data) {
+                        vm.novaMensagem = {};
+                        vm.novaMensagem.id_destinatario = data.id;
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'messages.escrever_mensagem',
+                                    novaMensagem: vm.novaMensagem,
+                                    nomeDestinatario: data.nome
+                                },
+                                controller: DialogControllerMensagem,
+                                templateUrl: 'app/components/dashboard/escreverMensagem.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
+
+                            }, function () {
+
+                            });
+                    })
+            };
+
+            function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem, nomeDestinatario) {
+                $scope.tituloModal = tituloModal;
+                $scope.novaMensagem = novaMensagem;
+                $scope.nomeDestinatario = nomeDestinatario;
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.enviarMensagem = function () {
+                    vm.enviarMensagem(novaMensagem);
+                    $mdDialog.hide();
+                }
+
+            };
+
+            vm.enviarMensagem = function (novaMensagem) {
+                Usuario.enviarMensagem(novaMensagem)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.mensagem_enviada'));
+                    })
+                    .error(function (error) {
+                        toastr.error(error.message);
+                    });
+            };
+
+            vm.mensagensUsuario = {};
+            vm.getMensagensDoUsuario = function () {
+                while (vm.idUsuarioRemetente == undefined) {
+                    vm.idUsuarioRemetente = $stateParams.idUsuario;
+                }
+                Usuario.getMensagens(vm.idUsuarioRemetente)
+                    .success(function (data) {
+                        if (data.length != vm.mensagensUsuario.length) {
+                            vm.mensagensUsuario = data;
+                            vm.autoScroll();
+                        }
+                        angular.forEach(vm.mensagensUsuario, function (mensagem) {
+                            if (!vm.nomeRemetente) {
+                                if (mensagem.id_remetente != $rootScope.usuarioLogado.id) {
+                                    vm.nomeRemetente = mensagem.remetente.nome;
+                                }
+                            }
+                        });
+                    });
+            };
+
+            vm.exibeData = function (data) {
+                var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
+                return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm:ss');
+            };
+
+            vm.enviarMensagemChat = function (ev, textoMensagem) {
+                if (ev.keyCode === 13) {
+                    var novaMensagem = {};
+                    var idDestinatario = $stateParams.idUsuario;
+                    novaMensagem.mensagem = textoMensagem;
+                    novaMensagem.id_destinatario = idDestinatario;
+                    ev.preventDefault();
+                    $scope.textoMensagem = '';
+
+                    Usuario.enviarMensagem(novaMensagem)
+                        .success(function (data) {
+                            vm.getMensagensDoUsuario();
+                        })
+                        .error(function (error) {
+                            toastr.error(error.message);
+                        });
+                }
+            };
+
+            var atualizaMensagens;
+            vm.iniciarContador = function () {
+                atualizaMensagens = $interval(function () {
+                    vm.getMensagensDoUsuario();
+                }, 2000);
+            }
+
+            $scope.$on('$destroy', function () {
+                $interval.cancel(atualizaMensagens);
+                atualizaMensagens = undefined;
+            });
+
+            vm.autoScroll = function () {
+                var objScrDiv = document.getElementById("janela-chat");
+                objScrDiv.scrollTop = objScrDiv.scrollHeight;
+            };
+
     }]);
 
 }());

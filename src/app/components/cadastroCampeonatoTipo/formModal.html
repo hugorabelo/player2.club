@@ -1,0 +1,47 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.descricao' | translate}}</label>
+                    <input ng-model="campeonatoTipo.descricao" required>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.arquivo_detalhes' | translate}}</label>
+                    <input ng-model="campeonatoTipo.arquivo_detalhes" required>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.nome_classe_modelo' | translate}}</label>
+                    <input ng-model="campeonatoTipo.nome_classe_modelo" required>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>{{'fields.modelo_campeonato' | translate}}</label>
+                    <md-select ng-model="campeonatoTipo.modelo_campeonato_id" required>
+                        <md-option ng-repeat="modeloCampeonato in modelosCampeonato" ng-value="modeloCampeonato.id">
+                            {{modeloCampeonato.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+            <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
+        </md-dialog-actions>
+
+    </form>
+</md-dialog>

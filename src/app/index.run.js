@@ -20,9 +20,12 @@
     function mudaState($rootScope, $state, $window, $http, localStorageService, lock) {
         $rootScope.$state = $state;
 
-
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
             $rootScope.stateHome = ($state.current.name == 'home');
+            if (fromState.url != '^') {
+                localStorageService.set('previousState', fromState);
+                localStorageService.set('previousParams', fromParam);
+            }
             $http.get('api/validaAutenticacao')
                 .then(function (result) {
                     lock.getProfile(localStorage.getItem('idToken'), function (error, profile) {
@@ -148,14 +151,14 @@
                 ]);
 
     // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
-//    angular.module('player2')
-//        .run([
-//                'validator',
-//                'validacaoCustomizada',
-//                function (validator, myCustomElementModifier) {
-//                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
-//                validator.setDefaultElementModifier(myCustomElementModifier.key);
-//                }
-//            ]);
+    //    angular.module('player2')
+    //        .run([
+    //                'validator',
+    //                'validacaoCustomizada',
+    //                function (validator, myCustomElementModifier) {
+    //                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
+    //                validator.setDefaultElementModifier(myCustomElementModifier.key);
+    //                }
+    //            ]);
 
 })();

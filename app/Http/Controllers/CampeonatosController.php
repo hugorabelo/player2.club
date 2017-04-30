@@ -177,8 +177,19 @@ class CampeonatosController extends Controller
      */
     public function destroy($id)
     {
-        $this->campeonato->find($id)->delete();
+        $campeonato = $this->campeonato->find($id);
+        if($campeonato->status() > 2) {
+            return Response::json(array('success' => false,
+                'errors' => 'messages.campeonato_iniciado'), 300);
+        }
 
+        $usuarioLogado = Auth::getUser();
+        if($usuarioLogado->id != $campeonato->criador) {
+            return Response::json(array('success'=>false,
+                'errors'=> 'messages.exclusao_permitida_apenas_criador'),300);
+        }
+
+        $campeonato->delete();
         return Response::json(array('success' => true));
     }
 
@@ -208,6 +219,15 @@ class CampeonatosController extends Controller
     public function getParticipantes($id) {
         $campeonato = Campeonato::find($id);
         $participantes = $campeonato->usuariosInscritos();
+        foreach ($participantes as $participante) {
+            $nome_completo = $participante->nome;
+            $nome_completo = explode(' ', $nome_completo);
+            $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $participante->nome;
+            $participante->nome = $nome_completo;
+
+            $time = Time::find($participante->pivot->time_id);
+            $participante->time = $time;
+        }
         return Response::json($participantes);
     }
 
@@ -236,6 +256,92 @@ class CampeonatosController extends Controller
         }
         $partidas = $campeonato->partidasEmAberto();
         return Response::json($partidas);
+    }
+
+    public function pesquisaFiltros() {
+        $input = Input::all();
+        $pesquisa = Campeonato::whereNotNull('id');
+
+        if(isset($input['plataformas_id'])) {
+            $pesquisa->where('plataformas_id','=',$input['plataformas_id']);
+        }
+
+        if(isset($input['jogos_id'])) {
+            $pesquisa->where('jogos_id','=',$input['jogos_id']);
+        }
+
+        if(isset($input['campeonatotipos_id'])) {
+            $pesquisa->where('campeonato_tipos_id','=',$input['campeonatotipos_id']);
+        }
+
+        $resultadoPesquisa = $pesquisa->get();
+
+        if(isset($input['status_id'])) {
+            foreach ($resultadoPesquisa as $key=>$campeonato) {
+                if($campeonato->status() != $input['status_id']) {
+                    $resultadoPesquisa->pull($key);
+                }
+            }
+        }
+
+        foreach ($resultadoPesquisa as $campeonato) {
+            $campeonato->nome_plataforma = $campeonato->plataforma()->descricao;
+            $campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+            $campeonato->nome_jogo = $campeonato->jogo()->descricao;
+            $campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+            $campeonato->tipo_campeonato= $campeonato->campeonatoTipo()->descricao;
+            $campeonato->status = $campeonato->status();
+        }
+
+        return Response::json($resultadoPesquisa);
+    }
+
+    public function sortearClubes() {
+        $input = Input::all();
+        $idCampeonato = $input['idCampeonato'];
+        $timesSelecionados = $input['timesSelecionados'];
+        $campeonato = Campeonato::find($idCampeonato);
+        if($campeonato->usuariosInscritos()->count() < $campeonato->maximoUsuarios()) {
+            return Response::json(array('success' => false,
+                'message' => 'messages.vagas_incompletas'), 300);
+        }
+
+        $usuarios = $campeonato->usuariosInscritos();
+        $usuarios = $usuarios->shuffle()->values();
+
+        $timesInseridos = array();
+
+        foreach ($usuarios as $usuario) {
+            $random = rand(0, count($timesSelecionados) - 1);
+            $time = $timesSelecionados[$random];
+            while (in_array($time['id'], $timesInseridos)) {
+                $random = rand(0, count($timesSelecionados) - 1);
+                $time = $timesSelecionados[$random];
+            }
+
+            $campeonatoUsuario = CampeonatoUsuario::find($usuario->pivot->id);
+            if(isset($campeonatoUsuario)) {
+                $campeonatoUsuario->time_id = $time['id'];
+                $campeonatoUsuario->save();
+                array_push($timesInseridos, $time['id']);
+            }
+        }
+
+        $campeonato->times_sorteados = true;
+        $campeonato->save();
+
+        $evento = NotificacaoEvento::where('valor','=','sorteou_clubes')->first();
+        if(isset($evento)) {
+            $idEvento = $evento->id;
+        }
+
+        foreach ($usuarios as $usuario) {
+            $notificacao = new Notificacao();
+            $notificacao->id_destinatario = $usuario->id;
+            $notificacao->evento_notificacao_id = $idEvento;
+            $notificacao->item_id = $campeonato->id;
+            $notificacao->save();
+        }
     }
 
 }

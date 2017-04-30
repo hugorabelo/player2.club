@@ -4,6 +4,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Collection;
 
 class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -219,7 +220,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         } else {
 			$postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
 			//TODO Quando existir atividades de seguidores e comentários, remover essas condições whereNull: ->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')
-
             $atividades = Atividade::where('users_id','=', $this->id)->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         }
 		foreach ($atividades as $atividade) {
@@ -249,6 +249,27 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	public function removeNotificacaoPorEmail($idEvento) {
 		$this->emailsNotificacao()->detach($idEvento);
+	}
+
+	public function getConversas() {
+		$conversas  = DB::table('mensagem as m')
+							->selectRaw('id_remetente, '.
+										'(SELECT count(lida) FROM mensagem where id_remetente = m.id_remetente AND id_destinatario = m.id_destinatario AND lida is false) as nao_lidas, '.
+										'(SELECT mensagem FROM mensagem where id_remetente = m.id_remetente AND id_destinatario = m.id_destinatario ORDER BY created_at DESC LIMIT 1) as ultima_mensagem, '.
+										'(SELECT created_at FROM mensagem where id_remetente = m.id_remetente AND id_destinatario = m.id_destinatario ORDER BY created_at DESC LIMIT 1)')
+							->where('id_destinatario','=',$this->id)->groupBy('id_remetente')->groupBy('id_destinatario')->orderBy('created_at', 'desc')->get();
+		return $conversas;
+	}
+
+	public function getMensagens($idRemetente) {
+		$mensagens = Mensagem::where('id_destinatario','=',$this->id)->where('id_remetente','=',$idRemetente)->orWhere('id_remetente','=',$this->id)->where('id_destinatario','=',$idRemetente)->orderBy('created_at')->get();
+		foreach ($mensagens as $mensagem) {
+			if($mensagem->id_destinatario == $this->id) {
+				$mensagem->lida = true;
+				$mensagem->save();
+			}
+		}
+		return $mensagens;
 	}
 
 }

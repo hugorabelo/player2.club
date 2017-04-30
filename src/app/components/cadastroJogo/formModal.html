@@ -9,33 +9,45 @@
         <md-dialog-content>
             <div class="md-dialog-content">
 
-                <div class="row" ng-show="messages">
-                    <div class="col-md-10 col-md-offset-2">
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li class="error" ng-repeat="message in messages">
-                                    {{ message }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.descricao' | translate}}</label>
+                    <input ng-model="jogo.descricao" required>
+                </md-input-container>
 
                 <div class="form-group">
-                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
-                    <div class="col-md-9">
-                        <input type="text" id="descricao" class="form-control" ng-model="jogo.descricao" required />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="logomarca" class="col-md-3 control-label" translate>fields.imagem_capa</label>
-                    <div class="col-md-9">
+                    <label class="col-md-12" for="logomarca" translate>fields.imagem_capa</label>
+                    <div class="col-md-12">
                         <lf-ng-md-file-input lf-files="files"></lf-ng-md-file-input>
                     </div>
                 </div>
 
+                <md-checkbox ng-model="jogo.permite_campeonato" aria-label="{{'fields.permite_campeonato' | translate}}">
+                    {{'fields.permite_campeonato' | translate}}
+                </md-checkbox>
+
+                <md-input-container class="md-block">
+                    <label>{{'fields.modelo_campeonato' | translate}}</label>
+                    <md-select ng-model="jogo.modelo_campeonato_id" required>
+                        <md-option ng-repeat="modeloCampeonato in modelosCampeonato" ng-value="modeloCampeonato.id">
+                            {{modeloCampeonato.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
             </div>
+            <md-card>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>{{'menus.plataformas' | translate}}</h2>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                    <md-checkbox ng-model="jogo.plataformasSelecionadas[plataforma.id]" ng-checked="exists(plataforma.id, jogo.plataformasDoJogo)" ng-click="toggle(plataforma.id, jogo.plataformasDoJogo)" ng-repeat="plataforma in plataformasDisponiveis" aria-label="plataforma.descricao">
+                        {{plataforma.descricao}}
+                    </md-checkbox>
+                </md-card-content>
+            </md-card>
+
         </md-dialog-content>
 
         <md-dialog-actions layout="row">

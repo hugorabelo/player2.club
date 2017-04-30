@@ -90,6 +90,30 @@
                     pageTitle: "messages.notificacoes"
                 }
             })
+            .state('home.mensagens', {
+                url: "/mensagens",
+                templateUrl: "app/components/dashboard/mensagens.html",
+                controller: 'TopNavController as vmTopNav',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
+            .state('home.chat', {
+                url: "/chat/{idUsuario}",
+                templateUrl: "app/components/dashboard/chatMensagem.html",
+                controller: 'HomeController as vmHome',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
+            .state('home.pesquisar_campeonatos', {
+                url: "/pesquisar_campeonatos",
+                templateUrl: "app/components/campeonato/pesquisar.html",
+                controller: 'CampeonatoController as vmCampeonato',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",
@@ -100,22 +124,30 @@
             })
             .state('plataforma', {
                 url: "/plataforma",
-                templateUrl: "app/components/plataforma/index.html",
+                templateUrl: "app/components/cadastroPlataforma/index.html",
                 controller: 'PlataformaController as vmPlataforma',
                 data: {
-
                     pageTitle: "menus.plataformas"
+                }
+            })
+            .state('modeloCampeonato', {
+                url: "/modeloCampeonato",
+                templateUrl: "app/components/cadastroModeloCampeonato/index.html",
+                controller: 'ModeloCampeonatoController as vmModeloCampeonato',
+                data: {
+                    pageTitle: "menus.jogos"
                 }
             })
             .state('campeonatoTipo', {
                 url: "/campeonatoTipo",
-                templateUrl: "app/components/campeonatoTipo/index.html",
+                templateUrl: "app/components/cadastroCampeonatoTipo/index.html",
                 controller: 'CampeonatoTipoController as vmCampeonatoTipo',
                 data: {
                     pageTitle: "menus.campeonatoTipos"
                 }
             })
             .state('cadastroJogo', {
+                // Layout
                 url: "/cadastroJogo",
                 templateUrl: "app/components/cadastroJogo/index.html",
                 controller: 'CadastroJogoController as vmCadastroJogo',
@@ -124,6 +156,7 @@
                 }
             })
             .state('usuarioTipo', {
+                // Não está funcionando
                 url: "/usuarioTipo",
                 templateUrl: "app/components/usuarioTipo/index.html",
                 controller: 'UsuarioTipoController as vmUsuarioTipo',
@@ -132,6 +165,7 @@
                 }
             })
             .state('usuario', {
+                // Verificar
                 url: "/usuario",
                 templateUrl: "app/components/usuario/index.html",
                 controller: 'UsuarioController as vmUsuario',
@@ -140,6 +174,7 @@
                 }
             })
             .state('menu', {
+                // Remover
                 url: "/menu",
                 templateUrl: "app/components/menu/index.html",
                 controller: 'MenuController as vmMenu',
@@ -148,11 +183,21 @@
                 }
             })
             .state('permissao', {
+                // Remover
                 url: "/permissao",
                 templateUrl: "app/components/permissao/index.html",
                 controller: 'PermissaoController as vmPermissao',
                 data: {
                     pageTitle: "menus.permissoes"
+                }
+            })
+            .state('cadastroTime', {
+                // Criar
+                url: "/cadastroTime",
+                templateUrl: "app/components/cadastroTime/index.html",
+                controller: 'CadastroTimeController as vmCadastroTime',
+                data: {
+                    pageTitle: "menus.jogos"
                 }
             })
             .state('meus_campeonatos', {

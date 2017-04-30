@@ -1,5 +1,7 @@
 <?php namespace App\Providers;
 
+use Carbon\Carbon;
+use Illuminate\Mail\Message;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -11,6 +13,8 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
+
+		$this->base_path = "http://beta.player2.club/#/";
 
 		\Campeonato::created(function ($campeonato) {
 			$administrador = new \CampeonatoAdmin();
@@ -70,18 +74,83 @@ class AppServiceProvider extends ServiceProvider {
 						$notificacao->nome_fase = trans($fase->descricao);
 						$notificacao->item_id = $fase->campeonato()->id;
 						break;
+					case 'sorteou_clubes':
+						$campeonato = Campeonato::find($notificacao->item_id);
+						$notificacao->nome_campeonato = $campeonato->descricao;
+						break;
 				}
+
+				switch ($evento->valor) {
+					case "salvou_placar":
+					case "confirmou_placar":
+					case "contestou_resultado":
+						$link = $this->base_path."home/partidas_usuario";
+						break;
+					case "fase_iniciada":
+					case "fase_encerrada":
+					case "fase_encerramento_breve":
+					case "sorteou_clubes":
+						$link = $this->base_path."campeonato/".$notificacao->item_id;
+						break;
+					case "comentar_post":
+					case "curtir_post":
+					case "curtir_comentario":
+					$link = $this->base_path."home/atividade/".$notificacao->item_id;
+						break;
+					case "seguir_usuario":
+						$link = $this->base_path."profile/".$notificacao->id_remetente;
+						break;
+				}
+
+
 				$notificacao->mensagem = $evento->mensagem;
 				$notificacao->tipo_evento = $evento->valor;
 
-				$conteudo = trans($notificacao->mensagem, ['nome_remetente' => $notificacao->remetente, 'nome_fase' => $notificacao->nome_fase, 'nome_campeonato' => $notificacao->nome_campeonato]);
+				$nome_remetente = isset($notificacao->remetente) ? $notificacao->remetente->nome: '';
 
-				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario], function($message) use ($destinatario) {
+				$conteudo = trans($notificacao->mensagem, ['nome_remetente' => $nome_remetente, 'nome_fase' => $notificacao->nome_fase, 'nome_campeonato' => $notificacao->nome_campeonato]);
+
+
+				$texto_link = trans(("messages.visualizar_notificacao"));
+
+				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario, 'link' => $link, 'texto_link' => $texto_link], function($message) use ($destinatario) {
 					$message->from('contato@player2.club', $name = 'player2.club');
 					$message->to($destinatario->email, $name = $destinatario->nome);
 					$message->subject('Você possui uma nova notificação');
 				});
 			}
+		});
+
+		// Enviar um e-mail caso a última mensagem enviada anteriormente tenha ocorido em um tempo acima de 6h
+		\Mensagem::created(function ($mensagem) {
+
+			$hora_ultima = $mensagem->created_at;
+			$penultima_mensagem = \Mensagem::where('id_remetente','=',$mensagem->id_remetente)->where('id_destinatario','=',$mensagem->id_destinatario)->where('id', '<>', $mensagem->id)->latest()->first();
+			if(isset($penultima_mensagem)) {
+				$hora_penultima = $penultima_mensagem->created_at;
+			} else {
+				$hora_penultima = Carbon::createFromDate(2000, 1, 1, 'America/Toronto');
+			}
+			$diferenca = $hora_ultima->diffInMinutes($hora_penultima);
+
+			$remetente = \User::find($mensagem->id_remetente);
+			$nome_remetente = isset($remetente) ? $remetente->nome: '';
+
+			$destinatario = \User::find($mensagem->id_destinatario);
+
+			$conteudo = trans("messages.recebeu_mensagem", ['nome_remetente' => $nome_remetente]);
+
+			$link = $this->base_path."home/mensagens";
+			$texto_link = trans(("messages.visualizar_notificacao"));
+
+			if($diferenca > 180) {
+				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario, 'link' => $link, 'texto_link' => $texto_link], function($message) use ($destinatario) {
+					$message->from('contato@player2.club', $name = 'player2.club');
+					$message->to($destinatario->email, $name = $destinatario->nome);
+					$message->subject('Você recebeu uma nova mensagem');
+				});
+			}
+
 		});
 
 		\Atividade::deleted(function ($atividade) {

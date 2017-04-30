@@ -17,15 +17,20 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
-                    formData.append("descricao", jogo.descricao);
+                    angular.forEach(jogo, function (value, key) {
+                        if (key != 'plataformasDoJogo' && key != 'plataformasSelecionadas') {
+                            formData.append(key, value);
+                        }
+                    });
+                    angular.forEach(jogo.plataformasSelecionadas, function (plataforma, key) {
+                        if (plataforma) {
+                            this.append("plataformas_do_jogo[]", key);
+                        }
+                    }, formData);
                     if (arquivo != null) {
                         formData.append("imagem_capa", arquivo.lfFile);
                     }
                     return formData;
-                },
-                data: {
-                    descricao: jogo.descricao,
-                    imagem_capa: arquivo
                 }
             });
         },
@@ -43,15 +48,22 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
-                    formData.append("descricao", jogo.descricao);
+                    angular.forEach(jogo, function (value, key) {
+                        if (key != 'plataformasDoJogo' && key != 'plataformasSelecionadas') {
+                            if (value != null) {
+                                formData.append(key, value);
+                            }
+                        }
+                    });
+                    angular.forEach(jogo.plataformasSelecionadas, function (plataforma, key) {
+                        if (plataforma) {
+                            this.append("plataformas_do_jogo[]", key);
+                        }
+                    }, formData);
                     if (arquivo != null) {
                         formData.append("imagem_capa", arquivo.lfFile);
                     }
                     return formData;
-                },
-                data: {
-                    descricao: jogo.descricao,
-                    imagem_capa: arquivo
                 }
             });
         },
@@ -69,6 +81,10 @@ angular.module('player2').factory('Jogo', ['$http', function ($http) {
         },
         getFeed: function (id) {
             return $http.get('api/jogos/feed/' + id);
+        },
+
+        getPlataformas: function (id) {
+            return $http.get('api/jogos/plataformas/' + id);
         }
     }
 }]);

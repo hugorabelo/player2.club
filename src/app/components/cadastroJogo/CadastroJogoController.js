@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', function ($scope, $rootScope, $mdDialog, $translate, Jogo) {
+    angular.module('player2').controller('CadastroJogoController', ['$scope', '$rootScope', '$mdDialog', '$translate', 'Jogo', 'ModeloCampeonato', 'Plataforma', function ($scope, $rootScope, $mdDialog, $translate, Jogo, ModeloCampeonato, Plataforma) {
         var vm = this;
 
         $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no']).then(function (translations) {
@@ -11,10 +11,12 @@
             vm.textoNo = translations['messages.no'];
         });
 
-        function DialogController($scope, $mdDialog, tituloModal, novoItem, jogo) {
+        function DialogController($scope, $mdDialog, tituloModal, novoItem, jogo, modelosCampeonato, plataformasDisponiveis) {
             $scope.tituloModal = tituloModal;
             $scope.novoItem = novoItem;
             $scope.jogo = jogo;
+            $scope.modelosCampeonato = modelosCampeonato;
+            $scope.plataformasDisponiveis = plataformasDisponiveis;
 
             $scope.cancel = function () {
                 $mdDialog.cancel();
@@ -28,6 +30,19 @@
             $scope.update = function () {
                 vm.update($scope.jogo, $scope.files[0]);
                 $mdDialog.hide();
+            };
+
+            $scope.exists = function (item, list) {
+                return list.indexOf(item) > -1;
+            };
+
+            $scope.toggle = function (item, list) {
+                var idx = list.indexOf(item);
+                if (idx > -1) {
+                    list.splice(idx, 1);
+                } else {
+                    list.push(item);
+                }
             };
 
             $scope.$watch('files.length', function (newVal, oldVal) {});
@@ -44,13 +59,28 @@
                 $rootScope.loading = false;
             });
 
+        ModeloCampeonato.get()
+            .success(function (data) {
+                vm.modelosCampeonato = data;
+                $rootScope.loading = false;
+            });
+
+        Plataforma.get()
+            .success(function (data) {
+                vm.plataformasDisponiveis = data;
+            });
+
         vm.create = function (ev) {
+            vm.jogoNovo = {};
+            vm.jogoNovo.plataformasDoJogo = [];
             $mdDialog
                 .show({
                     locals: {
                         tituloModal: 'messages.jogo_create',
                         novoItem: true,
-                        jogo: {}
+                        jogo: vm.jogoNovo,
+                        modelosCampeonato: vm.modelosCampeonato,
+                        plataformasDisponiveis: vm.plataformasDisponiveis
                     },
                     controller: DialogController,
                     templateUrl: 'app/components/cadastroJogo/formModal.html',
@@ -69,25 +99,35 @@
         vm.edit = function (ev, id) {
             Jogo.edit(id)
                 .success(function (data) {
-                    $mdDialog
-                        .show({
-                            locals: {
-                                tituloModal: 'messages.jogo_edit',
-                                novoItem: false,
-                                jogo: data
-                            },
-                            controller: DialogController,
-                            templateUrl: 'app/components/cadastroJogo/formModal.html',
-                            parent: angular.element(document.body),
-                            targetEvent: ev,
-                            clickOutsideToClose: true,
-                            fullscreen: true // Only for -xs, -sm breakpoints.
+                    vm.jogoEdita = data;
+                    Jogo.getPlataformas(vm.jogoEdita.id)
+                        .success(function (data) {
+                            vm.jogoEdita.plataformasDoJogo = [];
+                            angular.forEach(data, function (plataforma) {
+                                this.push(plataforma.id);
+                            }, vm.jogoEdita.plataformasDoJogo);
+                            $mdDialog
+                                .show({
+                                    locals: {
+                                        tituloModal: 'messages.jogo_edit',
+                                        novoItem: false,
+                                        jogo: vm.jogoEdita,
+                                        modelosCampeonato: vm.modelosCampeonato,
+                                        plataformasDisponiveis: vm.plataformasDisponiveis
+                                    },
+                                    controller: DialogController,
+                                    templateUrl: 'app/components/cadastroJogo/formModal.html',
+                                    parent: angular.element(document.body),
+                                    targetEvent: ev,
+                                    clickOutsideToClose: true,
+                                    fullscreen: true // Only for -xs, -sm breakpoints.
+                                })
+                                .then(function () {
+
+                                }, function () {
+
+                                });
                         })
-                        .then(function () {
-
-                        }, function () {
-
-                        });
 
                 });
         };

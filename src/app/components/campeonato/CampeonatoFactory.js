@@ -213,6 +213,28 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
 
         getPartidasEmAberto: function (idCampeonato) {
             return $http.get('api/campeonato/partidasEmAberto/' + idCampeonato);
+        },
+
+        pesquisaCampeonatosPorFiltros: function (pesquisa) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonato/pesquisaFiltros',
+                data: $.param(pesquisa),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        sortearClubes: function (sorteio) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonato/sortearClubes',
+                data: $.param(sorteio),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

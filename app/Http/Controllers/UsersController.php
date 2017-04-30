@@ -465,6 +465,10 @@ class UsersController extends Controller {
 					$notificacao->nome_fase = $fase->descricao;
 					$notificacao->item_id = $fase->campeonato()->id;
 					break;
+				case 'sorteou_clubes':
+					$campeonato = Campeonato::find($notificacao->item_id);
+					$notificacao->nome_campeonato = $campeonato->descricao;
+					break;
 			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;
@@ -494,6 +498,38 @@ class UsersController extends Controller {
 		$usuario = Auth::getUser();
 		$usuario->removeNotificacaoPorEmail($idEvento);
 		return Response::json(array('success'=>true));
+	}
+
+	function listaConversas() {
+		$idUsuario = Auth::getUser()->id;
+		$usuario = User::find($idUsuario);
+		$conversas = $usuario->getConversas();
+		foreach ($conversas as $conversa) {
+			$remetente = User::find($conversa->id_remetente);
+			if (isset($remetente)) {
+				$nome_completo = explode(' ', $remetente->nome);
+				$nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo) . ' ' . array_pop($nome_completo) : $remetente->nome;
+				$remetente->nome = $nome_completo;
+				$conversa->remetente = $remetente;
+			}
+		}
+		return $conversas;
+	}
+
+	function listaMensagens($idRemetente) {
+		$idUsuario = Auth::getUser()->id;
+		$usuario = User::find($idUsuario);
+		$mensagens = $usuario->getMensagens($idRemetente);
+		foreach ($mensagens as $mensagem) {
+			$remetente = User::find($mensagem->id_remetente);
+			if (isset($remetente)) {
+				$nome_completo = explode(' ', $remetente->nome);
+				$nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo) . ' ' . array_pop($nome_completo) : $remetente->nome;
+				$remetente->nome = $nome_completo;
+				$mensagem->remetente = $remetente;
+			}
+		}
+		return $mensagens;
 	}
 
 }

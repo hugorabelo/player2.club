@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', 'toastr', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, toastr, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -61,6 +61,7 @@
             vm.currentNavItem = 'detalhes';
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
+            vm.getParticipantes(vm.idCampeonato);
         };
 
         vm.abaContestacoes = function () {
@@ -107,7 +108,7 @@
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     vm.campeonato = data;
-                    if (vm.campeonato.status < 3) {
+                    if ((vm.campeonato.status < 3) && ($rootScope.telaMobile)) {
                         vm.currentNavItem = 'informacoes';
                     } else {
                         vm.currentNavItem = 'tabela';
@@ -219,7 +220,7 @@
         vm.participanteDestaque = {};
 
         vm.exibeData = function (data) {
-            var dataExibida = new Date(data);
+            var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataExibida, 'dd/MM/yyyy');
         };
 
@@ -235,6 +236,10 @@
                         })
                 });
         };
+
+        vm.ocultaParticipanteDestaque = function () {
+            vm.participanteDestaque = {};
+        }
 
         vm.salvaAdministrador = function () {
             Campeonato.adicionaAdministrador(vm.campeonato.id, vm.novoAdministrador)
@@ -523,7 +528,7 @@
         };
 
         vm.exibeDataLimite = function (data_limite) {
-            var dataLimite = new Date(data_limite);
+            var dataLimite = moment(data_limite, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataLimite, 'dd/MM/yyyy HH:mm');
         };
 
@@ -742,5 +747,185 @@
 
             });
         };
-                }]);
+
+        vm.editarTimeUsuario = function (ev) {
+            Time.getTimesPorModelo(vm.campeonato.tipo.modelo_campeonato_id)
+                .success(function (data) {
+                    vm.times = data;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.inserir_time_participante',
+                                participante: vm.participanteDestaque,
+                                times: vm.times
+                            },
+                            controller: DialogControllerTime,
+                            templateUrl: 'app/components/campeonato/formTime.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+
+                });
+        };
+
+        function DialogControllerTime($scope, $mdDialog, tituloModal, participante, times) {
+            $scope.tituloModal = tituloModal;
+            $scope.participante = participante;
+            $scope.times = times;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarTime = function () {
+                vm.salvarTimeUsuario($scope.participante);
+                $mdDialog.hide();
+            }
+        };
+
+        vm.salvarTimeUsuario = function (participante) {
+            CampeonatoUsuario.salvarTime(participante.pivot.id, participante.time.id)
+                .success(function (data) {
+                    participante.time = data;
+                    toastr.success($filter('translate')('messages.time_salvo_sucesso'));
+                })
+                .error(function (error) {
+                    toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                });
+        };
+
+        vm.carregaFiltrosPesquisa = function () {
+            vm.pesquisa = {};
+            Plataforma.get()
+                .success(function (data) {
+                    vm.plataformas = data;
+                });
+
+            Jogo.get()
+                .success(function (data) {
+                    vm.jogos = data;
+                });
+
+            CampeonatoTipo.get()
+                .success(function (data) {
+                    vm.campeonatoTipos = data;
+                })
+        };
+
+        vm.limparFiltros = function () {
+            vm.pesquisa = {};
+            vm.resultadoPesquisa = {};
+        }
+
+        vm.filtrar = function () {
+            Campeonato.pesquisaCampeonatosPorFiltros(vm.pesquisa)
+                .success(function (data) {
+                    vm.resultadoPesquisa = data;
+                })
+        };
+
+        vm.excluirCampeonato = function (ev) {
+            var confirm = $mdDialog.confirm()
+                .title($filter('translate')('messages.confirma_exclusao_campeonato', {
+                    'nome_campeonato': vm.campeonato.descricao,
+                    'nome_plataforma': vm.campeonato.plataforma.descricao
+                }))
+                .ariaLabel($filter('translate')('messages.confirma_exclusao_campeonato', {
+                    'nome_campeonato': vm.campeonato.descricao,
+                    'nome_plataforma': vm.campeonato.plataforma.descricao
+                }))
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                Campeonato.destroy(vm.campeonato.id)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.exclusao_campeonato_sucesso'))
+                        $location.path('/home');
+                    }).error(function (data, status) {
+                        toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_campeonato_erro'));
+                    });
+            }, function () {
+
+            });
+
+        };
+
+        vm.sortearTimes = function (ev) {
+            Time.getTimesPorModelo(vm.campeonato.tipo.modelo_campeonato_id)
+                .success(function (data) {
+                    vm.times = data;
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'messages.sortear_clubes_participantes',
+                                times: vm.times
+                            },
+                            controller: DialogControllerSorteio,
+                            templateUrl: 'app/components/campeonato/formSorteioTime.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+
+                });
+        };
+
+        function DialogControllerSorteio($scope, $mdDialog, tituloModal, times) {
+            $scope.tituloModal = tituloModal;
+            $scope.times = times;
+            $scope.timesSelecionados = [];
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.realizarSorteio = function () {
+                if ($scope.timesSelecionados.length < vm.campeonato.participantes.length) {
+                    toastr.error($filter('translate')('messages.numero_times_menor'));
+                } else {
+                    var sorteio = {};
+                    sorteio.idCampeonato = vm.idCampeonato;
+                    sorteio.timesSelecionados = $scope.timesSelecionados;
+                    Campeonato.sortearClubes(sorteio)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.sorteio_sucesso'));
+                            vm.getParticipantes(sorteio.idCampeonato);
+                            vm.campeonato.times_sorteados = true;
+                            $mdDialog.hide();
+                        })
+                        .error(function (error) {
+                            toastr.error($filter('translate')(error.message), $filter('translate')('messages.operacao_nao_concluida'));
+                        });
+                }
+            }
+
+            $scope.adicionarTime = function () {
+                if (($scope.timeSelecionado != undefined) && ($scope.timesSelecionados.indexOf($scope.timeSelecionado) == -1)) {
+                    $scope.timesSelecionados.push($scope.timeSelecionado);
+                }
+                $scope.timeSelecionado = undefined;
+            }
+
+            $scope.removerTime = function (timeRemovido) {
+                var index = $scope.timesSelecionados.indexOf(timeRemovido);
+                if (index > -1) {
+                    $scope.timesSelecionados.splice(index, 1);
+                }
+            }
+        };
+    }]);
 }());

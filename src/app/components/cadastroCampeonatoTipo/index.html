@@ -1,0 +1,86 @@
+<md-card class="m-n" hide-gt-xs>
+    <md-toolbar class="md-toolbar-tools">
+        <h2 translate>messages.campeonatoTipo_list</h2>
+        <span flex></span>
+        <md-button class="md-raised" ng-click="vmCampeonatoTipo.create($event)">
+            {{'fields.adicionar' | translate}}
+        </md-button>
+    </md-toolbar>
+    <md-card-content>
+        <table class="table">
+            <tr>
+                <th translate>fields.descricao</th>
+                <!--                <th translate>fields.modelo_campeonato</th>-->
+                <th translate>fields.modelo_campeonato_min</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="campeonatoTipo in vmCampeonatoTipo.campeonatoTipos">
+                <td>{{ campeonatoTipo.descricao }}</td>
+                <td>{{ campeonatoTipo.modelo_campeonato }}</td>
+                <td>
+                    <md-button class="md-fab md-mini md-accent" ng-click="vmCampeonatoTipo.edit($event, campeonatoTipo.id)">
+                        <i class="material-icons">mode_edit</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.edit' | translate}}
+                        </md-tooltip>
+                    </md-button>
+                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonatoTipo.destroy($event, campeonatoTipo.id)">
+                        <i class="material-icons">delete</i>
+                        <md-tooltip md-direction="top ">
+                            {{'fields.delete' | translate}}
+                        </md-tooltip>
+                    </md-button>
+                </td>
+            </tr>
+        </table>
+    </md-card-content>
+</md-card>
+
+
+<div flex layout="row" layout-margin hide-xs>
+    <div class="caixa-flutuante" flex>
+        <h3 class="secao_titulo" layout="row" layout-align="space-between center">
+            <span>{{'messages.campeonatoTipo_list' | translate}}</span>
+            <md-button class="md-raised" ng-click="vmCampeonatoTipo.create($event)">
+                {{'messages.campeonatoTipo_add' | translate}}
+            </md-button>
+        </h3>
+        <md-card class="m-n">
+            <md-card-content>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th translate>fields.descricao</th>
+                            <th translate>fields.modelo_campeonato</th>
+                            <th translate>fields.arquivo_detalhes</th>
+                            <th translate>fields.nome_classe_modelo</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="campeonatoTipo in vmCampeonatoTipo.campeonatoTipos">
+                            <td>{{ campeonatoTipo.descricao }}</td>
+                            <td>{{ campeonatoTipo.modelo_campeonato }}</td>
+                            <td>{{ campeonatoTipo.arquivo_detalhes }}</td>
+                            <td>{{ campeonatoTipo.nome_classe_modelo }}</td>
+                            <td>
+                                <md-button class="md-fab md-mini md-accent" ng-click="vmCampeonatoTipo.edit($event, campeonatoTipo.id)">
+                                    <i class="material-icons">mode_edit</i>
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.edit' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                                <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonatoTipo.destroy($event, campeonatoTipo.id)">
+                                    <i class="material-icons">delete</i>
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.delete' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

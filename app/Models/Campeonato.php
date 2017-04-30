@@ -30,7 +30,7 @@ class Campeonato extends Eloquent {
     }
 
 	public function usuariosInscritos() {
-		return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->getResults();
+		return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
 	}
 
 	public function maximoUsuarios() {
@@ -470,6 +470,7 @@ class Campeonato extends Eloquent {
                     }
                 }
             } else {
+                //TODO: Definir se existem potes
                 foreach ($grupos as $grupo) {
                     for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
                         $usuario = $usuarios->random(1);

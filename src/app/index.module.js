@@ -33,7 +33,7 @@
     //    });
 
     //Ambiente: local | dev | beta
-    var ambiente = 'dev';
+    var ambiente = 'local';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
     var responseTypeAmbiente;

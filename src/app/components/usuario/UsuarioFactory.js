@@ -280,6 +280,25 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        enviarMensagem: function (mensagem) {
+            return $http({
+                method: 'POST',
+                url: 'api/mensagem',
+                data: $.param(mensagem),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        getConversas: function () {
+            return $http.get('api/usuario/conversas');
+        },
+
+        getMensagens: function (idRemetente) {
+            return $http.get('api/usuario/mensagens/' + idRemetente);
         }
     }
 }]);

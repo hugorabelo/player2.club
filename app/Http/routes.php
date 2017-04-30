@@ -24,6 +24,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonato/partidas/{idCampeonato}', 'CampeonatosController@getPartidas');
     Route::get('campeonato/partidasContestadas/{idCampeonato}', 'CampeonatosController@getPartidasContestadas');
     Route::get('campeonato/partidasEmAberto/{id}', 'CampeonatosController@getPartidasEmAberto');
+    Route::post('campeonato/pesquisaFiltros', 'CampeonatosController@pesquisaFiltros');
+    Route::post('campeonato/sortearClubes', 'CampeonatosController@sortearClubes');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
@@ -36,6 +38,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('tiposDeCampeonatoDoJogo/{id}', 'JogosController@getTiposDeCampeonato');
     Route::get('campeonatosDoJogo/{id}', 'JogosController@getCampeonatos');
     Route::get('jogos/feed/{id}/{offset?}/{quantidade?}', 'JogosController@getFeed');
+    Route::get('jogos/plataformas/{id}', 'JogosController@getPlataformas');
     Route::resource('jogos', 'JogosController');
     Route::post('jogos/{id}', 'JogosController@update');
 
@@ -63,12 +66,15 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/lerNotificacao', 'UsersController@lerNotificacao');
     Route::post('usuario/adicionarNotificacaoEmail', 'UsersController@adicionarNotificacaoEmail');
     Route::post('usuario/removerNotificacaoEmail', 'UsersController@removerNotificacaoEmail');
+    Route::get('usuario/conversas', 'UsersController@listaConversas');
+    Route::get('usuario/mensagens/{idRemetente}', 'UsersController@listaMensagens');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
     Route::resource('campeonatoAdmin', 'CampeonatoAdminsController');
 
     Route::get('campeonatoUsuarioNaoAdministrador/{id}', 'CampeonatoUsuariosController@getUsuarioNaoAdministrador');
+    Route::post('campeonatoUsuario/salvarTime', 'CampeonatoUsuariosController@salvarTime');
     Route::resource('campeonatoUsuario', 'CampeonatoUsuariosController');
 
     Route::get('campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
@@ -130,6 +136,11 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('notificacaoEvento', 'NotificacaoEventoController');
 
+    Route::resource('mensagem', 'MensagemController');
+
+    Route::get('time/porModelo/{idModeloCampeonato}', 'TimeController@getTimesPorModelo');
+    Route::resource('time', 'TimeController');
+
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $retornoValidacao = Response::json(Auth::getUser());
         return $retornoValidacao;
@@ -148,6 +159,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 Route::get('api/callback', function() {
     return Response::json(Auth::check());
 });
+
+Route::get('api/times/baseFifa', 'TimeController@getBaseFifa');
 
 Route::any('{catchall}', function() {
     return redirect('/');
