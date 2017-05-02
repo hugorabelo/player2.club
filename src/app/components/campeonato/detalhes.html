@@ -131,3 +131,34 @@
         </md-card-content>
     </md-card>
 </div>
+
+<div layout-gt-sm="row">
+    <md-card flex ng-class="{'m-n': telaMobile}">
+
+        <md-card-title hide-gt-xs class="p-xs">
+            <md-card-title-text>
+                <span class="md-headline">{{'messages.times_participantes' | translate}}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-toolbar class="md-toolbar-tools" hide-xs>
+            <h2 translate>messages.times_participantes</h2>
+        </md-toolbar>
+
+        <md-card-content ng-class="{'p-xs': telaMobile}">
+            <div ng-repeat="(listName, list) in vmCampeonato.models.lists" class="col-md-6 ng-scope">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title ng-binding">List {{listName}}</h3>
+                    </div>
+                    <div class="panel-body ng-scope">
+                        <ul dnd-list="list">
+                            <li ng-repeat="item in list" dnd-draggable="item" dnd-moved="list.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="vmCampeonato.models.selected = item" ng-class="{'selected': vmCampeonato.models.selected === item}">
+                                {{item.label}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

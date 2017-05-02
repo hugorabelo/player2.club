@@ -62,6 +62,7 @@
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
             vm.getParticipantes(vm.idCampeonato);
+            vm.iniciaPotes();
         };
 
         vm.abaContestacoes = function () {
@@ -924,5 +925,31 @@
                 }
             }
         };
+
+        vm.iniciaPotes = function () {
+            console.log(vm.campeonato.participantes);
+            vm.models = {
+                selected: null,
+                lists: {
+                    "principal": [],
+                    "A": [],
+                    "B": [],
+                    "C": [],
+                    "D": []
+                }
+            };
+
+            angular.forEach(vm.campeonato.participantes, function (participante) {
+                vm.models.lists.principal.push({
+                    label: participante.nome
+                });
+            });
+
+            $scope.$watch('models', function (model) {
+                vm.modelAsJson = angular.toJson(model, true);
+            }, true);
+        }
+
+
     }]);
 }());
