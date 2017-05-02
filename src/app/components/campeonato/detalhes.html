@@ -30,10 +30,16 @@
                                         <md-option value="grupo">{{'fields.sorteio_grupo' | translate}}</md-option>
                                     </md-select>
                                 </md-input-container>
-                                <md-card-actions layout="row" layout-align="end center">
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
-                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></md-button>
+                                <md-card-actions layout="row" layout-align="end center" hide-xs>
+                                    <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
+                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
                                 </md-card-actions>
+                                <div layout="column" layout-xs="space-between end" hide-gt-xs>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaPotes()"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
+                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
+                                </div>
                             </form>
                         </md-content>
                     </md-tab-body>
@@ -128,37 +134,6 @@
             <md-button class="md-raised md-warn" ng-click="vmCampeonato.excluirCampeonato($event)">
                 <i class="material-icons">delete_forever</i> {{'fields.excluir_campeonato' | translate}}
             </md-button>
-        </md-card-content>
-    </md-card>
-</div>
-
-<div layout-gt-sm="row">
-    <md-card flex ng-class="{'m-n': telaMobile}">
-
-        <md-card-title hide-gt-xs class="p-xs">
-            <md-card-title-text>
-                <span class="md-headline">{{'messages.times_participantes' | translate}}</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-toolbar class="md-toolbar-tools" hide-xs>
-            <h2 translate>messages.times_participantes</h2>
-        </md-toolbar>
-
-        <md-card-content ng-class="{'p-xs': telaMobile}">
-            <div ng-repeat="(listName, list) in vmCampeonato.models.lists" class="col-md-6 ng-scope">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title ng-binding">List {{listName}}</h3>
-                    </div>
-                    <div class="panel-body ng-scope">
-                        <ul dnd-list="list">
-                            <li ng-repeat="item in list" dnd-draggable="item" dnd-moved="list.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="vmCampeonato.models.selected = item" ng-class="{'selected': vmCampeonato.models.selected === item}">
-                                {{item.label}}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </md-card-content>
     </md-card>
 </div>

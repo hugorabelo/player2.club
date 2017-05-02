@@ -65,6 +65,7 @@
         "fase_fechar": "Encerrar Fase",
         "fase_inicial": "Fase Inicial",
         "fase_final": "Fase Final",
+        "iniciar_fase_com_potes": "Iniciar fase utilizando potes",
 
         "posicao": "Posição",
         "pontuacao": "Pontos",
@@ -147,7 +148,11 @@
         "status.3": "Em andamento",
         "status.4": "Encerrado",
 
-        "excluir_campeonato": "Excluir Campeonato"
+        "excluir_campeonato": "Excluir Campeonato",
+        "pote": "Pote",
+        "sorteio_potes": "Sorteio por potes",
+        "adiciona_pote": "Adiciona Pote",
+        "remove_pote": "Remove Pote"
     },
 
     "messages": {

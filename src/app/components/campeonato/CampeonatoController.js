@@ -62,7 +62,6 @@
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
             vm.getParticipantes(vm.idCampeonato);
-            vm.iniciaPotes();
         };
 
         vm.abaContestacoes = function () {
@@ -926,30 +925,101 @@
             }
         };
 
-        vm.iniciaPotes = function () {
-            console.log(vm.campeonato.participantes);
+
+        vm.iniciaPotes = function (ev, fase) {
+            var quantidade_potes = 0;
+            var listas = {};
+            var potes = ['Principal', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            for (var i = 0; i <= quantidade_potes; i++) {
+                listas[potes[i]] = [];
+            }
+
             vm.models = {
                 selected: null,
-                lists: {
-                    "principal": [],
-                    "A": [],
-                    "B": [],
-                    "C": [],
-                    "D": []
-                }
+                lists: listas
             };
 
             angular.forEach(vm.campeonato.participantes, function (participante) {
-                vm.models.lists.principal.push({
+                vm.models.lists.Principal.push({
+                    id: participante.id,
                     label: participante.nome
                 });
             });
 
-            $scope.$watch('models', function (model) {
-                vm.modelAsJson = angular.toJson(model, true);
-            }, true);
-        }
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'fields.sorteio_potes',
+                        models: vm.models,
+                        potes: potes,
+                        fase: fase
+                    },
+                    controller: DialogControllerPotes,
+                    templateUrl: 'app/components/campeonato/formSorteioPotes.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
 
+                }, function () {
+
+                });
+        };
+
+        function DialogControllerPotes($scope, $mdDialog, tituloModal, models, potes, fase) {
+            $scope.tituloModal = tituloModal;
+            $scope.models = models;
+            $scope.potes = potes;
+            $scope.fase = fase;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.adicionaPote = function () {
+                var indice = 0;
+                angular.forEach($scope.models.lists, function () {
+                    indice++;
+                });
+                $scope.models.lists[$scope.potes[indice]] = [];
+            };
+
+            $scope.removePote = function () {
+                var indice = -1;
+                angular.forEach($scope.models.lists, function () {
+                    indice++;
+                });
+                angular.forEach($scope.models.lists[$scope.potes[indice]], function (item) {
+                    $scope.models.lists[$scope.potes[0]].push(item);
+                });
+                delete $scope.models.lists[$scope.potes[indice]];
+            };
+
+            $scope.iniciarFaseComPotes = function () {
+                if ($scope.fase.dadosFase == undefined) {
+                    toastr.error($filter('translate')('messages.preencher_campos'), $filter('translate')('messages.dados_invalidos'));
+                } else {
+                    var itens_sem_pote = 0;
+                    angular.forEach($scope.models.lists[$scope.potes[0]], function () {
+                        itens_sem_pote++;
+                    });
+                    if (itens_sem_pote > 0) {
+                        toastr.error($filter('translate')('messages.itens_pote_principal'), $filter('translate')('messages.dados_invalidos'));
+                    } else {
+                        $scope.fase.dadosFase.id = fase.id;
+                        console.log($scope.fase.dadosFase);
+                    }
+                    //                    Campeonato.abreFase(fase.dadosFase)
+                    //                        .success(function (data) {
+                    //                            fase.aberta = true;
+                    //                        }).error(function (data, status) {
+                    //                            toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                    //                        });
+                }
+            };
+
+        };
 
     }]);
 }());

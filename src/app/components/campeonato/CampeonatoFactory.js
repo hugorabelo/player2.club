@@ -235,7 +235,18 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
-        }
+        },
+
+        abreFaseComPotes: function (dadosFase) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonatoFase/abreFaseComPotes',
+                data: $.param(dadosFase),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
 
     }
 }]);
