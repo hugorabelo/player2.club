@@ -397,7 +397,8 @@
         "sorteio_sucesso": "Sorteio realizado com sucesso",
 
         "utilizar_potes": "Utilizar o sistema de potes no sorteio",
-        "itens_pote_principal": "Ainda existem itens no pote principal"
+        "itens_pote_principal": "Ainda existem itens no pote principal",
+        "pote_nao_compativel_quantidade_usuarios": "A quantidade de usuários em cada pote deve ser um valor múltiplo da quantidade de usuários por grupo"
     },
 
     "generos": {
