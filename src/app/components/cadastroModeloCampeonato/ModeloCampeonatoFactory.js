@@ -32,6 +32,10 @@ angular.module('player2').factory('ModeloCampeonato', ['$http', function ($http)
 
         destroy: function (id) {
             return $http.delete('api/modeloCampeonato/' + id);
+        },
+
+        getCriteriosClassificacao: function (id) {
+            return $http.get('api/modeloCampeonato/getCriteriosClassificacao/' + id);
         }
 
     }
