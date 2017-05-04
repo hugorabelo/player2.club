@@ -144,6 +144,7 @@ class CampeonatoFasesController extends Controller {
          */
 
         $dadosFase = Input::all();
+		Log::warning($dadosFase);
         $faseAtual = CampeonatoFase::find($dadosFase['id']);
 		$campeonato = Campeonato::find($faseAtual->campeonatos_id);
 
@@ -157,12 +158,23 @@ class CampeonatoFasesController extends Controller {
 				return Response::json(array('success'=>false,
 					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
 			}
+			if(isset($dadosFase['potes'])) {
+				$potes = array_except($dadosFase['potes'], 'Principal');
+				$quantidade_potes = count($potes);
+				$quantidade_usuarios = $campeonato->usuariosInscritos()->count();
+				$quantidade_grupos = $faseAtual->grupos()->count();
+				$usuarios_por_grupo = $quantidade_usuarios/$quantidade_grupos;
+				Log::warning("$quantidade_potes - $quantidade_grupos - $quantidade_usuarios - $usuarios_por_grupo");
+				return;
+			}
 		} else {
 			if($faseAtual->usuarios()->count() < $faseAtual->quantidade_usuarios) {
 				return Response::json(array('success'=>false,
 					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
 			}
 		}
+		Log::warning('passou dos potes');
+		return;
 
 		$usuariosDaFase = $campeonato->abreFase($dadosFase, $faseAtual, $campeonato);
 

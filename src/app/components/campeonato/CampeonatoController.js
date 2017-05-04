@@ -1005,17 +1005,17 @@
                         itens_sem_pote++;
                     });
                     if (itens_sem_pote > 0) {
-                        toastr.error($filter('translate')('messages.itens_pote_principal'), $filter('translate')('messages.dados_invalidos'));
+                        toastr.error($filter('translate')('messages.itens_pote_principal'), $filter('translate')('messages.operacao_nao_concluida'));
                     } else {
                         $scope.fase.dadosFase.id = fase.id;
-                        console.log($scope.fase.dadosFase);
+                        $scope.fase.dadosFase.potes = $scope.models.lists;
                     }
-                    //                    Campeonato.abreFase(fase.dadosFase)
-                    //                        .success(function (data) {
-                    //                            fase.aberta = true;
-                    //                        }).error(function (data, status) {
-                    //                            toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
-                    //                        });
+                    Campeonato.abreFase(fase.dadosFase)
+                        .success(function (data) {
+                            fase.aberta = true;
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        });
                 }
             };
 

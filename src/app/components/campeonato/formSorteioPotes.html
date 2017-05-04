@@ -13,8 +13,8 @@
                     <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim"></md-datepicker>
                 </md-input-container>
                 <div class="botoes" layout="row" layout-align="end center">
-                    <md-button ng-click="removePote()"><i class="material-icons">add_circle</i> {{'fields.remove_pote' | translate}}</md-button>
-                    <md-button ng-click="adicionaPote()"><i class="material-icons">remove_circle</i> {{'fields.adiciona_pote' | translate}}</md-button>
+                    <md-button ng-click="removePote()"><i class="material-icons">remove_circle</i> {{'fields.remove_pote' | translate}}</md-button>
+                    <md-button ng-click="adicionaPote()"><i class="material-icons">add_circle</i> {{'fields.adiciona_pote' | translate}}</md-button>
                 </div>
                 <div ng-repeat="(listName, list) in models.lists" class="col-md-12 ng-scope" ng-class="{'col-md-3': !$first}">
                     <div class="panel panel-info">
