@@ -1,0 +1,59 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'fields.sorteio_potes' | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container class="md-block m-b-none" flex>
+                    <label>{{'fields.data_fim' | translate}}</label>
+                    <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim"></md-datepicker>
+                </md-input-container>
+                <div class="botoes" layout="row" layout-align="end center">
+                    <md-button ng-click="removePote()"><i class="material-icons">remove_circle</i> {{'fields.remove_pote' | translate}}</md-button>
+                    <md-button ng-click="adicionaPote()"><i class="material-icons">add_circle</i> {{'fields.adiciona_pote' | translate}}</md-button>
+                </div>
+                <div ng-repeat="(listName, list) in models.lists" flex ng-if="$first">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title ng-binding">{{'fields.pote' | translate}} {{listName}}</h3>
+                        </div>
+
+                        <div class="panel-body ng-scope">
+                            <ul dnd-list="list">
+                                <li ng-repeat="item in list" dnd-draggable="item" dnd-moved="list.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="models.selected = item" ng-class="{'selected': models.selected === item, 'col-md-3': listName == 'Principal'}">
+                                    <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{item.distintivo}}" ng-show="item.distintivo"> {{item.label}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-xs="column">
+                    <div ng-repeat="(listName, list) in models.lists" ng-if="!$first" flex ng-class="{'m-r-xs': !$last}">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title ng-binding">{{'fields.pote' | translate}} {{listName}}</h3>
+                            </div>
+
+                            <div class="panel-body ng-scope">
+                                <ul dnd-list="list">
+                                    <li ng-repeat="item in list" dnd-draggable="item" dnd-moved="list.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="models.selected = item" ng-class="{'selected': models.selected === item, 'col-md-3': listName == 'Principal'}">
+                                        <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{item.distintivo}}" ng-show="item.distintivo"> {{item.label}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="iniciarFaseComPotes()">{{'fields.iniciar_fase_com_potes' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

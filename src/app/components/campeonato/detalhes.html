@@ -30,10 +30,16 @@
                                         <md-option value="grupo">{{'fields.sorteio_grupo' | translate}}</md-option>
                                     </md-select>
                                 </md-input-container>
-                                <md-card-actions layout="row" layout-align="end center">
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></md-button>
-                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></md-button>
+                                <md-card-actions layout="row" layout-align="end center" hide-xs>
+                                    <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)" ng-hide="fase.aberta || fase.matamata"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
+                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
                                 </md-card-actions>
+                                <div layout="column" layout-xs="space-between end" hide-gt-xs>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaPotes()" ng-hide="fase.aberta || fase.matamata"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
+                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
+                                </div>
                             </form>
                         </md-content>
                     </md-tab-body>

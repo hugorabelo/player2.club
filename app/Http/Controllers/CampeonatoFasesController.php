@@ -157,14 +157,28 @@ class CampeonatoFasesController extends Controller {
 				return Response::json(array('success'=>false,
 					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
 			}
-		} else {
-			if($faseAtual->usuarios()->count() < $faseAtual->quantidade_usuarios) {
-				return Response::json(array('success'=>false,
+        } else {
+            if($faseAtual->usuarios()->count() < $faseAtual->quantidade_usuarios) {
+                return Response::json(array('success'=>false,
 					'messages'=>array('messages.fase_sem_quantidade_minima_usuarios')),300);
-			}
-		}
+            }
+        }
+        if(!$faseAtual->matamata) {
+            if(isset($dadosFase['potes'])) {
+                $potes = array_except($dadosFase['potes'], 'Principal');
+                $quantidade_usuarios = $campeonato->usuariosInscritos()->count();
+                $quantidade_grupos = $faseAtual->grupos()->count();
+                $usuarios_por_grupo = $quantidade_usuarios/$quantidade_grupos;
+                foreach ($potes as $pote) {
+                    if(count($pote) % $usuarios_por_grupo != 0) {
+                        return Response::json(array('success'=>false,
+                            'messages'=>array('messages.pote_nao_compativel_quantidade_usuarios')),300);
+                    }
+                }
+            }
+        }
 
-		$usuariosDaFase = $campeonato->abreFase($dadosFase, $faseAtual, $campeonato);
+        $usuariosDaFase = $campeonato->abreFase($dadosFase, $faseAtual, $campeonato);
 
         return Response::json($usuariosDaFase);
     }

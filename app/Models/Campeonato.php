@@ -470,15 +470,33 @@ class Campeonato extends Eloquent {
                     }
                 }
             } else {
-                //TODO: Definir se existem potes
-                foreach ($grupos as $grupo) {
-                    for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
-                        $usuario = $usuarios->random(1);
-                        while (in_array($usuario, $usuariosInseridos)) {
-                            $usuario = $usuarios->random(1);
+                if(isset($dadosFase['potes'])) {
+                    $potes = array_except($dadosFase['potes'], 'Principal');
+                    foreach ($grupos as $grupo) {
+                        foreach ($potes as $key=>$pote) {
+                            $quantidade_usuarios_pote = count($pote) / $grupo->quantidade_usuarios;
+                            for($i = 0; $i < $quantidade_usuarios_pote; $i++) {
+                                $indice = rand(0, count($pote) - 1);
+                                $usuario = User::find($pote[$indice]['id']);
+                                while (in_array($usuario, $usuariosInseridos)) {
+                                    $indice = rand(0, count($pote) - 1);
+                                    $usuario = User::find($pote[$indice]['id']);
+                                }
+                                UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                                array_push($usuariosInseridos, $usuario);
+                            }
                         }
-                        UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
-                        array_push($usuariosInseridos, $usuario);
+                    }
+                } else {
+                    foreach ($grupos as $grupo) {
+                        for ($i = 0; $i < $grupo->quantidade_usuarios; $i++) {
+                            $usuario = $usuarios->random(1);
+                            while (in_array($usuario, $usuariosInseridos)) {
+                                $usuario = $usuarios->random(1);
+                            }
+                            UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                            array_push($usuariosInseridos, $usuario);
+                        }
                     }
                 }
             }
