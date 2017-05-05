@@ -9,31 +9,15 @@
         <md-dialog-content>
             <div class="md-dialog-content">
 
-                <div class="row" ng-show="messages">
-                    <div class="col-md-10 col-md-offset-2">
-                        <div class="alert alert-danger">
-                            <ul>
-                                <li class="error" ng-repeat="message in messages">
-                                    {{ message }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.descricao' | translate}}</label>
+                    <input ng-model="usuarioTipo.descricao" required>
+                </md-input-container>
 
-                <div class="form-group">
-                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
-                    <div class="col-md-9">
-                        <input type="text" id="descricao" class="form-control" ng-model="usuarioTipo.descricao" required />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="prioridade" class="col-md-3 control-label" translate>fields.prioridade</label>
-                    <div class="col-md-9">
-                        <input type="number" id="prioridade" class="form-control" ng-model="usuarioTipo.prioridade" required />
-                    </div>
-                </div>
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.prioridade' | translate}}</label>
+                    <input type="number" ng-model="usuarioTipo.prioridade" required>
+                </md-input-container>
 
             </div>
             <md-dialog-actions layout="row">
