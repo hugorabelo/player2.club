@@ -39,7 +39,7 @@
     var redirectUrlAmbiente;
     var responseTypeAmbiente;
 
-    if (ambiente == 'beta') {
+    if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
         responseTypeAmbiente = "token";
