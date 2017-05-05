@@ -470,7 +470,6 @@ class Campeonato extends Eloquent {
                     }
                 }
             } else {
-                //TODO: Definir se existem potes
                 if(isset($dadosFase['potes'])) {
                     $potes = array_except($dadosFase['potes'], 'Principal');
                     foreach ($grupos as $grupo) {

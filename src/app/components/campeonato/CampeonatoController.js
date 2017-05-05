@@ -942,7 +942,8 @@
             angular.forEach(vm.campeonato.participantes, function (participante) {
                 vm.models.lists.Principal.push({
                     id: participante.id,
-                    label: participante.nome
+                    label: participante.nome,
+                    distintivo: participante.time.distintivo
                 });
             });
 
@@ -1013,6 +1014,8 @@
                     Campeonato.abreFase(fase.dadosFase)
                         .success(function (data) {
                             fase.aberta = true;
+                            toastr.success($filter('translate')('messages.fase_iniciada_sucesso'));
+                            $mdDialog.hide();
                         }).error(function (data, status) {
                             toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                         });
