@@ -30,7 +30,7 @@ class UsersController extends Controller {
 	 */
 	public function index()
 	{
-		$usuarios = User::get();
+		$usuarios = User::orderBy('usuario_tipos_id')->orderBy('nome')->orderBy('email')->get();
 		foreach($usuarios as $usuario) {
 			$usuario->descricaoTipo = $usuario->usuarioTipo()->descricao;
 		}

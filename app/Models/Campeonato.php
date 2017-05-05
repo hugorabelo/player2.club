@@ -149,7 +149,8 @@ class Campeonato extends Eloquent {
 		foreach ($criteriosDeClassificacao as $criterio) {
 			$sort->put($criterio->valor, $criterio->ordenacao);
 		}
-		$sort = $sort->toArray();
+        $sort->put('id_no_grupo', 'menor');
+        $sort = $sort->toArray();
         /*
 		$comparer = $makeComparer($sort);
 		$usuariosRetorno = $usuarios->sort($comparer);

@@ -24,7 +24,7 @@ class FaseGrupo extends Eloquent
      */
     public function usuarios()
     {
-        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->getResults();
+        $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('id'))->getResults();
         foreach ($usuarios as $usuario) {
             $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
@@ -174,6 +174,10 @@ class FaseGrupo extends Eloquent
                     }
                 }
             }
+        }
+
+        foreach ($usuarios as $usuario) {
+            $usuario->id_no_grupo = $usuario->pivot->id;
         }
 
         $fase = $this->fase();
