@@ -25,7 +25,8 @@
         'LocalStorageModule',
         'ng-sortable',
         'froala',
-        'infinite-scroll'
+        'infinite-scroll',
+        'dndLists'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

@@ -228,7 +228,8 @@ class CampeonatosController extends Controller
             $time = Time::find($participante->pivot->time_id);
             $participante->time = $time;
         }
-        return Response::json($participantes);
+        $participantes = $participantes->sortBy('nome');
+        return Response::json($participantes->values());
     }
 
     public function getUltimasPartidasUsuario($idUsuario, $idCampeonato = null) {

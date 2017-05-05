@@ -65,6 +65,7 @@
         "fase_fechar": "Encerrar Fase",
         "fase_inicial": "Fase Inicial",
         "fase_final": "Fase Final",
+        "iniciar_fase_com_potes": "Iniciar fase utilizando potes",
 
         "posicao": "Posição",
         "pontuacao": "Pontos",
@@ -147,7 +148,11 @@
         "status.3": "Em andamento",
         "status.4": "Encerrado",
 
-        "excluir_campeonato": "Excluir Campeonato"
+        "excluir_campeonato": "Excluir Campeonato",
+        "pote": "Pote",
+        "sorteio_potes": "Sorteio por potes",
+        "adiciona_pote": "Adiciona Pote",
+        "remove_pote": "Remove Pote"
     },
 
     "messages": {
@@ -160,6 +165,7 @@
         "explica_iniciar_fase": "Caso a fase anterior esteja aberta, ela será fechada automaticamente. Os jogos serão sorteados e as partidas desta fase já poderão ser disputadas.",
         "confirma_fechar_fase": "Deseja realmente encerrar esta fase?",
         "confirma_fechar_fase_partidas_aberto": "A fase possui partidas em aberto. Caso encerre a fase, as partidas serão computadas como sem resultado. Deseja encerrar esta fase mesmo assim?",
+        "fase_iniciada_sucesso": "A fase foi iniciada com sucesso",
 
         "plataforma_list": "Plataformas",
         "plataforma_add": "Adicionar Plataforma",
@@ -390,6 +396,9 @@
         "sortear_clubes_participantes": "Sortear clubes entre os participantes",
         "numero_times_menor": "O número de times selecionados é inferior ao número de participantes",
         "sorteio_sucesso": "Sorteio realizado com sucesso",
+        "utilizar_potes": "Utilizar o sistema de potes no sorteio",
+        "itens_pote_principal": "Ainda existem itens no pote principal",
+        "pote_nao_compativel_quantidade_usuarios": "A quantidade de usuários em cada pote deve ser um valor múltiplo da quantidade de usuários por grupo",
         "vagas_incompletas": "O sorteio só poderá ser realizado quando todas as vagas do campeonato estiverem preenchidas"
     },
 

@@ -75,7 +75,7 @@ class AppServiceProvider extends ServiceProvider {
 						$notificacao->item_id = $fase->campeonato()->id;
 						break;
 					case 'sorteou_clubes':
-						$campeonato = Campeonato::find($notificacao->item_id);
+						$campeonato = \Campeonato::find($notificacao->item_id);
 						$notificacao->nome_campeonato = $campeonato->descricao;
 						break;
 				}
@@ -105,8 +105,7 @@ class AppServiceProvider extends ServiceProvider {
 
 				$notificacao->mensagem = $evento->mensagem;
 				$notificacao->tipo_evento = $evento->valor;
-
-				$nome_remetente = isset($notificacao->remetente) ? $notificacao->remetente->nome: '';
+                $nome_remetente = isset($notificacao->remetente) ? $notificacao->remetente->nome : '';
 
 				$conteudo = trans($notificacao->mensagem, ['nome_remetente' => $nome_remetente, 'nome_fase' => $notificacao->nome_fase, 'nome_campeonato' => $notificacao->nome_campeonato]);
 
