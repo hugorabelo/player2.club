@@ -80,6 +80,7 @@
         };
 
         vm.carregaCampeonato = function () {
+            $rootScope.pageLoading = true;
             vm.carregaInformacoesCampeonato(vm.idCampeonato);
         };
 
@@ -91,6 +92,7 @@
                     $rootScope.loading = false;
                     vm.indice_fase = -1;
                     vm.exibeProximaFase();
+                    $rootScope.pageLoading = false;
                 });
         };
 
@@ -119,9 +121,11 @@
         };
 
         vm.getParticipantes = function (id) {
+            $rootScope.pageLoading = true;
             Campeonato.getParticipantes(id)
                 .success(function (data) {
                     vm.campeonato.participantes = data;
+                    $rootScope.pageLoading = false;
                 });
         };
 
@@ -129,6 +133,7 @@
             Campeonato.getAdministradores(id)
                 .success(function (data) {
                     vm.campeonato.campeonatoAdministradores = data;
+                    $rootScope.pageLoading = false;
                 });
         };
 
