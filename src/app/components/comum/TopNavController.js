@@ -148,6 +148,7 @@
                         case "fase_iniciada":
                         case "fase_encerrada":
                         case "fase_encerramento_breve":
+                        case "sorteou_clubes":
                             $location.path('campeonato/' + notificacao.item_id);
                             break;
                         case "comentar_post":

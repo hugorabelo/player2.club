@@ -465,6 +465,10 @@ class UsersController extends Controller {
 					$notificacao->nome_fase = $fase->descricao;
 					$notificacao->item_id = $fase->campeonato()->id;
 					break;
+				case 'sorteou_clubes':
+					$campeonato = Campeonato::find($notificacao->item_id);
+					$notificacao->nome_campeonato = $campeonato->descricao;
+					break;
 			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;

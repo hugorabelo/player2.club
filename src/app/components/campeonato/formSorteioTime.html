@@ -14,7 +14,7 @@
                         <md-select ng-model="timeSelecionado">
                             <md-option ng-value="undefined"></md-option>
                             <md-option ng-repeat="time in times" ng-value="time">
-                                <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{time.distintivo}}"> {{time.descricao}}
+                                <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{time.distintivo}}"> {{time.nome}}
                             </md-option>
                         </md-select>
                     </md-input-container>
@@ -30,7 +30,7 @@
                             <tr ng-repeat="time in timesSelecionados track by $index">
                                 <td><span>{{$index+1}}</span></td>
                                 <td><img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{time.distintivo}}"></td>
-                                <td><span>{{time.descricao}}</span></td>
+                                <td><span>{{time.nome}}</span></td>
                                 <td><i class="material-icons" ng-click="removerTime(time)">remove_circle_outline</i></td>
                             </tr>
                         </tbody>
