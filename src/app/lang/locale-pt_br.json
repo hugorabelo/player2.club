@@ -1,6 +1,6 @@
 {
     "menus": {
-        "home": "Minha Página",
+        "home": "Home",
         "config": "Configurações",
         "campeonatos": "Campeonatos",
         "jogos": "Jogos",
@@ -17,7 +17,12 @@
         "meus_campeonatos": "Meus Campeonatos",
         "campeonatos_disponiveis": "Campeonatos Disponíveis",
         "minhas_partidas": "Minhas Partidas",
-        "tabela_campeonato": "Tabela"
+        "tabela_campeonato": "Tabela",
+        "editar_perfil": "Editar Perfil",
+        "criar_campeonato": "Criar Campeonato",
+        "minhas_equipes": "Minhas Esquipes",
+        "procurar_campeonatos": "Procurar Campeonatos",
+        "visitar_meu_perfil": "Visitar Meu Perfil"
     },
 
     "fields": {
@@ -387,7 +392,6 @@
         "times_participantes": "Times dos Participantes",
 
         "permite_exibir": "Permite exibir na criação de campeonatos",
-        "procurar_campeonatos": "Procurar Campeonatos",
         "filtrar": "Filtrar",
         "pesquisar": "Pesquisar",
         "limpar_filtros": "Limpar",
