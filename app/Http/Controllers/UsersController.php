@@ -202,6 +202,17 @@ class UsersController extends Controller {
 		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
 
+		foreach ($campeonatosInscritos as $campeonato) {
+			$campeonato->jogo = $campeonato->jogo()->descricao;
+			$campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+			$campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
+			$campeonato->plataforma = $campeonato->plataforma()->descricao;
+			$campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+			$campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+			$campeonato->tipo_campeonato= $campeonato->campeonatoTipo()->descricao;
+			$campeonato->status = $campeonato->status();
+		}
+
 		return Response::json($campeonatosInscritos);
 	}
 
