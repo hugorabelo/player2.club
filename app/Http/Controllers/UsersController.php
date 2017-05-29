@@ -543,4 +543,13 @@ class UsersController extends Controller {
 		return $mensagens;
 	}
 
+	function listaEquipes($idUsuario = null) {
+		if(!isset($idUsuario)) {
+			$idUsuario = Auth::getUser()->id;
+		}
+		$usuario = User::find($idUsuario);
+		$equipes = $usuario->equipes()->orderBy('descricao')->get();
+		return Response::json($equipes);
+	}
+
 }

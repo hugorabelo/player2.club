@@ -4,7 +4,6 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Collection;
 
 class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -270,6 +269,10 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			}
 		}
 		return $mensagens;
+	}
+
+	public function equipes() {
+		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->withPivot('funcao_equipe_id')->withTimestamps();
 	}
 
 }
