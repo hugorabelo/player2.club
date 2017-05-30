@@ -1,0 +1,45 @@
+<div class="h-500" hide-xs>
+    <h3 class="secao_titulo" ng-init="vmEquipe.getEquipesUsuario()" layout-align="space-between center" layout="row">
+        {{'messages.equipes_usuario' | translate}}
+        <md-button class="md-raised" ng-click="vmEquipe.create($event)">
+            {{'messages.equipe_add' | translate}}
+        </md-button>
+    </h3>
+    <md-list ng-cloak>
+        <md-list-item class="item-lista" ng-repeat="equipe in vmEquipe.equipesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
+            <p>{{equipe.descricao}}</p>
+            <div class="detalhes" flex="60" layout="row" layout-align="center center">
+                <div flex="15">
+                    <md-icon md-svg-src="uploads/{{equipe.logotipo}}" class="svg-icon icon-black img-xs">
+                    </md-icon>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
+</div>
+
+
+<md-card hide-gt-xs class="m-n caixa-informacao">
+    <div class="h-500">
+        <md-toolbar class="md-toolbar-tools">
+            <h2 class="secao_titulo" ng-init="vmEquipe.getEquipesUsuario()">{{'messages.equipes_usuario' | translate}}</h2>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="vmEquipe.create($event)">
+                {{'messages.equipe_add' | translate}}
+            </md-button>
+        </md-toolbar>
+
+        <md-list ng-cloak>
+            <md-list-item class="item-lista" ng-repeat="equipe in vmEquipe.equipesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
+                <p>{{equipe.descricao}}</p>
+                <div class="detalhes" flex="30" layout="row" layout-align="center center">
+                    <div flex="50">
+                        <md-icon md-svg-src="uploads/{{equipe.logotipo}}" class="svg-icon icon-black img-xs">
+                        </md-icon>
+                    </div>
+
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-card>

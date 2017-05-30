@@ -403,7 +403,10 @@
         "utilizar_potes": "Utilizar o sistema de potes no sorteio",
         "itens_pote_principal": "Ainda existem itens no pote principal",
         "pote_nao_compativel_quantidade_usuarios": "A quantidade de usuários em cada pote deve ser um valor múltiplo da quantidade de usuários por grupo",
-        "vagas_incompletas": "O sorteio só poderá ser realizado quando todas as vagas do campeonato estiverem preenchidas"
+        "vagas_incompletas": "O sorteio só poderá ser realizado quando todas as vagas do campeonato estiverem preenchidas",
+
+        "equipes_usuario": "Equipes do Usuário",
+        "equipe_add": "Criar Equipe"
     },
 
     "generos": {

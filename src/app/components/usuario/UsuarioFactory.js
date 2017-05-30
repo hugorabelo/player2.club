@@ -299,6 +299,14 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         getMensagens: function (idRemetente) {
             return $http.get('api/usuario/mensagens/' + idRemetente);
+        },
+
+        getEquipes: function (idUsuario) {
+            if (idUsuario == undefined) {
+                return $http.get('api/usuario/equipes');
+            } else {
+                return $http.get('api/usuario/equipes/' + idUsuario);
+            }
         }
     }
 }]);
