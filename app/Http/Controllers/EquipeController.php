@@ -54,14 +54,14 @@ class EquipeController extends Controller
              * Movendo o arquivo para o diretório correto
              */
 
-            $arquivo = Input::hasFile('logotipo') ? Input::file('logotipo')
+            $arquivo = Input::hasFile('imagem_logomarca') ? Input::file('imagem_logomarca')
                 : null;
 
             if (isset($arquivo) && $arquivo->isValid()) {
                 $destinationPath = 'uploads/';
                 $fileName = 'equipe_' . str_replace('.', '', microtime(true)) . '.' . $arquivo->getClientOriginalExtension();
                 $arquivo->move($destinationPath, $fileName);
-                $input['logotipo'] = $fileName;
+                $input['imagem_logomarca'] = $fileName;
             }
 
             $equipe = Equipe::create($input);
@@ -101,14 +101,14 @@ class EquipeController extends Controller
              * Movendo o arquivo para o diretório correto
              */
 
-            $arquivo = Input::hasFile('logotipo') ? Input::file('logotipo')
+            $arquivo = Input::hasFile('imagem_logomarca') ? Input::file('imagem_logomarca')
                 : null;
 
             if (isset($arquivo) && $arquivo->isValid()) {
                 $destinationPath = 'uploads/';
                 $fileName = 'equipe_' . str_replace('.', '', microtime(true)) . '.' . $arquivo->getClientOriginalExtension();
                 $arquivo->move($destinationPath, $fileName);
-                $input['logotipo'] = $fileName;
+                $input['imagem_logomarca'] = $fileName;
             }
 
             $equipe = $this->equipe->find($id);
