@@ -6,6 +6,15 @@
         function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, Usuario, Equipe) {
             var vm = this;
 
+            vm.idEquipe = $stateParams.idEquipe;
+            if (vm.idEquipe != undefined) {
+                Equipe.show(vm.idEquipe)
+                    .success(function (data) {
+                        vm.equipe = data;
+                        console.log(vm.equipe);
+                    });
+            }
+
             vm.getEquipesUsuario = function (idUsuario) {
                 Usuario.getEquipes(idUsuario)
                     .success(function (data) {

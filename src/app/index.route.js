@@ -122,6 +122,14 @@
                     pageTitle: "messages.mensagens"
                 }
             })
+            .state('equipe', {
+                url: "/equipe/{idEquipe}",
+                templateUrl: "app/components/equipe/index.html",
+                controller: 'EquipeController as vmEquipe',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",

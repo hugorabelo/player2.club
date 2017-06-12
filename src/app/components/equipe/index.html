@@ -1,27 +1,24 @@
-<div hide-xs layout="row" layout-wrap class="header-profile" layout-align="space-between end" style="background-image: url('uploads/usuarios/capa/{{vmProfile.usuario.imagem_capa}}');">
+<div hide-xs layout="row" layout-wrap class="header-profile" layout-align="space-between end" style="background-image: url('uploads/usuarios/capa/{{vmEquipe.equipe.imagem_capa}}');">
     <div layout="row" layout-align="start end">
         <div class="profile-image">
-            <a ui-sref="profile({idUsuario: vmProfile.usuario.id})">
-                <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+            <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
+                <img src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
             </a>
         </div>
         <div class="profile-info">
             <div>
                 <h2 class="no-margins">
-                    {{vmProfile.usuario.nome}}
+                    {{vmEquipe.equipe.descricao}}
                 </h2>
-                <h4>{{vmProfile.usuario.sigla}}</h4>
-                <small hide-sm>
-                    {{vmProfile.usuario.descricao}}
-                </small>
+                <h4>{{vmEquipe.equipe.sigla}}</h4>
             </div>
         </div>
     </div>
     <div layout="row" layout-align="end end">
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="material-icons">person_add</i> {{'messages.seguir' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.seguir()" ng-hide="vmEquipe.usuario.seguido || vmEquipe.usuario.id == usuarioLogado.id"><i class="material-icons">person_add</i> {{'messages.seguir' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="material-icons">people</i> {{'messages.seguindo' | translate}}</md-button>
-        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmProfile.usuario.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.deixarDeSeguir()" ng-show="vmEquipe.usuario.seguido"><i class="material-icons">people</i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmEquipe.usuario.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 
@@ -38,7 +35,7 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <md-list-item ng-repeat="gamertag in vmProfile.gamertags">
+                <md-list-item ng-repeat="gamertag in vmEquipe.gamertags">
                     <span></span>
                     <md-icon md-svg-src="uploads/{{gamertag.imagem_plataforma}}" class="svg-icon icon-black m-r m-l-n-sm">
                     </md-icon>
@@ -55,7 +52,7 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
+                <md-list-item ng-repeat="campeonato in vmEquipe.campeonatosDoUsuario" ng-click="vmEquipe.carregaCampeonato(campeonato.id)">
                     <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
                 </md-list-item>
             </div>
@@ -69,7 +66,7 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
+                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmEquipe.usuario.seguindo">
                     <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-sm">
                     <md-tooltip md-direction="top ">
                         {{seguindo.nome}}
@@ -85,7 +82,7 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
+                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmEquipe.usuario.seguidores">
                     <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-sm">
                     <md-tooltip md-direction="top ">
                         {{seguidor.nome}}
@@ -99,7 +96,7 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
+                <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmEquipe.usuario.jogos">
                     <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-sm">
                     <md-tooltip md-direction="top ">
                         {{jogo.descricao}}
@@ -114,24 +111,24 @@
 
 
 <!--Tela Mobile-->
-<div hide-gt-xs layout="column" layout-wrap class="header-profile no-padding" style="background-image: url('uploads/usuarios/capa/{{vmProfile.usuario.imagem_capa}}');" layout-align="start center">
+<div hide-gt-xs layout="column" layout-wrap class="header-profile no-padding" style="background-image: url('uploads/usuarios/capa/{{vmEquipe.usuario.imagem_capa}}');" layout-align="start center">
     <div class="profile-info m-t-sm">
         <div>
             <h2 class="no-margins">
-                {{vmProfile.usuario.nome}} {{idUsuarseguidoresio}}
+                {{vmEquipe.usuario.nome}} {{idUsuarseguidoresio}}
             </h2>
         </div>
     </div>
     <div class="profile-image">
-        <a ui-sref="profile({idUsuario: vmProfile.usuario.id})">
-            <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+        <a ui-sref="profile({idUsuario: vmEquipe.usuario.id})">
+            <img src="uploads/usuarios/{{vmEquipe.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
         </a>
     </div>
     <div layout="row">
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir()" ng-hide="vmProfile.usuario.seguido || vmProfile.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.seguir()" ng-hide="vmEquipe.usuario.seguido || vmEquipe.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmProfile.deixarDeSeguir()" ng-show="vmProfile.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
-        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmProfile.usuario.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.deixarDeSeguir()" ng-show="vmEquipe.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmEquipe.usuario.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 </div>
@@ -144,7 +141,7 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xs">
-            <md-list-item ng-repeat="gamertag in vmProfile.gamertags" class="m-b-xxs">
+            <md-list-item ng-repeat="gamertag in vmEquipe.gamertags" class="m-b-xxs">
                 <span></span>
                 <md-icon md-svg-src="uploads/{{gamertag.imagem_plataforma}}" class="svg-icon icon-black m-r m-l-n-sm">
                 </md-icon>
@@ -164,7 +161,7 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xs">
-            <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)" class="m-b-xxs">
+            <md-list-item ng-repeat="campeonato in vmEquipe.campeonatosDoUsuario" ng-click="vmEquipe.carregaCampeonato(campeonato.id)" class="m-b-xxs">
                 <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
             </md-list-item>
         </div>
@@ -181,7 +178,7 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xxs">
-            <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmProfile.usuario.seguindo">
+            <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmEquipe.usuario.seguindo">
                 <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                 <md-tooltip md-direction="top ">
                     {{seguindo.nome}}
@@ -201,7 +198,7 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xxs">
-            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmProfile.usuario.seguidores">
+            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmEquipe.usuario.seguidores">
                 <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                 <md-tooltip md-direction="top ">
                     {{seguidor.nome}}
@@ -218,7 +215,7 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xxs">
-            <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmProfile.usuario.jogos">
+            <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmEquipe.usuario.jogos">
                 <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xxs">
                 <md-tooltip md-direction="top ">
                     {{jogo.descricao}}

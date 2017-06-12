@@ -1,5 +1,9 @@
 angular.module('player2').factory('Equipe', ['$http', function ($http) {
     return {
+        show: function (id) {
+            return $http.get('api/equipe/' + id);
+        },
+
         get: function () {
             return $http.get('api/equipe');
         },

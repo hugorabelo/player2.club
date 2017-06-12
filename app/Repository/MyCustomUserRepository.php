@@ -46,6 +46,20 @@ class MyCustomUserRepository implements Auth0UserRepository {
                 $user->nome = $profile->name;
             }
         }
+        if(!isset($user->imagem_large)) {
+            $fileName = 'usuario_'.str_replace('.', '', microtime(true));
+            $fileNameLarge = $fileName.'_lg';
+            $fileName = $fileName.'.jpg';
+            $fileNameLarge = $fileNameLarge.'.jpg';
+            if(isset($profile->picture)) {
+                file_put_contents( "uploads/usuarios/$fileName", fopen( $profile->picture, "r" ), FILE_APPEND );
+            }
+            if(isset($profile->picture_large)) {
+                file_put_contents( "uploads/usuarios/$fileNameLarge", fopen( $profile->picture_large, "r" ), FILE_APPEND );
+            }
+            $user->imagem_perfil = $fileName;
+            $user->imagem_large = $fileNameLarge;
+        }
         $user->ultimo_login = date('Y-m-d H:i:s');;
         $user->save();
 
