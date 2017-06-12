@@ -18,7 +18,6 @@
         <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.seguir()" ng-hide="vmEquipe.usuario.seguido || vmEquipe.usuario.id == usuarioLogado.id"><i class="material-icons">person_add</i> {{'messages.seguir' | translate}}
         </md-button>
         <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.deixarDeSeguir()" ng-show="vmEquipe.usuario.seguido"><i class="material-icons">people</i> {{'messages.seguindo' | translate}}</md-button>
-        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmEquipe.usuario.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 
@@ -30,20 +29,6 @@
     </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
-        <div class="caixa-informacao-titulo">
-            <h3>{{'messages.usuario_gamertags' | translate}}</h3>
-        </div>
-        <md-card class="caixa-informacao">
-            <div class="m-xs">
-                <md-list-item ng-repeat="gamertag in vmEquipe.gamertags">
-                    <span></span>
-                    <md-icon md-svg-src="uploads/{{gamertag.imagem_plataforma}}" class="svg-icon icon-black m-r m-l-n-sm">
-                    </md-icon>
-                    {{gamertag.gamertag}}
-                </md-list-item>
-            </div>
-        </md-card>
-
         <div class="caixa-informacao-titulo">
             <h3>{{'messages.campeonato_list' | translate}}</h3>
             <a ui-sref=".campeonatos">
@@ -58,22 +43,6 @@
             </div>
         </md-card>
 
-        <div class="caixa-informacao-titulo">
-            <h3>{{'messages.seguindo' | translate}}</h3>
-            <a ui-sref=".seguindo">
-                <i class="material-icons">more</i>
-            </a>
-        </div>
-        <md-card class="caixa-informacao">
-            <div class="m-xs">
-                <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmEquipe.usuario.seguindo">
-                    <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-sm">
-                    <md-tooltip md-direction="top ">
-                        {{seguindo.nome}}
-                    </md-tooltip>
-                </a>
-            </div>
-        </md-card>
         <div class="caixa-informacao-titulo">
             <h3>{{'messages.seguidores' | translate}}</h3>
             <a ui-sref=".seguidores">
@@ -90,21 +59,6 @@
                 </a>
             </div>
         </md-card>
-
-        <div class="caixa-informacao-titulo">
-            <h3>{{'messages.jogo_list' | translate}}</h3>
-        </div>
-        <md-card class="caixa-informacao">
-            <div class="m-xs">
-                <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmEquipe.usuario.jogos">
-                    <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-sm">
-                    <md-tooltip md-direction="top ">
-                        {{jogo.descricao}}
-                    </md-tooltip>
-                </a>
-            </div>
-
-        </md-card>
     </div>
 
 </div>
@@ -115,41 +69,24 @@
     <div class="profile-info m-t-sm">
         <div>
             <h2 class="no-margins">
-                {{vmEquipe.usuario.nome}} {{idUsuarseguidoresio}}
+                {{vmEquipe.equipe.descricao}}
             </h2>
         </div>
     </div>
     <div class="profile-image">
-        <a ui-sref="profile({idUsuario: vmEquipe.usuario.id})">
-            <img src="uploads/usuarios/{{vmEquipe.usuario.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+        <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
+            <img src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
         </a>
     </div>
     <div layout="row">
         <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.seguir()" ng-hide="vmEquipe.usuario.seguido || vmEquipe.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
         </md-button>
         <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.deixarDeSeguir()" ng-show="vmEquipe.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
-        <md-button id="botao-mensagem" class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmEquipe.usuario.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}}</md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 </div>
 
 <div hide-gt-xs ui-view>
-    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title>
-            <md-card-title-text layout="row" layout-align="start center">
-                <i class="material-icons m-r-sm md-primary">gamepad</i> {{'messages.usuario_gamertags' | translate}}
-            </md-card-title-text>
-        </md-card-title>
-        <div class="m-xs">
-            <md-list-item ng-repeat="gamertag in vmEquipe.gamertags" class="m-b-xxs">
-                <span></span>
-                <md-icon md-svg-src="uploads/{{gamertag.imagem_plataforma}}" class="svg-icon icon-black m-r m-l-n-sm">
-                </md-icon>
-                {{gamertag.gamertag}}
-            </md-list-item>
-        </div>
-    </md-card>
-
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
         <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
@@ -170,26 +107,6 @@
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
         <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
-                <i class="material-icons m-r-sm md-primary">people</i>{{'messages.seguindo' | translate}}
-                <span flex></span>
-                <a ui-sref=".seguindo" class="more">
-                    <i class="material-icons">more</i>
-                </a>
-            </md-card-title-text>
-        </md-card-title>
-        <div class="m-xxs">
-            <a ui-sref="profile({idUsuario: seguindo.id}) " ng-repeat="seguindo in vmEquipe.usuario.seguindo">
-                <img src="uploads/usuarios/{{seguindo.imagem_perfil}} " alt="{{seguindo.nome}} " class="img-circle circle-border-sm img-md m-xxs">
-                <md-tooltip md-direction="top ">
-                    {{seguindo.nome}}
-                </md-tooltip>
-            </a>
-        </div>
-    </md-card>
-
-    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title>
-            <md-card-title-text layout="row" layout-align="start center">
                 <i class="material-icons m-r-sm md-primary">record_voice_over</i>{{'messages.seguidores' | translate}}
                 <span flex></span>
                 <a ui-sref=".seguidores" class="more">
@@ -202,23 +119,6 @@
                 <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                 <md-tooltip md-direction="top ">
                     {{seguidor.nome}}
-                </md-tooltip>
-            </a>
-        </div>
-    </md-card>
-
-
-    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
-        <md-card-title>
-            <md-card-title-text layout="row" layout-align="start center">
-                <i class="material-icons m-r-sm md-primary">videogame_asset</i>{{'messages.jogo_list' | translate}}
-            </md-card-title-text>
-        </md-card-title>
-        <div class="m-xxs">
-            <a ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmEquipe.usuario.jogos">
-                <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xxs">
-                <md-tooltip md-direction="top ">
-                    {{jogo.descricao}}
                 </md-tooltip>
             </a>
         </div>

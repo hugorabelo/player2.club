@@ -11,7 +11,6 @@
                 Equipe.show(vm.idEquipe)
                     .success(function (data) {
                         vm.equipe = data;
-                        console.log(vm.equipe);
                     });
             }
 
