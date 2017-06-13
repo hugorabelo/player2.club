@@ -215,6 +215,51 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
+        seguirEquipe: function (idSeguidor, equipe) {
+            dados = {
+                idEquipe: equipe.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/adicionaSeguidorEquipe',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        deixarDeSeguirEquipe: function (idSeguidor, equipe) {
+            dados = {
+                idEquipe: equipe.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/removeSeguidorEquipe',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        segueEquipe: function (idSeguidor, equipe) {
+            dados = {
+                idEquipe: equipe.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/segueEquipe',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
         getFeed: function (idUsuario, todos) {
             if (todos) {
                 return $http.get('api/usuario/feed/' + idUsuario + '/' + todos);
