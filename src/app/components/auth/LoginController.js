@@ -9,7 +9,9 @@
 
             vm.inicializa = function () {
                 $rootScope.escondeBarra = true;
-                authService.login();
+                if (!$rootScope.exibindoAlerta) {
+                    authService.login();
+                }
             }
 
             vm.logout = function () {

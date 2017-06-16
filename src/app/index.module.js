@@ -38,19 +38,23 @@
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
     var responseTypeAmbiente;
+    var clientIdAmbiente;
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
         responseTypeAmbiente = "token";
+        clientIdAmbiente = 'i421bkb06C6mMCue0yXC67BwJGL3pSlY';
     } else if (ambiente == 'dev') {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://dev.player2.club";
         responseTypeAmbiente = "token";
+        clientIdAmbiente = 'i421bkb06C6mMCue0yXC67BwJGL3pSlY';
     } else {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.player2.club";
         responseTypeAmbiente = "token";
+        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     }
 
     angular.module('player2').config(function ($translateProvider) {
@@ -149,7 +153,7 @@
 
     angular.module('player2').config(['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
         lockProvider.init({
-            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
+            clientID: clientIdAmbiente,
             domain: 'hugorabelo.auth0.com',
             options: {
                 auth: {
