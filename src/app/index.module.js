@@ -44,7 +44,7 @@
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
         responseTypeAmbiente = "token";
-        clientIdAmbiente = 'i421bkb06C6mMCue0yXC67BwJGL3pSlY';
+        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     } else if (ambiente == 'dev') {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://dev.player2.club";
