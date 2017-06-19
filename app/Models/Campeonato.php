@@ -45,7 +45,13 @@ class Campeonato extends Eloquent {
 	}
 
 	public function fases() {
-		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->getResults();
+        $fasesOrdenadas = new Collection();
+        $faseAdicionada = $this->faseFinal();
+        $fasesOrdenadas->prepend($faseAdicionada);
+        while($faseAdicionada = $faseAdicionada->faseAnterior()) {
+            $fasesOrdenadas->prepend($faseAdicionada);
+        }
+        return $fasesOrdenadas;
 	}
 
 	public function faseInicial() {
@@ -601,5 +607,37 @@ class Campeonato extends Eloquent {
         }
         $partidas = $partidas->values();
         return $partidas;
+    }
+
+    public function faseAtual() {
+        $fases = $this->fases();
+        foreach ($fases as $fase) {
+            if($fase->aberta) {
+                return $fase;
+            }
+        }
+        return null;
+    }
+
+    public function tabelaCompleta() {
+        $retorno = $this;
+        $faseAtual = $this->faseInicial();
+        if(!isset($faseAtual)) {
+            return null;
+        }
+        $retorno->fases = $this->fases();
+        $retorno->grupos = $faseAtual->grupos();
+        $partidasDaRodada = [];
+        foreach ($retorno->grupos as $grupo) {
+            $partidasDaRodada[] = $grupo->partidasPorRodada(1);
+            if($faseAtual->matamata) {
+                $grupo->usuarios = $grupo->usuariosMataMata();
+            } else {
+                $grupo->classificacao = $grupo->usuariosComClassificacao(); //TODO: Melhorar desempenho
+                $grupo->rodadas = $grupo->rodadas();
+            }
+        }
+        $retorno->partidasDaRodada = $partidasDaRodada;
+        return $retorno;
     }
 }

@@ -26,6 +26,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonato/partidas/{idCampeonato}', 'CampeonatosController@getPartidas');
     Route::get('campeonato/partidasContestadas/{idCampeonato}', 'CampeonatosController@getPartidasContestadas');
     Route::get('campeonato/partidasEmAberto/{id}', 'CampeonatosController@getPartidasEmAberto');
+    Route::get('campeonato/tabelaCompleta/{id}', 'CampeonatosController@getTabelaCompleta');
     Route::post('campeonato/pesquisaFiltros', 'CampeonatosController@pesquisaFiltros');
     Route::post('campeonato/sortearClubes', 'CampeonatosController@sortearClubes');
     Route::resource('campeonato', 'CampeonatosController');
