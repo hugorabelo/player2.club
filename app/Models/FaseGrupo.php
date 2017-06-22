@@ -88,7 +88,7 @@ class FaseGrupo extends Eloquent
         return $usuarios;
     }
 
-    public function usuariosComClassificacao()
+    public function usuariosComClassificacao_old()
     {
         $pontuacoes = $this->fase()->pontuacoes();
         $pontuacaoVitoria = $pontuacoes[1];
@@ -167,6 +167,95 @@ class FaseGrupo extends Eloquent
             }
         } else {
             // Partida com mais de 2 jogadores
+            foreach ($partidas as $partida) {
+                foreach ($partida->usuarios() as $usuarioPartida) {
+                    if (isset($usuarioPartida->posicao)) {
+                        $usuarios->find($usuarioPartida->users_id)->pontuacao += intval($usuarioPartida->pontuacao);
+                    }
+                }
+            }
+        }
+
+        foreach ($usuarios as $usuario) {
+            $usuario->id_no_grupo = $usuario->pivot->id;
+        }
+
+        $fase = $this->fase();
+        $campeonato = $fase->campeonato();
+        return $campeonato->ordenarUsuariosPorCriterioDeClassificacao($usuarios);
+    }
+
+    public function usuariosComClassificacao() {
+        $pontuacoes = $this->fase()->pontuacoes();
+        $pontuacaoVitoria = $pontuacoes[1];
+        $usuarios = $this->usuarios();
+        if($usuarios->isEmpty()) {
+            return true;
+        }
+        $partida = $this->partidas()->first();
+
+        $quantidade_jogadores_por_partida = 0;
+        if ($partida != null) {
+            $quantidade_jogadores_por_partida = $partida->usuarios()->count();
+        }
+
+        if ($quantidade_jogadores_por_partida == 2) {
+            // Partida com Dois Jogadores
+
+            foreach ($usuarios as $usuario) {
+                $num_vitorias = intval($usuario->vitorias);
+                $num_empates = intval($usuario->empates);
+                $num_derrotas = intval($usuario->derrotas);
+                $num_gols_pro = intval($usuario->gols_pro);
+                $num_gols_contra = intval($usuario->gols_contra);
+
+                $num_jogos = $num_vitorias + $num_empates + $num_derrotas;
+                $num_saldo_gols = $num_gols_pro - $num_gols_contra;
+
+                $idFaseGrupo = $this->id;
+                $idUsuario = $usuario->id;
+
+                $tabelaCampeonato = DB::table(DB::raw("(select 	p1.partidas_id as partidas, p1.placar as placar1, p1.pontuacao,
+                            p2.placar as placar2,
+                            (case when p1.placar > p2.placar then 1 end) as vitorias,
+                            (case when p1.placar < p2.placar then 1 end) as derrotas,
+                            (case when p1.placar = p2.placar then 1 end) as empates
+                        from usuario_partidas p1, usuario_partidas p2
+                        where p1.users_id = $idUsuario and p2.users_id <> $idUsuario and p1.partidas_id = p2.partidas_id AND p1.partidas_id IN (
+                            select id from partidas where data_placar IS NOT NULL AND fase_grupos_id = $idFaseGrupo AND id IN (
+                                select partidas_id from usuario_partidas where users_id = $idUsuario
+                            )
+                            order by rodada
+                        ) order by p1.partidas_id) as tabela"))
+                        ->selectRaw("sum(pontuacao) as pontuacao,
+                        count(partidas) as partidas,
+                        sum(vitorias) as vitorias,
+                        sum(empates) as empates,
+                        sum(derrotas) as derrotas,
+                        sum(placar1) as gols_pro,
+                        sum(placar2) as gols_contra,
+                        sum(placar1) - sum(placar2) as saldo_gols")->first();
+
+                //Log::warning($tabelaCampeonato);
+
+                $usuario->pontuacao = intval($tabelaCampeonato->pontuacao);
+                $usuario->jogos = intval($tabelaCampeonato->partidas);
+                $usuario->vitorias = intval($tabelaCampeonato->vitorias);
+                $usuario->empates = intval($tabelaCampeonato->empates);
+                $usuario->derrotas = intval($tabelaCampeonato->derrotas);
+                $usuario->gols_pro = intval($tabelaCampeonato->gols_pro);
+                $usuario->gols_contra = intval($tabelaCampeonato->gols_contra);
+                $usuario->saldo_gols = intval($tabelaCampeonato->saldo_gols);
+                if($usuario->jogos > 0) {
+                    $usuario->aproveitamento = number_format(($usuario->pontuacao)/($usuario->jogos*$pontuacaoVitoria)*100, 2);
+                } else {
+                    $usuario->aproveitamento = number_format(0, 2);
+                }
+
+            }
+        } else {
+            // Partida com mais de 2 jogadores
+            $partidas = $this->partidas();
             foreach ($partidas as $partida) {
                 foreach ($partida->usuarios() as $usuarioPartida) {
                     if (isset($usuarioPartida->posicao)) {

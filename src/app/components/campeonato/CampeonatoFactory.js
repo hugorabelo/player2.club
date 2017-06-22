@@ -235,6 +235,10 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getTabelaCompleta: function (idCampeonato) {
+            return $http.get('api/campeonato/tabelaCompleta/' + idCampeonato);
         }
 
     }

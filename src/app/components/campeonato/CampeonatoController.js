@@ -44,7 +44,7 @@
 
         vm.abaTabela = function () {
             vm.currentNavItem = 'tabela';
-            vm.carregaFases(vm.idCampeonato);
+            vm.exibeTabelaCompleta();
         };
 
         vm.abaPartidas = function () {
@@ -116,7 +116,8 @@
                         vm.currentNavItem = 'tabela';
                     }
                     vm.carregaAdministradores(vm.idCampeonato);
-                    vm.carregaFases(id);
+                    vm.carregaFases(vm.campeonato.id);
+                    //                    vm.exibeTabelaCompleta();
                 });
         };
 
@@ -176,6 +177,18 @@
                 if (!vm.fase_atual.matamata) {
                     vm.rodada_atual.push(1);
                     vm.carregaJogosDaRodada(indice, item.id);
+                    indice = indice + 1;
+                    vm.rodada_maxima = Object.keys(item.rodadas).length;
+                }
+            });
+        };
+
+        vm.inicializaRodadasLimpas = function (listaDeGrupos) {
+            var indice = 0,
+                partidas;
+            angular.forEach(listaDeGrupos, function (item) {
+                if (!vm.fase_atual.matamata) {
+                    vm.rodada_atual.push(1);
                     indice = indice + 1;
                     vm.rodada_maxima = Object.keys(item.rodadas).length;
                 }
@@ -1031,6 +1044,19 @@
             };
 
         };
+
+        vm.exibeTabelaCompleta = function () {
+            Campeonato.getTabelaCompleta(vm.campeonato.id)
+                .success(function (data) {
+                    console.log(data);
+                    vm.campeonatoFases = data.fases;
+                    vm.indice_fase = 0;
+                    vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
+                    vm.gruposDaFase = data.grupos;
+                    vm.partidasDaRodada = data.partidasDaRodada;
+                    vm.inicializaRodadasLimpas(data.grupos);
+                })
+        }
 
     }]);
 }());

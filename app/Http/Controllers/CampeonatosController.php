@@ -345,4 +345,12 @@ class CampeonatosController extends Controller
         }
     }
 
+    function getTabelaCompleta($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        if(isset($campeonato)) {
+            return $campeonato->tabelaCompleta();
+        }
+        return null;
+    }
+
 }

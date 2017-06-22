@@ -29,6 +29,9 @@ class MyCustomUserRepository implements Auth0UserRepository {
         } else {
             $user = User::where("auth0id", $profile->user_id)->first();
         }
+        if(!isset($user)) {
+            return null;
+        }
         if(!isset($user->auth0id) || !isset($user->imagem_perfil) || ($user->imagem_perfil == 'perfil_padrao_homem.png') || ($user->nome === 'username')) {
             if(!isset($user->auth0id)) {
                 $user->auth0id = $profile->user_id;
