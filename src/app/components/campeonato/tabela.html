@@ -39,12 +39,12 @@
                                         {{$index+1}}
                                     </td>
                                     <td>
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}</a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}</a>
                                         <!--
                                         Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
                                         <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs>{{jogadorGrupo.sigla | uppercase}}</a>
 -->
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span></a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span></a>
                                     </td>
                                     <td class="text-center">{{jogadorGrupo.pontuacao}}</td>
                                     <td class="text-center">{{jogadorGrupo.jogos}}</td>
@@ -80,12 +80,7 @@
                             <div class="placar-jogo-equipes" flex layout="row" layout-align="space-between center">
                                 <div class="placar-jogo-equipes-mandante" flex>
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
-                                    <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
-                                    <!--
-                                   Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
-                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
-                                    <img class="placar-jogo-equipes-escudo-mandante" hide-xs itemprop="image" src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
--->
+                                    <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
                                 </div>
                                 <div class="placar-jogo-equipes-placar" flex layout="row" layout-align="space-around center">
                                     <span class="placar-jogo-equipes-placar-mandante">{{partida.usuarios[0].placar}}</span>
@@ -93,13 +88,8 @@
                                     <span class="placar-jogo-equipes-placar-visitante">{{partida.usuarios[1].placar}}</span>
                                 </div>
                                 <div class="placar-jogo-equipes-visitante" flex>
-                                    <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                                    <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
-                                    <!--
-                                   Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
-                                    <img class="placar-jogo-equipes-escudo-visitante" hide-xs itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
-                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
--->
                                 </div>
                             </div>
                         </div>
@@ -112,7 +102,7 @@
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
             <div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios" flex layout="row">
                 <div class="placar-jogo-equipes-matamata" flex="80">
-                    <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
+                    <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
                     <span class="placar-jogo-equipes-sigla" hide-xs title="{{usuario.nome}}">{{usuario.nome}}</span>
                     <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{usuario.nome}}">{{usuario.sigla}}</span>
                 </div>
