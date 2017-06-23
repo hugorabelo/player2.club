@@ -1,5 +1,5 @@
 <md-card ng-class="{'m-n': telaMobile}">
-    <md-card-content ng-show="vmCampeonato.campeonato.status > 2">
+    <md-card-content ng-if="vmCampeonato.campeonato.status > 2">
         <nav class="tabela-navegacao tabela-navegacao-fases">
             <a ng-click="vmCampeonato.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonato.indice_fase == 0}">
                 <i class="fa fa-chevron-left pull-left"></i>
@@ -98,7 +98,7 @@
             </div>
         </div>
         <!--        MATA-MATA-->
-        <div class="grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-show="vmCampeonato.fase_atual.matamata" flex layout="column">
+        <div class="grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-if="vmCampeonato.fase_atual.matamata" flex layout="column">
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
             <div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios" flex layout="row">
                 <div class="placar-jogo-equipes-matamata" flex="80">
@@ -110,14 +110,14 @@
                     {{placar}}
                 </div>
             </div>
-            <div ng-show="$odd && grupo.usuarios != null" flex="35" hide-xs>
+            <div ng-if="$odd && grupo.usuarios != null" flex="35" hide-xs>
                 <div class="mata-conector1"></div>
                 <div class="mata-conector2"></div>
             </div>
         </div>
     </md-card-content>
 
-    <md-card-content ng-show="vmCampeonato.campeonato.status < 3" class="h-300">
+    <md-card-content ng-if="vmCampeonato.campeonato.status < 3" class="h-300">
         <h4>{{'messages.campeonato_nao_iniciado' | translate}}</h4>
     </md-card-content>
 </md-card>

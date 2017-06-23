@@ -23,7 +23,7 @@
         'auth0.lock',
         'angular-jwt',
         'LocalStorageModule',
-        'ng-sortable',
+        'as.sortable',
         'froala',
         'infinite-scroll',
         'dndLists'
@@ -56,6 +56,10 @@
         responseTypeAmbiente = "token";
         clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     }
+
+    angular.module('player2').config(['$compileProvider', function ($compileProvider) {
+        $compileProvider.debugInfoEnabled(false);
+    }]);
 
     angular.module('player2').config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({

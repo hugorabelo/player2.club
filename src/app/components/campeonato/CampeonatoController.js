@@ -116,8 +116,8 @@
                         vm.currentNavItem = 'tabela';
                     }
                     vm.carregaAdministradores(vm.idCampeonato);
-                    vm.carregaFases(vm.campeonato.id);
-                    //                    vm.exibeTabelaCompleta();
+                    //                    vm.carregaFases(vm.campeonato.id);
+                    vm.exibeTabelaCompleta();
                 });
         };
 

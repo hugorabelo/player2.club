@@ -48,8 +48,8 @@
                         <h4 class="m-l">
                             {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
                         </h4>
-                        <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
-                        <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
+                        <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
+                        <md-button class="md-raised md-warn" ng-if="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                     </div>
                     <div class="admin-info m-n no-padding no-borders" flex>
                         <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
@@ -65,15 +65,15 @@
         </div>
 
         <div flex flex-gt-md="80" ng-init="vmCampeonato.carregaCampeonato()" class="caixa-flutuante" layout-margin>
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'tabela'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'tabela'">
                 <div layout-fill ng-include="'app/components/campeonato/tabela.html'"></div>
             </div>
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'minhasPartidas'">
                 <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
             </div>
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'regras'">
                 <md-card class="h-300" ng-class="{'m-n': telaMobile}">
                     <md-card-content>
                         <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
@@ -81,24 +81,24 @@
                 </md-card>
             </div>
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'participantes'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'participantes'">
                 <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/participantes.html'"></div>
             </div>
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'detalhes'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'detalhes'">
                 <div layout-fill layout="column" ng-include="'app/components/campeonato/detalhes.html'"></div>
             </div>
 
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'contestacoes'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'contestacoes'">
                 <div layout-fill ng-include="'app/components/campeonato/contestacoes.html'"></div>
             </div>
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'partidasAbertas'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'partidasAbertas'">
                 <div layout-fill ng-include="'app/components/campeonato/partidasAbertas.html'"></div>
             </div>
 
-            <div layout-fill ng-show="vmCampeonato.currentNavItem == 'editar'">
+            <div layout-fill ng-if="vmCampeonato.currentNavItem == 'editar'">
                 <div layout-fill ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
             </div>
 
@@ -113,7 +113,7 @@
                     <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                         <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive img-circle" alt="profile">
                     </a>
-                    <h2 class="text-center m-t" ng-show="false">
+                    <h2 class="text-center m-t" ng-if="false">
                         {{vmCampeonato.campeonato.descricao}}
                     </h2>
                     <h4 class="text-center m-t">
@@ -124,11 +124,11 @@
                         {{vmCampeonato.campeonato.jogo.descricao}}
                         </a>
                     </h4>
-                    <h4 class="text-center" ng-show="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
+                    <h4 class="text-center" ng-if="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
                         {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
                     </h4>
-                    <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
-                    <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
+                    <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
+                    <md-button class="md-raised md-warn" ng-if="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                     <div class="admin-info" layout="column">
                         <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
 
@@ -166,15 +166,15 @@
         <md-tab label="{{'messages.campeonato_info' | translate}}" ng-click="vmCampeonato.currentNavItem = 'informacoes'" ng-if="vmCampeonato.campeonato.status > 2">
         </md-tab>
     </md-tabs>
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'tabela'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'tabela'">
         <div layout-fill ng-include="'app/components/campeonato/tabela.html'"></div>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'minhasPartidas'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'minhasPartidas'">
         <div layout-fill ng-include="'app/components/campeonato/minhasPartidas.html'"></div>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'regras'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'regras'">
         <md-card class="h-300" ng-class="{'m-n': telaMobile}">
             <md-card-content>
                 <div ng-bind-html="vmCampeonato.campeonato.regras"></div>
@@ -182,34 +182,34 @@
         </md-card>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'participantes'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'participantes'">
         <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/participantes.html'"></div>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'detalhes'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'detalhes'">
         <div layout-fill layout-gt-sm="row" ng-include="'app/components/campeonato/detalhes.html'"></div>
     </div>
 
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'contestacoes'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'contestacoes'">
         <div layout-fill ng-include="'app/components/campeonato/contestacoes.html'"></div>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'partidasAbertas'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'partidasAbertas'">
         <div layout-fill ng-include="'app/components/campeonato/partidasAbertas.html'"></div>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'editar'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'editar'">
         <div layout-fill ng-include="'app/components/campeonato/editarCampeonato.html'"></div>
     </div>
 
-    <div layout-fill ng-show="vmCampeonato.currentNavItem == 'informacoes'">
+    <div layout-fill ng-if="vmCampeonato.currentNavItem == 'informacoes'">
         <md-card ng-class="{'m-n': telaMobile}">
             <md-toolbar class="md-toolbar-tools">
                 {{vmCampeonato.campeonato.descricao}}
             </md-toolbar>
             <md-card-content layout-align="center center" layout="column">
-                <h2 class="text-center m-t" ng-show="false">
+                <h2 class="text-center m-t" ng-if="false">
                     {{vmCampeonato.campeonato.descricao}}
                 </h2>
                 <h4 class="text-center m-t">
@@ -220,11 +220,11 @@
                         {{vmCampeonato.campeonato.jogo.descricao}}
                         </a>
                 </h4>
-                <h4 class="text-center" ng-show="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
+                <h4 class="text-center" ng-if="(vmCampeonato.campeonato.dataInicio && vmCampeonato.campeonato.dataInicio != 'null')">
                     {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataInicio)}} - {{vmCampeonato.exibeData(vmCampeonato.campeonato.dataFinal)}}
                 </h4>
-                <md-button class="md-raised md-primary" ng-show="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
-                <md-button class="md-raised md-warn" ng-show="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
+                <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
+                <md-button class="md-raised md-warn" ng-if="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                 <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                     <img src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive m-t img-circle" alt="profile">
                 </a>
