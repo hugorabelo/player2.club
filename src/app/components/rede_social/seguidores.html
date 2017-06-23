@@ -21,7 +21,7 @@
 </md-grid-list>
 
 <md-card hide-gt-xs class="m-n">
-    <md-toolbar class="md-toolbar-tools" ng-show="vmSeguidores.paginaInicial">
+    <md-toolbar class="md-toolbar-tools" ng-if="vmSeguidores.paginaInicial">
         <h2 class="secao_titulo" ng-init="vmSeguidores.inicializa('seguindo')">{{'messages.seguidores' | translate}}</h2>
     </md-toolbar>
     <md-card class="caixa-informacao m-l-n m-r-n m-t-none p-w-sm" ng-hide="vmSeguidores.paginaInicial">

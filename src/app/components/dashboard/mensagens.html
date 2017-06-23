@@ -11,7 +11,7 @@
             <h5 class="mensagem-data">{{ vmTopNav.exibeData(conversa.created_at) }}</h5>
         </div>
         <div class="icones" layout="row" layout-align="end center">
-            <span class="label label-danger pull-right" ng-show="conversa.nao_lidas">{{conversa.nao_lidas}}</span>
+            <span class="label label-danger pull-right" ng-if="conversa.nao_lidas">{{conversa.nao_lidas}}</span>
             <!--            <md-button class="md-icon-button md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, mensagem.remetente.id)">-->
             <i class="material-icons">reply</i>
             <!--            </md-button>-->

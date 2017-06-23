@@ -10,7 +10,7 @@
             <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template">
                 <md-item-template>
                     <span class="item-title">
-                        <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-show="item.tipo == 'profile'">
+                        <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-if="item.tipo == 'profile'">
                         <img ng-src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
                         <span> {{item.descricao}} </span>
                     </span>
@@ -24,20 +24,20 @@
 
                 <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
                     <i class="material-icons md-24">message</i>
-                    <span class="label label-danger" ng-show="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
+                    <span class="label label-danger" ng-if="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
                 </md-button>
 
                 <md-menu id="lista-notificacao" md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
                     <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="$mdOpenMenu()">
                         <i class="material-icons md-24">videogame_asset</i>
-                        <span class="label label-danger" ng-show="vmTopNav.quantidadeNotificacoesNaoLidas">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
+                        <span class="label label-danger" ng-if="vmTopNav.quantidadeNotificacoesNaoLidas">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
                     </md-button>
                     <md-menu-content>
                         <a ui-sref="home.notificacoes" class="ver_tudo">{{'messages.ver_tudo' | translate}}</a>
                         <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao largura-menu">
                             <a layout="row" layout-align="start center" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)" ng-class="{'notificacao-nao-lida': !notificacao.lida}">
                                 <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-hide="notificacao.remetente">
-                                <img class="img-circle img-xs m-r-sm" alt="image" ng-src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-show="notificacao.remetente">
+                                <img class="img-circle img-xs m-r-sm" alt="image" ng-src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-if="notificacao.remetente">
                                 <div layout="column">
                                     <p class="m-b-none" translate="{{notificacao.mensagem}}" translate-values="{nome_remetente: notificacao.remetente.nome, nome_campeonato: notificacao.nome_campeonato, nome_fase: notificacao.nome_fase}"></p>
                                     <small class="text-muted m-t-none">
@@ -134,7 +134,7 @@
                             </div>
                         </md-button>
                     </md-menu-item>
-                    <div ng-show="false">
+                    <div ng-if="false">
                         <md-menu-divider></md-menu-divider>
                         <md-menu-item>
                             <md-button ui-sref="campeonato">{{'menus.campeonatos' | translate}}</md-button>
@@ -170,7 +170,7 @@
     </div>
 </md-toolbar>
 
-<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch">
+<md-toolbar hide-gt-xs layout="row" ng-if="!showSearch">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-hide="vmTopNav.isOpenSideNav()">
             <i class="material-icons md-24">menu</i>
@@ -183,7 +183,7 @@
 
         <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
             <i class="material-icons md-24">message</i>
-            <span class="label label-danger" ng-show="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
+            <span class="label label-danger" ng-if="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
         </md-button>
 
         <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes">
@@ -196,7 +196,7 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-toolbar hide-gt-xs class="md-accent md-hue-1" ng-show="showSearch" id="toolbarSearch">
+<md-toolbar hide-gt-xs class="md-accent md-hue-1" ng-if="showSearch" id="toolbarSearch">
     <div class="md-toolbar-tools" layout-align="space-between center">
         <md-button class="md-icon-button" ng-click="showSearch = !showSearch" aria-label="Back">
             <i class="material-icons md-24">arrow_back</i>
@@ -204,7 +204,7 @@
         <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template" flex>
             <md-item-template>
                 <span class="item-title">
-                        <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-show="item.tipo == 'profile'">
+                        <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-if="item.tipo == 'profile'">
                         <img ng-src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
                         <span> {{item.descricao}} </span>
                 </span>

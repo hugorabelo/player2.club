@@ -23,12 +23,12 @@
                     {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
                 </span>
             </div>
-            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-if="false"></uib-rating>
 
             <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}</md-button>
-            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-if="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
         </div>
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.analises' | translate}}</h3>
             <a ui-sref=".analises">
                 <i class="material-icons">more</i>
@@ -45,7 +45,7 @@
                 <a ui-sref="campeonato({idCampeonato: campeonato.id})">{{campeonato.descricao}} <span class="pull-right">{{campeonato.plataforma}}</span> </a>
             </li>
         </ul>
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.melhores_jogadores' | translate}}</h3>
             <a ui-sref=".ranking">
                 <i class="material-icons">more</i>
@@ -91,15 +91,15 @@
                    {{vmJogo.jogo.produtora}}
                 </span>
         </div>
-        <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+        <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-if="false"></uib-rating>
 
         <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-if="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
     </md-card>
 
     <div layout-fill ui-view>
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.analises' | translate}}</h3>
             <a ui-sref=".analises">
                 <i class="material-icons">more</i>
@@ -125,7 +125,7 @@
             </div>
         </md-card>
 
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.melhores_jogadores' | translate}}</h3>
             <a ui-sref=".ranking">
                 <i class="material-icons">more</i>

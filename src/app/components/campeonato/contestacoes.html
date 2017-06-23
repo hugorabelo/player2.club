@@ -41,14 +41,14 @@
                         </md-tooltip>
                     </md-button>
 
-                    <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)" ng-show="partida.edita_contestacao">
+                    <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)" ng-if="partida.edita_contestacao">
                         <i class="material-icons">save</i>
                         <md-tooltip md-direction="top ">
                             {{'fields.salvar_placar_contestado' | translate}}
                         </md-tooltip>
                     </md-button>
 
-                    <md-button class="md-fab md-mini md-warn" ng-click="partida.edita_contestacao = false" ng-show="partida.edita_contestacao">
+                    <md-button class="md-fab md-mini md-warn" ng-click="partida.edita_contestacao = false" ng-if="partida.edita_contestacao">
                         <i class="material-icons">clear</i>
                         <md-tooltip md-direction="top ">
                             {{'fields.cancel' | translate}}
@@ -78,7 +78,7 @@
                                 <i class="material-icons">done</i> {{'fields.confirmar_contestacao' | translate}}
                             </md-button>
                         </md-menu-item>
-                        <md-menu-item ng-show="partida.edita_contestacao">
+                        <md-menu-item ng-if="partida.edita_contestacao">
                             <md-button class="md-raised md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)">
                                 <i class="material-icons">save</i> {{'fields.salvar_placar_contestado' | translate}}
                             </md-button>

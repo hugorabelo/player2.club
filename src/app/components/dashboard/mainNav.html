@@ -1,8 +1,8 @@
 <!--Exibição Desktop-->
-<uib-rating hide-xs ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+<uib-rating hide-xs ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-if="false"></uib-rating>
 <a hide-xs ui-sref="home.editar_perfil" class="menu-usuario"><i class="fa fa-user" aria-hidden="true"></i> Editar Perfil</a>
 <a hide-xs ui-sref="home.criar_campeonato" class="menu-usuario"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Criar Campeonato</a>
-<a hide-xs ui-sref="meus_artigos" class="menu-usuario" ng-show="false">Artigos</a>
+<a hide-xs ui-sref="meus_artigos" class="menu-usuario" ng-if="false">Artigos</a>
 <a hide-xs ui-sref="home.campeonatos" class="menu-usuario"><i class="fa fa-trophy" aria-hidden="true"></i> Campeonatos</a>
 <a hide-xs ui-sref="home.seguindo({idUsuario: vmHome.usuario.id})" class="menu-usuario"><i class="fa fa-users" aria-hidden="true"></i> Seguindo</a>
 <a hide-xs ui-sref="home.seguidores({idUsuario: vmHome.usuario.id})" class="menu-usuario"><i class="fa fa-users" aria-hidden="true"></i> Seguidores</a>
@@ -11,14 +11,14 @@
 
 
 <!--Exibição Mobile-->
-<uib-rating hide-gt-xs ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+<uib-rating hide-gt-xs ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-if="false"></uib-rating>
 
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home" class="menu-usuario"><i class="material-icons md-24">home</i> Home</a>
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="profile({idUsuario: usuarioLogado.id})" class="menu-usuario"><i class="material-icons md-24">person</i> Visitar Meu Perfil</a>
 
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home.editar_perfil" class="menu-usuario"><i class="fa fa-user" aria-hidden="true"></i> Editar Perfil</a>
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home.criar_campeonato" class="menu-usuario"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Criar Campeonato</a>
-<a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="meus_artigos" class="menu-usuario" ng-show="false">Artigos</a>
+<a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="meus_artigos" class="menu-usuario" ng-if="false">Artigos</a>
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home.campeonatos" class="menu-usuario"><i class="fa fa-trophy" aria-hidden="true"></i> Campeonatos</a>
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home.seguindo({idUsuario: vmHome.usuario.id})" class="menu-usuario"><i class="fa fa-users" aria-hidden="true"></i> Seguindo</a>
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home.seguidores({idUsuario: vmHome.usuario.id})" class="menu-usuario"><i class="fa fa-users" aria-hidden="true"></i> Seguidores</a>

@@ -11,7 +11,7 @@
                         <input ng-model="vmCriarCampeonato.campeonato.descricao" required>
                     </md-input-container>
 
-                    <md-input-container class="md-block" ng-show="false">
+                    <md-input-container class="md-block" ng-if="false">
                         <label>{{'fields.acesso' | translate}}</label>
                         <md-select ng-model="vmCriarCampeonato.campeonato.acesso_campeonato_id" required>
                             <md-option ng-repeat="tipoAcesso in vmCriarCampeonato.tiposDeAcessosDoCampeonato" ng-value="tipoAcesso.id">
@@ -69,7 +69,7 @@
                         </md-input-container>
                     </div>
 
-                    <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-show="vmCriarCampeonato.templateDetalhes"></div>
+                    <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-if="vmCriarCampeonato.templateDetalhes"></div>
 
                     <md-card-actions layout="row" layout-align="end center">
                         <md-button ng-click="vmCriarCampeonato.cancel()">{{'fields.cancel' | translate}}</md-button>
@@ -93,7 +93,7 @@
                 <input ng-model="vmCriarCampeonato.campeonato.descricao" required>
             </md-input-container>
 
-            <md-input-container class="md-block" ng-show="false">
+            <md-input-container class="md-block" ng-if="false">
                 <label>{{'fields.acesso' | translate}}</label>
                 <md-select ng-model="vmCriarCampeonato.campeonato.acesso_campeonato_id" required>
                     <md-option ng-repeat="tipoAcesso in vmCriarCampeonato.tiposDeAcessosDoCampeonato" ng-value="tipoAcesso.id">
@@ -146,7 +146,7 @@
                 </md-select>
             </md-input-container>
 
-            <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-show="vmCriarCampeonato.templateDetalhes"></div>
+            <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-if="vmCriarCampeonato.templateDetalhes"></div>
 
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="vmCriarCampeonato.cancel()">{{'fields.cancel' | translate}}</md-button>

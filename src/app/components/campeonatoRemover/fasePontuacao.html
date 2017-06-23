@@ -1,6 +1,6 @@
 <form name="formularioPontuacao" class="form-inline" novalidate="novalidate" ng-submit="salvaPontuacao()">
 
-    <div class="row" ng-show="messagePontuacao">
+    <div class="row" ng-if="messagePontuacao">
         <div class="col-md-12">
                 <div class="alert alert-danger error">
                     {{ messagePontuacao }}
