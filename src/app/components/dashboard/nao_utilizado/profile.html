@@ -1,15 +1,14 @@
 <div layout="row" layout-wrap class="header-profile" layout-align="start center">
     <div class="profile-image">
-        <img src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border m-b-md" alt="profile">
-        <!--        <img src="http://localhost/player2/public/uploads/usuarios/usuario_14252158119037.jpg" class="img-circle circle-border" alt="profile">-->
+        <img ng-src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}" class="img-circle circle-border m-b-md" alt="profile">
     </div>
     <div class="profile-info">
         <div class="">
             <div>
                 <h2 class="no-margins">
-<!--                    Hugo Rabelo-->
-                {{vmProfile.usuario.nome}}
-            </h2>
+                    <!--                    Hugo Rabelo-->
+                    {{vmProfile.usuario.nome}}
+                </h2>
                 <h4>Founder of player2</h4>
                 <small>
 <!--                    Fifa player-->
@@ -21,94 +20,3 @@
     <span flex></span>
     <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmProfile.seguir(usuario.id)">SEGUIR</md-button>
 </div>
-<!--
-<div class="ibox float-e-margins">
-    <div>
-        <div class="ibox-content no-padding border-left-right" ng-show="vmProfile.usuario.imagem_perfil">
-            <figure class="foto_perfil">
-                <img alt="image" class="img-responsive" src="uploads/usuarios/{{vmProfile.usuario.imagem_perfil}}"> {{vmProfile.usuario.nome}}
-
-                <figcaption>
-<a class="edita_foto" ng-click="vmProfile.abreFormularioImagemPerfil()">
-    <i class="fa fa-fw fa-lg fa-edit"></i> Editar Foto
-</a>
-<div id="formModalImagem" ng-include="'app/components/dashboard/formModalImagem.html'" ng-show="vmProfile.exibeFormularioImagem">
-</div>
-</figcaption>
-
-            </figure>
-        </div>
-
-        <div class="ibox-content no-padding border-left-right" ng-hide="vmProfile.usuario.imagem_perfil">
-<button type="button" class="btn btn-primary btn-block" ng-click="vmProfile.abreFormularioImagemPerfil()">
-    <i class="fa fa-fw fa-lg fa-image"></i><span translate> messages.inserir_imagem_perfil</span>
-</button>
-<div id="formModalImagem" ng-include="'app/components/dashboard/formModalImagem.html'" ng-show="vmProfile.exibeFormularioImagem">
-</div>
-</div>
-<div class="ibox-content profile-content">
-    <div id="exibePerfil" ng-show="!vmProfile.exibeFormularioPerfil">
-        <h4>
-                    <strong>{{vmProfile.usuario.nome}}</strong>
-                    <a class="pull-right" ng-click="vmProfile.abreFormularioPerfil()">
-                        <i class="fa fa-fw fa-edit"></i>
-                    </a>
-                </h4>
-        <p ng-show="vmProfile.usuario.localizacao"><i class="fa fa-fw fa-map-marker"></i>{{vmProfile.usuario.localizacao}}</p>
-        <h5 translate>messages.sobre_mim</h5>
-        <p>{{vmProfile.usuario.descricao}}</p>
-    </div>
-    <div id="formPerfil" ng-include="'app/components/dashboard/formPerfil.html'" ng-show="vmProfile.exibeFormularioPerfil">
-    </div>
-
-    <div class="row m-t-lg" ng-hide="true">
-        <div class="col-md-4">
-            <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-            <h5><strong>169</strong> Posts</h5>
-        </div>
-        <div class="col-md-4">
-            <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-            <h5><strong>28</strong> Following</h5>
-        </div>
-        <div class="col-md-4">
-            <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
-            <h5><strong>240</strong> Followers</h5>
-        </div>
-    </div>
-    <div class="user-button" ng-hide="true">
-        <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-fw fa-envelope"></i>Send Message</button>
-            </div>
-            <div class="col-md-6">
-                <button type="button" class="btn btn-default btn-sm btn-block"><i class="fa fa-fw fa-coffee"></i>Buy a coffee</button>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="ibox-title">
-        <h5 class="pull-left" translate>messages.usuario_gamertags</h5>
-        <a class="pull-right" ng-click="vmProfile.abreFormularioGamertag()">
-            <i class="fa fa-fw fa-plus"></i>
-        </a>
-    </div>
-    <div class="collapse in" id="collapseFormGamertag" ng-show="vmProfile.exibeFormulario">
-        <div class="" ng-include="'app/components/dashboard/formGamerTag.html'">
-        </div>
-    </div>
-
-    <div class="ibox-content">
-        <div class="feed-activity-list" ng-repeat="plataforma in vmProfile.userPlataformas">
-            <div class="gamertag-element feed-element">
-                <img class="img-rounded pull-left" src="uploads/{{plataforma.imagem_plataforma}}"> {{plataforma.gamertag}}
-                <a ng-click="vmProfile.excluiUserPlataforma($event, plataforma.id)">
-                    <i class="fa fa-fw fa-trash-o pull-right"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-    </div>
-</div>-->

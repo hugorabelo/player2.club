@@ -4,7 +4,7 @@
 </md-toolbar>
 <md-list class="md-dense" flex ng-init="vmTopNav.getConversasDoUsuario()">
     <md-list-item ng-repeat="conversa in vmTopNav.conversasUsuario" class="md-3-line item-lista" ng-click="#" ui-sref="home.chat({idUsuario: conversa.remetente.id})">
-        <img class="img-circle img-xs m-r-sm" alt="image" src="uploads/usuarios/{{conversa.remetente.imagem_perfil}}" data-pin-nopin="true">
+        <img class="img-circle img-xs m-r-sm" alt="image" ng-src="uploads/usuarios/{{conversa.remetente.imagem_perfil}}" data-pin-nopin="true">
         <div class="md-list-item-text" layout="column">
             <h3 class="mensagem-nome">{{conversa.remetente.nome}}</h3>
             <h4 class="mensagem-texto">{{conversa.ultima_mensagem}}</h4>

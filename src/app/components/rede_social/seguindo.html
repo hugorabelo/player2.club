@@ -8,7 +8,7 @@
 <md-grid-list md-cols-xs="2" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px" hide-xs>
     <md-grid-tile class="card-usuarios" ng-repeat="seguidor in vmSeguidores.querySearchSeguindo(vmSeguidores.searchTextSeguindo)" layout="column">
         <div layout="column" layout-fill class="body-content">
-            <img alt="image" class="img-circle img-lg" src="uploads/usuarios/{{seguidor.imagem_perfil}}">
+            <img alt="image" class="img-circle img-lg" ng-src="uploads/usuarios/{{seguidor.imagem_perfil}}">
             <h3 class="m-b-xs"><strong>{{seguidor.nome}}</strong></h3>
             <div class="font-bold">{{seguidor.localizacao}}</div>
         </div>
@@ -40,7 +40,7 @@
     <md-grid-list md-cols-xs="2" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px" class="m-l-sm m-r-sm">
         <md-grid-tile class="card-usuarios" ng-repeat="seguidor in vmSeguidores.querySearchSeguindo(vmSeguidores.searchTextSeguindo)" layout="column">
             <div layout="column" layout-fill class="body-content">
-                <img alt="image" class="img-circle img-lg" src="uploads/usuarios/{{seguidor.imagem_perfil}}">
+                <img alt="image" class="img-circle img-lg" ng-src="uploads/usuarios/{{seguidor.imagem_perfil}}">
                 <h3 class="m-b-xs"><strong>{{seguidor.nome}}</strong></h3>
             </div>
             <md-grid-tile-footer class="center-block">

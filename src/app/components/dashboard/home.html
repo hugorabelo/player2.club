@@ -17,12 +17,12 @@
             <span flex>{{ campeonato.descricao }}</span>
             <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon img-xs">
             </md-icon>
-            <img src="uploads/{{campeonato.jogo_imagem}} " alt="{{campeonato.jogo}} " class="img-circle img-xs m-xxs">
+            <img ng-src="uploads/{{campeonato.jogo_imagem}} " alt="{{campeonato.jogo}} " class="img-circle img-xs m-xxs">
         </a>
 
         <h3 class="menu-acessorio_titulo m-t-xl">{{'messages.jogos_disponiveis' | translate}}</h3>
         <a class="menu-acessorio" ui-sref="jogo({idJogo: jogo.id})" ng-repeat="jogo in vmHome.jogosDisponiveis">
-            <img src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xxs">
+            <img ng-src="uploads/{{jogo.imagem_capa}} " alt="{{jogo.descricao}} " class="img-circle img-md m-xxs">
             <md-tooltip md-direction="top ">
                 {{jogo.descricao}}
             </md-tooltip>

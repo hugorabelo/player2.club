@@ -7,7 +7,7 @@
                 <h3 class="titulo-jogo">{{vmJogo.jogo.descricao}}</h3>
             </a>
             <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
-                <img src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
+                <img ng-src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
             </a>
             <div layout="row" layout-align="space-around center">
                 <span class="info">
@@ -59,7 +59,7 @@
         </div>
         <ul class="itens">
             <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
-                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
+                <img ng-src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
                 <md-tooltip md-direction="top ">
                     {{seguidor.nome}}
                 </md-tooltip>
@@ -79,7 +79,7 @@
     </md-toolbar>
     <md-card class="detalhes-jogo m-n p-xs">
         <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
-            <img src="uploads/{{vmJogo.jogo.imagem_capa}}" class="img-responsive m-b-md" alt="profile">
+            <img ng-src="uploads/{{vmJogo.jogo.imagem_capa}}" class="img-responsive m-b-md" alt="profile">
         </a>
         <div layout="row" layout-align="space-around center" class="m-b-sm">
             <span class="info">
@@ -144,7 +144,7 @@
             </md-card-title>
             <div class="m-xs">
                 <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
-                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+                    <img ng-src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                     <md-tooltip md-direction="top ">
                         {{seguidor.nome}}
                     </md-tooltip>

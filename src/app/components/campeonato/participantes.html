@@ -22,7 +22,7 @@
     <md-card-content layout="column">
         <div layout="row" layout-align="space-between start">
             <div layout="row" layout-align="start center">
-                <img alt="image" class="img-circle img-md m-r-md" src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}">
+                <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}">
                 <div layout="column">
                     <h2 class="no-margins">{{vmCampeonato.participanteDestaque.nome}}</h2>
                     <p>{{vmCampeonato.participanteDestaque.descricao}}</p>
@@ -34,11 +34,11 @@
         </div>
         <div layout="row" layout-xs="column" class="m-t-sm">
             <div class="gamertag-element  m-b-md" ng-show="vmCampeonato.participanteDestaque.gamertag" flex layout="row" layout-align="start center" layout-align-xs="center center">
-                <img class="img-rounded m-r-sm" src="uploads/{{vmCampeonato.participanteDestaque.imagem_plataforma}}">
+                <img class="img-rounded m-r-sm" ng-src="uploads/{{vmCampeonato.participanteDestaque.imagem_plataforma}}">
                 <span>{{vmCampeonato.participanteDestaque.gamertag}}</span>
             </div>
             <div class="gamertag-element  m-b-md" flex layout="row" layout-align="end center" layout-align-xs="center center">
-                <img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{vmCampeonato.participanteDestaque.time.distintivo}}" ng-show="vmCampeonato.participanteDestaque.time">
+                <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{vmCampeonato.participanteDestaque.time.distintivo}}" ng-show="vmCampeonato.participanteDestaque.time">
                 <span ng-show="vmCampeonato.participanteDestaque.time">{{vmCampeonato.participanteDestaque.time.descricao}}</span>
                 <span ng-hide="vmCampeonato.participanteDestaque.time">{{'messages.sem_time' | translate}}</span>
                 <md-button class="md-icon-button" ng-show="vmCampeonato.campeonato.usuarioAdministrador && !vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.editarTimeUsuario()">
@@ -98,7 +98,7 @@
                     <h2 class="no-margins">{{vmCampeonato.participanteDestaque.nome}}</h2>
 
                     <div class="m-b-sm">
-                        <img alt="image" class="img-circle" src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}" style="width: 62px">
+                        <img alt="image" class="img-circle" ng-src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}" style="width: 62px">
                     </div>
                     <strong>
                         {{'messages.sobre_mim' | translate}}
@@ -113,7 +113,7 @@
                     </strong>
                     <div class="feed-activity-list" ng-show="vmCampeonato.participanteDestaque.gamertag">
                         <div class="gamertag-element feed-element">
-                            <img class="pull-left img-rounded" src="uploads/{{vmCampeonato.participanteDestaque.imagem_plataforma}}"> {{vmCampeonato.participanteDestaque.gamertag}}
+                            <img class="pull-left img-rounded" ng-src="uploads/{{vmCampeonato.participanteDestaque.imagem_plataforma}}"> {{vmCampeonato.participanteDestaque.gamertag}}
                         </div>
                     </div>
                 </div>

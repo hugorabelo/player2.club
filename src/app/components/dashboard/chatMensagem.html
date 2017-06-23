@@ -6,7 +6,7 @@
 
 <div id="janela-chat" class="chat-discussion m-b-none" ng-init="vmHome.getMensagensDoUsuario(); vmHome.iniciarContador()">
     <div class="chat-message" ng-class="{left: mensagem.remetente.id != usuarioLogado.id, right:  mensagem.remetente.id == usuarioLogado.id}" ng-repeat="mensagem in vmHome.mensagensUsuario">
-        <img class="message-avatar" src="uploads/usuarios/{{mensagem.remetente.imagem_perfil}}" alt="">
+        <img class="message-avatar" ng-src="uploads/usuarios/{{mensagem.remetente.imagem_perfil}}" alt="">
         <div class="message">
             <a class="message-author" ui-sref="profile({idUsuario: mensagem.id_remetente})"> {{mensagem.remetente.nome}} </a>
             <span class="message-date"> {{vmHome.exibeData(mensagem.created_at)}} </span>
