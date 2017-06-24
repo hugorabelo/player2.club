@@ -10,8 +10,8 @@
     </div>
 </div>
 
-<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="iniciaFase()" ng-hide="campeonatoFaseSelecionada.encerrada">
-    <div class="form-group" ng-hide="campeonatoFaseSelecionada.aberta">
+<form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="iniciaFase()" ng-if="!campeonatoFaseSelecionada.encerrada">
+    <div class="form-group" ng-if="!campeonatoFaseSelecionada.aberta">
         <label for="data_fim" class="col-md-5 control-label" translate>fields.data_fim</label>
         <div class="col-md-7">
             <div class="input-group date">
@@ -25,12 +25,12 @@
         <div class="col-md-7">
             <select id="tipo_sorteio_matamata" class="form-control" ng-model="dadosFase.tipo_sorteio_matamata" required>
                 <option value="aleatorio" translate>fields.sorteio_aleatorio</option>
-                <option value="geral" translate ng-hide="campeonatoFaseSelecionada.inicial">fields.sorteio_geral</option>
-                <option value="grupo" translate ng-hide="campeonatoFaseSelecionada.inicial">fields.sorteio_grupo</option>
+                <option value="geral" translate ng-if="!campeonatoFaseSelecionada.inicial">fields.sorteio_geral</option>
+                <option value="grupo" translate ng-if="!campeonatoFaseSelecionada.inicial">fields.sorteio_grupo</option>
             </select>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" ng-hide="campeonatoFaseSelecionada.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></button>
+    <button type="submit" class="btn btn-primary" ng-if="!campeonatoFaseSelecionada.aberta"><i class="fa fa-fw fa-unlock"></i><span translate>fields.fase_abrir</span></button>
     <button type="button" class="btn btn-primary" ng-click="encerraFase()" ng-if="campeonatoFaseSelecionada.aberta"><i class="fa fa-fw fa-lock"></i><span translate>fields.fase_fechar</span></button>
 </form>

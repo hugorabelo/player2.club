@@ -10,7 +10,7 @@
             </a>
         </nav>
 
-        <div class="row" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-hide="vmCampeonato.fase_atual.matamata">
+        <div class="row" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-if="!vmCampeonato.fase_atual.matamata">
             <div class="col-md-8">
                 <div class="ibox">
                     <div class="ibox-title">

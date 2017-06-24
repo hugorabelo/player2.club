@@ -30,7 +30,7 @@
             <div flex="20" flex-xs="35" layout-xs="row" layout-align-xs="space-between center">
 
                 <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao" layout-xs="row" layout-align-xs="center center">
-                    <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">
+                    <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-if="!partida.data_placar">
                         <i class="material-icons">save</i>
                         <md-tooltip md-direction="top ">
                             {{'fields.salvar_resultado' | translate}}

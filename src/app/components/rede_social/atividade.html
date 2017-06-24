@@ -351,7 +351,7 @@
             </a>
             <div class="media-body ">
                 <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-if="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
-                <div class="grupo_comentario" ng-hide="comentario.edicao">
+                <div class="grupo_comentario" ng-if="!comentario.edicao">
                     <a ui-sref="profile({idUsuario: comentario.usuario.id}) ">{{comentario.usuario.nome}}</a>
                     <span ng-bind-html="comentario.texto"></span>
                     <br>

@@ -16,7 +16,7 @@
             <h3>{{contestacao.usuario.nome}}</h3>
             <div class="clearfix"></div>
             <h2>{{'fields.motivo_contestacao' | translate}}</h2>
-            <p ng-hide="contestacao.motivo == 2">
+            <p ng-if="contestacao.motivo != 2">
                 {{ 'fields.resultado_errado' | translate }}
             </p>
             <p ng-if="contestacao.motivo == 2">

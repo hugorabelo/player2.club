@@ -35,7 +35,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div flex ng-include="'app/components/common/topnavbar.html'" ng-hide="escondeBarra" ng-controller="TopNavController as vmTopNav"></div>
+    <div flex ng-include="'app/components/common/topnavbar.html'" ng-if="!escondeBarra" ng-controller="TopNavController as vmTopNav"></div>
     <!--    <div flex ng-include="'app/components/common/navigation.html'"></div>-->
 
     <div flex layout="row">
@@ -48,7 +48,7 @@
         </md-content>
     </div>
 
-    <div id="barra-report" ng-controller="BugController as vmBug" ng-include="'app/components/bugReport/barraInfo.html'" layout="row" layout-align="space-between center" ng-hide="escondeBarra">
+    <div id="barra-report" ng-controller="BugController as vmBug" ng-include="'app/components/bugReport/barraInfo.html'" layout="row" layout-align="space-between center" ng-if="!escondeBarra">
 
     </div>
 

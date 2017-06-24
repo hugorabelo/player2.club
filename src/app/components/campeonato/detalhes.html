@@ -17,8 +17,8 @@
                     <md-tab-label>{{ fase.descricao | translate }}</md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
-                            <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-hide="fase.encerrada">
-                                <md-input-container class="md-block" flex ng-hide="fase.aberta">
+                            <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-if="!fase.encerrada">
+                                <md-input-container class="md-block" flex ng-if="!fase.aberta">
                                     <label>{{'fields.data_fim' | translate}}</label>
                                     <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim"></md-datepicker>
                                 </md-input-container>
@@ -32,12 +32,12 @@
                                 </md-input-container>
                                 <md-card-actions layout="row" layout-align="end center" hide-xs>
                                     <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)" ng-hide="fase.aberta || fase.matamata"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-if="!fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
                                     <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-if="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
                                 </md-card-actions>
                                 <div layout="column" layout-xs="space-between end" hide-gt-xs>
                                     <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaPotes()" ng-hide="fase.aberta || fase.matamata"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-if="!fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
                                     <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-if="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
                                 </div>
                             </form>

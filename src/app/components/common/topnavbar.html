@@ -11,7 +11,7 @@
                 <md-item-template>
                     <span class="item-title">
                         <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-if="item.tipo == 'profile'">
-                        <img ng-src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
+                        <img ng-src="uploads/{{item.imagem}}" class="img-sm" ng-if="item.tipo != 'profile'">
                         <span> {{item.descricao}} </span>
                     </span>
                 </md-item-template>
@@ -36,7 +36,7 @@
                         <a ui-sref="home.notificacoes" class="ver_tudo">{{'messages.ver_tudo' | translate}}</a>
                         <md-menu-item ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao largura-menu">
                             <a layout="row" layout-align="start center" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)" ng-class="{'notificacao-nao-lida': !notificacao.lida}">
-                                <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-hide="notificacao.remetente">
+                                <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-if="!notificacao.remetente">
                                 <img class="img-circle img-xs m-r-sm" alt="image" ng-src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-if="notificacao.remetente">
                                 <div layout="column">
                                     <p class="m-b-none" translate="{{notificacao.mensagem}}" translate-values="{nome_remetente: notificacao.remetente.nome, nome_campeonato: notificacao.nome_campeonato, nome_fase: notificacao.nome_fase}"></p>
@@ -172,7 +172,7 @@
 
 <md-toolbar hide-gt-xs layout="row" ng-if="!showSearch">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-hide="vmTopNav.isOpenSideNav()">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-if="!vmTopNav.isOpenSideNav()">
             <i class="material-icons md-24">menu</i>
         </md-button>
         <span flex class="text-center">
@@ -205,7 +205,7 @@
             <md-item-template>
                 <span class="item-title">
                         <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-if="item.tipo == 'profile'">
-                        <img ng-src="uploads/{{item.imagem}}" class="img-sm" ng-hide="item.tipo == 'profile'">
+                        <img ng-src="uploads/{{item.imagem}}" class="img-sm" ng-if="item.tipo != 'profile'">
                         <span> {{item.descricao}} </span>
                 </span>
             </md-item-template>
