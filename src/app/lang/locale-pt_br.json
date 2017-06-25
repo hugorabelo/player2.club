@@ -402,7 +402,9 @@
         "vagas_incompletas": "O sorteio só poderá ser realizado quando todas as vagas do campeonato estiverem preenchidas",
 
         "titulo_alerta_login": "Erro ao fazer o login",
-        "conteudo_alerta_login": "O usuário não está cadastrado no sistema"
+        "conteudo_alerta_login": "O usuário não está cadastrado no sistema",
+
+        "exibe_confirmadas": "Exibir partidas já confirmadas"
     },
 
     "generos": {

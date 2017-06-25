@@ -41,7 +41,7 @@
     <div flex layout="row">
         <md-content md-scroll-y layout="column" class="conteudo-principal" flex>
             <div id="page-loading" ng-if="pageLoading" layout="row" layout-align="center center">
-                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <md-progress-circular md-diameter="96"></md-progress-circular>
                 <span class="sr-only">Loading...</span>
             </div>
             <div flex ui-view></div>

@@ -49,7 +49,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
-    Route::get('partidasParaUsuario/{id}/{idCampeonato?}', 'UsersController@listaPartidas');
+    Route::get('partidasParaUsuario/{id}/{idCampeonato?}/{confirmadas?}', 'UsersController@listaPartidas');
     Route::get('partidasEmAberto/{id}/{idCampeonato?}', 'UsersController@listaPartidasEmAberto');
     Route::get('partidasDisputadas/{id}/{idCampeonato?}', 'UsersController@listaPartidasDisputadas');
     Route::get('partidasNaoDisputadas/{id}/{idCampeonato?}', 'UsersController@listaPartidasNaoDisputadas');
