@@ -216,7 +216,6 @@ class UsersController extends Controller {
 		if($usuario == null) {
 			return Response::json();
 		}
-		Log::warning(boolval($confirmadas));
 		$partidas = $usuario->partidas($idCampeonato, $confirmadas);
 		return Response::json($partidas);
 	}

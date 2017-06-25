@@ -33,7 +33,7 @@
     //        $locationProvider.html5Mode(true);
     //    });
 
-    //Ambiente: local | dev | beta
+    //Ambiente: local | dev | beta | hugorabelo
     var ambiente = 'local';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
@@ -49,10 +49,12 @@
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://dev.player2.club";
         responseTypeAmbiente = "token";
+        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     } else if (ambiente = "hugorabelo") {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.hugorabelo.com";
         responseTypeAmbiente = "token";
+        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     } else {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.player2.club";
