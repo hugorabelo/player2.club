@@ -1,6 +1,6 @@
 <form name="formularioGrupo" class="form-inline" novalidate="novalidate" ng-submit="salvaGrupos()">
 
-    <div class="row" ng-show="messageGrupo">
+    <div class="row" ng-if="messageGrupo">
         <div class="col-md-12">
             <div class="alert alert-danger error">
                 {{ messageGrupo }}

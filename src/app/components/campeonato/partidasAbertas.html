@@ -35,38 +35,38 @@
 
                 <div id="botoes" class="pull-left">
 
-                    <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)" ng-show="partida.edita_contestacao">
+                    <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)" ng-if="partida.edita_contestacao">
                         <i class="material-icons">save</i>
                         <md-tooltip md-direction="top ">
                             {{'fields.salvar_resultado' | translate}}
                         </md-tooltip>
                     </md-button>
 
-                    <md-button class="md-fab md-mini md-warn" ng-click="partida.edita_contestacao = false" ng-show="partida.edita_contestacao">
+                    <md-button class="md-fab md-mini md-warn" ng-click="partida.edita_contestacao = false" ng-if="partida.edita_contestacao">
                         <i class="material-icons">clear</i>
                         <md-tooltip md-direction="top ">
                             {{'fields.cancel' | translate}}
                         </md-tooltip>
                     </md-button>
 
-                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" ng-hide="partida.edita_contestacao" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
+                    <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" ng-if="!partida.edita_contestacao" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
                         <i class="material-icons">edit</i>
                         <md-tooltip md-direction="top ">
                             {{'fields.edit' | translate}}
                         </md-tooltip>
                     </md-button>
                 </div>
-                <md-menu ng-show="false">
+                <md-menu ng-if="false">
                     <md-button aria-label="+" class="md-icon-button" ng-click="$mdOpenMenu()" hide-gt-xs>
                         <i class="material-icons">more_horiz</i>
                     </md-button>
                     <md-menu-content width="1">
-                        <md-menu-item ng-show="partida.edita_contestacao">
+                        <md-menu-item ng-if="partida.edita_contestacao">
                             <md-button class="md-raised md-primary" ng-click="vmCampeonato.salvarPlacarContestacao(partida)">
                                 <i class="material-icons">save</i> {{'fields.salvar_resultado' | translate}}
                             </md-button>
                         </md-menu-item>
-                        <md-menu-item ng-hide="partida.edita_contestacao">
+                        <md-menu-item ng-if="!partida.edita_contestacao">
                             <md-button class="md-raised md-warn" ng-click="vmCampeonato.editarPlacarContestado(partida)" md-colors="::{color: 'sunlitsea-100', background: 'player2-warn-900'}">
                                 <i class="material-icons">clear</i> {{'fields.edit' | translate}}
                             </md-button>

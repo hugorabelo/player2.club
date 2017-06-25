@@ -12,14 +12,14 @@
     <md-dialog-content>
         <div class="md-dialog-content">
             <h2>{{'fields.usuario_id' | translate}}</h2>
-            <img src="uploads/usuarios/{{contestacao.usuario.imagem_perfil}}" class="img-circle img-sm m-r pull-left" alt="">
+            <img ng-src="uploads/usuarios/{{contestacao.usuario.imagem_perfil}}" class="img-circle img-sm m-r pull-left" alt="">
             <h3>{{contestacao.usuario.nome}}</h3>
             <div class="clearfix"></div>
             <h2>{{'fields.motivo_contestacao' | translate}}</h2>
-            <p ng-hide="contestacao.motivo == 2">
+            <p ng-if="contestacao.motivo != 2">
                 {{ 'fields.resultado_errado' | translate }}
             </p>
-            <p ng-show="contestacao.motivo == 2">
+            <p ng-if="contestacao.motivo == 2">
                 {{ 'fields.partida_nao_realizada' | translate }}
             </p>
             <h2>{{'fields.descricao' | translate}}</h2>
@@ -27,8 +27,8 @@
                 {{contestacao.comentarios}}
             </p>
 
-            <h2  ng-show="contestacao.imagem">{{'fields.printscreen' | translate}}</h2>
-            <img src="uploads/{{contestacao.imagem}}" class="img-responsive" alt="" ng-show="contestacao.imagem">
+            <h2 ng-if="contestacao.imagem">{{'fields.printscreen' | translate}}</h2>
+            <img ng-src="uploads/{{contestacao.imagem}}" class="img-responsive" alt="" ng-if="contestacao.imagem">
         </div>
 
     </md-dialog-content>

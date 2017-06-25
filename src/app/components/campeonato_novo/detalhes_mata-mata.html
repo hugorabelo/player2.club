@@ -6,7 +6,7 @@
     </md-card-header>
     <md-card-content layout-gt-xs="row" layout-margin>
         <div flex-gt-xs="70">
-            <md-input-container class="md-block" ng-show="false">
+            <md-input-container class="md-block" ng-hide="true">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
                 <md-select ng-model="vmCriarCampeonato.campeonato.detalhes.tipo_competidor_id">
                     <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
@@ -28,7 +28,7 @@
                 </md-radio-group>
             </md-input-container>
 
-            <md-input-container class="md-block md-input-has-value" ng-show="vmCriarCampeonato.campeonato.detalhes.ida_volta">
+            <md-input-container class="md-block md-input-has-value" ng-if="vmCriarCampeonato.campeonato.detalhes.ida_volta">
                 <label>{{'fields.fora_casa' | translate}}</label>
                 <md-radio-group ng-model="vmCriarCampeonato.campeonato.detalhes.fora_casa" class="md-primary" layout="row" required>
                     <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>

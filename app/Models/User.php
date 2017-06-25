@@ -43,13 +43,17 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     	return UsuarioTipo::find($this->usuario_tipos_id);
     }
 
-	public function partidas($idCampeonato = null) {
+	public function partidas($idCampeonato = null, $confirmadas = true) {
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//TODO exibir apenas partidas de um determinado campeonato
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
 			$grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
-			$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortByDesc('id');
+			if($confirmadas) {
+				$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortBy('id');
+			} else {
+				$partidas = Partida::whereIn('fase_grupos_id',$grupos)->whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
+			}
 		} else {
 			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
 		}

@@ -7,7 +7,7 @@
                 <h3 class="titulo-jogo">{{vmJogo.jogo.descricao}}</h3>
             </a>
             <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
-                <img src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
+                <img ng-src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
             </a>
             <div layout="row" layout-align="space-around center">
                 <span class="info">
@@ -23,12 +23,12 @@
                     {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
                 </span>
             </div>
-            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+            <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-hide="true"></uib-rating>
 
-            <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}</md-button>
-            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+            <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-if="!vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}</md-button>
+            <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-if="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
         </div>
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.analises' | translate}}</h3>
             <a ui-sref=".analises">
                 <i class="material-icons">more</i>
@@ -45,7 +45,7 @@
                 <a ui-sref="campeonato({idCampeonato: campeonato.id})">{{campeonato.descricao}} <span class="pull-right">{{campeonato.plataforma}}</span> </a>
             </li>
         </ul>
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.melhores_jogadores' | translate}}</h3>
             <a ui-sref=".ranking">
                 <i class="material-icons">more</i>
@@ -59,7 +59,7 @@
         </div>
         <ul class="itens">
             <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
-                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
+                <img ng-src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle img-md m-xs">
                 <md-tooltip md-direction="top ">
                     {{seguidor.nome}}
                 </md-tooltip>
@@ -79,7 +79,7 @@
     </md-toolbar>
     <md-card class="detalhes-jogo m-n p-xs">
         <a ui-sref="jogo({idJogo: vmJogo.jogo.id})">
-            <img src="uploads/{{vmJogo.jogo.imagem_capa}}" class="img-responsive m-b-md" alt="profile">
+            <img ng-src="uploads/{{vmJogo.jogo.imagem_capa}}" class="img-responsive m-b-md" alt="profile">
         </a>
         <div layout="row" layout-align="space-around center" class="m-b-sm">
             <span class="info">
@@ -91,15 +91,15 @@
                    {{vmJogo.jogo.produtora}}
                 </span>
         </div>
-        <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+        <uib-rating ng-model="usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-if="false"></uib-rating>
 
-        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-hide="vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-primary" ng-click="vmJogo.seguir()" ng-if="!vmJogo.jogo.seguido"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-show="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmJogo.deixarDeSeguir()" ng-if="vmJogo.jogo.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
     </md-card>
 
     <div layout-fill ui-view>
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.analises' | translate}}</h3>
             <a ui-sref=".analises">
                 <i class="material-icons">more</i>
@@ -125,7 +125,7 @@
             </div>
         </md-card>
 
-        <div class="caixa-informacao-titulo" ng-show="false">
+        <div class="caixa-informacao-titulo" ng-if="false">
             <h3>{{'messages.melhores_jogadores' | translate}}</h3>
             <a ui-sref=".ranking">
                 <i class="material-icons">more</i>
@@ -144,7 +144,7 @@
             </md-card-title>
             <div class="m-xs">
                 <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmJogo.jogo.seguidores">
-                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+                    <img ng-src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                     <md-tooltip md-direction="top ">
                         {{seguidor.nome}}
                     </md-tooltip>

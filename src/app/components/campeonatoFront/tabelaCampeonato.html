@@ -20,7 +20,7 @@
             </a>
         </nav>
 
-        <div class="row" ng-repeat="grupo in vmCampeonatoFront.gruposDaFase track by $index" ng-hide="vmCampeonatoFront.fase_atual.matamata">
+        <div class="row" ng-repeat="grupo in vmCampeonatoFront.gruposDaFase track by $index" ng-if="!vmCampeonatoFront.fase_atual.matamata">
             <div class="col-sm-8">
                 <div class="ibox">
                     <div class="ibox-title">
@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                                 <div class="placar-jogo-equipes-visitante col-xs-4">
-                                    <img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[0].nome}}">
+                                    <img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[0].nome}}">
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
             </div>
         </div>
         <!--        MATA-MATA-->
-        <div class="row grupo-matamata" ng-repeat="grupo in vmCampeonatoFront.gruposDaFase track by $index" ng-show="vmCampeonatoFront.fase_atual.matamata">
+        <div class="row grupo-matamata" ng-repeat="grupo in vmCampeonatoFront.gruposDaFase track by $index" ng-if="vmCampeonatoFront.fase_atual.matamata">
             <div class="col-sm-12">
                 <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
                 <div class="lista-de-jogos-item row" ng-repeat="usuario in grupo.usuarios">
@@ -109,7 +109,7 @@
                         {{placar}}
                     </div>
                 </div>
-                <div ng-show="$odd && grupo.usuarios != null">
+                <div ng-if="$odd && grupo.usuarios != null">
                     <div class="mata-conector1 hidden-xs"></div>
                     <div class="mata-conector2 hidden-xs"></div>
                 </div>

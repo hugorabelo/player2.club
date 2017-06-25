@@ -37,6 +37,8 @@
 
         vm.partidasAbertas = false;
 
+        vm.exibeConfirmadas = 0;
+
         vm.opcoesEditor = {
             language: 'pt_br',
             //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
@@ -116,8 +118,8 @@
                         vm.currentNavItem = 'tabela';
                     }
                     vm.carregaAdministradores(vm.idCampeonato);
-                    vm.carregaFases(vm.campeonato.id);
-                    //                    vm.exibeTabelaCompleta();
+                    //                    vm.carregaFases(vm.campeonato.id);
+                    vm.exibeTabelaCompleta();
                 });
         };
 
@@ -369,9 +371,12 @@
                 });
         };
 
-        vm.carregaPartidasDoUsuario = function (abertas) {
+        vm.carregaPartidasDoUsuario = function (abertas, confirmadas) {
             if (abertas === undefined) {
                 abertas = false;
+            }
+            if (confirmadas === undefined) {
+                confirmadas = 0;
             }
             if (abertas) {
                 Usuario.getPartidasEmAberto($rootScope.usuarioLogado.id, vm.campeonato.id)
@@ -380,7 +385,7 @@
                         vm.partidasAbertas = true;
                     });
             } else {
-                Usuario.getPartidas($rootScope.usuarioLogado.id, vm.campeonato.id)
+                Usuario.getPartidas($rootScope.usuarioLogado.id, vm.campeonato.id, confirmadas)
                     .success(function (data) {
                         vm.partidasDoUsuario = data;
                         vm.partidasAbertas = false;
@@ -1048,7 +1053,6 @@
         vm.exibeTabelaCompleta = function () {
             Campeonato.getTabelaCompleta(vm.campeonato.id)
                 .success(function (data) {
-                    console.log(data);
                     vm.campeonatoFases = data.fases;
                     vm.indice_fase = 0;
                     vm.fase_atual = vm.campeonatoFases[vm.indice_fase];

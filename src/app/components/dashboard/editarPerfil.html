@@ -38,14 +38,14 @@
                     <div flex>
                         <h2>{{'fields.usuario_imagem_perfil' | translate}}</h2>
                         <lf-ng-md-file-input lf-files="vmHome.files_perfil"></lf-ng-md-file-input>
-                        <img src="{{vmHome.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_perfil[0].lfDataUrl">
-                        <img src="uploads/usuarios/{{vmHome.perfilEditar.imagem_perfil}}" ng-hide="vmHome.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
+                        <img ng-src="{{vmHome.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-if="vmHome.files_perfil[0].lfDataUrl">
+                        <img ng-src="uploads/usuarios/{{vmHome.perfilEditar.imagem_perfil}}" ng-if="!vmHome.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
                     </div>
                     <div flex>
                         <h2>{{'fields.usuario_imagem_capa' | translate}}</h2>
                         <lf-ng-md-file-input lf-files="vmHome.files_capa"></lf-ng-md-file-input>
-                        <img src="{{vmHome.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-show="vmHome.files_capa[0].lfDataUrl">
-                        <img src="uploads/usuarios/capa/{{vmHome.perfilEditar.imagem_capa}}" ng-hide="vmHome.files_capa[0].lfDataUrl" class="img-responsive" alt="">
+                        <img ng-src="{{vmHome.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-if="vmHome.files_capa[0].lfDataUrl">
+                        <img ng-src="uploads/usuarios/capa/{{vmHome.perfilEditar.imagem_capa}}" ng-if="!vmHome.files_capa[0].lfDataUrl" class="img-responsive" alt="">
                     </div>
                 </div>
                 <md-card-actions layout="row" layout-align="end center">

@@ -36,7 +36,7 @@
                     <div flex-gt-xs="20" flex-xs="35" layout-xs="row" layout-align-xs="space-between center">
 
                         <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao" layout-xs="row" layout-align-xs="center center">
-                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-hide="partida.data_placar">
+                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-if="!partida.data_placar">
                                 <i class="fa fa-save fa-fw"></i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.salvar_resultado' | translate}}
@@ -44,40 +44,40 @@
                             </md-button>
 
 
-                            <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
+                            <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-if="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
                                 <i class="fa fa-check fa-fw"></i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.confirmar_resultado' | translate}}
                                 </md-tooltip>
                             </md-button>
 
-                            <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)" ng-show="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
+                            <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)" ng-if="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
                                 <i class="fa fa-gavel fa-fw"></i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.contestar_resultado' | translate}}
                                 </md-tooltip>
                             </md-button>
-                            <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-show="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
+                            <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-if="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
                                 <i class="material-icons">clear</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.cancelar_resultado' | translate}}
                                 </md-tooltip>
                             </md-button>
                         </div>
-                        <div id="icones" class="pull-right" ng-show="partida.data_placar || partida.contestada || partida.data_confirmacao">
-                            <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-show="partida.contestada">
+                        <div id="icones" class="pull-right" ng-if="partida.data_placar || partida.contestada || partida.data_confirmacao">
+                            <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-if="partida.contestada">
                                 <i class="fa fa-balance-scale fa-lg"></i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.partida_contestada' | translate}}
                                 </md-tooltip>
                             </md-button>
-                            <md-button class="md-icon-button" md-colors="::{color: 'player2-accent-900'}" ng-show="partida.data_confirmacao">
+                            <md-button class="md-icon-button" md-colors="::{color: 'player2-accent-900'}" ng-if="partida.data_confirmacao">
                                 <i class="fa fa-check fa-lg"></i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.placar_confirmado' | translate}}
                                 </md-tooltip>
                             </md-button>
-                            <md-button class="md-icon-button md-primary md-hue-1" ng-show="partida.data_placar && !partida.data_confirmacao && !partida.contestada && partida.usuario_placar == usuarioLogado.id">
+                            <md-button class="md-icon-button md-primary md-hue-1" ng-if="partida.data_placar && !partida.data_confirmacao && !partida.contestada && partida.usuario_placar == usuarioLogado.id">
                                 <i class="fa fa-hourglass fa-lg"></i>
                                 <md-tooltip md-direction="top" class="multiline">
                                     {{'fields.aguardando_confirmacao' | translate}}

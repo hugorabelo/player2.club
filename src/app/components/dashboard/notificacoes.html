@@ -5,8 +5,8 @@
 <div ng-init="vmTopNav.getNotificacoesDoUsuario('lidas')">
     <div ng-repeat="notificacao in vmTopNav.notificacoesUsuario" class="item-notificacao background-branco" ng-class="{'m-n': telaMobile}">
         <a layout="row" layout-align="start center" flex ng-click="vmTopNav.exibeDetalhesNotificacao(notificacao)" ng-class="{'notificacao-nao-lida': !notificacao.lida}">
-            <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-hide="notificacao.remetente">
-            <img class="img-circle img-xs m-r-sm" alt="image" ng-src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-show="notificacao.remetente">
+            <img class="img-xs m-r-sm" src="assets/images/player2_xs.png" data-pin-nopin="true" ng-if="!notificacao.remetente">
+            <img class="img-circle img-xs m-r-sm" alt="image" ng-src="uploads/usuarios/{{notificacao.remetente.imagem_perfil}}" data-pin-nopin="true" ng-if="notificacao.remetente">
             <div layout="column">
                 <p class="m-b-none" translate="{{notificacao.mensagem}}" translate-values="{nome_remetente: notificacao.remetente.nome, nome_campeonato: notificacao.nome_campeonato, nome_fase: notificacao.nome_fase}"></p>
                 <small class="text-muted m-t-none">

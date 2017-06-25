@@ -9,7 +9,7 @@
             </select>
         </div>
 
-        <div ui-tree data-drag-enabled="false" class="ibox-content" ng-hide="vmPermissao.permissao.usuario_tipos_id == null">
+        <div ui-tree data-drag-enabled="false" class="ibox-content" ng-if="vmPermissao.permissao.usuario_tipos_id != null">
             <h2 translate>messages.permissao_user</h2>
 
             <ol ui-tree-nodes="" ng-model="vmPermissao.menus" class="todo-list m-t">
