@@ -50,7 +50,7 @@
         redirectUrlAmbiente = "http://dev.player2.club";
         responseTypeAmbiente = "token";
         clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
-    } else if (ambiente = "hugorabelo") {
+    } else if (ambiente == "hugorabelo") {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.hugorabelo.com";
         responseTypeAmbiente = "token";
