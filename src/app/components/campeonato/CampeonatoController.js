@@ -706,44 +706,56 @@
         };
 
         vm.cadastraGamertagInscricao = function (ev) {
-            var confirm = $mdDialog.prompt()
-                .title(vm.erro_inscricao)
-                .textContent(vm.usuario_sem_plataforma_um + vm.campeonato.plataforma.descricao + vm.usuario_sem_plataforma_dois)
-                .placeholder(vm.gamertag)
-                .ariaLabel(vm.gamertag)
-                .initialValue('')
-                .targetEvent(ev)
-                .ok(vm.saveField)
-                .cancel(vm.textoClose);
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: $filter('translate')('messages.usuario_sem_plataforma_titulo'),
+                        texto: vm.usuario_sem_plataforma_um + vm.campeonato.plataforma.descricao + vm.usuario_sem_plataforma_dois
+                    },
+                    controller: DialogControllerGamertag,
+                    templateUrl: 'app/components/campeonato/formGamertagInscricao.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
 
-            $mdDialog.show(confirm).then(function (result) {
-                if (result == undefined) {
+                }, function () {
                     toastr.error($filter('translate')('messages.usuario_sem_plataforma_um') + vm.campeonato.plataforma.descricao, $filter('translate')('messages.erro_inscricao'));
-                } else {
-                    var userPlataforma = {};
-                    userPlataforma.plataformas_id = vm.campeonato.plataforma.id;
-                    userPlataforma.users_id = $rootScope.usuarioLogado.id;
-                    userPlataforma.gamertag = result;
-                    UserPlataforma.save(userPlataforma)
-                        .success(function (data) {
-                            CampeonatoUsuario.save(vm.campeonato.id)
-                                .success(function (data) {
-                                    vm.campeonato.usuarioInscrito = true;
-                                    vm.getParticipantes(vm.campeonato.id);
-                                    toastr.success($filter('translate')('messages.sucesso_inscricao'));
-                                })
-                                .error(function (data) {
-                                    toastr.error($filter('translate')('messages.erro_inscricao'));
-                                });
-                        })
-                        .error(function (data) {
-                            toastr.error($filter('translate')('messages.erro_inscricao'));
-                        });
+                });
+        };
 
-                }
-            }, function () {
-                toastr.error($filter('translate')('messages.usuario_sem_plataforma_um') + vm.campeonato.plataforma.descricao, $filter('translate')('messages.erro_inscricao'));
-            });
+
+        function DialogControllerGamertag($scope, $mdDialog, tituloModal, texto) {
+            $scope.tituloModal = tituloModal;
+            $scope.texto = texto;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarGamertag = function () {
+                var userPlataforma = {};
+                userPlataforma.plataformas_id = vm.campeonato.plataforma.id;
+                userPlataforma.users_id = $rootScope.usuarioLogado.id;
+                userPlataforma.gamertag = $scope.gamertag;
+                UserPlataforma.save(userPlataforma)
+                    .success(function (data) {
+                        CampeonatoUsuario.save(vm.campeonato.id)
+                            .success(function (data) {
+                                vm.campeonato.usuarioInscrito = true;
+                                vm.getParticipantes(vm.campeonato.id);
+                                toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                            })
+                            .error(function (data) {
+                                toastr.error($filter('translate')('messages.erro_inscricao'));
+                            });
+                    })
+                    .error(function (data) {
+                        toastr.error($filter('translate')('messages.erro_inscricao'));
+                    });
+                $mdDialog.hide();
+            }
         };
 
         vm.sairCampeonato = function (ev) {

@@ -79,8 +79,10 @@
                         <div class="lista-de-jogos-item" ng-repeat="partida in vmCampeonato.partidasDaRodada[$index]">
                             <div class="placar-jogo-equipes" flex layout="row" layout-align="space-between center">
                                 <div class="placar-jogo-equipes-mandante" flex>
-                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
-                                    <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+                                    <a ui-sref="profile({idUsuario: partida.usuarios[0].users_id})">
+                                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+                                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+                                    </a>
                                 </div>
                                 <div class="placar-jogo-equipes-placar" flex layout="row" layout-align="space-around center">
                                     <span class="placar-jogo-equipes-placar-mandante">{{partida.usuarios[0].placar}}</span>
@@ -88,8 +90,10 @@
                                     <span class="placar-jogo-equipes-placar-visitante">{{partida.usuarios[1].placar}}</span>
                                 </div>
                                 <div class="placar-jogo-equipes-visitante" flex>
-                                    <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
-                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                                    <a ui-sref="profile({idUsuario: partida.usuarios[1].users_id})">
+                                        <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -102,9 +106,11 @@
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
             <div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios" flex layout="row">
                 <div class="placar-jogo-equipes-matamata" flex="80">
-                    <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
-                    <span class="placar-jogo-equipes-sigla" hide-xs title="{{usuario.nome}}">{{usuario.nome}}</span>
-                    <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{usuario.nome}}">{{usuario.sigla}}</span>
+                    <a ui-sref="profile({idUsuario: usuario.id})">
+                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
+                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{usuario.nome}}">{{usuario.nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{usuario.nome}}">{{usuario.sigla}}</span>
+                    </a>
                 </div>
                 <div class="placar-jogo-equipes-placar-matamata" ng-repeat="placar in usuario.placares track by $index" flex-gt-xs="10" flex-xs="20">
                     {{placar}}
