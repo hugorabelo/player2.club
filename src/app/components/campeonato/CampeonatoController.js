@@ -783,7 +783,10 @@
             });
         };
 
-        vm.editarTimeUsuario = function (ev) {
+        vm.editarTimeUsuario = function (ev, participante) {
+            if (participante != undefined) {
+                vm.participanteDestaque = participante;
+            }
             Time.getTimesPorModelo(vm.campeonato.tipo.modelo_campeonato_id)
                 .success(function (data) {
                     vm.times = data;
@@ -1072,7 +1075,37 @@
                     vm.partidasDaRodada = data.partidasDaRodada;
                     vm.inicializaRodadasLimpas(data.grupos);
                 })
-        }
+        };
+
+        vm.excluirParticipante = function (ev, participante) {
+            var confirm = $mdDialog.confirm()
+                .title($filter('translate')('messages.confirma_exclusao_participante', {
+                    'nome_participante': participante.nome
+                }))
+                .ariaLabel($filter('translate')('messages.confirma_exclusao_participante', {
+                    'nome_participante': participante.nome
+                }))
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                CampeonatoUsuario.destroy(participante.pivot.id)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.exclusao_participante_sucesso'))
+                        vm.getParticipantes(vm.idCampeonato);
+                        if (participante.id == $rootScope.usuarioLogado.id) {
+                            vm.campeonato.usuarioInscrito = false;
+                        }
+                    }).error(function (data, status) {
+                        toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_participante_erro'));
+                    });
+            }, function () {
+
+            });
+
+        };
 
     }]);
 }());

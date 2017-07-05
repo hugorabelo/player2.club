@@ -96,11 +96,11 @@
 
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
-                <span class="md-headline">{{'messages.times_participantes' | translate}}</span>
+                <span class="md-headline">{{'messages.campeonatosParticipantes' | translate}}</span>
             </md-card-title-text>
         </md-card-title>
         <md-toolbar class="md-toolbar-tools" hide-xs>
-            <h2 translate>messages.times_participantes</h2>
+            <h2 translate>messages.campeonatosParticipantes</h2>
         </md-toolbar>
 
         <md-card-content ng-class="{'p-xs': telaMobile}">
@@ -111,8 +111,21 @@
                         <tr ng-repeat="participante in vmCampeonato.campeonato.participantes">
                             <td class="client-avatar"><img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
                             <td>{{participante.nome}}</td>
-                            <td><img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time"></td>
-                            <td><span ng-if="participante.time">{{participante.time.nome}}</span></td>
+                            <td>
+                                <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
+                                <span ng-if="participante.time">{{participante.time.nome}}</span>
+                                <span ng-if="!participante.time">{{'messages.sem_time' | translate}}</span>
+                                <md-button class="md-icon-button md-primary" ng-if="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.editarTimeUsuario($event, participante)">
+                                    <md-tooltip md-direction="top">{{'messages.inserir_time_participante' | translate}}</md-tooltip>
+                                    <i class="material-icons">edit</i>
+                                </md-button>
+                            </td>
+                            <td>
+                                <md-button class="md-icon-button md-warn" ng-if="vmCampeonato.campeonato.status < 3" ng-click="vmCampeonato.excluirParticipante($event, participante)">
+                                    <md-tooltip md-direction="top">{{'messages.excluir_participante' | translate}}</md-tooltip>
+                                    <i class="material-icons">delete_forever</i>
+                                </md-button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

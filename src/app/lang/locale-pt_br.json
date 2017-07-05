@@ -382,7 +382,7 @@
         "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente",
         "minhas_mensagens": "Minhas mensagens",
         "bate_papo": "Bate Papo com {{nome_remetente}}",
-        "inserir_time_participante": "Inserir Time do Participante",
+        "inserir_time_participante": "Editar Time do Participante",
         "sem_time": "Sem Time",
         "time_salvo_sucesso": "Time salvo com sucesso",
         "times_participantes": "Times dos Participantes",
@@ -405,7 +405,11 @@
         "titulo_alerta_login": "Erro ao fazer o login",
         "conteudo_alerta_login": "O usuário não está cadastrado no sistema",
 
-        "exibe_confirmadas": "Exibir partidas já confirmadas"
+        "exibe_confirmadas": "Exibir partidas já confirmadas",
+        "excluir_participante": "Excluir participante do campeonato",
+        "confirma_exclusao_participante": "Você tem certeza que deseja excluir o participante {{nome_participante}} do campeonato? Esta operação não pode ser desfeita!",
+        "exclusao_participante_sucesso": "Participante excluído com sucesso",
+        "exclusao_participante_erro": "Aconteceu um erro na exclusão do participante"
     },
 
     "generos": {
