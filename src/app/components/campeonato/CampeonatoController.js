@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -311,11 +311,14 @@
                         toastr.error($filter('translate')('messages.preencher_campos'), $filter('translate')('messages.dados_invalidos'));
                     } else {
                         fase.dadosFase.id = fase.id;
+                        vm.loadingFase = true;
                         Campeonato.abreFase(fase.dadosFase)
                             .success(function (data) {
                                 fase.aberta = true;
+                                vm.loadingFase = false;
                             }).error(function (data, status) {
                                 toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                                vm.loadingFase = false;
                             });
                     }
                 },
@@ -342,12 +345,15 @@
 
             $mdDialog.show(confirm).then(function () {
                 fase.usuarioLogado = $rootScope.usuarioLogado.id;
+                vm.loadingFase = true;
                 Campeonato.fechaFase(fase)
                     .success(function (data) {
                         fase.encerrada = true;
                         fase.aberta = false;
+                        vm.loadingFase = false;
                     }).error(function (data, status) {
                         toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        vm.loadingFase = false;
                     });
             }, function () {
 

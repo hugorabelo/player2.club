@@ -188,6 +188,9 @@ class Campeonato extends Eloquent {
 
         /** 2. Inscrever usuários classificados da fase anterior */
         if ($faseAtual == $campeonato->faseInicial()) {
+            // Remover usuários que já estejam na fase devido a algum erro
+            UsuarioFase::where('campeonato_fases_id','=',$faseAtual->id)->delete();
+
             $usuariosDaFase = $campeonato->usuariosInscritos();
             foreach ($usuariosDaFase as $posicao => $usuario) {
                 UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
@@ -362,6 +365,7 @@ class Campeonato extends Eloquent {
             }
             $usuarios = $usuarios->sortBy('grupoAnterior');
             foreach($grupos as $grupo) {
+                // Remover usuários que já estejam no grupo devido a algum erro
                 $usuario1 = $usuarios->shift();
                 $usuario2 = $usuarios->shift();
                 UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
