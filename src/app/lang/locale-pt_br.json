@@ -81,8 +81,10 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "ID de Usuário",
-        "localizacao": "Localização",
+        "gamertag": "Nome de Usuário",
+        "localizacao": "Cidade",
+        "estado": "Estado",
+        "pais": "País",
         "grupo": "Grupo",
         "salvar_resultado": "Salvar resultado",
         "confirmar_resultado": "Confirmar resultado",

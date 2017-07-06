@@ -49,6 +49,10 @@ class MyCustomUserRepository implements Auth0UserRepository {
                 $user->nome = $profile->name;
             }
         }
+        // Recuperando IP do Usuário e Inserindo dados de Localização
+        $ipUsuario = \Request::getClientIp();
+        \Log::warning($ipUsuario);
+
         $user->ultimo_login = date('Y-m-d H:i:s');;
         $user->save();
 
