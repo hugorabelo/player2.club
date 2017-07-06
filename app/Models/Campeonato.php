@@ -173,6 +173,10 @@ class Campeonato extends Eloquent {
 
     public function iniciaFase($dadosFase, $faseAtual, $campeonato)
     {
+
+        if($faseAtual->aberta) {
+            return true;
+        }
         /*
          * Objeto Fase deve conter os seguintes atributos:
          * - id : ID da fase
@@ -238,6 +242,9 @@ class Campeonato extends Eloquent {
     public function encerraFase($dadosFase)
     {
         $fase = CampeonatoFase::find($dadosFase['id']);
+        if(!$fase->aberta) {
+            return true;
+        }
         $proximaFase = $fase->proximaFase();
         foreach ($fase->grupos() as $grupo) {
             // contabilizar jogos sem resultado (0 pontos para todos os participantes)
