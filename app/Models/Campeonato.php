@@ -263,6 +263,10 @@ class Campeonato extends Eloquent {
             // contabilizar pontuação e quantidade de classificados (por grupo) - INSCREVER USUÁRIOS CLASSIFICADOS NA FASE SEGUINTE
             if(isset($proximaFase)) {
                 $posicaoUsuario = 1;
+
+                // Remover usuários que já estejam na fase seguinte devido a algum erro
+                UsuarioFase::where('campeonato_fases_id','=',$proximaFase->id)->delete();
+
                 foreach ($grupo->usuariosClassificados() as $usuario) {
                     $usuarioFase = new UsuarioFase();
                     $usuarioFase->campeonato_fases_id = $proximaFase->id;
@@ -307,6 +311,10 @@ class Campeonato extends Eloquent {
         $m = $n / 2;
         $numero_rodadas_por_turno = ($n - 1);
         $numero_rodada = 1;
+
+        // Remover partidas que já estejam no grupo devido a algum erro
+        Partida::where('fase_grupos_id','=',$grupo->id)->delete();
+
         for ($t = 0; $t < $turnos; $t++) {
             for ($i = 0; $i < $numero_rodadas_por_turno; $i++) {
                 for ($j = 0; $j < $m; $j++) {
@@ -358,6 +366,12 @@ class Campeonato extends Eloquent {
 
         $usuariosInseridos = array();
         $fase = CampeonatoFase::find($dadosFase['id']);
+
+        // Remover usuários que já estejam no grupo devido a algum erro
+        foreach ($grupos as $grupo) {
+            UsuarioGrupo::where('fase_grupos_id','=',$grupo->id)->delete();
+        }
+
         if($fase->faseAnterior() != null && $fase->faseAnterior()->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
             foreach ($usuarios as $usuario) {
                 $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
@@ -365,7 +379,6 @@ class Campeonato extends Eloquent {
             }
             $usuarios = $usuarios->sortBy('grupoAnterior');
             foreach($grupos as $grupo) {
-                // Remover usuários que já estejam no grupo devido a algum erro
                 $usuario1 = $usuarios->shift();
                 $usuario2 = $usuarios->shift();
                 UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
