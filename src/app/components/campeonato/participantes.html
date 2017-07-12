@@ -10,6 +10,10 @@
                     <tr ng-repeat="participante in vmCampeonato.querySearch(vmCampeonato.searchText)" ng-click="vmCampeonato.carregaParticipanteDestaque(participante)">
                         <td class="client-avatar"><img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
                         <td>{{participante.nome}}</td>
+                        <td>
+                            <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
+                            <span ng-if="participante.time" hide-xs>{{participante.time.nome}}</span>
+                        </td>
                         <td hide-xs>{{participante.localizacao}}</td>
                         <td><i class="material-icons seta-participante">forward</i></td>
                     </tr>

@@ -131,8 +131,8 @@
                             <td>{{participante.nome}}</td>
                             <td>
                                 <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
-                                <span ng-if="participante.time">{{participante.time.nome}}</span>
-                                <span ng-if="!participante.time">{{'messages.sem_time' | translate}}</span>
+                                <span ng-if="participante.time" hide-xs>{{participante.time.nome}}</span>
+                                <span ng-if="!participante.time" hide-xs>{{'messages.sem_time' | translate}}</span>
                                 <md-button class="md-icon-button md-primary" ng-if="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.editarTimeUsuario($event, participante)">
                                     <md-tooltip md-direction="top">{{'messages.inserir_time_participante' | translate}}</md-tooltip>
                                     <i class="material-icons">edit</i>
