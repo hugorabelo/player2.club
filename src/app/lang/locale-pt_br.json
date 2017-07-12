@@ -154,7 +154,9 @@
         "pote": "Pote",
         "sorteio_potes": "Sorteio por potes",
         "adiciona_pote": "Adiciona Pote",
-        "remove_pote": "Remove Pote"
+        "remove_pote": "Remove Pote",
+
+        "info_participante": "Exibir detalhes do participante"
     },
 
     "messages": {

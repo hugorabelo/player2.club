@@ -245,16 +245,54 @@
         };
 
         vm.carregaParticipanteDestaque = function (participante) {
-            vm.participanteDestaque = participante;
-            Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
-                .success(function (data) {
-                    vm.participanteDestaque.partidasNaoDisputadas = data;
-                    Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
-                        .success(function (disputadas) {
-                            vm.participanteDestaque.partidasDisputadas = disputadas;
-                            vm.getPlataformasDoUsuario(vm.participanteDestaque);
-                        })
-                });
+            if ($rootScope.telaMobile) {
+                Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
+                    .success(function (data) {
+                        participante.partidasNaoDisputadas = data;
+                        Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
+                            .success(function (disputadas) {
+                                participante.partidasDisputadas = disputadas;
+                                vm.getPlataformasDoUsuario(participante);
+                            })
+                    });
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'fields.info_participante',
+                            participanteDestaque: participante
+                        },
+                        controller: DialogControllerParticipante,
+                        templateUrl: 'app/components/campeonato/participanteDestaque.html',
+                        parent: angular.element(document.body),
+                        targetEvent: null,
+                        clickOutsideToClose: true,
+                        fullscreen: true
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            } else {
+                vm.participanteDestaque = participante;
+                Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
+                    .success(function (data) {
+                        vm.participanteDestaque.partidasNaoDisputadas = data;
+                        Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
+                            .success(function (disputadas) {
+                                vm.participanteDestaque.partidasDisputadas = disputadas;
+                                vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                            })
+                    });
+            }
+        };
+
+        function DialogControllerParticipante($scope, $mdDialog, tituloModal, participanteDestaque) {
+            $scope.tituloModal = tituloModal;
+            $scope.participanteDestaque = participanteDestaque;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
         };
 
         vm.ocultaParticipanteDestaque = function () {
