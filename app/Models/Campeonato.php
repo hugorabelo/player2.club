@@ -314,6 +314,9 @@ class Campeonato extends Eloquent {
     protected function sorteioJogosUmContraUm($grupo, $turnos)
     {
         $usuarios = $grupo->usuarios();
+        if($usuarios->count() % 2 == 1) {
+            $usuarios->prepend(null);
+        }
         $n = $usuarios->count();
         $m = $n / 2;
         $numero_rodadas_por_turno = ($n - 1);
@@ -325,6 +328,9 @@ class Campeonato extends Eloquent {
         for ($t = 0; $t < $turnos; $t++) {
             for ($i = 0; $i < $numero_rodadas_por_turno; $i++) {
                 for ($j = 0; $j < $m; $j++) {
+                    if($usuarios->get($j) == null) {
+                        continue;
+                    }
                     $partida = Partida::create(['fase_grupos_id' => $grupo->id, 'rodada' => $numero_rodada]);
                     if ($t % 2 == 1) {
                         if ($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
