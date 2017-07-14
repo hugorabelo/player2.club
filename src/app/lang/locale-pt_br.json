@@ -220,7 +220,7 @@
         "campeonatosEncerrados": "Campeonatos Encerrados",
         "campeonatosParticipantes": "Participantes",
         "campeonatoContestacoes": "Resultados Contestados",
-        "campeonato_partidas_abertas": "Partidas Em Aberto",
+        "campeonato_partidas_abertas": "Gerenciar Partidas",
         "confirma_exclusao_campeonato": "Você deseja realmente apagar o campeonato {{nome_campeonato}} da plataforma {{nome_plataforma}}? Esta operação não poderá ser desfeita!",
         "exclusao_campeonato_sucesso": "Campeonato excluído com sucesso",
         "exclusao_campeonato_erro": "Aconteceu um erro na exclusão do campeonato",

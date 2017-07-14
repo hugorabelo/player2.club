@@ -438,6 +438,14 @@
             }
         };
 
+        vm.carregaPartidas = function () {
+            Campeonato.getPartidasPorRodada(vm.campeonato.id)
+                .success(function (data) {
+                    console.log(data);
+                    vm.partidasDoCampeonato = data;
+                })
+        }
+
         vm.carregaPartidasContestadas = function () {
             Campeonato.getPartidasContestadas(vm.campeonato.id)
                 .success(function (data) {
