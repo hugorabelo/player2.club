@@ -76,7 +76,8 @@ class Campeonato extends Eloquent {
 	public function salvarPlacar($partida) {
 	    $partidaBD = Partida::find($partida['id']);
         $contestada = isset($partida['edita_contestacao']);
-        if(isset($partidaBD->data_placar) && !$contestada) {
+        $placarAdministrador = isset($partida['placar_administrador']);
+        if(isset($partidaBD->data_placar) && !$contestada && !$placarAdministrador) {
             return 'messages.placares_existente';
         }
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
@@ -611,7 +612,7 @@ class Campeonato extends Eloquent {
     }
 
     public function partidasPorRodada($rodada = null) {
-        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->get(array('id')))->get(array('id')))
+        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->where('aberta','=','true')->get(array('id')))->get(array('id')))
             ->orderBy('rodada')
             ->orderBy('fase_grupos_id')
             ->orderBy('id')

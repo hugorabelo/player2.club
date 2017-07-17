@@ -73,7 +73,7 @@
 
         vm.abaPartidasAbertas = function () {
             vm.currentNavItem = 'partidasAbertas';
-            vm.carregaPartidasEmAberto();
+            vm.carregaPartidas();
         };
 
         vm.abaEditar = function () {
@@ -538,6 +538,10 @@
             partida.edita_contestacao = true;
         };
 
+        vm.editarPlacarAdministrador = function (partida) {
+            partida.edita_placar = true;
+        };
+
         vm.confirmarPlacarContestacao = function (id_partida) {
             var dados = {};
             dados.id_partida = id_partida;
@@ -558,6 +562,26 @@
                 .success(function () {
                     vm.confirmarPlacarContestacao(partida.id);
                     toastr.success($filter('translate')('messages.sucesso_placar'));
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.errors[0]));
+                });
+        };
+
+        vm.salvarPlacarAdministrador = function (partida) {
+            partida.usuarioLogado = $rootScope.usuarioLogado.id;
+            partida.placar_administrador = true;
+            Partida.salvarPlacar(partida)
+                .success(function () {
+                    var dados = {};
+                    dados.id_partida = partida.id;
+                    dados.usuarioLogado = $rootScope.usuarioLogado.id;
+                    Partida.confirmarPlacar(dados)
+                        .success(function () {
+                            vm.carregaPartidas();
+                            toastr.success($filter('translate')('messages.sucesso_placar'));
+                        })
+                        .error(function (data) {});
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.errors[0]));

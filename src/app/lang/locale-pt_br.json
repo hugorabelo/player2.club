@@ -351,6 +351,7 @@
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um nome de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
         "placares_invalidos": "O placar informado é inválido",
+        "placares_existente": "Já existe placar cadastrado para esta partida",
         "pontuacao_nao_cadastrada": "A pontuação para esta fase não está cadastrada. Favor informar ao administrador",
         "empate_nao_permitido": "Não é permitido um resultado de empate nesta fase",
 
@@ -410,6 +411,7 @@
         "conteudo_alerta_login": "O usuário não está cadastrado no sistema",
 
         "exibe_confirmadas": "Exibir partidas já confirmadas",
+        "exibe_somente_abertas": "Exibir somente partidas em aberto",
         "excluir_participante": "Excluir participante do campeonato",
         "confirma_exclusao_participante": "Você tem certeza que deseja excluir o participante {{nome_participante}} do campeonato? Esta operação não pode ser desfeita!",
         "exclusao_participante_sucesso": "Participante excluído com sucesso",
