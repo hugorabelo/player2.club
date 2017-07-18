@@ -251,7 +251,6 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
         },
 
         salvarWO: function (partida) {
-            console.log(partida);
             return $http({
                 method: 'POST',
                 url: 'api/campeonato/aplicarWO',
