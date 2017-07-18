@@ -611,12 +611,23 @@ class Campeonato extends Eloquent {
         return $partidasDoCampeonato;
     }
 
-    public function partidasPorRodada($rodada = null) {
-        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->where('aberta','=','true')->get(array('id')))->get(array('id')))
-            ->orderBy('rodada')
-            ->orderBy('fase_grupos_id')
-            ->orderBy('id')
-            ->get();
+    public function partidasPorRodada($aberta, $rodada) {
+        if($aberta) {
+            $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->where('aberta','=','true')->get(array('id')))->get(array('id')))
+                ->where('rodada','=',$rodada)
+                ->whereNull('data_confirmacao')
+                ->orderBy('rodada')
+                ->orderBy('fase_grupos_id')
+                ->orderBy('id')
+                ->get();
+        } else {
+            $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->where('aberta','=','true')->get(array('id')))->get(array('id')))
+                ->where('rodada','=',$rodada)
+                ->orderBy('rodada')
+                ->orderBy('fase_grupos_id')
+                ->orderBy('id')
+                ->get();
+        }
         foreach ($partidas as $partida) {
             $partida->usuarios = $partida->usuarios();
         }

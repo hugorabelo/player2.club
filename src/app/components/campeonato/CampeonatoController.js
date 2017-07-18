@@ -32,6 +32,8 @@
         vm.campeonatoEditar.detalhes = {};
 
         vm.rodada_atual = [];
+        vm.rodada_atual_gerenciar = [];
+        vm.exibeSomenteAbertas = 0;
 
         vm.partidasDaRodada = [];
 
@@ -73,6 +75,7 @@
 
         vm.abaPartidasAbertas = function () {
             vm.currentNavItem = 'partidasAbertas';
+            vm.rodada_atual_gerenciar = 1;
             vm.carregaPartidas();
         };
 
@@ -208,6 +211,20 @@
             if (vm.rodada_atual[indice] < vm.rodada_maxima) {
                 vm.rodada_atual[indice] = vm.rodada_atual[indice] + 1;
                 vm.carregaJogosDaRodada(indice, id_grupo);
+            }
+        };
+
+        vm.exibeRodadaAnteriorGerenciar = function (indice) {
+            if (vm.rodada_atual_gerenciar > 1) {
+                vm.rodada_atual_gerenciar = vm.rodada_atual_gerenciar - 1;
+                vm.carregaPartidas();
+            }
+        };
+
+        vm.exibeProximaRodadaGerenciar = function (indice) {
+            if (vm.rodada_atual_gerenciar < vm.rodada_maxima) {
+                vm.rodada_atual_gerenciar = vm.rodada_atual_gerenciar + 1;
+                vm.carregaPartidas();
             }
         };
 
@@ -439,7 +456,8 @@
         };
 
         vm.carregaPartidas = function () {
-            Campeonato.getPartidasPorRodada(vm.campeonato.id)
+            console.log(vm.exibeSomenteAbertas);
+            Campeonato.getPartidasPorRodada(vm.campeonato.id, vm.exibeSomenteAbertas, vm.rodada_atual_gerenciar)
                 .success(function (data) {
                     vm.partidasDoCampeonato = data;
                 })

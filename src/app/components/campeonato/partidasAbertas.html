@@ -1,24 +1,23 @@
 <div class="h-300">
     <md-card class="md-block p-xxs" flex ng-class="{'m-n': telaMobile}">
         <md-card-content class="no-padding">
-            <md-switch ng-change="vmCampeonato.carregaPartidasEmAberto()" ng-model="vmCampeonato.exibeSomenteAbertas" ng-true-value="1" ng-false-value="0" class="md-primary">
+            <md-switch ng-change="vmCampeonato.carregaPartidas()" ng-model="vmCampeonato.exibeSomenteAbertas" ng-true-value="1" ng-false-value="0" class="md-primary">
                 {{'messages.exibe_somente_abertas' | translate}}
             </md-switch>
         </md-card-content>
     </md-card>
-    <md-card class="tabela-navegacao tabela-navegacao-fases md-block" flex ng-class="{'m-n': telaMobile}">
-        <a ng-click="vmCampeonato.exibeRodadaAnterior($index, grupo.id)" ng-class="{'disabled': vmCampeonato.rodada_atual[$index] == 1}">
+    <md-card class="tabela-navegacao tabela-navegacao-rodadas-gerenciar md-block" flex ng-class="{'m-n': telaMobile}">
+        <a ng-click="vmCampeonato.exibeRodadaAnteriorGerenciar($index)" ng-class="{'disabled': vmCampeonato.rodada_atual_gerenciar == 1}">
             <i class="fa fa-chevron-left pull-left"></i>
         </a>
-        <span ng-bind="vmCampeonato.rodada_atual[$index]"></span>ª Rodada
-        <a ng-click="vmCampeonato.exibeProximaRodada($index, grupo.id)" ng-class="{'disabled': vmCampeonato.rodada_atual[$index] == vmCampeonato.rodada_maxima}">
+        <span ng-bind="vmCampeonato.rodada_atual_gerenciar"></span>ª Rodada
+        <a ng-click="vmCampeonato.exibeProximaRodadaGerenciar($index)" ng-class="{'disabled': vmCampeonato.rodada_atual_gerenciar == vmCampeonato.rodada_maxima}">
             <i class="fa fa-chevron-right pull-right"></i>
         </a>
     </md-card>
     <div ng-repeat="partida in vmCampeonato.partidasDoCampeonato">
         <md-card class="md-block" flex ng-class="{'m-n': telaMobile}">
             <md-card-content class="p-h-xs" ng-class="{'p-w-xs': telaMobile}">
-                <div flex="80" flex-xs="65" class="partida-detalhe-campeonato">{{partida.rodada}} {{'messages.rodada' | translate}}</div>
                 <div flex layout="row" layout-align="space-between center">
                     <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center">
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>

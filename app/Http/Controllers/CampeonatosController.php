@@ -244,9 +244,9 @@ class CampeonatosController extends Controller
         return Response::json($partidas);
     }
 
-    public function getPartidasPorRodada($idCampeonato, $rodada = null) {
+    public function getPartidasPorRodada($idCampeonato, $aberta, $rodada = null) {
         $campeonato = Campeonato::find($idCampeonato);
-        $partidas = $campeonato->partidasPorRodada();
+        $partidas = $campeonato->partidasPorRodada($aberta, $rodada);
         return Response::json($partidas);
     }
 

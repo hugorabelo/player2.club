@@ -207,13 +207,13 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             return $http.get('api/campeonato/partidas/' + idCampeonato);
         },
 
-        getPartidasPorRodada: function (idCampeonato, rodada) {
+        getPartidasPorRodada: function (idCampeonato, aberta, rodada) {
             if (rodada !== undefined) {
                 stringRodada = '/' + rodada;
             } else {
                 stringRodada = '';
             }
-            return $http.get('api/campeonato/partidasPorRodada/' + idCampeonato + stringRodada);
+            return $http.get('api/campeonato/partidasPorRodada/' + idCampeonato + '/' + aberta + stringRodada);
         },
 
         getPartidasContestadas: function (idCampeonato) {
