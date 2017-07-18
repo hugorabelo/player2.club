@@ -102,6 +102,7 @@
         "salvar_placar_contestado": "Salvar o novo placar após análise",
         "excluir_placar_contestado": "Cancelar o placar contestado",
         "sigla": "Sigla",
+        "aplicar_wo": "Aplicar W.O.",
 
         "acesso": "Acesso",
         "publico": "Público",
@@ -415,7 +416,12 @@
         "excluir_participante": "Excluir participante do campeonato",
         "confirma_exclusao_participante": "Você tem certeza que deseja excluir o participante {{nome_participante}} do campeonato? Esta operação não pode ser desfeita!",
         "exclusao_participante_sucesso": "Participante excluído com sucesso",
-        "exclusao_participante_erro": "Aconteceu um erro na exclusão do participante"
+        "exclusao_participante_erro": "Aconteceu um erro na exclusão do participante",
+
+        "wo_duplo": "W.O. Duplo",
+        "escolha_vencedor_wo": "Selecione o vencedor da partida por W.O.",
+        "erro_wo": "Houve um erro ao aplicar o W.O.",
+        "sucesso_wo": "W.O. aplicado com sucesso"
     },
 
     "generos": {

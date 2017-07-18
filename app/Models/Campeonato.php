@@ -251,17 +251,7 @@ class Campeonato extends Eloquent {
             // contabilizar jogos sem resultado (0 pontos para todos os participantes)
             foreach ($grupo->partidas() as $partida) {
                 if(!isset($partida->data_placar)) {
-                    foreach ($partida->usuarios(false) as $usuarioPartida) {
-                        $dadosUsuarioUpdate = array(
-                            'posicao' => -1,
-                            'pontuacao' => 0,
-                            'placar' => 0
-                        );
-                        $usuarioPartida->update($dadosUsuarioUpdate);
-                    }
-                    $partida->data_placar = date('Y-m-d H:i:s');
-                    $partida->data_confirmacao = date('Y-m-d H:i:s');
-                    $partida->save();
+                    $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
                     $partida->data_confirmacao = date('Y-m-d H:i:s');
                     $partida->save();
@@ -693,5 +683,33 @@ class Campeonato extends Eloquent {
         }
         $retorno->partidasDaRodada = $partidasDaRodada;
         return $retorno;
+    }
+
+    public function aplicarWO($partida, $vencedor = 0) {
+        if($vencedor > 0) {
+            foreach ($partida['usuarios'] as $usuarioPartida) {
+                if($usuarioPartida['id'] == $vencedor) {
+                    $usuarioPartida['placar'] = 1;
+                } else {
+                    $usuarioPartida['placar'] = 0;
+                }
+                Log::warning($usuarioPartida);
+            }
+            Log::warning($partida);
+            //$this->salvarPlacar($partida);
+        } else {
+            foreach ($partida['usuarios'] as $usuarioPartida) {
+                $dadosUsuarioUpdate = array(
+                    'posicao' => -1,
+                    'pontuacao' => 0,
+                    'placar' => 0
+                );
+                $usuarioPartidaBD = UsuarioPartida::find($usuarioPartida['id']);
+                $usuarioPartidaBD->update($dadosUsuarioUpdate);
+            }
+            $partida->data_placar = date('Y-m-d H:i:s');
+            $partida->data_confirmacao = date('Y-m-d H:i:s');
+            $partida->save();
+        }
     }
 }

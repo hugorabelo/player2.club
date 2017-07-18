@@ -456,7 +456,6 @@
         };
 
         vm.carregaPartidas = function () {
-            console.log(vm.exibeSomenteAbertas);
             Campeonato.getPartidasPorRodada(vm.campeonato.id, vm.exibeSomenteAbertas, vm.rodada_atual_gerenciar)
                 .success(function (data) {
                     vm.partidasDoCampeonato = data;
@@ -1198,6 +1197,50 @@
 
             });
 
+        };
+
+        vm.aplicarWO = function (partida) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'fields.aplicar_wo',
+                        partida: partida
+                    },
+                    controller: DialogControllerWO,
+                    templateUrl: 'app/components/campeonato/formAplicarWO.html',
+                    parent: angular.element(document.body),
+                    targetEvent: null,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+
+        function DialogControllerWO($scope, $mdDialog, tituloModal, partida) {
+            $scope.tituloModal = tituloModal;
+            $scope.partida = partida;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
+
+            $scope.salvarWO = function () {
+                $scope.partida.idCampeonato = vm.campeonato.id;
+                $scope.partida.vencedorWO = $scope.vencedorWO;
+                Campeonato.salvarWO($scope.partida)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.sucesso_wo'));
+                        vm.carregaPartidas();
+                    })
+                    .error(function (error) {
+                        toastr.error($filter('translate')('messages.erro_wo'));
+                    });
+                $mdDialog.hide();
+            }
         };
 
     }]);

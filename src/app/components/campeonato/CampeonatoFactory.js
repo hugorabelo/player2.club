@@ -248,6 +248,18 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
 
         getTabelaCompleta: function (idCampeonato) {
             return $http.get('api/campeonato/tabelaCompleta/' + idCampeonato);
+        },
+
+        salvarWO: function (partida) {
+            console.log(partida);
+            return $http({
+                method: 'POST',
+                url: 'api/campeonato/aplicarWO',
+                data: $.param(partida),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

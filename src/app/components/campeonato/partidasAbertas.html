@@ -60,6 +60,13 @@
                                     {{'fields.edit' | translate}}
                                 </md-tooltip>
                             </md-button>
+
+                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.aplicarWO(partida)" ng-if="!partida.data_placar && !partida.contestada">
+                                <i class="material-icons">play_for_work</i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.aplicar_wo' | translate}}
+                                </md-tooltip>
+                            </md-button>
                         </div>
                         <div id="icones" class="pull-right" ng-if="!partida.edita_placar">
                             <md-button class="md-icon-button" md-colors="::{color: 'player2-warn-900'}" ng-if="partida.contestada">
@@ -69,12 +76,12 @@
                                 </md-tooltip>
                             </md-button>
                             <md-button class="md-icon-button" md-colors="::{color: 'player2-accent-900'}" ng-if="partida.data_confirmacao">
-                                <i class="fa fa-check fa-lg"></i>
+                                <i class="material-icons">done_all</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.placar_confirmado' | translate}}
                                 </md-tooltip>
                             </md-button>
-                            <md-button class="md-icon-button md-primary md-hue-1" ng-if="partida.data_placar && !partida.data_confirmacao && !partida.contestada && partida.usuario_placar == usuarioLogado.id">
+                            <md-button class="md-icon-button md-primary md-hue-1" ng-if="partida.data_placar && !partida.data_confirmacao && !partida.contestada">
                                 <i class="fa fa-hourglass fa-lg"></i>
                                 <md-tooltip md-direction="top" class="multiline">
                                     {{'fields.aguardando_confirmacao' | translate}}

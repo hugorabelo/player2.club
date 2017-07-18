@@ -359,4 +359,12 @@ class CampeonatosController extends Controller
         return null;
     }
 
+    function aplicarWO() {
+        $partida = Input::all();
+        $idCampeonato = $partida['idCampeonato'];
+        $campeonato = Campeonato::find($idCampeonato);
+        $vencedor = $partida['vencedorWO'];
+        $campeonato->aplicarWO($partida, $vencedor);
+    }
+
 }
