@@ -687,16 +687,17 @@ class Campeonato extends Eloquent {
 
     public function aplicarWO($partida, $vencedor = 0) {
         if($vencedor > 0) {
-            foreach ($partida['usuarios'] as $usuarioPartida) {
-                if($usuarioPartida['id'] == $vencedor) {
-                    $usuarioPartida['placar'] = 1;
+            for($i = 0; $i< count($partida['usuarios']); $i++) {
+                if($partida['usuarios'][$i]['id'] == $vencedor) {
+                    $partida['usuarios'][$i]['placar'] = 1;
                 } else {
-                    $usuarioPartida['placar'] = 0;
+                    $partida['usuarios'][$i]['placar'] = 0;
                 }
-                Log::warning($usuarioPartida);
             }
-            Log::warning($partida);
-            //$this->salvarPlacar($partida);
+            $this->salvarPlacar($partida);
+            $partidaBD = Partida::find($partida['id']);
+            $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+            $partidaBD->update();
         } else {
             foreach ($partida['usuarios'] as $usuarioPartida) {
                 $dadosUsuarioUpdate = array(
@@ -707,9 +708,10 @@ class Campeonato extends Eloquent {
                 $usuarioPartidaBD = UsuarioPartida::find($usuarioPartida['id']);
                 $usuarioPartidaBD->update($dadosUsuarioUpdate);
             }
-            $partida->data_placar = date('Y-m-d H:i:s');
-            $partida->data_confirmacao = date('Y-m-d H:i:s');
-            $partida->save();
+            $partidaBD = Partida::find($partida['id']);
+            $partidaBD->data_placar = date('Y-m-d H:i:s');
+            $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+            $partidaBD->save();
         }
     }
 }
