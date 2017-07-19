@@ -421,7 +421,8 @@
         "wo_duplo": "W.O. Duplo",
         "escolha_vencedor_wo": "Selecione o vencedor da partida por W.O.",
         "erro_wo": "Houve um erro ao aplicar o W.O.",
-        "sucesso_wo": "W.O. aplicado com sucesso"
+        "sucesso_wo": "W.O. aplicado com sucesso",
+        "gerenciar_rodadas": "Gerenciar Rodadas"
     },
 
     "generos": {

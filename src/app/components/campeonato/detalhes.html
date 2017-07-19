@@ -163,13 +163,16 @@
 
         <md-card-content ng-class="{ 'p-xs': telaMobile}">
             <md-list-item ng-repeat="rodada in vmCampeonato.gruposDaFase[0].rodadas" class="noright">
-                <p>{{ rodada }}</p>
-                <md-button class="md-icon-button" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador($event, administrador.id)">
-                    <i class="fa fa-trash-o fa-fw"></i>
-                    <md-tooltip md-direction="top">
-                        {{'messages.campeonatoAdmin_delete' | translate}}
-                    </md-tooltip>
-                </md-button>
+                <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                    {{ rodada }}
+                </md-checkbox>
+                {{rodada}}
+
+                <!--                                {{'messages.rodada' | translate}}-->
+                <md-datepicker ng-model="ctrl.myDate" md-placeholder="Enter date" md-open-on-focus></md-datepicker>
+                <md-switch class="md-primary" ng-model="data.cb1" aria-label="Switch 1">
+                </md-switch>
+
             </md-list-item>
         </md-card-content>
     </md-card>
