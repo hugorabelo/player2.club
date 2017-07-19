@@ -59,6 +59,7 @@
 
         "data_inicio": "Data de Início",
         "data_fim": "Data de Término",
+        "prazo": "Prazo",
         "permite_empate": "Permite Empate",
         "fase_anterior": "Fase Anterior",
         "fase_abrir": "Iniciar Fase",

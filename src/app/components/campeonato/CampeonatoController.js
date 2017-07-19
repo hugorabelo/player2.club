@@ -1166,7 +1166,7 @@
                     vm.gruposDaFase = data.grupos;
                     vm.partidasDaRodada = data.partidasDaRodada;
                     vm.inicializaRodadasLimpas(data.grupos);
-                })
+                });
         };
 
         vm.excluirParticipante = function (ev, participante) {

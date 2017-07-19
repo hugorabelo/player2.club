@@ -714,4 +714,17 @@ class Campeonato extends Eloquent {
             $partidaBD->save();
         }
     }
+
+    public function informacoesDaRodada($rodada) {
+        $faseAtual = $this->faseAtual();
+        $grupo = $faseAtual->grupos()->first();
+        $partida = Partida::where('fase_grupos_id', '=', $grupo->id)
+            ->where('rodada','=',$rodada)
+            ->take(1)
+            ->first();
+        $rodadaRetorno = array();
+        $rodadaRetorno['prazo'] = $partida->data_prazo;
+        $rodadaRetorno['liberada'] = $partida->liberada;
+        return $rodadaRetorno;
+    }
 }
