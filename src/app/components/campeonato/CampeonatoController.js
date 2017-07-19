@@ -62,10 +62,14 @@
         };
 
         vm.abaGerenciar = function () {
+            var date = new Date();
+            $rootScope.timezone = ((date.getTimezoneOffset() / 60) * -100);
+
             vm.currentNavItem = 'detalhes';
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
             vm.getParticipantes(vm.idCampeonato);
+            vm.carregaRodadasGerenciar();
         };
 
         vm.abaContestacoes = function () {
@@ -1243,5 +1247,26 @@
             }
         };
 
+        vm.carregaRodadasGerenciar = function () {
+            vm.rodadasGerenciar = [];
+            angular.forEach(vm.gruposDaFase[0].rodadas, function (numRodada) {
+                var rodada = {};
+                rodada.numero = numRodada;
+                Campeonato.getInformacoesDaRodada(vm.campeonato.id, numRodada)
+                    .success(function (data) {
+                        rodada.data_prazo = data.data_prazo;
+                        rodada.liberada = data.liberada;
+                    })
+                vm.rodadasGerenciar.push(rodada);
+            });
+        };
+
+        vm.salvarInformacoesRodada = function (rodada) {
+            Campeonato.setInformacoesDaRodada(vm.campeonato.id, rodada)
+                .success(function (data) {
+                    vm.carregaRodadasGerenciar();
+                });
+        };
     }]);
+
 }());

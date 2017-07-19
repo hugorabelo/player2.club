@@ -723,8 +723,33 @@ class Campeonato extends Eloquent {
             ->take(1)
             ->first();
         $rodadaRetorno = array();
-        $rodadaRetorno['prazo'] = $partida->data_prazo;
+        $rodadaRetorno['data_prazo'] = $partida->data_prazo;
         $rodadaRetorno['liberada'] = $partida->liberada;
         return $rodadaRetorno;
+    }
+
+    public function salvarPrazoRodada($rodada, $data_prazo) {
+        $faseAtual = $this->faseAtual();
+        //$partidas = Partida::where('fase_grupos_id', '=', $grupo->id)
+        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
+            ->where('rodada','=',$rodada)
+            ->get();
+        $data_prazo = Carbon::parse($data_prazo);
+        foreach ($partidas as $partida) {
+            $partida->data_prazo = $data_prazo;
+            $partida->save();
+        }
+    }
+
+    public function salvarLiberarRodada($rodada, $liberada) {
+        $faseAtual = $this->faseAtual();
+        //$partidas = Partida::where('fase_grupos_id', '=', $grupo->id)
+        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
+            ->where('rodada','=',$rodada)
+            ->get();
+        foreach ($partidas as $partida) {
+            $partida->liberada = $liberada;
+            $partida->save();
+        }
     }
 }

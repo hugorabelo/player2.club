@@ -203,15 +203,6 @@ class FaseGrupo extends Eloquent
             // Partida com Dois Jogadores
 
             foreach ($usuarios as $usuario) {
-                $num_vitorias = intval($usuario->vitorias);
-                $num_empates = intval($usuario->empates);
-                $num_derrotas = intval($usuario->derrotas);
-                $num_gols_pro = intval($usuario->gols_pro);
-                $num_gols_contra = intval($usuario->gols_contra);
-
-                $num_jogos = $num_vitorias + $num_empates + $num_derrotas;
-                $num_saldo_gols = $num_gols_pro - $num_gols_contra;
-
                 $idFaseGrupo = $this->id;
                 $idUsuario = $usuario->id;
 
@@ -235,8 +226,6 @@ class FaseGrupo extends Eloquent
                         sum(placar1) as gols_pro,
                         sum(placar2) as gols_contra,
                         sum(placar1) - sum(placar2) as saldo_gols")->first();
-
-                //Log::warning($tabelaCampeonato);
 
                 $usuario->pontuacao = intval($tabelaCampeonato->pontuacao);
                 $usuario->jogos = intval($tabelaCampeonato->partidas);
