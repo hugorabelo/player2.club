@@ -1254,7 +1254,9 @@
                 rodada.numero = numRodada;
                 Campeonato.getInformacoesDaRodada(vm.campeonato.id, numRodada)
                     .success(function (data) {
-                        rodada.data_prazo = data.data_prazo;
+                        if (data.data_prazo != null) {
+                            rodada.data_prazo = moment(data.data_prazo, 'YYYY-MM-DD').toDate();
+                        }
                         rodada.liberada = data.liberada;
                     })
                 vm.rodadasGerenciar.push(rodada);
