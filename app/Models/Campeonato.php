@@ -111,8 +111,14 @@ class Campeonato extends Eloquent {
 		$fase->data_fim = $data;
 		$fase->update();
 
+        $arrayUpdateRodadas = array('data_prazo'=>$data);
+
+        if($fase->matamata) {
+            $arrayUpdateRodadas['liberada'] = true;
+        }
+
         Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $fase->id)->get(array('id')))
-                ->update(array('data_prazo'=>$data));
+                ->update($arrayUpdateRodadas);
 
         $outraData = DB::table('campeonato_fases')->selectRaw("data_fim + '1 day' as nova_data")->where('id','=',$fase->id)->first();
         $outraData = $outraData->nova_data;
@@ -677,11 +683,11 @@ class Campeonato extends Eloquent {
         $partidasDaRodada = [];
         foreach ($retorno->grupos as $grupo) {
             $partidasDaRodada[] = $grupo->partidasPorRodada(1);
+            $grupo->rodadas = $grupo->rodadas();
             if($faseAtual->matamata) {
                 $grupo->usuarios = $grupo->usuariosMataMata();
             } else {
                 $grupo->classificacao = $grupo->usuariosComClassificacao(); //TODO: Melhorar desempenho
-                $grupo->rodadas = $grupo->rodadas();
             }
         }
         $retorno->partidasDaRodada = $partidasDaRodada;
@@ -716,6 +722,21 @@ class Campeonato extends Eloquent {
             $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
             $partidaBD->save();
         }
+    }
+
+    public function carregaRodadas() {
+        $faseAtual = $this->faseAtual();
+        if(!isset($faseAtual)) {
+            return null;
+        }
+        $grupo = $faseAtual->grupos()->first();
+        $rodadas = DB::table('partidas')
+            ->selectRaw('DISTINCT rodada')
+            ->where('fase_grupos_id', '=', $grupo->id)
+            ->groupBy('rodada')
+            ->orderBy('rodada')
+            ->get();
+        return $rodadas;
     }
 
     public function informacoesDaRodada($rodada) {
