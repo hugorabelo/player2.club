@@ -730,7 +730,6 @@ class Campeonato extends Eloquent {
 
     public function salvarPrazoRodada($rodada, $data_prazo) {
         $faseAtual = $this->faseAtual();
-        //$partidas = Partida::where('fase_grupos_id', '=', $grupo->id)
         $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
             ->where('rodada','=',$rodada)
             ->get();
@@ -743,7 +742,6 @@ class Campeonato extends Eloquent {
 
     public function salvarLiberarRodada($rodada, $liberada) {
         $faseAtual = $this->faseAtual();
-        //$partidas = Partida::where('fase_grupos_id', '=', $grupo->id)
         $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
             ->where('rodada','=',$rodada)
             ->get();
