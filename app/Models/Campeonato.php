@@ -111,6 +111,9 @@ class Campeonato extends Eloquent {
 		$fase->data_fim = $data;
 		$fase->update();
 
+        Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $fase->id)->get(array('id')))
+                ->update(array('data_prazo'=>$data));
+
         $outraData = DB::table('campeonato_fases')->selectRaw("data_fim + '1 day' as nova_data")->where('id','=',$fase->id)->first();
         $outraData = $outraData->nova_data;
         $outraData = Carbon::parse($outraData);
@@ -717,6 +720,9 @@ class Campeonato extends Eloquent {
 
     public function informacoesDaRodada($rodada) {
         $faseAtual = $this->faseAtual();
+        if(!isset($faseAtual)) {
+            return null;
+        }
         $grupo = $faseAtual->grupos()->first();
         $partida = Partida::where('fase_grupos_id', '=', $grupo->id)
             ->where('rodada','=',$rodada)
