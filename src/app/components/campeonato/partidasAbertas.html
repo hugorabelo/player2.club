@@ -61,7 +61,7 @@
                                 </md-tooltip>
                             </md-button>
 
-                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.aplicarWO(partida)" ng-if="!partida.data_placar && !partida.contestada">
+                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.aplicarWO(partida)" ng-if="!partida.data_placar && !partida.contestada && !partida.edita_placar">
                                 <i class="material-icons">play_for_work</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.aplicar_wo' | translate}}
