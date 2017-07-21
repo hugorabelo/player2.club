@@ -47,4 +47,8 @@ class Equipe extends Eloquent
     public function seguidores() {
         //TODO
     }
+
+    public function partidas() {
+
+    }
 }
