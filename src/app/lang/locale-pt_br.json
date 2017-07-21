@@ -1,6 +1,6 @@
 {
     "menus": {
-        "home": "Minha Página",
+        "home": "Home",
         "config": "Configurações",
         "campeonatos": "Campeonatos",
         "jogos": "Jogos",
@@ -17,7 +17,10 @@
         "meus_campeonatos": "Meus Campeonatos",
         "campeonatos_disponiveis": "Campeonatos Disponíveis",
         "minhas_partidas": "Minhas Partidas",
-        "tabela_campeonato": "Tabela"
+        "tabela_campeonato": "Tabela",
+        "visitar_perfil": "Visitar Meu Perfil",
+        "editar_perfil": "Editar Perfil",
+        "criar_campeonato": "Criar Campeonato"
     },
 
     "fields": {
@@ -59,6 +62,7 @@
 
         "data_inicio": "Data de Início",
         "data_fim": "Data de Término",
+        "prazo": "Prazo",
         "permite_empate": "Permite Empate",
         "fase_anterior": "Fase Anterior",
         "fase_abrir": "Iniciar Fase",
@@ -421,7 +425,8 @@
         "wo_duplo": "W.O. Duplo",
         "escolha_vencedor_wo": "Selecione o vencedor da partida por W.O.",
         "erro_wo": "Houve um erro ao aplicar o W.O.",
-        "sucesso_wo": "W.O. aplicado com sucesso"
+        "sucesso_wo": "W.O. aplicado com sucesso",
+        "gerenciar_rodadas": "Gerenciar Rodadas"
     },
 
     "generos": {

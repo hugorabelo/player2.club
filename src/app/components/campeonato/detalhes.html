@@ -151,19 +151,52 @@
         </md-card-content>
     </md-card>
 
-    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}" ng-if="vmCampeonato.campeonato.status <=2">
+    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}">
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
-                <span class="md-headline">{{'fields.excluir_campeonato' | translate}}</span>
+                <span class="md-headline">{{'messages.gerenciar_rodadas' | translate}}</span>
             </md-card-title-text>
         </md-card-title>
         <md-toolbar class="md-toolbar-tools" hide-xs>
+            <h2 translate>messages.gerenciar_rodadas</h2>
+        </md-toolbar>
+
+        <md-card-content ng-class="{ 'p-xs': telaMobile}">
+
+            <div layout="row" layout-wrap flex>
+                <!--
+<div flex-xs flex="50">
+    <md-checkbox aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
+        <span ng-if="isChecked()">Un-</span>Select All
+    </md-checkbox>
+</div>
+-->
+                <div class="demo-select-all-checkboxes" flex="100" ng-repeat="rodada in vmCampeonato.rodadasGerenciar" layout="row" layout-align="space-between center">
+                    <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" class="m-b-none">
+                        {{rodada.numero}}
+                    </md-checkbox>
+                    <md-datepicker ng-model="rodada.data_prazo" md-placeholder="{{'fields.prazo' | translate}}" md-open-on-focus ng-change="vmCampeonato.salvarInformacoesRodada(rodada)"></md-datepicker>
+                    <md-switch class="md-primary " ng-model="rodada.liberada " aria-label="Liberada " ng-change="vmCampeonato.salvarInformacoesRodada(rodada) ">
+                    </md-switch>
+                </div>
+            </div>
+
+        </md-card-content>
+    </md-card>
+
+    <md-card flex flex-gt-sm="33 " ng-class="{ 'm-n': telaMobile} " ng-if="vmCampeonato.campeonato.status <=2 ">
+        <md-card-title hide-gt-xs class="p-xs ">
+            <md-card-title-text>
+                <span class="md-headline ">{{'fields.excluir_campeonato' | translate}}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-toolbar class="md-toolbar-tools " hide-xs>
             <h2 translate>fields.excluir_campeonato</h2>
         </md-toolbar>
 
-        <md-card-content ng-class="{ 'p-xs': telaMobile}" layout="column">
-            <md-button class="md-raised md-warn" ng-click="vmCampeonato.excluirCampeonato($event)">
-                <i class="material-icons">delete_forever</i> {{'fields.excluir_campeonato' | translate}}
+        <md-card-content ng-class="{ 'p-xs': telaMobile} " layout="column ">
+            <md-button class="md-raised md-warn " ng-click="vmCampeonato.excluirCampeonato($event) ">
+                <i class="material-icons ">delete_forever</i> {{'fields.excluir_campeonato' | translate}}
             </md-button>
         </md-card-content>
     </md-card>

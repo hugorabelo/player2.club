@@ -36,6 +36,7 @@
         vm.exibeSomenteAbertas = 0;
 
         vm.partidasDaRodada = [];
+        vm.rodadasGerenciar = {};
 
         vm.partidasAbertas = false;
 
@@ -62,10 +63,14 @@
         };
 
         vm.abaGerenciar = function () {
+            var date = new Date();
+            $rootScope.timezone = ((date.getTimezoneOffset() / 60) * -100);
+
             vm.currentNavItem = 'detalhes';
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
             vm.getParticipantes(vm.idCampeonato);
+            vm.carregaRodadasGerenciar();
         };
 
         vm.abaContestacoes = function () {
@@ -371,6 +376,7 @@
                             .success(function (data) {
                                 fase.aberta = true;
                                 vm.loadingFase = false;
+                                vm.carregaRodadasGerenciar();
                             }).error(function (data, status) {
                                 toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                                 vm.loadingFase = false;
@@ -1166,7 +1172,7 @@
                     vm.gruposDaFase = data.grupos;
                     vm.partidasDaRodada = data.partidasDaRodada;
                     vm.inicializaRodadasLimpas(data.grupos);
-                })
+                });
         };
 
         vm.excluirParticipante = function (ev, participante) {
@@ -1243,5 +1249,24 @@
             }
         };
 
+        vm.carregaRodadasGerenciar = function () {
+            Campeonato.getRodadas(vm.campeonato.id)
+                .success(function (data) {
+                    vm.rodadasGerenciar = data;
+                    angular.forEach(vm.rodadasGerenciar, function (rodada) {
+                        if (rodada.data_prazo != null) {
+                            rodada.data_prazo = moment(rodada.data_prazo, 'YYYY-MM-DD').toDate();
+                        }
+                    });
+                });
+        };
+
+        vm.salvarInformacoesRodada = function (rodada) {
+            Campeonato.setInformacoesDaRodada(vm.campeonato.id, rodada)
+                .success(function (data) {
+                    vm.carregaRodadasGerenciar();
+                });
+        };
     }]);
+
 }());

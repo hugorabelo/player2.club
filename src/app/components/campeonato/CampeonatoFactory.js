@@ -259,7 +259,23 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
-        }
+        },
+
+        getRodadas: function (idCampeonato) {
+            return $http.get('api/campeonato/rodadas/' + idCampeonato);
+        },
+
+        setInformacoesDaRodada: function (idCampeonato, rodada) {
+            rodada.idCampeonato = idCampeonato;
+            return $http({
+                method: 'POST',
+                url: 'api/campeonato/informacoesDaRodada',
+                data: $.param(rodada),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
 
     }
 }]);
