@@ -36,6 +36,7 @@
         vm.exibeSomenteAbertas = 0;
 
         vm.partidasDaRodada = [];
+        vm.rodadasGerenciar = {};
 
         vm.partidasAbertas = false;
 
@@ -375,6 +376,7 @@
                             .success(function (data) {
                                 fase.aberta = true;
                                 vm.loadingFase = false;
+                                vm.carregaRodadasGerenciar();
                             }).error(function (data, status) {
                                 toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                                 vm.loadingFase = false;
@@ -1248,19 +1250,15 @@
         };
 
         vm.carregaRodadasGerenciar = function () {
-            vm.rodadasGerenciar = [];
-            angular.forEach(vm.gruposDaFase[0].rodadas, function (numRodada) {
-                var rodada = {};
-                rodada.numero = numRodada;
-                Campeonato.getInformacoesDaRodada(vm.campeonato.id, numRodada)
-                    .success(function (data) {
-                        if (data.data_prazo != null) {
-                            rodada.data_prazo = moment(data.data_prazo, 'YYYY-MM-DD').toDate();
+            Campeonato.getRodadas(vm.campeonato.id)
+                .success(function (data) {
+                    vm.rodadasGerenciar = data;
+                    angular.forEach(vm.rodadasGerenciar, function (rodada) {
+                        if (rodada.data_prazo != null) {
+                            rodada.data_prazo = moment(rodada.data_prazo, 'YYYY-MM-DD').toDate();
                         }
-                        rodada.liberada = data.liberada;
-                    })
-                vm.rodadasGerenciar.push(rodada);
-            });
+                    });
+                });
         };
 
         vm.salvarInformacoesRodada = function (rodada) {

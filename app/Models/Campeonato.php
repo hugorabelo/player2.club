@@ -256,9 +256,14 @@ class Campeonato extends Eloquent {
             return true;
         }
         $proximaFase = $fase->proximaFase();
+
+        // Remover usuários que já estejam na fase seguinte devido a algum erro
+        UsuarioFase::where('campeonato_fases_id','=',$proximaFase->id)->delete();
+
         foreach ($fase->grupos() as $grupo) {
             // contabilizar jogos sem resultado (0 pontos para todos os participantes)
             foreach ($grupo->partidas() as $partida) {
+                $partida->usuarios = $partida->usuarios();
                 if(!isset($partida->data_placar)) {
                     $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
@@ -271,8 +276,6 @@ class Campeonato extends Eloquent {
             if(isset($proximaFase)) {
                 $posicaoUsuario = 1;
 
-                // Remover usuários que já estejam na fase seguinte devido a algum erro
-                UsuarioFase::where('campeonato_fases_id','=',$proximaFase->id)->delete();
 
                 foreach ($grupo->usuariosClassificados() as $usuario) {
                     $usuarioFase = new UsuarioFase();
@@ -695,6 +698,7 @@ class Campeonato extends Eloquent {
     }
 
     public function aplicarWO($partida, $vencedor = 0) {
+        Log::warning($partida);
         if($vencedor > 0) {
             for($i = 0; $i< count($partida['usuarios']); $i++) {
                 if($partida['usuarios'][$i]['id'] == $vencedor) {
@@ -724,35 +728,19 @@ class Campeonato extends Eloquent {
         }
     }
 
-    public function carregaRodadas() {
+    public function rodadas() {
         $faseAtual = $this->faseAtual();
         if(!isset($faseAtual)) {
             return null;
         }
         $grupo = $faseAtual->grupos()->first();
         $rodadas = DB::table('partidas')
-            ->selectRaw('DISTINCT rodada')
+            ->selectRaw('DISTINCT rodada as numero, data_prazo, liberada')
             ->where('fase_grupos_id', '=', $grupo->id)
-            ->groupBy('rodada')
+            ->groupBy('rodada', 'data_prazo', 'liberada')
             ->orderBy('rodada')
             ->get();
         return $rodadas;
-    }
-
-    public function informacoesDaRodada($rodada) {
-        $faseAtual = $this->faseAtual();
-        if(!isset($faseAtual)) {
-            return null;
-        }
-        $grupo = $faseAtual->grupos()->first();
-        $partida = Partida::where('fase_grupos_id', '=', $grupo->id)
-            ->where('rodada','=',$rodada)
-            ->take(1)
-            ->first();
-        $rodadaRetorno = array();
-        $rodadaRetorno['data_prazo'] = $partida->data_prazo;
-        $rodadaRetorno['liberada'] = $partida->liberada;
-        return $rodadaRetorno;
     }
 
     public function salvarPrazoRodada($rodada, $data_prazo) {

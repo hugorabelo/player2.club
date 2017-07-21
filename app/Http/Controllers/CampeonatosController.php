@@ -367,12 +367,12 @@ class CampeonatosController extends Controller
         $campeonato->aplicarWO($partida, $vencedor);
     }
 
-    function getInformacoesDaRodada($idCampeonato, $rodada) {
+    function getRodadas($idCampeonato) {
         $campeonato = Campeonato::find($idCampeonato);
         if(!isset($campeonato)) {
             return null;
         }
-        return $campeonato->informacoesDaRodada($rodada);
+        return $campeonato->rodadas();
     }
 
     function setInformacoesDaRodada() {

@@ -261,8 +261,8 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             });
         },
 
-        getInformacoesDaRodada: function (idCampeonato, rodada) {
-            return $http.get('api/campeonato/informacoesDaRodada/' + idCampeonato + '/' + rodada);
+        getRodadas: function (idCampeonato) {
+            return $http.get('api/campeonato/rodadas/' + idCampeonato);
         },
 
         setInformacoesDaRodada: function (idCampeonato, rodada) {
