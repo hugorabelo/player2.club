@@ -52,7 +52,8 @@ class MyCustomUserRepository implements Auth0UserRepository {
         }
         // Recuperando IP do Usuário e Inserindo dados de Localização
         if(!isset($user->pais)) {
-            $cliente = new Client(['base_uri' => 'http://ip-api.com/json']);
+            $ip = \Request::getClientIp();
+            $cliente = new Client(['base_uri' => 'http://ip-api.com/json/'.$ip]);
             $response = $cliente->request('GET');
             $objeto = json_decode($response->getBody(), true);
             if($objeto['status'] == 'success') {
