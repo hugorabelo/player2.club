@@ -244,6 +244,12 @@ class CampeonatosController extends Controller
         return Response::json($partidas);
     }
 
+    public function getPartidasPorRodada($idCampeonato, $aberta, $rodada = null) {
+        $campeonato = Campeonato::find($idCampeonato);
+        $partidas = $campeonato->partidasPorRodada($aberta, $rodada);
+        return Response::json($partidas);
+    }
+
     public function getPartidasContestadas($idCampeonato) {
         $campeonato = Campeonato::find($idCampeonato);
         $partidas = $campeonato->partidasContestadas();
@@ -351,6 +357,41 @@ class CampeonatosController extends Controller
             return $campeonato->tabelaCompleta();
         }
         return null;
+    }
+
+    function aplicarWO() {
+        $partida = Input::all();
+        $idCampeonato = $partida['idCampeonato'];
+        $campeonato = Campeonato::find($idCampeonato);
+        $vencedor = $partida['vencedorWO'];
+        $campeonato->aplicarWO($partida, $vencedor);
+    }
+
+    function getRodadas($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        if(!isset($campeonato)) {
+            return null;
+        }
+        return $campeonato->rodadas();
+    }
+
+    function setInformacoesDaRodada() {
+        $informacoes = Input::all();
+        Log::warning($informacoes);
+        $idCampeonato = $informacoes['idCampeonato'];
+        $campeonato = Campeonato::find($idCampeonato);
+        if(!isset($campeonato)) {
+            return null;
+        }
+        $rodada = $informacoes['numero'];
+        $data_prazo = $informacoes['data_prazo'];
+        if(isset($data_prazo) && $data_prazo != '') {
+            $campeonato->salvarPrazoRodada($rodada, $data_prazo);
+        }
+        $liberada = $informacoes['liberada'];
+        if(isset($liberada)) {
+            $campeonato->salvarLiberarRodada($rodada, $liberada);
+        }
     }
 
 }

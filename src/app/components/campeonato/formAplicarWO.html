@@ -1,0 +1,27 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="m-b-sm">{{'messages.escolha_vencedor_wo' | translate}}</div>
+                <md-radio-group ng-model="vencedorWO" class="md-block m-t-sm">
+                    <md-radio-button ng-repeat="usuario in partida.usuarios" value="{{usuario.id}}" class="md-primary">
+                        <img ng-src="uploads/usuarios/{{usuario.distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile"> {{usuario.nome}}
+                    </md-radio-button>
+                    <md-radio-button value="0" class="md-primary">{{'messages.wo_duplo' | translate}}</md-radio-button>
+                </md-radio-group>
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="fechar()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="salvarWO()">{{'fields.save' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

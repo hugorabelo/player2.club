@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -32,8 +32,11 @@
         vm.campeonatoEditar.detalhes = {};
 
         vm.rodada_atual = [];
+        vm.rodada_atual_gerenciar = [];
+        vm.exibeSomenteAbertas = 0;
 
         vm.partidasDaRodada = [];
+        vm.rodadasGerenciar = {};
 
         vm.partidasAbertas = false;
 
@@ -60,10 +63,14 @@
         };
 
         vm.abaGerenciar = function () {
+            var date = new Date();
+            $rootScope.timezone = ((date.getTimezoneOffset() / 60) * -100);
+
             vm.currentNavItem = 'detalhes';
             vm.carregaAdministradores(vm.idCampeonato);
             vm.carregaPartidasEmAberto();
             vm.getParticipantes(vm.idCampeonato);
+            vm.carregaRodadasGerenciar();
         };
 
         vm.abaContestacoes = function () {
@@ -73,7 +80,8 @@
 
         vm.abaPartidasAbertas = function () {
             vm.currentNavItem = 'partidasAbertas';
-            vm.carregaPartidasEmAberto();
+            vm.rodada_atual_gerenciar = 1;
+            vm.carregaPartidas();
         };
 
         vm.abaEditar = function () {
@@ -211,6 +219,20 @@
             }
         };
 
+        vm.exibeRodadaAnteriorGerenciar = function (indice) {
+            if (vm.rodada_atual_gerenciar > 1) {
+                vm.rodada_atual_gerenciar = vm.rodada_atual_gerenciar - 1;
+                vm.carregaPartidas();
+            }
+        };
+
+        vm.exibeProximaRodadaGerenciar = function (indice) {
+            if (vm.rodada_atual_gerenciar < vm.rodada_maxima) {
+                vm.rodada_atual_gerenciar = vm.rodada_atual_gerenciar + 1;
+                vm.carregaPartidas();
+            }
+        };
+
         vm.carregaJogosDaRodada = function (indice, id_grupo) {
             $rootScope.loading = true;
             var rodada = vm.rodada_atual[indice];
@@ -245,16 +267,54 @@
         };
 
         vm.carregaParticipanteDestaque = function (participante) {
-            vm.participanteDestaque = participante;
-            Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
-                .success(function (data) {
-                    vm.participanteDestaque.partidasNaoDisputadas = data;
-                    Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
-                        .success(function (disputadas) {
-                            vm.participanteDestaque.partidasDisputadas = disputadas;
-                            vm.getPlataformasDoUsuario(vm.participanteDestaque);
-                        })
-                });
+            if ($rootScope.telaMobile) {
+                Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
+                    .success(function (data) {
+                        participante.partidasNaoDisputadas = data;
+                        Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
+                            .success(function (disputadas) {
+                                participante.partidasDisputadas = disputadas;
+                                vm.getPlataformasDoUsuario(participante);
+                            })
+                    });
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'fields.info_participante',
+                            participanteDestaque: participante
+                        },
+                        controller: DialogControllerParticipante,
+                        templateUrl: 'app/components/campeonato/participanteDestaque.html',
+                        parent: angular.element(document.body),
+                        targetEvent: null,
+                        clickOutsideToClose: true,
+                        fullscreen: true
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            } else {
+                vm.participanteDestaque = participante;
+                Usuario.getPartidasNaoDisputadas(participante.id, vm.campeonato.id)
+                    .success(function (data) {
+                        vm.participanteDestaque.partidasNaoDisputadas = data;
+                        Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
+                            .success(function (disputadas) {
+                                vm.participanteDestaque.partidasDisputadas = disputadas;
+                                vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                            })
+                    });
+            }
+        };
+
+        function DialogControllerParticipante($scope, $mdDialog, tituloModal, participanteDestaque) {
+            $scope.tituloModal = tituloModal;
+            $scope.participanteDestaque = participanteDestaque;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
         };
 
         vm.ocultaParticipanteDestaque = function () {
@@ -311,11 +371,15 @@
                         toastr.error($filter('translate')('messages.preencher_campos'), $filter('translate')('messages.dados_invalidos'));
                     } else {
                         fase.dadosFase.id = fase.id;
+                        vm.loadingFase = true;
                         Campeonato.abreFase(fase.dadosFase)
                             .success(function (data) {
                                 fase.aberta = true;
+                                vm.loadingFase = false;
+                                vm.carregaRodadasGerenciar();
                             }).error(function (data, status) {
                                 toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                                vm.loadingFase = false;
                             });
                     }
                 },
@@ -342,12 +406,15 @@
 
             $mdDialog.show(confirm).then(function () {
                 fase.usuarioLogado = $rootScope.usuarioLogado.id;
+                vm.loadingFase = true;
                 Campeonato.fechaFase(fase)
                     .success(function (data) {
                         fase.encerrada = true;
                         fase.aberta = false;
+                        vm.loadingFase = false;
                     }).error(function (data, status) {
                         toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        vm.loadingFase = false;
                     });
             }, function () {
 
@@ -393,6 +460,13 @@
 
             }
         };
+
+        vm.carregaPartidas = function () {
+            Campeonato.getPartidasPorRodada(vm.campeonato.id, vm.exibeSomenteAbertas, vm.rodada_atual_gerenciar)
+                .success(function (data) {
+                    vm.partidasDoCampeonato = data;
+                })
+        }
 
         vm.carregaPartidasContestadas = function () {
             Campeonato.getPartidasContestadas(vm.campeonato.id)
@@ -487,6 +561,10 @@
             partida.edita_contestacao = true;
         };
 
+        vm.editarPlacarAdministrador = function (partida) {
+            partida.edita_placar = true;
+        };
+
         vm.confirmarPlacarContestacao = function (id_partida) {
             var dados = {};
             dados.id_partida = id_partida;
@@ -507,6 +585,26 @@
                 .success(function () {
                     vm.confirmarPlacarContestacao(partida.id);
                     toastr.success($filter('translate')('messages.sucesso_placar'));
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.errors[0]));
+                });
+        };
+
+        vm.salvarPlacarAdministrador = function (partida) {
+            partida.usuarioLogado = $rootScope.usuarioLogado.id;
+            partida.placar_administrador = true;
+            Partida.salvarPlacar(partida)
+                .success(function () {
+                    var dados = {};
+                    dados.id_partida = partida.id;
+                    dados.usuarioLogado = $rootScope.usuarioLogado.id;
+                    Partida.confirmarPlacar(dados)
+                        .success(function () {
+                            vm.carregaPartidas();
+                            toastr.success($filter('translate')('messages.sucesso_placar'));
+                        })
+                        .error(function (data) {});
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.errors[0]));
@@ -783,7 +881,10 @@
             });
         };
 
-        vm.editarTimeUsuario = function (ev) {
+        vm.editarTimeUsuario = function (ev, participante) {
+            if (participante != undefined) {
+                vm.participanteDestaque = participante;
+            }
             Time.getTimesPorModelo(vm.campeonato.tipo.modelo_campeonato_id)
                 .success(function (data) {
                     vm.times = data;
@@ -1071,8 +1172,101 @@
                     vm.gruposDaFase = data.grupos;
                     vm.partidasDaRodada = data.partidasDaRodada;
                     vm.inicializaRodadasLimpas(data.grupos);
-                })
-        }
+                });
+        };
 
+        vm.excluirParticipante = function (ev, participante) {
+            var confirm = $mdDialog.confirm()
+                .title($filter('translate')('messages.confirma_exclusao_participante', {
+                    'nome_participante': participante.nome
+                }))
+                .ariaLabel($filter('translate')('messages.confirma_exclusao_participante', {
+                    'nome_participante': participante.nome
+                }))
+                .targetEvent(ev)
+                .ok(vm.textoYes)
+                .cancel(vm.textoNo)
+                .theme('player2');
+
+            $mdDialog.show(confirm).then(function () {
+                CampeonatoUsuario.destroy(participante.pivot.id)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.exclusao_participante_sucesso'))
+                        vm.getParticipantes(vm.idCampeonato);
+                        if (participante.id == $rootScope.usuarioLogado.id) {
+                            vm.campeonato.usuarioInscrito = false;
+                        }
+                    }).error(function (data, status) {
+                        toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_participante_erro'));
+                    });
+            }, function () {
+
+            });
+
+        };
+
+        vm.aplicarWO = function (partida) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'fields.aplicar_wo',
+                        partida: partida
+                    },
+                    controller: DialogControllerWO,
+                    templateUrl: 'app/components/campeonato/formAplicarWO.html',
+                    parent: angular.element(document.body),
+                    targetEvent: null,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+        };
+
+
+        function DialogControllerWO($scope, $mdDialog, tituloModal, partida) {
+            $scope.tituloModal = tituloModal;
+            $scope.partida = partida;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
+
+            $scope.salvarWO = function () {
+                $scope.partida.idCampeonato = vm.campeonato.id;
+                $scope.partida.vencedorWO = $scope.vencedorWO;
+                Campeonato.salvarWO($scope.partida)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.sucesso_wo'));
+                        vm.carregaPartidas();
+                    })
+                    .error(function (error) {
+                        toastr.error($filter('translate')('messages.erro_wo'));
+                    });
+                $mdDialog.hide();
+            }
+        };
+
+        vm.carregaRodadasGerenciar = function () {
+            Campeonato.getRodadas(vm.campeonato.id)
+                .success(function (data) {
+                    vm.rodadasGerenciar = data;
+                    angular.forEach(vm.rodadasGerenciar, function (rodada) {
+                        if (rodada.data_prazo != null) {
+                            rodada.data_prazo = moment(rodada.data_prazo, 'YYYY-MM-DD').toDate();
+                        }
+                    });
+                });
+        };
+
+        vm.salvarInformacoesRodada = function (rodada) {
+            Campeonato.setInformacoesDaRodada(vm.campeonato.id, rodada)
+                .success(function (data) {
+                    vm.carregaRodadasGerenciar();
+                });
+        };
     }]);
+
 }());

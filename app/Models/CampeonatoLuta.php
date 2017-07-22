@@ -87,7 +87,7 @@ class CampeonatoLuta extends Campeonato implements CampeonatoEspecificavel
 
         // Verificar se todos os usuários estão com o placar inserido
         foreach ($usuarios as $usuario) {
-            if($usuario['placar'] == null) {
+            if($usuario['placar'] === null) {
                 return 'messages.placares_invalidos';
             }
         }
@@ -105,7 +105,7 @@ class CampeonatoLuta extends Campeonato implements CampeonatoEspecificavel
             $i++;
         }
 
-        $partida->usuario_placar = $dados['usuarioLogado'];
+        $partida->usuario_placar = Auth::getUser()->id;
         $partida->data_placar = date('Y-m-d H:i:s');
         $partida->save();
         return '';

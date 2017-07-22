@@ -5,6 +5,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -61,6 +62,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			if($partida->contestada()) {
 				$partida->contestada = true;
 			}
+			if(isset($partida->data_prazo)) {
+			    if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
+			        $partida->liberada = false;
+                    $partida->save();
+                }
+            }
 			$usuarios = $partida->usuarios();
 			$partida->usuarios = $usuarios;
 			// TODO incluir dados a serem utilizados do usuário para exibição das partidas
@@ -86,6 +93,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         foreach($partidas as $partida) {
             if($partida->contestada()) {
                 $partida->contestada = true;
+            }
+            if(isset($partida->data_prazo)) {
+                if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
+                    $partida->liberada = false;
+                    $partida->save();
+                }
             }
             $usuarios = $partida->usuarios();
             $partida->usuarios = $usuarios;

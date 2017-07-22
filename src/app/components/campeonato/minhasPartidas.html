@@ -9,7 +9,7 @@
     <div ng-repeat="partida in vmCampeonato.partidasDoUsuario">
         <md-card class="md-block" flex ng-class="{'m-n': telaMobile}">
             <md-card-content class="p-h-xs" ng-class="{'p-w-xs': telaMobile}">
-                <div flex="80" flex-xs="65" class="partida-detalhe-campeonato">{{partida.rodada}} {{'messages.rodada' | translate}}</div>
+                <div flex="80" flex-xs="65" class="partida-detalhe-campeonato">{{partida.rodada}} {{'messages.rodada' | translate}} <span ng-if="partida.data_prazo" md-colors="{color: 'player2-warn-900'}">- {{'fields.prazo' | translate}}: {{vmCampeonato.exibeData(partida.data_prazo)}}</span></div>
                 <div flex layout="row" layout-align="space-between center">
                     <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center">
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
@@ -18,9 +18,9 @@
                         <img ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante" alt="profile">
                     </div>
                     <div class="text-center" flex layout="row" layout-align="space-around center">
-                        <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar">
+                        <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar || !partida.liberada">
                         <i class="fa fa-close fa-fw"></i>
-                        <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar">
+                        <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar || !partida.liberada">
                     </div>
                     <div class="text-left" flex layout-xs="row" layout-align-xs="space-around center">
                         <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile">
@@ -33,7 +33,9 @@
                     <div flex="20" flex-xs="35" layout-xs="row" layout-align-xs="space-between center">
 
                         <div id="botoes" class="pull-left" ng-hide="partida.contestada || partida.data_confirmacao" layout-xs="row" layout-align-xs="center center">
-                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-if="!partida.data_placar">
+                            <md-icon class="material-icons step m-l-sm" md-colors="::{color: 'player2-warn-900'}" ng-if="!partida.liberada">lock</md-icon>
+
+                            <md-button class="md-fab md-mini md-primary" ng-click="vmCampeonato.salvarPlacar(partida)" ng-if="!partida.data_placar && partida.liberada">
                                 <i class="material-icons">save</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.salvar_resultado' | translate}}

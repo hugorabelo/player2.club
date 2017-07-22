@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use Auth0\Login\Contract\Auth0UserRepository;
+use GuzzleHttp\Client;
 use User;
 
 class MyCustomUserRepository implements Auth0UserRepository {
@@ -49,6 +50,19 @@ class MyCustomUserRepository implements Auth0UserRepository {
                 $user->nome = $profile->name;
             }
         }
+        // Recuperando IP do Usuário e Inserindo dados de Localização
+        if(!isset($user->pais)) {
+            $ip = \Request::getClientIp();
+            $cliente = new Client(['base_uri' => 'http://ip-api.com/json/'.$ip]);
+            $response = $cliente->request('GET');
+            $objeto = json_decode($response->getBody(), true);
+            if($objeto['status'] == 'success') {
+                $user->localizacao = $objeto['city'];
+                $user->uf = $objeto['region'];
+                $user->pais = $objeto['countryCode'];
+            }
+        }
+
         $user->ultimo_login = date('Y-m-d H:i:s');;
         $user->save();
 

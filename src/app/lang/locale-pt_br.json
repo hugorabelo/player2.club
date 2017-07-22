@@ -1,6 +1,6 @@
 {
     "menus": {
-        "home": "Minha Página",
+        "home": "Home",
         "config": "Configurações",
         "campeonatos": "Campeonatos",
         "jogos": "Jogos",
@@ -17,7 +17,10 @@
         "meus_campeonatos": "Meus Campeonatos",
         "campeonatos_disponiveis": "Campeonatos Disponíveis",
         "minhas_partidas": "Minhas Partidas",
-        "tabela_campeonato": "Tabela"
+        "tabela_campeonato": "Tabela",
+        "visitar_perfil": "Visitar Meu Perfil",
+        "editar_perfil": "Editar Perfil",
+        "criar_campeonato": "Criar Campeonato"
     },
 
     "fields": {
@@ -59,6 +62,7 @@
 
         "data_inicio": "Data de Início",
         "data_fim": "Data de Término",
+        "prazo": "Prazo",
         "permite_empate": "Permite Empate",
         "fase_anterior": "Fase Anterior",
         "fase_abrir": "Iniciar Fase",
@@ -81,8 +85,10 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "ID de Usuário",
-        "localizacao": "Localização",
+        "gamertag": "Nome de Usuário",
+        "localizacao": "Cidade",
+        "estado": "Estado",
+        "pais": "País",
         "grupo": "Grupo",
         "salvar_resultado": "Salvar resultado",
         "confirmar_resultado": "Confirmar resultado",
@@ -100,6 +106,7 @@
         "salvar_placar_contestado": "Salvar o novo placar após análise",
         "excluir_placar_contestado": "Cancelar o placar contestado",
         "sigla": "Sigla",
+        "aplicar_wo": "Aplicar W.O.",
 
         "acesso": "Acesso",
         "publico": "Público",
@@ -152,7 +159,9 @@
         "pote": "Pote",
         "sorteio_potes": "Sorteio por potes",
         "adiciona_pote": "Adiciona Pote",
-        "remove_pote": "Remove Pote"
+        "remove_pote": "Remove Pote",
+
+        "info_participante": "Exibir detalhes do participante"
     },
 
     "messages": {
@@ -216,7 +225,7 @@
         "campeonatosEncerrados": "Campeonatos Encerrados",
         "campeonatosParticipantes": "Participantes",
         "campeonatoContestacoes": "Resultados Contestados",
-        "campeonato_partidas_abertas": "Partidas Em Aberto",
+        "campeonato_partidas_abertas": "Gerenciar Partidas",
         "confirma_exclusao_campeonato": "Você deseja realmente apagar o campeonato {{nome_campeonato}} da plataforma {{nome_plataforma}}? Esta operação não poderá ser desfeita!",
         "exclusao_campeonato_sucesso": "Campeonato excluído com sucesso",
         "exclusao_campeonato_erro": "Aconteceu um erro na exclusão do campeonato",
@@ -347,6 +356,7 @@
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um nome de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
         "placares_invalidos": "O placar informado é inválido",
+        "placares_existente": "Já existe placar cadastrado para esta partida",
         "pontuacao_nao_cadastrada": "A pontuação para esta fase não está cadastrada. Favor informar ao administrador",
         "empate_nao_permitido": "Não é permitido um resultado de empate nesta fase",
 
@@ -382,7 +392,7 @@
         "erro_operacao": "Aconteceu um erro ao realizar a operação. Favor tentar novamente",
         "minhas_mensagens": "Minhas mensagens",
         "bate_papo": "Bate Papo com {{nome_remetente}}",
-        "inserir_time_participante": "Inserir Time do Participante",
+        "inserir_time_participante": "Editar Time do Participante",
         "sem_time": "Sem Time",
         "time_salvo_sucesso": "Time salvo com sucesso",
         "times_participantes": "Times dos Participantes",
@@ -405,7 +415,18 @@
         "titulo_alerta_login": "Erro ao fazer o login",
         "conteudo_alerta_login": "O usuário não está cadastrado no sistema",
 
-        "exibe_confirmadas": "Exibir partidas já confirmadas"
+        "exibe_confirmadas": "Exibir partidas já confirmadas",
+        "exibe_somente_abertas": "Exibir somente partidas em aberto",
+        "excluir_participante": "Excluir participante do campeonato",
+        "confirma_exclusao_participante": "Você tem certeza que deseja excluir o participante {{nome_participante}} do campeonato? Esta operação não pode ser desfeita!",
+        "exclusao_participante_sucesso": "Participante excluído com sucesso",
+        "exclusao_participante_erro": "Aconteceu um erro na exclusão do participante",
+
+        "wo_duplo": "W.O. Duplo",
+        "escolha_vencedor_wo": "Selecione o vencedor da partida por W.O.",
+        "erro_wo": "Houve um erro ao aplicar o W.O.",
+        "sucesso_wo": "W.O. aplicado com sucesso",
+        "gerenciar_rodadas": "Gerenciar Rodadas"
     },
 
     "generos": {
