@@ -42,21 +42,21 @@
                                 </md-tooltip>
                             </md-button>
 
-                            <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-if="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
+                            <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-if="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao && partida.liberada">
                                 <i class="material-icons">done</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.confirmar_resultado' | translate}}
                                 </md-tooltip>
                             </md-button>
 
-                            <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)" ng-if="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao">
+                            <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-click="vmCampeonato.contestarPlacar($event, partida.id)" ng-if="partida.data_placar && partida.usuario_placar!= usuarioLogado.id && !partida.data_confirmacao && partida.liberada">
                                 <i class="material-icons">gavel</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.contestar_resultado' | translate}}
                                 </md-tooltip>
                             </md-button>
 
-                            <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-if="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao">
+                            <md-button class="md-fab md-mini md-warn" ng-click="vmCampeonato.cancelarPlacar(partida.id)" ng-if="partida.data_placar && partida.usuario_placar == usuarioLogado.id && !partida.data_confirmacao && partida.liberada">
                                 <i class="material-icons">clear</i>
                                 <md-tooltip md-direction="top ">
                                     {{'fields.cancelar_resultado' | translate}}
