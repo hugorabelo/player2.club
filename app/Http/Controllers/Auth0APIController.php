@@ -9,9 +9,14 @@ class Auth0APIController extends Controller {
         $this->user = $user;
     }
 
-    public function getProfile($email, $password) {
+    public function getProfile($email = null, $password = null) {
+        $profile = Input::all();
+        Log::warning($profile);
         $user = User::where('email','=',$email)->where('password','=',Hash::make($password))->first();
-        return Response::json($user);
+        if(isset($user)) {
+            return Response::json($user);
+        }
+        return $profile;
     }
 
 }
