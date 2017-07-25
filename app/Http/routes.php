@@ -167,6 +167,8 @@ Route::get('api/callback', function() {
     return Response::json(Auth::check());
 });
 
+Route::get('api/auth0/profile', 'Auth0APIController@getProfile');
+
 Route::get('api/times/baseFifa', 'TimeController@getBaseFifa');
 
 Route::any('{catchall}', function() {
