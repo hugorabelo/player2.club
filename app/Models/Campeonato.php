@@ -107,6 +107,7 @@ class Campeonato extends Eloquent {
 	 *
 	 */
 	protected function atualizarDatasFases($fase, $novaData) {
+        $novaData = strstr($novaData, " (", true);
 		$data = Carbon::parse($novaData);
 		$fase->data_fim = $data;
 		$fase->update();
@@ -122,6 +123,7 @@ class Campeonato extends Eloquent {
 
         $outraData = DB::table('campeonato_fases')->selectRaw("data_fim + '1 day' as nova_data")->where('id','=',$fase->id)->first();
         $outraData = $outraData->nova_data;
+        $outraData = strstr($outraData, " (", true);
         $outraData = Carbon::parse($outraData);
 
 		$proximaFase = $fase;
@@ -748,6 +750,7 @@ class Campeonato extends Eloquent {
         $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
             ->where('rodada','=',$rodada)
             ->get();
+        $data_prazo = strstr($data_prazo, " (", true);
         $data_prazo = Carbon::parse($data_prazo);
         foreach ($partidas as $partida) {
             $partida->data_prazo = $data_prazo;

@@ -154,10 +154,12 @@ class CampeonatosController extends Controller
             $detalhes->update();
 
             $faseInicial = $campeonato->faseInicial();
+            $dataInicial = strstr($dataInicial, " (", true);
             $faseInicial->data_inicio = Carbon::parse($dataInicial);
             $faseInicial->update();
 
             $faseFinal = $campeonato->faseFinal();
+            $dataFinal = strstr($dataFinal, " (", true);
             $faseFinal->data_fim = Carbon::parse($dataFinal);
             $faseFinal->update();
 
