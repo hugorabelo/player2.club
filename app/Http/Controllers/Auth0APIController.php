@@ -1,5 +1,7 @@
 <?php
 
+use \Illuminate\Http\Request;
+
 class Auth0APIController extends Controller {
 
     protected $user;
@@ -9,10 +11,10 @@ class Auth0APIController extends Controller {
         $this->user = $user;
     }
 
-    public function getProfile($email = null, $password = null) {
-        $profile = Input::all();
-        Log::warning($profile);
-        $user = User::where('email','=',$email)->where('password','=',Hash::make($password))->first();
+    public function getProfile(Request $request) {
+        $profile = $request->all();
+
+        $user = User::where('email','=',$profile['email'])->where('password','=',Hash::make($profile['password']))->first();
         if(isset($user)) {
             return Response::json($user);
         }
