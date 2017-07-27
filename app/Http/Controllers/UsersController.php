@@ -554,6 +554,9 @@ class UsersController extends Controller {
 		}
 		$usuario = User::find($idUsuario);
 		$equipes = $usuario->equipes()->orderBy('descricao')->get();
+		foreach ($equipes as $equipe) {
+			$equipe->integrantes = $equipe->integrantes()->get();
+		}
 		return Response::json($equipes);
 	}
 
