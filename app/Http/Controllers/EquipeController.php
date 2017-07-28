@@ -25,9 +25,14 @@ class EquipeController extends Controller
     {
         $equipe = Equipe::find($id);
         $equipe->integrantes = $equipe->integrantes()->get();
+        $funcoesAdministrativas = DB::table('funcao_equipe')->whereIn('descricao',array('Capitão','Vice-Capitão'))->implode('id', ',');
+        $funcoesAdministrativas = explode(',', $funcoesAdministrativas);
         foreach ($equipe->integrantes as $integrante) {
             if($integrante->id = Auth::getUser()->id) {
                 $equipe->participa = true;
+                if(in_array($integrante->pivot->funcao_equipe_id, $funcoesAdministrativas)) {
+                    $equipe->administrador = true;
+                }
                 break;
             }
         }

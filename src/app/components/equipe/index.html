@@ -27,6 +27,17 @@
     </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
+        <div class="caixa-informacao-titulo" ng-if="vmEquipe.equipe.administrador">
+            <h3>{{'messages.campeonato_detalhes' | translate}}</h3>
+        </div>
+        <md-card class="caixa-informacao" ng-if="vmEquipe.equipe.administrador">
+            <div class="m-xs">
+                <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
+                    <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+                </md-list-item>
+            </div>
+        </md-card>
+
         <div class="caixa-informacao-titulo">
             <h3>{{'messages.campeonato_list' | translate}}</h3>
             <a ui-sref=".campeonatos">
@@ -87,6 +98,20 @@
 </div>
 
 <div hide-gt-xs ui-view>
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm" ng-if="vmEquipe.equipe.administrador">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">settings</i>{{'messages.campeonato_detalhes' | translate}}
+                <span flex></span>
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
+                <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+            </md-list-item>
+        </div>
+    </md-card>
+
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
         <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
@@ -107,7 +132,7 @@
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
         <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
-                <i class="material-icons m-r-sm md-primary">record_voice_over</i>{{'messages.integrantes' | translate}}
+                <i class="material-icons m-r-sm md-primary">people</i>{{'messages.integrantes' | translate}}
                 <span flex></span>
                 <a ui-sref=".seguidores" class="more">
                     <i class="material-icons">more</i>
