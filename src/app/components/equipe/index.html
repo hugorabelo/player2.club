@@ -15,12 +15,10 @@
         </div>
     </div>
     <div layout="row" layout-align="end end">
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.seguir()" ng-hide="vmEquipe.usuario.seguido || vmEquipe.usuario.id == usuarioLogado.id"><i class="material-icons">person_add</i> {{'messages.seguir' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.deixarDeSeguir()" ng-show="vmEquipe.usuario.seguido"><i class="material-icons">people</i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="!vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
     </div>
-    <!--    <div class="coverBorder"></div>-->
-
 </div>
 
 <div flex layout="row" layout-margin hide-xs>
@@ -37,8 +35,8 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <md-list-item ng-repeat="campeonato in vmEquipe.campeonatosDoUsuario" ng-click="vmEquipe.carregaCampeonato(campeonato.id)">
-                    <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+                <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
+                    <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
                 </md-list-item>
             </div>
         </md-card>
@@ -51,10 +49,10 @@
         </div>
         <md-card class="caixa-informacao">
             <div class="m-xs">
-                <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmEquipe.usuario.seguidores">
-                    <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-sm">
+                <a ui-sref="profile({idUsuario: integrante.id}) " ng-repeat="integrante in vmEquipe.equipe.integrantes">
+                    <img src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-sm">
                     <md-tooltip md-direction="top ">
-                        {{seguidor.nome}}
+                        {{integrante.nome}}
                     </md-tooltip>
                 </a>
             </div>
@@ -64,8 +62,10 @@
 </div>
 
 
-<!--Tela Mobile-->
-<div hide-gt-xs layout="column" layout-wrap class="header-profile no-padding" style="background-image: url('uploads/usuarios/capa/{{vmEquipe.usuario.imagem_capa}}');" layout-align="start center">
+<!-------------- Tela Mobile --------->
+
+
+<div hide-gt-xs layout="column" layout-wrap class="header-profile no-padding" style="background-image: url('uploads/usuarios/capa/{{vmEquipe.equipe.imagem_capa}}');" layout-align="start center">
     <div class="profile-info m-t-sm">
         <div>
             <h2 class="no-margins">
@@ -79,9 +79,9 @@
         </a>
     </div>
     <div layout="row">
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.seguir()" ng-hide="vmEquipe.usuario.seguido || vmEquipe.usuario.id == usuarioLogado.id"><i class="fa fa-user-plus" aria-hidden="true"></i> {{'messages.seguir' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.deixarDeSeguir()" ng-show="vmEquipe.usuario.seguido"><i class="fa fa-users" aria-hidden="true"></i> {{'messages.seguindo' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 </div>
@@ -98,8 +98,8 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xs">
-            <md-list-item ng-repeat="campeonato in vmEquipe.campeonatosDoUsuario" ng-click="vmEquipe.carregaCampeonato(campeonato.id)" class="m-b-xxs">
-                <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+            <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
+                <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
             </md-list-item>
         </div>
     </md-card>
@@ -115,10 +115,10 @@
             </md-card-title-text>
         </md-card-title>
         <div class="m-xxs">
-            <a ui-sref="profile({idUsuario: seguidor.id}) " ng-repeat="seguidor in vmEquipe.usuario.seguidores">
-                <img src="uploads/usuarios/{{seguidor.imagem_perfil}} " alt="{{seguidor.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+            <a ui-sref="profile({idUsuario: integrante.id}) " ng-repeat="integrante in vmEquipe.equipe.integrantes">
+                <img src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                 <md-tooltip md-direction="top ">
-                    {{seguidor.nome}}
+                    {{integrante.nome}}
                 </md-tooltip>
             </a>
         </div>

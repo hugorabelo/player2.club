@@ -19,6 +19,8 @@
 
         vm.idJogo = $stateParams.idJogo;
 
+        vm.idEquipe = $stateParams.idEquipe;
+
         vm.novoPost = {};
 
         vm.feedFactory = {};
@@ -32,6 +34,11 @@
                 var usuarioLogado = localStorageService.get('usuarioLogado');
                 vm.idUsuario = usuarioLogado.id;
                 vm.feedFactory = new Feed(vm.idUsuario, 0, vm.idJogo);
+                vm.feedFactory.proximaPagina();
+            } else if (vm.idEquipe !== undefined) {
+                var usuarioLogado = localStorageService.get('usuarioLogado');
+                vm.idUsuario = usuarioLogado.id;
+                vm.feedFactory = new Feed(vm.idUsuario, 0, undefined, vm.idEquipe);
                 vm.feedFactory.proximaPagina();
             } else if (vm.idUsuario !== undefined) {
                 Usuario.show(vm.idUsuario)

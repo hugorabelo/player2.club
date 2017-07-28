@@ -6,6 +6,8 @@
         function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, Usuario, Equipe) {
             var vm = this;
 
+            vm.equipe = {};
+
             vm.idEquipe = $stateParams.idEquipe;
             if (vm.idEquipe != undefined) {
                 Equipe.show(vm.idEquipe)

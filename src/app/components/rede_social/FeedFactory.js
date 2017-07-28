@@ -2,13 +2,14 @@
 (function () {
     'use strict';
     angular.module('player2').factory('Feed', ['$http', function ($http) {
-        var Feed = function (idUsuario, todos, idJogo) {
+        var Feed = function (idUsuario, todos, idJogo, idEquipe) {
             this.items = [];
             this.ocupado = false;
             this.after = '0';
             this.idUsuario = idUsuario;
             this.todos = todos;
             this.idJogo = idJogo;
+            this.idEquipe = idEquipe;
             this.partidasRegistradas = [];
             this.itemsRegistrados = [];
         };
@@ -20,9 +21,12 @@
             this.ocupado = true;
             if (this.idJogo != undefined) {
                 this.url = 'api/jogos/feed/' + this.idJogo + '/' + this.after + '/5';
+            } else if (this.idEquipe != undefined) {
+                this.url = 'api/equipe/feed/' + this.idEquipe + '/' + this.after + '/5';
             } else {
                 this.url = 'api/usuario/feed/' + this.idUsuario + '/' + this.todos + '/' + this.after + '/5';
             }
+
             $http.get(this.url)
                 .success(function (data) {
                     var items = data;

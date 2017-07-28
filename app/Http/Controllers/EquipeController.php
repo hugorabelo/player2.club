@@ -24,6 +24,14 @@ class EquipeController extends Controller
     public function show($id)
     {
         $equipe = Equipe::find($id);
+        $equipe->integrantes = $equipe->integrantes()->get();
+        foreach ($equipe->integrantes as $integrante) {
+            if($integrante->id = Auth::getUser()->id) {
+                $equipe->participa = true;
+                break;
+            }
+        }
+        $equipe->campeonatos = $equipe->campeonatos()->get();
         return Response::json($equipe);
     }
 

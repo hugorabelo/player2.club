@@ -407,7 +407,9 @@
 
         "equipes_usuario": "Equipes do Usuário",
         "equipe_add": "Criar Equipe",
-        "integrantes": "Integrantes"
+        "integrantes": "Integrantes",
+        "entrar": "Entrar",
+        "sair": "Sair"
     },
 
     "generos": {
