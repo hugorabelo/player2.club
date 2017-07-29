@@ -28,7 +28,7 @@ class EquipeController extends Controller
         $funcoesAdministrativas = DB::table('funcao_equipe')->whereIn('descricao',array('Capitão','Vice-Capitão'))->implode('id', ',');
         $funcoesAdministrativas = explode(',', $funcoesAdministrativas);
         foreach ($equipe->integrantes as $integrante) {
-            if($integrante->id = Auth::getUser()->id) {
+            if($integrante->id == Auth::getUser()->id) {
                 $equipe->participa = true;
                 if(in_array($integrante->pivot->funcao_equipe_id, $funcoesAdministrativas)) {
                     $equipe->administrador = true;
@@ -147,5 +147,35 @@ class EquipeController extends Controller
         Equipe::destroy($id);
 
         return Response::json(array('success' => true));
+    }
+
+    public function enviarMensagem() {
+        $input = Input::all();
+        $validation = Validator::make($input, Mensagem::$rules);
+
+        if ($validation->passes())
+        {
+            $mensagem['id_remetente'] = Auth::getUser()->id;
+            $mensagem['mensagem'] = $input['mensagem'];
+            $equipe = Equipe::find($input['id_equipe']);
+            if(!isset($equipe)) {
+                return Response::json(array('success'=>false,
+                    'errors'=>$validation->getMessageBag()->all(),
+                    'message'=>'Equipe não encontrada'),300);
+            }
+
+            foreach ($equipe->integrantes()->get() as $integrante) {
+                if($integrante->id != $mensagem['id_remetente']) {
+                    $mensagem['id_destinatario'] = $integrante->id;
+                    Mensagem::create($mensagem);
+                }
+            }
+
+            return Response::json(array('success'=>true));
+        }
+
+        return Response::json(array('success'=>false,
+            'errors'=>$validation->getMessageBag()->all(),
+            'message'=>'There were validation errors.'),300);
     }
 }

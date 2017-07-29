@@ -144,6 +144,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('time/porModelo/{idModeloCampeonato}', 'TimeController@getTimesPorModelo');
     Route::resource('time', 'TimeController');
 
+    Route::post('equipe/mensagem', 'EquipeController@enviarMensagem');
     Route::resource('equipe', 'EquipeController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {

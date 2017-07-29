@@ -17,7 +17,7 @@
     <div layout="row" layout-align="end end">
         <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="!vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
     </div>
 </div>
 
@@ -31,10 +31,13 @@
             <h3>{{'messages.campeonato_detalhes' | translate}}</h3>
         </div>
         <md-card class="caixa-informacao" ng-if="vmEquipe.equipe.administrador">
-            <div class="m-xs">
-                <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
-                    <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
-                </md-list-item>
+            <div class="m-xs" layout="column">
+                <md-button class="md-raised md-block">{{'messages.editar_equipe' | translate}}</md-button>
+                <md-button class="md-raised md-block">{{'messages.excluir_equipe' | translate}}</md-button>
+                <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
+                <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
+                <md-button class="md-raised md-block">{{'messages.gerenciar_participantes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
             </div>
         </md-card>
 
@@ -105,10 +108,13 @@
                 <span flex></span>
             </md-card-title-text>
         </md-card-title>
-        <div class="m-xs">
-            <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
-                <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
-            </md-list-item>
+        <div class="m-xs" layout="column">
+            <md-button class="md-raised md-block">{{'messages.editar_equipe' | translate}}</md-button>
+            <md-button class="md-raised md-block">{{'messages.excluir_equipe' | translate}}</md-button>
+            <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
+            <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
+            <md-button class="md-raised md-block">{{'messages.gerenciar_participantes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
         </div>
     </md-card>
 

@@ -409,7 +409,13 @@
         "equipe_add": "Criar Equipe",
         "integrantes": "Integrantes",
         "entrar": "Entrar",
-        "sair": "Sair"
+        "sair": "Sair",
+        "editar_equipe": "Editar Equipe",
+        "excluir_equipe": "Excluir Equipe",
+        "aceitar_inscricoes": "Aceitar Inscrições",
+        "convidar_participantes": "Convidar Participantes",
+        "enviar_mensagem_geral": "Enviar mensagem geral",
+        "gerenciar_participantes": "Gerenciar participantes"
     },
 
     "generos": {

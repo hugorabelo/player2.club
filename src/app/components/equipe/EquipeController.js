@@ -81,6 +81,55 @@
 
                 $scope.$watch('files.length', function (newVal, oldVal) {});
             }
+
+            vm.escreverMensagem = function (ev) {
+                vm.novaMensagem = {};
+                vm.novaMensagem.id_equipe = vm.equipe.id;
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.escrever_mensagem',
+                            novaMensagem: vm.novaMensagem,
+                            nomeEquipe: vm.equipe.descricao
+                        },
+                        controller: DialogControllerMensagem,
+                        templateUrl: 'app/components/dashboard/escreverMensagem.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            };
+
+            function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem, nomeEquipe) {
+                $scope.tituloModal = tituloModal;
+                $scope.novaMensagem = novaMensagem;
+                $scope.nomeDestinatario = nomeEquipe;
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.enviarMensagem = function () {
+                    vm.enviarMensagemEquipe(novaMensagem);
+                    $mdDialog.hide();
+                }
+
+            };
+
+            vm.enviarMensagemEquipe = function (novaMensagem) {
+                Equipe.enviarMensagem(novaMensagem)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.mensagem_enviada'));
+                    })
+                    .error(function (error) {
+                        toastr.error(error.message);
+                    });
+            };
     }]);
 
 }());

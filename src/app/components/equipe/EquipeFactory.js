@@ -50,7 +50,18 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         destroy: function (id) {
             return $http.delete('api/equipe/' + id);
-        }
+        },
+
+        enviarMensagem: function (mensagem) {
+            return $http({
+                method: 'POST',
+                url: 'api/equipe/mensagem',
+                data: $.param(mensagem),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
 
     }
 }])
