@@ -60,6 +60,40 @@
                     });
             };
 
+            vm.edit = function (ev) {
+                $mdDialog
+                    .show({
+                        locals: {
+                            tituloModal: 'messages.editar_equipe',
+                            novoItem: false,
+                            equipe: vm.equipe
+                        },
+                        controller: DialogController,
+                        templateUrl: 'app/components/equipe/formModal.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            };
+
+            vm.update = function (equipe, arquivo) {
+                $rootScope.loading = true;
+                Equipe.update(equipe, arquivo)
+                    .success(function (data) {
+                        $rootScope.loading = false;
+                    }).error(function (data, status) {
+                        vm.messages = data.errors;
+                        vm.status = status;
+                        $rootScope.loading = false;
+                    });
+            };
+
             function DialogController($scope, $mdDialog, tituloModal, novoItem, equipe) {
                 $scope.tituloModal = tituloModal;
                 $scope.novoItem = novoItem;

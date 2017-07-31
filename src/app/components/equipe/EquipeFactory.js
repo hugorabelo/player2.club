@@ -32,7 +32,7 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         update: function (equipe, arquivo) {
             return $http({
-                method: 'POST',
+                method: 'PUT',
                 url: 'api/equipe/' + equipe.id,
                 headers: {
                     'Content-Type': undefined
