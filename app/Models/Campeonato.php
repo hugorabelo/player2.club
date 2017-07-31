@@ -700,7 +700,6 @@ class Campeonato extends Eloquent {
     }
 
     public function aplicarWO($partida, $vencedor = 0) {
-        Log::warning($partida);
         if($vencedor > 0) {
             for($i = 0; $i< count($partida['usuarios']); $i++) {
                 if($partida['usuarios'][$i]['id'] == $vencedor) {

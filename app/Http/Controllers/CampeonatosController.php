@@ -379,7 +379,6 @@ class CampeonatosController extends Controller
 
     function setInformacoesDaRodada() {
         $informacoes = Input::all();
-        Log::warning($informacoes);
         $idCampeonato = $informacoes['idCampeonato'];
         $campeonato = Campeonato::find($idCampeonato);
         if(!isset($campeonato)) {
