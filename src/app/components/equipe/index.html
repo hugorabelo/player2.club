@@ -33,7 +33,7 @@
         <md-card class="caixa-informacao" ng-if="vmEquipe.equipe.administrador">
             <div class="m-xs" layout="column">
                 <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
-                <md-button class="md-raised md-block">{{'messages.excluir_equipe' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
                 <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
                 <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
                 <md-button class="md-raised md-block">{{'messages.gerenciar_participantes' | translate}}</md-button>
@@ -110,7 +110,7 @@
         </md-card-title>
         <div class="m-xs" layout="column">
             <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
-            <md-button class="md-raised md-block">{{'messages.excluir_equipe' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
             <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
             <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
             <md-button class="md-raised md-block">{{'messages.gerenciar_participantes' | translate}}</md-button>

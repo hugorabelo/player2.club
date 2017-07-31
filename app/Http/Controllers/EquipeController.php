@@ -23,15 +23,19 @@ class EquipeController extends Controller
 
     public function show($id)
     {
+        $idUsuarioLogado = Auth::getUser()->id;
         $equipe = Equipe::find($id);
         $equipe->integrantes = $equipe->integrantes()->get();
         $funcoesAdministrativas = DB::table('funcao_equipe')->whereIn('descricao',array('Capitão','Vice-Capitão'))->implode('id', ',');
         $funcoesAdministrativas = explode(',', $funcoesAdministrativas);
         foreach ($equipe->integrantes as $integrante) {
-            if($integrante->id == Auth::getUser()->id) {
+            if($integrante->id == $idUsuarioLogado) {
                 $equipe->participa = true;
                 if(in_array($integrante->pivot->funcao_equipe_id, $funcoesAdministrativas)) {
                     $equipe->administrador = true;
+                }
+                if($equipe->id_criador == $idUsuarioLogado) {
+                    $equipe->criador = true;
                 }
                 break;
             }

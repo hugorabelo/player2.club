@@ -168,6 +168,10 @@
                         toastr.error(error.message);
                     });
             };
+
+            vm.excluir = function () {
+                // mensagem confirmar
+            };
     }]);
 
 }());
