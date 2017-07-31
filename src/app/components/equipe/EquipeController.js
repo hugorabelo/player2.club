@@ -86,6 +86,10 @@
                 $rootScope.loading = true;
                 Equipe.update(equipe, arquivo)
                     .success(function (data) {
+                        Equipe.show(vm.idEquipe)
+                            .success(function (data) {
+                                vm.equipe = data;
+                            });
                         $rootScope.loading = false;
                     }).error(function (data, status) {
                         vm.messages = data.errors;
