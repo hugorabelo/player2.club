@@ -169,8 +169,28 @@
                     });
             };
 
-            vm.excluir = function () {
-                // mensagem confirmar
+            vm.excluir = function (ev) {
+                var confirm = $mdDialog.confirm(vm.equipe.id)
+                    .title($filter('translate')('messages.confirma_exclusao_equipe'))
+                    .ariaLabel($filter('translate')('messages.confirma_exclusao_equipe'))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.destroy(vm.equipe.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.exclusao_equipe_sucesso'))
+                            $location.path('/home');
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_equipe_erro'));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+
+                });
             };
     }]);
 

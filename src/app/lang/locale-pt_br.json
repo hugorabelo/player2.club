@@ -415,7 +415,10 @@
         "aceitar_inscricoes": "Aceitar Inscrições",
         "convidar_participantes": "Convidar Participantes",
         "enviar_mensagem_geral": "Enviar mensagem geral",
-        "gerenciar_participantes": "Gerenciar participantes"
+        "gerenciar_participantes": "Gerenciar participantes",
+        "confirma_exclusao_equipe": "Você deseja realmente apagar a equipe {{nome_equipe}}? Esta operação não poderá ser desfeita!",
+        "exclusao_equipe_sucesso": "Equipe excluída com sucesso",
+        "exclusao_equipe_erro": "Aconteceu um erro na exclusão da equipe"
     },
 
     "generos": {
