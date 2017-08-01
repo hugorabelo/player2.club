@@ -227,7 +227,7 @@
         };
 
         vm.exibeProximaRodadaGerenciar = function (indice) {
-            if (vm.rodada_atual_gerenciar < vm.rodada_maxima) {
+            if (vm.rodada_atual_gerenciar < vm.rodada_maxima_gerenciar) {
                 vm.rodada_atual_gerenciar = vm.rodada_atual_gerenciar + 1;
                 vm.carregaPartidas();
             }
@@ -1253,6 +1253,7 @@
             Campeonato.getRodadas(vm.campeonato.id)
                 .success(function (data) {
                     vm.rodadasGerenciar = data;
+                    vm.rodada_maxima_gerenciar = data.length;
                     angular.forEach(vm.rodadasGerenciar, function (rodada) {
                         if (rodada.data_prazo != null) {
                             rodada.data_prazo = moment(rodada.data_prazo, 'YYYY-MM-DD').toDate();
