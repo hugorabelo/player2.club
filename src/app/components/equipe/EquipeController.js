@@ -183,7 +183,7 @@
                     Equipe.destroy(vm.equipe.id)
                         .success(function (data) {
                             toastr.success($filter('translate')('messages.exclusao_equipe_sucesso'))
-                            $location.path('/home');
+                            $location.path('/home/equipes');
                         }).error(function (data, status) {
                             toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_equipe_erro'));
                         });
