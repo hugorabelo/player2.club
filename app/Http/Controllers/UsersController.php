@@ -461,12 +461,18 @@ class UsersController extends Controller {
 				case 'fase_encerrada':
 				case 'fase_encerramento_breve':
 					$fase = CampeonatoFase::find($notificacao->item_id);
+					if(!isset($fase)) {
+						continue;
+					}
 					$notificacao->nome_campeonato = $fase->campeonato()->descricao;
 					$notificacao->nome_fase = $fase->descricao;
 					$notificacao->item_id = $fase->campeonato()->id;
 					break;
 				case 'sorteou_clubes':
 					$campeonato = Campeonato::find($notificacao->item_id);
+					if(!isset($campeonato)) {
+						continue;
+					}
 					$notificacao->nome_campeonato = $campeonato->descricao;
 					break;
 			}
