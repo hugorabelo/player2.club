@@ -413,7 +413,11 @@
                         fase.aberta = false;
                         vm.loadingFase = false;
                     }).error(function (data, status) {
-                        toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        if (data.messages == undefined) {
+                            toastr.error($filter('translate')('messages.erro_operacao'), $filter('translate')('messages.operacao_nao_concluida'));
+                        } else {
+                            toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        }
                         vm.loadingFase = false;
                     });
             }, function () {

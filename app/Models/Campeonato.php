@@ -267,8 +267,9 @@ class Campeonato extends Eloquent {
                 if(!isset($partida->data_placar)) {
                     $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
-                    $partida->data_confirmacao = date('Y-m-d H:i:s');
-                    $partida->save();
+                    $partidaBD = Partida::find($partida['id']);
+                    $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+                    $partidaBD->save();
                 }
             }
 
@@ -698,7 +699,6 @@ class Campeonato extends Eloquent {
     }
 
     public function aplicarWO($partida, $vencedor = 0) {
-        Log::warning($partida);
         if($vencedor > 0) {
             for($i = 0; $i< count($partida['usuarios']); $i++) {
                 if($partida['usuarios'][$i]['id'] == $vencedor) {
