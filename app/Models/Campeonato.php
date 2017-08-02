@@ -476,6 +476,7 @@ class Campeonato extends Eloquent {
                     $indiceGrupoInicial = 0;
                     $indiceGrupoFinal = $grupos->count()-1;
 
+                    //TODO Problema a partir daqui
                     while($indiceGrupoAtual < $grupos->count()) {
                         $grupo = $grupos->get($indiceGrupoAtual);
 
