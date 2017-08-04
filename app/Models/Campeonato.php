@@ -484,17 +484,21 @@ class Campeonato extends Eloquent {
                             // Pegar mandante do final da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoFinal);
                             if($indiceGrupoFinal % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
+                                $indiceGrupoFinal++;
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
                             } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
+                                $indiceGrupoFinal--;
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
                             }
                         } else {
                             // Pegar mandante do início da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
                             if($indiceGrupoInicial % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
+                                $indiceGrupoInicial++;
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
                             } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
+                                $indiceGrupoInicial--;
+                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
                             }
                         }
 
