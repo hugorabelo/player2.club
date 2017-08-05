@@ -469,37 +469,40 @@ class Campeonato extends Eloquent {
                         $lista[$i] = $lista[$i]->sortBy('grupoAnterior');
                     }
 
+                    $quantidadeGrupos = sizeof($lista[1]);
                     $indiceGrupoAtual = 0;
                     $indicePosicaoInicial = 1;
                     $indicePosicaoFinal = $maximaPosicao;
                     $invertePosicao = false;
                     $indiceGrupoInicial = 0;
-                    $indiceGrupoFinal = $grupos->count()-1;
+                    $indiceGrupoFinal = $quantidadeGrupos-1;
 
                     //TODO Problema a partir daqui
                     while($indiceGrupoAtual < $grupos->count()) {
                         $grupo = $grupos->get($indiceGrupoAtual);
+//                        if(($indiceGrupoAtual == ($quantidadeGrupos / 2))  && (!$segundaMetade)) {
+//                            $indiceGrupoInicial = 0;
+//                            $indiceGrupoFinal = $quantidadeGrupos-1;
+//                            $segundaMetade = true;
+//                        }
+                        if(($indiceGrupoInicial == $quantidadeGrupos) && ($indiceGrupoFinal < 0)) {
+                            $indiceGrupoInicial = 0;
+                            $indiceGrupoFinal = $quantidadeGrupos-1;
+                            $invertePosicao = !$invertePosicao;
+                        }
 
                         if($invertePosicao) {
                             // Pegar mandante do final da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoFinal);
-                            if($indiceGrupoFinal % 2 == 0) {
-                                $indiceGrupoFinal++;
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-                            } else {
-                                $indiceGrupoFinal--;
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-                            }
+                            $indiceGrupoFinal--;
+                            $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
+                            $indiceGrupoFinal--;
                         } else {
                             // Pegar mandante do início da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
-                            if($indiceGrupoInicial % 2 == 0) {
-                                $indiceGrupoInicial++;
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
-                            } else {
-                                $indiceGrupoInicial--;
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
-                            }
+                            $indiceGrupoInicial++;
+                            $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
+                            $indiceGrupoInicial++;
                         }
 
                         UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
