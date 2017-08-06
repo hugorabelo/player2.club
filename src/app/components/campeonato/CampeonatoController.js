@@ -227,7 +227,7 @@
         };
 
         vm.exibeProximaRodadaGerenciar = function (indice) {
-            if (vm.rodada_atual_gerenciar < vm.rodada_maxima) {
+            if (vm.rodada_atual_gerenciar < vm.rodada_maxima_gerenciar) {
                 vm.rodada_atual_gerenciar = vm.rodada_atual_gerenciar + 1;
                 vm.carregaPartidas();
             }
@@ -378,7 +378,11 @@
                                 vm.loadingFase = false;
                                 vm.carregaRodadasGerenciar();
                             }).error(function (data, status) {
-                                toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                                if (data.messages == undefined) {
+                                    toastr.error($filter('translate')('messages.erro_operacao'), $filter('translate')('messages.operacao_nao_concluida'));
+                                } else {
+                                    toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                                }
                                 vm.loadingFase = false;
                             });
                     }
@@ -413,7 +417,11 @@
                         fase.aberta = false;
                         vm.loadingFase = false;
                     }).error(function (data, status) {
-                        toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        if (data.messages == undefined) {
+                            toastr.error($filter('translate')('messages.erro_operacao'), $filter('translate')('messages.operacao_nao_concluida'));
+                        } else {
+                            toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
+                        }
                         vm.loadingFase = false;
                     });
             }, function () {
@@ -1253,6 +1261,7 @@
             Campeonato.getRodadas(vm.campeonato.id)
                 .success(function (data) {
                     vm.rodadasGerenciar = data;
+                    vm.rodada_maxima_gerenciar = data.length;
                     angular.forEach(vm.rodadasGerenciar, function (rodada) {
                         if (rodada.data_prazo != null) {
                             rodada.data_prazo = moment(rodada.data_prazo, 'YYYY-MM-DD').toDate();

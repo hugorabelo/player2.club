@@ -267,8 +267,9 @@ class Campeonato extends Eloquent {
                 if(!isset($partida->data_placar)) {
                     $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
-                    $partida->data_confirmacao = date('Y-m-d H:i:s');
-                    $partida->save();
+                    $partidaBD = Partida::find($partida['id']);
+                    $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+                    $partidaBD->save();
                 }
             }
 
@@ -468,32 +469,35 @@ class Campeonato extends Eloquent {
                         $lista[$i] = $lista[$i]->sortBy('grupoAnterior');
                     }
 
+                    $quantidadeGrupos = sizeof($lista[1]);
                     $indiceGrupoAtual = 0;
                     $indicePosicaoInicial = 1;
                     $indicePosicaoFinal = $maximaPosicao;
                     $invertePosicao = false;
                     $indiceGrupoInicial = 0;
-                    $indiceGrupoFinal = $grupos->count()-1;
+                    $indiceGrupoFinal = $quantidadeGrupos-1;
 
+                    //TODO Problema a partir daqui
                     while($indiceGrupoAtual < $grupos->count()) {
                         $grupo = $grupos->get($indiceGrupoAtual);
+                        if(($indiceGrupoInicial == $quantidadeGrupos) && ($indiceGrupoFinal < 0)) {
+                            $indiceGrupoInicial = 0;
+                            $indiceGrupoFinal = $quantidadeGrupos-1;
+                            $invertePosicao = !$invertePosicao;
+                        }
 
                         if($invertePosicao) {
                             // Pegar mandante do final da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoFinal);
-                            if($indiceGrupoFinal % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
-                            } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
-                            }
+                            $indiceGrupoFinal--;
+                            $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
+                            $indiceGrupoFinal--;
                         } else {
                             // Pegar mandante do início da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
-                            if($indiceGrupoInicial % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-                            } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-                            }
+                            $indiceGrupoInicial++;
+                            $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
+                            $indiceGrupoInicial++;
                         }
 
                         UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
@@ -698,7 +702,6 @@ class Campeonato extends Eloquent {
     }
 
     public function aplicarWO($partida, $vencedor = 0) {
-        Log::warning($partida);
         if($vencedor > 0) {
             for($i = 0; $i< count($partida['usuarios']); $i++) {
                 if($partida['usuarios'][$i]['id'] == $vencedor) {

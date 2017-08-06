@@ -46,6 +46,7 @@ class CampeonatosController extends Controller
         $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
         $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
         $campeonato->status = $campeonato->status();
+        $campeonato->vagas = $campeonato->maximoUsuarios();
 
         $quantidadeUsuario = DB::table('campeonato_usuarios')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
         $campeonato->usuarioInscrito = false;
@@ -377,7 +378,6 @@ class CampeonatosController extends Controller
 
     function setInformacoesDaRodada() {
         $informacoes = Input::all();
-        Log::warning($informacoes);
         $idCampeonato = $informacoes['idCampeonato'];
         $campeonato = Campeonato::find($idCampeonato);
         if(!isset($campeonato)) {
