@@ -151,7 +151,7 @@
         </md-card-content>
     </md-card>
 
-    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}">
+    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}" ng-if="vmCampeonato.campeonato.status >2">
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
                 <span class="md-headline">{{'messages.gerenciar_rodadas' | translate}}</span>
@@ -184,7 +184,7 @@
         </md-card-content>
     </md-card>
 
-    <md-card flex flex-gt-sm="33 " ng-class="{ 'm-n': telaMobile} " ng-if="vmCampeonato.campeonato.status <=2 ">
+    <md-card flex flex-gt-sm="33 " ng-class="{ 'm-n': telaMobile} " ng-if="vmCampeonato.campeonato.status <=2">
         <md-card-title hide-gt-xs class="p-xs ">
             <md-card-title-text>
                 <span class="md-headline ">{{'fields.excluir_campeonato' | translate}}</span>
