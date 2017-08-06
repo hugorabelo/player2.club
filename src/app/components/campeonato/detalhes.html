@@ -113,12 +113,14 @@
     <md-card flex ng-class="{ 'm-n': telaMobile}">
 
         <md-card-title hide-gt-xs class="p-xs">
-            <md-card-title-text>
+            <md-card-title-text layout="row" layout-align="space-between center">
                 <span class="md-headline">{{'messages.campeonatosParticipantes' | translate}}</span>
+                <span class="md-headline">{{vmCampeonato.campeonato.participantes.length}}/{{vmCampeonato.campeonato.vagas}}</span>
             </md-card-title-text>
         </md-card-title>
-        <md-toolbar class="md-toolbar-tools" hide-xs>
+        <md-toolbar class="md-toolbar-tools" hide-xs layout="row" layout-align="space-between center">
             <h2 translate>messages.campeonatosParticipantes</h2>
+            <h2>{{vmCampeonato.campeonato.participantes.length}}/{{vmCampeonato.campeonato.vagas}}</h2>
         </md-toolbar>
 
         <md-card-content ng-class="{ 'p-xs': telaMobile}">
