@@ -21,7 +21,7 @@
                     <div flex="25" class="text-right" layout-align-xs="space-around center">
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
-                        <img ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante" alt="profile">
+                        <img ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante img-circle" alt="profile">
                     </div>
                     <div flex="30" flex-xs="40" class="text-center" layout-align="space-around center" layout="row">
                         <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar || !partida.liberada">
@@ -29,7 +29,7 @@
                         <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar || !partida.liberada">
                     </div>
                     <div flex="25" class="text-left" layout-align-xs="space-around center">
-                        <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile">
+                        <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante img-circle" alt="profile">
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
                     </div>
