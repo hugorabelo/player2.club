@@ -739,9 +739,21 @@ class Campeonato extends Eloquent {
             return null;
         }
         $grupo = $faseAtual->grupos()->first();
+
+        //TODO verificar data de cada rodada e bloquear todas as partidas de cada rodada vencida, não apenas as partidas do usuário
+        /*
+         * if(isset($partida->data_prazo)) {
+			    if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
+			        $partida->liberada = false;
+                    $partida->save();
+                }
+            }
+         */
+
         $rodadas = DB::table('partidas')
             ->selectRaw('DISTINCT rodada as numero, data_prazo, liberada')
             ->where('fase_grupos_id', '=', $grupo->id)
+            ->where('adiamento','=', 'false')
             ->groupBy('rodada', 'data_prazo', 'liberada')
             ->orderBy('rodada')
             ->get();

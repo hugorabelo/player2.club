@@ -63,6 +63,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 				$partida->contestada = true;
 			}
 			if(isset($partida->data_prazo)) {
+				//TODO bloquear todas as partidas da rodada e do grupo e não apenas as partidas do usuário
 			    if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
 			        $partida->liberada = false;
                     $partida->save();
