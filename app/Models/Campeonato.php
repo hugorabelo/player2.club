@@ -739,9 +739,17 @@ class Campeonato extends Eloquent {
             return null;
         }
         $grupo = $faseAtual->grupos()->first();
+
+        //Bloquear todas as partidas que estão com o prazo vencido
+        $idCampeonato = $this->id;
+        DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < now()')
+            ->whereRaw("fase_grupos_id IN (select id from fase_grupos where campeonato_fases_id  IN (select id FROM campeonato_fases where campeonatos_id  = $idCampeonato))")
+            ->update(array('liberada'=>'false'));
+
         $rodadas = DB::table('partidas')
             ->selectRaw('DISTINCT rodada as numero, data_prazo, liberada')
             ->where('fase_grupos_id', '=', $grupo->id)
+            ->where('adiamento','=', 'false')
             ->groupBy('rodada', 'data_prazo', 'liberada')
             ->orderBy('rodada')
             ->get();

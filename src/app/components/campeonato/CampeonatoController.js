@@ -82,6 +82,7 @@
             vm.currentNavItem = 'partidasAbertas';
             vm.rodada_atual_gerenciar = 1;
             vm.carregaPartidas();
+            vm.carregaRodadasGerenciar();
         };
 
         vm.abaEditar = function () {

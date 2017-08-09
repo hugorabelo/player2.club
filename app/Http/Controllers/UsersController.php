@@ -17,6 +17,9 @@ class UsersController extends Controller {
 	}
 
 	public function show($id) {
+		if($id == 'undefined' || $id == null) {
+			return null;
+		}
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
         $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
