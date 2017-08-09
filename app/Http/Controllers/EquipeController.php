@@ -182,4 +182,8 @@ class EquipeController extends Controller
             'errors'=>$validation->getMessageBag()->all(),
             'message'=>'There were validation errors.'),300);
     }
+
+    public function removeIntegrante($idEquipe, $idIntegrante) {
+        Log::warning($idEquipe.' - '.$idIntegrante);
+    }
 }

@@ -145,6 +145,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::resource('time', 'TimeController');
 
     Route::post('equipe/mensagem', 'EquipeController@enviarMensagem');
+    Route::delete('equipe/integrante/{idEquipe}/{idIntegrante}', 'EquipeController@removeIntegrante');
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
 
