@@ -2,7 +2,7 @@
     <div layout="row" layout-align="start end">
         <div class="profile-image">
             <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
-                <img src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
+                <img ng-src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
             </a>
         </div>
         <div class="profile-info">
@@ -33,7 +33,7 @@
         <md-card class="caixa-informacao" ng-if="vmEquipe.equipe.administrador">
             <div class="m-xs" layout="column">
                 <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
-                <md-button class="md-raised md-block">{{'messages.gerenciar_participantes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarParticipantes($event)">{{'messages.gerenciar_participantes' | translate}}</md-button>
                 <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
                 <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
                 <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
@@ -64,7 +64,7 @@
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <a ui-sref="profile({idUsuario: integrante.id}) " ng-repeat="integrante in vmEquipe.equipe.integrantes">
-                    <img src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-sm">
+                    <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-sm">
                     <md-tooltip md-direction="top ">
                         {{integrante.nome}}
                     </md-tooltip>
@@ -89,7 +89,7 @@
     </div>
     <div class="profile-image">
         <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
-            <img src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
+            <img ng-src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
         </a>
     </div>
     <div layout="row">
@@ -110,7 +110,7 @@
         </md-card-title>
         <div class="m-xs" layout="column">
             <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
-            <md-button class="md-raised md-block">{{'messages.gerenciar_participantes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarParticipantes($event)">{{'messages.gerenciar_participantes' | translate}}</md-button>
             <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
             <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
@@ -147,7 +147,7 @@
         </md-card-title>
         <div class="m-xxs">
             <a ui-sref="profile({idUsuario: integrante.id}) " ng-repeat="integrante in vmEquipe.equipe.integrantes">
-                <img src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+                <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-xxs">
                 <md-tooltip md-direction="top ">
                     {{integrante.nome}}
                 </md-tooltip>

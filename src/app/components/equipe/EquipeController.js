@@ -24,6 +24,10 @@
                     .error(function (error) {});
             };
 
+            vm.getIntegrantesEquipe = function () {
+
+            };
+
             function DialogController($scope, $mdDialog, tituloModal, novoItem, equipe) {
                 $scope.tituloModal = tituloModal;
                 $scope.novoItem = novoItem;
@@ -123,7 +127,7 @@
             function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem, nomeEquipe) {
                 $scope.tituloModal = tituloModal;
                 $scope.novaMensagem = novaMensagem;
-                $scope.nomeDestinatario = nomeEquipe;
+                $scope.nomeDestinatario = $filter('translate')('fields.equipe') + ' ' + nomeEquipe;
 
                 $scope.cancel = function () {
                     $mdDialog.cancel();
@@ -172,8 +176,12 @@
 
             vm.excluir = function (ev) {
                 var confirm = $mdDialog.confirm(vm.equipe.id)
-                    .title($filter('translate')('messages.confirma_exclusao_equipe'))
-                    .ariaLabel($filter('translate')('messages.confirma_exclusao_equipe'))
+                    .title($filter('translate')('messages.confirma_exclusao_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_exclusao_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
                     .targetEvent(ev)
                     .ok($filter('translate')('messages.yes'))
                     .cancel($filter('translate')('messages.no'))
@@ -187,6 +195,73 @@
                             $location.path('/home/equipes');
                         }).error(function (data, status) {
                             toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_equipe_erro'));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+
+                });
+            };
+
+            function DialogControllerIntegrantes($scope, $mdDialog, tituloModal, integrantes) {
+                $scope.tituloModal = tituloModal;
+                $scope.integrantes = integrantes;
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.editarIntegrante = function (ev, integrante) {
+
+                };
+
+                $scope.excluirIntegrante = function (ev, integrante) {
+                    vm.excluirIntegrante(ev, integrante);
+                };
+            }
+
+            vm.gerenciarParticipantes = function (ev) {
+                $mdDialog
+                    .show({
+                        locals: {
+                            tituloModal: 'messages.gerenciar_participantes',
+                            integrantes: vm.equipe.integrantes
+                        },
+                        controller: DialogControllerIntegrantes,
+                        templateUrl: 'app/components/equipe/formIntegrantes.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            };
+
+            vm.excluirIntegrante = function (ev, integrante) {
+                var confirm = $mdDialog.confirm(integrante)
+                    .title($filter('translate')('messages.confirma_exclusao_integrante', {
+                        'nome_integrante': integrante.nome
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_exclusao_integrante', {
+                        'nome_integrante': integrante.nome
+                    }))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.removeIntegrante(vm.equipe.id, integrante.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.exclusao_integrante_sucesso'));
+                            vm.getIntegrantesEquipe();
+                            vm.gerenciarParticipantes(ev);
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_integrante_erro'));
                         });
                     $rootScope.loading = false;
                 }, function () {

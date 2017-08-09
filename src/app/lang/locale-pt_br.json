@@ -157,7 +157,8 @@
         "pote": "Pote",
         "sorteio_potes": "Sorteio por potes",
         "adiciona_pote": "Adiciona Pote",
-        "remove_pote": "Remove Pote"
+        "remove_pote": "Remove Pote",
+        "equipe": "Equipe"
     },
 
     "messages": {
@@ -415,10 +416,17 @@
         "aceitar_inscricoes": "Aceitar Inscrições",
         "convidar_participantes": "Convidar Participantes",
         "enviar_mensagem_geral": "Enviar mensagem geral",
-        "gerenciar_participantes": "Gerenciar participantes",
+        "gerenciar_participantes": "Gerenciar Integrantes",
         "confirma_exclusao_equipe": "Você deseja realmente apagar a equipe {{nome_equipe}}? Esta operação não poderá ser desfeita!",
         "exclusao_equipe_sucesso": "Equipe excluída com sucesso",
-        "exclusao_equipe_erro": "Aconteceu um erro na exclusão da equipe"
+        "exclusao_equipe_erro": "Aconteceu um erro na exclusão da equipe",
+        "excluir_participante": "Excluir Participante",
+        "editar_integrante": "Editar Integrante",
+        "excluir_integrante": "Excluir Integrante",
+        "editar_funcao": "Editar Função do Integrante",
+        "confirma_exclusao_integrante": "Você deseja realmente remover o integrante {{nome_integrante}}? Esta operação não poderá ser desfeita!",
+        "exclusao_integrante_sucesso": "Integrante excluído com sucesso",
+        "exclusao_integrante_erro": "Aconteceu um erro na exclusão do integrante"
     },
 
     "generos": {
