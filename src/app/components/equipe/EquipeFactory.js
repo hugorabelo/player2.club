@@ -65,6 +65,10 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         removeIntegrante: function (idEquipe, idIntegrante) {
             return $http.delete('api/equipe/integrante/' + idEquipe + '/' + idIntegrante);
+        },
+
+        getIntegrantes: function (idEquipe) {
+            return $http.get('api/equipe/integrante/' + idEquipe);
         }
 
     }

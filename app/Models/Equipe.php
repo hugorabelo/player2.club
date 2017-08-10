@@ -40,6 +40,21 @@ class Equipe extends Eloquent
         $this->campeonatos()->detach($idCampeonato);
     }
 
+    public function administradores() {
+        $funcoesAdministrativas = DB::table('funcao_equipe')->whereIn('descricao',array('Capitão','Vice-Capitão'))->implode('id', ',');
+        $funcoesAdministrativas = explode(',', $funcoesAdministrativas);
+        return $this->belongsToMany('User', 'integrante_equipe', 'equipe_id', 'users_id')->withPivot('funcao_equipe_id')->wherePivotIn('funcao_equipe_id', $funcoesAdministrativas)->withTimestamps();
+    }
+
+    public function verificaFuncaoAdministrador($idUsuario) {
+        foreach ($this->administradores()->get() as $administrador) {
+            if($administrador->id == $idUsuario) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getAtividades() {
         //TODO
     }

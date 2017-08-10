@@ -24,10 +24,6 @@
                     .error(function (error) {});
             };
 
-            vm.getIntegrantesEquipe = function () {
-
-            };
-
             function DialogController($scope, $mdDialog, tituloModal, novoItem, equipe) {
                 $scope.tituloModal = tituloModal;
                 $scope.novoItem = novoItem;
@@ -258,8 +254,11 @@
                     Equipe.removeIntegrante(vm.equipe.id, integrante.id)
                         .success(function (data) {
                             toastr.success($filter('translate')('messages.exclusao_integrante_sucesso'));
-                            vm.getIntegrantesEquipe();
-                            vm.gerenciarParticipantes(ev);
+                            Equipe.getIntegrantes(vm.idEquipe)
+                                .success(function (data) {
+                                    vm.equipe.integrantes = data;
+                                    vm.gerenciarParticipantes(ev);
+                                });
                         }).error(function (data, status) {
                             toastr.error($filter('translate')(data.errors), $filter('translate')('messages.exclusao_integrante_erro'));
                         });

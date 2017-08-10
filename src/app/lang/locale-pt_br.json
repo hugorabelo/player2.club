@@ -427,7 +427,8 @@
         "confirma_exclusao_integrante": "Você deseja realmente remover o integrante {{nome_integrante}}? Esta operação não poderá ser desfeita!",
         "exclusao_integrante_sucesso": "Integrante excluído com sucesso",
         "exclusao_integrante_erro": "Aconteceu um erro na exclusão do integrante",
-        "unico_integrante_equipe": "Você não pode excluir o único integrante da equipe"
+        "unico_integrante_equipe": "Você não pode excluir o único integrante da equipe",
+        "unico_administrador_equipe": "Você não pode excluir o único administrador da equipe"
     },
 
     "generos": {

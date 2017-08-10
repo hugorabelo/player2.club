@@ -26,12 +26,10 @@ class EquipeController extends Controller
         $idUsuarioLogado = Auth::getUser()->id;
         $equipe = Equipe::find($id);
         $equipe->integrantes = $equipe->integrantes()->get();
-        $funcoesAdministrativas = DB::table('funcao_equipe')->whereIn('descricao',array('Capitão','Vice-Capitão'))->implode('id', ',');
-        $funcoesAdministrativas = explode(',', $funcoesAdministrativas);
         foreach ($equipe->integrantes as $integrante) {
             if($integrante->id == $idUsuarioLogado) {
                 $equipe->participa = true;
-                if(in_array($integrante->pivot->funcao_equipe_id, $funcoesAdministrativas)) {
+                if($equipe->verificaFuncaoAdministrador($integrante->id)) {
                     $equipe->administrador = true;
                 }
                 if($equipe->id_criador == $idUsuarioLogado) {
@@ -193,9 +191,21 @@ class EquipeController extends Controller
                 'errors'=>'messages.unico_integrante_equipe',
                 'message'=>'There were validation errors.'),300);
         }
+        if($equipe->administradores()->get()->count() == 1 && $equipe->verificaFuncaoAdministrador($idIntegrante)) {
+            return Response::json(array('success'=>false,
+                'errors'=>'messages.unico_administrador_equipe',
+                'message'=>'There were validation errors.'),300);
+        }
         $equipe->removerIntegrante($idIntegrante);
-        //TODO Verificar se existe algum capitão, depois da exclusão. Caso não, definir o primeiro integrante como capitão ou não permitir remover se não ficar nenhum capitão
 
         return Response::json(array('success' => true));
+    }
+
+    public function getIntegrantes($idEquipe) {
+        if(!isset($idEquipe)) {
+            return null;
+        }
+        $equipe = Equipe::find($idEquipe);
+        return Response::json($equipe->integrantes()->get());
     }
 }
