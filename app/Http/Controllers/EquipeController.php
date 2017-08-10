@@ -184,6 +184,18 @@ class EquipeController extends Controller
     }
 
     public function removeIntegrante($idEquipe, $idIntegrante) {
-        Log::warning($idEquipe.' - '.$idIntegrante);
+        if(!isset($idEquipe)) {
+            return null;
+        }
+        $equipe = Equipe::find($idEquipe);
+        if($equipe->integrantes()->get()->count() == 1) {
+            return Response::json(array('success'=>false,
+                'errors'=>'messages.unico_integrante_equipe',
+                'message'=>'There were validation errors.'),300);
+        }
+        $equipe->removerIntegrante($idIntegrante);
+        //TODO Verificar se existe algum capitão, depois da exclusão. Caso não, definir o primeiro integrante como capitão ou não permitir remover se não ficar nenhum capitão
+
+        return Response::json(array('success' => true));
     }
 }

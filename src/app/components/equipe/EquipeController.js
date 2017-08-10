@@ -265,7 +265,7 @@
                         });
                     $rootScope.loading = false;
                 }, function () {
-
+                    vm.gerenciarParticipantes(ev);
                 });
             };
         }]);
