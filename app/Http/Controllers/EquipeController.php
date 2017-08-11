@@ -25,8 +25,10 @@ class EquipeController extends Controller
     {
         $idUsuarioLogado = Auth::getUser()->id;
         $equipe = Equipe::find($id);
-        $equipe->integrantes = $equipe->integrantes()->get();
+        $equipe->integrantes = $equipe->integrantes()->orderBy('funcao_equipe_id')->orderBy('nome')->getResults();
         foreach ($equipe->integrantes as $integrante) {
+            $funcao_equipe = DB::table('funcao_equipe')->where('id', '=', $integrante->pivot->funcao_equipe_id)->first();
+            $integrante->descricao_funcao = $funcao_equipe->descricao;
             if($integrante->id == $idUsuarioLogado) {
                 $equipe->participa = true;
                 if($equipe->verificaFuncaoAdministrador($integrante->id)) {
@@ -35,7 +37,6 @@ class EquipeController extends Controller
                 if($equipe->id_criador == $idUsuarioLogado) {
                     $equipe->criador = true;
                 }
-                break;
             }
         }
         $equipe->campeonatos = $equipe->campeonatos()->get();
@@ -206,6 +207,11 @@ class EquipeController extends Controller
             return null;
         }
         $equipe = Equipe::find($idEquipe);
-        return Response::json($equipe->integrantes()->get());
+        $integrantes = $equipe->integrantes()->orderBy('funcao_equipe_id')->orderBy('nome')->getResults();
+        foreach ($integrantes as $integrante) {
+            $funcao_equipe = DB::table('funcao_equipe')->where('id', '=', $integrante->pivot->funcao_equipe_id)->first();
+            $integrante->descricao_funcao = $funcao_equipe->descricao;
+        }
+        return Response::json($integrantes);
     }
 }

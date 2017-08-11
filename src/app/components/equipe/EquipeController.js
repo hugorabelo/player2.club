@@ -216,6 +216,9 @@
             }
 
             vm.gerenciarParticipantes = function (ev) {
+                if (!$rootScope.telaMobile) {
+                    return;
+                }
                 $mdDialog
                     .show({
                         locals: {
