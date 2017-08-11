@@ -69,6 +69,10 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         getIntegrantes: function (idEquipe) {
             return $http.get('api/equipe/integrante/' + idEquipe);
+        },
+
+        getFuncoes: function () {
+            return $http.get('api/equipe/funcoes');
         }
 
     }

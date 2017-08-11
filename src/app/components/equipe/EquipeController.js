@@ -24,6 +24,13 @@
                     .error(function (error) {});
             };
 
+            vm.getFuncoesEquipe = function () {
+                Equipe.getFuncoes()
+                    .success(function (data) {
+                        vm.funcoesEquipe = data;
+                    })
+            }
+
             function DialogController($scope, $mdDialog, tituloModal, novoItem, equipe) {
                 $scope.tituloModal = tituloModal;
                 $scope.novoItem = novoItem;
@@ -207,7 +214,7 @@
                 };
 
                 $scope.editarIntegrante = function (ev, integrante) {
-
+                    vm.editarIntegrante(ev, integrante);
                 };
 
                 $scope.excluirIntegrante = function (ev, integrante) {
@@ -269,6 +276,10 @@
                 }, function () {
                     vm.gerenciarParticipantes(ev);
                 });
+            };
+
+            vm.editarIntegrante = function (ev, integrante) {
+                vm.getFuncoesEquipe();
             };
         }]);
 

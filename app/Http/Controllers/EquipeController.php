@@ -214,4 +214,9 @@ class EquipeController extends Controller
         }
         return Response::json($integrantes);
     }
+
+    public function getFuncoes() {
+        $funcoes = DB::table('funcao_equipe')->orderBy('id')->get();
+        return Response::json($funcoes);
+    }
 }
