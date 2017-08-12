@@ -182,11 +182,19 @@ class EquipeController extends Controller
             'message'=>'There were validation errors.'),300);
     }
 
-    public function removeIntegrante($idEquipe, $idIntegrante) {
+    public function removeIntegrante($idEquipe, $idIntegrante = null) {
         if(!isset($idEquipe)) {
             return null;
         }
         $equipe = Equipe::find($idEquipe);
+        if(isset($idIntegrante) && !$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+            return Response::json(array('success'=>false,
+                'errors'=>'messages.sem_permissao_funcao',
+                'message'=>'There were validation errors.'),300);
+        }
+        if(!isset($idIntegrante)) {
+            $idIntegrante = Auth::getUser()->id;
+        }
         if($equipe->integrantes()->get()->count() == 1) {
             return Response::json(array('success'=>false,
                 'errors'=>'messages.unico_integrante_equipe',
@@ -223,6 +231,11 @@ class EquipeController extends Controller
     public function updateIntegrante() {
         $integrante = (Object)Input::all();
         $equipe = Equipe::find($integrante->pivot['equipe_id']);
+        if(!$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+            return Response::json(array('success'=>false,
+                'errors'=>'messages.sem_permissao_funcao',
+                'message'=>'There were validation errors.'),300);
+        }
         if(!isset($equipe)) {
             return null;
         }

@@ -84,6 +84,10 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        sair: function (idEquipe) {
+            return $http.delete('api/equipe/integrante/' + idEquipe);
         }
 
     }

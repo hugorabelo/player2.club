@@ -428,7 +428,12 @@
         "exclusao_integrante_sucesso": "Integrante excluído com sucesso",
         "exclusao_integrante_erro": "Aconteceu um erro na exclusão do integrante",
         "unico_integrante_equipe": "Você não pode excluir o único integrante da equipe",
-        "unico_administrador_equipe": "Você não pode excluir o único administrador da equipe"
+        "unico_administrador_equipe": "Você não pode excluir o único administrador da equipe",
+        "confirma_sair_equipe": "Você deseja realmente sair da equipe {{nome_equipe}}? Esta operação não poderá ser desfeita!",
+        "saida_equipe_sucesso": "Você saiu da equipe com sucesso",
+        "saida_equipe_erro": "Aconteceu um erro na sua saída da equipe",
+
+        "sem_permissao_funcao": "Você não tem permissão para acessar essa função"
     },
 
     "generos": {

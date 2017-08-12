@@ -299,6 +299,37 @@
                             });
                     });
             };
+
+            vm.sair = function (ev) {
+                var confirm = $mdDialog.confirm()
+                    .title($filter('translate')('messages.confirma_sair_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_sair_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.sair(vm.equipe.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.saida_equipe_sucesso'));
+                            Equipe.show(vm.idEquipe)
+                                .success(function (data) {
+                                    vm.equipe = data;
+                                });
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.saida_equipe_erro'));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+
+                });
+            };
         }]);
 
 }());
