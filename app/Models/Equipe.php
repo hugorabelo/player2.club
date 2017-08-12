@@ -55,6 +55,10 @@ class Equipe extends Eloquent
         return false;
     }
 
+    public function updateIntegrante($idIntegrante, $idFuncao) {
+        DB::table('integrante_equipe')->where('users_id','=',$idIntegrante)->where('equipe_id','=',$this->id)->update(array('funcao_equipe_id'=>$idFuncao));
+    }
+
     public function getAtividades() {
         //TODO
     }

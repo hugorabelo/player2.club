@@ -7,13 +7,18 @@
         </md-toolbar>
 
         <md-dialog-content class="p-h-md">
-            <md-list-item ng-repeat="integrante in integrantes" ng-click="goToPerson(person.name, $event)" class="noright">
+            <md-list-item ng-repeat="integrante in integrantes" class="noright">
                 <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}}" alt="{{integrante.nome}}" class="img-circle circle-border-sm img-md m-xxs">
                 <p class="m-l-md">{{integrante.nome}}</p>
-                <md-button class="md-icon-button md-primary md-secondary" ng-click="editarIntegrante($event, integrante)">
+                <md-button class="md-icon-button md-primary md-secondary" ng-click="editarIntegrante($event, integrante)" ng-if="!integrante.edit">
                     <md-tooltip md-direction="top">{{'messages.editar_funcao' | translate}}</md-tooltip>
                     <i class="material-icons">edit</i>
                 </md-button>
+                <md-select ng-model="integrante.pivot.funcao_equipe_id" ng-if="integrante.edit" ng-change="salvarNovaFuncao(integrante)">
+                    <md-option ng-repeat="funcao in funcoesEquipe" value="{{funcao.id}}">
+                        {{funcao.descricao}}
+                    </md-option>
+                </md-select>
                 <md-button class="md-icon-button md-warn md-secondary" ng-click="excluirIntegrante($event, integrante)">
                     <md-tooltip md-direction="top">{{'messages.excluir_integrante' | translate}}</md-tooltip>
                     <i class="material-icons">delete_forever</i>
@@ -39,11 +44,16 @@
     <md-list-item class="card-usuarios m-xs" ng-repeat="integrante in vmEquipe.equipe.integrantes" class="noright">
         <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}}" alt="{{integrante.nome}}" class="img-circle circle-border-sm img-md m-xs">
         <p class="m-l-md text-left">{{integrante.nome}}</p>
-        <p class="m-l-md text-right">{{integrante.descricao_funcao}}</p>
-        <md-button class="md-icon-button md-primary md-secondary" ng-click="vmEquipe.editarIntegrante($event, integrante)" ng-if="vmEquipe.equipe.administrador">
+        <p class="m-l-md text-right" ng-if="!integrante.edit">{{integrante.descricao_funcao}}</p>
+        <md-button class="md-icon-button md-primary md-secondary" ng-click="vmEquipe.editarIntegrante($event, integrante)" ng-if="vmEquipe.equipe.administrador && !integrante.edit">
             <md-tooltip md-direction="top">{{'messages.editar_funcao' | translate}}</md-tooltip>
             <i class="material-icons">edit</i>
         </md-button>
+        <md-select ng-model="integrante.pivot.funcao_equipe_id" ng-if="integrante.edit" ng-change="vmEquipe.salvarNovaFuncao(integrante)">
+            <md-option ng-repeat="funcao in vmEquipe.funcoesEquipe" value="{{funcao.id}}">
+                {{funcao.descricao}}
+            </md-option>
+        </md-select>
         <md-button class="md-icon-button md-warn md-secondary" ng-click="vmEquipe.excluirIntegrante($event, integrante)" ng-if="vmEquipe.equipe.administrador">
             <md-tooltip md-direction="top">{{'messages.excluir_integrante' | translate}}</md-tooltip>
             <i class="material-icons">delete_forever</i>

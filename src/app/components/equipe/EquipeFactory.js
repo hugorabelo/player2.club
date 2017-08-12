@@ -73,6 +73,17 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         getFuncoes: function () {
             return $http.get('api/equipe/funcoes');
+        },
+
+        atualizarIntegrante: function (integrante) {
+            return $http({
+                method: 'PUT',
+                url: 'api/equipe/integrante',
+                data: $.param(integrante),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

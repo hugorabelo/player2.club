@@ -219,4 +219,14 @@ class EquipeController extends Controller
         $funcoes = DB::table('funcao_equipe')->orderBy('id')->get();
         return Response::json($funcoes);
     }
+
+    public function updateIntegrante() {
+        $integrante = (Object)Input::all();
+        $equipe = Equipe::find($integrante->pivot['equipe_id']);
+        if(!isset($equipe)) {
+            return null;
+        }
+        $equipe->updateIntegrante($integrante->pivot['users_id'], $integrante->pivot['funcao_equipe_id']);
+        return Response::json(array('success'=>true));
+    }
 }

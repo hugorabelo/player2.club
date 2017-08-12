@@ -13,6 +13,7 @@
                 Equipe.show(vm.idEquipe)
                     .success(function (data) {
                         vm.equipe = data;
+                        vm.getFuncoesEquipe();
                     });
             }
 
@@ -28,8 +29,8 @@
                 Equipe.getFuncoes()
                     .success(function (data) {
                         vm.funcoesEquipe = data;
-                    })
-            }
+                    });
+            };
 
             function DialogController($scope, $mdDialog, tituloModal, novoItem, equipe) {
                 $scope.tituloModal = tituloModal;
@@ -205,9 +206,10 @@
                 });
             };
 
-            function DialogControllerIntegrantes($scope, $mdDialog, tituloModal, integrantes) {
+            function DialogControllerIntegrantes($scope, $mdDialog, tituloModal, integrantes, funcoesEquipe) {
                 $scope.tituloModal = tituloModal;
                 $scope.integrantes = integrantes;
+                $scope.funcoesEquipe = funcoesEquipe;
 
                 $scope.cancel = function () {
                     $mdDialog.cancel();
@@ -220,6 +222,10 @@
                 $scope.excluirIntegrante = function (ev, integrante) {
                     vm.excluirIntegrante(ev, integrante);
                 };
+
+                $scope.salvarNovaFuncao = function (integrante) {
+                    vm.salvarNovaFuncao(integrante);
+                };
             }
 
             vm.gerenciarParticipantes = function (ev) {
@@ -230,7 +236,8 @@
                     .show({
                         locals: {
                             tituloModal: 'messages.gerenciar_participantes',
-                            integrantes: vm.equipe.integrantes
+                            integrantes: vm.equipe.integrantes,
+                            funcoesEquipe: vm.funcoesEquipe
                         },
                         controller: DialogControllerIntegrantes,
                         templateUrl: 'app/components/equipe/formIntegrantes.html',
@@ -279,7 +286,18 @@
             };
 
             vm.editarIntegrante = function (ev, integrante) {
-                vm.getFuncoesEquipe();
+                integrante.edit = true;
+            };
+
+            vm.salvarNovaFuncao = function (integrante) {
+                Equipe.atualizarIntegrante(integrante)
+                    .success(function (data) {
+                        Equipe.getIntegrantes(vm.idEquipe)
+                            .success(function (data) {
+                                vm.equipe.integrantes = data;
+                                vm.gerenciarParticipantes();
+                            });
+                    });
             };
         }]);
 

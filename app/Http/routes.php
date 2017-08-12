@@ -148,6 +148,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::delete('equipe/integrante/{idEquipe}/{idIntegrante}', 'EquipeController@removeIntegrante');
     Route::get('equipe/integrante/{idEquipe}', 'EquipeController@getIntegrantes');
     Route::get('equipe/funcoes', 'EquipeController@getFuncoes');
+    Route::put('equipe/integrante', 'EquipeController@updateIntegrante');
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
 
