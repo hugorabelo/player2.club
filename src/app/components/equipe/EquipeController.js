@@ -330,6 +330,37 @@
 
                 });
             };
+
+            vm.entrar = function (ev) {
+                var confirm = $mdDialog.confirm()
+                    .title($filter('translate')('messages.confirma_entrar_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_entrar_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.entrar(vm.equipe.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.solicitacao_entrada_equipe_sucesso'));
+                            Equipe.show(vm.idEquipe)
+                                .success(function (data) {
+                                    vm.equipe = data;
+                                });
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.solicitacao_entrada_equipe_erro'));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+
+                });
+            }
         }]);
 
 }());

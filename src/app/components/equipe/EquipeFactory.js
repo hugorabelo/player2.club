@@ -88,6 +88,10 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         sair: function (idEquipe) {
             return $http.delete('api/equipe/integrante/' + idEquipe);
+        },
+
+        entrar: function (idEquipe) {
+            return $http.post('api/equipe/solicitacao/' + idEquipe);
         }
 
     }

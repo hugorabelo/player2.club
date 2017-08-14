@@ -59,6 +59,18 @@ class Equipe extends Eloquent
         DB::table('integrante_equipe')->where('users_id','=',$idIntegrante)->where('equipe_id','=',$this->id)->update(array('funcao_equipe_id'=>$idFuncao));
     }
 
+    public function solicitacoes() {
+        return $this->belongsToMany('User', 'equipe_solicitacao', 'equipe_id', 'users_id')->withPivot('convite')->withTimestamps();
+    }
+
+    public function adicionarSolicitacao($idUsuario, $convite) {
+        $this->solicitacoes()->attach($idUsuario, ['convite'=>$convite]);
+    }
+
+    public function removerSolicitacao($idUsuario) {
+        $this->solicitacoes()->detach($idUsuario);
+    }
+
     public function getAtividades() {
         //TODO
     }

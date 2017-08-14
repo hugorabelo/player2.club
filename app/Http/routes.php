@@ -149,6 +149,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('equipe/integrante/{idEquipe}', 'EquipeController@getIntegrantes');
     Route::get('equipe/funcoes', 'EquipeController@getFuncoes');
     Route::put('equipe/integrante', 'EquipeController@updateIntegrante');
+    Route::post('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@solicitarEntrada');
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
 

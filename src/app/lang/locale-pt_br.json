@@ -432,6 +432,10 @@
         "confirma_sair_equipe": "Você deseja realmente sair da equipe {{nome_equipe}}? Esta operação não poderá ser desfeita!",
         "saida_equipe_sucesso": "Você saiu da equipe com sucesso",
         "saida_equipe_erro": "Aconteceu um erro na sua saída da equipe",
+        "confirma_entrar_equipe": "Você deseja solicitar entrada na equipe {{nome_equipe}}?",
+        "solicitacao_entrada_equipe_sucesso": "Solicitação realizada com sucesso",
+        "solicitacao_entrada_equipe_erro": "Houve um erro na solicitação de entrada na equipe",
+        "aguardando_solicitacao": "Aguardando entrada na equipe",
 
         "sem_permissao_funcao": "Você não tem permissão para acessar essa função"
     },

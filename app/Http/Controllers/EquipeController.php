@@ -39,6 +39,9 @@ class EquipeController extends Controller
                 }
             }
         }
+        $solicitado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->count();
+        $equipe->aguardando = $solicitado;
+
         $equipe->campeonatos = $equipe->campeonatos()->get();
         return Response::json($equipe);
     }
@@ -80,6 +83,7 @@ class EquipeController extends Controller
                 $input['imagem_logomarca'] = $fileName;
             }
 
+            $input['id_criador'] = Auth::getUser()->id;
             $equipe = Equipe::create($input);
 
             return Response::json(array('success' => true));
@@ -240,6 +244,19 @@ class EquipeController extends Controller
             return null;
         }
         $equipe->updateIntegrante($integrante->pivot['users_id'], $integrante->pivot['funcao_equipe_id']);
+        return Response::json(array('success'=>true));
+    }
+
+    public function solicitarEntrada($idEquipe, $idUsuario = null) {
+        $equipe = Equipe::find($idEquipe);
+        if(!isset($equipe)) {
+            return null;
+        }
+        if(isset($idUsuario)) {
+            $equipe->adicionarSolicitacao($idUsuario, true);
+        } else {
+            $equipe->adicionarSolicitacao(Auth::getUser()->id, false);
+        }
         return Response::json(array('success'=>true));
     }
 }
