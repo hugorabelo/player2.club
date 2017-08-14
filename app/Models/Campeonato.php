@@ -742,7 +742,7 @@ class Campeonato extends Eloquent {
 
         //Bloquear todas as partidas que estão com o prazo vencido
         $idCampeonato = $this->id;
-        DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < now()')
+        DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < current_date')
             ->whereRaw("fase_grupos_id IN (select id from fase_grupos where campeonato_fases_id  IN (select id FROM campeonato_fases where campeonatos_id  = $idCampeonato))")
             ->update(array('liberada'=>'false'));
 

@@ -48,7 +48,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//Bloquear todas as partidas que estão com o prazo vencido
-			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < now()')
+			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < current_date')
 				->whereRaw("fase_grupos_id IN (select id from fase_grupos where campeonato_fases_id  IN (select id FROM campeonato_fases where campeonatos_id  = $idCampeonato))")
 				->update(array('liberada'=>'false'));
 			//TODO exibir apenas partidas de um determinado campeonato
@@ -62,7 +62,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		} else {
 			//Bloquear todas as partidas que estão com o prazo vencido
 			$idUsuario = $this->id;
-			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < now()')->whereRaw("id IN (select partidas_id from usuario_partidas where users_id = $idUsuario)")->update(array('liberada'=>'false'));
+			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < current_date')->whereRaw("id IN (select partidas_id from usuario_partidas where users_id = $idUsuario)")->update(array('liberada'=>'false'));
 			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
 		}
 		foreach($partidas as $partida) {
@@ -85,7 +85,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
         if(isset($idCampeonato)) {
 			//Bloquear todas as partidas que estão com o prazo vencido
-			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < now()')
+			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < current_date')
 				->whereRaw("fase_grupos_id IN (select id from fase_grupos where campeonato_fases_id  IN (select id FROM campeonato_fases where campeonatos_id  = $idCampeonato))")
 				->update(array('liberada'=>'false'));
             //TODO exibir apenas partidas de um determinado campeonato
@@ -94,7 +94,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
             $partidas = Partida::whereIn('fase_grupos_id',$grupos)->whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortByDesc('id');
         } else {
 			$idUsuario = $this->id;
-			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < now()')->whereRaw("id IN (select partidas_id from usuario_partidas where users_id = $idUsuario)")->update(array('liberada'=>'false'));
+			DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < current_date')->whereRaw("id IN (select partidas_id from usuario_partidas where users_id = $idUsuario)")->update(array('liberada'=>'false'));
             $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
         }
         foreach($partidas as $partida) {
