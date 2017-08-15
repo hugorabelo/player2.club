@@ -15,7 +15,7 @@
         </div>
     </div>
     <div layout="row" layout-align="end end">
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}"><i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}"><i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}</md-button>
         <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
         </md-button>
         <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
@@ -35,7 +35,7 @@
             <div class="m-xs" layout="column">
                 <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
                 <md-button class="md-raised md-block" ui-sref=".integrantes">{{'messages.gerenciar_participantes' | translate}}</md-button>
-                <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarSolicitacoes($event)">{{'messages.aceitar_inscricoes' | translate}}</md-button>
                 <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
                 <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
                 <md-button class="md-raised md-block" ng-click="vmEquipe.excluir($event)" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
@@ -94,7 +94,7 @@
         </a>
     </div>
     <div layout="row">
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}"><i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}"><i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}</md-button>
         <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
         </md-button>
         <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
@@ -113,7 +113,7 @@
         <div class="m-xs" layout="column">
             <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarParticipantes($event)">{{'messages.gerenciar_participantes' | translate}}</md-button>
-            <md-button class="md-raised md-block">{{'messages.aceitar_inscricoes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarSolicitacoes($event)">{{'messages.aceitar_inscricoes' | translate}}</md-button>
             <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.excluir($event)" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>

@@ -92,6 +92,10 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         entrar: function (idEquipe) {
             return $http.post('api/equipe/solicitacao/' + idEquipe);
+        },
+
+        cancelarSolicitacao: function (idEquipe) {
+            return $http.delete('api/equipe/solicitacao/' + idEquipe);
         }
 
     }

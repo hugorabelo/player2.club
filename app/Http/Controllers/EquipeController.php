@@ -259,4 +259,17 @@ class EquipeController extends Controller
         }
         return Response::json(array('success'=>true));
     }
+
+    public function cancelarSolicitacao($idEquipe, $idUsuario = null) {
+        $equipe = Equipe::find($idEquipe);
+        if(!isset($equipe)) {
+            return null;
+        }
+        if(isset($idUsuario)) {
+            $equipe->removerSolicitacao($idUsuario);
+        } else {
+            $equipe->removerSolicitacao(Auth::getUser()->id);
+        }
+        return Response::json(array('success'=>true));
+    }
 }

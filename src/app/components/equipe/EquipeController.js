@@ -360,7 +360,85 @@
                 }, function () {
 
                 });
+            };
+
+            vm.cancelarSolicitacao = function (ev) {
+                var confirm = $mdDialog.confirm()
+                    .title($filter('translate')('messages.confirma_cancelar_solicitacao_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_cancelar_solicitacao_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.cancelarSolicitacao(vm.equipe.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.cancelar_solicitacao_equipe_sucesso'));
+                            Equipe.show(vm.idEquipe)
+                                .success(function (data) {
+                                    vm.equipe = data;
+                                });
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.cancelar_solicitacao_equipe_erro'));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+
+                });
+            };
+
+            function DialogControllerSolicitacoes($scope, $mdDialog, tituloModal, integrantes, funcoesEquipe) {
+                $scope.tituloModal = tituloModal;
+                $scope.integrantes = integrantes;
+                $scope.funcoesEquipe = funcoesEquipe;
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.editarIntegrante = function (ev, integrante) {
+                    vm.editarIntegrante(ev, integrante);
+                };
+
+                $scope.excluirIntegrante = function (ev, integrante) {
+                    vm.excluirIntegrante(ev, integrante);
+                };
+
+                $scope.salvarNovaFuncao = function (integrante) {
+                    vm.salvarNovaFuncao(integrante);
+                };
             }
+
+            vm.gerenciarSolicitacoes = function (ev) {
+                if (!$rootScope.telaMobile) {
+                    return;
+                }
+                $mdDialog
+                    .show({
+                        locals: {
+                            tituloModal: 'messages.gerenciar_solicitacoes',
+                            integrantes: vm.equipe.integrantes,
+                            funcoesEquipe: vm.funcoesEquipe
+                        },
+                        controller: DialogControllerSolicitacoes,
+                        templateUrl: 'app/components/equipe/formSolicitacoes.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            };
         }]);
 
 }());
