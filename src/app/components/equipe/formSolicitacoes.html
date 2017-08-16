@@ -7,15 +7,19 @@
         </md-toolbar>
 
         <md-dialog-content class="p-h-md">
-            <md-list-item ng-repeat="integrante in integrantes" class="noright">
-                <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}}" alt="{{integrante.nome}}" class="img-circle circle-border-sm img-md m-xxs">
-                <p class="m-l-md">{{integrante.nome}}</p>
-                <md-button class="md-icon-button md-accent" ng-click="editarIntegrante($event, integrante)">
-                    <md-tooltip md-direction="top">{{'messages.editar_funcao' | translate}}</md-tooltip>
+            <md-list-item ng-repeat="solicitacao in solicitacoes" class="noright">
+                <img ng-src="uploads/usuarios/{{solicitacao.imagem_perfil}}" alt="{{solicitacao.nome}}" class="img-circle circle-border-sm img-md m-xxs">
+                <p class="m-l-md">{{solicitacao.nome}}</p>
+                <md-button class="md-icon-button md-primary" ng-click="visitarPerfil($event, solicitacao)">
+                    <md-tooltip md-direction="top">{{'messages.visitar_perfil' | translate}}</md-tooltip>
+                    <i class="material-icons">person_pin</i>
+                </md-button>
+                <md-button class="md-icon-button md-accent" ng-click="aceitarSolicitacao($event, solicitacao)">
+                    <md-tooltip md-direction="top">{{'messages.aceitar_solicitacao' | translate}}</md-tooltip>
                     <i class="material-icons">check_circle</i>
                 </md-button>
-                <md-button class="md-icon-button md-warn md-secondary" ng-click="excluirIntegrante($event, integrante)">
-                    <md-tooltip md-direction="top">{{'messages.excluir_integrante' | translate}}</md-tooltip>
+                <md-button class="md-icon-button md-warn md-secondary" ng-click="recusarSolicitacao($event, solicitacao)">
+                    <md-tooltip md-direction="top">{{'messages.recusar_solicitacao' | translate}}</md-tooltip>
                     <i class="material-icons">highlight_off</i>
                 </md-button>
             </md-list-item>

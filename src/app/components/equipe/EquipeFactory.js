@@ -96,6 +96,14 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
 
         cancelarSolicitacao: function (idEquipe) {
             return $http.delete('api/equipe/solicitacao/' + idEquipe);
+        },
+
+        getSolicitacoes: function (idEquipe) {
+            return $http.get('api/equipe/solicitacoes/' + idEquipe);
+        },
+
+        getConvites: function (idEquipe) {
+            return $http.get('api/equipe/convites/' + idEquipe);
         }
 
     }

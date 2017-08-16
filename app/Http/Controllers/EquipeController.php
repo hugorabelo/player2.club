@@ -273,7 +273,7 @@ class EquipeController extends Controller
         return Response::json(array('success'=>true));
     }
 
-    public function solicitacoes($idEquipe) {
+    public function getSolicitacoes($idEquipe) {
         $equipe = Equipe::find($idEquipe);
         if(!isset($equipe)) {
             return null;
@@ -282,7 +282,7 @@ class EquipeController extends Controller
         return Response::json($solicitacoes);
     }
 
-    public function convites($idEquipe) {
+    public function getConvites($idEquipe) {
         $equipe = Equipe::find($idEquipe);
         if(!isset($equipe)) {
             return null;

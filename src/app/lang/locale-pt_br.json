@@ -440,6 +440,8 @@
         "cancelar_solicitacao_equipe_sucesso": "Solicitação cancelada com sucesso",
         "cancelar_solicitacao_equipe_erro": "Houve um erro no cancelamento da solicitação de entrada na equipe",
         "gerenciar_solicitacoes": "Gerenciar Solicitações de Inscrição",
+        "aceitar_solicitacao": "Aceitar membro na equipe",
+        "recusar_solicitacao": "Rejeitar membro na equipe",
 
         "sem_permissao_funcao": "Você não tem permissão para acessar essa função"
     },

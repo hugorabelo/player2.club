@@ -393,49 +393,54 @@
                 });
             };
 
-            function DialogControllerSolicitacoes($scope, $mdDialog, tituloModal, integrantes, funcoesEquipe) {
+            function DialogControllerSolicitacoes($scope, $mdDialog, tituloModal, solicitacoes) {
                 $scope.tituloModal = tituloModal;
-                $scope.integrantes = integrantes;
-                $scope.funcoesEquipe = funcoesEquipe;
+                $scope.solicitacoes = solicitacoes;
 
                 $scope.cancel = function () {
                     $mdDialog.cancel();
                 };
 
-                $scope.editarIntegrante = function (ev, integrante) {
-                    vm.editarIntegrante(ev, integrante);
+                $scope.visitarPerfil = function (ev, solicitacao) {
+                    $location.path('profile/' + solicitacao.id);
+                    $mdDialog.cancel();
+                }
+
+                $scope.aceitarSolicitacao = function (ev, solicitacao) {
+                    vm.aceitarSolicitacao(ev, solicitacao);
                 };
 
-                $scope.excluirIntegrante = function (ev, integrante) {
-                    vm.excluirIntegrante(ev, integrante);
+                $scope.recusarSolicitacao = function (ev, solicitacao) {
+                    vm.recusarSolicitacao(ev, solicitacao);
                 };
 
-                $scope.salvarNovaFuncao = function (integrante) {
-                    vm.salvarNovaFuncao(integrante);
-                };
             }
 
             vm.gerenciarSolicitacoes = function (ev) {
                 if (!$rootScope.telaMobile) {
                     return;
                 }
-                $mdDialog
-                    .show({
-                        locals: {
-                            tituloModal: 'messages.gerenciar_solicitacoes',
-                            integrantes: vm.equipe.integrantes,
-                            funcoesEquipe: vm.funcoesEquipe
-                        },
-                        controller: DialogControllerSolicitacoes,
-                        templateUrl: 'app/components/equipe/formSolicitacoes.html',
-                        parent: angular.element(document.body),
-                        targetEvent: ev,
-                        clickOutsideToClose: true,
-                        fullscreen: true // Only for -xs, -sm breakpoints.
-                    })
-                    .then(function () {
+                Equipe.getSolicitacoes(vm.equipe.id)
+                    .success(function (data) {
+                        console.log(data);
+                        $mdDialog
+                            .show({
+                                locals: {
+                                    tituloModal: 'messages.gerenciar_solicitacoes',
+                                    solicitacoes: data
+                                },
+                                controller: DialogControllerSolicitacoes,
+                                templateUrl: 'app/components/equipe/formSolicitacoes.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
 
-                    }, function () {
+                            }, function () {
+
+                            });
 
                     });
             };
