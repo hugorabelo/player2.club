@@ -272,4 +272,22 @@ class EquipeController extends Controller
         }
         return Response::json(array('success'=>true));
     }
+
+    public function solicitacoes($idEquipe) {
+        $equipe = Equipe::find($idEquipe);
+        if(!isset($equipe)) {
+            return null;
+        }
+        $solicitacoes = $equipe->solicitacoes()->where('convite','=',false)->get();
+        return Response::json($solicitacoes);
+    }
+
+    public function convites($idEquipe) {
+        $equipe = Equipe::find($idEquipe);
+        if(!isset($equipe)) {
+            return null;
+        }
+        $convites = $equipe->solicitacoes()->where('convite','=',true)->get();
+        return Response::json($convites);
+    }
 }
