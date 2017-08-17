@@ -104,22 +104,35 @@
         <!--        MATA-MATA-->
         <div class="grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-if="vmCampeonato.fase_atual.matamata" flex layout="column">
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
-            <div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios" flex layout="row">
-                <div class="placar-jogo-equipes-matamata" flex="80">
-                    <a ui-sref="profile({idUsuario: usuario.id})">
-                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
-                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{usuario.nome}}">{{usuario.nome}}</span>
-                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{usuario.nome}}">{{usuario.sigla}}</span>
+
+            <div class="lista-de-jogos-item" ng-repeat="partida in grupo.partidas" flex layout="row">
+                <div class="placar-jogo-equipes-matamata mandante" flex="40">
+                    <a ui-sref="profile({idUsuario: partida.usuarios[0].id})">
+                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
                     </a>
                 </div>
-                <div class="placar-jogo-equipes-placar-matamata" ng-repeat="placar in usuario.placares track by $index" flex-gt-xs="10" flex-xs="20">
-                    {{placar}}
+                <div class="placar-jogo-equipes-placar-matamata" flex-gt-xs="10" flex-xs="20">
+                    {{partida.usuarios[0].placar}}
+                </div>
+                <div class="placar-jogo-equipes-placar-matamata" flex-gt-xs="10" flex-xs="20">
+                    {{partida.usuarios[1].placar}}
+                </div>
+                <div class="placar-jogo-equipes-matamata" flex="40">
+                    <a ui-sref="profile({idUsuario: partida.usuarios[1].id})">
+                        <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                    </a>
                 </div>
             </div>
+
             <div ng-if="$odd && grupo.usuarios != null" flex="35" hide-xs>
                 <div class="mata-conector1"></div>
                 <div class="mata-conector2"></div>
             </div>
+
         </div>
     </md-card-content>
 

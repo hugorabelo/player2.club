@@ -691,6 +691,10 @@ class Campeonato extends Eloquent {
             $grupo->rodadas = $grupo->rodadas();
             if($faseAtual->matamata) {
                 $grupo->usuarios = $grupo->usuariosMataMata();
+                $grupo->partidas = $grupo->partidas();
+                foreach ($grupo->partidas as $partida) {
+                    $partida->usuarios = $partida->usuarios();
+                }
             } else {
                 $grupo->classificacao = $grupo->usuariosComClassificacao(); //TODO: Melhorar desempenho
             }

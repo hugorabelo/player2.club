@@ -147,8 +147,12 @@ input.placar-input {
     overflow: hidden;
     background: white;
     padding-left: 10px;
+    padding-right: 10px;
     a {
         color: @black;
+    }
+    &.mandante {
+        text-align: right;
     }
 }
 
@@ -216,6 +220,7 @@ input.placar-input {
 
 .grupo-matamata {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .lista-de-jogos-item {
@@ -225,24 +230,23 @@ input.placar-input {
 }
 
 .mata-conector1 {
-    //    border: 1px solid rgb(192, 192, 192);
     border: 1px solid @cinza-escuro;
-    height: 187px;
-    /*	position: absolute;*/
-    /*	width: 100%;*/
-    margin-top: -256px;
-    margin-right: -5px;
+    height: 100%;
+    width: 10px;
+    //    margin-top: -256px;
+    //    margin-right: -5px;
     border-left: 0;
-    background: transparent;
-    z-index: -3;
+    //    background: transparent;
+    //    z-index: -3;
+    position: absolute;
+    top: -(50%+4px);
+    right: -5px;
 }
 
 .mata-conector2 {
-    //    background: rgb(192, 192, 192);
     background: @cinza-escuro;
     height: 1px;
     width: 10px;
-    /*	position: absolute;*/
     margin-top: -165px;
     margin-right: -15px;
     z-index: -3;

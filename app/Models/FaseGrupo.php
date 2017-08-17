@@ -265,7 +265,7 @@ class FaseGrupo extends Eloquent
 
     public function partidas()
     {
-        $partidas = $this->hasMany('Partida', 'fase_grupos_id')->getResults();
+        $partidas = $this->hasMany('Partida', 'fase_grupos_id')->orderBy('rodada')->getResults();
         return $partidas;
     }
 
