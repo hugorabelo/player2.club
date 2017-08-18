@@ -444,6 +444,15 @@
 
                     });
             };
+
+            vm.aceitarSolicitacao = function (ev, solicitacao) {
+
+            };
+
+
+            vm.recusarSolicitacao = function (ev, solicitacao) {
+
+            };
         }]);
 
 }());
