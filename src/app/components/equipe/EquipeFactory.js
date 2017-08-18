@@ -99,11 +99,19 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
         },
 
         getSolicitacoes: function (idEquipe) {
-            return $http.get('api/equipe/solicitacoes/' + idEquipe);
+            return $http.get('api/equipe/solicitacao/' + idEquipe);
         },
 
         getConvites: function (idEquipe) {
             return $http.get('api/equipe/convites/' + idEquipe);
+        },
+
+        inserirIntegrante: function (idEquipe, idUsuario) {
+            return $http.post('api/equipe/integrante/' + idEquipe + '/' + idUsuario);
+        },
+
+        recusarSolicitacao: function (idEquipe, idUsuario) {
+            return $http.delete('api/equipe/solicitacao/' + idEquipe + '/' + idUsuario);
         }
 
     }

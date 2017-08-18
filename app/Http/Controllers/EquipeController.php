@@ -214,6 +214,29 @@ class EquipeController extends Controller
         return Response::json(array('success' => true));
     }
 
+    public function adicionaIntegrante($idEquipe, $idusuario) {
+        $equipe = Equipe::find($idEquipe);
+        if(!isset($equipe)) {
+            return null;
+        }
+        if(!isset($idusuario)) {
+            return null;
+        }
+        if(!$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+            return Response::json(array('success'=>false,
+                'errors'=>'messages.sem_permissao_funcao',
+                'message'=>'There were validation errors.'),300);
+        }
+        $idFuncao = DB::table('funcao_equipe')->whereRaw('prioridade = (select min(prioridade) from funcao_equipe)')->first(array('id'))->id;
+        $equipe->adicionarIntegrante($idusuario, $idFuncao);
+
+        $equipe->removerSolicitacao($idusuario);
+
+        //TODO enviar notificação de aceitação
+
+        return Response::json(array('success' => true));
+    }
+
     public function getIntegrantes($idEquipe) {
         if(!isset($idEquipe)) {
             return null;
@@ -253,8 +276,10 @@ class EquipeController extends Controller
             return null;
         }
         if(isset($idUsuario)) {
+            //TODO enviar notificação de convite
             $equipe->adicionarSolicitacao($idUsuario, true);
         } else {
+            //TODO enviar notificação para os administradores
             $equipe->adicionarSolicitacao(Auth::getUser()->id, false);
         }
         return Response::json(array('success'=>true));
@@ -266,6 +291,7 @@ class EquipeController extends Controller
             return null;
         }
         if(isset($idUsuario)) {
+            //TODO enviar notificação para usuário
             $equipe->removerSolicitacao($idUsuario);
         } else {
             $equipe->removerSolicitacao(Auth::getUser()->id);

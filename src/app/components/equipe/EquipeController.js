@@ -422,7 +422,6 @@
                 }
                 Equipe.getSolicitacoes(vm.equipe.id)
                     .success(function (data) {
-                        console.log(data);
                         $mdDialog
                             .show({
                                 locals: {
@@ -446,12 +445,59 @@
             };
 
             vm.aceitarSolicitacao = function (ev, solicitacao) {
-
+                $rootScope.loading = true;
+                Equipe.inserirIntegrante(vm.equipe.id, solicitacao.id)
+                    .success(function (data) {
+                        toastr.success($filter('translate')('messages.entrada_equipe_sucesso'));
+                        if ($rootScope.telaMobile) {
+                            vm.gerenciarSolicitacoes(ev);
+                        }
+                        Equipe.getIntegrantes(vm.idEquipe)
+                            .success(function (data) {
+                                vm.equipe.integrantes = data;
+                                $rootScope.loading = false;
+                            });
+                    }).error(function (data, status) {
+                        toastr.error($filter('translate')(data.errors), $filter('translate')('messages.entrada_equipe_erro'));
+                        $rootScope.loading = false;
+                    });
             };
 
 
             vm.recusarSolicitacao = function (ev, solicitacao) {
+                var confirm = $mdDialog.confirm()
+                    .title($filter('translate')('messages.confirma_recusar_solicitacao_equipe', {
+                        'nome_integrante': solicitacao.nome
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_recusar_solicitacao_equipe', {
+                        'nome_integrante': solicitacao.nome
+                    }))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
 
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.recusarSolicitacao(vm.equipe.id, solicitacao.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.recusar_solicitacao_equipe_sucesso', {
+                                'nome_integrante': solicitacao.nome
+                            }));
+                            if ($rootScope.telaMobile) {
+                                vm.gerenciarSolicitacoes(ev);
+                            }
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.recusar_solicitacao_equipe_erro', {
+                                'nome_integrante': solicitacao.nome
+                            }));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+                    if ($rootScope.telaMobile) {
+                        vm.gerenciarSolicitacoes(ev);
+                    }
+                });
             };
         }]);
 

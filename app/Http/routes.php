@@ -144,14 +144,15 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('time/porModelo/{idModeloCampeonato}', 'TimeController@getTimesPorModelo');
     Route::resource('time', 'TimeController');
 
-    Route::post('equipe/mensagem', 'EquipeController@enviarMensagem');
-    Route::delete('equipe/integrante/{idEquipe}/{idIntegrante?}', 'EquipeController@removeIntegrante');
-    Route::get('equipe/integrante/{idEquipe}', 'EquipeController@getIntegrantes');
     Route::get('equipe/funcoes', 'EquipeController@getFuncoes');
+    Route::post('equipe/mensagem', 'EquipeController@enviarMensagem');
+    Route::get('equipe/integrante/{idEquipe}', 'EquipeController@getIntegrantes');
+    Route::post('equipe/integrante/{idEquipe}/{idUsuario}', 'EquipeController@adicionaIntegrante');
     Route::put('equipe/integrante', 'EquipeController@updateIntegrante');
+    Route::delete('equipe/integrante/{idEquipe}/{idIntegrante?}', 'EquipeController@removeIntegrante');
+    Route::get('equipe/solicitacao/{idEquipe}', 'EquipeController@getSolicitacoes');
     Route::post('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@solicitarEntrada');
     Route::delete('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@cancelarSolicitacao');
-    Route::get('equipe/solicitacoes/{idEquipe}', 'EquipeController@getSolicitacoes');
     Route::get('equipe/convites/{idEquipe}', 'EquipeController@getConvites');
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
