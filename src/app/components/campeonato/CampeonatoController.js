@@ -377,6 +377,7 @@
                                 fase.aberta = true;
                                 vm.loadingFase = false;
                                 vm.carregaRodadasGerenciar();
+                                vm.campeonato.status = 3;
                             }).error(function (data, status) {
                                 toastr.error($filter('translate')(data.messages[0]), $filter('translate')('messages.operacao_nao_concluida'));
                                 vm.loadingFase = false;
