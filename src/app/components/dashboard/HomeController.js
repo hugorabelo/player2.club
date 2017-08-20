@@ -40,7 +40,12 @@
                 //                        vm.userCampeonatosDisponiveis = data;
                 //                    })
                 //                    .error(function (data) {});
-                Campeonato.get()
+                //                Campeonato.get()
+                //                    .success(function (data) {
+                //                        vm.userCampeonatosDisponiveis = data;
+                //                    })
+                //                    .error(function (data) {});
+                Campeonato.getNaoFinalizados()
                     .success(function (data) {
                         vm.userCampeonatosDisponiveis = data;
                     })
