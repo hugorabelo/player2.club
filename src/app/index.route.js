@@ -138,6 +138,14 @@
                     pageTitle: "messages.mensagens"
                 }
             })
+            .state('equipe.inscricoes', {
+                url: "/inscricoes",
+                templateUrl: "app/components/equipe/formSolicitacoes.html",
+                controller: 'EquipeController as vmEquipe',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",

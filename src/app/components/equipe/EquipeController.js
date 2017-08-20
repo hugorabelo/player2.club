@@ -14,6 +14,10 @@
                     .success(function (data) {
                         vm.equipe = data;
                         vm.getFuncoesEquipe();
+                        Equipe.getSolicitacoes(vm.equipe.id)
+                            .success(function (data) {
+                                vm.equipe.solicitacoes = data;
+                            });
                     });
             }
 
@@ -404,7 +408,7 @@
                 $scope.visitarPerfil = function (ev, solicitacao) {
                     $location.path('profile/' + solicitacao.id);
                     $mdDialog.cancel();
-                }
+                };
 
                 $scope.aceitarSolicitacao = function (ev, solicitacao) {
                     vm.aceitarSolicitacao(ev, solicitacao);
@@ -451,6 +455,11 @@
                         toastr.success($filter('translate')('messages.entrada_equipe_sucesso'));
                         if ($rootScope.telaMobile) {
                             vm.gerenciarSolicitacoes(ev);
+                        } else {
+                            Equipe.getSolicitacoes(vm.equipe.id)
+                                .success(function (data) {
+                                    vm.equipe.solicitacoes = data;
+                                });
                         }
                         Equipe.getIntegrantes(vm.idEquipe)
                             .success(function (data) {
@@ -486,6 +495,11 @@
                             }));
                             if ($rootScope.telaMobile) {
                                 vm.gerenciarSolicitacoes(ev);
+                            } else {
+                                Equipe.getSolicitacoes(vm.equipe.id)
+                                    .success(function (data) {
+                                        vm.equipe.solicitacoes = data;
+                                    });
                             }
                         }).error(function (data, status) {
                             toastr.error($filter('translate')(data.errors), $filter('translate')('messages.recusar_solicitacao_equipe_erro', {
