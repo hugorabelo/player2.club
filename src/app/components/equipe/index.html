@@ -36,7 +36,7 @@
                 <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
                 <md-button class="md-raised md-block" ui-sref=".integrantes">{{'messages.gerenciar_participantes' | translate}}</md-button>
                 <md-button class="md-raised md-block" ui-sref=".inscricoes">{{'messages.aceitar_inscricoes' | translate}}</md-button>
-                <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.convidarParticipantes()">{{'messages.convidar_participantes' | translate}}</md-button>
                 <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
                 <md-button class="md-raised md-block" ng-click="vmEquipe.excluir($event)" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
             </div>
@@ -114,7 +114,7 @@
             <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarParticipantes($event)">{{'messages.gerenciar_participantes' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarSolicitacoes($event)">{{'messages.aceitar_inscricoes' | translate}}</md-button>
-            <md-button class="md-raised md-block">{{'messages.convidar_participantes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.convidarParticipantes()">{{'messages.convidar_participantes' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
             <md-button class="md-raised md-block" ng-click="vmEquipe.excluir($event)" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
         </div>

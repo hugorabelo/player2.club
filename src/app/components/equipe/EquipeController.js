@@ -513,6 +513,37 @@
                     }
                 });
             };
+
+            function DialogControllerConvites($scope, $mdDialog, tituloModal, amigos) {
+                $scope.tituloModal = tituloModal;
+                $scope.amigos = amigos;
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+            }
+
+            vm.convidarParticipantes = function (ev) {
+                $mdDialog
+                    .show({
+                        locals: {
+                            tituloModal: 'messages.convidar_participantes',
+                            amigos: ''
+                        },
+                        controller: DialogControllerConvites,
+                        templateUrl: 'app/components/equipe/formConvite.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+
+            };
         }]);
 
 }());
