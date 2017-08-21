@@ -521,10 +521,17 @@
                 $scope.cancel = function () {
                     $mdDialog.cancel();
                 };
+
+                $scope.enviarConvite = function (ev, usuario) {
+                    Equipe.enviarConvite(vm.equipe.id, usuario.id)
+                        .success(function (data) {
+                            ev.currentTarget.disabled = true;
+                        });
+                };
             }
 
             vm.convidarParticipantes = function (ev) {
-                Usuario.getSeguindo($rootScope.usuarioLogado.id)
+                Equipe.getConvitesDisponiveis(vm.equipe.id)
                     .success(function (data) {
                         $mdDialog
                             .show({

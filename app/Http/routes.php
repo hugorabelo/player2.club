@@ -154,6 +154,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@solicitarEntrada');
     Route::delete('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@cancelarSolicitacao');
     Route::get('equipe/convites/{idEquipe}', 'EquipeController@getConvites');
+    Route::get('equipe/convitesDisponiveis/{idEquipe}', 'EquipeController@getConvitesDisponiveis');
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
 

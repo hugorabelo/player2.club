@@ -16,7 +16,7 @@
             <md-list-item ng-repeat="usuario in amigos" class="noright">
                 <img ng-src="uploads/usuarios/{{usuario.imagem_perfil}}" alt="{{usuario.nome}}" class="img-circle circle-border-sm img-md m-xxs">
                 <p class="m-l-md">{{usuario.nome}}</p>
-                <md-button class="md-raised md-primary" ng-click="convidar($event, usuario)">
+                <md-button class="md-raised md-primary" ng-click="enviarConvite($event, usuario)">
                     <md-tooltip md-direction="top">{{'messages.convidar' | translate}}</md-tooltip>
                     <i class="material-icons">call_to_action</i> {{'messages.convidar' | translate}}
                 </md-button>

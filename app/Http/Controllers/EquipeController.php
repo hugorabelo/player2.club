@@ -316,4 +316,24 @@ class EquipeController extends Controller
         $convites = $equipe->solicitacoes()->where('convite','=',true)->get();
         return Response::json($convites);
     }
+
+    public function getConvitesDisponiveis($idEquipe) {
+        $idUsuario = Auth::getUser()->id;
+        $usuario = User::find($idUsuario);
+        if(!isset($usuario)) {
+            return null;
+        }
+        User::whereIn('id',$usuario->seguindo()->get(array('pivot_users_id_mestre')))->get();
+        /*
+         *
+select * from users where id IN (
+	select users_id_mestre FROM seguidor where users_id_seguidor = 1
+) AND id NOT IN (
+	select users_id FROM integrante_equipe where equipe_id = 2
+) AND id NOT in (
+	select users_id FROM equipe_solicitacao where equipe_id = 2
+)
+order by nome
+         */
+    }
 }
