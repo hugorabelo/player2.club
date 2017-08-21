@@ -323,17 +323,24 @@ class EquipeController extends Controller
         if(!isset($usuario)) {
             return null;
         }
-        User::whereIn('id',$usuario->seguindo()->get(array('pivot_users_id_mestre')))->get();
+
+        $seguindo = DB::table('seguidor')->where('users_id_seguidor','=',$idUsuario)->pluck('users_id_mestre');
+        $integrantes = DB::table('integrante_equipe')->where('equipe_id','=',$idEquipe)->pluck('users_id');
+        $solicitacoes = DB::table('equipe_solicitacao')->where('equipe_id','=',$idEquipe)->pluck('users_id');
+
+        $usuarios = User::whereIn('id', $seguindo)->whereNotIn('id', $integrantes)->whereNotIn('id', $solicitacoes)->orderBy('nome')->get();
+
         /*
-         *
-select * from users where id IN (
-	select users_id_mestre FROM seguidor where users_id_seguidor = 1
-) AND id NOT IN (
-	select users_id FROM integrante_equipe where equipe_id = 2
-) AND id NOT in (
-	select users_id FROM equipe_solicitacao where equipe_id = 2
-)
-order by nome
-         */
+        $usuarios = DB::select("select * from users where id IN (
+	                                select users_id_mestre FROM seguidor where users_id_seguidor = $idUsuario
+                                ) AND id NOT IN (
+                                    select users_id FROM integrante_equipe where equipe_id = $idEquipe
+                                ) AND id NOT in (
+                                    select users_id FROM equipe_solicitacao where equipe_id = $idEquipe
+                                )
+                                order by nome");
+        /**/
+
+        return Response::json($usuarios);
     }
 }
