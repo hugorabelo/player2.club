@@ -524,7 +524,6 @@
             }
 
             vm.convidarParticipantes = function (ev) {
-                console.log($rootScope.usuarioLogado.id);
                 Usuario.getSeguindo($rootScope.usuarioLogado.id)
                     .success(function (data) {
                         $mdDialog
