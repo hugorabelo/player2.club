@@ -15,10 +15,21 @@
         </div>
     </div>
     <div layout="row" layout-align="end end">
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}"><i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}</md-button>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}">
+            <i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.recusarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.recusar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.aceitarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.aceitar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando && !vmEquipe.equipe.convite">
+            <i class="material-icons">forward</i> {{'messages.entrar' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa">
+            <i class="material-icons">all_out</i> {{'messages.sair' | translate}}
+        </md-button>
     </div>
 </div>
 
@@ -94,10 +105,21 @@
         </a>
     </div>
     <div layout="row">
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}"><i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}</md-button>
-        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando"><i class="material-icons">forward</i> {{'messages.entrar' | translate}}
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}">
+            <i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}
         </md-button>
-        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa"><i class="material-icons">all_out</i> {{'messages.sair' | translate}}</md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.recusarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.recusar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.aceitarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.aceitar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando && !vmEquipe.equipe.convite">
+            <i class="material-icons">forward</i> {{'messages.entrar' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa">
+            <i class="material-icons">all_out</i> {{'messages.sair' | translate}}
+        </md-button>
     </div>
     <!--    <div class="coverBorder"></div>-->
 </div>

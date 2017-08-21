@@ -554,6 +554,14 @@
                     });
 
             };
+
+            vm.aceitarConvite = function () {
+
+            };
+
+            vm.recusarConvite = function () {
+
+            };
         }]);
 
 }());

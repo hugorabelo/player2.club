@@ -448,6 +448,8 @@
         "entrada_equipe_sucesso": "O integrante foi aceito com sucesso",
         "entrada_equipe_erro": "Houve um erro na inscrição do usuário na equipe",
         "convidar": "Convidar",
+        "recusar_convite": "Recusar convite",
+        "aceitar_convite": "Aceitar convite",
 
         "sem_permissao_funcao": "Você não tem permissão para acessar essa função"
     },
