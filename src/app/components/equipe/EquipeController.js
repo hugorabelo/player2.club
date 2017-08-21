@@ -524,23 +524,27 @@
             }
 
             vm.convidarParticipantes = function (ev) {
-                $mdDialog
-                    .show({
-                        locals: {
-                            tituloModal: 'messages.convidar_participantes',
-                            amigos: ''
-                        },
-                        controller: DialogControllerConvites,
-                        templateUrl: 'app/components/equipe/formConvite.html',
-                        parent: angular.element(document.body),
-                        targetEvent: ev,
-                        clickOutsideToClose: true,
-                        fullscreen: true // Only for -xs, -sm breakpoints.
-                    })
-                    .then(function () {
+                console.log($rootScope.usuarioLogado.id);
+                Usuario.getSeguindo($rootScope.usuarioLogado.id)
+                    .success(function (data) {
+                        $mdDialog
+                            .show({
+                                locals: {
+                                    tituloModal: 'messages.convidar_participantes',
+                                    amigos: data
+                                },
+                                controller: DialogControllerConvites,
+                                templateUrl: 'app/components/equipe/formConvite.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
 
-                    }, function () {
+                            }, function () {
 
+                            });
                     });
 
             };
