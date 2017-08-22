@@ -556,11 +556,55 @@
             };
 
             vm.aceitarConvite = function () {
+                Equipe.aceitarConvite(vm.equipe.id)
+                    .success(function (data) {
+                        Equipe.getIntegrantes(vm.idEquipe)
+                            .success(function (data) {
+                                vm.equipe.integrantes = data;
+                                toastr.success($filter('translate')('messages.aceitar_convite_equipe_sucesso', {
+                                    'nome_equipe': vm.equipe.descricao
+                                }));
+                                vm.equipe.convite = false;
+                                vm.equipe.participa = true;
+                            });
 
+                    }).error(function (data, status) {
+                        toastr.error($filter('translate')(data.errors), $filter('translate')('messages.aceitar_convite_equipe_erro', {
+                            'nome_equipe': vm.equipe.descricao
+                        }));
+                    });
             };
 
-            vm.recusarConvite = function () {
+            vm.recusarConvite = function (ev) {
+                var confirm = $mdDialog.confirm()
+                    .title($filter('translate')('messages.confirma_recusar_convite_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .ariaLabel($filter('translate')('messages.confirma_recusar_convite_equipe', {
+                        'nome_equipe': vm.equipe.descricao
+                    }))
+                    .targetEvent(ev)
+                    .ok($filter('translate')('messages.yes'))
+                    .cancel($filter('translate')('messages.no'))
+                    .theme('player2');
 
+                $mdDialog.show(confirm).then(function () {
+                    $rootScope.loading = true;
+                    Equipe.cancelarSolicitacao(vm.equipe.id)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.recusar_convite_equipe_sucesso', {
+                                'nome_equipe': vm.equipe.descricao
+                            }));
+                            vm.equipe.convite = false;
+                        }).error(function (data, status) {
+                            toastr.error($filter('translate')(data.errors), $filter('translate')('messages.recusar_convite_equipe_erro', {
+                                'nome_equipe': vm.equipe.descricao
+                            }));
+                        });
+                    $rootScope.loading = false;
+                }, function () {
+
+                });
             };
         }]);
 
