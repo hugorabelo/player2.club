@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use Auth0\Login\Contract\Auth0UserRepository;
+use GuzzleHttp\Client;
 use User;
 
 class MyCustomUserRepository implements Auth0UserRepository {
@@ -28,6 +29,9 @@ class MyCustomUserRepository implements Auth0UserRepository {
             $user = User::whereRaw("'$email_verificar' = replace(split_part(email, '@', 1), '.', '') ||  '@' || split_part(email, '@', 2)")->first();
         } else {
             $user = User::where("auth0id", $profile->user_id)->first();
+        }
+        if(!isset($user)) {
+            return null;
         }
         if(!isset($user->auth0id) || !isset($user->imagem_perfil) || ($user->imagem_perfil == 'perfil_padrao_homem.png') || ($user->nome === 'username')) {
             if(!isset($user->auth0id)) {
@@ -60,6 +64,20 @@ class MyCustomUserRepository implements Auth0UserRepository {
             $user->imagem_perfil = $fileName;
             $user->imagem_large = $fileNameLarge;
         }
+
+        // Recuperando IP do Usuário e Inserindo dados de Localização
+        if(!isset($user->pais)) {
+            $ip = \Request::getClientIp();
+            $cliente = new Client(['base_uri' => 'http://ip-api.com/json/'.$ip]);
+            $response = $cliente->request('GET');
+            $objeto = json_decode($response->getBody(), true);
+            if($objeto['status'] == 'success') {
+                $user->localizacao = $objeto['city'];
+                $user->uf = $objeto['region'];
+                $user->pais = $objeto['countryCode'];
+            }
+        }
+
         $user->ultimo_login = date('Y-m-d H:i:s');;
         $user->save();
 

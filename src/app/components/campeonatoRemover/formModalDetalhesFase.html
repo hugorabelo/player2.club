@@ -19,13 +19,13 @@
 
 
                 <div class="tabs-content">
-                    <div role="tabpanel" class="tab-pane" ng-show="tab=='pontuacao'" ng-include="'app/components/campeonato/fasePontuacao.html'">
+                    <div role="tabpanel" class="tab-pane" ng-if="tab=='pontuacao'" ng-include="'app/components/campeonato/fasePontuacao.html'">
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" ng-show="tab=='grupos'" ng-include="'app/components/campeonato/faseGrupos.html'">
+                    <div role="tabpanel" class="tab-pane" ng-if="tab=='grupos'" ng-include="'app/components/campeonato/faseGrupos.html'">
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" ng-show="tab=='operacoes'" ng-include="'app/components/campeonato/faseOperacoes.html'">
+                    <div role="tabpanel" class="tab-pane" ng-if="tab=='operacoes'" ng-include="'app/components/campeonato/faseOperacoes.html'">
                     </div>
 
                 </div>

@@ -29,26 +29,26 @@
     <base href="/">
 </head>
 
-<body>
+<body md-no-ink>
 
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div flex ng-include="'app/components/common/topnavbar.html'" ng-hide="escondeBarra" ng-controller="TopNavController as vmTopNav"></div>
+    <div flex ng-include="'app/components/common/topnavbar.html'" ng-if="!escondeBarra" ng-controller="TopNavController as vmTopNav"></div>
     <!--    <div flex ng-include="'app/components/common/navigation.html'"></div>-->
 
     <div flex layout="row">
         <md-content md-scroll-y layout="column" class="conteudo-principal" flex>
-            <div id="page-loading" ng-show="pageLoading" layout="row" layout-align="center center">
-                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <div id="page-loading" ng-if="pageLoading" layout="row" layout-align="center center">
+                <md-progress-circular md-diameter="96"></md-progress-circular>
                 <span class="sr-only">Loading...</span>
             </div>
             <div flex ui-view></div>
         </md-content>
     </div>
 
-    <div id="barra-report" ng-controller="BugController as vmBug" ng-include="'app/components/bugReport/barraInfo.html'" layout="row" layout-align="space-between center" ng-hide="escondeBarra">
+    <div id="barra-report" ng-controller="BugController as vmBug" ng-include="'app/components/bugReport/barraInfo.html'" layout="row" layout-align="space-between center" ng-if="!escondeBarra">
 
     </div>
 

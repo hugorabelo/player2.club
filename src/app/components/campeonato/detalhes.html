@@ -17,28 +17,46 @@
                     <md-tab-label>{{ fase.descricao | translate }}</md-tab-label>
                     <md-tab-body>
                         <md-content class="md-padding">
-                            <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-hide="fase.encerrada">
-                                <md-input-container class="md-block" flex ng-hide="fase.aberta">
+                            <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-if="!fase.encerrada">
+                                <md-input-container class="md-block" flex ng-if="!fase.aberta">
                                     <label>{{'fields.data_fim' | translate}}</label>
-                                    <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim"></md-datepicker>
+                                    <md-datepicker ng-model="fase.dadosFase.data_fim" name="data_fim" ng-disabled="vmCampeonato.loadingFase"></md-datepicker>
                                 </md-input-container>
-                                <md-input-container class="md-icon-float md-block" flex ng-hide="fase.aberta || !fase.matamata">
+                                <md-input-container class="md-icon-float md-block" flex ng-hide="fase.aberta || !fase.matamata" ng-disabled="vmCampeonato.loadingFase">
                                     <label>{{'fields.tipo_sorteio_matamata' | translate}}</label>
-                                    <md-select ng-model="fase.dadosFase.tipo_sorteio_matamata">
+                                    <md-select ng-model="fase.dadosFase.tipo_sorteio_matamata" ng-disabled="vmCampeonato.loadingFase">
                                         <md-option value="aleatorio">{{'fields.sorteio_aleatorio' | translate}}</md-option>
                                         <md-option value="geral">{{'fields.sorteio_geral' | translate}}</md-option>
                                         <md-option value="grupo">{{'fields.sorteio_grupo' | translate}}</md-option>
                                     </md-select>
                                 </md-input-container>
                                 <md-card-actions layout="row" layout-align="end center" hide-xs>
-                                    <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)" ng-hide="fase.aberta || fase.matamata"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
-                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
+                                    <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)" ng-hide="fase.aberta || fase.matamata" ng-disabled="vmCampeonato.loadingFase">
+                                        <i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}
+                                    </md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-if="!fase.aberta" ng-disabled="vmCampeonato.loadingFase" layout="row">
+                                        <md-progress-circular class="md-primary m-r-xs" md-diameter="20px" ng-if="vmCampeonato.loadingFase"></md-progress-circular>
+                                        <i class="material-icons" ng-if="!vmCampeonato.loadingFase">lock_open</i>
+                                        <span translate>fields.fase_abrir</span>
+                                    </md-button>
+                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-if="fase.aberta" ng-disabled="vmCampeonato.loadingFase" layout="row">
+                                        <md-progress-circular class="md-primary m-r-xs" md-diameter="20px" ng-if="vmCampeonato.loadingFase"></md-progress-circular>
+                                        <i class="material-icons" ng-if="!vmCampeonato.loadingFase">lock</i>
+                                        <span translate>fields.fase_fechar</span>
+                                    </md-button>
                                 </md-card-actions>
                                 <div layout="column" layout-xs="space-between end" hide-gt-xs>
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaPotes()" ng-hide="fase.aberta || fase.matamata"><i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}</md-button>
-                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-hide="fase.aberta"><i class="material-icons" hide-xs>lock_open</i><span translate>fields.fase_abrir</span></md-button>
-                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-show="fase.aberta"><i class="material-icons" hide-xs>lock</i><span translate>fields.fase_fechar</span></md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaPotes()" ng-hide="fase.aberta || fase.matamata" ng-disabled="vmCampeonato.loadingFase">
+                                        <i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}
+                                    </md-button>
+                                    <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-if="!fase.aberta" ng-disabled="vmCampeonato.loadingFase" layout="row" layout-align="space-between center">
+                                        <span translate>fields.fase_abrir</span>
+                                        <md-progress-circular class="md-primary m-r-xs" md-diameter="20px" ng-if="vmCampeonato.loadingFase"></md-progress-circular>
+                                    </md-button>
+                                    <md-button class="md-raised md-warn" ng-click="vmCampeonato.encerraFase($event, fase)" ng-if="fase.aberta" ng-disabled="vmCampeonato.loadingFase" layout="row" layout-align="space-between center">
+                                        <span translate>fields.fase_fechar</span>
+                                        <md-progress-circular class="md-primary m-r-xs" md-diameter="20px" ng-if="vmCampeonato.loadingFase"></md-progress-circular>
+                                    </md-button>
                                 </div>
                             </form>
                         </md-content>
@@ -48,7 +66,7 @@
 
         </md-card-content>
     </md-card>
-    <md-card flex flex-gt-sm="33" ng-class="{'m-n': telaMobile}">
+    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}">
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
                 <span class="md-headline">{{'messages.campeonatoAdmin_list' | translate}}</span>
@@ -58,7 +76,7 @@
             <h2 translate>messages.campeonatoAdmin_list</h2>
         </md-toolbar>
 
-        <md-card-content ng-class="{'p-xs': telaMobile}">
+        <md-card-content ng-class="{ 'p-xs': telaMobile}">
 
             <div layout="row">
                 <md-input-container class="md-icon-float md-block" flex>
@@ -76,12 +94,12 @@
                 </div>
             </div>
 
-            <md-list-item ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores | orderBy:'usuario'" class="noright">
+            <md-list-item ng-repeat="administrador in vmCampeonato.campeonato.campeonatoAdministradores | orderBy: 'usuario'" class="noright">
                 <img alt="{{ administrador.usuario.nome }}" ng-src="uploads/usuarios/{{ administrador.usuario.imagem_perfil }}" class="md-avatar" />
                 <p>{{ administrador.usuario.nome }}</p>
                 <md-button class="md-icon-button" aria-label="Excluir" ng-click="vmCampeonato.excluiAdministrador($event, administrador.id)">
                     <i class="fa fa-trash-o fa-fw"></i>
-                    <md-tooltip md-direction="top ">
+                    <md-tooltip md-direction="top">
                         {{'messages.campeonatoAdmin_delete' | translate}}
                     </md-tooltip>
                 </md-button>
@@ -92,27 +110,40 @@
 </div>
 
 <div layout-gt-sm="row">
-    <md-card flex ng-class="{'m-n': telaMobile}">
+    <md-card flex ng-class="{ 'm-n': telaMobile}">
 
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
-                <span class="md-headline">{{'messages.times_participantes' | translate}}</span>
+                <span class="md-headline">{{'messages.campeonatosParticipantes' | translate}}</span>
             </md-card-title-text>
         </md-card-title>
         <md-toolbar class="md-toolbar-tools" hide-xs>
-            <h2 translate>messages.times_participantes</h2>
+            <h2 translate>messages.campeonatosParticipantes</h2>
         </md-toolbar>
 
-        <md-card-content ng-class="{'p-xs': telaMobile}">
-            <md-button class="md-raised md-primary" ng-show="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.sortearTimes()">{{'messages.sortear_clubes' | translate}}</md-button>
+        <md-card-content ng-class="{ 'p-xs': telaMobile}">
+            <md-button class="md-raised md-primary" ng-if="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.sortearTimes()">{{'messages.sortear_clubes' | translate}}</md-button>
             <div class="table-responsive m-t-md">
                 <table class="table table-striped table-hover">
                     <tbody>
                         <tr ng-repeat="participante in vmCampeonato.campeonato.participantes">
-                            <td class="client-avatar"><img alt="image" class="img-circle" src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
+                            <td class="client-avatar"><img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
                             <td>{{participante.nome}}</td>
-                            <td><img class="img-xs img-rounded m-r-sm" src="uploads/usuarios/{{participante.time.distintivo}}" ng-show="participante.time"></td>
-                            <td><span ng-show="participante.time">{{participante.time.nome}}</span></td>
+                            <td>
+                                <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
+                                <span ng-if="participante.time" hide-xs>{{participante.time.nome}}</span>
+                                <span ng-if="!participante.time" hide-xs>{{'messages.sem_time' | translate}}</span>
+                                <md-button class="md-icon-button md-primary" ng-if="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.editarTimeUsuario($event, participante)">
+                                    <md-tooltip md-direction="top">{{'messages.inserir_time_participante' | translate}}</md-tooltip>
+                                    <i class="material-icons">edit</i>
+                                </md-button>
+                            </td>
+                            <td>
+                                <md-button class="md-icon-button md-warn" ng-if="vmCampeonato.campeonato.status < 3" ng-click="vmCampeonato.excluirParticipante($event, participante)">
+                                    <md-tooltip md-direction="top">{{'messages.excluir_participante' | translate}}</md-tooltip>
+                                    <i class="material-icons">delete_forever</i>
+                                </md-button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,19 +151,52 @@
         </md-card-content>
     </md-card>
 
-    <md-card flex flex-gt-sm="33" ng-class="{'m-n': telaMobile}" ng-show="vmCampeonato.campeonato.status <=2">
+    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}" ng-if="vmCampeonato.campeonato.status >2">
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
-                <span class="md-headline">{{'fields.excluir_campeonato' | translate}}</span>
+                <span class="md-headline">{{'messages.gerenciar_rodadas' | translate}}</span>
             </md-card-title-text>
         </md-card-title>
         <md-toolbar class="md-toolbar-tools" hide-xs>
+            <h2 translate>messages.gerenciar_rodadas</h2>
+        </md-toolbar>
+
+        <md-card-content ng-class="{ 'p-xs': telaMobile}">
+
+            <div layout="row" layout-wrap flex>
+                <!--
+<div flex-xs flex="50">
+    <md-checkbox aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
+        <span ng-if="isChecked()">Un-</span>Select All
+    </md-checkbox>
+</div>
+-->
+                <div class="demo-select-all-checkboxes" flex="100" ng-repeat="rodada in vmCampeonato.rodadasGerenciar" layout="row" layout-align="space-between center">
+                    <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)" class="m-b-none">
+                        {{rodada.numero}}
+                    </md-checkbox>
+                    <md-datepicker ng-model="rodada.data_prazo" md-placeholder="{{'fields.prazo' | translate}}" md-open-on-focus ng-change="vmCampeonato.salvarInformacoesRodada(rodada)"></md-datepicker>
+                    <md-switch class="md-primary " ng-model="rodada.liberada " aria-label="Liberada " ng-change="vmCampeonato.salvarInformacoesRodada(rodada) ">
+                    </md-switch>
+                </div>
+            </div>
+
+        </md-card-content>
+    </md-card>
+
+    <md-card flex flex-gt-sm="33 " ng-class="{ 'm-n': telaMobile} " ng-if="vmCampeonato.campeonato.status <=2">
+        <md-card-title hide-gt-xs class="p-xs ">
+            <md-card-title-text>
+                <span class="md-headline ">{{'fields.excluir_campeonato' | translate}}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-toolbar class="md-toolbar-tools " hide-xs>
             <h2 translate>fields.excluir_campeonato</h2>
         </md-toolbar>
 
-        <md-card-content ng-class="{'p-xs': telaMobile}" layout="column">
-            <md-button class="md-raised md-warn" ng-click="vmCampeonato.excluirCampeonato($event)">
-                <i class="material-icons">delete_forever</i> {{'fields.excluir_campeonato' | translate}}
+        <md-card-content ng-class="{ 'p-xs': telaMobile} " layout="column ">
+            <md-button class="md-raised md-warn " ng-click="vmCampeonato.excluirCampeonato($event) ">
+                <i class="material-icons ">delete_forever</i> {{'fields.excluir_campeonato' | translate}}
             </md-button>
         </md-card-content>
     </md-card>

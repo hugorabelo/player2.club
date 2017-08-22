@@ -73,9 +73,13 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/campeonatosDisponiveisParaUsuario/' + id);
         },
 
-        getPartidas: function (id, idCampeonato) {
+        getPartidas: function (id, idCampeonato, confirmadas) {
             if (idCampeonato !== undefined) {
-                stringCampeonato = '/' + idCampeonato;
+                if (confirmadas !== undefined) {
+                    stringCampeonato = '/' + idCampeonato + '/' + confirmadas;
+                } else {
+                    stringCampeonato = '/' + idCampeonato;
+                }
             } else {
                 stringCampeonato = '';
             }

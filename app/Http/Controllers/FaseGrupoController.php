@@ -9,6 +9,10 @@ class FaseGrupoController extends Controller {
         foreach($faseGrupos as $grupo) {
             if($fase->matamata) {
                 $grupo->usuarios = $grupo->usuariosMataMata();
+                $grupo->partidas = $grupo->partidas();
+                foreach ($grupo->partidas as $partida) {
+                    $partida->usuarios = $partida->usuarios();
+                }
             } else {
                 $grupo->classificacao = $grupo->usuariosComClassificacao();
                 $grupo->rodadas = $grupo->rodadas();

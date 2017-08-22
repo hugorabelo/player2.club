@@ -62,7 +62,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase['permite_empate'] = true;
         $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
         $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+        $dataInicio = strstr($dataInicio, " (", true);
         $primeiraFase['data_inicio'] = Carbon::parse($dataInicio);
+        $dataFim = strstr($dataFim, " (", true);
         $primeiraFase['data_fim'] = Carbon::parse($dataFim);
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
@@ -124,7 +126,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
             $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
             $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+            $dataInicio = strstr($dataInicio, " (", true);
             $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
+            $dataFim = strstr($dataFim, " (", true);
             $faseCriada['data_fim'] = Carbon::parse($dataFim);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
@@ -158,7 +162,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
 
         // Verificar se todos os usuários estão com o placar inserido
         foreach ($usuarios as $usuario) {
-            if ($usuario['placar'] == null) {
+            if ($usuario['placar'] === null) {
                 return 'messages.placares_invalidos';
             }
         }
@@ -202,7 +206,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 $i++;
             }
         }
-        $partida->usuario_placar = $dados['usuarioLogado'];
+        $partida->usuario_placar = Auth::getUser()->id;
         $partida->data_placar = date('Y-m-d H:i:s');
         $partida->save();
         return '';

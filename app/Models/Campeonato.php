@@ -45,7 +45,13 @@ class Campeonato extends Eloquent {
 	}
 
 	public function fases() {
-		return $this->hasMany('CampeonatoFase', 'campeonatos_id')->getResults();
+        $fasesOrdenadas = new Collection();
+        $faseAdicionada = $this->faseFinal();
+        $fasesOrdenadas->prepend($faseAdicionada);
+        while($faseAdicionada = $faseAdicionada->faseAnterior()) {
+            $fasesOrdenadas->prepend($faseAdicionada);
+        }
+        return $fasesOrdenadas;
 	}
 
 	public function faseInicial() {
@@ -70,7 +76,8 @@ class Campeonato extends Eloquent {
 	public function salvarPlacar($partida) {
 	    $partidaBD = Partida::find($partida['id']);
         $contestada = isset($partida['edita_contestacao']);
-        if(isset($partidaBD->data_placar) && !$contestada) {
+        $placarAdministrador = isset($partida['placar_administrador']);
+        if(isset($partidaBD->data_placar) && !$contestada && !$placarAdministrador) {
             return 'messages.placares_existente';
         }
 		$nomeClasse = $this->campeonatoTipo()->nome_classe_modelo;
@@ -100,12 +107,23 @@ class Campeonato extends Eloquent {
 	 *
 	 */
 	protected function atualizarDatasFases($fase, $novaData) {
+        $novaData = strstr($novaData, " (", true);
 		$data = Carbon::parse($novaData);
 		$fase->data_fim = $data;
 		$fase->update();
 
+        $arrayUpdateRodadas = array('data_prazo'=>$data);
+
+        if($fase->matamata) {
+            $arrayUpdateRodadas['liberada'] = true;
+        }
+
+        Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $fase->id)->get(array('id')))
+                ->update($arrayUpdateRodadas);
+
         $outraData = DB::table('campeonato_fases')->selectRaw("data_fim + '1 day' as nova_data")->where('id','=',$fase->id)->first();
         $outraData = $outraData->nova_data;
+        $outraData = strstr($outraData, " (", true);
         $outraData = Carbon::parse($outraData);
 
 		$proximaFase = $fase;
@@ -167,6 +185,10 @@ class Campeonato extends Eloquent {
 
     public function iniciaFase($dadosFase, $faseAtual, $campeonato)
     {
+
+        if($faseAtual->aberta) {
+            return true;
+        }
         /*
          * Objeto Fase deve conter os seguintes atributos:
          * - id : ID da fase
@@ -182,6 +204,9 @@ class Campeonato extends Eloquent {
 
         /** 2. Inscrever usuários classificados da fase anterior */
         if ($faseAtual == $campeonato->faseInicial()) {
+            // Remover usuários que já estejam na fase devido a algum erro
+            UsuarioFase::where('campeonato_fases_id','=',$faseAtual->id)->delete();
+
             $usuariosDaFase = $campeonato->usuariosInscritos();
             foreach ($usuariosDaFase as $posicao => $usuario) {
                 UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
@@ -229,22 +254,20 @@ class Campeonato extends Eloquent {
     public function encerraFase($dadosFase)
     {
         $fase = CampeonatoFase::find($dadosFase['id']);
+        if(!$fase->aberta) {
+            return true;
+        }
         $proximaFase = $fase->proximaFase();
+
+        // Remover usuários que já estejam na fase seguinte devido a algum erro
+        UsuarioFase::where('campeonato_fases_id','=',$proximaFase->id)->delete();
+
         foreach ($fase->grupos() as $grupo) {
             // contabilizar jogos sem resultado (0 pontos para todos os participantes)
             foreach ($grupo->partidas() as $partida) {
+                $partida->usuarios = $partida->usuarios();
                 if(!isset($partida->data_placar)) {
-                    foreach ($partida->usuarios(false) as $usuarioPartida) {
-                        $dadosUsuarioUpdate = array(
-                            'posicao' => -1,
-                            'pontuacao' => 0,
-                            'placar' => 0
-                        );
-                        $usuarioPartida->update($dadosUsuarioUpdate);
-                    }
-                    $partida->data_placar = date('Y-m-d H:i:s');
-                    $partida->data_confirmacao = date('Y-m-d H:i:s');
-                    $partida->save();
+                    $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
                     $partida->data_confirmacao = date('Y-m-d H:i:s');
                     $partida->save();
@@ -254,6 +277,8 @@ class Campeonato extends Eloquent {
             // contabilizar pontuação e quantidade de classificados (por grupo) - INSCREVER USUÁRIOS CLASSIFICADOS NA FASE SEGUINTE
             if(isset($proximaFase)) {
                 $posicaoUsuario = 1;
+
+
                 foreach ($grupo->usuariosClassificados() as $usuario) {
                     $usuarioFase = new UsuarioFase();
                     $usuarioFase->campeonato_fases_id = $proximaFase->id;
@@ -294,13 +319,23 @@ class Campeonato extends Eloquent {
     protected function sorteioJogosUmContraUm($grupo, $turnos)
     {
         $usuarios = $grupo->usuarios();
+        if($usuarios->count() % 2 == 1) {
+            $usuarios->prepend(null);
+        }
         $n = $usuarios->count();
         $m = $n / 2;
         $numero_rodadas_por_turno = ($n - 1);
         $numero_rodada = 1;
+
+        // Remover partidas que já estejam no grupo devido a algum erro
+        Partida::where('fase_grupos_id','=',$grupo->id)->delete();
+
         for ($t = 0; $t < $turnos; $t++) {
             for ($i = 0; $i < $numero_rodadas_por_turno; $i++) {
                 for ($j = 0; $j < $m; $j++) {
+                    if($usuarios->get($j) == null) {
+                        continue;
+                    }
                     $partida = Partida::create(['fase_grupos_id' => $grupo->id, 'rodada' => $numero_rodada]);
                     if ($t % 2 == 1) {
                         if ($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
@@ -349,6 +384,12 @@ class Campeonato extends Eloquent {
 
         $usuariosInseridos = array();
         $fase = CampeonatoFase::find($dadosFase['id']);
+
+        // Remover usuários que já estejam no grupo devido a algum erro
+        foreach ($grupos as $grupo) {
+            UsuarioGrupo::where('fase_grupos_id','=',$grupo->id)->delete();
+        }
+
         if($fase->faseAnterior() != null && $fase->faseAnterior()->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
             foreach ($usuarios as $usuario) {
                 $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
@@ -574,6 +615,29 @@ class Campeonato extends Eloquent {
         return $partidasDoCampeonato;
     }
 
+    public function partidasPorRodada($aberta, $rodada) {
+        if($aberta) {
+            $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->where('aberta','=','true')->get(array('id')))->get(array('id')))
+                ->where('rodada','=',$rodada)
+                ->whereNull('data_confirmacao')
+                ->orderBy('rodada')
+                ->orderBy('fase_grupos_id')
+                ->orderBy('id')
+                ->get();
+        } else {
+            $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::whereIn('campeonato_fases_id', CampeonatoFase::where('campeonatos_id', '=', $this->id)->where('aberta','=','true')->get(array('id')))->get(array('id')))
+                ->where('rodada','=',$rodada)
+                ->orderBy('rodada')
+                ->orderBy('fase_grupos_id')
+                ->orderBy('id')
+                ->get();
+        }
+        foreach ($partidas as $partida) {
+            $partida->usuarios = $partida->usuarios();
+        }
+        return $partidas;
+    }
+
     public function partidasContestadas() {
         $partidasContestadas = app()->make(Collection::class);
         $partidas = $this->partidas();
@@ -601,5 +665,110 @@ class Campeonato extends Eloquent {
         }
         $partidas = $partidas->values();
         return $partidas;
+    }
+
+    public function faseAtual() {
+        $fases = $this->fases();
+        foreach ($fases as $fase) {
+            if($fase->aberta) {
+                return $fase;
+            }
+        }
+        return null;
+    }
+
+    public function tabelaCompleta() {
+        $retorno = $this;
+        $faseAtual = $this->faseInicial();
+        if(!isset($faseAtual)) {
+            return null;
+        }
+        $retorno->fases = $this->fases();
+        $retorno->grupos = $faseAtual->grupos();
+        $partidasDaRodada = [];
+        foreach ($retorno->grupos as $grupo) {
+            $partidasDaRodada[] = $grupo->partidasPorRodada(1);
+            $grupo->rodadas = $grupo->rodadas();
+            if($faseAtual->matamata) {
+                $grupo->usuarios = $grupo->usuariosMataMata();
+                $grupo->partidas = $grupo->partidas();
+                foreach ($grupo->partidas as $partida) {
+                    $partida->usuarios = $partida->usuarios();
+                }
+            } else {
+                $grupo->classificacao = $grupo->usuariosComClassificacao(); //TODO: Melhorar desempenho
+            }
+        }
+        $retorno->partidasDaRodada = $partidasDaRodada;
+        return $retorno;
+    }
+
+    public function aplicarWO($partida, $vencedor = 0) {
+        if($vencedor > 0) {
+            for($i = 0; $i< count($partida['usuarios']); $i++) {
+                if($partida['usuarios'][$i]['id'] == $vencedor) {
+                    $partida['usuarios'][$i]['placar'] = 1;
+                } else {
+                    $partida['usuarios'][$i]['placar'] = 0;
+                }
+            }
+            $this->salvarPlacar($partida);
+            $partidaBD = Partida::find($partida['id']);
+            $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+            $partidaBD->update();
+        } else {
+            foreach ($partida['usuarios'] as $usuarioPartida) {
+                $dadosUsuarioUpdate = array(
+                    'posicao' => -1,
+                    'pontuacao' => 0,
+                    'placar' => 0
+                );
+                $usuarioPartidaBD = UsuarioPartida::find($usuarioPartida['id']);
+                $usuarioPartidaBD->update($dadosUsuarioUpdate);
+            }
+            $partidaBD = Partida::find($partida['id']);
+            $partidaBD->data_placar = date('Y-m-d H:i:s');
+            $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+            $partidaBD->save();
+        }
+    }
+
+    public function rodadas() {
+        $faseAtual = $this->faseAtual();
+        if(!isset($faseAtual)) {
+            return null;
+        }
+        $grupo = $faseAtual->grupos()->first();
+        $rodadas = DB::table('partidas')
+            ->selectRaw('DISTINCT rodada as numero, data_prazo, liberada')
+            ->where('fase_grupos_id', '=', $grupo->id)
+            ->groupBy('rodada', 'data_prazo', 'liberada')
+            ->orderBy('rodada')
+            ->get();
+        return $rodadas;
+    }
+
+    public function salvarPrazoRodada($rodada, $data_prazo) {
+        $faseAtual = $this->faseAtual();
+        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
+            ->where('rodada','=',$rodada)
+            ->get();
+        $data_prazo = strstr($data_prazo, " (", true);
+        $data_prazo = Carbon::parse($data_prazo);
+        foreach ($partidas as $partida) {
+            $partida->data_prazo = $data_prazo;
+            $partida->save();
+        }
+    }
+
+    public function salvarLiberarRodada($rodada, $liberada) {
+        $faseAtual = $this->faseAtual();
+        $partidas = Partida::whereIn('fase_grupos_id', FaseGrupo::where('campeonato_fases_id', '=', $faseAtual->id)->get(array('id')))
+            ->where('rodada','=',$rodada)
+            ->get();
+        foreach ($partidas as $partida) {
+            $partida->liberada = $liberada;
+            $partida->save();
+        }
     }
 }

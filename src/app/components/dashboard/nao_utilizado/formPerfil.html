@@ -1,6 +1,6 @@
 <form name="formularioPerfil" novalidate="novalidate">
 
-    <div class="row" ng-show="vmProfile.messagePerfil">
+    <div class="row" ng-if="vmProfile.messagePerfil">
         <div class="col-md-12">
             <div class="alert alert-danger error">
                 {{ messagePerfil }}

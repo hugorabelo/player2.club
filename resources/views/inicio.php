@@ -62,7 +62,7 @@
 
         <!-- Main view
         -->
-        <div class="loading_geral" ng-show="loading">
+        <div class="loading_geral" ng-if="loading">
             <i class="fa fa-spinner fa-5x fa-spin"></i>
         </div>
         <div ui-view></div>

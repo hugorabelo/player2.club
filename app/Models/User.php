@@ -4,6 +4,8 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -42,13 +44,17 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     	return UsuarioTipo::find($this->usuario_tipos_id);
     }
 
-	public function partidas($idCampeonato = null) {
+	public function partidas($idCampeonato = null, $confirmadas = true) {
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//TODO exibir apenas partidas de um determinado campeonato
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
 			$grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
-			$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortByDesc('id');
+			if($confirmadas) {
+				$partidas = Partida::whereIn('fase_grupos_id',$grupos)->findMany($usuarioPartidas)->sortBy('id');
+			} else {
+				$partidas = Partida::whereIn('fase_grupos_id',$grupos)->whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
+			}
 		} else {
 			$partidas = Partida::findMany($usuarioPartidas)->sortByDesc('data_placar');
 		}
@@ -56,6 +62,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			if($partida->contestada()) {
 				$partida->contestada = true;
 			}
+			if(isset($partida->data_prazo)) {
+			    if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
+			        $partida->liberada = false;
+                    $partida->save();
+                }
+            }
 			$usuarios = $partida->usuarios();
 			$partida->usuarios = $usuarios;
 			// TODO incluir dados a serem utilizados do usuário para exibição das partidas
@@ -81,6 +93,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         foreach($partidas as $partida) {
             if($partida->contestada()) {
                 $partida->contestada = true;
+            }
+            if(isset($partida->data_prazo)) {
+                if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
+                    $partida->liberada = false;
+                    $partida->save();
+                }
             }
             $usuarios = $partida->usuarios();
             $partida->usuarios = $usuarios;

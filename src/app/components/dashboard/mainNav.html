@@ -12,7 +12,7 @@
 
 
 <!--Exibição Mobile-->
-<uib-rating hide-gt-xs ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-show="false"></uib-rating>
+<uib-rating hide-gt-xs ng-model="vmProfile.usuario.rating" class="user-rating" read-only="false" aria-labelledby="default-rating" state-on="'fa fa-star'" state-off="'fa fa-star-o'" ng-if="false"></uib-rating>
 
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="home" class="menu-usuario"><i class="material-icons md-24">home</i> Home</a>
 <a hide-gt-xs ng-click="vmTopNav.closeSideNav()" ui-sref="profile({idUsuario: usuarioLogado.id})" class="menu-usuario"><i class="material-icons md-24">person</i> {{'menus.visitar_meu_perfil' | translate}}</a>

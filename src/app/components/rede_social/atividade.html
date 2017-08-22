@@ -1,7 +1,7 @@
-<md-card ng-init="vmFeed.carregaAtividadeEspecifica()" ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
+<md-card ng-init="vmFeed.carregaAtividadeEspecifica()" ng-if="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
     <!-- curtir post -->
     <!-- publicar post -->
-    <div ng-show="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">
+    <div ng-if="atividade.post_id && !atividade.objeto.post_id" layout="row" layout-xs="column">
         <div flex layout="column" layout-align="space-between">
             <div class="social-body">
                 <p ng-bind-html="atividade.objeto.texto">
@@ -11,21 +11,21 @@
 
                 <div>
                     <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                        <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                        <img class="img-circle" alt="image" ng-src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
                     </a>
 
                     <div class="media-body" flex>
                         <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left m-r-xs">{{atividade.usuario.nome}}</a>
 
                         <!-- mensagem sobre jogo -->
-                        <div ng-show="atividade.objeto.jogos_id">
+                        <div ng-if="atividade.objeto.jogos_id">
                             <span class="text-muted ">{{atividade.descricao | translate}}</span>
                             <!-- escreveu sobre jogo -->
                             <a ui-sref="jogo({idJogo: atividade.objeto.jogos_id}) "> {{atividade.objeto.descricao_jogo}}</a>
                         </div>
 
                         <!-- mensagem para usuário -->
-                        <div ng-show="atividade.objeto.destinatario_id">
+                        <div ng-if="atividade.objeto.destinatario_id">
                             <span class="text-muted ">{{atividade.descricao | translate}}</span>
                             <!-- falou para usuário -->
                             <a ui-sref="profile({idUsuario: atividade.objeto.destinatario_id}) "> {{atividade.objeto.descricao_destinatario}}</a>
@@ -35,7 +35,7 @@
                         <small class="text-muted">
                         {{ vmFeed.exibeData(atividade.created_at) }}
                     </small>
-                        <p ng-show="atividade.curtidas.length" class="m-n">
+                        <p ng-if="atividade.curtidas.length" class="m-n">
                             <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                             <md-tooltip md-direction="top" class="tt-curtida">
                                 <span ng-repeat="curtida in atividade.curtidas">
@@ -71,7 +71,7 @@
                             <i class="material-icons md-18 ">share</i>
                         </md-button>
                     </div>
-                    <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                    <div ng-if="atividade.usuario.id == usuarioLogado.id ">
                         <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
                             <md-tooltip md-direction="top ">
                                 {{'fields.edit' | translate}}
@@ -89,24 +89,24 @@
             </div>
         </div>
 
-        <ul id="imagens" class="images-post" ng-show="atividade.objeto.imagens.length" flex="33" flex-xs="100" flex-order-xs="-1">
+        <ul id="imagens" class="images-post" ng-if="atividade.objeto.imagens.length" flex="33" flex-xs="100" flex-order-xs="-1">
             <li ng-repeat="imagem in atividade.objeto.imagens track by $index">
                 <a ng-click="vmFeed.openLightboxModal(atividade.objeto.imagens, $index)">
-                    <img src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
+                    <img ng-src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
                 </a>
             </li>
         </ul>
     </div>
 
     <!-- compartilhar post -->
-    <div ng-show="atividade.post_id && atividade.objeto.post_id ">
+    <div ng-if="atividade.post_id && atividade.objeto.post_id ">
         <div class="social-body ">
             <p ng-bind-html="atividade.objeto.texto">
         </div>
         <div class="social-avatar" layout="row" layout-xs="column">
             <div layout-fill>
                 <a ui-sref="profile({idUsuario: atividade.usuario.id}) " class="pull-left ">
-                    <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.usuario.imagem_perfil}} ">
+                    <img class="img-circle " alt="image " ng-src="uploads/usuarios/{{atividade.usuario.imagem_perfil}} ">
                 </a>
                 <div class="media-body " flex layout="column ">
                     <div class="social-avatar corpo_post ">
@@ -118,7 +118,7 @@
                         <small class="text-muted ">
                         {{ vmFeed.exibeData(atividade.created_at) }}
                     </small>
-                        <p ng-show="atividade.curtidas.length " class="m-n ">
+                        <p ng-if="atividade.curtidas.length " class="m-n ">
                             <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
@@ -131,7 +131,7 @@
                 </div>
                 <div class="social-avatar post_compartilhado ">
                     <a ui-sref="profile({idUsuario: atividade.objeto.compartilhamento.usuario.id}) " class="pull-left ">
-                        <img class="img-circle " alt="image " src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}} ">
+                        <img class="img-circle " alt="image " ng-src="uploads/usuarios/{{atividade.objeto.compartilhamento.usuario.imagem_perfil}} ">
                     </a>
                     <div class="media-body ">
                         <p ng-bind-html="atividade.objeto.compartilhamento.texto">
@@ -142,10 +142,10 @@
                     </small>
                 </div>
             </div>
-            <ul id="imagens" class="images-post" ng-show="atividade.objeto.compartilhamento.imagens.length" flex="33" flex-xs="100" flex-order-xs="-1">
+            <ul id="imagens" class="images-post" ng-if="atividade.objeto.compartilhamento.imagens.length" flex="33" flex-xs="100" flex-order-xs="-1">
                 <li ng-repeat="imagem in atividade.objeto.compartilhamento.imagens track by $index">
                     <a ng-click="vmFeed.openLightboxModal(atividade.objeto.compartilhamento.imagens, $index)">
-                            <img src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
+                            <img ng-src="uploads/imagens/{{imagem.url}}" alt="" class="" ng-class="{'img-responsive': $index === 0, 'img-thumb': $index > 0 && $index < 4}">
                         </a>
                 </li>
             </ul>
@@ -174,7 +174,7 @@
                         <i class="material-icons md-18 ">share</i>
                     </md-button>
                 </div>
-                <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                <div ng-if="atividade.usuario.id == usuarioLogado.id ">
                     <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
                         <md-tooltip md-direction="top ">
                             {{'fields.edit' | translate}}
@@ -198,12 +198,12 @@
     <!-- curtir comentário -->
     <!-- seguir jogo -->
     <!-- entrou em campeonato -->
-    <div ng-show="atividade.campeonato_usuarios_id">
+    <div ng-if="atividade.campeonato_usuarios_id">
         <p></p>
         <div class="social-avatar" layout="column">
             <div>
                 <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                    <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                    <img class="img-circle" alt="image" ng-src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
                 </a>
 
                 <div class="media-body" flex>
@@ -215,7 +215,7 @@
                     <small class="text-muted">
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
-                    <p ng-show="atividade.curtidas.length" class="m-n">
+                    <p ng-if="atividade.curtidas.length" class="m-n">
                         <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
@@ -243,7 +243,7 @@
                         <i class="material-icons md-18 ">mode_comment</i>
                     </md-button>
                 </div>
-                <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                <div ng-if="atividade.usuario.id == usuarioLogado.id ">
                     <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
                         <md-tooltip md-direction="top ">
                             {{'fields.edit' | translate}}
@@ -262,12 +262,12 @@
     </div>
 
     <!-- jogou partida -->
-    <div ng-show="atividade.partidas_id">
+    <div ng-if="atividade.partidas_id">
         <div class="placar-jogo-equipes">
             <div class="placar-jogo-equipes-mandante col-xs-4">
                 <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[0].nome}}" hide-xs>{{atividade.objeto.usuarios[0].nome}}</span>
                 <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[0].nome}}" hide-gt-xs>{{atividade.objeto.usuarios[0].sigla}}</span>
-                <img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" src="uploads/usuarios/{{atividade.objeto.usuarios[0].distintivo}}" title="{{atividade.objeto.usuarios[0].nome}}">
+                <img class="placar-jogo-equipes-escudo-mandante hidden-xs" itemprop="image" ng-src="uploads/usuarios/{{atividade.objeto.usuarios[0].distintivo}}" title="{{atividade.objeto.usuarios[0].nome}}">
             </div>
             <div class="placar-jogo-equipes-placar col-xs-4">
                 <div class="row">
@@ -277,7 +277,7 @@
                 </div>
             </div>
             <div class="placar-jogo-equipes-visitante col-xs-4">
-                <img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" src="uploads/usuarios/{{atividade.objeto.usuarios[1].distintivo}}" title="{{atividade.objeto.usuarios[0].nome}}">
+                <img class="placar-jogo-equipes-escudo-visitante hidden-xs" itemprop="image" ng-src="uploads/usuarios/{{atividade.objeto.usuarios[1].distintivo}}" title="{{atividade.objeto.usuarios[0].nome}}">
                 <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[1].nome}}" hide-xs>{{atividade.objeto.usuarios[1].nome}}</span>
                 <span class="placar-jogo-equipes-sigla" title="{{atividade.objeto.usuarios[1].nome}}" hide-gt-xs>{{atividade.objeto.usuarios[1].sigla}}</span>
             </div>
@@ -286,7 +286,7 @@
         <div class="social-avatar" layout="column">
             <div>
                 <a ui-sref="profile({idUsuario: atividade.usuario.id})" class="pull-left">
-                    <img class="img-circle" alt="image" src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
+                    <img class="img-circle" alt="image" ng-src="uploads/usuarios/{{atividade.usuario.imagem_perfil}}">
                 </a>
 
                 <div class="media-body" flex>
@@ -298,7 +298,7 @@
                     <small class="text-muted">
                     {{ vmFeed.exibeData(atividade.created_at) }}
                 </small>
-                    <p ng-show="atividade.curtidas.length" class="m-n">
+                    <p ng-if="atividade.curtidas.length" class="m-n">
                         <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)"><i class="fa fa-thumbs-up"></i> {{atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                     <md-tooltip md-direction="top" class="tt-curtida">
                         <span ng-repeat="curtida in atividade.curtidas">
@@ -326,7 +326,7 @@
                         <i class="material-icons md-18 ">mode_comment</i>
                     </md-button>
                 </div>
-                <div ng-show="atividade.usuario.id == usuarioLogado.id ">
+                <div ng-if="atividade.usuario.id == usuarioLogado.id ">
                     <md-button class="md-icon-button " ng-click="vmFeed.editar($event, atividade) ">
                         <md-tooltip md-direction="top ">
                             {{'fields.edit' | translate}}
@@ -344,19 +344,19 @@
         </div>
     </div>
 
-    <div class="social-footer " ng-show="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
+    <div class="social-footer " ng-if="atividade.post_id || atividade.partidas_id || atividade.campeonato_usuarios_id">
         <div class="social-comment " ng-repeat="comentario in atividade.comentarios " ng-mouseenter="options=true " ng-mouseleave="options=false ">
             <a ui-sref="profile({idUsuario: comentario.usuario.id}) " class="pull-left ">
-                <img class="img-circle " alt="image " src="uploads/usuarios/{{comentario.usuario.imagem_perfil}} ">
+                <img class="img-circle " alt="image " ng-src="uploads/usuarios/{{comentario.usuario.imagem_perfil}} ">
             </a>
             <div class="media-body ">
-                <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-show="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
-                <div class="grupo_comentario" ng-hide="comentario.edicao">
+                <textarea class="form-control " rows="1 " ng-model="comentario.texto " ng-if="comentario.edicao " ng-keypress="vmFeed.atualizarComentario($event, comentario, atividade) "></textarea>
+                <div class="grupo_comentario" ng-if="!comentario.edicao">
                     <a ui-sref="profile({idUsuario: comentario.usuario.id}) ">{{comentario.usuario.nome}}</a>
                     <span ng-bind-html="comentario.texto"></span>
                     <br>
                     <small class="text-muted ">{{vmFeed.exibeData(comentario.created_at)}}</small>
-                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)" ng-show="comentario.atividade.curtidas.length ">
+                    <a class="small" ng-click="vmFeed.exibeCurtidas($mdOpenMenu, $event)" ng-if="comentario.atividade.curtidas.length ">
                         <i class="fa fa-thumbs-up"></i> {{comentario.atividade.curtidas.length}} {{'messages.curtiram' | translate}}!
                         <md-tooltip md-direction="top" class="tt-curtida">
                             <span ng-repeat="curtida in comentario.atividade.curtidas">
@@ -373,14 +373,14 @@
                                 <i class="material-icons ">thumb_up</i>
                             </md-button>
 
-                            <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) " ng-show="futuro">
+                            <md-button class="md-icon-button " ng-click="vmFeed.comentar( 'comentario'+$index) " ng-if="futuro">
                                 <md-tooltip md-direction="top ">
                                     {{'messages.comentar' | translate}}
                                 </md-tooltip>
                                 <i class="material-icons ">mode_comment</i>
                             </md-button>
                         </div>
-                        <div ng-show="comentario.atividade.users_id == usuarioLogado.id ">
+                        <div ng-if="comentario.atividade.users_id == usuarioLogado.id ">
                             <md-button class="md-icon-button " ng-click="vmFeed.editarComentario($event, comentario) ">
                                 <md-tooltip md-direction="top ">
                                     {{'fields.edit' | translate}}
@@ -402,7 +402,7 @@
 
         <div class="social-comment ">
             <a href=" " class="pull-left ">
-                <img class="img-circle " alt="image " src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+                <img class="img-circle " alt="image " ng-src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
             </a>
             <div class="media-body ">
                 <textarea class="form-control " placeholder="{{ 'messages.escrever_comentario' | translate}} " ng-keypress="vmFeed.salvarComentario($event, atividade) " ng-model="atividade.novoComentario " id="comentario{{$index}} "></textarea>

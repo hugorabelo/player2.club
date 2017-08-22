@@ -6,9 +6,9 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location', '$state', 'localStorageService'];
+    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location', '$state', '$mdDialog', '$filter', 'localStorageService'];
 
-    function authService(lock, authManager, $http, $rootScope, $window, $location, $state, localStorageService) {
+    function authService(lock, authManager, $http, $rootScope, $window, $location, $state, $mdDialog, $filter, localStorageService) {
 
         var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
@@ -40,7 +40,7 @@
                         $state.go(previousState.name, previousParams);
                     }, function (error) {
                         localStorage.removeItem('id_token');
-                        console.log('usuário não existe');
+                        showAlert();
                     });
             });
 
@@ -55,6 +55,23 @@
             localStorageService.remove('usuarioLogado');
             $location.path('/login');
         }
+
+        function showAlert(ev) {
+            $rootScope.exibindoAlerta = true;
+            $mdDialog.show(
+                $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title($filter('translate')('messages.titulo_alerta_login'))
+                .textContent($filter('translate')('messages.conteudo_alerta_login'))
+                .ariaLabel($filter('translate')('messages.titulo_alerta_login'))
+                .ok($filter('translate')('messages.close'))
+                .targetEvent(ev)
+            ).then(function () {
+                $rootScope.exibindoAlerta = false;
+                login();
+            });
+        };
 
         return {
             userProfile: userProfile,

@@ -12,6 +12,7 @@
             this.idEquipe = idEquipe;
             this.partidasRegistradas = [];
             this.itemsRegistrados = [];
+            this.totalAtividades = 0;
         };
 
         Feed.prototype.proximaPagina = function () {
@@ -30,6 +31,7 @@
             $http.get(this.url)
                 .success(function (data) {
                     var items = data;
+                    this.totalAtividades += items.length;
                     for (var i = 0; i < items.length; i++) {
                         var item = items[i];
                         if (item.partidas_id != null) {
@@ -55,10 +57,10 @@
                             }
                         }
                     }
-                    if (this.after == this.items.length) {
+                    if (this.after == this.totalAtividades) {
                         this.ocupado = true;
                     } else {
-                        this.after = this.items.length;
+                        this.after = this.totalAtividades;
                         this.ocupado = false;
                     }
                 }.bind(this));

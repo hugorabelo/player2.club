@@ -24,10 +24,16 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
     Route::get('campeonato/partidas/{idCampeonato}', 'CampeonatosController@getPartidas');
+    Route::get('campeonato/partidasPorRodada/{idCampeonato}/{aberta}/{rodada?}', 'CampeonatosController@getPartidasPorRodada');
     Route::get('campeonato/partidasContestadas/{idCampeonato}', 'CampeonatosController@getPartidasContestadas');
     Route::get('campeonato/partidasEmAberto/{id}', 'CampeonatosController@getPartidasEmAberto');
+    Route::get('campeonato/tabelaCompleta/{id}', 'CampeonatosController@getTabelaCompleta');
     Route::post('campeonato/pesquisaFiltros', 'CampeonatosController@pesquisaFiltros');
     Route::post('campeonato/sortearClubes', 'CampeonatosController@sortearClubes');
+    Route::post('campeonato/aplicarWO', 'CampeonatosController@aplicarWO');
+    Route::get('campeonato/rodadas/{id}', 'CampeonatosController@getRodadas');
+    Route::get('campeonato/naofinalizado', 'CampeonatosController@getNaoFinalizados');
+    Route::post('campeonato/informacoesDaRodada', 'CampeonatosController@setInformacoesDaRodada');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
@@ -48,7 +54,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonatosDisponiveisParaUsuario/{id}', 'UsersController@listaCampeonatosDisponiveis');
     Route::get('campeonatosInscritosParaUsuario/{id}', 'UsersController@listaCampeonatosInscritos');
-    Route::get('partidasParaUsuario/{id}/{idCampeonato?}', 'UsersController@listaPartidas');
+    Route::get('partidasParaUsuario/{id}/{idCampeonato?}/{confirmadas?}', 'UsersController@listaPartidas');
     Route::get('partidasEmAberto/{id}/{idCampeonato?}', 'UsersController@listaPartidasEmAberto');
     Route::get('partidasDisputadas/{id}/{idCampeonato?}', 'UsersController@listaPartidasDisputadas');
     Route::get('partidasNaoDisputadas/{id}/{idCampeonato?}', 'UsersController@listaPartidasNaoDisputadas');
@@ -176,6 +182,10 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 Route::get('api/callback', function() {
     return Response::json(Auth::check());
 });
+
+Route::get('api/auth0/profile', array('middleware' => 'auth.basic', function() {
+    Log::warning('Chegou aqui');
+}));
 
 Route::get('api/times/baseFifa', 'TimeController@getBaseFifa');
 

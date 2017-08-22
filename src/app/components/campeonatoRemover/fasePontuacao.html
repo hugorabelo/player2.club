@@ -1,10 +1,10 @@
 <form name="formularioPontuacao" class="form-inline" novalidate="novalidate" ng-submit="salvaPontuacao()">
 
-    <div class="row" ng-show="messagePontuacao">
+    <div class="row" ng-if="messagePontuacao">
         <div class="col-md-12">
-                <div class="alert alert-danger error">
-                    {{ messagePontuacao }}
-                </div>
+            <div class="alert alert-danger error">
+                {{ messagePontuacao }}
+            </div>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
 
     <div class="form-group" ng-hide="true">
         <div class="col-md-9">
-                <input type="text" id="campeonato_fases_id" class="form-control" ng-model="pontuacaoRegra.campeonato_fases_id" required />
+            <input type="text" id="campeonato_fases_id" class="form-control" ng-model="pontuacaoRegra.campeonato_fases_id" required />
         </div>
     </div>
 

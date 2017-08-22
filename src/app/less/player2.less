@@ -69,7 +69,8 @@ input.placar-input {
 }
 
 .tabela-navegacao-fases,
-.tabela-navegacao-rodadas {
+.tabela-navegacao-rodadas,
+.tabela-navegacao-rodadas-gerenciar {
     /* Font & Text */
     font-size: 24px;
     text-align: center;
@@ -93,6 +94,15 @@ input.placar-input {
     margin-bottom: 0;
     height: 30px;
     line-height: 30px;
+}
+
+.tabela-navegacao-rodadas-gerenciar {
+    margin-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    i {
+        line-height: 40px;
+    }
 }
 
 .tabela-navegacao-rodadas i {
@@ -137,12 +147,22 @@ input.placar-input {
     overflow: hidden;
     background: white;
     padding-left: 10px;
+    padding-right: 10px;
+    a {
+        color: @black;
+    }
+    &.mandante {
+        text-align: right;
+    }
 }
 
 .placar-jogo-equipes-mandante,
 .placar-jogo-equipes-visitante,
 .placar-jogo-equipes-placar {
     padding: 0;
+    a {
+        color: @black;
+    }
 }
 
 .placar-jogo-equipes-mandante {
@@ -200,6 +220,7 @@ input.placar-input {
 
 .grupo-matamata {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .lista-de-jogos-item {
@@ -209,27 +230,23 @@ input.placar-input {
 }
 
 .mata-conector1 {
-    //    border: 1px solid rgb(192, 192, 192);
     border: 1px solid @cinza-escuro;
-    height: 187px;
-    /*	position: absolute;*/
-    /*	width: 100%;*/
-    margin-top: -256px;
-    margin-right: -5px;
+    height: ~"calc(100% + 21px)";
+    width: 10px;
     border-left: 0;
-    background: transparent;
-    z-index: -3;
+    position: absolute;
+    top: -(50% + 4px);
+    right: -5px;
 }
 
 .mata-conector2 {
-    //    background: rgb(192, 192, 192);
     background: @cinza-escuro;
     height: 1px;
     width: 10px;
-    /*	position: absolute;*/
-    margin-top: -165px;
-    margin-right: -15px;
-    z-index: -3;
+    position: absolute;
+    top: 6px;
+    right: -15px;
+    z-index: 3;
     float: right;
 }
 
