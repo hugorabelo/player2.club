@@ -1080,10 +1080,14 @@
             };
 
             angular.forEach(vm.campeonato.participantes, function (participante) {
+                var distintivoJogador = null;
+                if (participante.time != null) {
+                    distintivoJogador = participante.time.distintivo;
+                }
                 vm.models.lists.Principal.push({
                     id: participante.id,
                     label: participante.nome,
-                    distintivo: participante.time.distintivo
+                    distintivo: distintivoJogador
                 });
             });
 

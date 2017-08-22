@@ -11,19 +11,22 @@
 
                 <md-input-container class="md-block" flex>
                     <label>{{'fields.descricao' | translate}}</label>
-                    <input ng-model="usuarioTipo.descricao" required>
+                    <input ng-model="equipe.descricao" size="50" required>
                 </md-input-container>
 
-                <md-input-container class="md-block" flex>
-                    <label>{{'fields.prioridade' | translate}}</label>
-                    <input type="number" ng-model="usuarioTipo.prioridade" required>
-                </md-input-container>
+                <div class="form-group">
+                    <label class="col-md-12" for="logomarca" translate>fields.logomarca</label>
+                    <div class="col-md-12">
+                        <lf-ng-md-file-input lf-files="files"></lf-ng-md-file-input>
+                    </div>
+                </div>
 
             </div>
+
             <md-dialog-actions layout="row">
                 <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
-                <md-button ng-click="save()" ng-if="novoItem">{{'fields.save' | translate}}</md-button>
-                <md-button ng-click="update()" ng-if="!novoItem">{{'fields.update' | translate}}</md-button>
+                <md-button ng-click="save()" ng-show="novoItem">{{'fields.save' | translate}}</md-button>
+                <md-button ng-click="update()" ng-hide="novoItem">{{'fields.update' | translate}}</md-button>
             </md-dialog-actions>
         </md-dialog-content>
     </form>

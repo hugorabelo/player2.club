@@ -8,7 +8,7 @@
         <div class="profile-info">
             <div>
                 <h2 class="no-margins">
-                    {{vmProfile.usuario.nome}} {{idUsuario}}
+                    {{vmProfile.usuario.nome}}
                 </h2>
                 <h4>{{vmProfile.usuario.sigla}}</h4>
                 <small hide-sm>
@@ -48,6 +48,20 @@
         </md-card>
 
         <div class="caixa-informacao-titulo">
+            <h3>{{'messages.equipes' | translate}}</h3>
+            <a ui-sref=".equipes">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <md-card class="caixa-informacao">
+            <div class="m-xs">
+                <md-list-item ng-repeat="equipe in vmProfile.equipesDoUsuario" ng-click="vmProfile.carregaEquipe(equipe.id)">
+                    <img ng-src="uploads/{{equipe.imagem_logomarca}}" alt="{{equipe.descricao}} " class="img-circle circle-border-sm img-sm  m-r m-l-n-sm"> {{equipe.descricao}}
+                </md-list-item>
+            </div>
+        </md-card>
+
+        <div class="caixa-informacao-titulo">
             <h3>{{'messages.campeonato_list' | translate}}</h3>
             <a ui-sref=".campeonatos">
                 <i class="material-icons">more</i>
@@ -56,7 +70,7 @@
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)">
-                    <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+                    <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
                 </md-list-item>
             </div>
         </md-card>
@@ -118,7 +132,7 @@
     <div class="profile-info m-t-sm">
         <div>
             <h2 class="no-margins">
-                {{vmProfile.usuario.nome}} {{idUsuarseguidoresio}}
+                {{vmProfile.usuario.nome}}
             </h2>
         </div>
     </div>
@@ -156,6 +170,23 @@
     <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
         <md-card-title>
             <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">verified_user</i>{{'messages.equipes' | translate}}
+                <span flex></span>
+                <a ui-sref=".equipes" class="more">
+                    <i class="material-icons">more</i>
+                </a>
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <md-list-item ng-repeat="equipe in vmProfile.equipesDoUsuario" ng-click="vmProfile.carregaEquipe(equipe.id)" class="m-b-xxs">
+                <img ng-src="uploads/{{equipe.imagem_logomarca}}" alt="{{equipe.descricao}} " class="img-circle circle-border-sm img-sm  m-r m-l-n-sm"> {{equipe.descricao}}
+            </md-list-item>
+        </div>
+    </md-card>
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center">
                 <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonato_list' | translate}}
                 <span flex></span>
                 <a ui-sref=".campeonatos" class="more">
@@ -165,7 +196,7 @@
         </md-card-title>
         <div class="m-xs">
             <md-list-item ng-repeat="campeonato in vmProfile.campeonatosDoUsuario" ng-click="vmProfile.carregaCampeonato(campeonato.id)" class="m-b-xxs">
-                <i class="fa fa-gamepad fa-fw fa-2x m-r-xs m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+                <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
             </md-list-item>
         </div>
     </md-card>

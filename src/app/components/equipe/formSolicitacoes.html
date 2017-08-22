@@ -1,0 +1,59 @@
+<md-dialog aria-label="{{tituloModal | translate}}" hide-gt-xs>
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content class="p-h-md">
+            <md-list-item ng-repeat="solicitacao in solicitacoes" class="noright">
+                <img ng-src="uploads/usuarios/{{solicitacao.imagem_perfil}}" alt="{{solicitacao.nome}}" class="img-circle circle-border-sm img-md m-xxs">
+                <p class="m-l-md">{{solicitacao.nome}}</p>
+                <md-button class="md-icon-button md-primary" ng-click="visitarPerfil($event, solicitacao)">
+                    <md-tooltip md-direction="top">{{'messages.visitar_perfil' | translate}}</md-tooltip>
+                    <i class="material-icons">person_pin</i>
+                </md-button>
+                <md-button class="md-icon-button md-accent" ng-click="aceitarSolicitacao($event, solicitacao)">
+                    <md-tooltip md-direction="top">{{'messages.aceitar_solicitacao' | translate}}</md-tooltip>
+                    <i class="material-icons">check_circle</i>
+                </md-button>
+                <md-button class="md-icon-button md-warn md-secondary" ng-click="recusarSolicitacao($event, solicitacao)">
+                    <md-tooltip md-direction="top">{{'messages.recusar_solicitacao' | translate}}</md-tooltip>
+                    <i class="material-icons">highlight_off</i>
+                </md-button>
+            </md-list-item>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()">{{'messages.close' | translate}}</md-button>
+            </md-dialog-actions>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+
+
+<h3 class="secao_titulo" hide-xs>{{'messages.gerenciar_solicitacoes' | translate}}</h3>
+<div class="caixa-pesquisa" hide-xs ng-if="false">
+    <md-input-container class="md-block md-primary">
+        <label>{{'messages.filtro' | translate}}</label>
+        <input ng-model="vmSeguidores.searchTextSeguindo">
+    </md-input-container>
+</div>
+<md-grid-list md-cols-xs="2" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px" hide-xs>
+    <md-list-item class="card-usuarios m-xs" ng-repeat="solicitacao in vmEquipe.equipe.solicitacoes" class="noright">
+        <img ng-src="uploads/usuarios/{{solicitacao.imagem_perfil}}" alt="{{solicitacao.nome}}" class="img-circle circle-border-sm img-md m-xxs">
+        <p class="m-l-md text-left">{{solicitacao.nome}}</p>
+        <md-button class="md-icon-button md-primary" ui-sref="profile({idUsuario: solicitacao.id})">
+            <md-tooltip md-direction="top">{{'messages.visitar_perfil' | translate}}</md-tooltip>
+            <i class="material-icons">person_pin</i>
+        </md-button>
+        <md-button class="md-icon-button md-accent" ng-click="vmEquipe.aceitarSolicitacao($event, solicitacao)">
+            <md-tooltip md-direction="top">{{'messages.aceitar_solicitacao' | translate}}</md-tooltip>
+            <i class="material-icons">check_circle</i>
+        </md-button>
+        <md-button class="md-icon-button md-warn md-secondary" ng-click="vmEquipe.recusarSolicitacao($event, solicitacao)">
+            <md-tooltip md-direction="top">{{'messages.recusar_solicitacao' | translate}}</md-tooltip>
+            <i class="material-icons">highlight_off</i>
+        </md-button>
+    </md-list-item>
+</md-grid-list>

@@ -289,4 +289,8 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return $mensagens;
 	}
 
+	public function equipes() {
+		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->withPivot('funcao_equipe_id')->withTimestamps();
+	}
+
 }

@@ -114,6 +114,38 @@
                     pageTitle: "messages.mensagens"
                 }
             })
+            .state('home.equipes', {
+                url: "/equipes/{idUsuario}",
+                templateUrl: "app/components/equipe/minhasEquipes.html",
+                controller: 'EquipeController as vmEquipe',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
+            .state('equipe', {
+                url: "/equipe/{idEquipe}",
+                templateUrl: "app/components/equipe/index.html",
+                controller: 'EquipeController as vmEquipe',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
+            .state('equipe.integrantes', {
+                url: "/integrantes",
+                templateUrl: "app/components/equipe/formIntegrantes.html",
+                controller: 'EquipeController as vmEquipe',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
+            .state('equipe.inscricoes', {
+                url: "/inscricoes",
+                templateUrl: "app/components/equipe/formSolicitacoes.html",
+                controller: 'EquipeController as vmEquipe',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",

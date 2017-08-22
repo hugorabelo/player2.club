@@ -17,6 +17,9 @@ class UsersController extends Controller {
 	}
 
 	public function show($id) {
+		if($id == 'undefined' || $id == null) {
+			return null;
+		}
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
         $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
@@ -201,6 +204,17 @@ class UsersController extends Controller {
 	public function listaCampeonatosInscritos($idUsuario) {
 		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
+
+		foreach ($campeonatosInscritos as $campeonato) {
+			$campeonato->jogo = $campeonato->jogo()->descricao;
+			$campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+			$campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
+			$campeonato->plataforma = $campeonato->plataforma()->descricao;
+			$campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+			$campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+			$campeonato->tipo_campeonato= $campeonato->campeonatoTipo()->descricao;
+			$campeonato->status = $campeonato->status();
+		}
 
 		return Response::json($campeonatosInscritos);
 	}
@@ -461,9 +475,11 @@ class UsersController extends Controller {
 				case 'fase_encerrada':
 				case 'fase_encerramento_breve':
 					$fase = CampeonatoFase::find($notificacao->item_id);
-					$notificacao->nome_campeonato = $fase->campeonato()->descricao;
-					$notificacao->nome_fase = $fase->descricao;
-					$notificacao->item_id = $fase->campeonato()->id;
+                    if(isset($fase)) {
+                        $notificacao->nome_campeonato = $fase->campeonato()->descricao;
+                        $notificacao->nome_fase = $fase->descricao;
+                        $notificacao->item_id = $fase->campeonato()->id;
+                    }
 					break;
 				case 'sorteou_clubes':
 					$campeonato = Campeonato::find($notificacao->item_id);
@@ -530,6 +546,18 @@ class UsersController extends Controller {
 			}
 		}
 		return $mensagens;
+	}
+
+	function listaEquipes($idUsuario = null) {
+		if(!isset($idUsuario)) {
+			$idUsuario = Auth::getUser()->id;
+		}
+		$usuario = User::find($idUsuario);
+		$equipes = $usuario->equipes()->orderBy('descricao')->get();
+		foreach ($equipes as $equipe) {
+			$equipe->integrantes = $equipe->integrantes()->get();
+		}
+		return Response::json($equipes);
 	}
 
 }

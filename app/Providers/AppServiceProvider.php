@@ -161,6 +161,10 @@ class AppServiceProvider extends ServiceProvider {
 			}
 		});
 
+        \Equipe::created(function ($equipe) {
+            $equipe->adicionarIntegrante(\Auth::getUser()->id, 1);
+        });
+
 	}
 
 	/**
