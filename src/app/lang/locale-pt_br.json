@@ -163,7 +163,9 @@
         "adiciona_pote": "Adiciona Pote",
         "remove_pote": "Remove Pote",
         "equipe": "Equipe",
-        "info_participante": "Exibir detalhes do participante"
+        "info_participante": "Exibir detalhes do participante",
+        "individual": "Individual",
+        "quantidade_minima_usuarios": "Quantidade Mínima de Usuários na Equipe"
     },
 
     "messages": {

@@ -20,6 +20,25 @@
                         </md-select>
                     </md-input-container>
 
+                    <div layout="row">
+                        <md-input-container class="md-block" flex="50">
+                            <label>{{'fields.tipo_competidor' | translate}}</label>
+                            <md-select ng-model="vmCriarCampeonato.tipo_competidor_id">
+                                <md-option ng-value="1">
+                                    {{'fields.individual' | translate}}
+                                </md-option>
+                                <md-option ng-value="2">
+                                    {{'fields.equipe' | translate}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-input-container class="md-block" ng-if="vmCriarCampeonato.tipo_competidor_id == 2" flex="50">
+                            <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
+                            <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_minima_competidores" required>
+                        </md-input-container>
+                    </div>
+
                     <div layout-gt-xs="row">
                         <md-input-container flex-gt-xs="50">
                             <label>{{'fields.data_inicio' | translate}}</label>
@@ -100,6 +119,23 @@
                         {{tipoAcesso.descricao}}
                     </md-option>
                 </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.tipo_competidor' | translate}}</label>
+                <md-select ng-model="vmCriarCampeonato.campeonato.tipo_competidor" required>
+                    <md-option ng-value="individual">
+                        {{'fields.individual' | translate}}
+                    </md-option>
+                    <md-option ng-value="equipe">
+                        {{'fields.equipe' | translate}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == equipe">
+                <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_minima_competidores" required>
             </md-input-container>
 
             <md-input-container flex-gt-xs="50">
