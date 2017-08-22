@@ -35,7 +35,7 @@
 
                         <md-input-container class="md-block" ng-if="vmCriarCampeonato.tipo_competidor_id == 2" flex="50">
                             <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
-                            <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_minima_competidores" required>
+                            <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
                         </md-input-container>
                     </div>
 
@@ -135,7 +135,7 @@
 
             <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == equipe">
                 <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_minima_competidores" required>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
             </md-input-container>
 
             <md-input-container flex-gt-xs="50">
