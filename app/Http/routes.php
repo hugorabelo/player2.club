@@ -165,7 +165,9 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('equipe/{id}', 'EquipeController@update');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
-        $retornoValidacao = Response::json(Auth::getUser());
+        $user = Auth::getUser();
+        $user->equipesAdministradas = $user->equipesAdministradas()->get();
+        $retornoValidacao = Response::json($user);
         return $retornoValidacao;
     }));
 
