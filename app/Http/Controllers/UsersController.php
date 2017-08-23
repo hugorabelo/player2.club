@@ -23,6 +23,7 @@ class UsersController extends Controller {
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
         $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
+		$usuario->equipesAdministradas = $usuario->equipesAdministradas()->get();
 		return Response::json($usuario);
 	}
 
