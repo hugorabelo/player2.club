@@ -22,10 +22,12 @@ class AppServiceProvider extends ServiceProvider {
 			$administrador->campeonatos_id = $campeonato->id;
 			$administrador->save();
 
-			$usuario = new \CampeonatoUsuario();
-			$usuario->users_id = $campeonato->criador;
-			$usuario->campeonatos_id = $campeonato->id;
-			$usuario->save();
+			if($campeonato->tipo_competidor != 'equipe') {
+				$usuario = new \CampeonatoUsuario();
+				$usuario->users_id = $campeonato->criador;
+				$usuario->campeonatos_id = $campeonato->id;
+				$usuario->save();
+			}
 		});
 
 		\Post::created(function ($post) {
