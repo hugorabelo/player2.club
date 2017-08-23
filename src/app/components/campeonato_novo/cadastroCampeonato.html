@@ -23,17 +23,17 @@
                     <div layout="row">
                         <md-input-container class="md-block" flex="50">
                             <label>{{'fields.tipo_competidor' | translate}}</label>
-                            <md-select ng-model="vmCriarCampeonato.tipo_competidor_id">
-                                <md-option ng-value="1">
+                            <md-select ng-model="vmCriarCampeonato.campeonato.tipo_competidor" required>
+                                <md-option value="individual">
                                     {{'fields.individual' | translate}}
                                 </md-option>
-                                <md-option ng-value="2">
+                                <md-option value="equipe">
                                     {{'fields.equipe' | translate}}
                                 </md-option>
                             </md-select>
                         </md-input-container>
 
-                        <md-input-container class="md-block" ng-if="vmCriarCampeonato.tipo_competidor_id == 2" flex="50">
+                        <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == 'equipe'" flex="50">
                             <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
                             <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
                         </md-input-container>
@@ -124,16 +124,16 @@
             <md-input-container class="md-block">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
                 <md-select ng-model="vmCriarCampeonato.campeonato.tipo_competidor" required>
-                    <md-option ng-value="individual">
+                    <md-option value="individual">
                         {{'fields.individual' | translate}}
                     </md-option>
-                    <md-option ng-value="equipe">
+                    <md-option value="equipe">
                         {{'fields.equipe' | translate}}
                     </md-option>
                 </md-select>
             </md-input-container>
 
-            <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == equipe">
+            <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == 'equipe'">
                 <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
                 <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
             </md-input-container>
