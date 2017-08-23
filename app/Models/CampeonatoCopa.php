@@ -33,10 +33,6 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $detalhes['campeonatos_id'] = $this->campeonato->id;
         $this->detalhesCampeonato = CampeonatoDetalhes::create($detalhes);
 
-//      Adicionar Administrador do Campeonato
-        $dadosAdministrador = array("users_id"=>$dadosCampeonato["criador"], "campeonatos_id"=>$this->campeonato->id);
-        CampeonatoAdmin::create($dadosAdministrador);
-
 //      2. Criar fases
 //      3. Cria regras de pontuação para cada fase
 //      4. Cria grupos da primeira fase
