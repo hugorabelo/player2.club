@@ -45,10 +45,20 @@ class AppServiceProvider extends ServiceProvider {
 		});
 
         \CampeonatoUsuario::created(function ($campeonatoUsuario) {
-            $atividade = new \Atividade();
-            $atividade->users_id = $campeonatoUsuario->users_id;
-            $atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
-            $atividade->save();
+			if(isset($campeonatoUsuario->users_id)) {
+				$atividade = new \Atividade();
+				$atividade->users_id = $campeonatoUsuario->users_id;
+				$atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
+				$atividade->save();
+			} else if(isset($campeonatoUsuario->equipe_id)) {
+				$equipe = \Equipe::find($campeonatoUsuario->equipe_id);
+				foreach ($equipe->integrantes()->get() as $integrante) {
+					$atividade = new \Atividade();
+					$atividade->users_id = $integrante->id;
+					$atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
+					$atividade->save();
+				}
+			}
         });
 
         \Notificacao::created(function ($notificacao) {
