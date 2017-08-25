@@ -561,4 +561,10 @@ class UsersController extends Controller {
 		return Response::json($equipes);
 	}
 
+	function listaEquipesAdministradas() {
+		$usuario = User::find(Auth::getUser()->id);
+		$equipes = $usuario->equipesAdministradas()->orderBy('descricao')->get();
+		return Response::json($equipes);
+	}
+
 }

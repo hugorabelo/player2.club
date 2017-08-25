@@ -7,7 +7,6 @@ class CampeonatoUsuario extends Eloquent
 	protected $table = 'campeonato_usuarios';
 
 	public static $rules = array(
-		'users_id' => 'required',
 		'campeonatos_id' => 'required'
 	);
 

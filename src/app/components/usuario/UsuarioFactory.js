@@ -356,6 +356,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             } else {
                 return $http.get('api/usuario/equipes/' + idUsuario);
             }
+        },
+
+        getEquipesAdministradas: function () {
+            return $http.get('api/usuario/equipesAdministradas');
         }
     }
 }]);

@@ -38,6 +38,20 @@ angular.module('player2').factory('CampeonatoUsuario', ['$http', function ($http
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        inscreverEquipe: function (inscricao) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonatoUsuario',
+                data: $.param({
+                    'campeonatos_id': inscricao.idCampeonato,
+                    'equipe_id': inscricao.idEquipe
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     };

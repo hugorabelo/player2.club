@@ -465,6 +465,9 @@
         "nao_existe_convite": "O seu convite para esta equipe não existe",
         "aceitar_convite_equipe_sucesso": "O convite para a equipe foi aceito com sucesso",
         "aceitar_convite_equipe_erro": "Houve um erro na aceitação do convite para a equipe",
+        "inscricao_equipe_nao_administrador": "Este é um campeonato de equipes. Para realizar a inscrição, você precisa ser administrador de alguma equipe",
+        "inscricao_equipe_selecionar": "Este é um campeonato de equipes. Você precisa escolher, na caixa abaixo,  qual equipe administrada por você será inscrita no campeonato",
+        "inscricao_equipe_sem_quantidade_minima": "A equipe escolhida precisa ter pelo menos {{quantidade_minima_competidores}} integrantes cadastrados",
 
         "sem_permissao_funcao": "Você não tem permissão para acessar essa função",
         "titulo_alerta_login": "Erro ao fazer o login",

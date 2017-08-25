@@ -779,29 +779,103 @@
                 });
         };
 
-        vm.inscreverCampeonato = function (ev, id) {
-            var confirm = $mdDialog.confirm(vm.campeonato.id)
-                .title(vm.textoInscreverTitulo)
-                .ariaLabel(vm.textoInscreverTitulo)
-                .targetEvent(ev)
-                .ok(vm.textoInscrever)
-                .cancel(vm.textoNo)
-                .theme('player2');
-            $mdDialog.show(confirm).then(function () {
-                    $rootScope.loading = true;
-                    CampeonatoUsuario.save(vm.campeonato.id)
-                        .success(function (data) {
-                            vm.campeonato.usuarioInscrito = true;
-                            vm.getParticipantes(vm.campeonato.id);
-                            toastr.success($filter('translate')('messages.sucesso_inscricao'));
-                        })
-                        .error(function (data) {
-                            vm.cadastraGamertagInscricao(ev);
-                        });
-                },
-                function () {
+        vm.aplicarWO = function (partida) {
 
-                });
+        };
+
+
+        function DialogControllerInscricaoEscolherEquipe($scope, $mdDialog, tituloModal, equipes) {
+            $scope.tituloModal = tituloModal;
+            $scope.equipes = equipes;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
+
+            $scope.inscreverEquipe = function () {
+                $scope.inscricao = {};
+                $scope.inscricao.idCampeonato = vm.campeonato.id;
+                $scope.inscricao.idEquipe = $scope.idEquipe;
+                console.log(vm.campeonato.quantidade_minima_competidores);
+                CampeonatoUsuario.inscreverEquipe($scope.inscricao)
+                    .success(function (data) {
+                        vm.campeonato.usuarioInscrito = true;
+                        vm.getParticipantes(vm.campeonato.id);
+                        toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                    })
+                    .error(function (error) {
+                        if (error.errors[0] == 'messages.inscricao_equipe_sem_quantidade_minima') {
+                            toastr.error($filter('translate')('messages.inscricao_equipe_sem_quantidade_minima', {
+                                'quantidade_minima_competidores': vm.campeonato.quantidade_minima_competidores
+                            }));
+                            return;
+                        }
+                        toastr.error($filter('translate')('messages.erro_inscricao'));
+                    });
+                $mdDialog.hide();
+            }
+        };
+
+        vm.inscreverCampeonato = function (ev, id) {
+            if (vm.campeonato.tipo_competidor == 'equipe') {
+                Usuario.getEquipesAdministradas()
+                    .success(function (data) {
+                        var equipesAdministradas = data;
+                        if (equipesAdministradas.length == 0) {
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title($filter('translate')('messages.inscrever_titulo'))
+                                .textContent($filter('translate')('messages.inscricao_equipe_nao_administrador'))
+                                .ariaLabel($filter('translate')('messages.inscrever_titulo'))
+                                .ok($filter('translate')('messages.close'))
+                                .targetEvent(ev)
+                            );
+                            return;
+                        }
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'fields.inscrever_titulo',
+                                    equipes: equipesAdministradas
+                                },
+                                controller: DialogControllerInscricaoEscolherEquipe,
+                                templateUrl: 'app/components/campeonato/formEscolherEquipe.html',
+                                parent: angular.element(document.body),
+                                targetEvent: null,
+                                clickOutsideToClose: true,
+                                fullscreen: true
+                            })
+                            .then(function () {
+
+                            }, function () {
+
+                            });
+                    });
+            } else {
+                var confirm = $mdDialog.confirm(vm.campeonato.id)
+                    .title(vm.textoInscreverTitulo)
+                    .ariaLabel(vm.textoInscreverTitulo)
+                    .targetEvent(ev)
+                    .ok(vm.textoInscrever)
+                    .cancel(vm.textoNo)
+                    .theme('player2');
+                $mdDialog.show(confirm).then(function () {
+                        $rootScope.loading = true;
+                        CampeonatoUsuario.save(vm.campeonato.id)
+                            .success(function (data) {
+                                vm.campeonato.usuarioInscrito = true;
+                                vm.getParticipantes(vm.campeonato.id);
+                                toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                            })
+                            .error(function (data) {
+                                //TODO se houver erro de usuário tentando se inscrever em campeonato em equipe, exibir mensagem aqui. Fazer um if com o retorno
+                                vm.cadastraGamertagInscricao(ev);
+                            });
+                    },
+                    function () {
+
+                    });
+            }
         };
 
         vm.cadastraGamertagInscricao = function (ev) {
@@ -1272,6 +1346,6 @@
                     vm.carregaRodadasGerenciar();
                 });
         };
-    }]);
+                }]);
 
 }());
