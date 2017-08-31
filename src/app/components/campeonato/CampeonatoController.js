@@ -796,7 +796,6 @@
                 $scope.inscricao = {};
                 $scope.inscricao.idCampeonato = vm.campeonato.id;
                 $scope.inscricao.idEquipe = $scope.idEquipe;
-                console.log(vm.campeonato.quantidade_minima_competidores);
                 CampeonatoUsuario.inscreverEquipe($scope.inscricao)
                     .success(function (data) {
                         vm.campeonato.usuarioInscrito = true;
@@ -810,6 +809,22 @@
                             }));
                             return;
                         }
+
+                        if (error.errors[0] == 'messages.inscricao_usuario_nao_administrador_equipe') {
+                            toastr.error($filter('translate')('messages.inscricao_usuario_nao_administrador_equipe', {
+                                'nome_equipe': error.errors[1]
+                            }));
+                            return;
+                        }
+
+                        if (error.errors[0] == 'messages.inscricao_equipe_administrador_existente') {
+                            toastr.error($filter('translate')('messages.inscricao_equipe_administrador_existente', {
+                                'nome_equipe': error.errors[1],
+                                'nome_usuario': error.errors[2]
+                            }));
+                            return;
+                        }
+
                         toastr.error($filter('translate')('messages.erro_inscricao'));
                     });
                 $mdDialog.hide();

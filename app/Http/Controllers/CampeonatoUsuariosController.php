@@ -72,6 +72,27 @@ class CampeonatoUsuariosController extends Controller {
 				if($campeonato->tipo_competidor == 'equipe') {
 					if(isset($input['equipe_id'])) {
 						$equipe = Equipe::find($input['equipe_id']);
+						$idUsuarioLogado = Auth::getUser()->id;
+						// Verificar se o usuario que está inscrevendo é administrador da equipe
+						if(!$equipe->verificaFuncaoAdministrador($idUsuarioLogado)) {
+							return Response::json(array('success' => false,
+								'errors' => array('messages.inscricao_usuario_nao_administrador_equipe', $equipe->descricao)), 300);
+						}
+
+						$administradoresEquipe = $equipe->administradores()->pluck('users_id');
+
+						// Verificar se algum administrador da equipe já está cadastrado como administrador de outra equipe no mesmo campeonato
+						foreach ($campeonato->usuariosInscritos() as $equipeInscrita) {
+							foreach ($administradoresEquipe as $administrador) {
+								if($equipeInscrita->verificaFuncaoAdministrador($administrador)) {
+									$usuarioExistente = User::find($administrador);
+									return Response::json(array('success' => false,
+										'errors' => array('messages.inscricao_equipe_administrador_existente', $equipeInscrita->descricao, $usuarioExistente->nome)), 300);
+								}
+							}
+						}
+
+
 						$integrantes = $equipe->integrantes();
 						if($integrantes->get()->count() < $campeonato->quantidade_minima_competidores) {
 							return Response::json(array('success' => false,

@@ -468,6 +468,8 @@
         "inscricao_equipe_nao_administrador": "Este é um campeonato de equipes. Para realizar a inscrição, você precisa ser administrador de alguma equipe",
         "inscricao_equipe_selecionar": "Este é um campeonato de equipes. Você precisa escolher, na caixa abaixo,  qual equipe administrada por você será inscrita no campeonato",
         "inscricao_equipe_sem_quantidade_minima": "A equipe escolhida precisa ter pelo menos {{quantidade_minima_competidores}} integrantes cadastrados",
+        "inscricao_usuario_nao_administrador_equipe": "Você não é administrador da equipe {{nome_equipe}}. Apenas os administradores podem inscrever esta equipe no campeonato",
+        "inscricao_equipe_administrador_existente": "O administrador dessa equipe {{nome_usuario}} também é administrador da equipe {{nome_equipe}}, que já está inscrita no campeonato. Não é permitido um usuário ser administrador de duas equipes no mesmo campeonato.",
 
         "sem_permissao_funcao": "Você não tem permissão para acessar essa função",
         "titulo_alerta_login": "Erro ao fazer o login",
