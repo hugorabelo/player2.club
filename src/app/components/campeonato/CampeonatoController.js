@@ -962,9 +962,10 @@
                     .success(function (data) {
                         vm.campeonato.usuarioInscrito = false;
                         vm.getParticipantes(vm.campeonato.id);
+                        toastr.success($filter('translate')('messages.sucesso_desistencia'));
                     })
                     .error(function (data) {
-
+                        toastr.error($filter('translate')('messages.erro_desistencia'));
                     });
             }, function () {
 

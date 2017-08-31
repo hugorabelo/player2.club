@@ -450,10 +450,14 @@ class UsersController extends Controller {
 	}
 
 	public function desistirCampeonato($idCampeonato) {
-		$idUsuario = Auth::getUser()->id;
-		$idUsuarioCampeonato = CampeonatoUsuario::where('users_id','=',$idUsuario)->where('campeonatos_id','=',$idCampeonato)->first()->id;
-		$usuarioCampeonato = CampeonatoUsuario::find($idUsuarioCampeonato);
-		$usuarioCampeonato->delete();
+		$usuarioLogado = Auth::getUser();
+		$campeonato = Campeonato::find($idCampeonato);
+		if($campeonato->tipo_competidor == 'equipe') {
+			$idEquipesUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
+			CampeonatoUsuario::whereIn('equipe_id',$idEquipesUsuario)->where('campeonatos_id','=',$idCampeonato)->delete();
+		} else {
+			CampeonatoUsuario::where('users_id','=',$usuarioLogado->id)->where('campeonatos_id','=',$idCampeonato)->delete();
+		}
 
 		return Response::json(array('success'=>true));
 	}

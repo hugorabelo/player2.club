@@ -356,6 +356,8 @@
         "feedback": "Dar um feedback",
         "erro_inscricao": "Houve um erro na inscrição",
         "sucesso_inscricao": "Inscrição realizada com sucesso",
+        "erro_desistencia": "Houve um erro na desistência",
+        "sucesso_desistencia": "Desistência realizada com sucesso",
         "usuario_sem_plataforma_titulo": "Usuário Não Identificado",
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um nome de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
