@@ -9,12 +9,10 @@
                 <tbody>
                     <tr ng-repeat="participante in vmCampeonato.querySearch(vmCampeonato.searchText)" ng-click="vmCampeonato.carregaParticipanteDestaque(participante)">
                         <td class="client-avatar">
-                            <img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
-                            <img alt="image" class="img-circle" ng-src="uploads/{{participante.imagem_logomarca}}" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                            <img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}">
                         </td>
                         <td>
-                            <span ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">{{participante.nome}}</span>
-                            <span ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">{{participante.descricao}}</span>
+                            {{participante.nome}}
                         </td>
                         <td>
                             <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
@@ -28,18 +26,14 @@
         </div>
     </md-card-content>
 </md-card>
-<md-card flex ng-if="vmCampeonato.participanteDestaque.nome || vmCampeonato.participanteDestaque.descricao" ng-class="{'m-n': telaMobile}">
+<md-card flex ng-if="vmCampeonato.participanteDestaque.nome" ng-class="{'m-n': telaMobile}">
     <md-card-content layout="column">
         <div layout="row" layout-align="space-between start">
             <div layout="row" layout-align="start center">
-                <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
-                <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/{{vmCampeonato.participanteDestaque.imagem_logomarca}}" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
-                <div layout="column" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
+                <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{vmCampeonato.participanteDestaque.imagem_perfil}}">
+                <div layout="column">
                     <h2 class="no-margins">{{vmCampeonato.participanteDestaque.nome}}</h2>
-                    <p>{{vmCampeonato.participanteDestaque.descricao}}</p>
-                </div>
-                <div layout="column" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
-                    <h2 class="no-margins">{{vmCampeonato.participanteDestaque.descricao}}</h2>
+                    <p ng-if="vmCampeonato.participanteDestaque.descricao">{{vmCampeonato.participanteDestaque.descricao}}</p>
                 </div>
             </div>
             <a class="close-link" ng-click="vmCampeonato.ocultaParticipanteDestaque()">

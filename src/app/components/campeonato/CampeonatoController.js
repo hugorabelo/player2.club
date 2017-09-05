@@ -253,11 +253,7 @@
             var lowercaseQuery = angular.lowercase(query);
 
             return function filterFn(participante) {
-                if (vm.campeonato.tipo_competidor == 'equipe') {
-                    var lowercaseNome = angular.lowercase(participante.descricao);
-                } else {
-                    var lowercaseNome = angular.lowercase(participante.nome);
-                }
+                var lowercaseNome = angular.lowercase(participante.nome);
                 return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
             };
 

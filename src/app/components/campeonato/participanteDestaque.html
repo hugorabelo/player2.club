@@ -13,14 +13,10 @@
         <div class="md-dialog-content">
             <div layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start center">
-                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{participanteDestaque.imagem_perfil}}" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'">
-                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/{{participanteDestaque.imagem_logomarca}}" ng-if="participanteDestaque.tipo_competidor_campeonato == 'equipe'">
-                    <div layout="column" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'">
+                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{participanteDestaque.imagem_perfil}}">
+                    <div layout="column">
                         <h2 class="no-margins">{{participanteDestaque.nome}}</h2>
-                        <p>{{participanteDestaque.descricao}}</p>
-                    </div>
-                    <div layout="column" ng-if="participanteDestaque.tipo_competidor_campeonato == 'equipe'">
-                        <h2 class="no-margins">{{participanteDestaque.descricao}}</h2>
+                        <p ng-if="participanteDestaque.descricao">{{participanteDestaque.descricao}}</p>
                     </div>
                 </div>
             </div>

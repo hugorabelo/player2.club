@@ -128,12 +128,10 @@
                     <tbody>
                         <tr ng-repeat="participante in vmCampeonato.campeonato.participantes">
                             <td class="client-avatar">
-                                <img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
-                                <img alt="image" class="img-circle" ng-src="uploads/{{participante.imagem_logomarca}}" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                <img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}">
                             </td>
                             <td>
-                                <span ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">{{participante.nome}}</span>
-                                <span ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">{{participante.descricao}}</span>
+                                {{participante.nome}}
                             </td>
                             <td>
                                 <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
