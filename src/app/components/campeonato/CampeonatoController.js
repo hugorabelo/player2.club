@@ -253,7 +253,11 @@
             var lowercaseQuery = angular.lowercase(query);
 
             return function filterFn(participante) {
-                var lowercaseNome = angular.lowercase(participante.nome);
+                if (vm.campeonato.tipo_competidor == 'equipe') {
+                    var lowercaseNome = angular.lowercase(participante.descricao);
+                } else {
+                    var lowercaseNome = angular.lowercase(participante.nome);
+                }
                 return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
             };
 
@@ -277,6 +281,7 @@
                                 vm.getPlataformasDoUsuario(participante);
                             })
                     });
+                participante.tipo_competidor_campeonato = vm.campeonato.tipo_competidor;
                 $mdDialog.show({
                         locals: {
                             tituloModal: 'fields.info_participante',

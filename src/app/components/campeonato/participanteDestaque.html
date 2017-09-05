@@ -13,10 +13,14 @@
         <div class="md-dialog-content">
             <div layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start center">
-                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{participanteDestaque.imagem_perfil}}">
-                    <div layout="column">
+                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{participanteDestaque.imagem_perfil}}" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'">
+                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/{{participanteDestaque.imagem_logomarca}}" ng-if="participanteDestaque.tipo_competidor_campeonato == 'equipe'">
+                    <div layout="column" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'">
                         <h2 class="no-margins">{{participanteDestaque.nome}}</h2>
                         <p>{{participanteDestaque.descricao}}</p>
+                    </div>
+                    <div layout="column" ng-if="participanteDestaque.tipo_competidor_campeonato == 'equipe'">
+                        <h2 class="no-margins">{{participanteDestaque.descricao}}</h2>
                     </div>
                 </div>
             </div>
@@ -32,8 +36,9 @@
                 </div>
             </div>
             <div layout="row" layout-align="center center" class="m-b-lg">
-                <md-button ui-sref="profile({idUsuario: participanteDestaque.id})" ng-click="fechar()" class="md-raised"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
-                <md-button class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, participanteDestaque.id)"><i class="material-icons">message</i> {{'messages.mensagem' | translate}} </md-button>
+                <md-button ui-sref="equipe({idEquipe: participanteDestaque.id})" ng-click="fechar()" class="md-raised" ng-if="participanteDestaque.tipo_competidor_campeonato == 'equipe'"><i class="fa fa-users"></i> {{'messages.visitar_perfil' | translate}}</md-button>
+                <md-button ui-sref="profile({idUsuario: participanteDestaque.id})" ng-click="fechar()" class="md-raised" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
+                <md-button class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, participanteDestaque.id)" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'"><i class="material-icons">message</i> {{'messages.mensagem' | translate}} </md-button>
             </div>
 
             <strong>{{'messages.ultimos_jogos' | translate}}</strong>
