@@ -56,7 +56,7 @@
         <md-card class="caixa-informacao">
             <div class="m-xs">
                 <md-list-item ng-repeat="equipe in vmProfile.equipesDoUsuario" ng-click="vmProfile.carregaEquipe(equipe.id)">
-                    <img ng-src="uploads/{{equipe.imagem_logomarca}}" alt="{{equipe.descricao}} " class="img-circle circle-border-sm img-sm  m-r m-l-n-sm"> {{equipe.descricao}}
+                    <img ng-src="uploads/{{equipe.imagem_perfil}}" alt="{{equipe.nome}} " class="img-circle circle-border-sm img-sm  m-r m-l-n-sm"> {{equipe.nome}}
                 </md-list-item>
             </div>
         </md-card>
@@ -179,7 +179,7 @@
         </md-card-title>
         <div class="m-xs">
             <md-list-item ng-repeat="equipe in vmProfile.equipesDoUsuario" ng-click="vmProfile.carregaEquipe(equipe.id)" class="m-b-xxs">
-                <img ng-src="uploads/{{equipe.imagem_logomarca}}" alt="{{equipe.descricao}} " class="img-circle circle-border-sm img-sm  m-r m-l-n-sm"> {{equipe.descricao}}
+                <img ng-src="uploads/{{equipe.imagem_perfil}}" alt="{{equipe.nome}} " class="img-circle circle-border-sm img-sm  m-r m-l-n-sm"> {{equipe.nome}}
             </md-list-item>
         </div>
     </md-card>

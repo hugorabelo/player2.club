@@ -13,7 +13,7 @@ class Equipe extends Eloquent
     protected $guarded = array();
 
     public static $rules = array(
-        'descricao' => 'required'
+        'nome' => 'required'
     );
 
     public function integrantes() {

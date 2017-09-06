@@ -558,7 +558,7 @@ class UsersController extends Controller {
 			$idUsuario = Auth::getUser()->id;
 		}
 		$usuario = User::find($idUsuario);
-		$equipes = $usuario->equipes()->orderBy('descricao')->get();
+		$equipes = $usuario->equipes()->orderBy('nome')->get();
 		foreach ($equipes as $equipe) {
 			$equipe->integrantes = $equipe->integrantes()->get();
 		}
@@ -567,7 +567,7 @@ class UsersController extends Controller {
 
 	function listaEquipesAdministradas() {
 		$usuario = User::find(Auth::getUser()->id);
-		$equipes = $usuario->equipesAdministradas()->orderBy('descricao')->get();
+		$equipes = $usuario->equipesAdministradas()->orderBy('nome')->get();
 		return Response::json($equipes);
 	}
 

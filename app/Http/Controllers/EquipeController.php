@@ -75,14 +75,14 @@ class EquipeController extends Controller
              * Movendo o arquivo para o diretório correto
              */
 
-            $arquivo = Input::hasFile('imagem_logomarca') ? Input::file('imagem_logomarca')
+            $arquivo = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil')
                 : null;
 
             if (isset($arquivo) && $arquivo->isValid()) {
                 $destinationPath = 'uploads/';
                 $fileName = 'equipe_' . str_replace('.', '', microtime(true)) . '.' . $arquivo->getClientOriginalExtension();
                 $arquivo->move($destinationPath, $fileName);
-                $input['imagem_logomarca'] = $fileName;
+                $input['imagem_perfil'] = $fileName;
             }
 
             $input['id_criador'] = Auth::getUser()->id;
@@ -123,14 +123,14 @@ class EquipeController extends Controller
              * Movendo o arquivo para o diretório correto
              */
 
-            $arquivo = Input::hasFile('imagem_logomarca') ? Input::file('imagem_logomarca')
+            $arquivo = Input::hasFile('imagem_perfil') ? Input::file('imagem_perfil')
                 : null;
 
             if (isset($arquivo) && $arquivo->isValid()) {
                 $destinationPath = 'uploads/';
                 $fileName = 'equipe_' . str_replace('.', '', microtime(true)) . '.' . $arquivo->getClientOriginalExtension();
                 $arquivo->move($destinationPath, $fileName);
-                $input['imagem_logomarca'] = $fileName;
+                $input['imagem_perfil'] = $fileName;
             }
 
             $equipe = $this->equipe->find($id);

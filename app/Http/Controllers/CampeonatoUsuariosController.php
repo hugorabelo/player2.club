@@ -76,7 +76,7 @@ class CampeonatoUsuariosController extends Controller {
 						// Verificar se o usuario que está inscrevendo é administrador da equipe
 						if(!$equipe->verificaFuncaoAdministrador($idUsuarioLogado)) {
 							return Response::json(array('success' => false,
-								'errors' => array('messages.inscricao_usuario_nao_administrador_equipe', $equipe->descricao)), 300);
+								'errors' => array('messages.inscricao_usuario_nao_administrador_equipe', $equipe->nome)), 300);
 						}
 
 						$administradoresEquipe = $equipe->administradores()->pluck('users_id');

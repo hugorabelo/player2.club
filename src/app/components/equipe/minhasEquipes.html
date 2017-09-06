@@ -7,10 +7,10 @@
     </h3>
     <md-list ng-cloak>
         <md-list-item class="item-lista" ng-repeat="equipe in vmEquipe.equipesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
-            <p>{{equipe.descricao}}</p>
+            <p>{{equipe.nome}}</p>
             <div class="detalhes" flex="60" layout="row" layout-align="end center">
                 <div flex="15">
-                    <img ng-src="uploads/{{equipe.imagem_logomarca}}" class="img-xs img-circle" alt="">
+                    <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt="">
                 </div>
                 <div flex="15">
                     <i class="material-icons">people_outline</i>
@@ -34,10 +34,10 @@
 
         <md-list ng-cloak>
             <md-list-item class="item-lista" ng-repeat="equipe in vmEquipe.equipesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
-                <p>{{equipe.descricao}}</p>
+                <p>{{equipe.nome}}</p>
                 <div class="detalhes" flex="30" layout="row" layout-align="center center">
                     <div flex="50">
-                        <img ng-src="uploads/{{equipe.imagem_logomarca}}" class="img-xs img-circle" alt="">
+                        <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt="">
                     </div>
                 </div>
             </md-list-item>

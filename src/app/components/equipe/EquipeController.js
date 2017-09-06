@@ -156,7 +156,7 @@
                         locals: {
                             tituloModal: 'messages.escrever_mensagem',
                             novaMensagem: vm.novaMensagem,
-                            nomeEquipe: vm.equipe.descricao
+                            nomeEquipe: vm.equipe.nome
                         },
                         controller: DialogControllerMensagem,
                         templateUrl: 'app/components/dashboard/escreverMensagem.html',
@@ -185,10 +185,10 @@
             vm.excluir = function (ev) {
                 var confirm = $mdDialog.confirm(vm.equipe.id)
                     .title($filter('translate')('messages.confirma_exclusao_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .ariaLabel($filter('translate')('messages.confirma_exclusao_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .targetEvent(ev)
                     .ok($filter('translate')('messages.yes'))
@@ -307,10 +307,10 @@
             vm.sair = function (ev) {
                 var confirm = $mdDialog.confirm()
                     .title($filter('translate')('messages.confirma_sair_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .ariaLabel($filter('translate')('messages.confirma_sair_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .targetEvent(ev)
                     .ok($filter('translate')('messages.yes'))
@@ -338,10 +338,10 @@
             vm.entrar = function (ev) {
                 var confirm = $mdDialog.confirm()
                     .title($filter('translate')('messages.confirma_entrar_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .ariaLabel($filter('translate')('messages.confirma_entrar_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .targetEvent(ev)
                     .ok($filter('translate')('messages.yes'))
@@ -369,10 +369,10 @@
             vm.cancelarSolicitacao = function (ev) {
                 var confirm = $mdDialog.confirm()
                     .title($filter('translate')('messages.confirma_cancelar_solicitacao_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .ariaLabel($filter('translate')('messages.confirma_cancelar_solicitacao_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .targetEvent(ev)
                     .ok($filter('translate')('messages.yes'))
@@ -562,7 +562,7 @@
                             .success(function (data) {
                                 vm.equipe.integrantes = data;
                                 toastr.success($filter('translate')('messages.aceitar_convite_equipe_sucesso', {
-                                    'nome_equipe': vm.equipe.descricao
+                                    'nome_equipe': vm.equipe.nome
                                 }));
                                 vm.equipe.convite = false;
                                 vm.equipe.participa = true;
@@ -570,7 +570,7 @@
 
                     }).error(function (data, status) {
                         toastr.error($filter('translate')(data.errors), $filter('translate')('messages.aceitar_convite_equipe_erro', {
-                            'nome_equipe': vm.equipe.descricao
+                            'nome_equipe': vm.equipe.nome
                         }));
                     });
             };
@@ -578,10 +578,10 @@
             vm.recusarConvite = function (ev) {
                 var confirm = $mdDialog.confirm()
                     .title($filter('translate')('messages.confirma_recusar_convite_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .ariaLabel($filter('translate')('messages.confirma_recusar_convite_equipe', {
-                        'nome_equipe': vm.equipe.descricao
+                        'nome_equipe': vm.equipe.nome
                     }))
                     .targetEvent(ev)
                     .ok($filter('translate')('messages.yes'))
@@ -593,12 +593,12 @@
                     Equipe.cancelarSolicitacao(vm.equipe.id)
                         .success(function (data) {
                             toastr.success($filter('translate')('messages.recusar_convite_equipe_sucesso', {
-                                'nome_equipe': vm.equipe.descricao
+                                'nome_equipe': vm.equipe.nome
                             }));
                             vm.equipe.convite = false;
                         }).error(function (data, status) {
                             toastr.error($filter('translate')(data.errors), $filter('translate')('messages.recusar_convite_equipe_erro', {
-                                'nome_equipe': vm.equipe.descricao
+                                'nome_equipe': vm.equipe.nome
                             }));
                         });
                     $rootScope.loading = false;

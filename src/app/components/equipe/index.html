@@ -2,13 +2,13 @@
     <div layout="row" layout-align="start end">
         <div class="profile-image">
             <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
-                <img ng-src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
+                <img ng-src="uploads/{{vmEquipe.equipe.imagem_perfil}}" class="img-circle circle-border" alt="profile">
             </a>
         </div>
         <div class="profile-info">
             <div>
                 <h2 class="no-margins">
-                    {{vmEquipe.equipe.descricao}}
+                    {{vmEquipe.equipe.nome}}
                 </h2>
                 <h4>{{vmEquipe.equipe.sigla}}</h4>
             </div>
@@ -95,13 +95,13 @@
     <div class="profile-info m-t-sm">
         <div>
             <h2 class="no-margins">
-                {{vmEquipe.equipe.descricao}}
+                {{vmEquipe.equipe.nome}}
             </h2>
         </div>
     </div>
     <div class="profile-image">
         <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
-            <img ng-src="uploads/{{vmEquipe.equipe.imagem_logomarca}}" class="img-circle circle-border" alt="profile">
+            <img ng-src="uploads/{{vmEquipe.equipe.imagem_perfil}}" class="img-circle circle-border" alt="profile">
         </a>
     </div>
     <div layout="row">

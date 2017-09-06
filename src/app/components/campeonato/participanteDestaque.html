@@ -13,7 +13,8 @@
         <div class="md-dialog-content">
             <div layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start center">
-                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{participanteDestaque.imagem_perfil}}">
+                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/usuarios/{{participanteDestaque.imagem_perfil}}" ng-if="participanteDestaque.tipo_competidor_campeonato != 'equipe'">
+                    <img alt="image" class="img-circle img-md m-r-md" ng-src="uploads/{{participanteDestaque.imagem_perfil}}" ng-if="participanteDestaque.tipo_competidor_campeonato == 'equipe'">
                     <div layout="column">
                         <h2 class="no-margins">{{participanteDestaque.nome}}</h2>
                         <p ng-if="participanteDestaque.descricao">{{participanteDestaque.descricao}}</p>
@@ -23,6 +24,7 @@
             <div layout="row" layout-xs="column" class="m-t-sm">
                 <div class="gamertag-element  m-b-md" ng-if="participanteDestaque.gamertag" flex layout="row" layout-align="start center" layout-align-xs="center center">
                     <img class="img-rounded m-r-sm" ng-src="uploads/{{participanteDestaque.imagem_plataforma}}">
+
                     <span>{{participanteDestaque.gamertag}}</span>
                 </div>
                 <div class="gamertag-element  m-b-md" flex layout="row" layout-align="end center" layout-align-xs="center center">

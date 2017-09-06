@@ -12,7 +12,7 @@
                 <md-input-container class="md-block" flex>
                     <md-select ng-model="idEquipe" aria-label="equipe">
                         <md-option ng-repeat="equipe in equipes" value="{{equipe.id}}">
-                            <img ng-src="uploads/{{equipe.imagem_logomarca}}" class="img-xs img-circle" alt=""> {{equipe.descricao}}
+                            <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt=""> {{equipe.nome}}
                         </md-option>
                     </md-select>
                 </md-input-container>
