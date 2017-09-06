@@ -128,11 +128,16 @@ class Partida extends Eloquent {
     }
 
     public function usuarios($informacoes = true) {
+        $tipo_competidor = $this->campeonato()->tipo_competidor;
         $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->orderBy('id')->getResults();
         $usuarios->values()->all();
         if($informacoes) {
             foreach($usuarios as $usuario) {
-                $usuarioBD = User::find($usuario->users_id);
+                if($tipo_competidor == 'equipe') {
+                    $usuarioBD = Equipe::find($usuario->users_id);
+                } else {
+                    $usuarioBD = User::find($usuario->users_id);
+                }
                 $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
                 $nome_completo = $usuarioBD->nome;
                 $nome_completo = explode(' ', $nome_completo);
