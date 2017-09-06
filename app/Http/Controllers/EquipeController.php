@@ -39,9 +39,9 @@ class EquipeController extends Controller
                 }
             }
         }
-        $solicitado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->where('convite','=',false)->count();
+        $solicitado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->where('equipe_id','=',$id)->where('convite','=',false)->count();
         $equipe->aguardando = $solicitado;
-        $convidado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->where('convite','=',true)->count();
+        $convidado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->where('equipe_id','=',$id)->where('convite','=',true)->count();
         $equipe->convite = $convidado;
 
         $equipe->campeonatos = $equipe->campeonatos()->get();
