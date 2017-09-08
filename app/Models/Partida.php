@@ -134,11 +134,12 @@ class Partida extends Eloquent {
         if($informacoes) {
             foreach($usuarios as $usuario) {
                 if($tipo_competidor == 'equipe') {
-                    $usuarioBD = Equipe::find($usuario->users_id);
+                    $usuarioBD = Equipe::find($usuario->equipe_id);
+                    $usuarioCampeonato = CampeonatoUsuario::where('equipe_id','=',$usuario->equipe_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
                 } else {
                     $usuarioBD = User::find($usuario->users_id);
+                    $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
                 }
-                $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
                 $nome_completo = $usuarioBD->nome;
                 $nome_completo = explode(' ', $nome_completo);
                 $nome_completo = count($nome_completo) > 2 ? array_shift($nome_completo).' '.array_pop($nome_completo) : $usuarioBD->nome;
@@ -180,8 +181,14 @@ class Partida extends Eloquent {
     }
 
     public function placarUsuario($idUsuario) {
+        $tipo_competidor = $this->campeonato()->tipo_competidor;
         foreach ($this->usuarios(false) as $usuario) {
-            if($usuario->users_id == $idUsuario) {
+            if($tipo_competidor == 'equipe') {
+                $idUsuarioVerificar = $usuario->equipe_id;
+            } else {
+                $idUsuarioVerificar = $usuario->users_id;
+            }
+            if($idUsuarioVerificar == $idUsuario) {
                 return $usuario->placar;
             }
         }
@@ -189,8 +196,14 @@ class Partida extends Eloquent {
     }
 
     public function placarExtraUsuario($idUsuario) {
+        $tipo_competidor = $this->campeonato()->tipo_competidor;
         foreach ($this->usuarios(false) as $usuario) {
-            if($usuario->users_id == $idUsuario) {
+            if($tipo_competidor == 'equipe') {
+                $idUsuarioVerificar = $usuario->equipe_id;
+            } else {
+                $idUsuarioVerificar = $usuario->users_id;
+            }
+            if($idUsuarioVerificar == $idUsuario) {
                 return $usuario->placar_extra;
             }
         }

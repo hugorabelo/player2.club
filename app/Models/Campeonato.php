@@ -213,7 +213,11 @@ class Campeonato extends Eloquent {
 
             $usuariosDaFase = $campeonato->usuariosInscritos();
             foreach ($usuariosDaFase as $posicao => $usuario) {
-                UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
+                if($this->tipo_competidor == 'equipe') {
+                    UsuarioFase::create(['equipe_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
+                } else {
+                    UsuarioFase::create(['users_id' => $usuario->id, 'campeonato_fases_id' => $faseAtual->id]);
+                }
             }
         } else {
             $faseAnterior = $faseAtual->faseAnterior();
@@ -240,6 +244,7 @@ class Campeonato extends Eloquent {
         $faseAtual->aberta = true;
         $faseAtual->update();
 
+        //TODO Enviar notificação para todos os membros das equipes (ou pelo menos para os administradores)
         $evento = NotificacaoEvento::where('valor','=','fase_iniciada')->first();
         if(isset($evento)) {
             $idEvento = $evento->id;
@@ -343,19 +348,39 @@ class Campeonato extends Eloquent {
                     $partida = Partida::create(['fase_grupos_id' => $grupo->id, 'rodada' => $numero_rodada]);
                     if ($t % 2 == 1) {
                         if ($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                            if($this->tipo_competidor == 'equipe') {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
+                            } else {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                            }
                         } else {
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                            if($this->tipo_competidor == 'equipe') {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
+                            } else {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                            }
                         }
                     } else {
                         if ($j % 2 == 1 || $i % 2 == 1 && $j == 0) {
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                            if($this->tipo_competidor == 'equipe') {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
+                            } else {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                            }
                         } else {
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
-                            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                            if($this->tipo_competidor == 'equipe') {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
+                            } else {
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                            }
                         }
                     }
                 }
@@ -403,14 +428,19 @@ class Campeonato extends Eloquent {
             foreach($grupos as $grupo) {
                 $usuario1 = $usuarios->shift();
                 $usuario2 = $usuarios->shift();
-                UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
-                UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                if($this->tipo_competidor == 'equipe') {
+                    UsuarioGrupo::create(['equipe_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                    UsuarioGrupo::create(['equipe_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                } else {
+                    UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                    UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                }
             }
         } else {
             if ($fase->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
                 $maximaPosicao = 0;
                 foreach ($usuarios as $user) {
-                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id)->posicao_fase_anterior;
+                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id, $this->tipo_competidor)->posicao_fase_anterior;
                     if ($posicao > $maximaPosicao) {
                         $maximaPosicao = $posicao;
                     }
@@ -420,7 +450,7 @@ class Campeonato extends Eloquent {
                 }
 
                 foreach ($usuarios as $usuario) {
-                    $posicao = UsuarioFase::encontraUsuarioFase($usuario->id, $fase->id)->posicao_fase_anterior;
+                    $posicao = UsuarioFase::encontraUsuarioFase($usuario->id, $fase->id, $this->tipo_competidor)->posicao_fase_anterior;
                     $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
                     $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
                     $lista[$posicao]->push($usuario);
@@ -450,8 +480,13 @@ class Campeonato extends Eloquent {
                             $usuario2 = $lista[$indicePosicaoFinal]->shift();
                             $invertePosicao--;
                         }
-                        UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
-                        UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                        if($this->tipo_competidor == 'equipe') {
+                            UsuarioGrupo::create(['equipe_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                            UsuarioGrupo::create(['equipe_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                        } else {
+                            UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                            UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                        }
 
                         $indicePosicaoInicial++;
                         $indicePosicaoFinal--;
@@ -502,8 +537,13 @@ class Campeonato extends Eloquent {
                             }
                         }
 
-                        UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
-                        UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                        if($this->tipo_competidor == 'equipe') {
+                            UsuarioGrupo::create(['equipe_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                            UsuarioGrupo::create(['equipe_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                        } else {
+                            UsuarioGrupo::create(['users_id' => $usuario1->id, 'fase_grupos_id' => $grupo->id]);
+                            UsuarioGrupo::create(['users_id' => $usuario2->id, 'fase_grupos_id' => $grupo->id]);
+                        }
 
                         $indicePosicaoInicial++;
                         $indicePosicaoFinal--;
@@ -528,7 +568,11 @@ class Campeonato extends Eloquent {
                                     $indice = rand(0, count($pote) - 1);
                                     $usuario = User::find($pote[$indice]['id']);
                                 }
-                                UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                                if($this->tipo_competidor == 'equipe') {
+                                    UsuarioGrupo::create(['equipe_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                                } else {
+                                    UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                                }
                                 array_push($usuariosInseridos, $usuario);
                             }
                         }
@@ -540,7 +584,11 @@ class Campeonato extends Eloquent {
                             while (in_array($usuario, $usuariosInseridos)) {
                                 $usuario = $usuarios->random(1);
                             }
-                            UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                            if($this->tipo_competidor == 'equipe') {
+                                UsuarioGrupo::create(['equipe_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                            } else {
+                                UsuarioGrupo::create(['users_id' => $usuario->id, 'fase_grupos_id' => $grupo->id]);
+                            }
                             array_push($usuariosInseridos, $usuario);
                         }
                     }
@@ -556,7 +604,11 @@ class Campeonato extends Eloquent {
         $faseAnterior = $fase->faseAnterior();
         if($faseAnterior != null) {
             $gruposDaFase = $faseAnterior->grupos();
-            $gruposDoUsuario = UsuarioGrupo::where('users_id', '=', $id_usuario)->get(array('fase_grupos_id'));
+            if($this->tipo_competidor == 'equipe') {
+                $gruposDoUsuario = UsuarioGrupo::where('equipe_id', '=', $id_usuario)->get(array('fase_grupos_id'));
+            } else {
+                $gruposDoUsuario = UsuarioGrupo::where('users_id', '=', $id_usuario)->get(array('fase_grupos_id'));
+            }
             foreach ($gruposDaFase as $grupoFase) {
                 foreach($gruposDoUsuario as $grupoUsuario) {
                     if($grupoUsuario->fase_grupos_id == $grupoFase->id) {
