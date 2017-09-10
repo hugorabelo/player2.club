@@ -1302,6 +1302,7 @@
         };
 
         vm.aplicarWO = function (partida) {
+            partida.tipo_competidor = vm.campeonato.tipo_competidor;
             $mdDialog.show({
                     locals: {
                         tituloModal: 'fields.aplicar_wo',
