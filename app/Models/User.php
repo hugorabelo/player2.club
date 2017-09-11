@@ -48,6 +48,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//TODO exibir apenas partidas de um determinado campeonato
+			$campeonato = Campeonato::find($idCampeonato);
+			$tipo_competidor = $campeonato->tipo_competidor;
+			if($tipo_competidor == 'equipe') {
+				$equipes = DB::table('integrante_equipe')->where('users_id','=',$this->id)->pluck('equipe_id');
+				$usuarioPartidas = UsuarioPartida::whereIn("equipe_id", $equipes)->get(array("partidas_id"))->toArray();
+			}
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
 			$grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
 			if($confirmadas) {
@@ -73,6 +79,13 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			// TODO incluir dados a serem utilizados do usuário para exibição das partidas
 			if($partida->data_placar != null) {
 				$partida->data_placar_limite = $partida->getDataLimitePlacar();
+			}
+			if($tipo_competidor == 'equipe') {
+				$idsEquipes = array();
+				foreach ($usuarios as $u) {
+					$idsEquipes[] = $u->equipe_id;
+				}
+				$partida->permite_placar = $this->podeEditarPlacar($idCampeonato, $idsEquipes);
 			}
 		}
 
@@ -296,6 +309,18 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	public function equipesAdministradas() {
 		$funcoesAdministrativas = DB::table('funcao_equipe')->where('administrador','=',true)->pluck('id');
 		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->wherePivotIn('funcao_equipe_id',$funcoesAdministrativas)->withTimestamps();
+	}
+
+	public function podeEditarPlacar($idCampeonato, $idsEquipe) {
+		$quantidade = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereRaw("equipe_id IN (select equipe_id FROM campeonato_usuarios where campeonatos_id = $idCampeonato)")->count();
+		if($quantidade == 1) {
+			$administra_equipe = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereIn('equipe_id',$idsEquipe)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->count();
+			if($administra_equipe == 0) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 }

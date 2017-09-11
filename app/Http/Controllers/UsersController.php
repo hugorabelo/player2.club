@@ -571,4 +571,13 @@ class UsersController extends Controller {
 		return Response::json($equipes);
 	}
 
+	//TODO SQL Verificacao quantidade de equipes administradas no campeonato
+	/*
+	 * select count(*) from integrante_equipe where users_id = 1 and funcao_equipe_id IN (
+			select id from funcao_equipe where administrador
+		) and equipe_id IN (
+			select equipe_id FROM campeonato_usuarios where campeonatos_id = 33
+		)
+	 */
+
 }
