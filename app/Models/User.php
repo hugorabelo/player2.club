@@ -80,12 +80,35 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			if($partida->data_placar != null) {
 				$partida->data_placar_limite = $partida->getDataLimitePlacar();
 			}
-			if($tipo_competidor == 'equipe') {
-				$idsEquipes = array();
-				foreach ($usuarios as $u) {
-					$idsEquipes[] = $u->equipe_id;
+
+			// Testes para liberar ou não a funcionalidade de editar os placares
+			$partida->permite_placar = $this->podeEditarPlacar($idCampeonato, $partida->id);
+
+			$partida->pode_salvar = false;
+			$partida->pode_confirmar_contestar = false;
+			$partida->pode_cancelar = false;
+			if($partida->liberada) {
+				if(!isset($partida->data_placar)) {
+					$partida->pode_salvar = true;
 				}
-				$partida->permite_placar = $this->podeEditarPlacar($idCampeonato, $idsEquipes);
+
+				if(isset($partida->data_placar)) {
+					if(!isset($partida->data_confirmacao)) {
+						if($partida->usuario_placar != $this->id) {
+							if($tipo_competidor == 'equipe') {
+								if($this->administraMesmaEquipeNoCampeonato($idCampeonato, $partida->usuario_placar)) {
+									$partida->pode_cancelar = true;
+								} else {
+									$partida->pode_confirmar_contestar = true;
+								}
+							} else {
+								$partida->pode_confirmar_contestar = true;
+							}
+						} else {
+							$partida->pode_cancelar = true;
+						}
+					}
+				}
 			}
 		}
 
@@ -311,16 +334,32 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->wherePivotIn('funcao_equipe_id',$funcoesAdministrativas)->withTimestamps();
 	}
 
-	public function podeEditarPlacar($idCampeonato, $idsEquipe) {
-		$quantidade = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereRaw("equipe_id IN (select equipe_id FROM campeonato_usuarios where campeonatos_id = $idCampeonato)")->count();
+	public function podeEditarPlacar($idCampeonato, $idPartida) {
+		$partida = Partida::find($idPartida);
+		$campeonato = Campeonato::find($idCampeonato);
+		$tipo_competidor = $campeonato->tipo_competidor;
+
+		$usuarios = $partida->usuarios();
+		$idsEquipes = array();
+		foreach ($usuarios as $u) {
+			$idsEquipes[] = $u->equipe_id;
+		}
+
+		if($tipo_competidor == 'equipe') {
+			$quantidade = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereIn('equipe_id',$idsEquipes)->count();
+		} else {
+			$quantidade = DB::table('usuario_partidas')->where('users_id','=',$this->id)->where('partidas_id','=',$idPartida)->count();
+		}
 		if($quantidade == 1) {
-			$administra_equipe = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereIn('equipe_id',$idsEquipe)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->count();
-			if($administra_equipe == 0) {
-				return false;
-			}
 			return true;
 		}
 		return false;
+	}
+
+	public function administraMesmaEquipeNoCampeonato($idCampeonato, $idUsuario) {
+		$equipePlacarCadastrado = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereRaw("equipe_id IN (select equipe_id FROM campeonato_usuarios where campeonatos_id = $idCampeonato)")->pluck('equipe_id');
+		$equipeUsuario = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereRaw("equipe_id IN (select equipe_id FROM campeonato_usuarios where campeonatos_id = $idCampeonato)")->pluck('equipe_id');
+		return $equipePlacarCadastrado == $equipeUsuario;
 	}
 
 }
