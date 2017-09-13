@@ -203,7 +203,8 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosInscritos($idUsuario) {
-		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
+		$equipes = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->pluck('equipe_id');
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->orwhereIn("equipe_id", $equipes)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
 
 		foreach ($campeonatosInscritos as $campeonato) {
