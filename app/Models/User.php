@@ -191,7 +191,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     }
 
     public function partidasDisputadas($idCampeonato = null) {
-        $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
+        $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->orWhere("equipe_id", "=", $this->id)->get(array("partidas_id"))->toArray();
         if(isset($idCampeonato)) {
             //TODO exibir apenas partidas de um determinado campeonato
             $fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
@@ -217,7 +217,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     }
 
 	public function partidasNaoDisputadas($idCampeonato = null) {
-		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
+		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->orWhere("equipe_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//TODO exibir apenas partidas de um determinado campeonato
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
