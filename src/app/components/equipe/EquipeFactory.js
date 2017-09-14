@@ -125,6 +125,5 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
         aceitarConvite: function (idEquipe) {
             return $http.post('api/equipe/integrante/' + idEquipe);
         }
-
     }
-}])
+}]);
