@@ -772,17 +772,16 @@ class Campeonato extends Eloquent {
         }
     }
 
-    static public function precisaPlacarExtra($partida) {
+    static public function precisaPlacarExtra($partida, $usuarios) {
         $fase = $partida->grupo()->fase();
         $campeonato = $fase->campeonato();
         $detalhesDoCampeonato = $campeonato->detalhes();
         $partidas = $partida->grupo()->partidas();
-        $usuarios = $partida->usuarios();
 
         $tem_placar_extra = true;
 
         foreach($usuarios as $user) {
-            if($user->placar_extra === null) {
+            if(empty($user['placar_extra'])) {
                 $tem_placar_extra = false;
                 break;
             }

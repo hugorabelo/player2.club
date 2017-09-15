@@ -114,10 +114,15 @@
                     </a>
                 </div>
                 <div class="placar-jogo-equipes-placar-matamata" flex-gt-xs="10" flex-xs="20">
-                    {{partida.usuarios[0].placar}}
+                    <span class="placar_extra">
+                        {{partida.usuarios[0].placar_extra}}
+                    </span> {{partida.usuarios[0].placar}}
                 </div>
                 <div class="placar-jogo-equipes-placar-matamata" flex-gt-xs="10" flex-xs="20">
                     {{partida.usuarios[1].placar}}
+                    <span class="placar_extra">
+                        {{partida.usuarios[1].placar_extra}}
+                    </span>
                 </div>
                 <div class="placar-jogo-equipes-matamata" flex="40">
                     <a ui-sref="profile({idUsuario: partida.usuarios[1].id})">
