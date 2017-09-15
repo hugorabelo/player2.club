@@ -189,6 +189,16 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 }
                 $empate_computado = true;
             } else {
+                if(Campeonato::precisaPlacarExtra($partida)) {
+                    foreach ($usuarios as $usuario) {
+                        $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                        $usuarioPartida->posicao = null;
+                        $usuarioPartida->pontuacao = null;
+                        $usuarioPartida->placar = null;
+                        $usuarioPartida->save();
+                    }
+                    return 'messages.precisa_placar_extra';
+                }
                 return 'messages.empate_nao_permitido';
             }
         }
@@ -205,6 +215,16 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                 $usuarioPartida->save();
                 $i++;
             }
+        }
+        if(Campeonato::precisaPlacarExtra($partida)) {
+            foreach ($usuarios as $usuario) {
+                $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                $usuarioPartida->posicao = null;
+                $usuarioPartida->pontuacao = null;
+                $usuarioPartida->placar = null;
+                $usuarioPartida->save();
+            }
+            return 'messages.precisa_placar_extra';
         }
         $partida->usuario_placar = Auth::getUser()->id;
         $partida->data_placar = date('Y-m-d H:i:s');

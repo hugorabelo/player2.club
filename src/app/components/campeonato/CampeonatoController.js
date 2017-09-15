@@ -492,7 +492,11 @@
                     vm.carregaPartidasEmAberto();
                 })
                 .error(function (data) {
-                    toastr.error($filter('translate')(data.errors[0]));
+                    if (data.errors[0] == 'messages.precisa_placar_extra') {
+                        alert('vamos inserir um placar extra');
+                    } else {
+                        toastr.error($filter('translate')(data.errors[0]));
+                    }
                 });
         };
 

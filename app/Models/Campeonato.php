@@ -265,8 +265,8 @@ class Campeonato extends Eloquent {
         foreach ($fase->grupos() as $grupo) {
             // contabilizar jogos sem resultado (0 pontos para todos os participantes)
             foreach ($grupo->partidas() as $partida) {
-                $partida->usuarios = $partida->usuarios();
                 if(!isset($partida->data_placar)) {
+                    $partida->usuarios = $partida->usuarios();
                     $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
                     $partida->data_confirmacao = date('Y-m-d H:i:s');
@@ -770,5 +770,68 @@ class Campeonato extends Eloquent {
             $partida->liberada = $liberada;
             $partida->save();
         }
+    }
+
+    static public function precisaPlacarExtra($partida) {
+        $fase = $partida->grupo()->fase();
+        $campeonato = $fase->campeonato();
+        $detalhesDoCampeonato = $campeonato->detalhes();
+        $partidas = $partida->grupo()->partidas();
+        $usuarios = $partida->usuarios();
+
+        $tem_placar_extra = true;
+
+        foreach($usuarios as $user) {
+            if($user->placar_extra === null) {
+                $tem_placar_extra = false;
+                break;
+            }
+        }
+        if($tem_placar_extra) {
+            return false;
+        }
+
+        if($fase->matamata) {
+            $partidas_sem_placar = DB::table('partidas')->where('fase_grupos_id','=', $partida->fase_grupos_id)->where('id','<>',$partida->id)->whereNull('data_placar')->count();
+            if($partidas_sem_placar === 0) {
+                if ($detalhesDoCampeonato->ida_volta) {
+                    $u1A = $partidas->first()->usuarios()->first();
+                    $u2A = $partidas->first()->usuarios()->last();
+                    $u1B = $partidas->last()->usuarios()->last();
+                    $u2B = $partidas->last()->usuarios()->first();
+                    $placar1 = $u1A->placar + $u1B->placar;
+                    $placar2 = $u2A->placar + $u2B->placar;
+                    if($placar1 === $placar2) {
+                        if ($detalhesDoCampeonato->fora_casa && ($u1A->placar != $u2B->placar)) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                } else {
+                    $u1 = $partidas->first()->usuarios()->first();
+                    $u2 = $partidas->first()->usuarios()->last();
+
+                    if(isset($detalhesDoCampeonato->numero_rounds) && $detalhesDoCampeonato->numero_rounds > 1) {
+                        $placarUsuario1 = 0;
+                        $placarUsuario2 = 0;
+                        foreach ($partidas as $partida) {
+                            if($partida->placarUsuario($u1->users_id) > $partida->placarUsuario($u2->users_id)) {
+                                $placarUsuario1++;
+                            } else if($partida->placarUsuario($u1->users_id) < $partida->placarUsuario($u2->users_id)) {
+                                $placarUsuario2++;
+                            }
+                        }
+                    } else {
+                        $placarUsuario1 = $u1->placar;
+                        $placarUsuario2 = $u2->placar;
+                    }
+                    if ($placarUsuario1 == $placarUsuario2) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

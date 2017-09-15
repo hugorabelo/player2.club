@@ -1,0 +1,59 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data" ng-submit="salvarPlacar()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div class="row" ng-if="messages">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <li class="error" ng-repeat="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao" class="col-md-3 control-label" translate>fields.motivo_contestacao</label>
+                    <div class="col-md-9" layout="row">
+                        <label class="radio-inline">
+                            <input icheck type="radio" id="motivo_contestacao" ng-model="contestacao_resultado.motivo" ng-value="1" required /> {{ 'fields.resultado_errado' | translate }}
+                        </label>
+                        <label class="radio-inline">
+                            <input icheck type="radio" id="motivo_contestacao" ng-model="contestacao_resultado.motivo" ng-value="2" required /> {{ 'fields.partida_nao_realizada' | translate }}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao" class="col-md-3 control-label" translate>fields.descricao</label>
+                    <div class="col-md-9">
+                        <textarea id="comentarios" class="form-control" ng-model="contestacao_resultado.comentarios" required cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="logomarca" class="col-md-3 control-label" translate>fields.printscreen</label>
+                    <div class="col-md-9">
+                        <lf-ng-md-file-input name="files" lf-files="files"></lf-ng-md-file-input>
+                    </div>
+                </div>
+
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row ">
+            <md-button ng-click="cancel() ">{{'fields.cancel' | translate}}</md-button>
+            <md-button type="submit ">{{'fields.save' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
