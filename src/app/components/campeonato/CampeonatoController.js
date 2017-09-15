@@ -523,7 +523,7 @@
                                 fullscreen: true // Only for -xs, -sm breakpoints.
                             })
                             .then(function () {
-                                console.log(partida);
+
                             }, function () {
 
                             });
