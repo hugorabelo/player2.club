@@ -161,6 +161,25 @@ class AppServiceProvider extends ServiceProvider {
 			}
 		});
 
+        \ConviteUsuario::created(function ($convite) {
+            $usuario = \User::find($convite->users_id);
+            $nome_remetente = $usuario->nome;
+
+            $conteudo = trans("messages.texto_convidado", ['nome_remetente' => $nome_remetente]);
+
+            $destinatario = $convite;
+            $destinatario->nome = $convite->email;
+            $link = $this->base_path;
+
+            $texto_link = trans("messages.link_convidado");
+
+            \Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario, 'link' => $link, 'texto_link' => $texto_link], function($message) use ($destinatario) {
+                $message->from('contato@player2.club', $name = 'player2.club');
+                $message->to($destinatario->email, $name = $destinatario->nome);
+                $message->subject('Você foi convidado para participar da player2.club');
+            });
+        });
+
 	}
 
 	/**

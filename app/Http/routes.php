@@ -76,6 +76,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/removerNotificacaoEmail', 'UsersController@removerNotificacaoEmail');
     Route::get('usuario/conversas', 'UsersController@listaConversas');
     Route::get('usuario/mensagens/{idRemetente}', 'UsersController@listaMensagens');
+    Route::get('usuario/convites', 'UsersController@listaConvites');
+    Route::post('usuario/convidarUsuario', 'UsersController@convidarUsuario');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
