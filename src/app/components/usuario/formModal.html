@@ -24,6 +24,11 @@
                     <input type="password" ng-model="usuario.password" ng-minlength="6" ng-required="novoItem">
                 </md-input-container>
 
+                <md-input-container class="md-block" flex>
+                    <label>{{'fields.convites' | translate}}</label>
+                    <input type="number" ng-model="usuario.quantidade_convites" required>
+                </md-input-container>
+
                 <md-input-container class="md-block">
                     <label>{{'fields.usuarioTipos_id' | translate}}</label>
                     <md-select ng-model="usuario.usuario_tipos_id" required>

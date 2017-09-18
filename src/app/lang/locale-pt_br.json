@@ -161,7 +161,9 @@
         "adiciona_pote": "Adiciona Pote",
         "remove_pote": "Remove Pote",
 
-        "info_participante": "Exibir detalhes do participante"
+        "info_participante": "Exibir detalhes do participante",
+        "convidar": "Convidar",
+        "convites": "Convites disponíveis"
     },
 
     "messages": {
@@ -429,7 +431,14 @@
         "gerenciar_rodadas": "Gerenciar Rodadas",
 
         "inserir_placar_extra": "Inserir placar extra",
-        "precisa_placar_extra": "Pelo resultado inserido, é necessário inserir um placar extra para esta partida (Prorrogação, Pênaltis, Jogo Extra, etc)"
+        "precisa_placar_extra": "Pelo resultado inserido, é necessário inserir um placar extra para esta partida (Prorrogação, Pênaltis, Jogo Extra, etc)",
+
+        "convidar_amigos": "Convidar amigos",
+        "mensagem_convidar_amigos": "Você pode convidar seus amigos para fazerem parte do nosso clube, participarem de campeonatos e aproveitarem outras facilidades da player2.club",
+        "convites_restantes": "Convites restantes",
+        "sem_convites": "Você não possui mais convites para enviar",
+        "usuario_ja_convidado": "Este usuário já está cadastrado na plataforma ou já foi convidado",
+        "convite_enviado_sucesso": "Convite enviado com sucesso"
     },
 
     "generos": {

@@ -15,7 +15,7 @@
         <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>
         <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis" layout="row" layout-align="center center">
             <span flex>{{ campeonato.descricao }}</span>
-            <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon img-xs">
+            <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon img-xs" aria-label="">
             </md-icon>
             <img ng-src="uploads/{{campeonato.jogo_imagem}} " alt="{{campeonato.jogo}} " class="img-circle img-xs m-xxs">
         </a>

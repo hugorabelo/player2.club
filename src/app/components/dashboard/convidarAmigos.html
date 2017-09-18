@@ -1,0 +1,33 @@
+<h3 class="secao_titulo" hide-xs>{{'messages.convidar_amigos' | translate}}</h3>
+<md-toolbar hide-gt-xs class="md-toolbar-tools">
+    <h2 class="secao_titulo">{{'messages.convidar_amigos' | translate}}</h2>
+</md-toolbar>
+<md-card ng-class="{'m-n': telaMobile}">
+    <md-card-content>
+        {{'messages.mensagem_convidar_amigos' | translate}}
+        <div layout="row" flex class="m-t-md" ng-if="vmHome.usuario.quantidade_convites > 0">
+            <md-input-container class="md-block" flex>
+                <label>{{'fields.email' | translate}}</label>
+                <input type="email" ng-model="inputConvidar.email" required>
+            </md-input-container>
+            <div>
+                <md-button class="md-raised md-primary" flex ng-click="vmHome.convidar(inputConvidar)">{{'fields.convidar' | translate}}</md-button>
+            </div>
+        </div>
+        <div class="text-right" flex>{{'messages.convites_restantes' | translate}}: {{vmHome.usuario.quantidade_convites}} </div>
+    </md-card-content>
+</md-card>
+<md-list class="md-dense" flex ng-init="vmHome.getConvitesDoUsuario()">
+
+    <md-list-item ng-repeat="convite in vmHome.convitesDoUsuario" class="md-3-line item-lista" ng-click="null">
+        <div class="md-list-item-text" layout="column">
+            <h3 class="mensagem-nome">{{convite.email}}</h3>
+            <h5 class="mensagem-data">{{vmHome.exibeData(convite.created_at) }}</h5>
+        </div>
+        <div class="icones" layout="row" layout-align="end center">
+            <i class="material-icons" ng-if="convite.status == 'aceito'" md-colors="::{color: 'player2-accent-900'}">assignment_turned_in</i>
+            <i class="material-icons" ng-if="convite.status == 'aguardando'" md-colors="::{color: 'player2-warn-900'}">assignment_late</i>
+        </div>
+    </md-list-item>
+
+</md-list>
