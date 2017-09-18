@@ -259,8 +259,10 @@ class Campeonato extends Eloquent {
         }
         $proximaFase = $fase->proximaFase();
 
-        // Remover usuários que já estejam na fase seguinte devido a algum erro
-        UsuarioFase::where('campeonato_fases_id','=',$proximaFase->id)->delete();
+        if(isset($proximaFase)) {
+            // Remover usuários que já estejam na fase seguinte devido a algum erro
+            UsuarioFase::where('campeonato_fases_id', '=', $proximaFase->id)->delete();
+        }
 
         foreach ($fase->grupos() as $grupo) {
             // contabilizar jogos sem resultado (0 pontos para todos os participantes)
