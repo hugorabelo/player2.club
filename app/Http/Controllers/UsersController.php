@@ -532,4 +532,32 @@ class UsersController extends Controller {
 		return $mensagens;
 	}
 
+	function listaConvites() {
+        $idUsuario = Auth::getUser()->id;
+        $usuario = User::find($idUsuario);
+        $convites = $usuario->getConvites();
+        foreach ($convites as $convite) {
+            $convite->status = 'aguardando';
+            $situacao = User::where('email','=',$convite->email)->where('nome','<>','username')->count();
+            if($situacao != 0) {
+                $convite->status = 'aceito';
+            }
+        }
+        return $convites;
+    }
+
+    function convidarUsuario() {
+        $input = Input::except('_token');
+        $idUsuario = Auth::getUser()->id;
+        if(isset($input['email'])) {
+            $usuario = User::find($idUsuario);
+            $retorno = $usuario->convidar($input['email']);
+            if($retorno != '') {
+                return Response::json(array('success' => false,
+                    'errors' => array($retorno)), 300);
+            }
+            return Response::json(array('success'=>true));
+        }
+    }
+
 }

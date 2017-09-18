@@ -303,6 +303,21 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         getMensagens: function (idRemetente) {
             return $http.get('api/usuario/mensagens/' + idRemetente);
+        },
+
+        getConvites: function () {
+            return $http.get('api/usuario/convites');
+        },
+
+        convidarUsuario: function (email) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/convidarUsuario',
+                data: $.param(email),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);
