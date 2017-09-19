@@ -48,6 +48,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//TODO exibir apenas partidas de um determinado campeonato
+			$campeonato = Campeonato::find($idCampeonato);
+			$tipo_competidor = $campeonato->tipo_competidor;
+			if($tipo_competidor == 'equipe') {
+				$equipes = DB::table('integrante_equipe')->where('users_id','=',$this->id)->pluck('equipe_id');
+				$usuarioPartidas = UsuarioPartida::whereIn("equipe_id", $equipes)->get(array("partidas_id"))->toArray();
+			}
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
 			$grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
 			if($confirmadas) {
@@ -74,6 +80,36 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 			if($partida->data_placar != null) {
 				$partida->data_placar_limite = $partida->getDataLimitePlacar();
 			}
+
+			// Testes para liberar ou não a funcionalidade de editar os placares
+			$partida->permite_placar = $this->podeEditarPlacar($idCampeonato, $partida->id);
+
+			$partida->pode_salvar = false;
+			$partida->pode_confirmar_contestar = false;
+			$partida->pode_cancelar = false;
+			if($partida->liberada) {
+				if(!isset($partida->data_placar)) {
+					$partida->pode_salvar = true;
+				}
+
+				if(isset($partida->data_placar)) {
+					if(!isset($partida->data_confirmacao)) {
+						if($partida->usuario_placar != $this->id) {
+							if($tipo_competidor == 'equipe') {
+								if($this->administraMesmaEquipeNoCampeonato($idCampeonato, $partida->usuario_placar)) {
+									$partida->pode_cancelar = true;
+								} else {
+									$partida->pode_confirmar_contestar = true;
+								}
+							} else {
+								$partida->pode_confirmar_contestar = true;
+							}
+						} else {
+							$partida->pode_cancelar = true;
+						}
+					}
+				}
+			}
 		}
 
 		$partidas = $partidas->values();
@@ -83,37 +119,79 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	public function partidasEmAberto($idCampeonato = null) {
         $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
         if(isset($idCampeonato)) {
+			$campeonato = Campeonato::find($idCampeonato);
+			$tipo_competidor = $campeonato->tipo_competidor;
+			if($tipo_competidor == 'equipe') {
+				$equipes = DB::table('integrante_equipe')->where('users_id','=',$this->id)->pluck('equipe_id');
+				$usuarioPartidas = UsuarioPartida::whereIn("equipe_id", $equipes)->get(array("partidas_id"))->toArray();
+			}
             //TODO exibir apenas partidas de um determinado campeonato
             $fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
             $grupos = FaseGrupo::whereIn('campeonato_fases_id', $fases)->get(array('id'))->toArray();
             $partidas = Partida::whereIn('fase_grupos_id',$grupos)->whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortByDesc('id');
         } else {
+			$equipes = DB::table('integrante_equipe')->where('users_id','=',$this->id)->pluck('equipe_id');
+			$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->orwhereIn("equipe_id", $equipes)->get(array("partidas_id"))->toArray();
+
             $partidas = Partida::whereNull('data_confirmacao')->findMany($usuarioPartidas)->sortBy('id');
         }
         foreach($partidas as $partida) {
-            if($partida->contestada()) {
-                $partida->contestada = true;
-            }
-            if(isset($partida->data_prazo)) {
-                if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
-                    $partida->liberada = false;
-                    $partida->save();
-                }
-            }
-            $usuarios = $partida->usuarios();
-            $partida->usuarios = $usuarios;
-            if($partida->data_placar != null) {
-                $partida->data_placar_limite = $partida->getDataLimitePlacar();
-            }
-            $partida->campeonato = $partida->campeonato()->descricao;
+			$campeonato = $partida->campeonato();
+			if($partida->contestada()) {
+				$partida->contestada = true;
+			}
+			if(isset($partida->data_prazo)) {
+				if(Carbon::today() > Carbon::parse($partida->data_prazo)) {
+					$partida->liberada = false;
+					$partida->save();
+				}
+			}
+			$usuarios = $partida->usuarios();
+			$partida->usuarios = $usuarios;
+			if($partida->data_placar != null) {
+				$partida->data_placar_limite = $partida->getDataLimitePlacar();
+			}
+			$partida->campeonato = $campeonato->descricao;
 			$partida->fase = $partida->fase()->descricao;
+
+			$partida->tipo_competidor = $campeonato->tipo_competidor;
+			$partida->permite_placar = $this->podeEditarPlacar($campeonato->id, $partida->id);
+
+			$partida->pode_salvar = false;
+			$partida->pode_confirmar_contestar = false;
+			$partida->pode_cancelar = false;
+			if($partida->liberada) {
+				if(!isset($partida->data_placar)) {
+					$partida->pode_salvar = true;
+				}
+
+				$tipo_competidor = $campeonato->tipo_competidor;
+
+				if(isset($partida->data_placar)) {
+					if(!isset($partida->data_confirmacao)) {
+						if($partida->usuario_placar != $this->id) {
+							if($tipo_competidor == 'equipe') {
+								if($this->administraMesmaEquipeNoCampeonato($campeonato->id, $partida->usuario_placar)) {
+									$partida->pode_cancelar = true;
+								} else {
+									$partida->pode_confirmar_contestar = true;
+								}
+							} else {
+								$partida->pode_confirmar_contestar = true;
+							}
+						} else {
+							$partida->pode_cancelar = true;
+						}
+					}
+				}
+			}
         }
         $partidas = $partidas->values();
         return $partidas;
     }
 
     public function partidasDisputadas($idCampeonato = null) {
-        $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
+        $usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->orWhere("equipe_id", "=", $this->id)->get(array("partidas_id"))->toArray();
         if(isset($idCampeonato)) {
             //TODO exibir apenas partidas de um determinado campeonato
             $fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
@@ -139,7 +217,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     }
 
 	public function partidasNaoDisputadas($idCampeonato = null) {
-		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->get(array("partidas_id"))->toArray();
+		$usuarioPartidas = UsuarioPartida::where("users_id", "=", $this->id)->orWhere("equipe_id", "=", $this->id)->get(array("partidas_id"))->toArray();
 		if(isset($idCampeonato)) {
 			//TODO exibir apenas partidas de um determinado campeonato
 			$fases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'))->toArray();
@@ -291,6 +369,42 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	public function equipes() {
 		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->withPivot('funcao_equipe_id')->withTimestamps();
+	}
+
+	public function equipesAdministradas() {
+		$funcoesAdministrativas = DB::table('funcao_equipe')->where('administrador','=',true)->pluck('id');
+		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->wherePivotIn('funcao_equipe_id',$funcoesAdministrativas)->withTimestamps();
+	}
+
+	public function podeEditarPlacar($idCampeonato, $idPartida) {
+		$partida = Partida::find($idPartida);
+		$campeonato = Campeonato::find($idCampeonato);
+		$tipo_competidor = $campeonato->tipo_competidor;
+
+		$usuarios = $partida->usuarios();
+		$idsEquipes = array();
+		foreach ($usuarios as $u) {
+			$idsEquipes[] = $u->equipe_id;
+		}
+
+		if($tipo_competidor == 'equipe') {
+			$quantidade = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereIn('equipe_id',$idsEquipes)->count();
+		} else {
+			$quantidade = DB::table('usuario_partidas')->where('users_id','=',$this->id)->where('partidas_id','=',$idPartida)->count();
+		}
+		if($quantidade == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public function administraMesmaEquipeNoCampeonato($idCampeonato, $idUsuario) {
+		if(!isset($idCampeonato)) {
+			return false;
+		}
+		$equipePlacarCadastrado = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereRaw("equipe_id IN (select equipe_id FROM campeonato_usuarios where campeonatos_id = $idCampeonato)")->pluck('equipe_id');
+		$equipeUsuario = DB::table('integrante_equipe')->where('users_id','=',$this->id)->whereRaw('funcao_equipe_id IN (select id from funcao_equipe where administrador)')->whereRaw("equipe_id IN (select equipe_id FROM campeonato_usuarios where campeonatos_id = $idCampeonato)")->pluck('equipe_id');
+		return $equipePlacarCadastrado == $equipeUsuario;
 	}
 
 }

@@ -39,12 +39,22 @@
                                         {{$index+1}}
                                     </td>
                                     <td>
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}</a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}
+                                        </a>
+                                        <a ui-sref="equipe({idEquipe: jogadorGrupo.id})" hide-xs ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}
+                                        </a>
                                         <!--
                                         Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
                                         <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs>{{jogadorGrupo.sigla | uppercase}}</a>
 -->
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span></a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span>
+                                        </a>
+                                        <a ui-sref="equipe({idEquipe: jogadorGrupo.id})" hide-gt-xs ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span>
+                                        </a>
                                     </td>
                                     <td class="text-center">{{jogadorGrupo.pontuacao}}</td>
                                     <td class="text-center">{{jogadorGrupo.jogos}}</td>
@@ -79,9 +89,13 @@
                         <div class="lista-de-jogos-item" ng-repeat="partida in vmCampeonato.partidasDaRodada[$index]">
                             <div class="placar-jogo-equipes" flex layout="row" layout-align="space-between center">
                                 <div class="placar-jogo-equipes-mandante" flex>
-                                    <a ui-sref="profile({idUsuario: partida.usuarios[0].users_id})">
+                                    <a ui-sref="profile({idUsuario: partida.usuarios[0].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
                                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
                                         <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+                                    </a>
+                                    <a ui-sref="equipe({idEquipe: partida.usuarios[0].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+                                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
                                     </a>
                                 </div>
                                 <div class="placar-jogo-equipes-placar" flex layout="row" layout-align="space-around center">
@@ -90,8 +104,12 @@
                                     <span class="placar-jogo-equipes-placar-visitante">{{partida.usuarios[1].placar}}</span>
                                 </div>
                                 <div class="placar-jogo-equipes-visitante" flex>
-                                    <a ui-sref="profile({idUsuario: partida.usuarios[1].users_id})">
+                                    <a ui-sref="profile({idUsuario: partida.usuarios[1].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
                                         <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                                    </a>
+                                    <a ui-sref="equipe({idEquipe: partida.usuarios[1].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                        <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
                                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
                                     </a>
                                 </div>

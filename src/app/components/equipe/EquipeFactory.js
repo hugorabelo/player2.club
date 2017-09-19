@@ -17,9 +17,9 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
-                    formData.append("descricao", equipe.descricao);
+                    formData.append("nome", equipe.nome);
                     if (arquivo != null) {
-                        formData.append("imagem_logomarca", arquivo.lfFile);
+                        formData.append("imagem_perfil", arquivo.lfFile);
                     }
                     return formData;
                 }
@@ -39,9 +39,9 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
                 },
                 transformRequest: function (data) {
                     var formData = new FormData();
-                    formData.append("descricao", equipe.descricao);
+                    formData.append("nome", equipe.nome);
                     if (arquivo != null) {
-                        formData.append("imagem_logomarca", arquivo.lfFile);
+                        formData.append("imagem_perfil", arquivo.lfFile);
                     }
                     return formData;
                 }
@@ -125,6 +125,5 @@ angular.module('player2').factory('Equipe', ['$http', function ($http) {
         aceitarConvite: function (idEquipe) {
             return $http.post('api/equipe/integrante/' + idEquipe);
         }
-
     }
-}])
+}]);

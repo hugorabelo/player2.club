@@ -23,6 +23,7 @@ class UsersController extends Controller {
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
         $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
+		$usuario->equipesAdministradas = $usuario->equipesAdministradas()->get();
 		return Response::json($usuario);
 	}
 
@@ -202,7 +203,8 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosInscritos($idUsuario) {
-		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
+		$equipes = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->pluck('equipe_id');
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->orwhereIn("equipe_id", $equipes)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
 
 		foreach ($campeonatosInscritos as $campeonato) {
@@ -449,10 +451,14 @@ class UsersController extends Controller {
 	}
 
 	public function desistirCampeonato($idCampeonato) {
-		$idUsuario = Auth::getUser()->id;
-		$idUsuarioCampeonato = CampeonatoUsuario::where('users_id','=',$idUsuario)->where('campeonatos_id','=',$idCampeonato)->first()->id;
-		$usuarioCampeonato = CampeonatoUsuario::find($idUsuarioCampeonato);
-		$usuarioCampeonato->delete();
+		$usuarioLogado = Auth::getUser();
+		$campeonato = Campeonato::find($idCampeonato);
+		if($campeonato->tipo_competidor == 'equipe') {
+			$idEquipesUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
+			CampeonatoUsuario::whereIn('equipe_id',$idEquipesUsuario)->where('campeonatos_id','=',$idCampeonato)->delete();
+		} else {
+			CampeonatoUsuario::where('users_id','=',$usuarioLogado->id)->where('campeonatos_id','=',$idCampeonato)->delete();
+		}
 
 		return Response::json(array('success'=>true));
 	}
@@ -553,11 +559,26 @@ class UsersController extends Controller {
 			$idUsuario = Auth::getUser()->id;
 		}
 		$usuario = User::find($idUsuario);
-		$equipes = $usuario->equipes()->orderBy('descricao')->get();
+		$equipes = $usuario->equipes()->orderBy('nome')->get();
 		foreach ($equipes as $equipe) {
 			$equipe->integrantes = $equipe->integrantes()->get();
 		}
 		return Response::json($equipes);
 	}
+
+	function listaEquipesAdministradas() {
+		$usuario = User::find(Auth::getUser()->id);
+		$equipes = $usuario->equipesAdministradas()->orderBy('nome')->get();
+		return Response::json($equipes);
+	}
+
+	//TODO SQL Verificacao quantidade de equipes administradas no campeonato
+	/*
+	 * select count(*) from integrante_equipe where users_id = 1 and funcao_equipe_id IN (
+			select id from funcao_equipe where administrador
+		) and equipe_id IN (
+			select equipe_id FROM campeonato_usuarios where campeonatos_id = 33
+		)
+	 */
 
 }

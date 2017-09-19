@@ -51,14 +51,22 @@ class CampeonatosController extends Controller
         $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
         $campeonato->status = $campeonato->status();
 
-        $quantidadeUsuario = DB::table('campeonato_usuarios')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        $usuarioLogado = Auth::getUser();
+
+        if($campeonato->tipo_competidor == 'equipe') {
+            $equipesDoUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
+            $quantidadeUsuario = DB::table('campeonato_usuarios')->whereIn('equipe_id', $equipesDoUsuario)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        } else {
+            $quantidadeUsuario = DB::table('campeonato_usuarios')->where('users_id', '=', $usuarioLogado->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        }
+
         $campeonato->usuarioInscrito = false;
         if($quantidadeUsuario > 0) {
             $campeonato->usuarioInscrito = true;
         }
 
         $campeonato->usuarioAdministrador = false;
-        $quantidadeAdministrador = DB::table('campeonato_admins')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        $quantidadeAdministrador = DB::table('campeonato_admins')->where('users_id', '=', $usuarioLogado->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
         if($quantidadeAdministrador > 0) {
             $campeonato->usuarioAdministrador = true;
         }

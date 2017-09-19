@@ -163,7 +163,9 @@
         "adiciona_pote": "Adiciona Pote",
         "remove_pote": "Remove Pote",
         "equipe": "Equipe",
-        "info_participante": "Exibir detalhes do participante"
+        "info_participante": "Exibir detalhes do participante",
+        "individual": "Individual",
+        "quantidade_minima_usuarios": "Quantidade Mínima de Usuários na Equipe"
     },
 
     "messages": {
@@ -354,6 +356,8 @@
         "feedback": "Dar um feedback",
         "erro_inscricao": "Houve um erro na inscrição",
         "sucesso_inscricao": "Inscrição realizada com sucesso",
+        "erro_desistencia": "Houve um erro na desistência",
+        "sucesso_desistencia": "Desistência realizada com sucesso",
         "usuario_sem_plataforma_titulo": "Usuário Não Identificado",
         "usuario_sem_plataforma_um": "Para se inscrever no campeonato, você precisa de um nome de usuário da plataforma ",
         "usuario_sem_plataforma_dois": ". Você pode cadastrar um agora, digitando-o na caixa abaixo",
@@ -463,6 +467,11 @@
         "nao_existe_convite": "O seu convite para esta equipe não existe",
         "aceitar_convite_equipe_sucesso": "O convite para a equipe foi aceito com sucesso",
         "aceitar_convite_equipe_erro": "Houve um erro na aceitação do convite para a equipe",
+        "inscricao_equipe_nao_administrador": "Este é um campeonato de equipes. Para realizar a inscrição, você precisa ser administrador de alguma equipe",
+        "inscricao_equipe_selecionar": "Este é um campeonato de equipes. Você precisa escolher, na caixa abaixo,  qual equipe administrada por você será inscrita no campeonato",
+        "inscricao_equipe_sem_quantidade_minima": "A equipe escolhida precisa ter pelo menos {{quantidade_minima_competidores}} integrantes cadastrados",
+        "inscricao_usuario_nao_administrador_equipe": "Você não é administrador da equipe {{nome_equipe}}. Apenas os administradores podem inscrever esta equipe no campeonato",
+        "inscricao_equipe_administrador_existente": "O administrador dessa equipe {{nome_usuario}} também é administrador da equipe {{nome_equipe}}, que já está inscrita no campeonato. Não é permitido um usuário ser administrador de duas equipes no mesmo campeonato.",
 
         "sem_permissao_funcao": "Você não tem permissão para acessar essa função",
         "titulo_alerta_login": "Erro ao fazer o login",

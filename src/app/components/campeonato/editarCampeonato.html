@@ -21,6 +21,25 @@
             </md-input-container>
 
             <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs="50">
+                    <label>{{'fields.tipo_competidor' | translate}}</label>
+                    <md-select ng-model="vmCriarCampeonato.campeonato.tipo_competidor" required>
+                        <md-option ng-value="individual">
+                            {{'fields.individual' | translate}}
+                        </md-option>
+                        <md-option ng-value="equipe">
+                            {{'fields.equipe' | translate}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == equipe" flex-gt-xs="50">
+                    <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
+                    <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
+                </md-input-container>
+            </div>
+
+            <div layout-gt-xs="row">
                 <md-input-container flex-gt-xs="50">
                     <label>{{'fields.data_inicio' | translate}}</label>
                     <md-datepicker ng-model="vmCampeonato.campeonatoEditar.dataInicio" md-open-on-focus></md-datepicker>
