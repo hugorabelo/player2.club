@@ -389,10 +389,17 @@
             };
 
             vm.convidar = function (email) {
+                if ((email == undefined) || (email.email == undefined) || (email.email == '')) {
+                    toastr.error($filter('translate')('messages.email_vazio'));
+                    return;
+                }
+                vm.loadingConvite = true;
                 Usuario.convidarUsuario(email)
                     .success(function (data) {
                         vm.getConvitesDoUsuario();
                         vm.usuario.quantidade_convites--;
+                        vm.loadingConvite = false;
+                        email.email = null;
                         toastr.success($filter('translate')('messages.convite_enviado_sucesso'));
                     })
                     .error(function (data) {

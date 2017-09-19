@@ -500,7 +500,8 @@
         "convites_restantes": "Convites restantes",
         "sem_convites": "Você não possui mais convites para enviar",
         "usuario_ja_convidado": "Este usuário já está cadastrado na plataforma ou já foi convidado",
-        "convite_enviado_sucesso": "Convite enviado com sucesso"
+        "convite_enviado_sucesso": "Convite enviado com sucesso",
+        "email_vazio": "Você precisa preencher o campo de e-mail para enviar um convite"
     },
 
     "generos": {
