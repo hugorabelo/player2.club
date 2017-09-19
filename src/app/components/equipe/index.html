@@ -1,0 +1,185 @@
+<div hide-xs layout="row" layout-wrap class="header-profile" layout-align="space-between end" style="background-image: url('uploads/usuarios/capa/{{vmEquipe.equipe.imagem_capa}}');">
+    <div layout="row" layout-align="start end">
+        <div class="profile-image">
+            <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
+                <img ng-src="uploads/{{vmEquipe.equipe.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+            </a>
+        </div>
+        <div class="profile-info">
+            <div>
+                <h2 class="no-margins">
+                    {{vmEquipe.equipe.nome}}
+                </h2>
+                <h4>{{vmEquipe.equipe.sigla}}</h4>
+            </div>
+        </div>
+    </div>
+    <div layout="row" layout-align="end end">
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}">
+            <i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.recusarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.recusar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.aceitarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.aceitar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando && !vmEquipe.equipe.convite">
+            <i class="material-icons">forward</i> {{'messages.entrar' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa">
+            <i class="material-icons">all_out</i> {{'messages.sair' | translate}}
+        </md-button>
+    </div>
+</div>
+
+<div flex layout="row" layout-margin hide-xs>
+    <div flex class="caixa-flutuante" ui-view layout="column" layout-margin>
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || telaMobile' infinite-scroll-distance='0.2'></div>
+    </div>
+
+    <div flex="20" layout="column" class="caixa-flutuante" layout-margin>
+        <div class="caixa-informacao-titulo" ng-if="vmEquipe.equipe.administrador">
+            <h3>{{'messages.campeonato_detalhes' | translate}}</h3>
+        </div>
+        <md-card class="caixa-informacao" ng-if="vmEquipe.equipe.administrador">
+            <div class="m-xs" layout="column">
+                <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
+                <md-button class="md-raised md-block" ui-sref=".integrantes">{{'messages.gerenciar_participantes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ui-sref=".inscricoes">{{'messages.aceitar_inscricoes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.convidarParticipantes()">{{'messages.convidar_participantes' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
+                <md-button class="md-raised md-block" ng-click="vmEquipe.excluir($event)" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
+            </div>
+        </md-card>
+
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.campeonato_list' | translate}}</h3>
+            <a ui-sref=".campeonatos">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <md-card class="caixa-informacao">
+            <div class="m-xs">
+                <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
+                    <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+                </md-list-item>
+            </div>
+        </md-card>
+
+        <div class="caixa-informacao-titulo">
+            <h3>{{'messages.integrantes' | translate}}</h3>
+            <a ui-sref=".seguidores">
+                <i class="material-icons">more</i>
+            </a>
+        </div>
+        <md-card class="caixa-informacao">
+            <div class="m-xs">
+                <a ui-sref="profile({idUsuario: integrante.id}) " ng-repeat="integrante in vmEquipe.equipe.integrantes">
+                    <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-sm">
+                    <md-tooltip md-direction="top ">
+                        {{integrante.nome}}
+                    </md-tooltip>
+                </a>
+            </div>
+        </md-card>
+    </div>
+
+</div>
+
+
+<!-------------- Tela Mobile --------->
+
+
+<div hide-gt-xs layout="column" layout-wrap class="header-profile no-padding" style="background-image: url('uploads/usuarios/capa/{{vmEquipe.equipe.imagem_capa}}');" layout-align="start center">
+    <div class="profile-info m-t-sm">
+        <div>
+            <h2 class="no-margins">
+                {{vmEquipe.equipe.nome}}
+            </h2>
+        </div>
+    </div>
+    <div class="profile-image">
+        <a ui-sref="equipe({idEquipe: vmEquipe.equipe.id})">
+            <img ng-src="uploads/{{vmEquipe.equipe.imagem_perfil}}" class="img-circle circle-border" alt="profile">
+        </a>
+    </div>
+    <div layout="row">
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.cancelarSolicitacao()" ng-if="vmEquipe.equipe.aguardando" md-colors="::{backgroundColor: 'player2-warn-900'}">
+            <i class="material-icons">alarm</i> {{'messages.aguardando_solicitacao' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.recusarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.recusar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.aceitarConvite()" ng-if="vmEquipe.equipe.convite">
+            <i class="material-icons">alarm</i> {{'messages.aceitar_convite' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-accent" ng-click="vmEquipe.entrar()" ng-if="!vmEquipe.equipe.participa && !vmEquipe.equipe.aguardando && !vmEquipe.equipe.convite">
+            <i class="material-icons">forward</i> {{'messages.entrar' | translate}}
+        </md-button>
+        <md-button id="botao-seguir" class="md-raised md-warn" ng-click="vmEquipe.sair()" ng-if="vmEquipe.equipe.participa">
+            <i class="material-icons">all_out</i> {{'messages.sair' | translate}}
+        </md-button>
+    </div>
+    <!--    <div class="coverBorder"></div>-->
+</div>
+
+<div hide-gt-xs>
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm" ng-if="vmEquipe.equipe.administrador">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">settings</i>{{'messages.campeonato_detalhes' | translate}}
+                <span flex></span>
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs" layout="column">
+            <md-button class="md-raised md-block" ng-click="vmEquipe.escreverMensagem($event)">{{'messages.enviar_mensagem_geral' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarParticipantes($event)">{{'messages.gerenciar_participantes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.gerenciarSolicitacoes($event)">{{'messages.aceitar_inscricoes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.convidarParticipantes()">{{'messages.convidar_participantes' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.edit()">{{'messages.editar_equipe' | translate}}</md-button>
+            <md-button class="md-raised md-block" ng-click="vmEquipe.excluir($event)" ng-if="vmEquipe.equipe.criador">{{'messages.excluir_equipe' | translate}}</md-button>
+        </div>
+    </md-card>
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">format_list_numbered</i>{{'messages.campeonato_list' | translate}}
+                <span flex></span>
+                <a ui-sref=".campeonatos" class="more">
+                    <i class="material-icons">more</i>
+                </a>
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xs">
+            <md-list-item ng-repeat="campeonato in vmEquipe.equipe.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})" class="m-b-xxs">
+                <i class="fa fa-trophy m-r-sm m-l-n-sm" aria-hidden="true"></i> {{campeonato.descricao}}
+            </md-list-item>
+        </div>
+    </md-card>
+
+    <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+        <md-card-title>
+            <md-card-title-text layout="row" layout-align="start center">
+                <i class="material-icons m-r-sm md-primary">people</i>{{'messages.integrantes' | translate}}
+                <span flex></span>
+                <a ui-sref=".seguidores" class="more">
+                    <i class="material-icons">more</i>
+                </a>
+            </md-card-title-text>
+        </md-card-title>
+        <div class="m-xxs">
+            <a ui-sref="profile({idUsuario: integrante.id}) " ng-repeat="integrante in vmEquipe.equipe.integrantes">
+                <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}} " alt="{{integrante.nome}} " class="img-circle circle-border-sm img-md m-xxs">
+                <md-tooltip md-direction="top ">
+                    {{integrante.nome}}
+                </md-tooltip>
+            </a>
+        </div>
+    </md-card>
+
+    <div layout="column" layout-fill class="m-t-md">
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !telaMobile' infinite-scroll-distance='0.2'></div>
+    </div>
+</div>

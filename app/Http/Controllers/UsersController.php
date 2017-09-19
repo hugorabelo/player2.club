@@ -17,9 +17,13 @@ class UsersController extends Controller {
 	}
 
 	public function show($id) {
+		if($id == 'undefined' || $id == null) {
+			return null;
+		}
 		$usuario = User::find($id);
         $usuario->seguidores = $usuario->seguidores()->orderBy('ultimo_login', 'desc')->get()->take(6);
         $usuario->seguindo = $usuario->seguindo()->orderBy('ultimo_login', 'desc')->get()->take(6);
+		$usuario->equipesAdministradas = $usuario->equipesAdministradas()->get();
 		return Response::json($usuario);
 	}
 
@@ -199,8 +203,20 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosInscritos($idUsuario) {
-		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->get(array("campeonatos_id"))->toArray();
+		$equipes = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->pluck('equipe_id');
+		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->orwhereIn("equipe_id", $equipes)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
+
+		foreach ($campeonatosInscritos as $campeonato) {
+			$campeonato->jogo = $campeonato->jogo()->descricao;
+			$campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+			$campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
+			$campeonato->plataforma = $campeonato->plataforma()->descricao;
+			$campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+			$campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+			$campeonato->tipo_campeonato= $campeonato->campeonatoTipo()->descricao;
+			$campeonato->status = $campeonato->status();
+		}
 
 		return Response::json($campeonatosInscritos);
 	}
@@ -435,10 +451,14 @@ class UsersController extends Controller {
 	}
 
 	public function desistirCampeonato($idCampeonato) {
-		$idUsuario = Auth::getUser()->id;
-		$idUsuarioCampeonato = CampeonatoUsuario::where('users_id','=',$idUsuario)->where('campeonatos_id','=',$idCampeonato)->first()->id;
-		$usuarioCampeonato = CampeonatoUsuario::find($idUsuarioCampeonato);
-		$usuarioCampeonato->delete();
+		$usuarioLogado = Auth::getUser();
+		$campeonato = Campeonato::find($idCampeonato);
+		if($campeonato->tipo_competidor == 'equipe') {
+			$idEquipesUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
+			CampeonatoUsuario::whereIn('equipe_id',$idEquipesUsuario)->where('campeonatos_id','=',$idCampeonato)->delete();
+		} else {
+			CampeonatoUsuario::where('users_id','=',$usuarioLogado->id)->where('campeonatos_id','=',$idCampeonato)->delete();
+		}
 
 		return Response::json(array('success'=>true));
 	}
@@ -461,9 +481,11 @@ class UsersController extends Controller {
 				case 'fase_encerrada':
 				case 'fase_encerramento_breve':
 					$fase = CampeonatoFase::find($notificacao->item_id);
-					$notificacao->nome_campeonato = $fase->campeonato()->descricao;
-					$notificacao->nome_fase = $fase->descricao;
-					$notificacao->item_id = $fase->campeonato()->id;
+                    if(isset($fase)) {
+                        $notificacao->nome_campeonato = $fase->campeonato()->descricao;
+                        $notificacao->nome_fase = $fase->descricao;
+                        $notificacao->item_id = $fase->campeonato()->id;
+                    }
 					break;
 				case 'sorteou_clubes':
 					$campeonato = Campeonato::find($notificacao->item_id);
@@ -532,6 +554,24 @@ class UsersController extends Controller {
 		return $mensagens;
 	}
 
+	function listaEquipes($idUsuario = null) {
+		if(!isset($idUsuario)) {
+			$idUsuario = Auth::getUser()->id;
+		}
+		$usuario = User::find($idUsuario);
+		$equipes = $usuario->equipes()->orderBy('nome')->get();
+		foreach ($equipes as $equipe) {
+			$equipe->integrantes = $equipe->integrantes()->get();
+		}
+		return Response::json($equipes);
+	}
+
+	function listaEquipesAdministradas() {
+		$usuario = User::find(Auth::getUser()->id);
+		$equipes = $usuario->equipesAdministradas()->orderBy('nome')->get();
+		return Response::json($equipes);
+	}
+
 	function listaConvites() {
         $idUsuario = Auth::getUser()->id;
         $usuario = User::find($idUsuario);
@@ -559,5 +599,4 @@ class UsersController extends Controller {
             return Response::json(array('success'=>true));
         }
     }
-
 }

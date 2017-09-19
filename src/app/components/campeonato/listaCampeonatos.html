@@ -3,6 +3,15 @@
     <md-list ng-cloak>
         <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatosDoUsuario" ui-sref="campeonato({idCampeonato: campeonato.id})">
             <p>{{campeonato.descricao}}</p>
+            <div class="detalhes" flex="60" layout="row" layout-align="center center">
+                <div flex="15">
+                    <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon icon-black img-xs">
+                    </md-icon>
+                </div>
+                <div flex="15"><img src="uploads/{{campeonato.jogo_imagem}} " alt="{{campeonato.jogo}} " class="img-circle img-xs m-xxs"></div>
+                <div flex="35">{{campeonato.tipo_campeonato}}</div>
+                <div flex="35">{{'fields.status.'+campeonato.status | translate}}</div>
+            </div>
         </md-list-item>
     </md-list>
 </div>
@@ -11,6 +20,14 @@
     <md-list ng-cloak>
         <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})">
             <p>{{campeonato.descricao}}</p>
+            <div class="detalhes" flex="60" layout="row" layout-align="center center">
+                <div flex="15">
+                    <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon icon-black img-xs">
+                    </md-icon>
+                </div>
+                <div flex="35">{{campeonato.tipo_campeonato}}</div>
+                <div flex="35">{{'fields.status.'+campeonato.status | translate}}</div>
+            </div>
         </md-list-item>
     </md-list>
 </div>
@@ -31,6 +48,14 @@
         <md-list ng-cloak>
             <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatosDoUsuario" ui-sref="campeonato({idCampeonato: campeonato.id})">
                 <p>{{campeonato.descricao}}</p>
+                <div class="detalhes" flex="30" layout="row" layout-align="center center">
+                    <div flex="50">
+                        <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon icon-black img-xs">
+                        </md-icon>
+                    </div>
+                    <div flex="50"><img src="uploads/{{campeonato.jogo_imagem}} " alt="{{campeonato.jogo}} " class="img-circle img-xs m-xxs"></div>
+
+                </div>
             </md-list-item>
         </md-list>
     </div>
@@ -46,6 +71,13 @@
         <md-list ng-cloak>
             <md-list-item class="item-lista" ng-repeat="campeonato in vmCampeonato.campeonatos" ui-sref="campeonato({idCampeonato: campeonato.id})">
                 <p>{{campeonato.descricao}}</p>
+                <div class="detalhes" flex="30" layout="row" layout-align="center center">
+                    <div flex="50">
+                        <md-icon md-svg-src="uploads/{{campeonato.plataforma_imagem}}" class="svg-icon icon-black img-xs">
+                        </md-icon>
+                    </div>
+
+                </div>
             </md-list-item>
         </md-list>
     </div>
