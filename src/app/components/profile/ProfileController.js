@@ -40,6 +40,7 @@
                     vm.segue();
                     vm.getCampeonatosInscritos(id);
                     vm.getJogos(id);
+                    vm.getEquipes(id);
                 })
                 .error(function (data, status) {});
         };
@@ -103,6 +104,17 @@
             if (vm.idUsuario === undefined) {
                 vm.getCampeonatosInscritos($rootScope.usuarioLogado.id);
             }
+        };
+
+        vm.getEquipes = function (id) {
+            Usuario.getEquipes(id)
+                .success(function (data) {
+                    vm.equipesDoUsuario = data;
+                });
+        };
+
+        vm.carregaEquipe = function (id) {
+            $location.path('/equipe/' + id);
         };
 
     }]);

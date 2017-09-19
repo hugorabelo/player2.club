@@ -24,7 +24,11 @@ class CampeonatoFase extends Eloquent {
     }
 
     public function usuarios() {
-        return $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
+        if($this->campeonato()->tipo_competidor == 'equipe') {
+            return $this->belongsToMany('Equipe', 'usuario_fases', 'campeonato_fases_id', 'equipe_id')->getResults();
+        } else {
+            return $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
+        }
     }
 
 	public function usuariosClassificados() {

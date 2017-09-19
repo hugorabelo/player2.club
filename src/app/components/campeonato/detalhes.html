@@ -129,8 +129,13 @@
                 <table class="table table-striped table-hover">
                     <tbody>
                         <tr ng-repeat="participante in vmCampeonato.campeonato.participantes">
-                            <td class="client-avatar"><img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}"></td>
-                            <td>{{participante.nome}}</td>
+                            <td class="client-avatar">
+                                <img alt="image" class="img-circle" ng-src="uploads/usuarios/{{participante.imagem_perfil}}" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
+                                <img alt="image" class="img-circle" ng-src="uploads/{{participante.imagem_perfil}}" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                            </td>
+                            <td>
+                                {{participante.nome}}
+                            </td>
                             <td>
                                 <img class="img-xs img-rounded m-r-sm" ng-src="uploads/usuarios/{{participante.time.distintivo}}" ng-if="participante.time">
                                 <span ng-if="participante.time" hide-xs>{{participante.time.nome}}</span>
@@ -153,7 +158,7 @@
         </md-card-content>
     </md-card>
 
-    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}">
+    <md-card flex flex-gt-sm="33" ng-class="{ 'm-n': telaMobile}" ng-if="vmCampeonato.campeonato.status >2">
         <md-card-title hide-gt-xs class="p-xs">
             <md-card-title-text>
                 <span class="md-headline">{{'messages.gerenciar_rodadas' | translate}}</span>
@@ -186,7 +191,7 @@
         </md-card-content>
     </md-card>
 
-    <md-card flex flex-gt-sm="33 " ng-class="{ 'm-n': telaMobile} " ng-if="vmCampeonato.campeonato.status <=2 ">
+    <md-card flex flex-gt-sm="33 " ng-class="{ 'm-n': telaMobile} " ng-if="vmCampeonato.campeonato.status <=2">
         <md-card-title hide-gt-xs class="p-xs ">
             <md-card-title-text>
                 <span class="md-headline ">{{'fields.excluir_campeonato' | translate}}</span>

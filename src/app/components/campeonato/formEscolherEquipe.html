@@ -1,0 +1,28 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="m-b-sm">{{'messages.inscricao_equipe_selecionar' | translate}}</div>
+                <md-input-container class="md-block" flex>
+                    <md-select ng-model="idEquipe" aria-label="equipe">
+                        <md-option ng-repeat="equipe in equipes" value="{{equipe.id}}">
+                            <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt=""> {{equipe.nome}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="fechar()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="inscreverEquipe()">{{'fields.save' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

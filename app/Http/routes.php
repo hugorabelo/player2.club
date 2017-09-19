@@ -32,6 +32,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('campeonato/sortearClubes', 'CampeonatosController@sortearClubes');
     Route::post('campeonato/aplicarWO', 'CampeonatosController@aplicarWO');
     Route::get('campeonato/rodadas/{id}', 'CampeonatosController@getRodadas');
+    Route::get('campeonato/naofinalizado', 'CampeonatosController@getNaoFinalizados');
     Route::post('campeonato/informacoesDaRodada', 'CampeonatosController@setInformacoesDaRodada');
     Route::resource('campeonato', 'CampeonatosController');
 
@@ -75,6 +76,10 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/removerNotificacaoEmail', 'UsersController@removerNotificacaoEmail');
     Route::get('usuario/conversas', 'UsersController@listaConversas');
     Route::get('usuario/mensagens/{idRemetente}', 'UsersController@listaMensagens');
+    Route::get('usuario/equipes/{idUsuario?}', 'UsersController@listaEquipes');
+    Route::get('usuario/equipesAdministradas', 'UsersController@listaEquipesAdministradas');
+    Route::get('usuario/convites', 'UsersController@listaConvites');
+    Route::post('usuario/convidarUsuario', 'UsersController@convidarUsuario');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -148,8 +153,24 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('time/porModelo/{idModeloCampeonato}', 'TimeController@getTimesPorModelo');
     Route::resource('time', 'TimeController');
 
+    Route::get('equipe/funcoes', 'EquipeController@getFuncoes');
+    Route::post('equipe/mensagem', 'EquipeController@enviarMensagem');
+    Route::get('equipe/integrante/{idEquipe}', 'EquipeController@getIntegrantes');
+    Route::post('equipe/integrante/{idEquipe}/{idUsuario?}', 'EquipeController@adicionaIntegrante');
+    Route::put('equipe/integrante', 'EquipeController@updateIntegrante');
+    Route::delete('equipe/integrante/{idEquipe}/{idIntegrante?}', 'EquipeController@removeIntegrante');
+    Route::get('equipe/solicitacao/{idEquipe}', 'EquipeController@getSolicitacoes');
+    Route::post('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@solicitarEntrada');
+    Route::delete('equipe/solicitacao/{idEquipe}/{idUsuario?}', 'EquipeController@cancelarSolicitacao');
+    Route::get('equipe/convites/{idEquipe}', 'EquipeController@getConvites');
+    Route::get('equipe/convitesDisponiveis/{idEquipe}', 'EquipeController@getConvitesDisponiveis');
+    Route::resource('equipe', 'EquipeController');
+    Route::post('equipe/{id}', 'EquipeController@update');
+
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
-        $retornoValidacao = Response::json(Auth::getUser());
+        $user = Auth::getUser();
+        $user->equipesAdministradas = $user->equipesAdministradas()->get();
+        $retornoValidacao = Response::json($user);
         return $retornoValidacao;
     }));
 
@@ -166,6 +187,10 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 Route::get('api/callback', function() {
     return Response::json(Auth::check());
 });
+
+Route::get('api/auth0/profile', array('middleware' => 'auth.basic', function() {
+    Log::warning('Chegou aqui');
+}));
 
 Route::get('api/times/baseFifa', 'TimeController@getBaseFifa');
 

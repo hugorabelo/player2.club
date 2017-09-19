@@ -33,10 +33,6 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $detalhes['campeonatos_id'] = $this->campeonato->id;
         $this->detalhesCampeonato = CampeonatoDetalhes::create($detalhes);
 
-//      Adicionar Administrador do Campeonato
-        $dadosAdministrador = array("users_id"=>$dadosCampeonato["criador"], "campeonatos_id"=>$this->campeonato->id);
-        CampeonatoAdmin::create($dadosAdministrador);
-
 //      2. Criar fases
 //      3. Cria regras de pontuação para cada fase
 //      4. Cria grupos da primeira fase
@@ -62,7 +58,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase['permite_empate'] = true;
         $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
         $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+        $dataInicio = strstr($dataInicio, " (", true);
         $primeiraFase['data_inicio'] = Carbon::parse($dataInicio);
+        $dataFim = strstr($dataFim, " (", true);
         $primeiraFase['data_fim'] = Carbon::parse($dataFim);
         $primeiraFase['campeonatos_id'] = $this->campeonato->id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
@@ -124,7 +122,9 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
             $dataInicio = substr($this->detalhesFases['data_inicio'], 0, 16);
             $dataFim = substr($this->detalhesFases['data_fim'], 0, 16);
+            $dataInicio = strstr($dataInicio, " (", true);
             $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
+            $dataFim = strstr($dataFim, " (", true);
             $faseCriada['data_fim'] = Carbon::parse($dataFim);
             $faseCriada['campeonatos_id'] = $this->campeonato->id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
@@ -181,10 +181,24 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                         $usuarioPartida->pontuacao = $pontuacoes[0];
                     }
                     $usuarioPartida->placar = $usuario['placar'];
+                    if(!empty($usuario['placar_extra'])) {
+                        $usuarioPartida->placar_extra = $usuario['placar_extra'];
+                    }
                     $usuarioPartida->save();
                 }
                 $empate_computado = true;
             } else {
+                if(Campeonato::precisaPlacarExtra($partida, $usuarios)) {
+                    foreach ($usuarios as $usuario) {
+                        $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                        $usuarioPartida->posicao = null;
+                        $usuarioPartida->pontuacao = null;
+                        $usuarioPartida->placar = null;
+                        $usuarioPartida->placar_extra = null;
+                        $usuarioPartida->save();
+                    }
+                    return 'messages.precisa_placar_extra';
+                }
                 return 'messages.empate_nao_permitido';
             }
         }
@@ -198,9 +212,23 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
                     $usuarioPartida->pontuacao = $pontuacoes[$i];
                 }
                 $usuarioPartida->placar = $usuario['placar'];
+                if(!empty($usuario['placar_extra'])) {
+                    $usuarioPartida->placar_extra = $usuario['placar_extra'];
+                }
                 $usuarioPartida->save();
                 $i++;
             }
+        }
+        if(Campeonato::precisaPlacarExtra($partida, $usuarios)) {
+            foreach ($usuarios as $usuario) {
+                $usuarioPartida = UsuarioPartida::find($usuario['id']);
+                $usuarioPartida->posicao = null;
+                $usuarioPartida->pontuacao = null;
+                $usuarioPartida->placar = null;
+                $usuarioPartida->placar_extra = null;
+                $usuarioPartida->save();
+            }
+            return 'messages.precisa_placar_extra';
         }
         $partida->usuario_placar = Auth::getUser()->id;
         $partida->data_placar = date('Y-m-d H:i:s');

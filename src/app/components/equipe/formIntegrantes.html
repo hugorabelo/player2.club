@@ -1,0 +1,62 @@
+<md-dialog aria-label="{{tituloModal | translate}}" hide-gt-xs>
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content class="p-h-md">
+            <md-list-item ng-repeat="integrante in integrantes" class="noright">
+                <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}}" alt="{{integrante.nome}}" class="img-circle circle-border-sm img-md m-xxs">
+                <p class="m-l-md">{{integrante.nome}}</p>
+                <md-button class="md-icon-button md-primary md-secondary" ng-click="editarIntegrante($event, integrante)" ng-if="!integrante.edit">
+                    <md-tooltip md-direction="top">{{'messages.editar_funcao' | translate}}</md-tooltip>
+                    <i class="material-icons">edit</i>
+                </md-button>
+                <md-select ng-model="integrante.pivot.funcao_equipe_id" ng-if="integrante.edit" ng-change="salvarNovaFuncao(integrante)">
+                    <md-option ng-repeat="funcao in funcoesEquipe" value="{{funcao.id}}">
+                        {{funcao.descricao}}
+                    </md-option>
+                </md-select>
+                <md-button class="md-icon-button md-warn md-secondary" ng-click="excluirIntegrante($event, integrante)">
+                    <md-tooltip md-direction="top">{{'messages.excluir_integrante' | translate}}</md-tooltip>
+                    <i class="material-icons">delete_forever</i>
+                </md-button>
+            </md-list-item>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()">{{'messages.close' | translate}}</md-button>
+            </md-dialog-actions>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+
+
+<h3 class="secao_titulo" hide-xs>{{'messages.gerenciar_participantes' | translate}}</h3>
+<div class="caixa-pesquisa" hide-xs ng-if="false">
+    <md-input-container class="md-block md-primary">
+        <label>{{'messages.filtro' | translate}}</label>
+        <input ng-model="vmSeguidores.searchTextSeguindo">
+    </md-input-container>
+</div>
+<md-grid-list md-cols-xs="2" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4" md-row-height="210px" md-gutter="12px" md-gutter-gt-sm="8px" hide-xs>
+    <md-list-item class="card-usuarios m-xs" ng-repeat="integrante in vmEquipe.equipe.integrantes" class="noright">
+        <img ng-src="uploads/usuarios/{{integrante.imagem_perfil}}" alt="{{integrante.nome}}" class="img-circle circle-border-sm img-md m-xs">
+        <p class="m-l-md text-left">{{integrante.nome}}</p>
+        <p class="m-l-md text-right" ng-if="!integrante.edit">{{integrante.descricao_funcao}}</p>
+        <md-button class="md-icon-button md-primary md-secondary" ng-click="vmEquipe.editarIntegrante($event, integrante)" ng-if="vmEquipe.equipe.administrador && !integrante.edit">
+            <md-tooltip md-direction="top">{{'messages.editar_funcao' | translate}}</md-tooltip>
+            <i class="material-icons">edit</i>
+        </md-button>
+        <md-select ng-model="integrante.pivot.funcao_equipe_id" ng-if="integrante.edit" ng-change="vmEquipe.salvarNovaFuncao(integrante)">
+            <md-option ng-repeat="funcao in vmEquipe.funcoesEquipe" value="{{funcao.id}}">
+                {{funcao.descricao}}
+            </md-option>
+        </md-select>
+        <md-button class="md-icon-button md-warn md-secondary" ng-click="vmEquipe.excluirIntegrante($event, integrante)" ng-if="vmEquipe.equipe.administrador">
+            <md-tooltip md-direction="top">{{'messages.excluir_integrante' | translate}}</md-tooltip>
+            <i class="material-icons">delete_forever</i>
+        </md-button>
+    </md-list-item>
+</md-grid-list>

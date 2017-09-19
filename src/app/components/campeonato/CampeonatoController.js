@@ -278,6 +278,7 @@
                                 vm.getPlataformasDoUsuario(participante);
                             })
                     });
+                participante.tipo_competidor_campeonato = vm.campeonato.tipo_competidor;
                 $mdDialog.show({
                         locals: {
                             tituloModal: 'fields.info_participante',
@@ -378,6 +379,7 @@
                                 fase.aberta = true;
                                 vm.loadingFase = false;
                                 vm.carregaRodadasGerenciar();
+                                vm.campeonato.status = 3;
                             }).error(function (data, status) {
                                 if (data.messages == undefined) {
                                     toastr.error($filter('translate')('messages.erro_operacao'), $filter('translate')('messages.operacao_nao_concluida'));
@@ -491,7 +493,23 @@
                 });
         };
 
-        vm.salvarPlacar = function (partida) {
+        function DialogControllerPlacarExtra($scope, $mdDialog, tituloModal, textoModal, partida) {
+            $scope.tituloModal = tituloModal;
+            $scope.textoModal = textoModal;
+            $scope.partida = partida;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarPlacar = function () {
+                vm.salvarPlacar(partida);
+                $mdDialog.hide();
+            }
+
+        };
+
+        vm.salvarPlacar = function (partida, ev) {
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
@@ -500,7 +518,28 @@
                     vm.carregaPartidasEmAberto();
                 })
                 .error(function (data) {
-                    toastr.error($filter('translate')(data.errors[0]));
+                    if (data.errors[0] == 'messages.precisa_placar_extra') {
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'messages.inserir_placar_extra',
+                                    textoModal: 'messages.precisa_placar_extra',
+                                    partida: partida
+                                },
+                                controller: DialogControllerPlacarExtra,
+                                templateUrl: 'app/components/campeonato/formPlacarExtra.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
+
+                            }, function () {
+
+                            });
+                    } else {
+                        toastr.error($filter('translate')(data.errors[0]));
+                    }
                 });
         };
 
@@ -787,29 +826,118 @@
                 });
         };
 
-        vm.inscreverCampeonato = function (ev, id) {
-            var confirm = $mdDialog.confirm(vm.campeonato.id)
-                .title(vm.textoInscreverTitulo)
-                .ariaLabel(vm.textoInscreverTitulo)
-                .targetEvent(ev)
-                .ok(vm.textoInscrever)
-                .cancel(vm.textoNo)
-                .theme('player2');
-            $mdDialog.show(confirm).then(function () {
-                    $rootScope.loading = true;
-                    CampeonatoUsuario.save(vm.campeonato.id)
-                        .success(function (data) {
-                            vm.campeonato.usuarioInscrito = true;
-                            vm.getParticipantes(vm.campeonato.id);
-                            toastr.success($filter('translate')('messages.sucesso_inscricao'));
-                        })
-                        .error(function (data) {
-                            vm.cadastraGamertagInscricao(ev);
-                        });
-                },
-                function () {
+        vm.aplicarWO = function (partida) {
 
-                });
+        };
+
+
+        function DialogControllerInscricaoEscolherEquipe($scope, $mdDialog, tituloModal, equipes) {
+            $scope.tituloModal = tituloModal;
+            $scope.equipes = equipes;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
+
+            $scope.inscreverEquipe = function () {
+                $scope.inscricao = {};
+                $scope.inscricao.idCampeonato = vm.campeonato.id;
+                $scope.inscricao.idEquipe = $scope.idEquipe;
+                CampeonatoUsuario.inscreverEquipe($scope.inscricao)
+                    .success(function (data) {
+                        vm.campeonato.usuarioInscrito = true;
+                        vm.getParticipantes(vm.campeonato.id);
+                        toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                    })
+                    .error(function (error) {
+                        if (error.errors[0] == 'messages.inscricao_equipe_sem_quantidade_minima') {
+                            toastr.error($filter('translate')('messages.inscricao_equipe_sem_quantidade_minima', {
+                                'quantidade_minima_competidores': vm.campeonato.quantidade_minima_competidores
+                            }));
+                            return;
+                        }
+
+                        if (error.errors[0] == 'messages.inscricao_usuario_nao_administrador_equipe') {
+                            toastr.error($filter('translate')('messages.inscricao_usuario_nao_administrador_equipe', {
+                                'nome_equipe': error.errors[1]
+                            }));
+                            return;
+                        }
+
+                        if (error.errors[0] == 'messages.inscricao_equipe_administrador_existente') {
+                            toastr.error($filter('translate')('messages.inscricao_equipe_administrador_existente', {
+                                'nome_equipe': error.errors[1],
+                                'nome_usuario': error.errors[2]
+                            }));
+                            return;
+                        }
+
+                        toastr.error($filter('translate')('messages.erro_inscricao'));
+                    });
+                $mdDialog.hide();
+            }
+        };
+
+        vm.inscreverCampeonato = function (ev, id) {
+            if (vm.campeonato.tipo_competidor == 'equipe') {
+                Usuario.getEquipesAdministradas()
+                    .success(function (data) {
+                        var equipesAdministradas = data;
+                        if (equipesAdministradas.length == 0) {
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title($filter('translate')('messages.inscrever_titulo'))
+                                .textContent($filter('translate')('messages.inscricao_equipe_nao_administrador'))
+                                .ariaLabel($filter('translate')('messages.inscrever_titulo'))
+                                .ok($filter('translate')('messages.close'))
+                                .targetEvent(ev)
+                            );
+                            return;
+                        }
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'fields.inscrever_titulo',
+                                    equipes: equipesAdministradas
+                                },
+                                controller: DialogControllerInscricaoEscolherEquipe,
+                                templateUrl: 'app/components/campeonato/formEscolherEquipe.html',
+                                parent: angular.element(document.body),
+                                targetEvent: null,
+                                clickOutsideToClose: true,
+                                fullscreen: true
+                            })
+                            .then(function () {
+
+                            }, function () {
+
+                            });
+                    });
+            } else {
+                var confirm = $mdDialog.confirm(vm.campeonato.id)
+                    .title(vm.textoInscreverTitulo)
+                    .ariaLabel(vm.textoInscreverTitulo)
+                    .targetEvent(ev)
+                    .ok(vm.textoInscrever)
+                    .cancel(vm.textoNo)
+                    .theme('player2');
+                $mdDialog.show(confirm).then(function () {
+                        $rootScope.loading = true;
+                        CampeonatoUsuario.save(vm.campeonato.id)
+                            .success(function (data) {
+                                vm.campeonato.usuarioInscrito = true;
+                                vm.getParticipantes(vm.campeonato.id);
+                                toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                            })
+                            .error(function (data) {
+                                //TODO se houver erro de usuário tentando se inscrever em campeonato em equipe, exibir mensagem aqui. Fazer um if com o retorno
+                                vm.cadastraGamertagInscricao(ev);
+                            });
+                    },
+                    function () {
+
+                    });
+            }
         };
 
         vm.cadastraGamertagInscricao = function (ev) {
@@ -881,9 +1009,10 @@
                     .success(function (data) {
                         vm.campeonato.usuarioInscrito = false;
                         vm.getParticipantes(vm.campeonato.id);
+                        toastr.success($filter('translate')('messages.sucesso_desistencia'));
                     })
                     .error(function (data) {
-
+                        toastr.error($filter('translate')('messages.erro_desistencia'));
                     });
             }, function () {
 
@@ -1088,10 +1217,14 @@
             };
 
             angular.forEach(vm.campeonato.participantes, function (participante) {
+                var distintivoJogador = null;
+                if (participante.time != null) {
+                    distintivoJogador = participante.time.distintivo;
+                }
                 vm.models.lists.Principal.push({
                     id: participante.id,
                     label: participante.nome,
-                    distintivo: participante.time.distintivo
+                    distintivo: distintivoJogador
                 });
             });
 
@@ -1215,6 +1348,7 @@
         };
 
         vm.aplicarWO = function (partida) {
+            partida.tipo_competidor = vm.campeonato.tipo_competidor;
             $mdDialog.show({
                     locals: {
                         tituloModal: 'fields.aplicar_wo',
@@ -1277,6 +1411,6 @@
                     vm.carregaRodadasGerenciar();
                 });
         };
-    }]);
+                }]);
 
 }());

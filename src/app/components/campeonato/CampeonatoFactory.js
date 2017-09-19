@@ -277,5 +277,9 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
             });
         },
 
+        getNaoFinalizados: function () {
+            return $http.get('api/campeonato/naofinalizado');
+        }
+
     }
 }]);

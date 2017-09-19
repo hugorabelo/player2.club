@@ -33,7 +33,11 @@ class CampeonatosController extends Controller
             $campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
             $campeonato->plataforma = $campeonato->plataforma()->descricao;
             $campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+            $campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+            $campeonato->tipo_campeonato= $campeonato->campeonatoTipo()->descricao;
+            $campeonato->status = $campeonato->status();
         }
+
         return Response::json($campeonatos);
     }
 
@@ -48,14 +52,22 @@ class CampeonatosController extends Controller
         $campeonato->status = $campeonato->status();
         $campeonato->vagas = $campeonato->maximoUsuarios();
 
-        $quantidadeUsuario = DB::table('campeonato_usuarios')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        $usuarioLogado = Auth::getUser();
+
+        if($campeonato->tipo_competidor == 'equipe') {
+            $equipesDoUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
+            $quantidadeUsuario = DB::table('campeonato_usuarios')->whereIn('equipe_id', $equipesDoUsuario)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        } else {
+            $quantidadeUsuario = DB::table('campeonato_usuarios')->where('users_id', '=', $usuarioLogado->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        }
+
         $campeonato->usuarioInscrito = false;
         if($quantidadeUsuario > 0) {
             $campeonato->usuarioInscrito = true;
         }
 
         $campeonato->usuarioAdministrador = false;
-        $quantidadeAdministrador = DB::table('campeonato_admins')->where('users_id', '=', Auth::getUser()->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
+        $quantidadeAdministrador = DB::table('campeonato_admins')->where('users_id', '=', $usuarioLogado->id)->where('campeonatos_id', '=', $campeonato->id)->count('id');
         if($quantidadeAdministrador > 0) {
             $campeonato->usuarioAdministrador = true;
         }
@@ -155,10 +167,12 @@ class CampeonatosController extends Controller
             $detalhes->update();
 
             $faseInicial = $campeonato->faseInicial();
+            $dataInicial = strstr($dataInicial, " (", true);
             $faseInicial->data_inicio = Carbon::parse($dataInicial);
             $faseInicial->update();
 
             $faseFinal = $campeonato->faseFinal();
+            $dataFinal = strstr($dataFinal, " (", true);
             $faseFinal->data_fim = Carbon::parse($dataFinal);
             $faseFinal->update();
 
@@ -282,15 +296,30 @@ class CampeonatosController extends Controller
             $pesquisa->where('campeonato_tipos_id','=',$input['campeonatotipos_id']);
         }
 
-        $resultadoPesquisa = $pesquisa->get();
+
 
         if(isset($input['status_id'])) {
-            foreach ($resultadoPesquisa as $key=>$campeonato) {
-                if($campeonato->status() != $input['status_id']) {
-                    $resultadoPesquisa->pull($key);
-                }
+            switch ($input['status_id']) {
+                case 1:
+                    $pesquisa->whereRaw('(select count(id) from campeonato_usuarios where campeonatos_id = campeonatos.id) < (SELECT quantidade_competidores FROM detalhes_campeonato where campeonatos_id = campeonatos.id)');
+                    break;
+                case 2:
+                    $pesquisa->whereRaw('(select count(id) from campeonato_usuarios where campeonatos_id = campeonatos.id) = (SELECT quantidade_competidores FROM detalhes_campeonato where campeonatos_id = campeonatos.id)')
+                            ->whereNotIn('id',CampeonatoFase::whereRaw('inicial = true and (aberta = true or encerrada = true)')->get(array('campeonatos_id')))
+                            ->whereNotIn('id',CampeonatoFase::where('final','=',true)->where('encerrada','=',true)->get(array('campeonatos_id')));
+                    break;
+                case 3:
+                    $pesquisa->whereRaw('(select count(id) from campeonato_usuarios where campeonatos_id = campeonatos.id) = (SELECT quantidade_competidores FROM detalhes_campeonato where campeonatos_id = campeonatos.id)')
+                        ->whereIn('id',CampeonatoFase::whereRaw('inicial = true and (aberta = true or encerrada = true)')->get(array('campeonatos_id')))
+                        ->whereNotIn('id',CampeonatoFase::where('final','=',true)->where('encerrada','=',true)->get(array('campeonatos_id')));
+                    break;
+                case 4:
+                    $pesquisa->whereIn('id',CampeonatoFase::where('final','=',true)->where('encerrada','=',true)->get(array('campeonatos_id')));
+                    break;
             }
         }
+
+        $resultadoPesquisa = $pesquisa->get();
 
         foreach ($resultadoPesquisa as $campeonato) {
             $campeonato->nome_plataforma = $campeonato->plataforma()->descricao;
@@ -392,6 +421,19 @@ class CampeonatosController extends Controller
         if(isset($liberada)) {
             $campeonato->salvarLiberarRodada($rodada, $liberada);
         }
+    }
+
+    function getNaoFinalizados() {
+        $campeonatos = Campeonato::whereNotIn('id',CampeonatoFase::where('final','=',true)->where('encerrada','=',true)->get(array('campeonatos_id')))->get();
+
+        foreach ($campeonatos as $campeonato) {
+            $campeonato->jogo = $campeonato->jogo()->descricao;
+            $campeonato->jogo_imagem = $campeonato->jogo()->imagem_capa;
+            $campeonato->campeonatoTipo = $campeonato->campeonatoTipo()->descricao;
+            $campeonato->plataforma = $campeonato->plataforma()->descricao;
+            $campeonato->plataforma_imagem = $campeonato->plataforma()->imagem_logomarca;
+        }
+        return Response::json($campeonatos);
     }
 
 }

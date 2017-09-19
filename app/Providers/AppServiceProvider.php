@@ -22,10 +22,12 @@ class AppServiceProvider extends ServiceProvider {
 			$administrador->campeonatos_id = $campeonato->id;
 			$administrador->save();
 
-			$usuario = new \CampeonatoUsuario();
-			$usuario->users_id = $campeonato->criador;
-			$usuario->campeonatos_id = $campeonato->id;
-			$usuario->save();
+			if($campeonato->tipo_competidor != 'equipe') {
+				$usuario = new \CampeonatoUsuario();
+				$usuario->users_id = $campeonato->criador;
+				$usuario->campeonatos_id = $campeonato->id;
+				$usuario->save();
+			}
 		});
 
 		\Post::created(function ($post) {
@@ -43,10 +45,20 @@ class AppServiceProvider extends ServiceProvider {
 		});
 
         \CampeonatoUsuario::created(function ($campeonatoUsuario) {
-            $atividade = new \Atividade();
-            $atividade->users_id = $campeonatoUsuario->users_id;
-            $atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
-            $atividade->save();
+			if(isset($campeonatoUsuario->users_id)) {
+				$atividade = new \Atividade();
+				$atividade->users_id = $campeonatoUsuario->users_id;
+				$atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
+				$atividade->save();
+			} else if(isset($campeonatoUsuario->equipe_id)) {
+				$equipe = \Equipe::find($campeonatoUsuario->equipe_id);
+				foreach ($equipe->integrantes()->get() as $integrante) {
+					$atividade = new \Atividade();
+					$atividade->users_id = $integrante->id;
+					$atividade->campeonato_usuarios_id = $campeonatoUsuario->id;
+					$atividade->save();
+				}
+			}
         });
 
         \Notificacao::created(function ($notificacao) {
@@ -160,6 +172,29 @@ class AppServiceProvider extends ServiceProvider {
 				\Comentario::destroy($atividade->comentario_id);
 			}
 		});
+
+        \Equipe::created(function ($equipe) {
+            $equipe->adicionarIntegrante(\Auth::getUser()->id, 1);
+        });
+
+        \ConviteUsuario::created(function ($convite) {
+            $usuario = \User::find($convite->users_id);
+            $nome_remetente = $usuario->nome;
+
+            $conteudo = trans("messages.texto_convidado", ['nome_remetente' => $nome_remetente]);
+
+            $destinatario = $convite;
+            $destinatario->nome = $convite->email;
+            $link = $this->base_path;
+
+            $texto_link = trans("messages.link_convidado");
+
+            \Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $destinatario, 'link' => $link, 'texto_link' => $texto_link], function($message) use ($destinatario) {
+                $message->from('contato@player2.club', $name = 'player2.club');
+                $message->to($destinatario->email, $name = $destinatario->nome);
+                $message->subject('Você foi convidado para participar da player2.club');
+            });
+        });
 
 	}
 

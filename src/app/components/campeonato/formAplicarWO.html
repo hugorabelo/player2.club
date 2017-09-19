@@ -11,7 +11,8 @@
                 <div class="m-b-sm">{{'messages.escolha_vencedor_wo' | translate}}</div>
                 <md-radio-group ng-model="vencedorWO" class="md-block m-t-sm">
                     <md-radio-button ng-repeat="usuario in partida.usuarios" value="{{usuario.id}}" class="md-primary">
-                        <img ng-src="uploads/usuarios/{{usuario.distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile"> {{usuario.nome}}
+                        <img ng-src="uploads/usuarios/{{usuario.distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile" ng-if="partida.tipo_competidor != 'equipe'">
+                        <img ng-src="uploads/{{usuario.distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile" ng-if="partida.tipo_competidor == 'equipe'"> {{usuario.nome}}
                     </md-radio-button>
                     <md-radio-button value="0" class="md-primary">{{'messages.wo_duplo' | translate}}</md-radio-button>
                 </md-radio-group>

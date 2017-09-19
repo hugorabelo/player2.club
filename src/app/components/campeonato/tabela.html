@@ -39,12 +39,22 @@
                                         {{$index+1}}
                                     </td>
                                     <td>
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}</a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-xs ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}
+                                        </a>
+                                        <a ui-sref="equipe({idEquipe: jogadorGrupo.id})" hide-xs ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"> {{jogadorGrupo.nome}}
+                                        </a>
                                         <!--
                                         Isso aqui está comentado de forma temporária. Resolver, quando for resolvido os distintivos em definitivo
                                         <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs>{{jogadorGrupo.sigla | uppercase}}</a>
 -->
-                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs><img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span></a>
+                                        <a ui-sref="profile({idUsuario: jogadorGrupo.id})" hide-gt-xs ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span>
+                                        </a>
+                                        <a ui-sref="equipe({idEquipe: jogadorGrupo.id})" hide-gt-xs ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                            <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/{{jogadorGrupo.distintivo}}" title="{{jogadorGrupo.nome}}"><span class="p-w-sm">{{jogadorGrupo.sigla | uppercase}}</span>
+                                        </a>
                                     </td>
                                     <td class="text-center">{{jogadorGrupo.pontuacao}}</td>
                                     <td class="text-center">{{jogadorGrupo.jogos}}</td>
@@ -79,9 +89,13 @@
                         <div class="lista-de-jogos-item" ng-repeat="partida in vmCampeonato.partidasDaRodada[$index]">
                             <div class="placar-jogo-equipes" flex layout="row" layout-align="space-between center">
                                 <div class="placar-jogo-equipes-mandante" flex>
-                                    <a ui-sref="profile({idUsuario: partida.usuarios[0].users_id})">
+                                    <a ui-sref="profile({idUsuario: partida.usuarios[0].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
                                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
                                         <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
+                                    </a>
+                                    <a ui-sref="equipe({idEquipe: partida.usuarios[0].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+                                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
                                     </a>
                                 </div>
                                 <div class="placar-jogo-equipes-placar" flex layout="row" layout-align="space-around center">
@@ -90,8 +104,12 @@
                                     <span class="placar-jogo-equipes-placar-visitante">{{partida.usuarios[1].placar}}</span>
                                 </div>
                                 <div class="placar-jogo-equipes-visitante" flex>
-                                    <a ui-sref="profile({idUsuario: partida.usuarios[1].users_id})">
+                                    <a ui-sref="profile({idUsuario: partida.usuarios[1].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'">
                                         <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                                    </a>
+                                    <a ui-sref="equipe({idEquipe: partida.usuarios[1].users_id})" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'">
+                                        <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
                                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
                                     </a>
                                 </div>
@@ -104,22 +122,39 @@
         <!--        MATA-MATA-->
         <div class="grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-if="vmCampeonato.fase_atual.matamata" flex layout="column">
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
-            <div class="lista-de-jogos-item" ng-repeat="usuario in grupo.usuarios | orderBy: 'pivot.id'" flex layout="row">
-                <div class="placar-jogo-equipes-matamata" flex="80">
-                    <a ui-sref="profile({idUsuario: usuario.id})">
-                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{usuario.distintivo}}" title="{{usuario.nome}}">
-                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{usuario.nome}}">{{usuario.nome}}</span>
-                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{usuario.nome}}">{{usuario.sigla}}</span>
+            <div class="lista-de-jogos-item" ng-repeat="partida in grupo.partidas" flex layout="row">
+                <div class="placar-jogo-equipes-matamata mandante" flex="40">
+                    <a ui-sref="profile({idUsuario: partida.usuarios[0].id})">
+                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
+                        <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
                     </a>
                 </div>
-                <div class="placar-jogo-equipes-placar-matamata" ng-repeat="placar in usuario.placares track by $index" flex-gt-xs="10" flex-xs="20">
-                    {{placar}}
+                <div class="placar-jogo-equipes-placar-matamata" flex-gt-xs="10" flex-xs="20">
+                    <span class="placar_extra">
+                        {{partida.usuarios[0].placar_extra}}
+                    </span> {{partida.usuarios[0].placar}}
+                </div>
+                <div class="placar-jogo-equipes-placar-matamata" flex-gt-xs="10" flex-xs="20">
+                    {{partida.usuarios[1].placar}}
+                    <span class="placar_extra">
+                        {{partida.usuarios[1].placar_extra}}
+                    </span>
+                </div>
+                <div class="placar-jogo-equipes-matamata" flex="40">
+                    <a ui-sref="profile({idUsuario: partida.usuarios[1].id})">
+                        <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
+                        <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>
+                    </a>
                 </div>
             </div>
-            <div ng-if="$odd && grupo.usuarios != null" flex="35" hide-xs>
+
+            <div ng-if="$odd && grupo.usuarios != null" flex="35">
                 <div class="mata-conector1"></div>
                 <div class="mata-conector2"></div>
             </div>
+
         </div>
     </md-card-content>
 

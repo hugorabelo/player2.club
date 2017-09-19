@@ -43,10 +43,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     angular.forEach(usuario, function (value, key) {
                         formData.append(key, value);
                     });
-                    if (arquivoPerfil != null) {
+                    if (arquivoPerfil !== null) {
                         formData.append("imagem_perfil", arquivoPerfil.lfFile);
                     }
-                    if (arquivoCapa != null) {
+                    if (arquivoCapa !== null) {
                         formData.append("imagem_capa", arquivoCapa.lfFile);
                     }
                     return formData;
@@ -59,7 +59,7 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
         },
 
         getJogos: function (id, count) {
-            if (count == undefined) {
+            if (count === undefined) {
                 count = '0';
             }
             return $http.get('api/usuario/getJogos/' + id + '/' + count);
@@ -219,6 +219,51 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
+        seguirEquipe: function (idSeguidor, equipe) {
+            dados = {
+                idEquipe: equipe.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/adicionaSeguidorEquipe',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        deixarDeSeguirEquipe: function (idSeguidor, equipe) {
+            dados = {
+                idEquipe: equipe.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/removeSeguidorEquipe',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        segueEquipe: function (idSeguidor, equipe) {
+            dados = {
+                idEquipe: equipe.id,
+                idUsuarioSeguidor: idSeguidor
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/segueEquipe',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
         getFeed: function (idUsuario, todos) {
             if (todos) {
                 return $http.get('api/usuario/feed/' + idUsuario + '/' + todos);
@@ -240,7 +285,7 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
         },
 
         getNotificacoes: function (todas) {
-            if (todas == undefined) {
+            if (todas === undefined) {
                 return $http.get('api/usuario/notificacoes');
             } else {
                 return $http.get('api/usuario/notificacoes/' + todas);
@@ -303,6 +348,33 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         getMensagens: function (idRemetente) {
             return $http.get('api/usuario/mensagens/' + idRemetente);
+        },
+
+        getEquipes: function (idUsuario) {
+            if (idUsuario === undefined) {
+                return $http.get('api/usuario/equipes');
+            } else {
+                return $http.get('api/usuario/equipes/' + idUsuario);
+            }
+        },
+
+        getEquipesAdministradas: function () {
+            return $http.get('api/usuario/equipesAdministradas');
+        },
+
+        getConvites: function () {
+            return $http.get('api/usuario/convites');
+        },
+
+        convidarUsuario: function (email) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/convidarUsuario',
+                data: $.param(email),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);

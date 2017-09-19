@@ -40,7 +40,12 @@
                 //                        vm.userCampeonatosDisponiveis = data;
                 //                    })
                 //                    .error(function (data) {});
-                Campeonato.get()
+                //                Campeonato.get()
+                //                    .success(function (data) {
+                //                        vm.userCampeonatosDisponiveis = data;
+                //                    })
+                //                    .error(function (data) {});
+                Campeonato.getNaoFinalizados()
                     .success(function (data) {
                         vm.userCampeonatosDisponiveis = data;
                     })
@@ -359,7 +364,7 @@
                 atualizaMensagens = $interval(function () {
                     vm.getMensagensDoUsuario();
                 }, 2000);
-            }
+            };
 
             $scope.$on('$destroy', function () {
                 $interval.cancel(atualizaMensagens);
@@ -371,6 +376,30 @@
                 objScrDiv.scrollTop = objScrDiv.scrollHeight;
             };
 
-    }]);
+            vm.convitesUsuario = {};
+
+            vm.getConvitesDoUsuario = function () {
+                Usuario.getConvites()
+                    .success(function (data) {
+                        vm.convitesDoUsuario = data;
+                    })
+                    .error(function (data) {
+                        toastr.error(error.message);
+                    });
+            };
+
+            vm.convidar = function (email) {
+                Usuario.convidarUsuario(email)
+                    .success(function (data) {
+                        vm.getConvitesDoUsuario();
+                        vm.usuario.quantidade_convites--;
+                        toastr.success($filter('translate')('messages.convite_enviado_sucesso'));
+                    })
+                    .error(function (data) {
+                        toastr.error($filter('translate')(data.errors[0]));
+                    });
+            };
+
+        }]);
 
 }());
