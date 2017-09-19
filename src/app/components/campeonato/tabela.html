@@ -122,7 +122,6 @@
         <!--        MATA-MATA-->
         <div class="grupo-matamata" ng-repeat="grupo in vmCampeonato.gruposDaFase track by $index" ng-if="vmCampeonato.fase_atual.matamata" flex layout="column">
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
-
             <div class="lista-de-jogos-item" ng-repeat="partida in grupo.partidas" flex layout="row">
                 <div class="placar-jogo-equipes-matamata mandante" flex="40">
                     <a ui-sref="profile({idUsuario: partida.usuarios[0].id})">

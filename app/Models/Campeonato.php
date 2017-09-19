@@ -280,8 +280,9 @@ class Campeonato extends Eloquent {
                     $partida->usuarios = $partida->usuarios();
                     $this->aplicarWO($partida);
                 } else if (!isset($partida->data_confirmacao)) {
-                    $partida->data_confirmacao = date('Y-m-d H:i:s');
-                    $partida->save();
+                    $partidaBD = Partida::find($partida['id']);
+                    $partidaBD->data_confirmacao = date('Y-m-d H:i:s');
+                    $partidaBD->save();
                 }
             }
 
@@ -511,32 +512,35 @@ class Campeonato extends Eloquent {
                         $lista[$i] = $lista[$i]->sortBy('grupoAnterior');
                     }
 
+                    $quantidadeGrupos = sizeof($lista[1]);
                     $indiceGrupoAtual = 0;
                     $indicePosicaoInicial = 1;
                     $indicePosicaoFinal = $maximaPosicao;
                     $invertePosicao = false;
                     $indiceGrupoInicial = 0;
-                    $indiceGrupoFinal = $grupos->count()-1;
+                    $indiceGrupoFinal = $quantidadeGrupos-1;
 
+                    //TODO Problema a partir daqui
                     while($indiceGrupoAtual < $grupos->count()) {
                         $grupo = $grupos->get($indiceGrupoAtual);
+                        if(($indiceGrupoInicial == $quantidadeGrupos) && ($indiceGrupoFinal < 0)) {
+                            $indiceGrupoInicial = 0;
+                            $indiceGrupoFinal = $quantidadeGrupos-1;
+                            $invertePosicao = !$invertePosicao;
+                        }
 
                         if($invertePosicao) {
                             // Pegar mandante do final da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoFinal);
-                            if($indiceGrupoFinal % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal + 1);
-                            } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal - 1);
-                            }
+                            $indiceGrupoFinal--;
+                            $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
+                            $indiceGrupoFinal--;
                         } else {
                             // Pegar mandante do início da lista
                             $usuario1 = $lista[$indicePosicaoInicial]->get($indiceGrupoInicial);
-                            if($indiceGrupoInicial % 2 == 0) {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-                            } else {
-                                $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoFinal);
-                            }
+                            $indiceGrupoInicial++;
+                            $usuario2 = $lista[$indicePosicaoFinal]->get($indiceGrupoInicial);
+                            $indiceGrupoInicial++;
                         }
 
                         if($this->tipo_competidor == 'equipe') {
@@ -797,9 +801,17 @@ class Campeonato extends Eloquent {
             return null;
         }
         $grupo = $faseAtual->grupos()->first();
+
+        //Bloquear todas as partidas que estão com o prazo vencido
+        $idCampeonato = $this->id;
+        DB::table('partidas')->where('liberada','=','true')->whereRaw('data_prazo < current_date')
+            ->whereRaw("fase_grupos_id IN (select id from fase_grupos where campeonato_fases_id  IN (select id FROM campeonato_fases where campeonatos_id  = $idCampeonato))")
+            ->update(array('liberada'=>'false'));
+
         $rodadas = DB::table('partidas')
             ->selectRaw('DISTINCT rodada as numero, data_prazo, liberada')
             ->where('fase_grupos_id', '=', $grupo->id)
+            ->where('adiamento','=', 'false')
             ->groupBy('rodada', 'data_prazo', 'liberada')
             ->orderBy('rodada')
             ->get();

@@ -50,6 +50,7 @@ class CampeonatosController extends Controller
         $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
         $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
         $campeonato->status = $campeonato->status();
+        $campeonato->vagas = $campeonato->maximoUsuarios();
 
         $usuarioLogado = Auth::getUser();
 
