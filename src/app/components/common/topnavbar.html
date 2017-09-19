@@ -170,9 +170,9 @@
     </div>
 </md-toolbar>
 
-<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch">
+<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch" id="areaTopNavBar">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-if="!vmTopNav.isOpenSideNav()">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-if="!vmTopNav.isOpenSideNav()" id="botaoPrincipal">
             <i class="material-icons md-24">menu</i>
         </md-button>
         <span flex class="text-center">
@@ -181,17 +181,17 @@
             </a>
         </span>
 
-        <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
+        <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens" id="botaoMensagens">
             <i class="material-icons md-24">message</i>
             <span class="label label-danger" ng-if="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
         </md-button>
 
-        <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes">
+        <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes" id="botaoNotificacoes">
             <i class="material-icons md-24">videogame_asset</i>
             <span class="label label-danger">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
         </md-button>
 
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch" id="botaoPesquisa">
             <i class="material-icons md-24">search</i>
         </md-button>
     </div>
@@ -233,3 +233,9 @@
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </md-content>
 </md-sidenav>
+
+
+<div ng-controller="HomeController as vmHome">
+    <div ng-intro-options="vmHome.IntroOptions" ng-intro-method="CallMe" ng-intro-autostart="true" ng-if="telaMobile">
+    </div>
+</div>

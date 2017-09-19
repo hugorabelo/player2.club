@@ -400,6 +400,34 @@
                     });
             };
 
+            vm.IntroOptions = {
+                steps: [
+                    {
+                        element: '#botaoPrincipal',
+                        intro: $filter('translate')('tutoriais.menu_principal_mobile')
+                    },
+                    {
+                        element: '#botaoMensagens',
+                        intro: $filter('translate')('tutoriais.menu_mensagens')
+                    },
+                    {
+                        element: '#botaoNotificacoes',
+                        intro: $filter('translate')('tutoriais.menu_notificacoes'),
+                        position: 'left'
+                    },
+                    {
+                        element: '#botaoPesquisa',
+                        intro: $filter('translate')('tutoriais.botao_pesquisa_mobile'),
+                        position: 'left'
+                    },
+                    {
+                        element: '#areaTopNavBar',
+                        intro: $filter('translate')('tutoriais.texto_inicial')
+                    }
+                ],
+                showStepNumbers: false
+            };
+
         }]);
 
 }());

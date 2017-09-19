@@ -531,5 +531,13 @@
         "descricao_curtir_comentario": "Usuário curtiu o seu comentário",
         "descricao_seguir_usuario": "Alguém começou a seguir você",
         "descricao_sorteou_clubes": "Os clubes de um campeonato foram sorteados"
+    },
+
+    "tutoriais": {
+        "menu_principal_mobile": "Ao clicar neste ícone, um menu é aberto com várias opções para você navegar na plataforma. Aqui você pode editar seu perfil, criar um novo campeonato, pesquisar campeonatos existentes, acompanhar suas partidas e equipes, entre outras funcionalidades. Este é o menu principal da aplicação.",
+        "botao_pesquisa_mobile": "Clicando neste ícone, uma caixa de pesquisa é exibida, para que você possa pesquisar por usuários, jogos ou campeonatos. É um bom lugar para você procurar amigos pelo nome",
+        "menu_mensagens": "Este ícone exibe a quantidade de mensagens não lidas que você possui, além de abrir as conversas já iniciadas com outros usuários",
+        "menu_notificacoes": "Aqui você consegue visualizar todas as notificações não lidas que você tem",
+        "texto_inicial": "Você pode começar procurando por alguém na caixa de pesquisa e seguir esse usuário, para poder acompanhar o feed de atividades que aparece nesta tela principal"
     }
 }
