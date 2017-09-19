@@ -146,6 +146,14 @@
                     pageTitle: "messages.mensagens"
                 }
             })
+            .state('home.convidar_amigos', {
+                url: "/convidar_amigos",
+                templateUrl: "app/components/dashboard/convidarAmigos.html",
+                controller: 'HomeController as vmHome',
+                data: {
+                    pageTitle: "messages.mensagens"
+                }
+            })
             .state('campeonato', {
                 url: "/campeonato/{idCampeonato}",
                 templateUrl: "app/components/campeonato/index.html",

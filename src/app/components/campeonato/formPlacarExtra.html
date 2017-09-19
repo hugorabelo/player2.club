@@ -1,0 +1,40 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data" ng-submit="salvarPlacar()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="m-b-md">{{textoModal | translate}}</div>
+
+                <div flex layout="row" layout-align="space-between center">
+                    <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center">
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
+                        <img ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante" alt="profile">
+                    </div>
+                    <div class="text-center" flex layout="row" layout-align="space-around center">
+                        <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar_extra" ng-disabled="partida.data_placar || !partida.liberada">
+                        <i class="fa fa-close fa-fw"></i>
+                        <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar_extra" ng-disabled="partida.data_placar || !partida.liberada">
+                    </div>
+                    <div class="text-left" flex layout-xs="row" layout-align-xs="space-around center">
+                        <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile">
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
+                        <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
+
+                    </div>
+                </div>
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row ">
+            <md-button ng-click="cancel() ">{{'fields.cancel' | translate}}</md-button>
+            <md-button type="submit ">{{'fields.save' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

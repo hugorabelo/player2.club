@@ -572,13 +572,31 @@ class UsersController extends Controller {
 		return Response::json($equipes);
 	}
 
-	//TODO SQL Verificacao quantidade de equipes administradas no campeonato
-	/*
-	 * select count(*) from integrante_equipe where users_id = 1 and funcao_equipe_id IN (
-			select id from funcao_equipe where administrador
-		) and equipe_id IN (
-			select equipe_id FROM campeonato_usuarios where campeonatos_id = 33
-		)
-	 */
+	function listaConvites() {
+        $idUsuario = Auth::getUser()->id;
+        $usuario = User::find($idUsuario);
+        $convites = $usuario->getConvites();
+        foreach ($convites as $convite) {
+            $convite->status = 'aguardando';
+            $situacao = User::where('email','=',$convite->email)->where('nome','<>','username')->count();
+            if($situacao != 0) {
+                $convite->status = 'aceito';
+            }
+        }
+        return $convites;
+    }
 
+    function convidarUsuario() {
+        $input = Input::except('_token');
+        $idUsuario = Auth::getUser()->id;
+        if(isset($input['email'])) {
+            $usuario = User::find($idUsuario);
+            $retorno = $usuario->convidar($input['email']);
+            if($retorno != '') {
+                return Response::json(array('success' => false,
+                    'errors' => array($retorno)), 300);
+            }
+            return Response::json(array('success'=>true));
+        }
+    }
 }

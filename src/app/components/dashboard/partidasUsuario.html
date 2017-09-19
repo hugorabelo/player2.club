@@ -25,9 +25,15 @@
                         <img ng-src="uploads/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante img-circle" alt="profile" ng-if="partida.tipo_competidor == 'equipe'">
                     </div>
                     <div flex="30" flex-xs="40" class="text-center" layout-align="space-around center" layout="row">
+                        <span class="placar_extra_input mandante" ng-if="partida.usuarios[0].placar_extra">
+                            {{partida.usuarios[0].placar_extra}}
+                        </span>
                         <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar || !partida.liberada">
                         <i class="fa fa-close fa-fw"></i>
                         <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar || !partida.liberada">
+                        <span class="placar_extra_input visitante" ng-if="partida.usuarios[1].placar_extra">
+                            {{partida.usuarios[1].placar_extra}}
+                        </span>
                     </div>
                     <div flex="25" class="text-left" layout-align-xs="space-around center">
                         <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante img-circle" alt="profile" ng-if="partida.tipo_competidor != 'equipe'">

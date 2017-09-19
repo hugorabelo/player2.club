@@ -111,6 +111,7 @@ class Partida extends Eloquent {
             $usuarioPartida->posicao = null;
             $usuarioPartida->pontuacao = null;
             $usuarioPartida->placar = null;
+            $usuarioPartida->placar_extra = null;
             $usuarioPartida->save();
         }
 

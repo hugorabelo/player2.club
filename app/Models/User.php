@@ -20,7 +20,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	protected $guarded = array();
 
-	protected $fillable = array('nome','email','password', 'usuario_tipos_id', 'imagem_perfil', 'localizacao', 'descricao', 'sigla', 'imagem_capa');
+	protected $fillable = array('nome','email','password', 'usuario_tipos_id', 'imagem_perfil', 'localizacao', 'descricao', 'sigla', 'imagem_capa', 'quantidade_convites');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -407,4 +407,32 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return $equipePlacarCadastrado == $equipeUsuario;
 	}
 
+	public function getConvites() {
+	    return $this->hasMany('ConviteUsuario', 'users_id')->orderBy('created_at', 'desc')->get();
+    }
+
+    public function convidar($email) {
+        if($this->quantidade_convites <= 0) {
+            return 'messages.sem_convites';
+        }
+        if(User::where('email','=',$email)->count() > 0) {
+            return 'messages.usuario_ja_convidado';
+        }
+
+        $convite = new ConviteUsuario();
+        $convite->users_id = $this->id;
+        $convite->email = $email;
+        $convite->save();
+
+        $novoUsuario = new User();
+        $novoUsuario->nome = 'username';
+        $novoUsuario->email = $email;
+        $novoUsuario->password = Hash::make('password');
+        $novoUsuario->usuario_tipos_id = 2;
+        $novoUsuario->save();
+
+        $this->quantidade_convites--;
+        $this->save();
+        return '';
+    }
 }

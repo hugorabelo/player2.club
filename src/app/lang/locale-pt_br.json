@@ -165,7 +165,10 @@
         "equipe": "Equipe",
         "info_participante": "Exibir detalhes do participante",
         "individual": "Individual",
-        "quantidade_minima_usuarios": "Quantidade Mínima de Usuários na Equipe"
+        "quantidade_minima_usuarios": "Quantidade Mínima de Usuários na Equipe",
+
+        "convidar": "Convidar",
+        "convites": "Convites disponíveis"
     },
 
     "messages": {
@@ -487,7 +490,17 @@
         "escolha_vencedor_wo": "Selecione o vencedor da partida por W.O.",
         "erro_wo": "Houve um erro ao aplicar o W.O.",
         "sucesso_wo": "W.O. aplicado com sucesso",
-        "gerenciar_rodadas": "Gerenciar Rodadas"
+        "gerenciar_rodadas": "Gerenciar Rodadas",
+
+        "inserir_placar_extra": "Inserir placar extra",
+        "precisa_placar_extra": "Pelo resultado inserido, é necessário inserir um placar extra para esta partida (Prorrogação, Pênaltis, Jogo Extra, etc)",
+
+        "convidar_amigos": "Convidar amigos",
+        "mensagem_convidar_amigos": "Você pode convidar seus amigos para fazerem parte do nosso clube, participarem de campeonatos e aproveitarem outras facilidades da player2.club",
+        "convites_restantes": "Convites restantes",
+        "sem_convites": "Você não possui mais convites para enviar",
+        "usuario_ja_convidado": "Este usuário já está cadastrado na plataforma ou já foi convidado",
+        "convite_enviado_sucesso": "Convite enviado com sucesso"
     },
 
     "generos": {

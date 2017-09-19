@@ -484,7 +484,23 @@
                 });
         };
 
-        vm.salvarPlacar = function (partida) {
+        function DialogControllerPlacarExtra($scope, $mdDialog, tituloModal, textoModal, partida) {
+            $scope.tituloModal = tituloModal;
+            $scope.textoModal = textoModal;
+            $scope.partida = partida;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvarPlacar = function () {
+                vm.salvarPlacar(partida);
+                $mdDialog.hide();
+            }
+
+        };
+
+        vm.salvarPlacar = function (partida, ev) {
             partida.usuarioLogado = $rootScope.usuarioLogado.id;
             Partida.salvarPlacar(partida)
                 .success(function () {
@@ -493,7 +509,28 @@
                     vm.carregaPartidasEmAberto();
                 })
                 .error(function (data) {
-                    toastr.error($filter('translate')(data.errors[0]));
+                    if (data.errors[0] == 'messages.precisa_placar_extra') {
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'messages.inserir_placar_extra',
+                                    textoModal: 'messages.precisa_placar_extra',
+                                    partida: partida
+                                },
+                                controller: DialogControllerPlacarExtra,
+                                templateUrl: 'app/components/campeonato/formPlacarExtra.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
+
+                            }, function () {
+
+                            });
+                    } else {
+                        toastr.error($filter('translate')(data.errors[0]));
+                    }
                 });
         };
 
