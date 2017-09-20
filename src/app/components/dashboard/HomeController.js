@@ -408,24 +408,27 @@
                     },
                     {
                         element: '#botaoMensagens',
-                        intro: $filter('translate')('tutoriais.menu_mensagens')
+                        intro: $filter('translate')('tutoriais.menu_mensagens'),
+                        position: 'bottom-right-aligned'
                     },
                     {
                         element: '#botaoNotificacoes',
                         intro: $filter('translate')('tutoriais.menu_notificacoes'),
-                        position: 'left'
+                        position: 'bottom-right-aligned'
                     },
                     {
                         element: '#botaoPesquisa',
                         intro: $filter('translate')('tutoriais.botao_pesquisa_mobile'),
-                        position: 'left'
+                        position: 'bottom-right-aligned'
                     },
                     {
                         element: '#areaTopNavBar',
-                        intro: $filter('translate')('tutoriais.texto_inicial')
+                        intro: $filter('translate')('tutoriais.texto_inicial'),
+                        position: 'bottom-middle-aligned'
                     }
                 ],
-                showStepNumbers: false
+                showStepNumbers: false,
+                tooltipClass: 'classeIntro'
             };
 
         }]);
