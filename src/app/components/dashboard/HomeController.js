@@ -428,7 +428,9 @@
                     }
                 ],
                 showStepNumbers: false,
-                tooltipClass: 'classeIntro'
+                tooltipClass: 'classeIntro',
+                nextLabel: $filter('translate')('messages.proximo') + ' <i class="material-icons">keyboard_arrow_right</i>',
+                prevLabel: '<i class="material-icons">keyboard_arrow_left</i> ' + $filter('translate')('messages.anterior')
             };
 
         }]);
