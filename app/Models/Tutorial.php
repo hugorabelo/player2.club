@@ -10,4 +10,9 @@ class Tutorial extends \Eloquent
         'descricao' => 'required',
         'key' => 'required'
     );
+
+    public function items() {
+        $items = $this->hasMany('TutorialItem','tutorial_id');
+        return $items;
+    }
 }

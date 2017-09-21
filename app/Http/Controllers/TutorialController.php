@@ -25,6 +25,21 @@ class TutorialController extends Controller
     }
 
     /**
+     * Display a specific resource.
+     *
+     * @param  int  $key
+     * @return Response
+     */
+    public function show($id) {
+        $tutorial = Tutorial::find($id);
+        if(!isset($tutorial)) {
+            return null;
+        }
+        $tutorial->items = $tutorial->items()->get();
+        return Response::json($tutorial);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @return Response
