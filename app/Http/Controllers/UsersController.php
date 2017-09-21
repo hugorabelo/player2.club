@@ -70,6 +70,7 @@ class UsersController extends Controller {
 				array_pull($input, 'imagem_perfil');
 			}
 
+			$input['email'] = strtolower($input['email']);
 			$this->user->create($input);
 
 			return Response::json(array('success'=>true));
@@ -145,6 +146,7 @@ class UsersController extends Controller {
 				array_pull($input, 'imagem_capa');
 			}
 
+            $input['email'] = strtolower($input['email']);
 			$user->update($input);
 
 			return Response::json(array('success'=>true));

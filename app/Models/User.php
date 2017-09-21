@@ -1,11 +1,10 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Collection;
-use Carbon\Carbon;
 
 class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -432,7 +431,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
         $novoUsuario = new User();
         $novoUsuario->nome = 'username';
-        $novoUsuario->email = $email;
+        $novoUsuario->email = strtolower($email);
         $novoUsuario->password = Hash::make('password');
         $novoUsuario->usuario_tipos_id = 2;
         $novoUsuario->save();
