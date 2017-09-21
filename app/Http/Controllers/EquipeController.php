@@ -287,11 +287,35 @@ class EquipeController extends Controller
             return null;
         }
         if(isset($idUsuario)) {
-            //TODO enviar notificação de convite
             $equipe->adicionarSolicitacao($idUsuario, true);
+
+            //TODO enviar notificação de convite
+            $evento = NotificacaoEvento::where('valor','=','convite_equipe')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+                $usuario = User::find($idUsuario);
+                $notificacao = new Notificacao();
+                $notificacao->id_destinatario = $usuario->id;
+                $notificacao->evento_notificacao_id = $idEvento;
+                $notificacao->item_id = $idEquipe;
+                $notificacao->save();
+            }
         } else {
-            //TODO enviar notificação para os administradores
             $equipe->adicionarSolicitacao(Auth::getUser()->id, false);
+
+            //TODO enviar notificação para os administradores
+            $evento = NotificacaoEvento::where('valor','=','solicitacao_equipe')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+                foreach ($equipe->administradores()->get() as $usuario) {
+                    $notificacao = new Notificacao();
+                    $notificacao->id_remetente = Auth::getUser()->id;
+                    $notificacao->id_destinatario = $usuario->id;
+                    $notificacao->evento_notificacao_id = $idEvento;
+                    $notificacao->item_id = $idEquipe;
+                    $notificacao->save();
+                }
+            }
         }
         return Response::json(array('success'=>true));
     }
