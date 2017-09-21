@@ -43,10 +43,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     angular.forEach(usuario, function (value, key) {
                         formData.append(key, value);
                     });
-                    if (arquivoPerfil !== null) {
+                    if ((arquivoPerfil !== null) && (arquivoPerfil !== undefined)) {
                         formData.append("imagem_perfil", arquivoPerfil.lfFile);
                     }
-                    if (arquivoCapa !== null) {
+                    if ((arquivoCapa !== null) && (arquivoCapa !== undefined)) {
                         formData.append("imagem_capa", arquivoCapa.lfFile);
                     }
                     return formData;
