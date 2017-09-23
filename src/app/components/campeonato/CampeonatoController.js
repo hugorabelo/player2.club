@@ -31,6 +31,8 @@
         vm.campeonatoEditar = {};
         vm.campeonatoEditar.detalhes = {};
 
+        vm.tipoCompetidores = ['individual', 'equipe'];
+
         vm.rodada_atual = [];
         vm.rodada_atual_gerenciar = [];
         vm.exibeSomenteAbertas = 0;
