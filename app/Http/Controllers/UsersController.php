@@ -497,6 +497,16 @@ class UsersController extends Controller {
 					}
 					$notificacao->nome_campeonato = $campeonato->descricao;
 					break;
+                case 'convite_equipe':
+                case 'solicitacao_equipe':
+                case 'aceitacao_equipe':
+                case 'convite_equipe_aceito':
+                    $equipe = Equipe::find($notificacao->item_id);
+                    if(!isset($equipe)) {
+                        continue;
+                    }
+                    $notificacao->nome_equipe = $equipe->nome;
+                    break;
 			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;

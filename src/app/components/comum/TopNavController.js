@@ -159,6 +159,12 @@
                         case "seguir_usuario":
                             $location.path('profile/' + notificacao.id_remetente);
                             break;
+                        case "convite_equipe":
+                        case "solicitacao_equipe":
+                        case "aceitacao_equipe":
+                        case "convite_equipe_aceito":
+                            $location.path('equipe/' + notificacao.item_id);
+                            break;
                     }
                 });
         };
