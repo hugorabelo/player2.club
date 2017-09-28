@@ -122,9 +122,9 @@ class PlataformasController extends Controller {
 		return Response::json(array('success'=>true));
 	}
 
-	public function getJogos($id) {
+	public function getJogos($id, $apenasCampeonato = null) {
 		$plataforma = Plataforma::find($id);
-		return Response::json($plataforma->jogos());
+		return Response::json($plataforma->jogos($apenasCampeonato));
 	}
 
 }

@@ -39,7 +39,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
     Route::resource('campeonatoTipos', 'CampeonatoTiposController');
 
-    Route::get('jogosDaPlataforma/{id}', 'PlataformasController@getJogos');
+    Route::get('jogosDaPlataforma/{id}/{apenasCampeonato?}', 'PlataformasController@getJogos');
     Route::resource('plataformas', 'PlataformasController');
     Route::post('plataformas/{id}', 'PlataformasController@update');
 
