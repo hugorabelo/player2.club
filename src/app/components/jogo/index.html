@@ -10,15 +10,15 @@
                 <img ng-src="uploads/{{vmJogo.jogo.imagem_capa}}" alt="profile">
             </a>
             <div layout="row" layout-align="space-around center">
-                <span class="info">
+                <span class="info" ng-if="vmJogo.jogo.genero">
                    <i class="material-icons">style</i>
                     {{vmJogo.jogo.genero}}
                 </span>
-                <span class="info">
+                <span class="info" ng-if="vmJogo.jogo.produtora">
                    <i class="material-icons">extension</i>
                    {{vmJogo.jogo.produtora}}
                 </span>
-                <span class="info">
+                <span class="info" ng-if="vmJogo.jogo.data_lancamento">
                    <i class="material-icons">date_range</i>
                     {{vmJogo.exibeData(vmJogo.jogo.data_lancamento)}}
                 </span>

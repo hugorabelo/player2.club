@@ -29,7 +29,7 @@ class Equipe extends Eloquent
     }
 
     public function campeonatos() {
-        return $this->belongsToMany('Campeonato', 'campeonato_equipe', 'equipe_id', 'campeonatos_id')->withTimestamps();
+        return $this->belongsToMany('Campeonato', 'campeonato_usuarios', 'equipe_id', 'campeonatos_id')->withTimestamps();
     }
 
     public function inscreverCampeonato($idCampeonato) {

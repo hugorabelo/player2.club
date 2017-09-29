@@ -26,7 +26,7 @@ class MyCustomUserRepository implements Auth0UserRepository {
             //$user = User::where("email", $profile->email)->first();
             $email_verificar = explode('@', $profile->email);
             $email_verificar = str_replace('.','', $email_verificar[0]).'@'.$email_verificar[1];
-            $user = User::whereRaw("'$email_verificar' = replace(split_part(email, '@', 1), '.', '') ||  '@' || split_part(email, '@', 2)")->first();
+            $user = User::whereRaw("lower('$email_verificar') = lower(replace(split_part(email, '@', 1), '.', '') ||  '@' || split_part(email, '@', 2))")->first();
         } else {
             $user = User::where("auth0id", $profile->user_id)->first();
         }
