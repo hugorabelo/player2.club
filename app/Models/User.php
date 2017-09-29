@@ -372,8 +372,17 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		return $mensagens;
 	}
 
-	public function equipes() {
-		return $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->withPivot('funcao_equipe_id')->withTimestamps();
+	public function equipes($tipo) {
+		if(!isset($tipo)) {
+			$equipes = $this->belongsToMany('Equipe', 'integrante_equipe', 'users_id', 'equipe_id')->withPivot('funcao_equipe_id')->withTimestamps();
+		} else {
+			if($tipo == 'convite') {
+				$equipes = Equipe::whereIn('id',DB::table('equipe_solicitacao')->where('users_id','=',$this->id)->where('convite','=','true')->pluck('equipe_id'));
+			} else {
+				$equipes = Equipe::whereIn('id',DB::table('equipe_solicitacao')->where('users_id','=',$this->id)->where('convite','=','false')->pluck('equipe_id'));
+			}
+		}
+		return $equipes;
 	}
 
 	public function equipesAdministradas() {

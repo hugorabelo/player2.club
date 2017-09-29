@@ -570,12 +570,12 @@ class UsersController extends Controller {
 		return $mensagens;
 	}
 
-	function listaEquipes($idUsuario = null) {
+	function listaEquipes($idUsuario = null, $tipo = null) {
 		if(!isset($idUsuario)) {
 			$idUsuario = Auth::getUser()->id;
 		}
 		$usuario = User::find($idUsuario);
-		$equipes = $usuario->equipes()->orderBy('nome')->get();
+		$equipes = $usuario->equipes($tipo)->orderBy('nome')->get();
 		foreach ($equipes as $equipe) {
 			$equipe->integrantes = $equipe->integrantes()->get();
 		}

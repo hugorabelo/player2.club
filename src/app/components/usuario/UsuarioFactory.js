@@ -350,11 +350,15 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             return $http.get('api/usuario/mensagens/' + idRemetente);
         },
 
-        getEquipes: function (idUsuario) {
+        getEquipes: function (idUsuario, tipo) {
             if (idUsuario === undefined) {
                 return $http.get('api/usuario/equipes');
             } else {
-                return $http.get('api/usuario/equipes/' + idUsuario);
+                if (tipo == undefined) {
+                    return $http.get('api/usuario/equipes/' + idUsuario);
+                } else {
+                    return $http.get('api/usuario/equipes/' + idUsuario + '/' + tipo);
+                }
             }
         },
 
