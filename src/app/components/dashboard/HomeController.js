@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'Tutorial',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, Tutorial) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', 'toastr', 'localStorageService', 'ngIntroService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'Tutorial',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, ngIntroService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, Tutorial) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -400,43 +400,35 @@
                     });
             };
 
-            Tutorial.show(5)
+            Tutorial.show(1)
                 .success(function (data) {
-                    console.log(data);
+                    angular.forEach(data.items, function (item) {
+                        item.intro = $filter('translate')(item.mensagem)
+                    });
+                    vm.IntroOptions = {
+                        steps: data.items,
+                        showStepNumbers: false,
+                        tooltipClass: 'classeIntro',
+                        nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
+                        prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
+                        skipLabel: '<i class="material-icons">not_interested</i>',
+                        doneLabel: '<i class="material-icons">done_all</i>'
+                    };
+                    ngIntroService.setOptions(vm.IntroOptions);
+                    ngIntroService.start();
                 });
 
-            vm.IntroOptions = {
-                steps: [
-                    {
-                        element: '#botaoPrincipal',
-                        intro: $filter('translate')('tutoriais.menu_principal_mobile')
-                    },
-                    {
-                        element: '#botaoMensagens',
-                        intro: $filter('translate')('tutoriais.menu_mensagens'),
-                        position: 'bottom-right-aligned'
-                    },
-                    {
-                        element: '#botaoNotificacoes',
-                        intro: $filter('translate')('tutoriais.menu_notificacoes'),
-                        position: 'bottom-right-aligned'
-                    },
-                    {
-                        element: '#botaoPesquisa',
-                        intro: $filter('translate')('tutoriais.botao_pesquisa_mobile'),
-                        position: 'bottom-right-aligned'
-                    },
-                    {
-                        element: '#areaTopNavBar',
-                        intro: $filter('translate')('tutoriais.texto_inicial'),
-                        position: 'bottom-middle-aligned'
-                    }
-                ],
-                showStepNumbers: false,
-                tooltipClass: 'classeIntro',
-                nextLabel: $filter('translate')('messages.proximo') + ' <i class="material-icons">keyboard_arrow_right</i>',
-                prevLabel: '<i class="material-icons">keyboard_arrow_left</i> ' + $filter('translate')('messages.anterior')
-            };
+            ngIntroService.onComplete(function () {
+                console.log('on complete callback!')
+            });
+
+            ngIntroService.onChange(function () {
+                console.log('on change callback!')
+            });
+
+            ngIntroService.onExit(function () {
+                console.log('on exit callback!')
+            });
 
         }]);
 

@@ -12,7 +12,7 @@ class Tutorial extends \Eloquent
     );
 
     public function items() {
-        $items = $this->hasMany('TutorialItem','tutorial_id');
+        $items = $this->hasMany('TutorialItem','tutorial_id')->orderBy('ordem');
         return $items;
     }
 }
