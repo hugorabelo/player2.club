@@ -167,6 +167,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
 
+    Route::get('tutorial/visualizado/{idTutorial}', 'TutorialController@getVisualizado');
+    Route::post('tutorial/marcarVisualizado', 'TutorialController@setVisualizado');
     Route::resource('tutorial', 'TutorialController');
 
     Route::resource('tutorialItem', 'TutorialItemController');

@@ -400,30 +400,44 @@
                     });
             };
 
-            Tutorial.show(1)
-                .success(function (data) {
-                    angular.forEach(data.items, function (item) {
-                        item.intro = $filter('translate')(item.mensagem)
+            vm.exibeTutorial = function (idTutorial) {
+                Tutorial.show(idTutorial)
+                    .success(function (data) {
+                        vm.tutorialExibido = data;
+                        angular.forEach(data.items, function (item) {
+                            item.intro = $filter('translate')(item.mensagem)
+                        });
+                        vm.IntroOptions = {
+                            steps: data.items,
+                            showStepNumbers: false,
+                            tooltipClass: 'classeIntro',
+                            nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
+                            prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
+                            skipLabel: '<i class="material-icons">not_interested</i>',
+                            doneLabel: '<i class="material-icons">done_all</i>'
+                        };
+                        ngIntroService.setOptions(vm.IntroOptions);
+                        ngIntroService.start();
                     });
-                    vm.IntroOptions = {
-                        steps: data.items,
-                        showStepNumbers: false,
-                        tooltipClass: 'classeIntro',
-                        nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
-                        prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
-                        skipLabel: '<i class="material-icons">not_interested</i>',
-                        doneLabel: '<i class="material-icons">done_all</i>'
-                    };
-                    ngIntroService.setOptions(vm.IntroOptions);
-                    ngIntroService.start();
+            };
+
+            Tutorial.getVisualizado(1)
+                .success(function (resultado) {
+                    if (resultado == 0) {
+                        if ($rootScope.telaMobile) {
+                            vm.exibeTutorial(1);
+                        } else {
+                            vm.exibeTutorial(2);
+                        };
+                    }
                 });
 
             ngIntroService.onComplete(function () {
-                console.log('on complete callback!')
+                Tutorial.marcarVisualizado(vm.tutorialExibido);
             });
 
             ngIntroService.onChange(function () {
-                console.log('on change callback!')
+                console.log(vm.tutorialExibido.id)
             });
 
             ngIntroService.onExit(function () {
