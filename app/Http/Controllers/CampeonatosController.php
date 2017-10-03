@@ -156,6 +156,9 @@ class CampeonatosController extends Controller
             if($input['imagem_logo'] == null) {
                 unset($input['imagem_logo']);
             }
+            if(empty($input['quantidade_minima_competidores'])) {
+                unset($input['quantidade_minima_competidores']);
+            }
 
             $campeonato = $this->campeonato->find($id);
             $campeonato->update($input);
