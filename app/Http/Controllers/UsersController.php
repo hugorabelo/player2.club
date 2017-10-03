@@ -177,6 +177,9 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosDisponiveis($id_usuario) {
+		if($id_usuario == 'undefined' || $id_usuario == null) {
+			return null;
+		}
 		$plataformasDoUsuario = UserPlataforma::where("users_id", "=", $id_usuario)->get(array("plataformas_id"))->toArray();
 		if(empty($plataformasDoUsuario)) {
 			$plataformasDoUsuario = array("plataformas"=>0);
@@ -203,6 +206,9 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosInscritos($idUsuario) {
+		if($idUsuario == 'undefined' || $idUsuario == null) {
+			return null;
+		}
 		$equipes = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->pluck('equipe_id');
 		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->orwhereIn("equipe_id", $equipes)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
@@ -336,8 +342,11 @@ class UsersController extends Controller {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];
 		$idMestre = $input['idUsuarioMestre'];
+		if($idUsuario == null || $idUsuario == 'undefined') {
+			return Response::json();
+		}
 		$usuario = $this->user->find($idUsuario);
-		if($usuario == null) {
+		if($usuario == null || empty($idMestre) || $idMestre == 'undefined' || $idMestre == null) {
 			return Response::json();
 		}
 		return Response::json(array('segue'=>$usuario->segue($idMestre)));
@@ -347,8 +356,11 @@ class UsersController extends Controller {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];
 		$idJogo = $input['idJogo'];
+		if($idUsuario == null || $idUsuario == 'undefined') {
+			return Response::json();
+		}
 		$usuario = $this->user->find($idUsuario);
-		if($usuario == null) {
+		if($usuario == null || $idJogo == 'undefined' || $idJogo == null) {
 			return Response::json();
 		}
 		return Response::json(array('segue'=>$usuario->segueJogo($idJogo)));

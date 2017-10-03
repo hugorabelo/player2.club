@@ -21,6 +21,9 @@ class UserPlataformaController extends Controller {
 
     public function show($id)
     {
+        if($id == 'undefined' || $id == null) {
+            return null;
+        }
         $userPlataformas = UserPlataforma::where('users_id','=',$id)->get();
         foreach($userPlataformas as $plataforma) {
             $plataforma->nome_plataforma = $plataforma->plataforma()->descricao;
