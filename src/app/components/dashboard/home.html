@@ -1,6 +1,6 @@
 <div flex layout="row" layout-margin ng-init="vmHome.inicializa()" ng-class="{'m-n': telaMobile}">
 
-    <div flex="15" layout="column" class="caixa-flutuante" layout-margin hide-xs>
+    <div flex="15" layout="column" class="caixa-flutuante" layout-margin hide-xs id="menuPrincipal">
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
     <div hide-xs flex class="caixa-flutuante" ui-view layout="column" layout-margin>
