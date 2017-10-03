@@ -70,6 +70,7 @@ class UsersController extends Controller {
 				array_pull($input, 'imagem_perfil');
 			}
 
+			$input['email'] = strtolower($input['email']);
 			$this->user->create($input);
 
 			return Response::json(array('success'=>true));
@@ -145,6 +146,7 @@ class UsersController extends Controller {
 				array_pull($input, 'imagem_capa');
 			}
 
+            $input['email'] = strtolower($input['email']);
 			$user->update($input);
 
 			return Response::json(array('success'=>true));
@@ -507,6 +509,16 @@ class UsersController extends Controller {
 					}
 					$notificacao->nome_campeonato = $campeonato->descricao;
 					break;
+                case 'convite_equipe':
+                case 'solicitacao_equipe':
+                case 'aceitacao_equipe':
+                case 'convite_equipe_aceito':
+                    $equipe = Equipe::find($notificacao->item_id);
+                    if(!isset($equipe)) {
+                        continue;
+                    }
+                    $notificacao->nome_equipe = $equipe->nome;
+                    break;
 			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;
@@ -570,12 +582,12 @@ class UsersController extends Controller {
 		return $mensagens;
 	}
 
-	function listaEquipes($idUsuario = null) {
+	function listaEquipes($idUsuario = null, $tipo = null) {
 		if(!isset($idUsuario)) {
 			$idUsuario = Auth::getUser()->id;
 		}
 		$usuario = User::find($idUsuario);
-		$equipes = $usuario->equipes()->orderBy('nome')->get();
+		$equipes = $usuario->equipes($tipo)->orderBy('nome')->get();
 		foreach ($equipes as $equipe) {
 			$equipe->integrantes = $equipe->integrantes()->get();
 		}

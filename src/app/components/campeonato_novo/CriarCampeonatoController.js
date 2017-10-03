@@ -17,9 +17,9 @@
             vm.checkBoxCriteriosClassificacao = {};
 
             vm.opcoesEditor = {
-    language: 'pt_br',
-    //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
-};
+                language: 'pt_br',
+                //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+            };
 
             $scope.$watch(angular.bind(vm, function () {
                 if (vm.campeonato.detalhes !== undefined) {
@@ -62,7 +62,7 @@
 
             vm.carregaJogosDaPlataforma = function () {
                 $rootScope.loading = true;
-                Plataforma.getJogos(vm.campeonato.plataformas_id)
+                Plataforma.getJogos(vm.campeonato.plataformas_id, true)
                     .success(function (data) {
                         vm.jogos = data;
                         if (vm.jogos.length > 0) {

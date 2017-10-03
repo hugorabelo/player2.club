@@ -59,8 +59,12 @@ angular.module('player2').factory('Plataforma', ['$http', function ($http) {
             return $http.delete('api/plataformas/' + id);
         },
 
-        getJogos: function (id) {
-            return $http.get('api/jogosDaPlataforma/' + id);
+        getJogos: function (id, apenasCampeonato) {
+            var stringCampeonato = '';
+            if ((apenasCampeonato != null) || (apenasCampeonato != undefined) || (apenasCampeonato === true)) {
+                var stringCampeonato = '/1';
+            }
+            return $http.get('api/jogosDaPlataforma/' + id + stringCampeonato);
         }
 
     }

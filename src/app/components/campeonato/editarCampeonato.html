@@ -21,21 +21,27 @@
             </md-input-container>
 
             <div layout-gt-xs="row">
+                <!--
                 <md-input-container class="md-block" flex-gt-xs="50">
                     <label>{{'fields.tipo_competidor' | translate}}</label>
-                    <md-select ng-model="vmCriarCampeonato.campeonato.tipo_competidor" required>
-                        <md-option ng-value="individual">
-                            {{'fields.individual' | translate}}
-                        </md-option>
-                        <md-option ng-value="equipe">
-                            {{'fields.equipe' | translate}}
+                    <md-select ng-model="vmCampeonato.campeonatoEditar.tipo_competidor" required readonly>
+                        <md-option ng-repeat="tipo_competidor in vmCampeonato.tipoCompetidores" ng-value="tipo_competidor">
+                            <span ng-if="tipo_competidor == 'individual'">{{'fields.individual' | translate}}</span>
+                            <span ng-if="tipo_competidor == 'equipe'">{{'fields.equipe' | translate}}</span>
                         </md-option>
                     </md-select>
                 </md-input-container>
+-->
 
-                <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == equipe" flex-gt-xs="50">
+                <md-input-container class="md-block" flex-gt-xs="50">
+                    <label>{{'fields.tipo_competidor' | translate}}</label>
+                    <input required readonly value="{{'fields.individual' | translate}}" ng-if="vmCampeonato.campeonatoEditar.tipo_competidor == 'individual'">
+                    <input required readonly value="{{'fields.equipe' | translate}}" ng-if="vmCampeonato.campeonatoEditar.tipo_competidor == 'equipe'">
+                </md-input-container>
+
+                <md-input-container class="md-block" ng-if="vmCampeonato.campeonatoEditar.tipo_competidor == 'equipe'" flex-gt-xs="50">
                     <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
-                    <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.quantidade_minima_competidores" required readonly>
                 </md-input-container>
             </div>
 

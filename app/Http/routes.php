@@ -39,7 +39,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');
     Route::resource('campeonatoTipos', 'CampeonatoTiposController');
 
-    Route::get('jogosDaPlataforma/{id}', 'PlataformasController@getJogos');
+    Route::get('jogosDaPlataforma/{id}/{apenasCampeonato?}', 'PlataformasController@getJogos');
     Route::resource('plataformas', 'PlataformasController');
     Route::post('plataformas/{id}', 'PlataformasController@update');
 
@@ -76,7 +76,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/removerNotificacaoEmail', 'UsersController@removerNotificacaoEmail');
     Route::get('usuario/conversas', 'UsersController@listaConversas');
     Route::get('usuario/mensagens/{idRemetente}', 'UsersController@listaMensagens');
-    Route::get('usuario/equipes/{idUsuario?}', 'UsersController@listaEquipes');
+    Route::get('usuario/equipes/{idUsuario?}/{tipo?}', 'UsersController@listaEquipes');
     Route::get('usuario/equipesAdministradas', 'UsersController@listaEquipesAdministradas');
     Route::get('usuario/convites', 'UsersController@listaConvites');
     Route::post('usuario/convidarUsuario', 'UsersController@convidarUsuario');
