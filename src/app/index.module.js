@@ -177,7 +177,8 @@
                     primaryColor: "#0c486b"
                 },
                 languageDictionary: {
-                    title: ""
+                    title: "",
+                    forgotPasswordAction: "Esqueceu ou não tem senha?"
                 },
                 language: "pt-BR",
                 allowSignUp: false
