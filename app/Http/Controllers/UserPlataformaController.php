@@ -35,6 +35,7 @@ class UserPlataformaController extends Controller {
     public function store()
     {
         $input = Input::all();
+        $input['users_id'] = Auth::getUser()->id;
         $validation = Validator::make($input, UserPlataforma::$rules);
 
         if ($validation->passes())

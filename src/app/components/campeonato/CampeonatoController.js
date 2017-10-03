@@ -974,7 +974,6 @@
             $scope.salvarGamertag = function () {
                 var userPlataforma = {};
                 userPlataforma.plataformas_id = vm.campeonato.plataforma.id;
-                userPlataforma.users_id = $rootScope.usuarioLogado.id;
                 userPlataforma.gamertag = $scope.gamertag;
                 UserPlataforma.save(userPlataforma)
                     .success(function (data) {
