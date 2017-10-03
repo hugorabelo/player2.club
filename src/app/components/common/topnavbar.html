@@ -1,4 +1,4 @@
-<md-toolbar class="md-accent topo-principal" hide-xs id="areaTopNavBar">
+<md-toolbar class="md-accent topo-principal" hide-xs id="areaTopNavBarDesktop">
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <a href="/" flex="20">
             <img alt="" height="50" src="assets/images/player2.png" data-pin-nopin="true" hide-xs>
@@ -22,13 +22,13 @@
                     <i class="material-icons md-24">home</i>
                 </md-button>
 
-                <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens" id="botaoMensagens">
+                <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens" id="botaoMensagensDesktop">
                     <i class="material-icons md-24">message</i>
                     <span class="label label-danger" ng-if="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
                 </md-button>
 
                 <md-menu id="lista-notificacao" md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
-                    <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="$mdOpenMenu()" id="botaoNotificacoes">
+                    <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="$mdOpenMenu()" id="botaoNotificacoesDesktop">
                         <i class="material-icons md-24">videogame_asset</i>
                         <span class="label label-danger" ng-if="vmTopNav.quantidadeNotificacoesNaoLidas">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
                     </md-button>

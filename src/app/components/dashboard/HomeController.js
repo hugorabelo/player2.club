@@ -436,8 +436,11 @@
                 Tutorial.marcarVisualizado(vm.tutorialExibido);
             });
 
-            ngIntroService.onChange(function () {
-                console.log(vm.tutorialExibido.id)
+            ngIntroService.onChange(function (targetElement) {
+                console.log(targetElement.id);
+                if (targetElement.id === 'botaoPesquisa') {
+                    $("#botaoPesquisa").click();
+                }
             });
 
             ngIntroService.onExit(function () {
