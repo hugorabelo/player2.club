@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', 'toastr', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, $location, toastr, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', '$filter', 'toastr', 'ngIntroService', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', 'Tutorial', function ($scope, $rootScope, $translate, $location, $filter, toastr, ngIntroService, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato, Tutorial) {
 
             var vm = this;
 
@@ -17,9 +17,9 @@
             vm.checkBoxCriteriosClassificacao = {};
 
             vm.opcoesEditor = {
-    language: 'pt_br',
-    //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
-};
+                language: 'pt_br',
+                //                toolbarButtons: ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+            };
 
             $scope.$watch(angular.bind(vm, function () {
                 if (vm.campeonato.detalhes !== undefined) {
@@ -174,6 +174,52 @@
                 formatYear: 'yy',
                 startingDay: 1
             };
+
+            vm.exibeTutorial = function (idTutorial) {
+                Tutorial.show(idTutorial)
+                    .success(function (data) {
+                        vm.tutorialExibido = data;
+                        angular.forEach(data.items, function (item) {
+                            item.intro = $filter('translate')(item.mensagem)
+                        });
+                        vm.IntroOptions = {
+                            steps: data.items,
+                            showStepNumbers: false,
+                            tooltipClass: 'classeIntro',
+                            nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
+                            prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
+                            skipLabel: '<i class="material-icons">not_interested</i>',
+                            doneLabel: '<i class="material-icons">done_all</i>'
+                        };
+                        ngIntroService.setOptions(vm.IntroOptions);
+                        ngIntroService.start();
+                    });
+            };
+
+            Tutorial.getVisualizado(3)
+                .success(function (resultado) {
+                    if (resultado == 0) {
+                        if ($rootScope.telaMobile) {
+                            vm.exibeTutorial(3);
+                        } else {
+                            vm.exibeTutorial(4);
+                        };
+                    }
+                });
+
+            ngIntroService.onComplete(function () {
+                Tutorial.marcarVisualizado(vm.tutorialExibido);
+            });
+
+            ngIntroService.onChange(function (targetElement) {
+                if (targetElement.id === 'inputMinimoUsuarios') {
+                    vm.campeonato.tipo_competidor = 'equipe';
+                }
+            });
+
+            ngIntroService.onExit(function () {
+                console.log('on exit callback!')
+            });
 
 		}]);
 }());

@@ -437,9 +437,8 @@
             });
 
             ngIntroService.onChange(function (targetElement) {
-                console.log(targetElement.id);
-                if (targetElement.id === 'botaoPesquisa') {
-                    $("#botaoPesquisa").click();
+                if (targetElement.id === 'areaTopNavBar') {
+                    //$("#botaoPesquisa").click();
                 }
             });
 
