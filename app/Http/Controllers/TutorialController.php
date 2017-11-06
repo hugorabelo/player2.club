@@ -109,9 +109,12 @@ class TutorialController extends Controller
         return Response::json(array('success'=>true));
     }
 
-    public function getVisualizado($idTutorial) {
+    public function getVisualizado() {
+        $input = Input::all();
+        $tela = $input['tela'];
         $idUsuario = Auth::getUser()->id;
-        return DB::table('tutorial_visualizado')->where('tutorial_id','=',$idTutorial)->where('users_id','=',$idUsuario)->count();
+        $tutorial = Tutorial::where('tela','=',$tela)->first();
+        return DB::table('tutorial_visualizado')->where('tutorial_id','=',$tutorial->id)->where('users_id','=',$idUsuario)->count();
     }
 
     public function setVisualizado() {

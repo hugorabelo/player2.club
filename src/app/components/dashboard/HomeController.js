@@ -446,6 +446,15 @@
                 console.log('on exit callback!')
             });
 
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
+                Tutorial.getVisualizado(toState.name)
+                .success(function (resultado) {
+                    if (resultado == 0) {
+                        vm.exibeTutorial(toState.name, $rootScope.telaMobile);
+                    }
+                });
+            });
+
         }]);
 
 }());

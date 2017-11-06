@@ -38,8 +38,17 @@ angular.module('player2').factory('Tutorial', ['$http', function ($http) {
             return $http.delete('api/tutorial/' + id);
         },
 
-        getVisualizado: function (id) {
-            return $http.get('api/tutorial/visualizado/' + id);
+        getVisualizado: function (name) {
+            var objeto = {};
+            objeto.tela = name;
+            return $http({
+                method: 'POST',
+                url: 'api/tutorial/visualizado',
+                data: $.param(objeto),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         },
 
         marcarVisualizado: function (tutorial) {
