@@ -196,17 +196,6 @@
                     });
             };
 
-            Tutorial.getVisualizado(3)
-                .success(function (resultado) {
-                    if (resultado == 0) {
-                        if ($rootScope.telaMobile) {
-                            vm.exibeTutorial(3);
-                        } else {
-                            vm.exibeTutorial(4);
-                        };
-                    }
-                });
-
             ngIntroService.onComplete(function () {
                 Tutorial.marcarVisualizado(vm.tutorialExibido);
             });

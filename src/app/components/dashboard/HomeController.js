@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', 'toastr', 'localStorageService', 'ngIntroService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'Tutorial',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, ngIntroService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, Tutorial) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$state', 'toastr', 'localStorageService', 'ngIntroService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'Tutorial',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $state, toastr, localStorageService, ngIntroService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, Tutorial) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -421,16 +421,16 @@
                     });
             };
 
-            Tutorial.getVisualizado(1)
-                .success(function (resultado) {
-                    if (resultado == 0) {
-                        if ($rootScope.telaMobile) {
-                            vm.exibeTutorial(1);
-                        } else {
-                            vm.exibeTutorial(2);
-                        };
-                    }
-                });
+            //            Tutorial.getVisualizado(1)
+            //                .success(function (resultado) {
+            //                    if (resultado == 0) {
+            //                        if ($rootScope.telaMobile) {
+            //                            vm.exibeTutorial(1);
+            //                        } else {
+            //                            vm.exibeTutorial(2);
+            //                        };
+            //                    }
+            //                });
 
             ngIntroService.onComplete(function () {
                 Tutorial.marcarVisualizado(vm.tutorialExibido);
@@ -446,14 +446,27 @@
                 console.log('on exit callback!')
             });
 
+            vm.tutorialInicial = true;
+
+            if (vm.tutorialInicial) {
+                Tutorial.getVisualizado($state.current.name)
+                    .success(function (resultado) {
+                        if (resultado == 0) {
+                            vm.exibeTutorial($state.current.name, $rootScope.telaMobile);
+                        }
+                    });
+                vm.tutorialInicial = false;
+            }
+
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
-                Tutorial.getVisualizado(toState.name)
-                .success(function (resultado) {
-                    if (resultado == 0) {
-                        vm.exibeTutorial(toState.name, $rootScope.telaMobile);
-                    }
-                });
+                Tutorial.getVisualizado($state.current.name)
+                    .success(function (resultado) {
+                        if (resultado == 0) {
+                            vm.exibeTutorial(toState.name, $rootScope.telaMobile);
+                        }
+                    });
             });
+
 
         }]);
 
