@@ -400,8 +400,8 @@
                     });
             };
 
-            vm.exibeTutorial = function (idTutorial) {
-                Tutorial.show(idTutorial)
+            vm.exibeTutorial = function (rota) {
+                Tutorial.show(rota)
                     .success(function (data) {
                         vm.tutorialExibido = data;
                         angular.forEach(data.items, function (item) {

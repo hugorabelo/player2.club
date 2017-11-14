@@ -30,8 +30,8 @@ class TutorialController extends Controller
      * @param  int  $key
      * @return Response
      */
-    public function show($id) {
-        $tutorial = Tutorial::find($id);
+    public function show($tela) {
+        $tutorial = Tutorial::where('tela','=',$tela)->first();
         if(!isset($tutorial)) {
             return null;
         }
