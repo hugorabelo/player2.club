@@ -400,8 +400,8 @@
                     });
             };
 
-            vm.exibeTutorial = function (rota) {
-                Tutorial.show(rota)
+            vm.exibeTutorial = function (rota, mobile) {
+                Tutorial.show(rota, mobile)
                     .success(function (data) {
                         vm.tutorialExibido = data;
                         angular.forEach(data.items, function (item) {
@@ -410,6 +410,7 @@
                         vm.IntroOptions = {
                             steps: data.items,
                             showStepNumbers: false,
+                            exitOnOverlayClick: false,
                             tooltipClass: 'classeIntro',
                             nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
                             prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
@@ -420,17 +421,6 @@
                         ngIntroService.start();
                     });
             };
-
-            //            Tutorial.getVisualizado(1)
-            //                .success(function (resultado) {
-            //                    if (resultado == 0) {
-            //                        if ($rootScope.telaMobile) {
-            //                            vm.exibeTutorial(1);
-            //                        } else {
-            //                            vm.exibeTutorial(2);
-            //                        };
-            //                    }
-            //                });
 
             ngIntroService.onComplete(function () {
                 Tutorial.marcarVisualizado(vm.tutorialExibido);

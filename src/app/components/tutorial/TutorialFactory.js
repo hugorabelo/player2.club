@@ -4,8 +4,14 @@ angular.module('player2').factory('Tutorial', ['$http', function ($http) {
             return $http.get('api/tutorial');
         },
 
-        show: function (id) {
-            return $http.get('api/tutorial/' + id);
+        show: function (id, mobile) {
+            var telaMobile;
+            if (mobile) {
+                telaMobile = 1;
+            } else {
+                telaMobile = 0;
+            }
+            return $http.get('api/tutorial/' + id + '/' + telaMobile);
         },
 
         save: function (tutorial) {

@@ -170,6 +170,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('tutorial/visualizado', 'TutorialController@getVisualizado');
     Route::post('tutorial/marcarVisualizado', 'TutorialController@setVisualizado');
     Route::resource('tutorial', 'TutorialController');
+    Route::get('tutorial/{id}/{mobile}', 'TutorialController@show');
 
     Route::resource('tutorialItem', 'TutorialItemController');
 
