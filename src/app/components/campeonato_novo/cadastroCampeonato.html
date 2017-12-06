@@ -101,12 +101,12 @@
 </div>
 
 
-<md-card ng-init="vmCriarCampeonato.create()" hide-gt-xs layout-fill id="boxCriarCampeonato">
+<md-card ng-init="vmCriarCampeonato.create()" hide-gt-xs layout-fill>
     <md-toolbar class="md-toolbar-tools">
         <h2>{{'messages.campeonato_create' | translate}}</h2>
     </md-toolbar>
     <md-card-content class="m-n p-xs">
-        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+        <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" id="boxCriarCampeonato">
             <md-input-container class="md-block">
                 <label>{{'fields.descricao' | translate}}</label>
                 <input ng-model="vmCriarCampeonato.campeonato.descricao" required>

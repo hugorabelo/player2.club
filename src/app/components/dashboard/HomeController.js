@@ -131,6 +131,9 @@
             };
 
             vm.editaPerfil = function () {
+                if (localStorageService.get('usuarioLogado') == null || localStorageService.get('usuarioLogado') == undefined) {
+                    return;
+                }
                 Usuario.show(localStorageService.get('usuarioLogado').id)
                     .success(function (data) {
                         vm.perfilEditar = data;
@@ -410,7 +413,7 @@
                         vm.IntroOptions = {
                             steps: data.items,
                             showStepNumbers: false,
-                            exitOnOverlayClick: false,
+                            exitOnOverlayClick: true,
                             tooltipClass: 'classeIntro',
                             nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
                             prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
@@ -433,7 +436,7 @@
             });
 
             ngIntroService.onExit(function () {
-                console.log('on exit callback!')
+
             });
 
             vm.tutorialInicial = true;
