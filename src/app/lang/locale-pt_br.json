@@ -547,6 +547,6 @@
         "criar_campeonato_minimo_usuarios": "Caso seja em equipe, você deve definir qual a quantidade mínima de integrantes nas equipes inscritas",
         "criar_campeonato_regras": "Escreva o regulamento do campeonato aqui. O texto inserido neste espaço, aparecerá na aba Regras, dentro da página do campeonato.",
         "criar_campeonato_jogo": "Ao escolher a plataforma e jogo, serão disponibilizados os tipos de campeonato possíveis para ele. Escolha uma opção",
-        "criar_campeonato_detalhes": "Dependendo do tipo de campeonato escolhido, aqui aparecerão detalhes específicos para cada tipo de campeonato. Preencha adequadamente, para não ter problemas no cálculo de resultados"
+        "criar_campeonato_detalhes": "Dependendo do tipo de campeonato escolhido, aparecerão detalhes específicos para cada tipo de campeonato. Preencha adequadamente, para não ter problemas no cálculo de resultados"
     }
 }
