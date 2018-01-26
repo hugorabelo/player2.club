@@ -47,8 +47,10 @@ class CampeonatosController extends Controller
         $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
         $campeonato->jogo = Jogo::find($campeonato->jogos_id);
         $campeonato->tipo = CampeonatoTipo::find($campeonato->campeonato_tipos_id);
-        $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
-        $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        if($campeonato->faseInicial() !== null) {
+            $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+            $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        }
         $campeonato->status = $campeonato->status();
         $campeonato->vagas = $campeonato->maximoUsuarios();
 

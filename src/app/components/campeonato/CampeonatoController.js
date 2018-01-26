@@ -1310,7 +1310,9 @@
                 .success(function (data) {
                     vm.campeonatoFases = data.fases;
                     vm.indice_fase = 0;
-                    vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
+                    if (vm.campeonatoFase != undefined) {
+                        vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
+                    }
                     vm.gruposDaFase = data.grupos;
                     vm.partidasDaRodada = data.partidasDaRodada;
                     vm.inicializaRodadasLimpas(data.grupos);
