@@ -163,6 +163,21 @@ class CampeonatosController extends Controller
             $campeonato = $this->campeonato->find($id);
             $campeonato->update($input);
 
+            Log::warning($inputAll);
+
+            if($campeonato->status() < 3) {
+                Log::alert($campeonato->detalhes()->quantidade_competidores);
+                if($inputDetalhes['quantidade_competidores'] != $campeonato->detalhes()->quantidade_competidores) {
+                    $campeonato->apagarFases();
+
+                    $nomeClasse = $campeonato->campeonatoTipo()->nome_classe_modelo;
+                    $nomeClasse::criaFases();
+
+                    Log::warning('mudou a quantidade de competidores');
+                }
+                //TODO atualizar fases em caso de alteração do número de participantes ou regras
+            }
+
             $detalhes = $campeonato->detalhes();
             if($inputDetalhes['tipo_competidor_id'] != null) {
                 $detalhes->tipo_competidor_id = $inputDetalhes['tipo_competidor_id'];

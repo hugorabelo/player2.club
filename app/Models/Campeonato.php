@@ -903,4 +903,9 @@ class Campeonato extends Eloquent {
         }
         return false;
     }
+
+    public function apagarFases() {
+        CampeonatoFase::where('campeonatos_id','=',$this->id)->delete();
+        return null;
+    }
 }
