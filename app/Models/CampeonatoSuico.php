@@ -237,19 +237,22 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         $indiceUsuario = 0;
         for($i=0;$i<$m;$i++) {
             $partida = Partida::create(['fase_grupos_id' => $grupo->id, 'rodada' => $numero_rodada]);
-            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($indiceUsuario)->id]);
+            $usuario1 = $usuarios->get($indiceUsuario)->id;
+            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuario1]);
             $indiceUsuario++;
-            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($indiceUsuario)->id]);
+            $usuario2 = $usuarios->get($indiceUsuario)->id;
+            if($this->verificaJogoExistente($usuario1, $usuario2, $grupo->id)) {
+                Log::warning("$usuario1 - $usuario2");
+            }
+            UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuario2]);
             $indiceUsuario++;
         }
     }
 
-    public function campeonato() {
-        return $this->morphOne('Campeonato','campeonatizavel');
-    }
-
-    public function teste() {
-        echo "DEU CERTO";
+    public function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
+        $retorno = DB::table('usuario_partidas')->whereRaw("partidas_id IN (select partidas_id FROM usuario_partidas where users_id = $idUser1 and partidas_id IN ".
+            "(select id from partidas where fase_grupos_id = $idGrupo)) and users_id = $idUser2")->count();
+        return $retorno;
     }
 
 }
