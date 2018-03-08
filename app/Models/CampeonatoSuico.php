@@ -230,7 +230,16 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         $n = $usuarios->count();
         $m = $n / 2; // Quantidade de jogos por rodada
 
-        // Remover partidas que já estejam no grupo devido a algum erro
+        $colecao = collect($usuarios);
+
+        $colecaoChave = $colecao->groupBy('vitorias');
+
+        for($i = $numero_rodada-1; $i >= 0; $i--) {
+            echo $colecaoChave->get($i)->first()->nome;
+        }
+
+        return null;
+
 
         // Ordenar participantes pelos critérios
         // Pegar sempre o par, 1x2, 3x4, 5x6, etc
@@ -247,6 +256,18 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
             UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuario2]);
             $indiceUsuario++;
         }
+
+
+        /*
+         * 1. Dividir grupos por números de vitórias
+         *    1.1 Caso a quantidade seja ímpar, pegar o primeiro competidor do grupo seguinte
+         *    1.2 Caso todos os participantes desse grupo ímpar já tiverem jogado contra o competidor do grupo seguinte, deve-se pegar o próximo
+         * 2. Dentro do grupo, pegar o primeiro usuário e sortear alguém do seu grupo
+         *    2.1 Verificar se esses adversários já se enfrentaram, caso sim, realizar novo sorteio
+         *      2.1.1 Caso a dupla que já jogou seja a última dupla do grupo, refazer todos os sorteios, em ordem inversa
+         * 3. Salvar os emparceiramentos do item anterior em arrays
+         * 4. Varrer os arrays com os emparceiramentos e criar as partidas
+         */
     }
 
     public function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
