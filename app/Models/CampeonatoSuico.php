@@ -235,8 +235,16 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         $colecaoChave = $colecao->groupBy('vitorias');
 
         for($i = $numero_rodada-1; $i >= 0; $i--) {
-            echo $colecaoChave->get($i)->first()->nome;
+            if($colecaoChave->get($i)->count() % 2 == 1) {
+                if($i > 0) {
+                    $colecaoChave->get($i)->push($colecaoChave->get($i-1)->shift());
+                }
+            }
         }
+
+        $usuariosPareados = $this->parearJogos($colecaoChave->get(0), $grupo->id);
+//        Log::warning(Response::json($colecaoChave));
+        Log::warning(Response::json($usuariosPareados));
 
         return null;
 
@@ -270,7 +278,27 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
          */
     }
 
-    public function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
+    protected function parearJogos($usuarios, $idGrupo) {
+        $usuariosPareados = app()->make(Collection::class);
+        $usuariosPareados = new Collection();
+        while($usuarios->count() > 0) {
+            $usuarioPrincipal = $usuarios->shift();
+            $usuariosPareados->push($usuarioPrincipal);
+            $i = 0;
+            while($this->verificaJogoExistente($usuarioPrincipal['id'], $usuarios->get($i)['id'], $idGrupo)) {
+                $i++;
+                if($i >= $usuarios->count()) {
+                    $usuarios = $usuarios->union($usuariosPareados);
+                    $usuariosPareados = new Collection();
+                }
+            }
+            $usuariosPareados->push($usuarios->splice($i, 1)->first());
+        }
+
+        return $usuariosPareados;
+    }
+
+    protected function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
         $retorno = DB::table('usuario_partidas')->whereRaw("partidas_id IN (select partidas_id FROM usuario_partidas where users_id = $idUser1 and partidas_id IN ".
             "(select id from partidas where fase_grupos_id = $idGrupo)) and users_id = $idUser2")->count();
         return $retorno;
