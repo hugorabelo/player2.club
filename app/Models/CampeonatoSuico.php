@@ -276,6 +276,17 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
          * 3. Salvar os emparceiramentos do item anterior em arrays
          * 4. Varrer os arrays com os emparceiramentos e criar as partidas
          */
+
+        /* ALGORITMO NOVO
+         * 1. Separar usuários em grupos
+         * 2. Para cada usuário do grupo, verificar os adversários possíveis para ele
+         * 2.1 Inserir esses usuários em uma coleção com index id do usuário
+         * 2.2 Começar a gerar as partidas a partir do usuário com menor número de possibilidades
+         * 2.3 Caso alguma coleção esteja vazia, remover o último usuário da lista e inserir o primeiro do grupo seguinte, recomeçar passo 2
+         * 2.3.1 Caso mais de uma coleção esteja vazia, remover a quantidade de usuários referentes à coleções vazias e inserir a primeira quantidade do grupo seguinte, recomeçar passo 2
+         * 2.4 Caso, em algum momento, uma coleção se torne vazia WHAT TODO?
+         * 3. Passar para o próximo grupo e recomeçar o passo 2
+         */
     }
 
     protected function parearJogos($usuarios, $idGrupo) {
