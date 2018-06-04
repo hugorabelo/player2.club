@@ -526,6 +526,7 @@
         "solicitacao_equipe": "{{nome_remetente}} fez uma solicitação de entrada na equipe {{nome_equipe}}",
         "aceitacao_equipe": "Sua solicitação de entrada na equipe {{nome_equipe}} foi aceita",
         "convite_equipe_aceito": "O usuário {{nome_remetente}} entrou na sua equipe {{nome_equipe}} através de um convite",
+        "convite_campeonato": "{{nome_remetente}} convidou você para participar do campeonato {{nome_campeonato}}",
 
         "descricao_salvou_placar": "Outro usuário inserir o resultado da partida",
         "descricao_confirmou_placar": "Outro usuário confirmar o resultado que você inseriu",
@@ -541,6 +542,7 @@
         "descricao_convite_equipe": "Você for convidado para uma equipe",
         "descricao_solicitacao_equipe": "Usuário solicitou entrada em equipe administrada por você",
         "descricao_aceitacao_equipe": "Você ser aceito em uma equipe",
-        "descricao_convite_equipe_aceito": "Usuário aceitar um convite para entrar em uma equipe administrada por você"
+        "descricao_convite_equipe_aceito": "Usuário aceitar um convite para entrar em uma equipe administrada por você",
+        "descricao_convite_campeonato": "Alguém convidar você para um campeonato"
     }
 }

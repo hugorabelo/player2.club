@@ -379,6 +379,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        enviarConviteCampeonato: function (idCampeonato, idAmigo) {
+            return $http.post('api/usuario/conviteCampeonato/' + idCampeonato + '/' + idAmigo);
         }
     }
 }]);

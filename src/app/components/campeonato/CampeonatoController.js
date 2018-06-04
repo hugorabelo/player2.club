@@ -1412,6 +1412,48 @@
                     vm.carregaRodadasGerenciar();
                 });
         };
-                }]);
+
+        function DialogControllerConvites($scope, $mdDialog, tituloModal, amigos) {
+            $scope.tituloModal = tituloModal;
+            $scope.amigos = amigos;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.enviarConvite = function (ev, usuario) {
+                console.log(usuario.id);
+                console.log(vm.campeonato.id);
+                Usuario.enviarConviteCampeonato(vm.campeonato.id, usuario.id)
+                    .success(function (data) {
+                        ev.currentTarget.disabled = true;
+                    });
+            };
+        };
+
+        vm.convidarAmigo = function (ev) {
+            Usuario.getSeguindo($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    $mdDialog
+                        .show({
+                            locals: {
+                                tituloModal: 'messages.convidar_amigos',
+                                amigos: data
+                            },
+                            controller: DialogControllerConvites,
+                            templateUrl: 'app/components/equipe/formConvite.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+                });
+        };
+    }]);
 
 }());

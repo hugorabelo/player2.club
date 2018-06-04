@@ -80,6 +80,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('usuario/equipesAdministradas', 'UsersController@listaEquipesAdministradas');
     Route::get('usuario/convites', 'UsersController@listaConvites');
     Route::post('usuario/convidarUsuario', 'UsersController@convidarUsuario');
+    Route::post('usuario/conviteCampeonato/{idCampeonato}/{idAmigo}', 'UsersController@convidarParaCampeonato');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
