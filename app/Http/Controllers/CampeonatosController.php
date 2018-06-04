@@ -130,6 +130,7 @@ class CampeonatosController extends Controller
         $campeonato->detalhes = $campeonato->detalhes();
         $campeonato->criterios = $campeonato->criteriosOrdenados();
         $campeonato->pontuacao = $campeonato->pontuacoes();
+        $campeonato->pode_editar = $campeonato->status() < 3 ? true : false;
         return Response::json($campeonato);
 
     }
@@ -146,7 +147,7 @@ class CampeonatosController extends Controller
         $inputDetalhes = $inputAll['detalhes'];
         $dataInicial = $inputAll['dataInicio'];
         $dataFinal = $inputAll['dataFinal'];
-        $input = array_except($inputAll, ['_method', 'criterios', 'dataFinal', 'dataInicio', 'detalhes', 'jogo', 'plataforma', 'pontuacao', 'tipo', 'novo']);
+        $input = array_except($inputAll, ['_method', 'criterios', 'dataFinal', 'dataInicio', 'detalhes', 'jogo', 'plataforma', 'pontuacao', 'tipo', 'novo', 'pode_editar']);
         $validation = Validator::make($input, Campeonato::$rules);
 
         if ($validation->passes()) {
@@ -161,25 +162,39 @@ class CampeonatosController extends Controller
             }
 
             $campeonato = $this->campeonato->find($id);
+            $nomeClasse = $campeonato->campeonatoTipo()->nome_classe_modelo;
+            $campeonato = $nomeClasse::find($id);
+
             $campeonato->update($input);
 
-            Log::warning($inputAll);
-
             if($campeonato->status() < 3) {
-                Log::alert($campeonato->detalhes()->quantidade_competidores);
-                if($inputDetalhes['quantidade_competidores'] != $campeonato->detalhes()->quantidade_competidores) {
+                $campeonato->detalhesFases = array('data_inicio'=>$dataInicial,'data_fim'=>$dataFinal);
+
+                if(($inputDetalhes['quantidade_competidores'] != $campeonato->detalhes()->quantidade_competidores) ||
+                    ($inputDetalhes['quantidade_grupos'] != $campeonato->detalhes()->quantidade_grupos) ||
+                    ($inputDetalhes['classificados_proxima_fase'] != $campeonato->detalhes()->classificados_proxima_fase)) {
                     $campeonato->apagarFases();
 
-                    $nomeClasse = $campeonato->campeonatoTipo()->nome_classe_modelo;
-                    $nomeClasse::criaFases();
+                    $inputDetalhes = array_filter($inputDetalhes);
 
-                    Log::warning('mudou a quantidade de competidores');
+                    $campeonato->detalhes()->update($inputDetalhes);
+                    $campeonato->detalhesCampeonato = $campeonato->detalhes();
+                    if(isset($inputAll['criterios'])) {
+                        $campeonato->criteriosClassificacao = $inputAll['criterios'];
+                    }
+
+                    if(isset($inputAll['pontuacao'])) {
+                        $campeonato->pontuacao = $inputAll['pontuacao'];
+                    }
+
+                    $campeonato->criaFases();
                 }
                 //TODO atualizar fases em caso de alteração do número de participantes ou regras
             }
 
             $detalhes = $campeonato->detalhes();
-            if($inputDetalhes['tipo_competidor_id'] != null) {
+            $inputDetalhes = array_filter($inputDetalhes);
+            if(isset($inputDetalhes['tipo_competidor_id'])) {
                 $detalhes->tipo_competidor_id = $inputDetalhes['tipo_competidor_id'];
             }
             $detalhes->update();

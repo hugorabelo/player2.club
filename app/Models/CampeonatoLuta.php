@@ -31,7 +31,7 @@ class CampeonatoLuta extends Campeonato implements CampeonatoEspecificavel
         return $this->campeonato;
     }
 
-    public function criaFases() {
+    public function criaFases($input = null) {
         /*
          * 1. Cadastrar cada uma das fases com o número respectivo de competidores
          * 2. Criar grupos para cada uma das fases, com apenas 2 competidores por grupo
@@ -50,7 +50,7 @@ class CampeonatoLuta extends Campeonato implements CampeonatoEspecificavel
             $faseCriada['data_inicio'] = Carbon::parse($dataInicio);
             $dataFim = strstr($dataFim, " (", true);
             $faseCriada['data_fim'] = Carbon::parse($dataFim);
-            $faseCriada['campeonatos_id'] = $this->campeonato->id;
+            $faseCriada['campeonatos_id'] = $this->detalhesCampeonato->campeonatos_id;
             $faseCriada['fase_anterior_id'] = $faseAtual->id;
             $faseCriada['quantidade_usuarios'] = $qtdeParticipantesFase;
             $faseCriada['matamata'] = true;

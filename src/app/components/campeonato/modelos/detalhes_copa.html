@@ -4,35 +4,26 @@
             {{'messages.campeonato_detalhes' | translate}}
         </md-card-header-text>
     </md-card-header>
-    <md-card-content layout-gt-xs="row" layout-margin>
+    <md-card-content layout-gt-xs="row" layout-margin ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
         <div flex-gt-xs="70">
-            <md-input-container class="md-block" ng-hide="true">
-                <label>{{'fields.tipo_competidor' | translate}}</label>
-                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id">
-                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
-                        {{tipoCompetidor.descricao}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required>
             </md-input-container>
 
             <md-input-container class="md-block">
                 <label>{{'fields.qtde_grupos' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_grupos" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_grupos" required>
             </md-input-container>
 
             <md-input-container class="md-block">
                 <label>{{'fields.qtde_classificados' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.classificados_proxima_fase" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.classificados_proxima_fase" required>
             </md-input-container>
 
             <md-input-container class="md-block md-input-has-value">
                 <label>{{'fields.ida_volta' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                     <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
                     <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
@@ -40,7 +31,7 @@
 
             <md-input-container class="md-block md-input-has-value" ng-if="vmCampeonato.campeonatoEditar.detalhes.ida_volta">
                 <label>{{'fields.fora_casa' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.fora_casa" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.fora_casa" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                     <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
                     <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
@@ -51,19 +42,19 @@
             <div layout="row">
                 <md-input-container class="md-block">
                     <label>{{'fields.vitoria' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.vitoria" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.vitoria" required>
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{'fields.empate' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.empate" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.empate" required>
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{'fields.derrota' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.derrota" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.derrota" required>
                 </md-input-container>
             </div>
             <h4 class="text-center" translate>messages.criterios_classificacao</h4>
-            <div ng-if="vmCampeonato.campeonatoEditar.novo">
+            <div ng-if="vmCampeonato.campeonatoEditar.pode_editar">
                 <ul ng-sortable="barConfig" class="todo-list m-t small-list">
                     <li ng-repeat="criterio in vmCampeonato.criteriosClassificacao">
                         <i class="fa fa-arrows-v" aria-hidden="true"></i>
@@ -72,7 +63,7 @@
                     </li>
                 </ul>
             </div>
-            <ul ng-sortable="barConfig" class="todo-list m-t small-list" ng-if="!vmCampeonato.campeonatoEditar.novo">
+            <ul ng-sortable="barConfig" class="todo-list m-t small-list" ng-if="!vmCampeonato.campeonatoEditar.pode_editar">
                 <li ng-repeat="criterio in vmCampeonato.campeonatoEditar.criterios track by $index">
                     <span class="m-l-xs">{{$index+1}} - {{criterio.descricao}}</span>
                 </li>
