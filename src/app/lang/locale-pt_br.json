@@ -351,7 +351,7 @@
         "inserir_imagem": "Inserir imagens",
 
         "anterior": "Anterior",
-        "proximo": "Proximo",
+        "proximo": "Próximo",
         "nova_aba": "Abrir em uma nova aba",
 
         "fazerLogin": "Fazer Login",
@@ -503,7 +503,17 @@
         "sem_convites": "Você não possui mais convites para enviar",
         "usuario_ja_convidado": "Este usuário já está cadastrado na plataforma ou já foi convidado",
         "convite_enviado_sucesso": "Convite enviado com sucesso",
-        "email_vazio": "Você precisa preencher o campo de e-mail para enviar um convite"
+        "email_vazio": "Você precisa preencher o campo de e-mail para enviar um convite",
+
+        "finalizar": "Finalizar",
+        "vamos_comecar": "Vamos começar!",
+        "apresentacao": "Apresentação",
+        "bem_vindo": "Bem vindo!",
+        "mensagem_boas_vindas": "Como você acabou de chegar na player2, vamos atualizar o seu perfil, inserindo algumas informações básicas e mostraremos a você como dar os primeiros passos dentro da nossa plataforma. Assim você estará atualizado e poderá explorar novos espaços e aproveitar tudo o que temos por aqui!",
+        "mensagem_geral": "Aqui vamos inserir as suas informações básicas, para os outros players saberem quem é você",
+        "mensagem_imagens": "Faça uploads de imagens para usar como imagem de perfil e imagem de capa",
+        "mensagem_plataformas": "Vamos agora inserir todas as plataformas gamers que você possui, com o respectivo nome de usuário de cada uma",
+        "mensagem_notificacoes": "Deseja receber notificações por e-mail caso alguém te deixe uma mensagem aqui? Ou ser informado se alguém cadastrou o resultado de um jogo que fez com você? Este é o espaço para você selecionar o que deseja ou não receber por e-mail"
     },
 
     "generos": {
