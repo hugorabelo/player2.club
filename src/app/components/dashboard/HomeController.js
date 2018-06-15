@@ -29,9 +29,13 @@
                             vm.usuario = data;
                             vm.getCampeonatosDisponiveis();
                             vm.getJogosDisponiveis();
+
+                            vm.verificaWizard();
                         });
                 }
             };
+
+
 
             vm.getCampeonatosDisponiveis = function () {
                 vm.userCampeonatosDisponiveis = {};
@@ -407,6 +411,12 @@
                     });
             };
 
+            vm.verificaWizard = function (ev) {
+                if (vm.usuario.exibe_wizard) {
+                    vm.exibirWizard();
+                }
+            };
+
             vm.exibirWizard = function (ev) {
                 $rootScope.pageLoading = true;
                 Usuario.show(localStorageService.get('usuarioLogado').id)
@@ -423,7 +433,8 @@
                                 templateUrl: 'app/components/dashboard/wizard.html',
                                 parent: angular.element(document.body),
                                 targetEvent: ev,
-                                clickOutsideToClose: true,
+                                clickOutsideToClose: false,
+                                escapeToClose: false,
                                 fullscreen: true // Only for -xs, -sm breakpoints.
                             })
                             .then(function () {
@@ -525,6 +536,12 @@
                     } else {
                         Usuario.removerNotificacaoEmail(idEvento);
                     }
+                };
+
+                $scope.finalizarWizard = function () {
+                    WizardHandler.wizard().finish();
+                    Usuario.finalizarWizard($scope.perfilEditar.id);
+                    $mdDialog.hide();
                 };
 
             };

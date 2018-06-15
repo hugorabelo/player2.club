@@ -648,4 +648,10 @@ class UsersController extends Controller {
 		$notificacao->item_id = $idCampeonato;
 		$notificacao->save();
 	}
+
+	function finalizarWizard($idUsuario) {
+		$user = User::find($idUsuario);
+		$user->exibe_wizard = false;
+		$user->save();
+	}
 }

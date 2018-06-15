@@ -4,11 +4,7 @@
         <div ng-include="'app/components/dashboard/mainNav.html'" layout-margin layout="column"></div>
     </div>
     <div hide-xs flex class="caixa-flutuante" ui-view layout="column" layout-margin>
-        <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="vmHome.exibirWizard()">
-            <i class="material-icons md-24">videogame_asset</i>
-            <span class="label label-danger" ng-if="vmTopNav.quantidadeNotificacoesNaoLidas">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
-        </md-button>
-        <!--<div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !stateHome || telaMobile' infinite-scroll-distance='0.2'></div>-->
+        <div ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !stateHome || telaMobile' infinite-scroll-distance='0.2'></div>
     </div>
 
     <div hide-gt-xs layout-fill ui-view>

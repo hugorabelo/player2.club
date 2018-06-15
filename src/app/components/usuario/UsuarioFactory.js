@@ -383,6 +383,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         enviarConviteCampeonato: function (idCampeonato, idAmigo) {
             return $http.post('api/usuario/conviteCampeonato/' + idCampeonato + '/' + idAmigo);
+        },
+
+        finalizarWizard: function (idUsuario) {
+            return $http.post('api/usuario/finalizarWizard/' + idUsuario);
         }
     }
 }]);

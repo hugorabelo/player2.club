@@ -111,7 +111,14 @@
                 </md-list>
                 <md-card-actions layout="row" layout-align="end center">
                     <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
-                    <md-button type="button" wz-next ng-click="salvarNotificacoesEmail()">{{'messages.finalizar' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="salvarNotificacoesEmail()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="{{'messages.encerramento' | translate}}" wz-heading-title="{{'messages.finalizacao' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_final_wizard' | translate}}</p>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="finalizarWizard()">{{'messages.finalizar' | translate}}</md-button>
                 </md-card-actions>
             </wz-step>
         </wizard>
