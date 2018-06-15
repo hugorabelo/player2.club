@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$window', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $window, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -471,6 +471,8 @@
 
                                     $rootScope.pageLoading = false;
 
+                                    $window.scrollTo(0, 0);
+
                                     /*UserPlataforma.getPlataformasDoUsuario($scope.perfilEditar.id)
                                         .success(function (data) {
                                             $scope.gamertags = data;
@@ -488,7 +490,8 @@
                 $scope.salvarImagens = function () {
                     Usuario.update($scope.perfilEditar, $scope.wizard.files_perfil[0])
                         .success(function (data) {
-                            //WizardHandler.wizard().next();
+                            WizardHandler.wizard().next();
+                            $window.scrollTo(0, 0);
                         })
                         .error(function (data) {
 
@@ -500,6 +503,7 @@
                         .success(function (data) {
                             $scope.wizard.userPlataforma = {};
                             $scope.getGamertagsDoUsuario($scope.perfilEditar.id);
+
                         }).error(function (data, status) {
                             $scope.message = data.message;
                             $scope.status = status;
@@ -520,6 +524,7 @@
                             $scope.eventosDeNotificacao = data;
                             $rootScope.pageLoading = false;
                             WizardHandler.wizard().next();
+                            $window.scrollTo(0, 0);
                         });
                 }
 
@@ -536,6 +541,10 @@
                     } else {
                         Usuario.removerNotificacaoEmail(idEvento);
                     }
+                };
+
+                $scope.salvarNotificacoesEmail = function () {
+                    $window.scrollTo(0, 0);
                 };
 
                 $scope.finalizarWizard = function () {
