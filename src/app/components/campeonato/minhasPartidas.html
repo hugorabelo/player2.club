@@ -10,7 +10,7 @@
         <md-card class="md-block" flex ng-class="{'m-n': telaMobile}">
             <md-card-content class="p-h-xs" ng-class="{'p-w-xs': telaMobile}">
                 <div flex="80" flex-xs="65" class="partida-detalhe-campeonato">{{partida.rodada}} {{'messages.rodada' | translate}} <span ng-if="partida.data_prazo" md-colors="{color: 'player2-warn-900'}">- {{'fields.prazo' | translate}}: {{vmCampeonato.exibeData(partida.data_prazo)}}</span></div>
-                <div flex layout="row" layout-align="space-between center">
+                <div flex layout="row" layout-align="space-between center" class="m-b-sm">
                     <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center">
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
                         <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
@@ -92,6 +92,37 @@
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
                 </div>
+
+                <md-expansion-panel md-component-id="panelDetalhes">
+                    <md-expansion-panel-collapsed ng-click="vmCampeonato.exibeDetalhesParticipantes(partida)">
+                        <div class="text-center" flex="80">
+                            Detalhes
+                        </div>
+                        <md-expansion-panel-icon flex="20"></md-expansion-panel-icon>
+                    </md-expansion-panel-collapsed>
+
+                    <md-expansion-panel-expanded class="background-detalhes">
+                        <md-expansion-panel-header ng-click="$panel.collapse();">
+                            <div class="text-center" flex="80">
+                                Detalhes
+                            </div>
+                            <md-expansion-panel-icon flex="20"></md-expansion-panel-icon>
+                        </md-expansion-panel-header>
+
+                        <md-expansion-panel-content layout="row">
+                            <div flex="40" flex-xs="50" class="text-center">
+                                <h4 hide-xs>{{'fields.sigla' | translate}}: {{partida.usuarios[0].sigla | uppercase}}</h4>
+                                <h4 hide-gt-xs>{{'fields.nome' | translate}}: {{partida.usuarios[0].nome}}</h4>
+                                <p>{{'fields.gamertag' | translate}}: {{partida.usuarios[0].gamertag}}</p>
+                            </div>
+                            <div flex="40" flex-xs="50" class="text-center">
+                                <h4 hide-xs>{{'fields.sigla' | translate}}: {{partida.usuarios[1].sigla | uppercase}}</h4>
+                                <h4 hide-gt-xs>{{'fields.nome' | translate}}: {{partida.usuarios[1].nome}}</h4>
+                                <p>{{'fields.gamertag' | translate}}: {{partida.usuarios[1].gamertag}}</p>
+                            </div>
+                        </md-expansion-panel-content>
+                    </md-expansion-panel-expanded>
+                </md-expansion-panel>
             </md-card-content>
         </md-card>
     </div>

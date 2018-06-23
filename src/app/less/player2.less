@@ -295,7 +295,7 @@ a.disabled:hover {
     }
 }
 
-md-menu-item>a.md-button {
+md-menu-item > a.md-button {
     padding-top: 0;
 }
 
@@ -391,7 +391,7 @@ textarea {
 .curtiu:hover,
 .curtiu:focus,
 .curtiu:active {
-    color: @cor-primaria !important;
+    color: @cor-primaria  !important;
 }
 
 .dropdown {
@@ -424,7 +424,7 @@ textarea {
 
 .md-nav-bar {
     .md-button {
-        color: @cor-primaria !important;
+        color: @cor-primaria  !important;
     }
 }
 
@@ -435,10 +435,8 @@ textarea {
 
 body:before {
     content: "";
-    background: url('../assets/images/background/background_estadio.jpg');
-    //    background: url('../assets/images/background/gears_of_war_brotherhood.jpg');
-    background-position: center center;
-    //background-size: 100%;
+    background: url('../assets/images/background/background_estadio.jpg'); //    background: url('../assets/images/background/gears_of_war_brotherhood.jpg');
+    background-position: center center; //background-size: 100%;
     position: fixed;
     left: 0;
     right: 0;
@@ -456,7 +454,7 @@ md-content.conteudo-principal {
 md-card.md-player2-theme,
 md-nav-bar.md-player2-theme .md-nav-bar,
 md-tabs.md-player2-theme,
-{
+    {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 0;
 }
@@ -497,8 +495,7 @@ md-tabs.md-player2-theme,
     .botoes_acao {
         .md-icon-button {
             margin: 0 -5px;
-            padding: 0;
-            //            width: 30px;
+            padding: 0; //            width: 30px;
             //            height: 30px;
             color: @cinza-escuro;
             &:hover {
@@ -529,8 +526,7 @@ md-tabs.md-player2-theme,
     .botoes_acao {
         .md-icon-button {
             margin: -10px -5px 0;
-            padding: 0;
-            //            width: 30px;
+            padding: 0; //            width: 30px;
             //            height: 30px;
             color: @cinza-escuro;
             &:hover {
@@ -920,11 +916,11 @@ body {
         bottom: 10px;
     }
     .md-button {
-        margin-left: 0 important!;
+        margin-left: 0 important !;
     }
 }
 
-.fr-box.fr-basic.fr-top>div>a {
+.fr-box.fr-basic.fr-top > div > a {
     display: none !important;
 }
 
@@ -967,7 +963,7 @@ body {
 .svg-icon {
     fill: #fff;
     height: 32px !important;
-    width: 32px!important;
+    width: 32px !important;
     &.icon-black {
         fill: #000;
     }
@@ -1146,4 +1142,14 @@ md-sidenav {
 .texto-geral {
     font-size: 16px;
     margin: 30px 0;
+}
+
+
+
+md-expansion-panel,
+md-expansion-panel md-expansion-panel-collapsed,
+md-expansion-panel .md-expansion-panel-footer-container,
+md-expansion-panel .md-expansion-panel-header-container {
+    //background-color: rgba(0, 0, 0, 0.05);
+    background: none;
 }

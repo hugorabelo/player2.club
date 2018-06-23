@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -1454,6 +1454,39 @@
                         });
                 });
         };
+
+        vm.exibeDetalhesParticipantes = function (partida) {
+
+            console.log(partida);
+
+            if (partida.id_plataforma == undefined) {
+                partida.id_plataforma = vm.campeonato.plataformas_id;
+            }
+
+            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[0].users_id)
+                .success(function (data) {
+                    angular.forEach(data, function (userPlataforma) {
+                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                            partida.usuarios[0].gamertag = userPlataforma.gamertag;
+                            return;
+                        }
+                    })
+                });
+
+            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[1].users_id)
+                .success(function (data) {
+                    angular.forEach(data, function (userPlataforma) {
+                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                            partida.usuarios[1].gamertag = userPlataforma.gamertag;
+                            return;
+                        }
+                    })
+                });
+
+            //$mdExpansionPanel('panelDetalhes').expand();
+
+        };
+
     }]);
 
 }());

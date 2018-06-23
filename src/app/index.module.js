@@ -27,7 +27,8 @@
         'froala',
         'infinite-scroll',
         'dndLists',
-        'mgo-angular-wizard'
+        'mgo-angular-wizard',
+        'material.components.expansionPanels'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

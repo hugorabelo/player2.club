@@ -98,6 +98,37 @@
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
+
+                <md-expansion-panel md-component-id="panelDetalhes">
+                    <md-expansion-panel-collapsed ng-click="vmCampeonato.exibeDetalhesParticipantes(partida)">
+                        <div class="text-center" flex="80">
+                            Detalhes
+                        </div>
+                        <md-expansion-panel-icon flex="20"></md-expansion-panel-icon>
+                    </md-expansion-panel-collapsed>
+
+                    <md-expansion-panel-expanded class="background-detalhes">
+                        <md-expansion-panel-header ng-click="$panel.collapse();">
+                            <div class="text-center" flex="80">
+                                Detalhes
+                            </div>
+                            <md-expansion-panel-icon flex="20"></md-expansion-panel-icon>
+                        </md-expansion-panel-header>
+
+                        <md-expansion-panel-content layout="row">
+                            <div flex="40" flex-xs="50" class="text-center">
+                                <h4 hide-xs>{{'fields.sigla' | translate}}: {{partida.usuarios[0].sigla | uppercase}}</h4>
+                                <h4 hide-gt-xs>{{'fields.nome' | translate}}: {{partida.usuarios[0].nome}}</h4>
+                                <p>{{'fields.gamertag' | translate}}: {{partida.usuarios[0].gamertag}}</p>
+                            </div>
+                            <div flex="40" flex-xs="50" class="text-center">
+                                <h4 hide-xs>{{'fields.sigla' | translate}}: {{partida.usuarios[1].sigla | uppercase}}</h4>
+                                <h4 hide-gt-xs>{{'fields.nome' | translate}}: {{partida.usuarios[1].nome}}</h4>
+                                <p>{{'fields.gamertag' | translate}}: {{partida.usuarios[1].gamertag}}</p>
+                            </div>
+                        </md-expansion-panel-content>
+                    </md-expansion-panel-expanded>
+                </md-expansion-panel>
             </div>
         </md-list>
     </md-card-content>
