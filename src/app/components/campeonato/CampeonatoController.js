@@ -1457,8 +1457,6 @@
 
         vm.exibeDetalhesParticipantes = function (partida) {
 
-            console.log(partida);
-
             if (partida.id_plataforma == undefined) {
                 partida.id_plataforma = vm.campeonato.plataformas_id;
             }
@@ -1484,6 +1482,15 @@
                 });
 
             //$mdExpansionPanel('panelDetalhes').expand();
+
+            angular.forEach(partida.usuarios, function (usuarioAtual) {
+                if (partida.usuario_placar == usuarioAtual.users_id) {
+                    partida.nome_usuario_placar = usuarioAtual.nome;
+                }
+                if (partida.usuario_confirmacao == usuarioAtual.users_id) {
+                    partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                }
+            });
 
         };
 

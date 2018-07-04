@@ -517,7 +517,12 @@
         "mensagem_imagens": "Faça uploads de imagens para usar como imagem de perfil e imagem de capa",
         "mensagem_plataformas": "Vamos agora inserir todas as plataformas gamers que você possui, com o respectivo nome de usuário de cada uma",
         "mensagem_notificacoes": "Deseja receber notificações por e-mail caso alguém te deixe uma mensagem aqui? Ou ser informado se alguém cadastrou o resultado de um jogo que fez com você? Este é o espaço para você selecionar o que deseja ou não receber por e-mail",
-        "mensagem_final_wizard": "Agora que completamos o seu cadastro básico, agora você pode procurar amigos, jogos ou campeonatos disponíveis através da caixa de pesquisa localizada no topo da sua tela. Aproveite tudo o que a player2 tem para te proporcionar. Agora é com você!"
+        "mensagem_final_wizard": "Agora que completamos o seu cadastro básico, agora você pode procurar amigos, jogos ou campeonatos disponíveis através da caixa de pesquisa localizada no topo da sua tela. Aproveite tudo o que a player2 tem para te proporcionar. Agora é com você!",
+
+        "quem_cadastrou_placar": "Placar cadastrado por",
+        "quem_confirmou_placar": "Placar confirmado por",
+        "hora_cadastro_placar": "Placar cadastrado em",
+        "hora_confirmacao_placar": "Placar confirmado em"
     },
 
     "generos": {
