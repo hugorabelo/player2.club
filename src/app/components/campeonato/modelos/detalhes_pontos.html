@@ -17,12 +17,12 @@
 
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
             </md-input-container>
 
             <md-input-container class="md-block md-input-has-value">
                 <label>{{'fields.ida_volta' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                     <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
                     <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
@@ -33,19 +33,19 @@
             <div layout="row">
                 <md-input-container class="md-block">
                     <label>{{'fields.vitoria' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.vitoria" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.vitoria" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{'fields.empate' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.empate" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.empate" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                 </md-input-container>
                 <md-input-container class="md-block">
                     <label>{{'fields.derrota' | translate}}</label>
-                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.derrota" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <input type="number" ng-model="vmCampeonato.campeonatoEditar.pontuacao.derrota" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                 </md-input-container>
             </div>
             <h4 class="text-center" translate>messages.criterios_classificacao</h4>
-            <div ng-if="vmCampeonato.campeonatoEditar.novo">
+            <div ng-if="vmCampeonato.campeonatoEditar.pode_editar">
                 <ul ng-sortable="barConfig" class="todo-list m-t small-list">
                     <li ng-repeat="criterio in vmCampeonato.criteriosClassificacao">
                         <i class="fa fa-arrows-v" aria-hidden="true"></i>
@@ -54,7 +54,7 @@
                     </li>
                 </ul>
             </div>
-            <ul ng-sortable="barConfig" class="todo-list m-t small-list" ng-if="!vmCampeonato.campeonatoEditar.novo">
+            <ul ng-sortable="barConfig" class="todo-list m-t small-list" ng-if="!vmCampeonato.campeonatoEditar.pode_editar">
                 <li ng-repeat="criterio in vmCampeonato.campeonatoEditar.criterios track by $index">
                     <span class="m-l-xs">{{$index+1}} - {{criterio.descricao}}</span>
                 </li>

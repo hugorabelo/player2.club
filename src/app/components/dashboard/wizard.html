@@ -1,0 +1,246 @@
+<md-dialog aria-label="{{tituloModal | translate}}" flex="90">
+    <md-toolbar class="md-toolbar-tools">
+        <h2>{{'messages.vamos_comecar' | translate}}</h2>
+    </md-toolbar>
+    <md-content class="md-padding">
+        <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-xs>
+            <wz-step wz-title="{{'messages.apresentacao' | translate}}" wz-heading-title="{{'messages.bem_vindo' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_boas_vindas' | translate}}</p>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button type="button" wz-next>{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="{{'messages.geral' | translate}}" wz-heading-title="{{'messages.geral' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_geral' | translate}}</p>
+                <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+                    <md-input-container class="md-block">
+                        <label>{{'fields.nome' | translate}}</label>
+                        <input ng-model="perfilEditar.nome" required>
+                    </md-input-container>
+                    <div layout="column" layout-gt-xs="row">
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.sigla' | translate}}</label>
+                            <input ng-model="perfilEditar.sigla" maxlength="3" required>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.localizacao' | translate}}</label>
+                            <input ng-model="perfilEditar.localizacao">
+                        </md-input-container>
+                    </div>
+                    <md-input-container class="md-block">
+                        <label>{{'fields.descricao' | translate}}</label>
+                        <textarea name="" ng-model="perfilEditar.descricao" required></textarea>
+                    </md-input-container>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                        <md-button type="button" wz-next ng-click="salvarGeral()">{{'messages.proximo' | translate}}</md-button>
+                    </md-card-actions>
+                </form>
+            </wz-step>
+
+            <wz-step wz-title="{{'messages.usuario_imagens' | translate}}" wz-heading-title="{{'messages.usuario_imagens' | translate}}" wz-disabled="true">
+                <p class="texto-geral">{{'messages.mensagem_imagens' | translate}}</p>
+                <div layout-gt-xs="row" layout-margin>
+                    <div flex>
+                        <h2>{{'fields.usuario_imagem_perfil' | translate}}</h2>
+                        <lf-ng-md-file-input lf-files="wizard.files_perfil"></lf-ng-md-file-input>
+                        <img ng-src="{{wizard.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-if="wizard.files_perfil[0].lfDataUrl">
+                        <img ng-src="uploads/usuarios/{{perfilEditar.imagem_perfil}}" ng-if="!wizard.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
+                    </div>
+                    <div flex>
+                        <h2>{{'fields.usuario_imagem_capa' | translate}}</h2>
+                        <lf-ng-md-file-input lf-files="wizard.files_capa"></lf-ng-md-file-input>
+                        <img ng-src="{{wizard.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-if="wizard.files_capa[0].lfDataUrl">
+                        <img ng-src="uploads/usuarios/capa/{{perfilEditar.imagem_capa}}" ng-if="!wizard.files_capa[0].lfDataUrl" class="img-responsive" alt="">
+                    </div>
+                </div>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" ng-click="salvarImagens()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="{{'messages.usuario_gamertags' | translate}}" wz-heading-title="{{'messages.usuario_gamertags' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_plataformas' | translate}}</p>
+                <md-content class="md-padding" layout-gt-xs="row" layout-xs="column">
+                    <div layout="column" layout-align="start stretch" flex="50">
+                        <md-input-container>
+                            <label>{{'fields.gamertag' | translate}}</label>
+                            <input ng-model="wizard.userPlataforma.gamertag" required>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>{{'fields.plataformas_id' | translate}}</label>
+                            <md-select ng-model="wizard.userPlataforma.plataformas_id" required>
+                                <md-option ng-repeat="plataforma in plataformas" ng-value="plataforma.id">
+                                    {{plataforma.descricao}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="adicionarGamerTag($event)">
+                            <i class="material-icons">library_add</i> {{'fields.adicionar' | translate}}
+                            <md-tooltip md-direction="top "> {{'fields.adicionar' | translate}}
+                            </md-tooltip>
+                        </md-button>
+                    </div>
+                    <md-list ng-cloak flex="50">
+                        <md-list-item ng-repeat="tag in gamertags" class="secondary-button-padding">
+                            <img alt="{{ tag.nome_plataforma }}" ng-src="uploads/{{ tag.imagem_plataforma }}" class="md-avatar" />
+                            <p>{{ tag.gamertag }}</p>
+                            <md-button class="md-fab md-mini md-warn" ng-click="excluirGamertag($event, tag.id)">
+                                <md-icon class="material-icons step">
+                                    delete
+                                </md-icon>
+                                <md-tooltip md-direction="top">
+                                    {{'fields.delete' | translate}}
+                                </md-tooltip>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" ng-click="salvarGamerTags()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="{{'messages.notificacoes_email' | translate}}" wz-heading-title="{{'messages.notificacoes_email' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_notificacoes' | translate}}</p>
+                <md-list ng-cloak flex>
+                    <md-list-item ng-repeat="evento in eventosDeNotificacao" class="secondary-button-padding">
+                        <p>{{ evento.descricao | translate }}</p>
+                        <md-switch class="md-primary" ng-model="evento.enabled" ng-change="editaNotificacao(evento.enabled, evento.id)"></md-switch>
+                    </md-list-item>
+                </md-list>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="salvarNotificacoesEmail()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="{{'messages.encerramento' | translate}}" wz-heading-title="{{'messages.finalizacao' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_final_wizard' | translate}}</p>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="finalizarWizard()">{{'messages.finalizar' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+        </wizard>
+
+        <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-gt-xs>
+            <wz-step wz-title="1" wz-heading-title="{{'messages.bem_vindo' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_boas_vindas' | translate}}</p>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button type="button" wz-next>{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="2" wz-heading-title="{{'messages.geral' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_geral' | translate}}</p>
+                <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
+                    <md-input-container class="md-block">
+                        <label>{{'fields.nome' | translate}}</label>
+                        <input ng-model="perfilEditar.nome" required>
+                    </md-input-container>
+                    <div layout="column" layout-gt-xs="row">
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.sigla' | translate}}</label>
+                            <input ng-model="perfilEditar.sigla" maxlength="3" required>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.localizacao' | translate}}</label>
+                            <input ng-model="perfilEditar.localizacao">
+                        </md-input-container>
+                    </div>
+                    <md-input-container class="md-block">
+                        <label>{{'fields.descricao' | translate}}</label>
+                        <textarea name="" ng-model="perfilEditar.descricao" required></textarea>
+                    </md-input-container>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                        <md-button type="button" wz-next ng-click="salvarGeral()">{{'messages.proximo' | translate}}</md-button>
+                    </md-card-actions>
+                </form>
+            </wz-step>
+
+            <wz-step wz-title="3" wz-heading-title="{{'messages.usuario_imagens' | translate}}" wz-disabled="true">
+                <p class="texto-geral">{{'messages.mensagem_imagens' | translate}}</p>
+                <div layout="row" layout-margin>
+                    <div flex>
+                        <h2>{{'fields.usuario_imagem_perfil' | translate}}</h2>
+                        <lf-ng-md-file-input lf-files="wizard.files_perfil"></lf-ng-md-file-input>
+                        <img ng-src="{{wizard.files_perfil[0].lfDataUrl}}" alt="" class="img-responsive" ng-if="wizard.files_perfil[0].lfDataUrl">
+                        <img ng-src="uploads/usuarios/{{perfilEditar.imagem_perfil}}" ng-if="!wizard.files_perfil[0].lfDataUrl" class="img-responsive" alt="">
+                    </div>
+                    <div flex>
+                        <h2>{{'fields.usuario_imagem_capa' | translate}}</h2>
+                        <lf-ng-md-file-input lf-files="wizard.files_capa"></lf-ng-md-file-input>
+                        <img ng-src="{{wizard.files_capa[0].lfDataUrl}}" alt="" class="img-responsive" ng-if="wizard.files_capa[0].lfDataUrl">
+                        <img ng-src="uploads/usuarios/capa/{{perfilEditar.imagem_capa}}" ng-if="!wizard.files_capa[0].lfDataUrl" class="img-responsive" alt="">
+                    </div>
+                </div>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" ng-click="salvarImagens()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="3" wz-heading-title="{{'messages.usuario_gamertags' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_plataformas' | translate}}</p>
+                <md-content class="md-padding" layout="column" layout-xs="column">
+                    <div layout="column" layout-align="start stretch" flex="50">
+                        <md-input-container>
+                            <label>{{'fields.gamertag' | translate}}</label>
+                            <input ng-model="wizard.userPlataforma.gamertag" required>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>{{'fields.plataformas_id' | translate}}</label>
+                            <md-select ng-model="wizard.userPlataforma.plataformas_id" required>
+                                <md-option ng-repeat="plataforma in plataformas" ng-value="plataforma.id">
+                                    {{plataforma.descricao}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary" ng-click="adicionarGamerTag($event)">
+                            <i class="material-icons">library_add</i> {{'fields.adicionar' | translate}}
+                            <md-tooltip md-direction="top "> {{'fields.adicionar' | translate}}
+                            </md-tooltip>
+                        </md-button>
+                    </div>
+                    <md-list ng-cloak flex="50">
+                        <md-list-item ng-repeat="tag in gamertags" class="secondary-button-padding">
+                            <img alt="{{ tag.nome_plataforma }}" ng-src="uploads/{{ tag.imagem_plataforma }}" class="md-avatar" />
+                            <p>{{ tag.gamertag }}</p>
+                            <md-button class="md-fab md-mini md-warn" ng-click="excluirGamertag($event, tag.id)">
+                                <md-icon class="material-icons step">
+                                    delete
+                                </md-icon>
+                                <md-tooltip md-direction="top">
+                                    {{'fields.delete' | translate}}
+                                </md-tooltip>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" ng-click="salvarGamerTags()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="4" wz-heading-title="{{'messages.notificacoes_email' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_notificacoes' | translate}}</p>
+                <md-list ng-cloak flex>
+                    <md-list-item ng-repeat="evento in eventosDeNotificacao" class="secondary-button-padding">
+                        <p>{{ evento.descricao | translate }}</p>
+                        <md-switch class="md-primary" ng-model="evento.enabled" ng-change="editaNotificacao(evento.enabled, evento.id)"></md-switch>
+                    </md-list-item>
+                </md-list>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="salvarNotificacoesEmail()">{{'messages.proximo' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+            <wz-step wz-title="5" wz-heading-title="{{'messages.finalizacao' | translate}}">
+                <p class="texto-geral">{{'messages.mensagem_final_wizard' | translate}}</p>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="finalizarWizard()">{{'messages.finalizar' | translate}}</md-button>
+                </md-card-actions>
+            </wz-step>
+        </wizard>
+    </md-content>
+</md-dialog>

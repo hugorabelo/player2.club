@@ -157,6 +157,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 				$partida->data_placar_limite = $partida->getDataLimitePlacar();
 			}
 			$partida->campeonato = $campeonato->descricao;
+			$partida->id_plataforma = $campeonato->plataformas_id;
 			$partida->fase = $partida->fase()->descricao;
 
 			$partida->tipo_competidor = $campeonato->tipo_competidor;

@@ -351,7 +351,7 @@
         "inserir_imagem": "Inserir imagens",
 
         "anterior": "Anterior",
-        "proximo": "Proximo",
+        "proximo": "Próximo",
         "nova_aba": "Abrir em uma nova aba",
 
         "fazerLogin": "Fazer Login",
@@ -503,7 +503,26 @@
         "sem_convites": "Você não possui mais convites para enviar",
         "usuario_ja_convidado": "Este usuário já está cadastrado na plataforma ou já foi convidado",
         "convite_enviado_sucesso": "Convite enviado com sucesso",
-        "email_vazio": "Você precisa preencher o campo de e-mail para enviar um convite"
+        "email_vazio": "Você precisa preencher o campo de e-mail para enviar um convite",
+
+        "finalizar": "Finalizar",
+        "finalizacao": "Parabéns!",
+        "vamos_comecar": "Vamos começar!",
+        "apresentacao": "Apresentação",
+        "encerramento": "Encerramento",
+        "bem_vindo": "Bem vindo!",
+        "mensagem_boas_vindas": "Como você acabou de chegar na player2, vamos atualizar o seu perfil, inserindo algumas informações básicas e mostraremos a você como dar os primeiros passos dentro da nossa plataforma. Assim você estará atualizado e poderá explorar novos espaços e aproveitar tudo o que temos por aqui!",
+        "mensagem_atualizacao": "Percebi que você está com o perfil desatualizado, mas agora, vamos atualizá-lo, inserindo algumas informações básicas e descobrindo como dar os primeiros passos dentro da nossa plataforma. Assim você estará atualizado e poderá explorar novos espaços e aproveitar tudo o que temos por aqui!",
+        "mensagem_geral": "Aqui vamos inserir as suas informações básicas, para os outros players saberem quem é você",
+        "mensagem_imagens": "Faça uploads de imagens para usar como imagem de perfil e imagem de capa",
+        "mensagem_plataformas": "Vamos agora inserir todas as plataformas gamers que você possui, com o respectivo nome de usuário de cada uma",
+        "mensagem_notificacoes": "Deseja receber notificações por e-mail caso alguém te deixe uma mensagem aqui? Ou ser informado se alguém cadastrou o resultado de um jogo que fez com você? Este é o espaço para você selecionar o que deseja ou não receber por e-mail",
+        "mensagem_final_wizard": "Agora que completamos o seu cadastro básico, agora você pode procurar amigos, jogos ou campeonatos disponíveis através da caixa de pesquisa localizada no topo da sua tela. Aproveite tudo o que a player2 tem para te proporcionar. Agora é com você!",
+
+        "quem_cadastrou_placar": "Placar cadastrado por",
+        "quem_confirmou_placar": "Placar confirmado por",
+        "hora_cadastro_placar": "Placar cadastrado em",
+        "hora_confirmacao_placar": "Placar confirmado em"
     },
 
     "generos": {
@@ -526,6 +545,7 @@
         "solicitacao_equipe": "{{nome_remetente}} fez uma solicitação de entrada na equipe {{nome_equipe}}",
         "aceitacao_equipe": "Sua solicitação de entrada na equipe {{nome_equipe}} foi aceita",
         "convite_equipe_aceito": "O usuário {{nome_remetente}} entrou na sua equipe {{nome_equipe}} através de um convite",
+        "convite_campeonato": "{{nome_remetente}} convidou você para participar do campeonato {{nome_campeonato}}",
 
         "descricao_salvou_placar": "Outro usuário inserir o resultado da partida",
         "descricao_confirmou_placar": "Outro usuário confirmar o resultado que você inseriu",
@@ -541,6 +561,7 @@
         "descricao_convite_equipe": "Você for convidado para uma equipe",
         "descricao_solicitacao_equipe": "Usuário solicitou entrada em equipe administrada por você",
         "descricao_aceitacao_equipe": "Você ser aceito em uma equipe",
-        "descricao_convite_equipe_aceito": "Usuário aceitar um convite para entrar em uma equipe administrada por você"
+        "descricao_convite_equipe_aceito": "Usuário aceitar um convite para entrar em uma equipe administrada por você",
+        "descricao_convite_campeonato": "Alguém convidar você para um campeonato"
     }
 }

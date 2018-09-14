@@ -26,7 +26,9 @@
         'ng-sortable',
         'froala',
         'infinite-scroll',
-        'dndLists'
+        'dndLists',
+        'mgo-angular-wizard',
+        'material.components.expansionPanels'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {

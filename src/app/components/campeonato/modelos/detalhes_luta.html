@@ -9,7 +9,7 @@
             <md-input-container class="md-block" ng-hide="true">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
                 <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id">
-                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id" ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                    <md-option ng-repeat="tipoCompetidor in vmCriarCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id" ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                         {{tipoCompetidor.descricao}}
                     </md-option>
                 </md-select>
@@ -17,12 +17,12 @@
 
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
             </md-input-container>
 
             <md-input-container class="md-block md-input-has-value">
                 <label>{{'fields.numero_rounds' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.numero_rounds" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.numero_rounds" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                     <md-radio-button ng-value="1">{{ 'messages.disputa_unica' | translate }}</md-radio-button>
                     <md-radio-button ng-value="3"> {{ 'messages.melhor_tres' | translate }} </md-radio-button>
                     <md-radio-button ng-value="5"> {{ 'messages.melhor_cinco' | translate }} </md-radio-button>

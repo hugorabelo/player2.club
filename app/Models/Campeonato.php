@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Collection;
 class Campeonato extends Eloquent {
 	protected $guarded = array();
 
+    protected $table = 'campeonatos';
+
 	public static $rules = array(
 		'descricao' => 'required',
 		'jogos_id' => 'required',
@@ -902,5 +904,10 @@ class Campeonato extends Eloquent {
             }
         }
         return false;
+    }
+
+    public function apagarFases() {
+        CampeonatoFase::where('campeonatos_id','=',$this->id)->delete();
+        return null;
     }
 }

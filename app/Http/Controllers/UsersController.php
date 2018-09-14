@@ -519,6 +519,12 @@ class UsersController extends Controller {
                     }
                     $notificacao->nome_equipe = $equipe->nome;
                     break;
+				case 'convite_campeonato':
+					$campeonato = Campeonato::find($notificacao->item_id);
+					if(!isset($campeonato)) {
+						continue;
+					}
+					$notificacao->nome_campeonato = $campeonato->descricao;
 			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;
@@ -627,4 +633,25 @@ class UsersController extends Controller {
             return Response::json(array('success'=>true));
         }
     }
+
+	function convidarParaCampeonato($idCampeonato, $idAmigo) {
+		$evento = NotificacaoEvento::where('valor','=','convite_campeonato')->first();
+		if(isset($evento)) {
+			$idEvento = $evento->id;
+		}
+
+		$idUsuario = Auth::getUser()->id;
+		$notificacao = new Notificacao();
+		$notificacao->id_remetente = $idUsuario;
+		$notificacao->id_destinatario = $idAmigo;
+		$notificacao->evento_notificacao_id = $idEvento;
+		$notificacao->item_id = $idCampeonato;
+		$notificacao->save();
+	}
+
+	function finalizarWizard($idUsuario) {
+		$user = User::find($idUsuario);
+		$user->exibe_wizard = false;
+		$user->save();
+	}
 }

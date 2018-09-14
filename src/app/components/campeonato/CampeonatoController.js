@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -1412,6 +1412,88 @@
                     vm.carregaRodadasGerenciar();
                 });
         };
-                }]);
+
+        function DialogControllerConvites($scope, $mdDialog, tituloModal, amigos) {
+            $scope.tituloModal = tituloModal;
+            $scope.amigos = amigos;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.enviarConvite = function (ev, usuario) {
+                console.log(usuario.id);
+                console.log(vm.campeonato.id);
+                Usuario.enviarConviteCampeonato(vm.campeonato.id, usuario.id)
+                    .success(function (data) {
+                        ev.currentTarget.disabled = true;
+                    });
+            };
+        };
+
+        vm.convidarAmigo = function (ev) {
+            Usuario.getSeguindo($rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    $mdDialog
+                        .show({
+                            locals: {
+                                tituloModal: 'messages.convidar_amigos',
+                                amigos: data
+                            },
+                            controller: DialogControllerConvites,
+                            templateUrl: 'app/components/equipe/formConvite.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: true // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function () {
+
+                        }, function () {
+
+                        });
+                });
+        };
+
+        vm.exibeDetalhesParticipantes = function (partida) {
+
+            if (partida.id_plataforma == undefined) {
+                partida.id_plataforma = vm.campeonato.plataformas_id;
+            }
+
+            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[0].users_id)
+                .success(function (data) {
+                    angular.forEach(data, function (userPlataforma) {
+                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                            partida.usuarios[0].gamertag = userPlataforma.gamertag;
+                            return;
+                        }
+                    })
+                });
+
+            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[1].users_id)
+                .success(function (data) {
+                    angular.forEach(data, function (userPlataforma) {
+                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                            partida.usuarios[1].gamertag = userPlataforma.gamertag;
+                            return;
+                        }
+                    })
+                });
+
+            //$mdExpansionPanel('panelDetalhes').expand();
+
+            angular.forEach(partida.usuarios, function (usuarioAtual) {
+                if (partida.usuario_placar == usuarioAtual.users_id) {
+                    partida.nome_usuario_placar = usuarioAtual.nome;
+                }
+                if (partida.usuario_confirmacao == usuarioAtual.users_id) {
+                    partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                }
+            });
+
+        };
+
+    }]);
 
 }());

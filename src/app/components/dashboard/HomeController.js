@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$window', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $window, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -29,9 +29,13 @@
                             vm.usuario = data;
                             vm.getCampeonatosDisponiveis();
                             vm.getJogosDisponiveis();
+
+                            vm.verificaWizard();
                         });
                 }
             };
+
+
 
             vm.getCampeonatosDisponiveis = function () {
                 vm.userCampeonatosDisponiveis = {};
@@ -407,6 +411,149 @@
                     });
             };
 
-        }]);
+            vm.verificaWizard = function (ev) {
+                if (vm.usuario.exibe_wizard) {
+                    vm.exibirWizard();
+                }
+            };
 
+            vm.exibirWizard = function (ev) {
+                $rootScope.pageLoading = true;
+                Usuario.show(localStorageService.get('usuarioLogado').id)
+                    .success(function (data) {
+                        vm.perfilEditar = data;
+                        $rootScope.pageLoading = false;
+
+                        $mdDialog.show({
+                                locals: {
+                                    tituloModal: 'messages.adicionar_gamertag',
+                                    perfilEditar: vm.perfilEditar
+                                },
+                                controller: DialogControllerWizard,
+                                templateUrl: 'app/components/dashboard/wizard.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: false,
+                                escapeToClose: false,
+                                fullscreen: true // Only for -xs, -sm breakpoints.
+                            })
+                            .then(function () {
+
+                            }, function () {
+
+                            });
+
+
+
+                    });
+
+            };
+
+            function DialogControllerWizard($scope, $mdDialog, tituloModal, perfilEditar) {
+                $scope.tituloModal = tituloModal;
+                $scope.perfilEditar = perfilEditar;
+                $scope.wizard = {};
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.salvarGeral = function () {
+                    $rootScope.pageLoading = true;
+                    Usuario.update($scope.perfilEditar)
+                        .success(function (data) {
+
+                            Plataforma.get()
+                                .success(function (data) {
+                                    $scope.plataformas = data;
+
+                                    $scope.getGamertagsDoUsuario($scope.perfilEditar.id);
+
+                                    $rootScope.pageLoading = false;
+
+                                    $window.scrollTo(0, 0);
+
+                                    /*UserPlataforma.getPlataformasDoUsuario($scope.perfilEditar.id)
+                                        .success(function (data) {
+                                            $scope.gamertags = data;
+                                            $rootScope.pageLoading = false;
+                                        });*/
+                                });
+
+
+                        })
+                        .error(function (data) {
+
+                        })
+                }
+
+                $scope.salvarImagens = function () {
+                    Usuario.update($scope.perfilEditar, $scope.wizard.files_perfil[0])
+                        .success(function (data) {
+                            WizardHandler.wizard().next();
+                            $window.scrollTo(0, 0);
+                        })
+                        .error(function (data) {
+
+                        })
+                }
+
+                $scope.adicionarGamerTag = function (ev) {
+                    UserPlataforma.save($scope.wizard.userPlataforma)
+                        .success(function (data) {
+                            $scope.wizard.userPlataforma = {};
+                            $scope.getGamertagsDoUsuario($scope.perfilEditar.id);
+
+                        }).error(function (data, status) {
+                            $scope.message = data.message;
+                            $scope.status = status;
+                        });
+                }
+
+                $scope.excluirGamertag = function (ev, tagId) {
+                    UserPlataforma.destroy(tagId)
+                        .success(function (data) {
+                            $scope.getGamertagsDoUsuario($scope.perfilEditar.id);
+                        });
+                }
+
+                $scope.salvarGamerTags = function () {
+                    $rootScope.pageLoading = true;
+                    NotificacaoEvento.get()
+                        .success(function (data) {
+                            $scope.eventosDeNotificacao = data;
+                            $rootScope.pageLoading = false;
+                            WizardHandler.wizard().next();
+                            $window.scrollTo(0, 0);
+                        });
+                }
+
+                $scope.getGamertagsDoUsuario = function (userId) {
+                    UserPlataforma.getPlataformasDoUsuario(userId)
+                        .success(function (data) {
+                            $scope.gamertags = data;
+                        });
+                }
+
+                $scope.editaNotificacao = function (objeto, idEvento) {
+                    if (objeto) {
+                        Usuario.adicionarNotificacaoEmail(idEvento);
+                    } else {
+                        Usuario.removerNotificacaoEmail(idEvento);
+                    }
+                };
+
+                $scope.salvarNotificacoesEmail = function () {
+                    $window.scrollTo(0, 0);
+                };
+
+                $scope.finalizarWizard = function () {
+                    WizardHandler.wizard().finish();
+                    Usuario.finalizarWizard($scope.perfilEditar.id);
+                    $mdDialog.hide();
+                };
+
+            };
+
+        }]);
 }());

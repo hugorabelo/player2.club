@@ -6,23 +6,14 @@
     </md-card-header>
     <md-card-content layout-gt-xs="row" layout-margin>
         <div flex-gt-xs="50">
-            <md-input-container class="md-block" ng-hide="true">
-                <label>{{'fields.tipo_competidor' | translate}}</label>
-                <md-select ng-model="vmCampeonato.campeonatoEditar.detalhes.tipo_competidor_id">
-                    <md-option ng-repeat="tipoCompetidor in vmCampeonato.tiposDeCompetidores" ng-value="tipoCompetidor.id">
-                        {{tipoCompetidor.descricao}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
             </md-input-container>
 
             <md-input-container class="md-block md-input-has-value">
                 <label>{{'fields.ida_volta' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.ida_volta" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                     <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
                     <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
@@ -30,7 +21,7 @@
 
             <md-input-container class="md-block md-input-has-value" ng-if="vmCampeonato.campeonatoEditar.detalhes.ida_volta">
                 <label>{{'fields.fora_casa' | translate}}</label>
-                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.fora_casa" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
+                <md-radio-group ng-model="vmCampeonato.campeonatoEditar.detalhes.fora_casa" class="md-primary" layout="row" required ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
                     <md-radio-button ng-value="true">{{ 'messages.yes' | translate }}</md-radio-button>
                     <md-radio-button ng-value="false"> {{ 'messages.no' | translate }} </md-radio-button>
                 </md-radio-group>
