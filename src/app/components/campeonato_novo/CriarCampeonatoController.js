@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2')
-        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', 'toastr', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', function ($scope, $rootScope, $translate, $location, toastr, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato) {
+        .controller('CriarCampeonatoController', ['$scope', '$rootScope', '$translate', '$location', '$filter', 'toastr', 'Campeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'ModeloCampeonato', 'Tutorial', function ($scope, $rootScope, $translate, $location, $filter, toastr, Campeonato, Plataforma, Jogo, CampeonatoTipo, ModeloCampeonato, Tutorial) {
 
             var vm = this;
 

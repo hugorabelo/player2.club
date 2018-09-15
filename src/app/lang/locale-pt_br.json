@@ -563,5 +563,22 @@
         "descricao_aceitacao_equipe": "Você ser aceito em uma equipe",
         "descricao_convite_equipe_aceito": "Usuário aceitar um convite para entrar em uma equipe administrada por você",
         "descricao_convite_campeonato": "Alguém convidar você para um campeonato"
+    },
+
+    "tutoriais": {
+        "menu_principal_mobile": "Ao clicar neste ícone, um menu é aberto com várias opções para você navegar na plataforma. Aqui você pode editar seu perfil, criar um novo campeonato, pesquisar campeonatos existentes, acompanhar suas partidas e equipes, convidar amigos para acessar a plataforma,  entre outras funcionalidades. Este é o menu principal da aplicação.",
+        "botao_pesquisa_mobile": "Clicando neste ícone, uma caixa de pesquisa é exibida, para que você possa pesquisar por usuários, jogos ou campeonatos. É um bom lugar para você procurar amigos pelo nome.",
+        "menu_mensagens": "Este ícone exibe a quantidade de mensagens não lidas que você possui, além de abrir as conversas já iniciadas com outros usuários.",
+        "menu_notificacoes": "Aqui você consegue visualizar todas as notificações não lidas que você tem.",
+        "texto_inicial": "Você pode começar procurando por alguém na caixa de pesquisa e seguir esse usuário, para poder acompanhar o feed de atividades que aparece nesta tela principal.",
+        "menu_principal_desktop": "No menu principal da aplicação, existem várias opções para você navegar na plataforma. Aqui você pode editar seu perfil, criar um novo campeonato, pesquisar campeonatos existentes, acompanhar suas partidas e equipes, convidar amigos para acessar a plataforma, entre outras funcionalidades.",
+        "botao_pesquisa_desktop": "Aqui temos uma caixa de pesquisa, para que você possa pesquisar por usuários, jogos ou campeonatos. É um bom lugar para você procurar amigos pelo nome.",
+        "caixa_direita_desktop": "Neste espaço, temos uma lista de acesso rápido para os principais campeonatos e jogos do momento",
+        "criar_campeonato": "Esta é a tela de criação de campeonatos. Aqui você vai configurar o formato e detalhes do campeonato a ser criado",
+        "criar_campeonato_tipo_competidor": "Aqui você escolhe se os integrantes do campeonato serão participantes individuais ou equipes",
+        "criar_campeonato_minimo_usuarios": "Caso seja em equipe, você deve definir qual a quantidade mínima de integrantes nas equipes inscritas",
+        "criar_campeonato_regras": "Escreva o regulamento do campeonato aqui. O texto inserido neste espaço, aparecerá na aba Regras, dentro da página do campeonato.",
+        "criar_campeonato_jogo": "Ao escolher a plataforma e jogo, serão disponibilizados os tipos de campeonato possíveis para ele. Escolha uma opção",
+        "criar_campeonato_detalhes": "Dependendo do tipo de campeonato escolhido, aparecerão detalhes específicos para cada tipo de campeonato. Preencha adequadamente, para não ter problemas no cálculo de resultados"
     }
 }

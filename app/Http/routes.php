@@ -169,6 +169,13 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::resource('equipe', 'EquipeController');
     Route::post('equipe/{id}', 'EquipeController@update');
 
+    Route::post('tutorial/visualizado', 'TutorialController@getVisualizado');
+    Route::post('tutorial/marcarVisualizado', 'TutorialController@setVisualizado');
+    Route::resource('tutorial', 'TutorialController');
+    Route::get('tutorial/{id}/{mobile}', 'TutorialController@show');
+
+    Route::resource('tutorialItem', 'TutorialItemController');
+
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $user = Auth::getUser();
         $user->equipesAdministradas = $user->equipesAdministradas()->get();

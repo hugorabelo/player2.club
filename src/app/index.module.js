@@ -27,6 +27,7 @@
         'froala',
         'infinite-scroll',
         'dndLists',
+        'angular-intro',
         'mgo-angular-wizard',
         'material.components.expansionPanels'
     ]);

@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$window', 'toastr', 'localStorageService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $window, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler) {
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $window, toastr, localStorageService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler, Tutorial) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -135,6 +135,9 @@
             };
 
             vm.editaPerfil = function () {
+                if (localStorageService.get('usuarioLogado') === null || localStorageService.get('usuarioLogado') === undefined) {
+                    return;
+                }
                 Usuario.show(localStorageService.get('usuarioLogado').id)
                     .success(function (data) {
                         vm.perfilEditar = data;
@@ -151,7 +154,7 @@
                     })
                     .error(function (data) {
 
-                    })
+                    });
             };
 
             vm.getGamertagsDoUsuario = function (idUsuario) {
@@ -200,8 +203,8 @@
                 $scope.salvarGamerTag = function () {
                     vm.salvarGamerTag($scope.userPlataforma);
                     $mdDialog.hide();
-                }
-            };
+                };
+            }
 
             vm.excluirGamertag = function (ev, id) {
                 vm.idRegistroExcluir = id;
@@ -289,7 +292,7 @@
                             }, function () {
 
                             });
-                    })
+                    });
             };
 
             function DialogControllerMensagem($scope, $mdDialog, tituloModal, novaMensagem, nomeDestinatario) {
@@ -304,9 +307,9 @@
                 $scope.enviarMensagem = function () {
                     vm.enviarMensagem(novaMensagem);
                     $mdDialog.hide();
-                }
+                };
 
-            };
+            }
 
             vm.enviarMensagem = function (novaMensagem) {
                 Usuario.enviarMensagem(novaMensagem)
@@ -320,7 +323,7 @@
 
             vm.mensagensUsuario = {};
             vm.getMensagensDoUsuario = function () {
-                while (vm.idUsuarioRemetente == undefined) {
+                while (vm.idUsuarioRemetente === undefined) {
                     vm.idUsuarioRemetente = $stateParams.idUsuario;
                 }
                 Usuario.getMensagens(vm.idUsuarioRemetente)
@@ -393,7 +396,7 @@
             };
 
             vm.convidar = function (email) {
-                if ((email == undefined) || (email.email == undefined) || (email.email == '')) {
+                if ((email === undefined) || (email.email === undefined) || (email.email === '')) {
                     toastr.error($filter('translate')('messages.email_vazio'));
                     return;
                 }
@@ -410,6 +413,64 @@
                         toastr.error($filter('translate')(data.errors[0]));
                     });
             };
+
+            vm.exibeTutorial = function (rota, mobile) {
+                Tutorial.show(rota, mobile)
+                    .success(function (data) {
+                        vm.tutorialExibido = data;
+                        angular.forEach(data.items, function (item) {
+                            item.intro = $filter('translate')(item.mensagem)
+                        });
+                        vm.IntroOptions = {
+                            steps: data.items,
+                            showStepNumbers: false,
+                            exitOnOverlayClick: true,
+                            tooltipClass: 'classeIntro',
+                            nextLabel: '<i class="material-icons">keyboard_arrow_right</i>',
+                            prevLabel: '<i class="material-icons">keyboard_arrow_left</i>',
+                            skipLabel: '<i class="material-icons">not_interested</i>',
+                            doneLabel: '<i class="material-icons">done_all</i>'
+                        };
+                        ngIntroService.setOptions(vm.IntroOptions);
+                        ngIntroService.start();
+                    });
+            };
+
+            ngIntroService.onComplete(function () {
+                Tutorial.marcarVisualizado(vm.tutorialExibido);
+            });
+
+            ngIntroService.onChange(function (targetElement) {
+                if (targetElement.id === 'areaTopNavBar') {
+                    //$("#botaoPesquisa").click();
+                }
+            });
+
+            ngIntroService.onExit(function () {
+
+            });
+
+            vm.tutorialInicial = true;
+
+            if (vm.tutorialInicial) {
+                Tutorial.getVisualizado($state.current.name)
+                    .success(function (resultado) {
+                        if (resultado === 0) {
+                            vm.exibeTutorial($state.current.name, $rootScope.telaMobile);
+                        }
+                    });
+                vm.tutorialInicial = false;
+            }
+
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
+                Tutorial.getVisualizado($state.current.name)
+                    .success(function (resultado) {
+                        if (resultado === 0) {
+                            vm.exibeTutorial(toState.name, $rootScope.telaMobile);
+                        }
+                    });
+            });
+
 
             vm.verificaWizard = function (ev) {
                 if (vm.usuario.exibe_wizard) {
@@ -484,8 +545,8 @@
                         })
                         .error(function (data) {
 
-                        })
-                }
+                        });
+                };
 
                 $scope.salvarImagens = function () {
                     Usuario.update($scope.perfilEditar, $scope.wizard.files_perfil[0])
@@ -495,8 +556,8 @@
                         })
                         .error(function (data) {
 
-                        })
-                }
+                        });
+                };
 
                 $scope.adicionarGamerTag = function (ev) {
                     UserPlataforma.save($scope.wizard.userPlataforma)
@@ -508,14 +569,14 @@
                             $scope.message = data.message;
                             $scope.status = status;
                         });
-                }
+                };
 
                 $scope.excluirGamertag = function (ev, tagId) {
                     UserPlataforma.destroy(tagId)
                         .success(function (data) {
                             $scope.getGamertagsDoUsuario($scope.perfilEditar.id);
                         });
-                }
+                };
 
                 $scope.salvarGamerTags = function () {
                     $rootScope.pageLoading = true;
@@ -526,14 +587,14 @@
                             WizardHandler.wizard().next();
                             $window.scrollTo(0, 0);
                         });
-                }
+                };
 
                 $scope.getGamertagsDoUsuario = function (userId) {
                     UserPlataforma.getPlataformasDoUsuario(userId)
                         .success(function (data) {
                             $scope.gamertags = data;
                         });
-                }
+                };
 
                 $scope.editaNotificacao = function (objeto, idEvento) {
                     if (objeto) {
@@ -553,7 +614,7 @@
                     $mdDialog.hide();
                 };
 
-            };
+            }
 
         }]);
 }());

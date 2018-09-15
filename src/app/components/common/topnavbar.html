@@ -1,4 +1,4 @@
-<md-toolbar class="md-accent topo-principal" hide-xs>
+<md-toolbar class="md-accent topo-principal" hide-xs id="areaTopNavBarDesktop">
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
         <a href="/" flex="20">
             <img alt="" height="50" src="assets/images/player2.png" data-pin-nopin="true" hide-xs>
@@ -7,7 +7,7 @@
         <div flex="60" layout="row" layout-align="space-between center">
 
 
-            <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template">
+            <md-autocomplete md-no-cache="false" md-search-text-change="vmTopNav.searchTextChange(vmTopNav.searchText)" md-search-text="vmTopNav.searchText" md-selected-item-change="vmTopNav.selectedItemChange(item)" md-items="item in vmTopNav.querySearch(vmTopNav.searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'messages.texto_pesquisa' | translate}}" md-menu-class="autocomplete-custom-template" id="caixaPesquisa">
                 <md-item-template>
                     <span class="item-title">
                         <img ng-src="uploads/usuarios/{{item.imagem}}" class="img-circle img-sm" ng-if="item.tipo == 'profile'">
@@ -22,13 +22,13 @@
                     <i class="material-icons md-24">home</i>
                 </md-button>
 
-                <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
+                <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens" id="botaoMensagensDesktop">
                     <i class="material-icons md-24">message</i>
                     <span class="label label-danger" ng-if="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
                 </md-button>
 
                 <md-menu id="lista-notificacao" md-position-mode="target-right target" md-offset="0 40" ng-init="vmTopNav.getNotificacoesDoUsuario()">
-                    <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="$mdOpenMenu()">
+                    <md-button class="md-icon-button count-info" aria-label="Notifications" ng-click="$mdOpenMenu()" id="botaoNotificacoesDesktop">
                         <i class="material-icons md-24">videogame_asset</i>
                         <span class="label label-danger" ng-if="vmTopNav.quantidadeNotificacoesNaoLidas">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
                     </md-button>
@@ -170,9 +170,9 @@
     </div>
 </md-toolbar>
 
-<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch">
+<md-toolbar hide-gt-xs layout="row" ng-show="!showSearch" id="areaTopNavBar">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-if="!vmTopNav.isOpenSideNav()">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="vmTopNav.toggleSideNav()" ng-if="!vmTopNav.isOpenSideNav()" id="botaoPrincipal">
             <i class="material-icons md-24">menu</i>
         </md-button>
         <span flex class="text-center">
@@ -181,17 +181,17 @@
             </a>
         </span>
 
-        <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens">
+        <md-button class="md-icon-button count-info" aria-label="Messages" ui-sref="home.mensagens" id="botaoMensagens">
             <i class="material-icons md-24">message</i>
             <span class="label label-danger" ng-if="vmTopNav.quantidadeMensagensNaoLidas">{{vmTopNav.quantidadeMensagensNaoLidas}}</span>
         </md-button>
 
-        <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes">
+        <md-button class="md-icon-button count-info" aria-label="Home" ui-sref="home.notificacoes" id="botaoNotificacoes">
             <i class="material-icons md-24">videogame_asset</i>
             <span class="label label-danger">{{vmTopNav.quantidadeNotificacoesNaoLidas}}</span>
         </md-button>
 
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="showSearch = !showSearch" id="botaoPesquisa">
             <i class="material-icons md-24">search</i>
         </md-button>
     </div>
