@@ -62,7 +62,7 @@
 
             vm.carregaJogosDaPlataforma = function () {
                 $rootScope.loading = true;
-                Plataforma.getJogos(vm.campeonato.plataformas_id)
+                Plataforma.getJogos(vm.campeonato.plataformas_id, true)
                     .success(function (data) {
                         vm.jogos = data;
                         if (vm.jogos.length > 0) {

@@ -19,6 +19,42 @@
             </div>
         </md-list-item>
     </md-list>
+
+    <h3 class="secao_titulo" layout-align="space-between center" layout="row">
+        {{'messages.convite_equipes_usuario' | translate}}
+    </h3>
+    <md-list ng-cloak>
+        <md-list-item class="item-lista" ng-repeat="equipe in vmEquipe.convitesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
+            <p>{{equipe.nome}}</p>
+            <div class="detalhes" flex="60" layout="row" layout-align="end center">
+                <div flex="15">
+                    <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt="">
+                </div>
+                <div flex="15">
+                    <i class="material-icons">people_outline</i>
+                    <span class="m-l-sm">{{equipe.integrantes.length}}</span>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
+
+    <h3 class="secao_titulo" layout-align="space-between center" layout="row">
+        {{'messages.solicitacao_pendente_equipes_usuario' | translate}}
+    </h3>
+    <md-list ng-cloak>
+        <md-list-item class="item-lista" ng-repeat="equipe in vmEquipe.solicitacoesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
+            <p>{{equipe.nome}}</p>
+            <div class="detalhes" flex="60" layout="row" layout-align="end center">
+                <div flex="15">
+                    <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt="">
+                </div>
+                <div flex="15">
+                    <i class="material-icons">people_outline</i>
+                    <span class="m-l-sm">{{equipe.integrantes.length}}</span>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
 </div>
 
 
@@ -42,5 +78,41 @@
                 </div>
             </md-list-item>
         </md-list>
+
+        <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center">
+                    {{'messages.convite_equipes_usuario' | translate}}
+                </md-card-title-text>
+            </md-card-title>
+            <div class="m-xs">
+                <md-list-item class="m-b-xxs" ng-repeat="equipe in vmEquipe.convitesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
+                    <p>{{equipe.nome}}</p>
+                    <div class="detalhes" flex="30" layout="row" layout-align="center center">
+                        <div flex="50">
+                            <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt="">
+                        </div>
+                    </div>
+                </md-list-item>
+            </div>
+        </md-card>
+
+        <md-card class="caixa-informacao m-l-n m-r-n p-w-sm">
+            <md-card-title>
+                <md-card-title-text layout="row" layout-align="start center">
+                    {{'messages.solicitacao_pendente_equipes_usuario' | translate}}
+                </md-card-title-text>
+            </md-card-title>
+            <div class="m-xs">
+                <md-list-item class="m-b-xxs" ng-repeat="equipe in vmEquipe.solicitacoesDoUsuario" ui-sref="equipe({idEquipe: equipe.id})">
+                    <p>{{equipe.nome}}</p>
+                    <div class="detalhes" flex="30" layout="row" layout-align="center center">
+                        <div flex="50">
+                            <img ng-src="uploads/{{equipe.imagem_perfil}}" class="img-xs img-circle" alt="">
+                        </div>
+                    </div>
+                </md-list-item>
+            </div>
+        </md-card>
     </div>
 </md-card>

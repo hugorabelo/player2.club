@@ -27,7 +27,9 @@
         'froala',
         'infinite-scroll',
         'dndLists',
-        'angular-intro'
+        'angular-intro',
+        'mgo-angular-wizard',
+        'material.components.expansionPanels'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
@@ -178,7 +180,8 @@
                     primaryColor: "#0c486b"
                 },
                 languageDictionary: {
-                    title: ""
+                    title: "",
+                    forgotPasswordAction: "Esqueceu ou não tem senha?"
                 },
                 language: "pt-BR",
                 allowSignUp: false

@@ -216,32 +216,55 @@ class EquipeController extends Controller
         return Response::json(array('success' => true));
     }
 
-    public function adicionaIntegrante($idEquipe, $idusuario = null) {
+    public function adicionaIntegrante($idEquipe, $idUsuario = null) {
         $equipe = Equipe::find($idEquipe);
         if(!isset($equipe)) {
             return null;
         }
         $idFuncao = DB::table('funcao_equipe')->whereRaw('prioridade = (select min(prioridade) from funcao_equipe)')->first(array('id'))->id;
-        if(isset($idusuario)) {
+        if(isset($idUsuario)) {
             if(!$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
                 return Response::json(array('success'=>false,
                     'errors'=>'messages.sem_permissao_funcao',
                     'message'=>'There were validation errors.'),300);
             }
-            $equipe->adicionarIntegrante($idusuario, $idFuncao);
-            $equipe->removerSolicitacao($idusuario);
-            //TODO enviar notificação de aceitação
+            $equipe->adicionarIntegrante($idUsuario, $idFuncao);
+            $equipe->removerSolicitacao($idUsuario);
+            //enviar notificação de aceitação
+            $evento = NotificacaoEvento::where('valor','=','aceitacao_equipe')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+                $usuario = User::find($idUsuario);
+                $notificacao = new Notificacao();
+                $notificacao->id_destinatario = $usuario->id;
+                $notificacao->evento_notificacao_id = $idEvento;
+                $notificacao->item_id = $idEquipe;
+                $notificacao->save();
+            }
         } else {
-            $idusuario = Auth::getUser()->id;
-            $convidado = DB::table('equipe_solicitacao')->where('users_id','=',$idusuario)->where('convite','=',true)->count();
+            $idUsuario = Auth::getUser()->id;
+            $convidado = DB::table('equipe_solicitacao')->where('users_id','=',$idUsuario)->where('convite','=',true)->count();
             if($convidado === 0) {
                 return Response::json(array('success'=>false,
                     'errors'=>'messages.nao_existe_convite',
                     'message'=>'There were validation errors.'),300);
             } else {
-                $equipe->adicionarIntegrante($idusuario, $idFuncao);
-                $equipe->removerSolicitacao($idusuario);
-                //TODO enviar notificação de aceitação do convite
+                $equipe->adicionarIntegrante($idUsuario, $idFuncao);
+                $equipe->removerSolicitacao($idUsuario);
+
+                //enviar notificação de aceitação do convite
+                $evento = NotificacaoEvento::where('valor','=','convite_equipe_aceito')->first();
+                if(isset($evento)) {
+                    $idEvento = $evento->id;
+                    foreach ($equipe->administradores()->get() as $usuario) {
+                        $notificacao = new Notificacao();
+                        $notificacao->id_remetente = Auth::getUser()->id;
+                        $notificacao->id_destinatario = $usuario->id;
+                        $notificacao->evento_notificacao_id = $idEvento;
+                        $notificacao->item_id = $idEquipe;
+                        $notificacao->save();
+                    }
+                }
             }
         }
 
@@ -287,11 +310,35 @@ class EquipeController extends Controller
             return null;
         }
         if(isset($idUsuario)) {
-            //TODO enviar notificação de convite
             $equipe->adicionarSolicitacao($idUsuario, true);
+
+            //enviar notificação de convite
+            $evento = NotificacaoEvento::where('valor','=','convite_equipe')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+                $usuario = User::find($idUsuario);
+                $notificacao = new Notificacao();
+                $notificacao->id_destinatario = $usuario->id;
+                $notificacao->evento_notificacao_id = $idEvento;
+                $notificacao->item_id = $idEquipe;
+                $notificacao->save();
+            }
         } else {
-            //TODO enviar notificação para os administradores
             $equipe->adicionarSolicitacao(Auth::getUser()->id, false);
+
+            //enviar notificação para os administradores
+            $evento = NotificacaoEvento::where('valor','=','solicitacao_equipe')->first();
+            if(isset($evento)) {
+                $idEvento = $evento->id;
+                foreach ($equipe->administradores()->get() as $usuario) {
+                    $notificacao = new Notificacao();
+                    $notificacao->id_remetente = Auth::getUser()->id;
+                    $notificacao->id_destinatario = $usuario->id;
+                    $notificacao->evento_notificacao_id = $idEvento;
+                    $notificacao->item_id = $idEquipe;
+                    $notificacao->save();
+                }
+            }
         }
         return Response::json(array('success'=>true));
     }
@@ -307,7 +354,7 @@ class EquipeController extends Controller
                     'errors'=>'messages.sem_permissao_funcao',
                     'message'=>'There were validation errors.'),300);
             }
-            //TODO enviar notificação para usuário
+            //TODO enviar notificação para usuário?
             $equipe->removerSolicitacao($idUsuario);
         } else {
             $equipe->removerSolicitacao(Auth::getUser()->id);

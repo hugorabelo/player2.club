@@ -8,6 +8,9 @@
 
             vm.equipe = {};
 
+            vm.solicitacoesDoUsuario = {};
+            vm.convitesDoUsuario = {};
+
             vm.idEquipe = $stateParams.idEquipe;
             if (vm.idEquipe !== undefined) {
                 Equipe.show(vm.idEquipe)
@@ -25,8 +28,24 @@
                 Usuario.getEquipes(idUsuario)
                     .success(function (data) {
                         vm.equipesDoUsuario = data;
+                        vm.getEquipesConvitesDoUsuario();
+                        vm.getEquipesSolicitacoesDoUsuario();
                     })
                     .error(function (error) {});
+            };
+
+            vm.getEquipesConvitesDoUsuario = function () {
+                Usuario.getEquipes($rootScope.usuarioLogado.id, 'convite')
+                    .success(function (data) {
+                        vm.convitesDoUsuario = data;
+                    })
+            };
+
+            vm.getEquipesSolicitacoesDoUsuario = function () {
+                Usuario.getEquipes($rootScope.usuarioLogado.id, 'solicitacao')
+                    .success(function (data) {
+                        vm.solicitacoesDoUsuario = data;
+                    })
             };
 
             vm.getFuncoesEquipe = function () {

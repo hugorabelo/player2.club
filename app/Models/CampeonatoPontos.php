@@ -33,7 +33,7 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         return $this->campeonato;
     }
 
-    public function criaFases() {
+    public function criaFases($input = null) {
         /*
         * 1. Criar primeira fase
         * 2. Criar critérios de classificação para o campeonato
@@ -51,17 +51,18 @@ class CampeonatoPontos extends Campeonato implements CampeonatoEspecificavel
         $primeiraFase['data_inicio'] = Carbon::parse($dataInicio);
         $dataFim = strstr($dataFim, " (", true);
         $primeiraFase['data_fim'] = Carbon::parse($dataFim);
-        $primeiraFase['campeonatos_id'] = $this->campeonato->id;
+        $primeiraFase['campeonatos_id'] = $this->detalhesCampeonato->campeonatos_id;
         $primeiraFase['quantidade_usuarios'] = $this->detalhesCampeonato->quantidade_competidores;
         $primeiraFase['inicial'] = true;
         $primeiraFase['final'] = true;
         $faseAtual = CampeonatoFase::create($primeiraFase);
 
         /** 2. Criar critérios de classificacao */
+        CampeonatoCriterio::where('campeonatos_id','=',$this->detalhesCampeonato->campeonatos_id)->delete();
         $ordem = 1;
         foreach ($this->criteriosClassificacao as $criterio) {
             $novoCriterio = array();
-            $novoCriterio['campeonatos_id'] = $this->campeonato->id;
+            $novoCriterio['campeonatos_id'] = $this->detalhesCampeonato->campeonatos_id;
             $novoCriterio['criterios_classificacao_id'] = $criterio['id'];
             $novoCriterio['ordem'] = $ordem;
             CampeonatoCriterio::create($novoCriterio);

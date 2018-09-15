@@ -70,6 +70,7 @@ class UsersController extends Controller {
 				array_pull($input, 'imagem_perfil');
 			}
 
+			$input['email'] = strtolower($input['email']);
 			$this->user->create($input);
 
 			return Response::json(array('success'=>true));
@@ -145,6 +146,7 @@ class UsersController extends Controller {
 				array_pull($input, 'imagem_capa');
 			}
 
+            $input['email'] = strtolower($input['email']);
 			$user->update($input);
 
 			return Response::json(array('success'=>true));
@@ -177,6 +179,9 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosDisponiveis($id_usuario) {
+		if($id_usuario == 'undefined' || $id_usuario == null) {
+			return null;
+		}
 		$plataformasDoUsuario = UserPlataforma::where("users_id", "=", $id_usuario)->get(array("plataformas_id"))->toArray();
 		if(empty($plataformasDoUsuario)) {
 			$plataformasDoUsuario = array("plataformas"=>0);
@@ -203,6 +208,9 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function listaCampeonatosInscritos($idUsuario) {
+		if($idUsuario == 'undefined' || $idUsuario == null) {
+			return null;
+		}
 		$equipes = DB::table('integrante_equipe')->where('users_id','=',$idUsuario)->pluck('equipe_id');
 		$campeonatosUsuario = CampeonatoUsuario::where("users_id", "=", $idUsuario)->orwhereIn("equipe_id", $equipes)->get(array("campeonatos_id"))->toArray();
 		$campeonatosInscritos = Campeonato::findMany($campeonatosUsuario);
@@ -336,8 +344,11 @@ class UsersController extends Controller {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];
 		$idMestre = $input['idUsuarioMestre'];
+		if($idUsuario == null || $idUsuario == 'undefined') {
+			return Response::json();
+		}
 		$usuario = $this->user->find($idUsuario);
-		if($usuario == null) {
+		if($usuario == null || empty($idMestre) || $idMestre == 'undefined' || $idMestre == null) {
 			return Response::json();
 		}
 		return Response::json(array('segue'=>$usuario->segue($idMestre)));
@@ -347,8 +358,11 @@ class UsersController extends Controller {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];
 		$idJogo = $input['idJogo'];
+		if($idUsuario == null || $idUsuario == 'undefined') {
+			return Response::json();
+		}
 		$usuario = $this->user->find($idUsuario);
-		if($usuario == null) {
+		if($usuario == null || $idJogo == 'undefined' || $idJogo == null) {
 			return Response::json();
 		}
 		return Response::json(array('segue'=>$usuario->segueJogo($idJogo)));
@@ -495,6 +509,22 @@ class UsersController extends Controller {
 					}
 					$notificacao->nome_campeonato = $campeonato->descricao;
 					break;
+                case 'convite_equipe':
+                case 'solicitacao_equipe':
+                case 'aceitacao_equipe':
+                case 'convite_equipe_aceito':
+                    $equipe = Equipe::find($notificacao->item_id);
+                    if(!isset($equipe)) {
+                        continue;
+                    }
+                    $notificacao->nome_equipe = $equipe->nome;
+                    break;
+				case 'convite_campeonato':
+					$campeonato = Campeonato::find($notificacao->item_id);
+					if(!isset($campeonato)) {
+						continue;
+					}
+					$notificacao->nome_campeonato = $campeonato->descricao;
 			}
             $notificacao->mensagem = $evento->mensagem;
             $notificacao->tipo_evento = $evento->valor;
@@ -558,12 +588,12 @@ class UsersController extends Controller {
 		return $mensagens;
 	}
 
-	function listaEquipes($idUsuario = null) {
+	function listaEquipes($idUsuario = null, $tipo = null) {
 		if(!isset($idUsuario)) {
 			$idUsuario = Auth::getUser()->id;
 		}
 		$usuario = User::find($idUsuario);
-		$equipes = $usuario->equipes()->orderBy('nome')->get();
+		$equipes = $usuario->equipes($tipo)->orderBy('nome')->get();
 		foreach ($equipes as $equipe) {
 			$equipe->integrantes = $equipe->integrantes()->get();
 		}
@@ -603,4 +633,25 @@ class UsersController extends Controller {
             return Response::json(array('success'=>true));
         }
     }
+
+	function convidarParaCampeonato($idCampeonato, $idAmigo) {
+		$evento = NotificacaoEvento::where('valor','=','convite_campeonato')->first();
+		if(isset($evento)) {
+			$idEvento = $evento->id;
+		}
+
+		$idUsuario = Auth::getUser()->id;
+		$notificacao = new Notificacao();
+		$notificacao->id_remetente = $idUsuario;
+		$notificacao->id_destinatario = $idAmigo;
+		$notificacao->evento_notificacao_id = $idEvento;
+		$notificacao->item_id = $idCampeonato;
+		$notificacao->save();
+	}
+
+	function finalizarWizard($idUsuario) {
+		$user = User::find($idUsuario);
+		$user->exibe_wizard = false;
+		$user->save();
+	}
 }

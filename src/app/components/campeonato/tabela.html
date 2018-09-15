@@ -3,8 +3,7 @@
         <nav class="tabela-navegacao tabela-navegacao-fases">
             <a ng-click="vmCampeonato.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonato.indice_fase == 0}">
                 <i class="fa fa-chevron-left pull-left"></i>
-            </a>
-            {{vmCampeonato.fase_atual.descricao | translate}}
+            </a> {{vmCampeonato.fase_atual.descricao | translate}}
             <a ng-click="vmCampeonato.exibeProximaFase()" ng-class="{'disabled': vmCampeonato.indice_fase == vmCampeonato.campeonatoFases.length-1}">
                 <i class="fa fa-chevron-right pull-right"></i>
             </a>
@@ -124,7 +123,7 @@
             <h5><span translate>fields.grupo</span> {{grupo.descricao}}</h5>
             <div class="lista-de-jogos-item" ng-repeat="partida in grupo.partidas" flex layout="row">
                 <div class="placar-jogo-equipes-matamata mandante" flex="40">
-                    <a ui-sref="profile({idUsuario: partida.usuarios[0].id})">
+                    <a ui-sref="profile({idUsuario: partida.usuarios[0].users_id})">
                         <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].nome}}</span>
                         <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{partida.usuarios[0].nome}}">{{partida.usuarios[0].sigla}}</span>
                         <img class="placar-jogo-equipes-escudo-mandante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" title="{{partida.usuarios[0].nome}}">
@@ -142,7 +141,7 @@
                     </span>
                 </div>
                 <div class="placar-jogo-equipes-matamata" flex="40">
-                    <a ui-sref="profile({idUsuario: partida.usuarios[1].id})">
+                    <a ui-sref="profile({idUsuario: partida.usuarios[1].users_id})">
                         <img class="placar-jogo-equipes-escudo-visitante img-circle" itemprop="image" ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" title="{{partida.usuarios[1].nome}}">
                         <span class="placar-jogo-equipes-sigla" hide-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].nome}}</span>
                         <span class="placar-jogo-equipes-sigla" hide-gt-xs title="{{partida.usuarios[1].nome}}">{{partida.usuarios[1].sigla}}</span>

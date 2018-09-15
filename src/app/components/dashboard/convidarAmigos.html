@@ -11,7 +11,10 @@
                 <input type="email" ng-model="inputConvidar.email" required>
             </md-input-container>
             <div>
-                <md-button class="md-raised md-primary" flex ng-click="vmHome.convidar(inputConvidar)">{{'fields.convidar' | translate}}</md-button>
+                <md-button class="md-raised md-primary" flex ng-click="vmHome.convidar(inputConvidar)" ng-disabled="vmHome.loadingConvite">
+                    <md-progress-circular class="md-primary text-center" md-diameter="20px" ng-if="vmHome.loadingConvite"></md-progress-circular>
+                    <span ng-if="!vmHome.loadingConvite">{{'fields.convidar' | translate}}</span>
+                </md-button>
             </div>
         </div>
         <div class="text-right" flex>{{'messages.convites_restantes' | translate}}: {{vmHome.usuario.quantidade_convites}} </div>
