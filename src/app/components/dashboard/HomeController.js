@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$state', '$window', 'toastr', 'localStorageService', 'ngIntroService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler', 'Tutorial',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $state, $window, toastr, localStorageService, ngIntroService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler, Tutorial) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$state', '$window', '$element', '$timeout', 'toastr', 'localStorageService', 'ngIntroService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler', 'Tutorial',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $state, $window, $element, $timeout, toastr, localStorageService, ngIntroService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler, Tutorial) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -480,6 +480,14 @@
 
             vm.exibirWizard = function (ev) {
                 $rootScope.pageLoading = true;
+
+                var button = $element.get(0);
+                var rect = button.getBoundingClientRect();
+                vm.position = {
+                    top: rect.top,
+                    left: rect.left
+                };
+
                 Usuario.show(localStorageService.get('usuarioLogado').id)
                     .success(function (data) {
                         vm.perfilEditar = data;
@@ -488,7 +496,8 @@
                         $mdDialog.show({
                                 locals: {
                                     tituloModal: 'messages.adicionar_gamertag',
-                                    perfilEditar: vm.perfilEditar
+                                    perfilEditar: vm.perfilEditar,
+                                    position: vm.position
                                 },
                                 controller: DialogControllerWizard,
                                 templateUrl: 'app/components/dashboard/wizard.html',
@@ -515,6 +524,16 @@
                 $scope.perfilEditar = perfilEditar;
                 $scope.wizard = {};
 
+                $timeout(function () {
+                    if (!$rootScope.telaMobile) {
+                        var el = $('md-dialog');
+                        el.css('position', 'fixed');
+                        el.css('top', vm.position['top']);
+                        el.css('left', '5%');
+                        el.css('width', '90%');
+                    }
+                });
+
                 $scope.cancel = function () {
                     $mdDialog.cancel();
                 };
@@ -532,7 +551,7 @@
 
                                     $rootScope.pageLoading = false;
 
-                                    $window.scrollTo(0, 0);
+                                    //$window.scrollTo(0, 0);
 
                                     /*UserPlataforma.getPlataformasDoUsuario($scope.perfilEditar.id)
                                         .success(function (data) {

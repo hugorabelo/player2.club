@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{tituloModal | translate}}" flex="90">
+<md-dialog aria-label="{{tituloModal | translate}}" flex="90" class="dialog-wizard">
     <md-toolbar class="md-toolbar-tools">
         <h2>{{'messages.vamos_comecar' | translate}}</h2>
     </md-toolbar>
@@ -98,7 +98,7 @@
                 </md-content>
                 <md-card-actions layout="row" layout-align="end center">
                     <md-button wz-previous>{{'messages.anterior' | translate}}</md-button>
-                    <md-button type="button" ng-click="salvarGamerTags()">{{'messages.proximo' | translate}}</md-button>
+                    <md-button type="button" wz-next ng-click="salvarGamerTags()">{{'messages.proximo' | translate}}</md-button>
                 </md-card-actions>
             </wz-step>
             <wz-step wz-title="{{'messages.notificacoes_email' | translate}}" wz-heading-title="{{'messages.notificacoes_email' | translate}}">
