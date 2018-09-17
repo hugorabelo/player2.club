@@ -369,6 +369,9 @@ class UsersController extends Controller {
 	}
 
 	public function listaJogos($idUsuario, $count = 0) {
+		if($idUsuario === 'undefined') {
+			return Response::json();
+		}
 	    $usuario = $this->user->find($idUsuario);
         if($usuario == null) {
             return Response::json();

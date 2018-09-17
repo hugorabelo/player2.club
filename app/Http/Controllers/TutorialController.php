@@ -114,7 +114,10 @@ class TutorialController extends Controller
         $tela = $input['tela'];
         $idUsuario = Auth::getUser()->id;
         $tutorial = Tutorial::where('tela','=',$tela)->first();
-        return DB::table('tutorial_visualizado')->where('tutorial_id','=',$tutorial->id)->where('users_id','=',$idUsuario)->count();
+        if(isset($tutorial)) {
+            return DB::table('tutorial_visualizado')->where('tutorial_id','=',$tutorial->id)->where('users_id','=',$idUsuario)->count();
+        }
+        return null;
     }
 
     public function setVisualizado() {
