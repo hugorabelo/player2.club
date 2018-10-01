@@ -36,6 +36,9 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
                                  'email'=>'required|email|unique:users',
                                  'password'=>'required|min:6');
 
+	public static $rulesAnonimo = array('nome'=>'required',
+		'gamertag'=>'required');
+
 	public static $regrasLogin = array('email'=>'required|email',
 								 'password'=>'required');
 

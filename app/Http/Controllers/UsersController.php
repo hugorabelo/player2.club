@@ -657,4 +657,24 @@ class UsersController extends Controller {
 		$user->exibe_wizard = false;
 		$user->save();
 	}
+
+	public function storeAnonimo()
+	{
+		$input = Input::except('_token');
+
+		$validation = Validator::make($input, User::$rulesAnonimo);
+
+		if ($validation->passes())
+		{
+
+			//insertGetId
+			$idNovo = DB::table('users_anonimos')->insertGetId($input);
+
+			return Response::json(array('success'=>true, 'idNovoUsuario'=>$idNovo));
+		}
+
+		return Response::json(array('success'=>false,
+			'errors'=>$validation->getMessageBag()->all(),
+			'message'=>'There were validation errors.'),300);
+	}
 }

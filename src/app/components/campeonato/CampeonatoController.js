@@ -199,13 +199,15 @@
         vm.inicializaRodadasLimpas = function (listaDeGrupos) {
             var indice = 0,
                 partidas;
-            angular.forEach(listaDeGrupos, function (item) {
-                if (!vm.fase_atual.matamata) {
-                    vm.rodada_atual.push(1);
-                    indice = indice + 1;
-                    vm.rodada_maxima = Object.keys(item.rodadas).length;
-                }
-            });
+            if (vm.fase_atual !== undefined) {
+                angular.forEach(listaDeGrupos, function (item) {
+                    if (!vm.fase_atual.matamata) {
+                        vm.rodada_atual.push(1);
+                        indice = indice + 1;
+                        vm.rodada_maxima = Object.keys(item.rodadas).length;
+                    }
+                });
+            }
         };
 
         vm.exibeRodadaAnterior = function (indice, id_grupo) {
@@ -1424,8 +1426,6 @@
             };
 
             $scope.enviarConvite = function (ev, usuario) {
-                console.log(usuario.id);
-                console.log(vm.campeonato.id);
                 Usuario.enviarConviteCampeonato(vm.campeonato.id, usuario.id)
                     .success(function (data) {
                         ev.currentTarget.disabled = true;
@@ -1494,6 +1494,57 @@
                 }
             });
 
+        };
+
+        vm.adicionarParticipanteAnonimo = function (ev) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.adicionar_participante'
+                    },
+                    controller: DialogControllerParticipanteAnonimo,
+                    templateUrl: 'app/components/campeonato/formParticipanteAnonimo.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        };
+
+        function DialogControllerParticipanteAnonimo($scope, $mdDialog, tituloModal) {
+            $scope.tituloModal = tituloModal;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvar = function () {
+                var userAnonimo = {};
+                userAnonimo.gamertag = $scope.gamertag;
+                userAnonimo.nome = $scope.nome;
+                Usuario.saveAnonimo(userAnonimo)
+                    .success(function (data) {
+                        $scope.inscricao = {};
+                        $scope.inscricao.idCampeonato = vm.campeonato.id;
+                        $scope.inscricao.idUsuarioAnonimo = data.idNovoUsuario;
+                        CampeonatoUsuario.inscreverAnonimo($scope.inscricao)
+                            .success(function (data) {
+                                vm.campeonato.usuarioInscrito = true;
+                                vm.getParticipantes(vm.campeonato.id);
+                                toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                            })
+                            .error(function (data) {
+                                toastr.error($filter('translate')('messages.erro_inscricao'));
+                            });
+
+                    });
+                $mdDialog.hide();
+            }
         };
 
     }]);

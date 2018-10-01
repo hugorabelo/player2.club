@@ -35,6 +35,7 @@ class Campeonato extends Eloquent {
         if($this->tipo_competidor == 'equipe') {
             return $this->belongsToMany('Equipe', 'campeonato_usuarios', 'campeonatos_id', 'equipe_id')->withPivot(array('id', 'time_id'))->getResults();
         } else {
+            //TODO Juntar com as relações de user_anonimo
             return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
         }
 	}

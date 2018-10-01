@@ -87,7 +87,7 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "Nome de Usuário",
+        "gamertag": "ID de Usuário (Gamertag)",
         "localizacao": "Cidade",
         "estado": "Estado",
         "pais": "País",
@@ -214,7 +214,7 @@
         "usuario_edit": "Editar Perfil de Usuário",
         "usuario_empty": "Não existe nenhum Usuário cadastrado",
         "usuario_gamertags": "Plataformas",
-        "adicionar_gamertag": "Adicionar ID de Usuário",
+        "adicionar_gamertag": "Adicionar ID de Usuário (Gamertag)",
         "usuario_imagens": "Imagens",
         "geral": "Geral",
 
@@ -522,7 +522,8 @@
         "quem_cadastrou_placar": "Placar cadastrado por",
         "quem_confirmou_placar": "Placar confirmado por",
         "hora_cadastro_placar": "Placar cadastrado em",
-        "hora_confirmacao_placar": "Placar confirmado em"
+        "hora_confirmacao_placar": "Placar confirmado em",
+        "adicionar_participante": "Adicionar participante sem cadastro"
     },
 
     "generos": {
