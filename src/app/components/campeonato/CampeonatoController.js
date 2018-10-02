@@ -1527,6 +1527,7 @@
                 var userAnonimo = {};
                 userAnonimo.gamertag = $scope.gamertag;
                 userAnonimo.nome = $scope.nome;
+                userAnonimo.sigla = $scope.sigla;
                 Usuario.saveAnonimo(userAnonimo)
                     .success(function (data) {
                         $scope.inscricao = {};
