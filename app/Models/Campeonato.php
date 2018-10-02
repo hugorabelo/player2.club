@@ -36,9 +36,15 @@ class Campeonato extends Eloquent {
             return $this->belongsToMany('Equipe', 'campeonato_usuarios', 'campeonatos_id', 'equipe_id')->withPivot(array('id', 'time_id'))->getResults();
         } else {
             //TODO Juntar com as relações de user_anonimo
-            return $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
+            $usuariosCadastrados = $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
+            $usuariosAnonimos = $this->usuariosAnonimos();
+            return $usuariosCadastrados;
         }
 	}
+
+    public function usuariosAnonimos() {
+        return $this->belongsToMany('UserAnonimo', 'campeonato_usuarios', 'campeonatos_id', 'anonimo_id')->withPivot(array('id', 'time_id'))->getResults();
+    }
 
 	public function maximoUsuarios() {
 		/*

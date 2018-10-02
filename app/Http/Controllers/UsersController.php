@@ -662,7 +662,7 @@ class UsersController extends Controller {
 	{
 		$input = Input::except('_token');
 
-		$validation = Validator::make($input, User::$rulesAnonimo);
+		$validation = Validator::make($input, UserAnonimo::$rules);
 
 		if ($validation->passes())
 		{
