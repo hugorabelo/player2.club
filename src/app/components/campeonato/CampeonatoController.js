@@ -158,7 +158,8 @@
                 });
         };
 
-        vm.carregaListaCampeonatos();
+        //TODO Identificar para que isto estava sendo carregado
+        //vm.carregaListaCampeonatos();
 
         vm.getCampeonatosUsuario = function () {
             Usuario.getCampeonatosInscritos($rootScope.usuarioLogado.id)
@@ -279,7 +280,9 @@
                         Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
                             .success(function (disputadas) {
                                 participante.partidasDisputadas = disputadas;
-                                vm.getPlataformasDoUsuario(participante);
+                                if (!participante.anonimo) {
+                                    vm.getPlataformasDoUsuario(participante);
+                                }
                             })
                     });
                 participante.tipo_competidor_campeonato = vm.campeonato.tipo_competidor;
@@ -308,7 +311,9 @@
                         Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
                             .success(function (disputadas) {
                                 vm.participanteDestaque.partidasDisputadas = disputadas;
-                                vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                                if (!participante.anonimo) {
+                                    vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                                }
                             })
                     });
             }
@@ -361,7 +366,6 @@
 
         };
 
-        //
         vm.iniciaFase = function (ev, fase) {
             var confirm = $mdDialog.confirm(fase.id)
                 .title(vm.textoConfirmaIniciarFase)

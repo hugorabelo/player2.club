@@ -38,7 +38,12 @@ class Campeonato extends Eloquent {
             //TODO Juntar com as relações de user_anonimo
             $usuariosCadastrados = $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
             $usuariosAnonimos = $this->usuariosAnonimos();
-            return $usuariosCadastrados;
+            $usuariosNovo = $usuariosCadastrados;
+            foreach ($usuariosAnonimos as $anonimo) {
+                $anonimo->anonimo = true;
+                $usuariosNovo->push($anonimo);
+            }
+            return $usuariosNovo;
         }
 	}
 

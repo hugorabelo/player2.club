@@ -53,7 +53,7 @@
                 <span ng-if="!vmCampeonato.participanteDestaque.time">{{'messages.sem_time' | translate}}</span>
             </div>
         </div>
-        <div layout="row" layout-align="center center" class="m-b-lg">
+        <div layout="row" layout-align="center center" class="m-b-lg" ng-if="!vmCampeonato.participanteDestaque.anonimo">
             <md-button ui-sref="equipe({idEquipe: vmCampeonato.participanteDestaque.id})" class="md-raised" ng-if="vmCampeonato.campeonato.tipo_competidor == 'equipe'"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
             <md-button ui-sref="profile({idUsuario: vmCampeonato.participanteDestaque.id})" class="md-raised" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'"><i class="fa fa-user"></i> {{'messages.visitar_perfil' | translate}}</md-button>
             <md-button class="md-raised md-primary" ng-controller="HomeController as vmHome" ng-click="vmHome.escreverMensagem($event, vmCampeonato.participanteDestaque.id)" ng-if="vmCampeonato.campeonato.tipo_competidor != 'equipe'"><i class="material-icons">message</i> {{'messages.mensagem' | translate}} </md-button>
