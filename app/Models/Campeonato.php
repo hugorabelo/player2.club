@@ -258,6 +258,8 @@ class Campeonato extends Eloquent {
             }
         }
 
+        return;
+
         $campeonato->atualizarDatasFases($faseAtual, $dadosFase['data_fim']);
 
         $faseAtual->aberta = true;
@@ -361,6 +363,8 @@ class Campeonato extends Eloquent {
         // Remover partidas que já estejam no grupo devido a algum erro
         Partida::where('fase_grupos_id','=',$grupo->id)->delete();
 
+        Log::warning($usuarios);
+
         for ($t = 0; $t < $turnos; $t++) {
             for ($i = 0; $i < $numero_rodadas_por_turno; $i++) {
                 for ($j = 0; $j < $m; $j++) {
@@ -374,16 +378,32 @@ class Campeonato extends Eloquent {
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
                             } else {
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                if($usuarios->get($n - $j - 1)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($n - $j - 1)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                }
+                                if($usuarios->get($j)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($j)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                }
                             }
                         } else {
                             if($this->tipo_competidor == 'equipe') {
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
                             } else {
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                if($usuarios->get($j)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($j)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                }
+                                if($usuarios->get($n - $j - 1)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($n - $j - 1)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                }
                             }
                         }
                     } else {
@@ -392,16 +412,34 @@ class Campeonato extends Eloquent {
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
                             } else {
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                if($usuarios->get($j)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($j)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                }
+
+                                if($usuarios->get($n - $j - 1)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($n - $j - 1)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                }
                             }
                         } else {
                             if($this->tipo_competidor == 'equipe') {
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($n - $j - 1)->id]);
                                 UsuarioPartida::create(['partidas_id' => $partida->id, 'equipe_id' => $usuarios->get($j)->id]);
                             } else {
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
-                                UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                if($usuarios->get($n - $j - 1)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($n - $j - 1)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($n - $j - 1)->id]);
+                                }
+
+                                if($usuarios->get($j)->anonimo) {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'anonimo_id' => $usuarios->get($j)->id]);
+                                } else {
+                                    UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuarios->get($j)->id]);
+                                }
                             }
                         }
                     }
