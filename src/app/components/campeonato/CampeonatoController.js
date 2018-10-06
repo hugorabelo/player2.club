@@ -1317,7 +1317,7 @@
                 .success(function (data) {
                     vm.campeonatoFases = data.fases;
                     vm.indice_fase = 0;
-                    if (vm.campeonatoFase != undefined) {
+                    if (vm.campeonatoFases != undefined) {
                         vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
                     }
                     vm.gruposDaFase = data.grupos;
@@ -1467,34 +1467,49 @@
                 partida.id_plataforma = vm.campeonato.plataformas_id;
             }
 
-            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[0].users_id)
-                .success(function (data) {
-                    angular.forEach(data, function (userPlataforma) {
-                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
-                            partida.usuarios[0].gamertag = userPlataforma.gamertag;
-                            return;
-                        }
-                    })
-                });
+            if (partida.usuarios[0].anonimo_id === null) {
+                UserPlataforma.getPlataformasDoUsuario(partida.usuarios[0].users_id)
+                    .success(function (data) {
+                        angular.forEach(data, function (userPlataforma) {
+                            if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                                partida.usuarios[0].gamertag = userPlataforma.gamertag;
+                                return;
+                            }
+                        })
+                    });
+            }
 
-            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[1].users_id)
-                .success(function (data) {
-                    angular.forEach(data, function (userPlataforma) {
-                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
-                            partida.usuarios[1].gamertag = userPlataforma.gamertag;
-                            return;
-                        }
-                    })
-                });
-
-            //$mdExpansionPanel('panelDetalhes').expand();
+            if (partida.usuarios[1].anonimo_id === null) {
+                UserPlataforma.getPlataformasDoUsuario(partida.usuarios[1].users_id)
+                    .success(function (data) {
+                        angular.forEach(data, function (userPlataforma) {
+                            if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                                partida.usuarios[1].gamertag = userPlataforma.gamertag;
+                                return;
+                            }
+                        })
+                    });
+            }
 
             angular.forEach(partida.usuarios, function (usuarioAtual) {
-                if (partida.usuario_placar == usuarioAtual.users_id) {
-                    partida.nome_usuario_placar = usuarioAtual.nome;
-                }
-                if (partida.usuario_confirmacao == usuarioAtual.users_id) {
-                    partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                if (vm.campeonato.tipo_competidor == 'equipe') {
+                    //TODO buscar usuários da equipe para exibir o responsável pelo placar
+                } else {
+                    if (usuarioAtual.anonimo_id === null) {
+                        if (partida.usuario_placar == usuarioAtual.users_id) {
+                            partida.nome_usuario_placar = usuarioAtual.nome;
+                        }
+                        if (partida.usuario_confirmacao == usuarioAtual.users_id) {
+                            partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                        }
+                    } else {
+                        if (partida.usuario_placar == usuarioAtual.anonimo_id) {
+                            partida.nome_usuario_placar = usuarioAtual.nome;
+                        }
+                        if (partida.usuario_confirmacao == usuarioAtual.anonimo_id) {
+                            partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                        }
+                    }
                 }
             });
 

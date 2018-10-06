@@ -35,7 +35,6 @@ class Campeonato extends Eloquent {
         if($this->tipo_competidor == 'equipe') {
             return $this->belongsToMany('Equipe', 'campeonato_usuarios', 'campeonatos_id', 'equipe_id')->withPivot(array('id', 'time_id'))->getResults();
         } else {
-            //TODO Juntar com as relações de user_anonimo
             $usuariosCadastrados = $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
             $usuariosAnonimos = $this->usuariosAnonimos();
             $usuariosNovo = $usuariosCadastrados;
@@ -258,8 +257,6 @@ class Campeonato extends Eloquent {
             }
         }
 
-        return;
-
         $campeonato->atualizarDatasFases($faseAtual, $dadosFase['data_fim']);
 
         $faseAtual->aberta = true;
@@ -271,11 +268,13 @@ class Campeonato extends Eloquent {
             $idEvento = $evento->id;
         }
         foreach ($usuariosDaFase as $usuario) {
-            $notificacao = new Notificacao();
-            $notificacao->id_destinatario = $usuario->id;
-            $notificacao->evento_notificacao_id = $idEvento;
-            $notificacao->item_id = $faseAtual->id;
-            $notificacao->save();
+            if(!$usuario->anonimo) {
+                $notificacao = new Notificacao();
+                $notificacao->id_destinatario = $usuario->id;
+                $notificacao->evento_notificacao_id = $idEvento;
+                $notificacao->item_id = $faseAtual->id;
+                $notificacao->save();
+            }
         }
 
         return $usuariosDaFase;
@@ -362,8 +361,6 @@ class Campeonato extends Eloquent {
 
         // Remover partidas que já estejam no grupo devido a algum erro
         Partida::where('fase_grupos_id','=',$grupo->id)->delete();
-
-        Log::warning($usuarios);
 
         for ($t = 0; $t < $turnos; $t++) {
             for ($i = 0; $i < $numero_rodadas_por_turno; $i++) {

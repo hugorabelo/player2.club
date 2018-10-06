@@ -28,10 +28,24 @@ class FaseGrupo extends Eloquent
         if($tipo_competidor == 'equipe') {
             $usuarios = $this->belongsToMany('Equipe', 'usuario_grupos', 'fase_grupos_id', 'equipe_id')->withPivot(array('id'))->getResults();
         } else {
-            $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('id'))->getResults();
+            $usuariosCadastrados = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('id'))->getResults();
+            $usuariosAnonimos = $this->usuariosAnonimos();
+            $usuarios = $usuariosCadastrados;
+            foreach ($usuariosAnonimos as $anonimo) {
+                $anonimo->anonimo = true;
+                $usuarios->push($anonimo);
+            }
         }
         foreach ($usuarios as $usuario) {
-            $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+            if($tipo_competidor == 'equipe') {
+                $usuarioCampeonato = CampeonatoUsuario::where('equipe_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+            } else {
+                if($usuario->anonimo) {
+                    $usuarioCampeonato = CampeonatoUsuario::where('anonimo_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+                } else {
+                    $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+                }
+            }
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
                 $usuario->sigla = substr($usuario->nome, 0, 3);
             }
@@ -46,6 +60,10 @@ class FaseGrupo extends Eloquent
             $usuario->distintivo = (isset($time)) ? $time->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
+    }
+
+    public function usuariosAnonimos() {
+        return $this->belongsToMany('UserAnonimo', 'usuario_grupos', 'fase_grupos_id', 'anonimo_id')->withPivot(array('id'))->getResults();
     }
 
     public function usuariosMataMata() {
@@ -196,6 +214,7 @@ class FaseGrupo extends Eloquent
         $pontuacoes = $this->fase()->pontuacoes();
         $pontuacaoVitoria = $pontuacoes[1];
         $usuarios = $this->usuarios();
+
         if($usuarios->isEmpty()) {
             return true;
         }
@@ -208,6 +227,7 @@ class FaseGrupo extends Eloquent
 
         if ($quantidade_jogadores_por_partida == 2) {
             // Partida com Dois Jogadores
+
 
             foreach ($usuarios as $usuario) {
                 $idFaseGrupo = $this->id;
