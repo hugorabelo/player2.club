@@ -255,15 +255,23 @@ class FaseGrupo extends Eloquent
                         sum(placar2) as gols_contra,
                         sum(placar1) - sum(placar2) as saldo_gols")->first();
                 } else {
+                    Log::warning($usuario);
+                    if($usuario->anonimo) {
+                        $compara_usuario = "p1.anonimo_id = $idUsuario and p2.anonimo_id IS DISTINCT FROM $idUsuario";
+                        $compara_usuario2 = "anonimo_id = $idUsuario";
+                    } else {
+                        $compara_usuario = "p1.users_id = $idUsuario and p2.users_id IS DISTINCT FROM $idUsuario";
+                        $compara_usuario2 = "users_id = $idUsuario";
+                    }
                     $tabelaCampeonato = DB::table(DB::raw("(select 	p1.partidas_id as partidas, p1.placar as placar1, p1.pontuacao,
                             p2.placar as placar2,
                             (case when p1.placar > p2.placar then 1 end) as vitorias,
                             (case when p1.placar < p2.placar then 1 end) as derrotas,
                             (case when p1.placar = p2.placar then 1 end) as empates
                         from usuario_partidas p1, usuario_partidas p2
-                        where p1.users_id = $idUsuario and p2.users_id <> $idUsuario and p1.partidas_id = p2.partidas_id AND p1.partidas_id IN (
+                        where $compara_usuario and p1.partidas_id = p2.partidas_id AND p1.partidas_id IN (
                             select id from partidas where data_placar IS NOT NULL AND fase_grupos_id = $idFaseGrupo AND id IN (
-                                select partidas_id from usuario_partidas where users_id = $idUsuario
+                                select partidas_id from usuario_partidas where $compara_usuario2
                             )
                             order by rodada
                         ) order by p1.partidas_id) as tabela"))
