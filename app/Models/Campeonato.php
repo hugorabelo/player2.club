@@ -268,7 +268,7 @@ class Campeonato extends Eloquent {
             $idEvento = $evento->id;
         }
         foreach ($usuariosDaFase as $usuario) {
-            if(!$usuario->anonimo) {
+            if(!$usuario->anonimo_id && !$usuario->anonimo) {
                 $notificacao = new Notificacao();
                 $notificacao->id_destinatario = $usuario->id;
                 $notificacao->evento_notificacao_id = $idEvento;
@@ -314,7 +314,15 @@ class Campeonato extends Eloquent {
                 foreach ($grupo->usuariosClassificados() as $usuario) {
                     $usuarioFase = new UsuarioFase();
                     $usuarioFase->campeonato_fases_id = $proximaFase->id;
-                    $usuarioFase->users_id = $usuario->id;
+                    if($this->tipo_competidor == 'equipe') {
+                        $usuarioFase->equipe_id = $usuario->id;
+                    } else {
+                        if($usuario->anonimo) {
+                            $usuarioFase->anonimo_id = $usuario->id;
+                        } else {
+                            $usuarioFase->users_id = $usuario->id;
+                        }
+                    }
                     $usuarioFase->posicao_fase_anterior = $posicaoUsuario;
                     $usuarioFase->save();
                     $posicaoUsuario++;
@@ -333,11 +341,15 @@ class Campeonato extends Eloquent {
         }
         $usuariosDaFase = $fase->usuarios();
         foreach ($usuariosDaFase as $usuario) {
-            $notificacao = new Notificacao();
-            $notificacao->id_destinatario = $usuario->id;
-            $notificacao->evento_notificacao_id = $idEvento;
-            $notificacao->item_id = $fase->id;
-            $notificacao->save();
+            if($this->tipo_competidor !== 'equipe') {
+                if(!$usuario->anonimo) {
+                    $notificacao = new Notificacao();
+                    $notificacao->id_destinatario = $usuario->id;
+                    $notificacao->evento_notificacao_id = $idEvento;
+                    $notificacao->item_id = $fase->id;
+                    $notificacao->save();
+                }
+            }
         }
 
         /*
@@ -505,7 +517,7 @@ class Campeonato extends Eloquent {
             if ($fase->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
                 $maximaPosicao = 0;
                 foreach ($usuarios as $user) {
-                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id, $this->tipo_competidor)->posicao_fase_anterior;
+                    $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id, $this->tipo_competidor, $user->anonimo)->posicao_fase_anterior;
                     if ($posicao > $maximaPosicao) {
                         $maximaPosicao = $posicao;
                     }
@@ -515,7 +527,7 @@ class Campeonato extends Eloquent {
                 }
 
                 foreach ($usuarios as $usuario) {
-                    $posicao = UsuarioFase::encontraUsuarioFase($usuario->id, $fase->id, $this->tipo_competidor)->posicao_fase_anterior;
+                    $posicao = UsuarioFase::encontraUsuarioFase($usuario->id, $fase->id, $this->tipo_competidor, $usuario->anonimo)->posicao_fase_anterior;
                     $grupoAnteriorDoUsuario = $this->getGrupoAnteriorUsuario($usuario->id, $fase);
                     $usuario->grupoAnterior = $grupoAnteriorDoUsuario;
                     $lista[$posicao]->push($usuario);

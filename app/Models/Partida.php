@@ -187,13 +187,22 @@ class Partida extends Eloquent {
         return $this->fase()->campeonato();
     }
 
-    public function placarUsuario($idUsuario) {
+    public function placarUsuario($idUsuario, $idAnonimo = null) {
         $tipo_competidor = $this->campeonato()->tipo_competidor;
         foreach ($this->usuarios(false) as $usuario) {
             if($tipo_competidor == 'equipe') {
                 $idUsuarioVerificar = $usuario->equipe_id;
             } else {
-                $idUsuarioVerificar = $usuario->users_id;
+                if($idAnonimo) {
+                    $idUsuarioVerificar = $usuario->anonimo_id;
+                } else {
+                    $idUsuarioVerificar = $usuario->users_id;
+                }
+            }
+            if($idAnonimo) {
+                if($idUsuarioVerificar == $idAnonimo) {
+                    return $usuario->placar;
+                }
             }
             if($idUsuarioVerificar == $idUsuario) {
                 return $usuario->placar;
