@@ -450,4 +450,10 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $this->save();
         return '';
     }
+
+    public function pesquisaPorNome($textoPesquisa) {
+        $selectUsuario = DB::table('users')->select("id", "nome as descricao", "imagem_perfil as imagem")->whereRaw("lower(nome) like lower('%$textoPesquisa%')");
+
+        return $selectUsuario->get();
+    }
 }

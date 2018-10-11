@@ -658,8 +658,7 @@ class UsersController extends Controller {
 		$user->save();
 	}
 
-	public function storeAnonimo()
-	{
+	public function storeAnonimo() {
 		$input = Input::except('_token');
 
 		$validation = Validator::make($input, UserAnonimo::$rules);
@@ -677,4 +676,26 @@ class UsersController extends Controller {
 			'errors'=>$validation->getMessageBag()->all(),
 			'message'=>'There were validation errors.'),300);
 	}
+
+    public function pesquisaPorNome($textoPesquisa) {
+        $user = new User();
+        return Response::json($user->pesquisaPorNome($textoPesquisa));
+    }
+
+    public function associarAnonimo() {
+        $input = (object)Input::all();
+        $usuarioCadastrado = $input->usuarioCadastrado;
+        Log::warning($usuarioCadastrado);
+        $usuarioAnonimo = $input->usuarioAnonimo;
+        Log::alert($usuarioAnonimo);
+        $idCampeonato = $usuarioAnonimo['pivot']['campeonatos_id'];
+
+        // campeonato_usuarios
+        $campeonatoUsuario = CampeonatoUsuario::where('campeonatos_id','=',$idCampeonato)->where('anonimo_id','=',$usuarioAnonimo['id'])->first();
+        Log::debug($campeonatoUsuario);
+        // usuario_fases
+        $usuarioFase = UsuarioFase::whereIn('campeonato_fases_id', <COMPLETAR AQUI>)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+        // usuario_grupos
+        // usuario_partidas
+    }
 }

@@ -1559,13 +1559,92 @@
                                 toastr.success($filter('translate')('messages.sucesso_inscricao'));
                             })
                             .error(function (data) {
-                                toastr.error($filter('translate')('messages.erro_inscricao'));
+                                toastr.error($filter('translate')(data.errors[0]), $filter('translate')('messages.erro_inscricao'));
                             });
 
                     });
                 $mdDialog.hide();
             }
         };
+
+        vm.associarAnonimo = function (ev, participante) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.associar_anonimo',
+                        participante: participante
+                    },
+                    controller: DialogControllerAssociarAnonimo,
+                    templateUrl: 'app/components/campeonato/formAssociaAnonimo.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        };
+
+        function DialogControllerAssociarAnonimo($scope, $mdDialog, tituloModal, participante) {
+            $scope.tituloModal = tituloModal;
+            $scope.participante = participante;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.confirmar = function () {
+                if ($scope.usuarioAssociado === undefined) {
+                    toastr.error($filter('translate')('messages.sem_usuario_associado'));
+                } else {
+                    Usuario.associarAnonimo($scope.usuarioAssociado, participante)
+                        .success(function (data) {
+                            toastr.success($filter('translate')('messages.sucesso_associacao'));
+                        });
+                    $mdDialog.hide();
+                }
+
+            }
+
+            $scope.itensPesquisa = {};
+
+            $scope.getPesquisaUsuario = function (texto) {
+                if (texto != '') {
+                    Usuario.pesquisaNome(texto)
+                        .success(function (data) {
+                            vm.itensPesquisa = data;
+                        });
+                }
+            };
+
+            $scope.querySearch = function (query) {
+                var results = query ? vm.itensPesquisa.filter($scope.createFilterFor(query)) : $scope.itensPesquisa,
+                    deferred;
+                return results;
+            };
+
+            $scope.createFilterFor = function (query) {
+                var lowercaseQuery = angular.lowercase(query);
+
+                return function filterFn(item) {
+                    var lowercaseNome = angular.lowercase(item.descricao);
+                    return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
+                };
+
+            };
+
+            $scope.searchTextChange = function (text) {
+                $scope.getPesquisaUsuario(text);
+            };
+
+            $scope.selectedItemChange = function (item) {
+                $scope.usuarioAssociado = item;
+            };
+        };
+
 
     }]);
 

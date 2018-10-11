@@ -83,6 +83,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/conviteCampeonato/{idCampeonato}/{idAmigo}', 'UsersController@convidarParaCampeonato');
     Route::post('usuario/finalizarWizard/{idUsuario}', 'UsersController@finalizarWizard');
     Route::post('usuario/saveAnonimo', 'UsersController@storeAnonimo');
+    Route::get('usuario/pesquisa/{textoPesquisa}', 'UsersController@pesquisaPorNome');
+    Route::post('usuario/associarAnonimo', 'UsersController@associarAnonimo');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
