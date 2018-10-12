@@ -1602,6 +1602,7 @@
                 } else {
                     Usuario.associarAnonimo($scope.usuarioAssociado, participante)
                         .success(function (data) {
+                            vm.getParticipantes(vm.campeonato.id);
                             toastr.success($filter('translate')('messages.sucesso_associacao'));
                         });
                     $mdDialog.hide();

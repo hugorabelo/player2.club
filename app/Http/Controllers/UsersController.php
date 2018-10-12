@@ -685,17 +685,42 @@ class UsersController extends Controller {
     public function associarAnonimo() {
         $input = (object)Input::all();
         $usuarioCadastrado = $input->usuarioCadastrado;
-        Log::warning($usuarioCadastrado);
         $usuarioAnonimo = $input->usuarioAnonimo;
-        Log::alert($usuarioAnonimo);
         $idCampeonato = $usuarioAnonimo['pivot']['campeonatos_id'];
 
         // campeonato_usuarios
         $campeonatoUsuario = CampeonatoUsuario::where('campeonatos_id','=',$idCampeonato)->where('anonimo_id','=',$usuarioAnonimo['id'])->first();
-        Log::debug($campeonatoUsuario);
+        $campeonatoUsuario->users_id = $usuarioCadastrado['id'];
+		$campeonatoUsuario->anonimo_id = null;
+		$campeonatoUsuario->save();
+
         // usuario_fases
-        $usuarioFase = UsuarioFase::whereIn('campeonato_fases_id', <COMPLETAR AQUI>)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		// select id from campeonato_fases where campeonatos_id = $campeonatoUsuario->campeonatos_id;
+		$campeonatoFases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'));
+        $usuariosFase = UsuarioFase::whereIn('campeonato_fases_id', $campeonatoFases)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		foreach ($usuariosFase as $userFase) {
+			$userFase->users_id = $usuarioCadastrado['id'];
+			$userFase->anonimo_id = null;
+			$userFase->save();
+		}
+
+
         // usuario_grupos
+		$faseGrupos = FaseGrupo::whereIn('campeonato_fases_id',$campeonatoFases)->get(array('id'));
+		$usuariosGrupo = UsuarioGrupo::whereIn('fase_grupos_id', $faseGrupos)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		foreach ($usuariosGrupo as $userGrupo) {
+			$userGrupo->users_id = $usuarioCadastrado['id'];
+			$userGrupo->anonimo_id = null;
+			$userGrupo->save();
+		}
+
         // usuario_partidas
+		$partidas = Partida::whereIn('fase_grupos_id', $faseGrupos)->get(array('id'));
+		$usuariosPartida = UsuarioPartida::whereIn('partidas_id', $partidas)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		foreach ($usuariosPartida as $userPartida) {
+			$userPartida->users_id = $usuarioCadastrado['id'];
+			$userPartida->anonimo_id = null;
+			$userPartida->save();
+		}
     }
 }
