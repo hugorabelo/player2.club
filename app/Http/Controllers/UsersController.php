@@ -688,6 +688,17 @@ class UsersController extends Controller {
         $usuarioAnonimo = $input->usuarioAnonimo;
         $idCampeonato = $usuarioAnonimo['pivot']['campeonatos_id'];
 
+		$campeonato = Campeonato::find($idCampeonato);
+		if($campeonato->verificaUsuarioInscrito($usuarioCadastrado['id'])) {
+			if($campeonato->status() < 3) {
+				CampeonatoUsuario::where('users_id','=',$usuarioCadastrado['id'])->where('campeonatos_id','=',$idCampeonato)->delete();
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.usuario_cadastrado_associacao',
+					'message'=>'There were validation errors.'),300);
+			}
+		}
+
         // campeonato_usuarios
         $campeonatoUsuario = CampeonatoUsuario::where('campeonatos_id','=',$idCampeonato)->where('anonimo_id','=',$usuarioAnonimo['id'])->first();
         $campeonatoUsuario->users_id = $usuarioCadastrado['id'];

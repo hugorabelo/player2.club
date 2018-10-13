@@ -1604,6 +1604,11 @@
                         .success(function (data) {
                             vm.getParticipantes(vm.campeonato.id);
                             toastr.success($filter('translate')('messages.sucesso_associacao'));
+                        })
+                        .error(function (data) {
+                            console.log(data);
+
+                            toastr.error($filter('translate')(data.errors));
                         });
                     $mdDialog.hide();
                 }

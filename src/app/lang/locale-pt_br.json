@@ -530,7 +530,8 @@
         "mensagem_associar_usuario": "Digite o nome do usuário cadastrado que corresponde ao participante ",
         "confirmar_associar_usuario": "Caso seja esse o usuário que deseja associar, clique no botão confirmar",
         "sem_usuario_associado": "Você não selecionou um usuário para associar",
-        "sucesso_associacao": "Usuário Associado com sucesso"
+        "sucesso_associacao": "Usuário Associado com sucesso",
+        "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado"
     },
 
     "generos": {

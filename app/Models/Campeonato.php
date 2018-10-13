@@ -1006,4 +1006,14 @@ class Campeonato extends Eloquent {
         CampeonatoFase::where('campeonatos_id','=',$this->id)->delete();
         return null;
     }
+
+    public function verificaUsuarioInscrito($idUsuario) {
+        $usuariosCadastrados = $this->belongsToMany('User', 'campeonato_usuarios', 'campeonatos_id', 'users_id')->withPivot(array('id', 'time_id'))->getResults();
+        foreach ($usuariosCadastrados as $usuario) {
+            if ($usuario->id == $idUsuario) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
