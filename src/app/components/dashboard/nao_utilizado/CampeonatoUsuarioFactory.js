@@ -52,6 +52,20 @@ angular.module('player2').factory('CampeonatoUsuario', ['$http', function ($http
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        inscreverAnonimo: function (inscricao) {
+            return $http({
+                method: 'POST',
+                url: 'api/campeonatoUsuario',
+                data: $.param({
+                    'campeonatos_id': inscricao.idCampeonato,
+                    'anonimo_id': inscricao.idUsuarioAnonimo
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     };

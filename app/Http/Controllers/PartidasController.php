@@ -62,17 +62,19 @@ class PartidasController extends Controller
         }
 
         foreach ($novaPartida->usuarios() as $usuarioPartida) {
-            $atividade = new Atividade();
-            $atividade->users_id = $usuarioPartida->users_id;
-            $atividade->partidas_id = $novaPartida->id;
-            $atividade->save();
+            if(!isset($usuarioPartida->anonimo_id)) {
+                $atividade = new Atividade();
+                $atividade->users_id = $usuarioPartida->users_id;
+                $atividade->partidas_id = $novaPartida->id;
+                $atividade->save();
 
-            if($usuarioPartida->users_id != $usuarioLogado->id) {
-                $notificacao = new Notificacao();
-                $notificacao->id_remetente = $usuarioLogado->id;
-                $notificacao->id_destinatario = $usuarioPartida->users_id;
-                $notificacao->evento_notificacao_id = $idEvento;
-                $notificacao->save();
+                if($usuarioPartida->users_id != $usuarioLogado->id) {
+                    $notificacao = new Notificacao();
+                    $notificacao->id_remetente = $usuarioLogado->id;
+                    $notificacao->id_destinatario = $usuarioPartida->users_id;
+                    $notificacao->evento_notificacao_id = $idEvento;
+                    $notificacao->save();
+                }
             }
         }
         return Response::json(array('success' => true));

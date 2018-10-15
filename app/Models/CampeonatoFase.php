@@ -27,9 +27,20 @@ class CampeonatoFase extends Eloquent {
         if($this->campeonato()->tipo_competidor == 'equipe') {
             return $this->belongsToMany('Equipe', 'usuario_fases', 'campeonato_fases_id', 'equipe_id')->getResults();
         } else {
-            return $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
+			$usuariosCadastrados = $this->belongsToMany('User', 'usuario_fases', 'campeonato_fases_id', 'users_id')->getResults();
+			$usuariosAnonimos = $this->usuariosAnonimos();
+			$usuariosNovo = $usuariosCadastrados;
+			foreach ($usuariosAnonimos as $anonimo) {
+				$anonimo->anonimo = true;
+				$usuariosNovo->push($anonimo);
+			}
+			return $usuariosNovo;
         }
     }
+
+	public function usuariosAnonimos() {
+		return $this->belongsToMany('UserAnonimo', 'usuario_fases', 'campeonato_fases_id', 'anonimo_id')->getResults();
+	}
 
 	public function usuariosClassificados() {
 		$usuariosClassificados = app()->make(Collection::class);

@@ -158,7 +158,8 @@
                 });
         };
 
-        vm.carregaListaCampeonatos();
+        //TODO Identificar para que isto estava sendo carregado
+        //vm.carregaListaCampeonatos();
 
         vm.getCampeonatosUsuario = function () {
             Usuario.getCampeonatosInscritos($rootScope.usuarioLogado.id)
@@ -199,13 +200,15 @@
         vm.inicializaRodadasLimpas = function (listaDeGrupos) {
             var indice = 0,
                 partidas;
-            angular.forEach(listaDeGrupos, function (item) {
-                if (!vm.fase_atual.matamata) {
-                    vm.rodada_atual.push(1);
-                    indice = indice + 1;
-                    vm.rodada_maxima = Object.keys(item.rodadas).length;
-                }
-            });
+            if (vm.fase_atual !== undefined) {
+                angular.forEach(listaDeGrupos, function (item) {
+                    if (!vm.fase_atual.matamata) {
+                        vm.rodada_atual.push(1);
+                        indice = indice + 1;
+                        vm.rodada_maxima = Object.keys(item.rodadas).length;
+                    }
+                });
+            }
         };
 
         vm.exibeRodadaAnterior = function (indice, id_grupo) {
@@ -277,7 +280,9 @@
                         Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
                             .success(function (disputadas) {
                                 participante.partidasDisputadas = disputadas;
-                                vm.getPlataformasDoUsuario(participante);
+                                if (!participante.anonimo) {
+                                    vm.getPlataformasDoUsuario(participante);
+                                }
                             })
                     });
                 participante.tipo_competidor_campeonato = vm.campeonato.tipo_competidor;
@@ -306,7 +311,9 @@
                         Usuario.getPartidasDisputadas(participante.id, vm.campeonato.id)
                             .success(function (disputadas) {
                                 vm.participanteDestaque.partidasDisputadas = disputadas;
-                                vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                                if (!participante.anonimo) {
+                                    vm.getPlataformasDoUsuario(vm.participanteDestaque);
+                                }
                             })
                     });
             }
@@ -359,7 +366,6 @@
 
         };
 
-        //
         vm.iniciaFase = function (ev, fase) {
             var confirm = $mdDialog.confirm(fase.id)
                 .title(vm.textoConfirmaIniciarFase)
@@ -1311,7 +1317,7 @@
                 .success(function (data) {
                     vm.campeonatoFases = data.fases;
                     vm.indice_fase = 0;
-                    if (vm.campeonatoFase != undefined) {
+                    if (vm.campeonatoFases != undefined) {
                         vm.fase_atual = vm.campeonatoFases[vm.indice_fase];
                     }
                     vm.gruposDaFase = data.grupos;
@@ -1424,8 +1430,6 @@
             };
 
             $scope.enviarConvite = function (ev, usuario) {
-                console.log(usuario.id);
-                console.log(vm.campeonato.id);
                 Usuario.enviarConviteCampeonato(vm.campeonato.id, usuario.id)
                     .success(function (data) {
                         ev.currentTarget.disabled = true;
@@ -1463,38 +1467,190 @@
                 partida.id_plataforma = vm.campeonato.plataformas_id;
             }
 
-            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[0].users_id)
-                .success(function (data) {
-                    angular.forEach(data, function (userPlataforma) {
-                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
-                            partida.usuarios[0].gamertag = userPlataforma.gamertag;
-                            return;
-                        }
-                    })
-                });
+            if (partida.usuarios[0].anonimo_id === null) {
+                UserPlataforma.getPlataformasDoUsuario(partida.usuarios[0].users_id)
+                    .success(function (data) {
+                        angular.forEach(data, function (userPlataforma) {
+                            if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                                partida.usuarios[0].gamertag = userPlataforma.gamertag;
+                                return;
+                            }
+                        })
+                    });
+            }
 
-            UserPlataforma.getPlataformasDoUsuario(partida.usuarios[1].users_id)
-                .success(function (data) {
-                    angular.forEach(data, function (userPlataforma) {
-                        if (userPlataforma.plataformas_id == partida.id_plataforma) {
-                            partida.usuarios[1].gamertag = userPlataforma.gamertag;
-                            return;
-                        }
-                    })
-                });
-
-            //$mdExpansionPanel('panelDetalhes').expand();
+            if (partida.usuarios[1].anonimo_id === null) {
+                UserPlataforma.getPlataformasDoUsuario(partida.usuarios[1].users_id)
+                    .success(function (data) {
+                        angular.forEach(data, function (userPlataforma) {
+                            if (userPlataforma.plataformas_id == partida.id_plataforma) {
+                                partida.usuarios[1].gamertag = userPlataforma.gamertag;
+                                return;
+                            }
+                        })
+                    });
+            }
 
             angular.forEach(partida.usuarios, function (usuarioAtual) {
-                if (partida.usuario_placar == usuarioAtual.users_id) {
-                    partida.nome_usuario_placar = usuarioAtual.nome;
-                }
-                if (partida.usuario_confirmacao == usuarioAtual.users_id) {
-                    partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                if (vm.campeonato.tipo_competidor == 'equipe') {
+                    //TODO buscar usuários da equipe para exibir o responsável pelo placar
+                } else {
+                    if (usuarioAtual.anonimo_id === null) {
+                        if (partida.usuario_placar == usuarioAtual.users_id) {
+                            partida.nome_usuario_placar = usuarioAtual.nome;
+                        }
+                        if (partida.usuario_confirmacao == usuarioAtual.users_id) {
+                            partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                        }
+                    } else {
+                        if (partida.usuario_placar == usuarioAtual.anonimo_id) {
+                            partida.nome_usuario_placar = usuarioAtual.nome;
+                        }
+                        if (partida.usuario_confirmacao == usuarioAtual.anonimo_id) {
+                            partida.nome_usuario_confirmacao = usuarioAtual.nome;
+                        }
+                    }
                 }
             });
 
         };
+
+        vm.adicionarParticipanteAnonimo = function (ev) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.adicionar_participante'
+                    },
+                    controller: DialogControllerParticipanteAnonimo,
+                    templateUrl: 'app/components/campeonato/formParticipanteAnonimo.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        };
+
+        function DialogControllerParticipanteAnonimo($scope, $mdDialog, tituloModal) {
+            $scope.tituloModal = tituloModal;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.salvar = function () {
+                var userAnonimo = {};
+                userAnonimo.gamertag = $scope.gamertag;
+                userAnonimo.nome = $scope.nome;
+                userAnonimo.sigla = $scope.sigla;
+                Usuario.saveAnonimo(userAnonimo)
+                    .success(function (data) {
+                        $scope.inscricao = {};
+                        $scope.inscricao.idCampeonato = vm.campeonato.id;
+                        $scope.inscricao.idUsuarioAnonimo = data.idNovoUsuario;
+                        CampeonatoUsuario.inscreverAnonimo($scope.inscricao)
+                            .success(function (data) {
+                                vm.campeonato.usuarioInscrito = true;
+                                vm.getParticipantes(vm.campeonato.id);
+                                toastr.success($filter('translate')('messages.sucesso_inscricao'));
+                            })
+                            .error(function (data) {
+                                toastr.error($filter('translate')(data.errors[0]), $filter('translate')('messages.erro_inscricao'));
+                            });
+
+                    });
+                $mdDialog.hide();
+            }
+        };
+
+        vm.associarAnonimo = function (ev, participante) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.associar_anonimo',
+                        participante: participante
+                    },
+                    controller: DialogControllerAssociarAnonimo,
+                    templateUrl: 'app/components/campeonato/formAssociaAnonimo.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        };
+
+        function DialogControllerAssociarAnonimo($scope, $mdDialog, tituloModal, participante) {
+            $scope.tituloModal = tituloModal;
+            $scope.participante = participante;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.confirmar = function () {
+                if ($scope.usuarioAssociado === undefined) {
+                    toastr.error($filter('translate')('messages.sem_usuario_associado'));
+                } else {
+                    Usuario.associarAnonimo($scope.usuarioAssociado, participante)
+                        .success(function (data) {
+                            vm.getParticipantes(vm.campeonato.id);
+                            toastr.success($filter('translate')('messages.sucesso_associacao'));
+                        })
+                        .error(function (data) {
+                            console.log(data);
+
+                            toastr.error($filter('translate')(data.errors));
+                        });
+                    $mdDialog.hide();
+                }
+
+            }
+
+            $scope.itensPesquisa = {};
+
+            $scope.getPesquisaUsuario = function (texto) {
+                if (texto != '') {
+                    Usuario.pesquisaNome(texto)
+                        .success(function (data) {
+                            vm.itensPesquisa = data;
+                        });
+                }
+            };
+
+            $scope.querySearch = function (query) {
+                var results = query ? vm.itensPesquisa.filter($scope.createFilterFor(query)) : $scope.itensPesquisa,
+                    deferred;
+                return results;
+            };
+
+            $scope.createFilterFor = function (query) {
+                var lowercaseQuery = angular.lowercase(query);
+
+                return function filterFn(item) {
+                    var lowercaseNome = angular.lowercase(item.descricao);
+                    return (lowercaseNome.indexOf(lowercaseQuery) >= 0);
+                };
+
+            };
+
+            $scope.searchTextChange = function (text) {
+                $scope.getPesquisaUsuario(text);
+            };
+
+            $scope.selectedItemChange = function (item) {
+                $scope.usuarioAssociado = item;
+            };
+        };
+
 
     }]);
 

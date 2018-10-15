@@ -125,6 +125,7 @@
 
         <md-card-content ng-class="{ 'p-xs': telaMobile}">
             <md-button class="md-raised md-primary" ng-if="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.sortearTimes()">{{'messages.sortear_clubes' | translate}}</md-button>
+            <md-button class="md-raised md-primary" ng-class="{'pull-right': !telaMobile}" ng-if="vmCampeonato.campeonato.status === 1" ng-click="vmCampeonato.adicionarParticipanteAnonimo()">{{'messages.adicionar_participante' | translate}}</md-button>
             <div class="table-responsive m-t-md">
                 <table class="table table-striped table-hover">
                     <tbody>
@@ -149,6 +150,12 @@
                                 <md-button class="md-icon-button md-warn" ng-if="vmCampeonato.campeonato.status < 3" ng-click="vmCampeonato.excluirParticipante($event, participante)">
                                     <md-tooltip md-direction="top">{{'messages.excluir_participante' | translate}}</md-tooltip>
                                     <i class="material-icons">delete_forever</i>
+                                </md-button>
+                            </td>
+                            <td>
+                                <md-button class="md-icon-button md-primary" ng-if="participante.anonimo" ng-click="vmCampeonato.associarAnonimo($event, participante)">
+                                    <md-tooltip md-direction="top">{{'messages.associar_anonimo' | translate}}</md-tooltip>
+                                    <i class="material-icons">transfer_within_a_station</i>
                                 </md-button>
                             </td>
                         </tr>

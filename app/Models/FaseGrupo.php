@@ -28,10 +28,24 @@ class FaseGrupo extends Eloquent
         if($tipo_competidor == 'equipe') {
             $usuarios = $this->belongsToMany('Equipe', 'usuario_grupos', 'fase_grupos_id', 'equipe_id')->withPivot(array('id'))->getResults();
         } else {
-            $usuarios = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('id'))->getResults();
+            $usuariosCadastrados = $this->belongsToMany('User', 'usuario_grupos', 'fase_grupos_id', 'users_id')->withPivot(array('id'))->getResults();
+            $usuariosAnonimos = $this->usuariosAnonimos();
+            $usuarios = $usuariosCadastrados;
+            foreach ($usuariosAnonimos as $anonimo) {
+                $anonimo->anonimo = true;
+                $usuarios->push($anonimo);
+            }
         }
         foreach ($usuarios as $usuario) {
-            $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+            if($tipo_competidor == 'equipe') {
+                $usuarioCampeonato = CampeonatoUsuario::where('equipe_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+            } else {
+                if($usuario->anonimo) {
+                    $usuarioCampeonato = CampeonatoUsuario::where('anonimo_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+                } else {
+                    $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->id)->where('campeonatos_id','=',$this->fase()->campeonatos_id)->first();
+                }
+            }
             if(($usuario->sigla == '') || ($usuario->sigla == null)) {
                 $usuario->sigla = substr($usuario->nome, 0, 3);
             }
@@ -46,6 +60,10 @@ class FaseGrupo extends Eloquent
             $usuario->distintivo = (isset($time)) ? $time->distintivo : $usuario->imagem_perfil;
         }
         return $usuarios;
+    }
+
+    public function usuariosAnonimos() {
+        return $this->belongsToMany('UserAnonimo', 'usuario_grupos', 'fase_grupos_id', 'anonimo_id')->withPivot(array('id'))->getResults();
     }
 
     public function usuariosMataMata() {
@@ -196,6 +214,7 @@ class FaseGrupo extends Eloquent
         $pontuacoes = $this->fase()->pontuacoes();
         $pontuacaoVitoria = $pontuacoes[1];
         $usuarios = $this->usuarios();
+
         if($usuarios->isEmpty()) {
             return true;
         }
@@ -208,6 +227,7 @@ class FaseGrupo extends Eloquent
 
         if ($quantidade_jogadores_por_partida == 2) {
             // Partida com Dois Jogadores
+
 
             foreach ($usuarios as $usuario) {
                 $idFaseGrupo = $this->id;
@@ -235,15 +255,22 @@ class FaseGrupo extends Eloquent
                         sum(placar2) as gols_contra,
                         sum(placar1) - sum(placar2) as saldo_gols")->first();
                 } else {
+                    if($usuario->anonimo) {
+                        $compara_usuario = "p1.anonimo_id = $idUsuario and p2.anonimo_id IS DISTINCT FROM $idUsuario";
+                        $compara_usuario2 = "anonimo_id = $idUsuario";
+                    } else {
+                        $compara_usuario = "p1.users_id = $idUsuario and p2.users_id IS DISTINCT FROM $idUsuario";
+                        $compara_usuario2 = "users_id = $idUsuario";
+                    }
                     $tabelaCampeonato = DB::table(DB::raw("(select 	p1.partidas_id as partidas, p1.placar as placar1, p1.pontuacao,
                             p2.placar as placar2,
                             (case when p1.placar > p2.placar then 1 end) as vitorias,
                             (case when p1.placar < p2.placar then 1 end) as derrotas,
                             (case when p1.placar = p2.placar then 1 end) as empates
                         from usuario_partidas p1, usuario_partidas p2
-                        where p1.users_id = $idUsuario and p2.users_id <> $idUsuario and p1.partidas_id = p2.partidas_id AND p1.partidas_id IN (
+                        where $compara_usuario and p1.partidas_id = p2.partidas_id AND p1.partidas_id IN (
                             select id from partidas where data_placar IS NOT NULL AND fase_grupos_id = $idFaseGrupo AND id IN (
-                                select partidas_id from usuario_partidas where users_id = $idUsuario
+                                select partidas_id from usuario_partidas where $compara_usuario2
                             )
                             order by rodada
                         ) order by p1.partidas_id) as tabela"))
@@ -282,7 +309,11 @@ class FaseGrupo extends Eloquent
                         if($tipo_competidor == 'equipe') {
                             $usuarios->find($usuarioPartida->equipe_id)->pontuacao += intval($usuarioPartida->pontuacao);
                         } else {
-                            $usuarios->find($usuarioPartida->users_id)->pontuacao += intval($usuarioPartida->pontuacao);
+                            if($usuarioPartida->anonimo_id) {
+                                $usuarios->find($usuarioPartida->anonimo_id)->pontuacao += intval($usuarioPartida->pontuacao);
+                            } else {
+                                $usuarios->find($usuarioPartida->users_id)->pontuacao += intval($usuarioPartida->pontuacao);
+                            }
                         }
                     }
                 }
@@ -363,13 +394,21 @@ class FaseGrupo extends Eloquent
                     if($tipo_competidor == 'equipe') {
                         $usuariosClassificados->put(1, User::find($u1A->equipe_id));
                     } else {
-                        $usuariosClassificados->put(1, User::find($u1A->users_id));
+                        if($u1A->anonimo_id) {
+                            $usuariosClassificados->put(1, UserAnonimo::find($u1A->anonimo_id));
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u1A->users_id));
+                        }
                     }
                 } else if($placar1 < $placar2) {
                     if($tipo_competidor == 'equipe') {
                         $usuariosClassificados->put(1, User::find($u2A->equipe_id));
                     } else {
-                        $usuariosClassificados->put(1, User::find($u2A->users_id));
+                        if($u2A->anonimo_id) {
+                            $usuariosClassificados->put(1, UserAnonimo::find($u2A->anonimo_id));
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u2A->users_id));
+                        }
                     }
                 } else {
                     if ($detalhesDoCampeonato->fora_casa && ($u1A->placar != $u2B->placar)) {
@@ -377,13 +416,21 @@ class FaseGrupo extends Eloquent
                             if($tipo_competidor == 'equipe') {
                                 $usuariosClassificados->put(1, User::find($u2A->equipe_id));
                             } else {
-                                $usuariosClassificados->put(1, User::find($u2A->users_id));
+                                if($u2A->anonimo_id) {
+                                    $usuariosClassificados->put(1, UserAnonimo::find($u2A->anonimo_id));
+                                } else {
+                                    $usuariosClassificados->put(1, User::find($u2A->users_id));
+                                }
                             }
                         } else {
                             if($tipo_competidor == 'equipe') {
                                 $usuariosClassificados->put(1, User::find($u1A->equipe_id));
                             } else {
-                                $usuariosClassificados->put(1, User::find($u1A->users_id));
+                                if($u1A->anonimo_id) {
+                                    $usuariosClassificados->put(1, UserAnonimo::find($u1A->anonimo_id));
+                                } else {
+                                    $usuariosClassificados->put(1, User::find($u1A->users_id));
+                                }
                             }
                         }
                     } else {
@@ -391,13 +438,21 @@ class FaseGrupo extends Eloquent
                             if($tipo_competidor == 'equipe') {
                                 $usuariosClassificados->put(1, User::find($u1A->equipe_id));
                             } else {
-                                $usuariosClassificados->put(1, User::find($u1A->users_id));
+                                if($u1A->anonimo_id) {
+                                    $usuariosClassificados->put(1, UserAnonimo::find($u1A->anonimo_id));
+                                } else {
+                                    $usuariosClassificados->put(1, User::find($u1A->users_id));
+                                }
                             }
                         } else {
                             if($tipo_competidor == 'equipe') {
                                 $usuariosClassificados->put(1, User::find($u2A->equipe_id));
                             } else {
-                                $usuariosClassificados->put(1, User::find($u2A->users_id));
+                                if($u2A->anonimo_id) {
+                                    $usuariosClassificados->put(1, UserAnonimo::find($u2A->anonimo_id));
+                                } else {
+                                    $usuariosClassificados->put(1, User::find($u2A->users_id));
+                                }
                             }
                         }
                     }
@@ -417,9 +472,9 @@ class FaseGrupo extends Eloquent
                                 $placarUsuario2++;
                             }
                         } else {
-                            if($partida->placarUsuario($u1->users_id) > $partida->placarUsuario($u2->users_id)) {
+                            if($partida->placarUsuario($u1->users_id, $u1->anonimo_id) > $partida->placarUsuario($u2->users_id, $u2->anonimo_id)) {
                                 $placarUsuario1++;
-                            } else if($partida->placarUsuario($u1->users_id) < $partida->placarUsuario($u2->users_id)) {
+                            } else if($partida->placarUsuario($u1->users_id, $u1->anonimo_id) < $partida->placarUsuario($u2->users_id, $u2->anonimo_id)) {
                                 $placarUsuario2++;
                             }
                         }
@@ -432,13 +487,25 @@ class FaseGrupo extends Eloquent
                     if($tipo_competidor == 'equipe') {
                         $usuariosClassificados->put(1, User::find($u1->equipe_id));
                     } else {
-                        $usuariosClassificados->put(1, User::find($u1->users_id));
+                        if($u1->anonimo_id) {
+                            $usuarioAnonimo = UserAnonimo::find($u1->anonimo_id);
+                            $usuarioAnonimo->anonimo = true;
+                            $usuariosClassificados->put(1, $usuarioAnonimo);
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u1->users_id));
+                        }
                     }
                 } else {
                     if($tipo_competidor == 'equipe') {
                         $usuariosClassificados->put(1, User::find($u2->equipe_id));
                     } else {
-                        $usuariosClassificados->put(1, User::find($u2->users_id));
+                        if($u2->anonimo_id) {
+                            $usuarioAnonimo = UserAnonimo::find($u2->anonimo_id);
+                            $usuarioAnonimo->anonimo = true;
+                            $usuariosClassificados->put(1, $usuarioAnonimo);
+                        } else {
+                            $usuariosClassificados->put(1, User::find($u2->users_id));
+                        }
                     }
                 }
             }

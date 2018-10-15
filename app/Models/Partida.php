@@ -138,8 +138,14 @@ class Partida extends Eloquent {
                     $usuarioBD = Equipe::find($usuario->equipe_id);
                     $usuarioCampeonato = CampeonatoUsuario::where('equipe_id','=',$usuario->equipe_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
                 } else {
-                    $usuarioBD = User::find($usuario->users_id);
-                    $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
+                    if(isset($usuario->anonimo_id)) {
+                        $usuarioBD = UserAnonimo::find($usuario->anonimo_id);
+                        $usuarioCampeonato = CampeonatoUsuario::where('anonimo_id','=',$usuario->anonimo_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
+                        $usuario->gamertag = $usuarioBD->gamertag;
+                    } else {
+                        $usuarioBD = User::find($usuario->users_id);
+                        $usuarioCampeonato = CampeonatoUsuario::where('users_id','=',$usuario->users_id)->where('campeonatos_id','=',$this->campeonato()->id)->first();
+                    }
                 }
                 $nome_completo = $usuarioBD->nome;
                 $nome_completo = explode(' ', $nome_completo);
@@ -181,13 +187,22 @@ class Partida extends Eloquent {
         return $this->fase()->campeonato();
     }
 
-    public function placarUsuario($idUsuario) {
+    public function placarUsuario($idUsuario, $idAnonimo = null) {
         $tipo_competidor = $this->campeonato()->tipo_competidor;
         foreach ($this->usuarios(false) as $usuario) {
             if($tipo_competidor == 'equipe') {
                 $idUsuarioVerificar = $usuario->equipe_id;
             } else {
-                $idUsuarioVerificar = $usuario->users_id;
+                if($idAnonimo) {
+                    $idUsuarioVerificar = $usuario->anonimo_id;
+                } else {
+                    $idUsuarioVerificar = $usuario->users_id;
+                }
+            }
+            if($idAnonimo) {
+                if($idUsuarioVerificar == $idAnonimo) {
+                    return $usuario->placar;
+                }
             }
             if($idUsuarioVerificar == $idUsuario) {
                 return $usuario->placar;
