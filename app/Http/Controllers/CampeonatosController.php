@@ -471,4 +471,27 @@ class CampeonatosController extends Controller
         return Response::json($campeonatos);
     }
 
+    function getTabelaPublica($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        if(isset($campeonato)) {
+            return $campeonato->tabelaCompleta();
+        }
+        return null;
+    }
+
+    public function showPublico($idCampeonato) {
+        $campeonato = Campeonato::find($idCampeonato);
+        $campeonato->plataforma = Plataforma::find($campeonato->plataformas_id);
+        $campeonato->jogo = Jogo::find($campeonato->jogos_id);
+        $campeonato->tipo = CampeonatoTipo::find($campeonato->campeonato_tipos_id);
+        if($campeonato->faseInicial() !== null) {
+            $campeonato->dataInicio = $campeonato->faseInicial()->data_inicio;
+            $campeonato->dataFinal = $campeonato->faseFinal()->data_fim;
+        }
+        $campeonato->status = $campeonato->status();
+        $campeonato->vagas = $campeonato->maximoUsuarios();
+
+        return Response::json($campeonato);
+    }
+
 }
