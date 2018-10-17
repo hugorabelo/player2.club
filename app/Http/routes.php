@@ -199,7 +199,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
 Route::get('api/campeonato/tabelaPublica/{id}', 'CampeonatosController@getTabelaPublica');
 Route::get('api/campeonatoPublico/{id}', 'CampeonatosController@showPublico');
-Route::get('api/faseGrupo/partidasPorRodada/{rodada}/{idGrupo}', 'FaseGrupoController@getPartidasPorRodadaPublico');
+Route::get('api/faseGrupo/partidasPorRodadaPublico/{rodada}/{idGrupo}', 'FaseGrupoController@getPartidasPorRodadaPublico');
 Route::get('api/faseGrupoPublico/{id}', 'FaseGrupoController@showPublico');
 
 Route::get('api/callback', function() {
