@@ -87,7 +87,7 @@
         "ordem": "Ordem",
 
         "login": "Login",
-        "gamertag": "Nome de Usuário",
+        "gamertag": "ID de Usuário (Gamertag)",
         "localizacao": "Cidade",
         "estado": "Estado",
         "pais": "País",
@@ -168,7 +168,8 @@
         "quantidade_minima_usuarios": "Quantidade Mínima de Usuários na Equipe",
 
         "convidar": "Convidar",
-        "convites": "Convites disponíveis"
+        "convites": "Convites disponíveis",
+        "confirmar": "Confirmar"
     },
 
     "messages": {
@@ -214,7 +215,7 @@
         "usuario_edit": "Editar Perfil de Usuário",
         "usuario_empty": "Não existe nenhum Usuário cadastrado",
         "usuario_gamertags": "Plataformas",
-        "adicionar_gamertag": "Adicionar ID de Usuário",
+        "adicionar_gamertag": "Adicionar ID de Usuário (Gamertag)",
         "usuario_imagens": "Imagens",
         "geral": "Geral",
 
@@ -238,6 +239,7 @@
         "exclusao_campeonato_erro": "Aconteceu um erro na exclusão do campeonato",
         "campeonato_iniciado": "O campeonato já foi iniciado",
         "exclusao_permitida_apenas_criador": "A exclusão do campeonato só pode ser feita pelo seu criador",
+        "campeonato_sem_vagas": "As vagas do campeonato já foram todas preenchidas",
 
 
         "campeonatoAdmin_list": "Administradores",
@@ -522,7 +524,14 @@
         "quem_cadastrou_placar": "Placar cadastrado por",
         "quem_confirmou_placar": "Placar confirmado por",
         "hora_cadastro_placar": "Placar cadastrado em",
-        "hora_confirmacao_placar": "Placar confirmado em"
+        "hora_confirmacao_placar": "Placar confirmado em",
+        "adicionar_participante": "Adicionar participante sem cadastro",
+        "associar_anonimo": "Associar participante a um usuário cadastrado",
+        "mensagem_associar_usuario": "Digite o nome do usuário cadastrado que corresponde ao participante ",
+        "confirmar_associar_usuario": "Caso seja esse o usuário que deseja associar, clique no botão confirmar",
+        "sem_usuario_associado": "Você não selecionou um usuário para associar",
+        "sucesso_associacao": "Usuário Associado com sucesso",
+        "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado"
     },
 
     "generos": {

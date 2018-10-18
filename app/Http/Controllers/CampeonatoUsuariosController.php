@@ -50,8 +50,9 @@ class CampeonatoUsuariosController extends Controller {
 	 */
 	public function store()
 	{
+
 		$input = Input::all();
-		if(!isset($input['equipe_id'])) {
+		if(!isset($input['equipe_id']) && !isset($input['anonimo_id'])) {
 			$usuario = Auth::getUser();
 			$input['users_id'] = $usuario->id;
 		}
@@ -60,7 +61,7 @@ class CampeonatoUsuariosController extends Controller {
 		if ($validation->passes())
 		{
 			$campeonato = Campeonato::find($input['campeonatos_id']);
-			if($campeonato->tipo_competidor != 'equipe') {
+			if($campeonato->tipo_competidor != 'equipe' && !isset($input['anonimo_id'])) {
 				$usuarioPlataforma = UserPlataforma::where('users_id', '=', $usuario->id)->where('plataformas_id', '=', $campeonato->plataformas_id)->first();
 				if($usuarioPlataforma == null) {
 					return Response::json(array('success' => false,
@@ -108,9 +109,11 @@ class CampeonatoUsuariosController extends Controller {
 					}
 				} else {
 					$this->campeonatoUsuario->create($input);
-					$idJogo = $campeonato->jogo()->id;
-					if (!$usuario->segueJogo($idJogo)) {
-						$usuario->seguirJogo($idJogo);
+					if(!isset($input['anonimo_id'])) {
+						$idJogo = $campeonato->jogo()->id;
+						if (!$usuario->segueJogo($idJogo)) {
+							$usuario->seguirJogo($idJogo);
+						}
 					}
 				}
 

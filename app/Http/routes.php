@@ -82,6 +82,9 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/convidarUsuario', 'UsersController@convidarUsuario');
     Route::post('usuario/conviteCampeonato/{idCampeonato}/{idAmigo}', 'UsersController@convidarParaCampeonato');
     Route::post('usuario/finalizarWizard/{idUsuario}', 'UsersController@finalizarWizard');
+    Route::post('usuario/saveAnonimo', 'UsersController@storeAnonimo');
+    Route::get('usuario/pesquisa/{textoPesquisa}', 'UsersController@pesquisaPorNome');
+    Route::post('usuario/associarAnonimo', 'UsersController@associarAnonimo');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -89,6 +92,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonatoUsuarioNaoAdministrador/{id}', 'CampeonatoUsuariosController@getUsuarioNaoAdministrador');
     Route::post('campeonatoUsuario/salvarTime', 'CampeonatoUsuariosController@salvarTime');
+    Route::post('campeonatoUsuario/salvarAnonimo', 'CampeonatoUsuariosController@salvarAnonimo');
     Route::resource('campeonatoUsuario', 'CampeonatoUsuariosController');
 
     Route::get('campeonatoFase/create/{id}', 'CampeonatoFasesController@create');
@@ -192,6 +196,11 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
         App::setLocale($locale);
     });
 });
+
+Route::get('api/campeonato/tabelaPublica/{id}', 'CampeonatosController@getTabelaPublica');
+Route::get('api/campeonatoPublico/{id}', 'CampeonatosController@showPublico');
+Route::get('api/faseGrupo/partidasPorRodadaPublico/{rodada}/{idGrupo}', 'FaseGrupoController@getPartidasPorRodadaPublico');
+Route::get('api/faseGrupoPublico/{id}', 'FaseGrupoController@showPublico');
 
 Route::get('api/callback', function() {
     return Response::json(Auth::check());

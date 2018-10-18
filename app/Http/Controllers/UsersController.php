@@ -657,4 +657,81 @@ class UsersController extends Controller {
 		$user->exibe_wizard = false;
 		$user->save();
 	}
+
+	public function storeAnonimo() {
+		$input = Input::except('_token');
+
+		$validation = Validator::make($input, UserAnonimo::$rules);
+
+		if ($validation->passes())
+		{
+
+			//insertGetId
+			$idNovo = DB::table('users_anonimos')->insertGetId($input);
+
+			return Response::json(array('success'=>true, 'idNovoUsuario'=>$idNovo));
+		}
+
+		return Response::json(array('success'=>false,
+			'errors'=>$validation->getMessageBag()->all(),
+			'message'=>'There were validation errors.'),300);
+	}
+
+    public function pesquisaPorNome($textoPesquisa) {
+        $user = new User();
+        return Response::json($user->pesquisaPorNome($textoPesquisa));
+    }
+
+    public function associarAnonimo() {
+        $input = (object)Input::all();
+        $usuarioCadastrado = $input->usuarioCadastrado;
+        $usuarioAnonimo = $input->usuarioAnonimo;
+        $idCampeonato = $usuarioAnonimo['pivot']['campeonatos_id'];
+
+		$campeonato = Campeonato::find($idCampeonato);
+		if($campeonato->verificaUsuarioInscrito($usuarioCadastrado['id'])) {
+			if($campeonato->status() < 3) {
+				CampeonatoUsuario::where('users_id','=',$usuarioCadastrado['id'])->where('campeonatos_id','=',$idCampeonato)->delete();
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.usuario_cadastrado_associacao',
+					'message'=>'There were validation errors.'),300);
+			}
+		}
+
+        // campeonato_usuarios
+        $campeonatoUsuario = CampeonatoUsuario::where('campeonatos_id','=',$idCampeonato)->where('anonimo_id','=',$usuarioAnonimo['id'])->first();
+        $campeonatoUsuario->users_id = $usuarioCadastrado['id'];
+		$campeonatoUsuario->anonimo_id = null;
+		$campeonatoUsuario->save();
+
+        // usuario_fases
+		// select id from campeonato_fases where campeonatos_id = $campeonatoUsuario->campeonatos_id;
+		$campeonatoFases = CampeonatoFase::where('campeonatos_id','=',$idCampeonato)->get(array('id'));
+        $usuariosFase = UsuarioFase::whereIn('campeonato_fases_id', $campeonatoFases)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		foreach ($usuariosFase as $userFase) {
+			$userFase->users_id = $usuarioCadastrado['id'];
+			$userFase->anonimo_id = null;
+			$userFase->save();
+		}
+
+
+        // usuario_grupos
+		$faseGrupos = FaseGrupo::whereIn('campeonato_fases_id',$campeonatoFases)->get(array('id'));
+		$usuariosGrupo = UsuarioGrupo::whereIn('fase_grupos_id', $faseGrupos)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		foreach ($usuariosGrupo as $userGrupo) {
+			$userGrupo->users_id = $usuarioCadastrado['id'];
+			$userGrupo->anonimo_id = null;
+			$userGrupo->save();
+		}
+
+        // usuario_partidas
+		$partidas = Partida::whereIn('fase_grupos_id', $faseGrupos)->get(array('id'));
+		$usuariosPartida = UsuarioPartida::whereIn('partidas_id', $partidas)->where('anonimo_id','=',$usuarioAnonimo['id'])->get();
+		foreach ($usuariosPartida as $userPartida) {
+			$userPartida->users_id = $usuarioCadastrado['id'];
+			$userPartida->anonimo_id = null;
+			$userPartida->save();
+		}
+    }
 }

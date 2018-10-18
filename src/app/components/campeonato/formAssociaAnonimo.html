@@ -1,0 +1,38 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p>{{'messages.mensagem_associar_usuario' | translate}} <b>{{participante.nome}}</b></p>
+
+                <md-autocomplete md-input-name="autocompleteField" md-no-cache="false" md-search-text-change="searchTextChange(searchText)" md-search-text="searchText" md-selected-item-change="selectedItemChange(item)" md-items="item in querySearch(searchText)" md-min-length="2" md-item-text="item.descricao" placeholder="{{'fields.nome' | translate}}" md-menu-class="autocomplete-custom-template" id="caixaPesquisa">
+                    <md-item-template>
+                        <span class="item-title">
+                        <span> {{item.descricao}} </span>
+                        </span>
+                    </md-item-template>
+                </md-autocomplete>
+
+                <div class="widget-head-color-box navy-bg p-lg text-center" ng-if="usuarioAssociado">
+                    <div class="m-b-md">
+                        <h2 class="font-bold no-margins">{{usuarioAssociado.descricao}}</h2>
+                    </div>
+                    <img ng-src="uploads/usuarios/{{usuarioAssociado.imagem}}" class="rounded-circle circle-border m-b-md  img-lg">
+                    <h4 class="no-margins">{{'messages.confirmar_associar_usuario' | translate}}</h4>
+                </div>
+
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="confirmar()">{{'fields.confirmar' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -387,6 +387,36 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         finalizarWizard: function (idUsuario) {
             return $http.post('api/usuario/finalizarWizard/' + idUsuario);
+        },
+
+        saveAnonimo: function (usuario) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/saveAnonimo',
+                data: $.param(usuario),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        pesquisaNome: function (texto) {
+            return $http.get('api/usuario/pesquisa/' + texto);
+        },
+
+        associarAnonimo: function (usuarioCadastrado, usuarioAnonimo) {
+            dados = {
+                usuarioCadastrado: usuarioCadastrado,
+                usuarioAnonimo: usuarioAnonimo
+            };
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/associarAnonimo',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
     }
 }]);
