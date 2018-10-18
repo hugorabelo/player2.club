@@ -107,4 +107,32 @@ class FaseGrupoController extends Controller {
         }
     }
 
+    public function getPartidasPorRodadaPublico($rodada, $id_grupo) {
+        $grupo = FaseGrupo::find($id_grupo);
+        if($grupo != null) {
+            return Response::json($grupo->partidasPorRodada($rodada));
+        } else {
+            return null;
+        }
+    }
+
+    public function showPublico($id)
+    {
+        $fase = CampeonatoFase::find($id);
+        $faseGrupos = FaseGrupo::where('campeonato_fases_id','=',$id)->get();
+        foreach($faseGrupos as $grupo) {
+            if($fase->matamata) {
+                $grupo->usuarios = $grupo->usuariosMataMata();
+                $grupo->partidas = $grupo->partidas();
+                foreach ($grupo->partidas as $partida) {
+                    $partida->usuarios = $partida->usuarios();
+                }
+            } else {
+                $grupo->classificacao = $grupo->usuariosComClassificacao();
+                $grupo->rodadas = $grupo->rodadas();
+            }
+        }
+        return Response::json($faseGrupos);
+    }
+
 }
