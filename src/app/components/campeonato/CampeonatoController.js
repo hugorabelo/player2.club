@@ -1700,25 +1700,6 @@
                 $mdDialog.cancel();
             };
 
-            $scope.confirmar = function () {
-                if ($scope.usuarioAssociado === undefined) {
-                    toastr.error($filter('translate')('messages.sem_usuario_associado'));
-                } else {
-                    Usuario.associarAnonimo($scope.usuarioAssociado, participante)
-                        .success(function (data) {
-                            vm.getParticipantes(vm.campeonato.id);
-                            toastr.success($filter('translate')('messages.sucesso_associacao'));
-                        })
-                        .error(function (data) {
-                            console.log(data);
-
-                            toastr.error($filter('translate')(data.errors));
-                        });
-                    $mdDialog.hide();
-                }
-
-            };
-
             $scope.eventClicked = function ($selectedEvent) {
                 console.log($selectedEvent);
             };
@@ -1726,7 +1707,7 @@
             $scope.dateClick = function ($date) {
                 if ($date < new Date(vm.campeonato.dataInicio)) {
                     console.log('antes da data de inicio');
-                } else if ($date > new Date(vm.campeonato.dataFim)) {
+                } else if ($date > new Date(vm.campeonato.dataFinal)) {
                     console.log('depois da data de encerramento');
                 } else {
                     console.log($date);
