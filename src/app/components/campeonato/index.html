@@ -130,6 +130,7 @@
                     <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
                     <md-button class="md-raised md-warn" ng-if="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                     <md-button class="md-raised md-accent" ng-if="vmCampeonato.campeonato.status < 2" ng-click="vmCampeonato.convidarAmigo($event)">{{'messages.convidar_amigos' | translate}}</md-button>
+                    <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.exibirAgenda($event)">{{'messages.exibir_agenda' | translate}}</md-button>
                     <div class="admin-info" layout="column">
                         <h3>{{'messages.campeonatoAdmin_list' | translate}}</h3>
 
@@ -227,6 +228,7 @@
                 <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.status === 1 && !vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.inscreverCampeonato($event)">{{'messages.inscrever' | translate}}</md-button>
                 <md-button class="md-raised md-warn" ng-if="vmCampeonato.campeonato.status < 3 && vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.sairCampeonato($event)">{{'messages.desistir' | translate}}</md-button>
                 <md-button class="md-raised md-accent" ng-if="vmCampeonato.campeonato.status < 2" ng-click="vmCampeonato.convidarAmigo($event)">{{'messages.convidar_amigos' | translate}}</md-button>
+                <md-button class="md-raised md-primary" ng-if="vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.exibirAgenda($event)">{{'messages.exibir_agenda' | translate}}</md-button>
                 <a ui-sref="jogo({idJogo: vmCampeonato.campeonato.jogo.id})">
                     <img ng-src="uploads/{{vmCampeonato.campeonato.jogo.imagem_capa}}" class="img-responsive m-t img-circle" alt="profile">
                 </a>

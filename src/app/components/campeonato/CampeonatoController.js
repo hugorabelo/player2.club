@@ -1651,6 +1651,90 @@
             };
         };
 
+        vm.exibirAgenda = function (ev) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.exibir_agenda'
+                    },
+                    controller: DialogControllerExibirAgenda,
+                    templateUrl: 'app/components/campeonato/agendamento/formAgenda.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        };
+
+        function DialogControllerExibirAgenda($scope, $mdDialog, tituloModal) {
+            $scope.materialEvents = [
+                {
+                    title: '',
+                    start: new Date("2018-11-20 12:00:00"),
+                    end: new Date("2018-11-20 16:00:00"),
+                    allDay: false
+                },
+                {
+                    title: '',
+                    start: new Date("2018-11-20 20:00:00"),
+                    end: new Date("2018-11-20 23:00:00"),
+                    allDay: false
+                },
+                {
+                    title: '',
+                    start: new Date([2018, 11, 4]),
+                    end: new Date([2018, 11, 4]),
+                    allDay: false
+                }
+            ];
+
+
+            $scope.tituloModal = tituloModal;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.confirmar = function () {
+                if ($scope.usuarioAssociado === undefined) {
+                    toastr.error($filter('translate')('messages.sem_usuario_associado'));
+                } else {
+                    Usuario.associarAnonimo($scope.usuarioAssociado, participante)
+                        .success(function (data) {
+                            vm.getParticipantes(vm.campeonato.id);
+                            toastr.success($filter('translate')('messages.sucesso_associacao'));
+                        })
+                        .error(function (data) {
+                            console.log(data);
+
+                            toastr.error($filter('translate')(data.errors));
+                        });
+                    $mdDialog.hide();
+                }
+
+            };
+
+            $scope.eventClicked = function ($selectedEvent) {
+                console.log($selectedEvent);
+            };
+
+            $scope.dateClick = function ($date) {
+                if ($date < new Date(vm.campeonato.dataInicio)) {
+                    console.log('antes da data de inicio');
+                } else if ($date > new Date(vm.campeonato.dataFim)) {
+                    console.log('depois da data de encerramento');
+                } else {
+                    console.log($date);
+                }
+            };
+
+        };
+
 
     }]);
 

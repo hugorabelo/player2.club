@@ -1,0 +1,47 @@
+<md-dialog aria-label="{{tituloModal | translate}}" flex="60">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <!--<div layout="column" flex-order="1" flex-order-gt-sm="0">
+                    <md-subheader>Start Date</md-subheader>
+                    <md-calendar ng-model="ctrl.startDate" md-min-date="minDate" md-max-date="maxDate" md-mode="day"></md-calendar>
+                </div>
+                <div layout="column" flex-order="0" flex-order-gt-sm="2">
+                    <md-subheader>Dates</md-subheader>
+                    <div>
+                        <label>Start</label>
+                        <div>{{ctrl.startDate | date:shortDate}}</div>
+                    </div>
+                    <div><label>End</label>
+                        <div>{{ctrl.endDate | date:shortDate}}</div>
+                    </div>
+                </div>-->
+
+                <md-event-calendar ng-model="selected" md-events="materialEvents" md-event-click="eventClicked($selectedEvent)" md-label="title" md-show-create-link="false" md-create-event-click="dateClick($date)" md-create-disabled="false" class="md-primary">
+                    <md-event-calendar-header class="md-center">
+                        <md-event-calendar-prev></md-event-calendar-prev>
+                        <md-event-calendar-title></md-event-calendar-title>
+                        <md-event-calendar-next></md-event-calendar-next>
+                    </md-event-calendar-header>
+                </md-event-calendar>
+
+                {{selected}}
+
+                <!--<simple-calendar events="events" options="calendarOptions"></simple-calendar>-->
+
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="confirmar()">{{'fields.confirmar' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

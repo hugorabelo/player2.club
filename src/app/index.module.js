@@ -29,7 +29,8 @@
         'dndLists',
         'angular-intro',
         'mgo-angular-wizard',
-        'material.components.expansionPanels'
+        'material.components.expansionPanels',
+        'material.components.eventCalendar'
     ]);
 
     //    angular.module('player2').config(function ($locationProvider) {
