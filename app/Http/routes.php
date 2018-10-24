@@ -180,6 +180,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('tutorialItem', 'TutorialItemController');
 
+    Route::resource('agenda', 'AgendaController');
+
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $user = Auth::getUser();
         $user->equipesAdministradas = $user->equipesAdministradas()->get();

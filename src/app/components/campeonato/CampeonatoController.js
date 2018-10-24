@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', '$mdBottomSheet', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, $mdBottomSheet, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', '$mdBottomSheet', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', 'Agenda', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, $mdBottomSheet, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time, Agenda) {
 
         var vm = this;
 
@@ -1721,15 +1721,26 @@
                 controller: 'CampeonatoController',
                 parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
                 disableParentScroll: true,
-                scope: $scope
+                scope: $scope,
+                preserveScope: true
             });
         };
 
         vm.inserirEvento = function (date, hora_inicio, hora_fim) {
-            var data = new Date();
-            hora_inicio = new Date(date.getYear(), date.getMonth(), date.getDate(), hora_inicio.getHours(), hora_inicio.getMinutes());
-            hora_fim = new Date(date.getYear(), date.getMonth(), date.getDate(), hora_fim.getHours(), hora_fim.getMinutes());
-            console.log(date + ' - ' + hora_inicio + ' - ' + hora_fim);
+            hora_inicio = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_inicio.getHours(), hora_inicio.getMinutes());
+            hora_fim = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_fim.getHours(), hora_fim.getMinutes());
+            var dados = {};
+            dados.hora_inicio = hora_inicio;
+            dados.hora_fim = hora_fim;
+            dados.data = date;
+            dados.idCampeonato = vm.campeonato.id;
+            Agenda.addEvent(dados)
+                .success(function (data) {
+                    $mdBottomSheet.hide();
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
+                });
         };
 
 
