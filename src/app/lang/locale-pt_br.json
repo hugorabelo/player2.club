@@ -169,7 +169,10 @@
 
         "convidar": "Convidar",
         "convites": "Convites disponíveis",
-        "confirmar": "Confirmar"
+        "confirmar": "Confirmar",
+
+        "hora_inicio": "Hora de Início",
+        "hora_fim": "Hora de Término"
     },
 
     "messages": {
@@ -531,7 +534,11 @@
         "confirmar_associar_usuario": "Caso seja esse o usuário que deseja associar, clique no botão confirmar",
         "sem_usuario_associado": "Você não selecionou um usuário para associar",
         "sucesso_associacao": "Usuário Associado com sucesso",
-        "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado"
+        "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado",
+
+        "exibir_agenda": "Exibir Agenda",
+        "add_horario": "Inserir horário livre para o dia ",
+        "evento_fora_do_prazo": "Você deve selecionar uma data dentro do período do campeonato"
     },
 
     "generos": {

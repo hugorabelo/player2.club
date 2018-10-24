@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', '$mdBottomSheet', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, $mdBottomSheet, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
 
         var vm = this;
 
@@ -1705,15 +1705,31 @@
             };
 
             $scope.dateClick = function ($date) {
-                if ($date < new Date(vm.campeonato.dataInicio)) {
-                    console.log('antes da data de inicio');
-                } else if ($date > new Date(vm.campeonato.dataFinal)) {
-                    console.log('depois da data de encerramento');
+                if (($date < new Date(vm.campeonato.dataInicio)) || ($date > new Date(vm.campeonato.dataFinal))) {
+                    toastr.warning($filter('translate')('messages.evento_fora_do_prazo') + ": " + $filter('date')(new Date(vm.campeonato.dataInicio), 'dd/MM/yyyy') + " a " + $filter('date')(new Date(vm.campeonato.dataFinal), 'dd/MM/yyyy'));
                 } else {
-                    console.log($date);
+                    vm.showAdicionarEvento($date);
                 }
             };
 
+        };
+
+        vm.showAdicionarEvento = function ($date) {
+            $scope.date = $date;
+            $mdBottomSheet.show({
+                templateUrl: 'app/components/campeonato/agendamento/inserirEvento.html',
+                controller: 'CampeonatoController',
+                parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
+                disableParentScroll: true,
+                scope: $scope
+            });
+        };
+
+        vm.inserirEvento = function (date, hora_inicio, hora_fim) {
+            var data = new Date();
+            hora_inicio = new Date(date.getYear(), date.getMonth(), date.getDate(), hora_inicio.getHours(), hora_inicio.getMinutes());
+            hora_fim = new Date(date.getYear(), date.getMonth(), date.getDate(), hora_fim.getHours(), hora_fim.getMinutes());
+            console.log(date + ' - ' + hora_inicio + ' - ' + hora_fim);
         };
 
 

@@ -1,0 +1,16 @@
+<md-bottom-sheet class="md-list md-has-header">
+    <md-subheader ng-cloak>{{'messages.add_horario' | translate}} {{date | date : 'dd/MM/yyyy'}}</md-subheader>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>{{'fields.hora_inicio' | translate}}</label>
+            <input type="time" ng-model="hora_inicio" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+            <label>{{'fields.hora_fim' | translate}}</label>
+            <input type="time" ng-model="hora_fim" required>
+        </md-input-container>
+        <div>
+            <md-button class="md-raised md-primary" ng-click="vmCampeonato.inserirEvento(date, hora_inicio, hora_fim)">{{'fields.save' | translate}}</md-button>
+        </div>
+    </div>
+</md-bottom-sheet>
