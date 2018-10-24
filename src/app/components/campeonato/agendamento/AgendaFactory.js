@@ -9,6 +9,10 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getEventos: function (idCampeonato) {
+            return $http.get('api/agenda/' + idCampeonato);
         }
 
     }

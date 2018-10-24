@@ -25,6 +25,19 @@ class AgendaController extends Controller
         return Response::json($comentarios);
     }
 
+    public function show($idCampeonato) {
+        if($idCampeonato == 'undefined' || $idCampeonato == null) {
+            return null;
+        }
+        $userCampeonato = new CampeonatoUsuario();
+
+        $userCampeonato = $userCampeonato->getID(Auth::getUser()->id, $idCampeonato);
+
+        $eventos = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->get();
+
+        return Response::json($eventos);
+    }
+
 
     /**
      * Store a newly created resource in storage.

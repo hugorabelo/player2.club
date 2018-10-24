@@ -1672,26 +1672,11 @@
         };
 
         function DialogControllerExibirAgenda($scope, $mdDialog, tituloModal) {
-            $scope.materialEvents = [
-                {
-                    title: '',
-                    start: new Date("2018-11-20 12:00:00"),
-                    end: new Date("2018-11-20 16:00:00"),
-                    allDay: false
-                },
-                {
-                    title: '',
-                    start: new Date("2018-11-20 20:00:00"),
-                    end: new Date("2018-11-20 23:00:00"),
-                    allDay: false
-                },
-                {
-                    title: '',
-                    start: new Date([2018, 11, 4]),
-                    end: new Date([2018, 11, 4]),
-                    allDay: false
-                }
-            ];
+            vm.carregarEventos();
+
+            $scope.$on('carregou_eventos', function (evt, data) {
+                $scope.materialEvents = vm.eventos;
+            });
 
 
             $scope.tituloModal = tituloModal;
@@ -1736,12 +1721,33 @@
             dados.idCampeonato = vm.campeonato.id;
             Agenda.addEvent(dados)
                 .success(function (data) {
+                    vm.carregarEventos();
                     $mdBottomSheet.hide();
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
                 });
         };
+
+        vm.carregarEventos = function () {
+            vm.eventos = [];
+
+            Agenda.getEventos(vm.campeonato.id)
+                .success(function (data) {
+                    angular.forEach(data, function (evento) {
+                        var novoEvento = {
+                            title: '',
+                            start: new Date(evento.hora_inicio),
+                            end: new Date(evento.hora_fim),
+                            allDay: false
+                        };
+                        vm.eventos.push(novoEvento);
+                    });
+                    $rootScope.$broadcast('carregou_eventos');
+                });
+
+
+        }
 
 
     }]);
