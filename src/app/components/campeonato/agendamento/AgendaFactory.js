@@ -11,6 +11,17 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
             });
         },
 
+        editEvento: function (evento) {
+            return $http({
+                method: 'PUT',
+                url: 'api/agenda/' + evento.id,
+                data: $.param(evento),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
         getEventos: function (idCampeonato) {
             return $http.get('api/agenda/' + idCampeonato);
         }

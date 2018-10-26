@@ -1686,7 +1686,7 @@
             };
 
             $scope.eventClicked = function ($selectedEvent) {
-                console.log($selectedEvent);
+                vm.showEditarEvento($selectedEvent);
             };
 
             $scope.dateClick = function ($date) {
@@ -1736,6 +1736,7 @@
                 .success(function (data) {
                     angular.forEach(data, function (evento) {
                         var novoEvento = {
+                            id: evento.id,
                             title: '',
                             start: new Date(evento.hora_inicio),
                             end: new Date(evento.hora_fim),
@@ -1747,7 +1748,41 @@
                 });
 
 
-        }
+        };
+
+        vm.showEditarEvento = function ($selectedEvent) {
+            $scope.evento = $selectedEvent;
+            $mdBottomSheet.show({
+                templateUrl: 'app/components/campeonato/agendamento/editarEvento.html',
+                controller: 'CampeonatoController',
+                parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
+                disableParentScroll: true,
+                scope: $scope,
+                preserveScope: true
+            });
+        };
+
+        vm.editarEvento = function (evento) {
+            Agenda.editEvento(evento)
+                .success(function (data) {
+                    vm.carregarEventos();
+                    $mdBottomSheet.hide();
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
+                });
+        };
+
+        vm.excluirEvento = function (ev, evento) {
+            Agenda.deleteEvento(evento)
+                .success(function (data) {
+                    vm.carregarEventos();
+                    $mdBottomSheet.hide();
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
+                });
+        };
 
 
     }]);
