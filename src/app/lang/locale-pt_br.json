@@ -543,7 +543,8 @@
         "hora_final_maior_inicial": "A hora de término do intervalo deve ser maior que a hora de início",
         "intervalo_pequeno": "Você deve selecionar um intervalo de pelo menos 30 minutos",
         "horario_excluido_sucesso": "Horário excluído com sucesso",
-        "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir"
+        "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir",
+        "ver_agenda": "Ver Agenda"
     },
 
     "generos": {
