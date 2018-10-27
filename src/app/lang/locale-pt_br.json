@@ -536,13 +536,14 @@
         "sucesso_associacao": "Usuário Associado com sucesso",
         "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado",
 
-        "exibir_agenda": "Exibir Agenda",
+        "exibir_agenda": "Exibir Minha Agenda",
         "add_horario": "Inserir horário livre para o dia ",
         "edit_horario": "Editar horário do dia ",
         "evento_fora_do_prazo": "Você deve selecionar uma data dentro do período do campeonato",
         "hora_final_maior_inicial": "A hora de término do intervalo deve ser maior que a hora de início",
         "intervalo_pequeno": "Você deve selecionar um intervalo de pelo menos 30 minutos",
-        "horario_excluido_sucesso": "Horário excluído com sucesso"
+        "horario_excluido_sucesso": "Horário excluído com sucesso",
+        "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir"
     },
 
     "generos": {

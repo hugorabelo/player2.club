@@ -114,4 +114,10 @@ class AgendaController extends Controller
         $input['hora_fim'] = $hora_fim;
     }
 
+    public function destroy($id)
+    {
+        DB::table('agendamento_horario_disponivel')->where('id','=',$id)->delete();
+        return Response::json(array('success' => true));
+    }
+
 }

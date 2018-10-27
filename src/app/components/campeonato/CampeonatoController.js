@@ -1722,6 +1722,8 @@
             Agenda.addEvent(dados)
                 .success(function (data) {
                     vm.carregarEventos();
+                    $scope.hora_inicio = {};
+                    $scope.hora_fim = {};
                     $mdBottomSheet.hide();
                 })
                 .error(function (data) {
@@ -1773,10 +1775,11 @@
                 });
         };
 
-        vm.excluirEvento = function (ev, evento) {
-            Agenda.deleteEvento(evento)
+        vm.excluirEvento = function (evento) {
+            Agenda.deleteEvento(evento.id)
                 .success(function (data) {
                     vm.carregarEventos();
+                    toastr.success($filter('translate')('messages.horario_excluido_sucesso'));
                     $mdBottomSheet.hide();
                 })
                 .error(function (data) {

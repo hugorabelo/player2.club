@@ -8,6 +8,7 @@
 
         <md-dialog-content>
             <div class="md-dialog-content">
+                <md-subheader ng-cloak>{{'messages.agenda_intro' | translate}}</md-subheader>
                 <md-event-calendar ng-model="selected" md-events="materialEvents" md-event-click="eventClicked($selectedEvent)" md-label="title" md-show-create-link="false" md-create-event-click="dateClick($date)" md-create-disabled="false" class="md-primary">
                     <md-event-calendar-header class="md-center">
                         <md-event-calendar-prev></md-event-calendar-prev>
