@@ -25,13 +25,17 @@ class AgendaController extends Controller
         //return Response::json($comentarios);
     }
 
-    public function show($idCampeonato) {
+    public function show($idCampeonato, $idUsuario = null) {
         if($idCampeonato == 'undefined' || $idCampeonato == null) {
             return null;
         }
+
         $userCampeonato = new CampeonatoUsuario();
 
-        $userCampeonato = $userCampeonato->getID(Auth::getUser()->id, $idCampeonato);
+        if(!isset($idUsuario)) {
+            $idUsuario = Auth::getUser()->id;
+        }
+        $userCampeonato = $userCampeonato->getID($idUsuario, $idCampeonato);
 
         $eventos = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->get();
 

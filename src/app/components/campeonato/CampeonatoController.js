@@ -1651,10 +1651,11 @@
             };
         };
 
-        vm.exibirAgenda = function (ev) {
+        vm.exibirAgenda = function (ev, idUsuario) {
             $mdDialog.show({
                     locals: {
-                        tituloModal: 'messages.exibir_agenda'
+                        tituloModal: 'messages.exibir_agenda',
+                        idUsuario: idUsuario
                     },
                     controller: DialogControllerExibirAgenda,
                     templateUrl: 'app/components/campeonato/agendamento/formAgenda.html',
@@ -1671,8 +1672,8 @@
 
         };
 
-        function DialogControllerExibirAgenda($scope, $mdDialog, tituloModal) {
-            vm.carregarEventos();
+        function DialogControllerExibirAgenda($scope, $mdDialog, tituloModal, idUsuario) {
+            vm.carregarEventos(idUsuario);
 
             $scope.$on('carregou_eventos', function (evt, data) {
                 $scope.materialEvents = vm.eventos;
@@ -1731,10 +1732,10 @@
                 });
         };
 
-        vm.carregarEventos = function () {
+        vm.carregarEventos = function (idUsuario) {
             vm.eventos = [];
 
-            Agenda.getEventos(vm.campeonato.id)
+            Agenda.getEventos(vm.campeonato.id, idUsuario)
                 .success(function (data) {
                     angular.forEach(data, function (evento) {
                         var novoEvento = {

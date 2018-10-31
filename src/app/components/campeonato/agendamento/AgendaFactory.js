@@ -26,8 +26,13 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
             return $http.delete('api/agenda/' + id);
         },
 
-        getEventos: function (idCampeonato) {
-            return $http.get('api/agenda/' + idCampeonato);
+        getEventos: function (idCampeonato, idUsuario) {
+            if (idUsuario !== undefined) {
+                stringUsuario = '/' + idUsuario;
+            } else {
+                stringUsuario = '';
+            }
+            return $http.get('api/agenda/' + idCampeonato + stringUsuario);
         }
 
     }

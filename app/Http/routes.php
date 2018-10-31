@@ -180,6 +180,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('tutorialItem', 'TutorialItemController');
 
+    Route::get('agenda/{idCampeonato}/{idUsuario}', 'AgendaController@show');
     Route::resource('agenda', 'AgendaController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
