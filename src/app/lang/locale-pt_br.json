@@ -172,7 +172,8 @@
         "confirmar": "Confirmar",
 
         "hora_inicio": "Hora de Início",
-        "hora_fim": "Hora de Término"
+        "hora_fim": "Hora de Término",
+        "duracao": "Duração (minutos)"
     },
 
     "messages": {
@@ -544,7 +545,9 @@
         "intervalo_pequeno": "Você deve selecionar um intervalo de pelo menos 30 minutos",
         "horario_excluido_sucesso": "Horário excluído com sucesso",
         "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir",
-        "ver_agenda": "Ver Agenda"
+        "ver_agenda": "Ver Agenda",
+        "marcar_jogo": "Marcar partida com o participante ",
+        "partidas_agendadas": "Partidas Agendadas para Este Intervalo"
     },
 
     "generos": {

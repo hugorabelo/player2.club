@@ -1687,14 +1687,20 @@
             };
 
             $scope.eventClicked = function ($selectedEvent) {
-                vm.showEditarEvento($selectedEvent);
+                if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
+                    vm.showEditarEvento($selectedEvent);
+                } else {
+                    vm.showMarcarJogo($selectedEvent, idUsuario);
+                }
             };
 
             $scope.dateClick = function ($date) {
                 if (($date < new Date(vm.campeonato.dataInicio)) || ($date > new Date(vm.campeonato.dataFinal))) {
                     toastr.warning($filter('translate')('messages.evento_fora_do_prazo') + ": " + $filter('date')(new Date(vm.campeonato.dataInicio), 'dd/MM/yyyy') + " a " + $filter('date')(new Date(vm.campeonato.dataFinal), 'dd/MM/yyyy'));
                 } else {
-                    vm.showAdicionarEvento($date);
+                    if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
+                        vm.showAdicionarEvento($date);
+                    }
                 }
             };
 
@@ -1786,6 +1792,32 @@
                 .error(function (data) {
                     toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
                 });
+        };
+
+        vm.showMarcarJogo = function ($date, idUsuario) {
+            $scope.date = $date;
+
+            Usuario.show(idUsuario)
+                .success(function (data) {
+                    $scope.usuarioAgenda = data;
+                });
+
+            Agenda.getJogosMarcados($date.id)
+                .success(function (data) {
+                    $scope.partidasAgendadas = data;
+                    angular.forEach($scope.partidasAgendadas, function (agendamento) {
+                        agendamento.horario_inicio = new Date(agendamento.horario_inicio);
+                    });
+                });
+
+            $mdBottomSheet.show({
+                templateUrl: 'app/components/campeonato/agendamento/marcarJogo.html',
+                controller: 'CampeonatoController',
+                parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
+                disableParentScroll: true,
+                scope: $scope,
+                preserveScope: true
+            });
         };
 
 

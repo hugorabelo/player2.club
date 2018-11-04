@@ -33,6 +33,10 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
                 stringUsuario = '';
             }
             return $http.get('api/agenda/' + idCampeonato + stringUsuario);
+        },
+
+        getJogosMarcados: function (idEvento) {
+            return $http.get('api/agenda/marcados/' + idEvento);
         }
 
     }

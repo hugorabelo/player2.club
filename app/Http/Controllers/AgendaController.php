@@ -113,15 +113,27 @@ class AgendaController extends Controller
         }
 
         DB::table('agendamento_horario_disponivel')->where('id','=',$id)->update(array('hora_inicio'=>$hora_inicio, 'hora_fim'=>$hora_fim));
-
-        $input['hora_inicio'] = $hora_inicio;
-        $input['hora_fim'] = $hora_fim;
     }
 
     public function destroy($id)
     {
         DB::table('agendamento_horario_disponivel')->where('id','=',$id)->delete();
         return Response::json(array('success' => true));
+    }
+
+    public function getMarcados($idEvento) {
+        if($idEvento == 'undefined' || $idEvento == null) {
+            return null;
+        }
+
+        $eventos = DB::table('agendamento_marcacao')->where('horario_agendamento','=',$idEvento)->orderBy('horario_inicio')->get();
+
+        foreach ($eventos as $evento) {
+            $usuarioHost = User::find($evento->usuario_host);
+            $evento->usuarioHost = $usuarioHost;
+        }
+
+        return Response::json($eventos);
     }
 
 }

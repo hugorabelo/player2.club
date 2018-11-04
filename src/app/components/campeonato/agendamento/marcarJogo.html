@@ -1,0 +1,37 @@
+<md-bottom-sheet class="md-list md-has-header">
+    <md-subheader ng-cloak>{{'messages.marcar_jogo' | translate}} {{usuarioAgenda.nome}} - {{date.start | date : 'dd/MM/yyyy'}} ({{date.start | date : 'HH:mm'}} - {{date.end | date : 'HH:mm'}})</md-subheader>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>{{'fields.hora_inicio' | translate}}</label>
+            <input type="time" ng-model="evento.start" required>
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+            <label>{{'fields.duracao' | translate}}</label>
+            <input type="time" ng-model="evento.end" required>
+        </md-input-container>
+        <div>
+            <md-button class="md-raised md-primary" ng-click="vmCampeonato.editarEvento(evento)"><i class="material-icons">update</i> {{'fields.update' | translate}}</md-button>
+
+            <md-button class="md-raised md-warn" ng-click="vmCampeonato.excluirEvento(evento)"><i class="material-icons">delete_forever</i> {{'fields.delete' | translate}}</md-button>
+        </div>
+    </div>
+
+    <h5>{{'messages.partidas_agendadas' | translate}}</h5>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hora Início</th>
+                <th>Duração</th>
+                <th>Adversário</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="partida in partidasAgendadas">
+                <td>{{partida.horario_inicio | date : 'HH:mm'}}</td>
+                <td>{{partida.duracao}}</td>
+                <td class="col-xs-9">{{partida.usuarioHost.nome}}</td>
+            </tr>
+        </tbody>
+    </table>
+</md-bottom-sheet>
