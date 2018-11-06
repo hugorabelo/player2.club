@@ -1810,6 +1810,15 @@
                     });
                 });
 
+            var tempo_total_evento = ($scope.date.end - $scope.date.start) / 1000 / 60;
+
+            $scope.duracoes = [];
+            var i;
+            for (i = 30; i <= tempo_total_evento; i = i + 30) {
+                $scope.duracoes.push(i);
+            }
+
+
             $mdBottomSheet.show({
                 templateUrl: 'app/components/campeonato/agendamento/marcarJogo.html',
                 controller: 'CampeonatoController',

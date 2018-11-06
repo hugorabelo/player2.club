@@ -3,14 +3,18 @@
     <div layout="row">
         <md-input-container class="md-block" flex>
             <label>{{'fields.hora_inicio' | translate}}</label>
-            <input type="time" ng-model="evento.start" required>
+            <input type="time" ng-model="hora_inicio" required>
         </md-input-container>
         <md-input-container class="md-block" flex>
             <label>{{'fields.duracao' | translate}}</label>
-            <input type="time" ng-model="evento.end" required>
+            <md-select ng-model="tempo_duracao">
+                <md-option ng-repeat="duracao in duracoes" value="{{duracao}}">
+                    {{duracao}}
+                </md-option>
+            </md-select>
         </md-input-container>
         <div>
-            <md-button class="md-raised md-primary" ng-click="vmCampeonato.editarEvento(evento)"><i class="material-icons">update</i> {{'fields.update' | translate}}</md-button>
+            <md-button class="md-raised md-primary" ng-click="vmCampeonato.marcarJogo(evento)"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
 
             <md-button class="md-raised md-warn" ng-click="vmCampeonato.excluirEvento(evento)"><i class="material-icons">delete_forever</i> {{'fields.delete' | translate}}</md-button>
         </div>
