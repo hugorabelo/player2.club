@@ -20,7 +20,6 @@
         'ngScrollSpy',
         'bootstrapLightbox',
         'toastr',
-        'auth0.lock',
         'angular-jwt',
         'LocalStorageModule',
         'ng-sortable',
@@ -29,8 +28,12 @@
         'dndLists',
         'angular-intro',
         'mgo-angular-wizard',
-        'material.components.expansionPanels'
+        'material.components.expansionPanels',
+        'auth0.auth0'
     ]);
+
+    //'auth0.lock',
+
 
     //    angular.module('player2').config(function ($locationProvider) {
     //        $locationProvider.html5Mode(true);
@@ -163,7 +166,35 @@
         });
     });
 
-    angular.module('player2').config(['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
+    angular.module('player2').config(configAuth);
+
+    configAuth.$inject = [
+        '$locationProvider',
+        'angularAuth0Provider'
+    ];
+
+    function configAuth(
+        $locationProvider,
+        angularAuth0Provider
+    ) {
+        // Initialization for the angular-auth0 library
+        angularAuth0Provider.init({
+            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
+            domain: 'hugorabelo.auth0.com',
+            responseType: 'token id_token',
+            redirectUri: redirectUrlAmbiente,
+            scope: 'openid'
+        });
+
+        $locationProvider.hashPrefix('');
+
+        /// Comment out the line below to run the app
+        // without HTML5 mode (will use hashes in routes)
+        //$locationProvider.html5Mode(true);
+    };
+
+
+    /*angular.module('player2').config(['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
         lockProvider.init({
             clientID: clientIdAmbiente,
             domain: 'hugorabelo.auth0.com',
@@ -203,13 +234,15 @@
         // Add the jwtInterceptor to the array of HTTP interceptors
         // so that JWTs are attached as Authorization headers
         $httpProvider.interceptors.push('jwtInterceptor');
-    }]);
+    }]);*/
 
+    /*
     angular.module('player2').config(function (localStorageServiceProvider) {
         localStorageServiceProvider
             .setStorageType('sessionStorage')
             .setNotify(true, true)
             .setDefaultToCookie(false);
     });
+    */
 
 })();
