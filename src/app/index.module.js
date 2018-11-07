@@ -35,10 +35,6 @@
     //'auth0.lock',
 
 
-    //    angular.module('player2').config(function ($locationProvider) {
-    //        $locationProvider.html5Mode(true);
-    //    });
-
     //Ambiente: local | dev | beta | hugorabelo
     var ambiente = 'local';
     var apiUrlAmbiente;

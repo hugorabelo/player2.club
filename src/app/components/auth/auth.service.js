@@ -8,6 +8,8 @@
 
     authService.$inject = ['$state', 'angularAuth0', '$timeout'];
 
+    var userProfile;
+
     function authService($state, angularAuth0, $timeout) {
 
         function login() {
@@ -18,10 +20,11 @@
             angularAuth0.parseHash(function (err, authResult) {
                 if (authResult && authResult.accessToken && authResult.idToken) {
                     setSession(authResult);
+
                     $state.go('home');
                 } else if (err) {
                     $timeout(function () {
-                        $state.go('home');
+                        $state.go('login');
                     });
                     console.log(err);
                 }
@@ -41,6 +44,8 @@
             localStorage.removeItem('access_token');
             localStorage.removeItem('id_token');
             localStorage.removeItem('expires_at');
+
+            $state.go('login');
         }
 
         function isAuthenticated() {
@@ -50,11 +55,37 @@
             return new Date().getTime() < expiresAt;
         }
 
+
+
+        function getProfile(cb) {
+            var accessToken = localStorage.getItem('access_token');
+            if (!accessToken) {
+                throw new Error('Access Token must exist to fetch profile');
+            }
+            angularAuth0.client.userInfo(accessToken, function (err, profile) {
+                if (profile) {
+                    setUserProfile(profile);
+                }
+                cb(err, profile);
+            });
+        }
+
+        function setUserProfile(profile) {
+            userProfile = profile;
+        }
+
+        function getCachedProfile() {
+            return userProfile;
+        }
+
         return {
             login: login,
             handleAuthentication: handleAuthentication,
             logout: logout,
-            isAuthenticated: isAuthenticated
+            isAuthenticated: isAuthenticated,
+            getProfile: getProfile,
+            setUserProfile: setUserProfile,
+            getCachedProfile: getCachedProfile
         }
     }
 

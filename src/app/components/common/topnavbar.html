@@ -55,8 +55,11 @@
 
 
             <a ui-sref="profile({idUsuario: usuarioLogado.id})" layout="row" layout-align="center center">
-                <img class="img-circle img-xs m-t-xs" alt="image " ng-src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
                 <div class="nome-usuario">{{usuarioLogado.nome}}</div>
+                <div ng-controller="LoginController as vmAuth">
+                    <img class="img-circle img-xs m-t-xs" alt="image " ng-src="uploads/usuarios/{{vmAuth.profile.picture}} ">
+                    <div class="nome-usuario">{{vmAuth.profile.name}}</div>
+                </div>
             </a>
             <md-menu md-position-mode="target-right target" md-offset="-20 40">
                 <!--

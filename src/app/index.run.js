@@ -15,7 +15,7 @@
 
     angular
         .module('player2')
-        .run(run);
+        .run(runAuth);
 
     /*
     angular
@@ -59,11 +59,9 @@
         });
     }
 
+    runAuth.$inject = ['authService'];
 
-
-    run.$inject = ['authService'];
-
-    function run(authService) {
+    function runAuth(authService) {
         // Handle the authentication
         // result in the hash
         authService.handleAuthentication();
