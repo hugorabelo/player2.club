@@ -166,12 +166,16 @@
 
     configAuth.$inject = [
         '$locationProvider',
-        'angularAuth0Provider'
+        'angularAuth0Provider',
+        '$httpProvider',
+        'jwtOptionsProvider'
     ];
 
     function configAuth(
         $locationProvider,
-        angularAuth0Provider
+        angularAuth0Provider,
+        $httpProvider,
+        jwtOptionsProvider
     ) {
         // Initialization for the angular-auth0 library
         angularAuth0Provider.init({
@@ -182,41 +186,10 @@
             scope: 'openid'
         });
 
-        $locationProvider.hashPrefix('');
-
-        /// Comment out the line below to run the app
-        // without HTML5 mode (will use hashes in routes)
-        //$locationProvider.html5Mode(true);
-    };
-
-
-    /*angular.module('player2').config(['$httpProvider', 'lockProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', function ($httpProvider, lockProvider, jwtOptionsProvider, jwtInterceptorProvider) {
-        lockProvider.init({
-            clientID: clientIdAmbiente,
-            domain: 'hugorabelo.auth0.com',
-            options: {
-                auth: {
-                    params: {
-                        scope: 'openid email picture name picture_large'
-                    },
-                    redirectUrl: redirectUrlAmbiente,
-                    responseType: responseTypeAmbiente
-                },
-                theme: {
-                    logo: 'http://www.player2.club/img/player2_azul.png',
-                    primaryColor: "#0c486b"
-                },
-                languageDictionary: {
-                    title: "",
-                    forgotPasswordAction: "Esqueceu ou não tem senha?"
-                },
-                language: "pt-BR",
-                allowSignUp: false
-            }
-        });
-
-        // Configuration for angular-jwt
         jwtOptionsProvider.config({
+            /*tokenGetter: function () {
+                return localStorage.getItem('access_token');
+            },*/
             tokenGetter: ['options', function (options) {
                 if (options && options.url.indexOf('http://auth0.com') === 0) {
                     return localStorage.getItem('auth0.id_token');
@@ -227,18 +200,13 @@
             unauthenticatedRedirectPath: '/login'
         });
 
-        // Add the jwtInterceptor to the array of HTTP interceptors
-        // so that JWTs are attached as Authorization headers
         $httpProvider.interceptors.push('jwtInterceptor');
-    }]);*/
 
-    /*
-    angular.module('player2').config(function (localStorageServiceProvider) {
-        localStorageServiceProvider
-            .setStorageType('sessionStorage')
-            .setNotify(true, true)
-            .setDefaultToCookie(false);
-    });
-    */
+        $locationProvider.hashPrefix('');
+
+        /// Comment out the line below to run the app
+        // without HTML5 mode (will use hashes in routes)
+        //$locationProvider.html5Mode(true);
+    };
 
 })();

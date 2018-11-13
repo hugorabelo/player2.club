@@ -35,7 +35,6 @@
             $http.get('api/validaAutenticacao')
                 .then(function (result) {}, function (error) {
                     localStorage.removeItem('id_token');
-                    console.log('usuário não está logado');
                 });
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
@@ -66,35 +65,6 @@
         // result in the hash
         authService.handleAuthentication();
     }
-
-    /*
-
-    runAuth.$inject = ['$rootScope', '$window', 'authService', 'authManager', 'lock', 'localStorageService'];
-
-    function runAuth($rootScope, $window, authService, authManager, lock, localStorageService) {
-        // Register the synchronous hash parser
-        // when using UI Router
-        lock.interceptHash();
-
-        // Put the authService on $rootScope so its methods
-        // can be accessed from the nav bar
-        $rootScope.authService = authService;
-
-        // Register the authentication listener that is
-        // set up in auth.service.js
-        authService.registerAuthenticationListener();
-
-        // Use the authManager from angular-jwt to check for
-        // the user's authentication state when the page is
-        // refreshed and maintain authentication
-        authManager.checkAuthOnRefresh();
-
-        // Listen for 401 unauthorized requests and redirect
-        // the user to the login page
-        authManager.redirectWhenUnauthenticated();
-    }
-
-    */
 
     angular.module('player2')
         .factory('validacaoCustomizada', [
@@ -162,16 +132,5 @@
                 };
                     }
                 ]);
-
-    // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
-    //    angular.module('player2')
-    //        .run([
-    //                'validator',
-    //                'validacaoCustomizada',
-    //                function (validator, myCustomElementModifier) {
-    //                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
-    //                validator.setDefaultElementModifier(myCustomElementModifier.key);
-    //                }
-    //            ]);
 
 })();

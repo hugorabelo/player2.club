@@ -29,7 +29,6 @@
             } else {
                 authService.getProfile(function (err, profile) {
                     vm.profile = profile;
-                    console.log(profile);
                 });
             }
 

@@ -6,11 +6,11 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['$state', 'angularAuth0', '$timeout'];
+    authService.$inject = ['$state', 'angularAuth0', '$timeout', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter'];
 
     var userProfile;
 
-    function authService($state, angularAuth0, $timeout) {
+    function authService($state, angularAuth0, $timeout, $http, localStorageService, $rootScope, $mdDialog, $filter) {
 
         function login() {
             angularAuth0.authorize();
@@ -21,7 +21,21 @@
                 if (authResult && authResult.accessToken && authResult.idToken) {
                     setSession(authResult);
 
-                    $state.go('home');
+                    $http.get('api/validaAutenticacao')
+                        .then(function (result) {
+
+                            localStorageService.set('usuarioLogado', result.data);
+                            $rootScope.$broadcast('userProfileSet', userProfile);
+                            var previousState = localStorageService.get('previousState');
+                            var previousParams = localStorageService.get('previousParams');
+                            $state.go(previousState.name, previousParams);
+                        }, function (error) {
+                            localStorage.removeItem('id_token');
+                            showAlert();
+                        });
+
+                    //$state.go('home');
+
                 } else if (err) {
                     $timeout(function () {
                         $state.go('login');
@@ -60,7 +74,9 @@
         function getProfile(cb) {
             var accessToken = localStorage.getItem('access_token');
             if (!accessToken) {
-                throw new Error('Access Token must exist to fetch profile');
+                //throw new Error('Access Token must exist to fetch profile');
+                console.log('Access Token must exist to fetch profile');
+                return;
             }
             angularAuth0.client.userInfo(accessToken, function (err, profile) {
                 if (profile) {
@@ -76,70 +92,6 @@
 
         function getCachedProfile() {
             return userProfile;
-        }
-
-        return {
-            login: login,
-            handleAuthentication: handleAuthentication,
-            logout: logout,
-            isAuthenticated: isAuthenticated,
-            getProfile: getProfile,
-            setUserProfile: setUserProfile,
-            getCachedProfile: getCachedProfile
-        }
-    }
-
-    /*
-
-    authService.$inject = ['lock', 'authManager', '$http', '$rootScope', '$window', '$location', '$state', '$mdDialog', '$filter', 'localStorageService'];
-
-    function authService(lock, authManager, $http, $rootScope, $window, $location, $state, $mdDialog, $filter, localStorageService) {
-
-        var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
-
-        function login() {
-            //lock.show();
-            webAuth.authorize();
-        }
-
-        // Set up the logic for when a user authenticates
-        // This method is called from app.run.js
-        function registerAuthenticationListener() {
-            lock.on('authenticated', function (authResult) {
-                // Chamar um validaAutenticacao
-                localStorage.setItem('id_token', authResult.idToken);
-                $http.get('api/validaAutenticacao')
-                    .then(function (result) {
-                        authManager.authenticate();
-
-                        lock.getProfile(authResult.idToken, function (error, profile) {
-                            if (error) {
-                                console.log(error);
-                            }
-
-                            localStorage.setItem('profile', JSON.stringify(profile));
-                            localStorageService.set('usuarioLogado', result.data);
-                            $rootScope.$broadcast('userProfileSet', profile);
-                        });
-                        var previousState = localStorageService.get('previousState');
-                        var previousParams = localStorageService.get('previousParams');
-                        $state.go(previousState.name, previousParams);
-                    }, function (error) {
-                        localStorage.removeItem('id_token');
-                        showAlert();
-                    });
-            });
-
-        }
-
-        function logout() {
-            localStorage.removeItem('id_token');
-            localStorage.removeItem('profile');
-            localStorage.removeItem('usuarioLogado');
-            authManager.unauthenticate();
-            userProfile = {};
-            localStorageService.remove('usuarioLogado');
-            $location.path('/login');
         }
 
         function showAlert(ev) {
@@ -160,13 +112,14 @@
         };
 
         return {
-            userProfile: userProfile,
             login: login,
+            handleAuthentication: handleAuthentication,
             logout: logout,
-            registerAuthenticationListener: registerAuthenticationListener
+            isAuthenticated: isAuthenticated,
+            getProfile: getProfile,
+            setUserProfile: setUserProfile,
+            getCachedProfile: getCachedProfile
         }
     }
-    */
-
 
 })();
