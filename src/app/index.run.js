@@ -17,6 +17,10 @@
         .module('player2')
         .run(runAuth);
 
+    angular
+        .module('player2')
+        .run(redirecionaNaoLogado);
+
     /*
     angular
         .module('player2')
@@ -32,10 +36,10 @@
                 localStorageService.set('previousState', fromState);
                 localStorageService.set('previousParams', fromParam);
             }
-            $http.get('api/validaAutenticacao')
+            /*$http.get('api/validaAutenticacao')
                 .then(function (result) {}, function (error) {
                     localStorage.removeItem('id_token');
-                });
+                });*/
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
             }
@@ -64,6 +68,12 @@
         // Handle the authentication
         // result in the hash
         authService.handleAuthentication();
+    }
+
+    redirecionaNaoLogado.$inject = ['authManager'];
+
+    function redirecionaNaoLogado(authManager) {
+        authManager.redirectWhenUnauthenticated();
     }
 
     angular.module('player2')

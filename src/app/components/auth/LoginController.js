@@ -24,13 +24,13 @@
 
 
 
-            if (authService.getCachedProfile()) {
+            /*if (authService.getCachedProfile()) {
                 vm.profile = authService.getCachedProfile();
             } else {
                 authService.getProfile(function (err, profile) {
                     vm.profile = profile;
                 });
-            }
+            }*/
 
 
     }]);
