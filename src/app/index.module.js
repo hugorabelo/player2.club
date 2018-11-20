@@ -183,7 +183,7 @@
             domain: 'hugorabelo.auth0.com',
             responseType: 'token id_token',
             redirectUri: redirectUrlAmbiente,
-            scope: 'openid'
+            scope: 'openid profile'
         });
 
         jwtOptionsProvider.config({
