@@ -2,8 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$state', '$window', '$element', '$timeout', 'toastr', 'localStorageService', 'ngIntroService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler', 'Tutorial',
-        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $state, $window, $element, $timeout, toastr, localStorageService, ngIntroService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler, Tutorial) {
+    angular.module('player2').controller('HomeController', ['$scope', '$rootScope', '$mdDialog', '$translate', '$location', '$q', '$mdSidenav', '$stateParams', '$filter', '$interval', '$state', '$window', '$element', '$timeout', '$http', 'toastr', 'localStorageService', 'ngIntroService', 'authService', 'Usuario', 'Campeonato', 'CampeonatoUsuario', 'UserPlataforma', 'Plataforma', 'Jogo', 'NotificacaoEvento', 'WizardHandler', 'Tutorial',
+        function ($scope, $rootScope, $mdDialog, $translate, $location, $q, $mdSidenav, $stateParams, $filter, $interval, $state, $window, $element, $timeout, $http, toastr, localStorageService, ngIntroService, authService, Usuario, Campeonato, CampeonatoUsuario, UserPlataforma, Plataforma, Jogo, NotificacaoEvento, WizardHandler, Tutorial) {
             var vm = this;
 
             $translate(['messages.confirma_exclusao', 'messages.yes', 'messages.no', 'messages.confirma_desistir_campeonato', 'messages.inscrever_titulo', 'messages.inscrever']).then(function (translations) {
@@ -15,15 +15,15 @@
                 vm.textoInscrever = translations['messages.inscrever'];
             });
 
+
             $scope.$on('userProfileSet', function () {
-                vm.inicializa();
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
+                vm.inicializa();
             });
 
             vm.inicializa = function () {
-                var usuarioLogado = localStorageService.get('usuarioLogado');
-                if (usuarioLogado !== null) {
-                    vm.idUsuario = usuarioLogado.id;
+                if ($rootScope.usuarioLogado !== null) {
+                    vm.idUsuario = $rootScope.usuarioLogado.id;
                     Usuario.show(vm.idUsuario)
                         .success(function (data) {
                             vm.usuario = data;
@@ -34,8 +34,6 @@
                         });
                 }
             };
-
-
 
             vm.getCampeonatosDisponiveis = function () {
                 vm.userCampeonatosDisponiveis = {};
@@ -453,22 +451,26 @@
             vm.tutorialInicial = true;
 
             if (vm.tutorialInicial) {
-                Tutorial.getVisualizado($state.current.name)
-                    .success(function (resultado) {
-                        if (resultado === 0) {
-                            vm.exibeTutorial($state.current.name, $rootScope.telaMobile);
-                        }
-                    });
-                vm.tutorialInicial = false;
+                if (authService.isAuthenticated()) {
+                    Tutorial.getVisualizado($state.current.name)
+                        .success(function (resultado) {
+                            if (resultado === 0) {
+                                vm.exibeTutorial($state.current.name, $rootScope.telaMobile);
+                            }
+                        });
+                    vm.tutorialInicial = false;
+                }
             }
 
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
-                Tutorial.getVisualizado($state.current.name)
-                    .success(function (resultado) {
-                        if (resultado === 0) {
-                            vm.exibeTutorial(toState.name, $rootScope.telaMobile);
-                        }
-                    });
+                if (authService.isAuthenticated()) {
+                    Tutorial.getVisualizado($state.current.name)
+                        .success(function (resultado) {
+                            if (resultado === 0) {
+                                vm.exibeTutorial(toState.name, $rootScope.telaMobile);
+                            }
+                        });
+                }
             });
 
 
@@ -635,5 +637,5 @@
 
             }
 
-        }]);
+                    }]);
 }());

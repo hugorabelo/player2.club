@@ -17,7 +17,17 @@
         .module('player2')
         .run(runAuth);
 
-    function mudaState($rootScope, $state, $window, $http, localStorageService, lock) {
+    angular
+        .module('player2')
+        .run(redirecionaNaoLogado);
+
+    /*
+    angular
+        .module('player2')
+        .run(runAuth);
+        */
+
+    function mudaState($rootScope, $state, $window, $http, localStorageService) {
         $rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
@@ -26,16 +36,10 @@
                 localStorageService.set('previousState', fromState);
                 localStorageService.set('previousParams', fromParam);
             }
-            $http.get('api/validaAutenticacao')
-                .then(function (result) {
-                    lock.getProfile(localStorage.getItem('idToken'), function (error, profile) {
-                        localStorageService.set('usuarioLogado', result.data);
-                        $rootScope.$broadcast('userProfileSet', profile);
-                    });
-                }, function (error) {
+            /*$http.get('api/validaAutenticacao')
+                .then(function (result) {}, function (error) {
                     localStorage.removeItem('id_token');
-                    console.log('usuário não está logado');
-                });
+                });*/
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
             }
@@ -58,28 +62,17 @@
         });
     }
 
-    runAuth.$inject = ['$rootScope', '$window', 'authService', 'authManager', 'lock', 'localStorageService'];
+    runAuth.$inject = ['authService'];
 
-    function runAuth($rootScope, $window, authService, authManager, lock, localStorageService) {
-        // Register the synchronous hash parser
-        // when using UI Router
-        lock.interceptHash();
+    function runAuth(authService) {
+        // Handle the authentication
+        // result in the hash
+        authService.handleAuthentication();
+    }
 
-        // Put the authService on $rootScope so its methods
-        // can be accessed from the nav bar
-        $rootScope.authService = authService;
+    redirecionaNaoLogado.$inject = ['authManager'];
 
-        // Register the authentication listener that is
-        // set up in auth.service.js
-        authService.registerAuthenticationListener();
-
-        // Use the authManager from angular-jwt to check for
-        // the user's authentication state when the page is
-        // refreshed and maintain authentication
-        authManager.checkAuthOnRefresh();
-
-        // Listen for 401 unauthorized requests and redirect
-        // the user to the login page
+    function redirecionaNaoLogado(authManager) {
         authManager.redirectWhenUnauthenticated();
     }
 
@@ -87,16 +80,16 @@
         .factory('validacaoCustomizada', [
                     function () {
                 var
-                /**
-                 * @ngdoc function
-                 * @name myCustomElementModifier#makeValid
-                 * @methodOf myCustomElementModifier
-                 *
-                 * @description
-                 * Makes an element appear valid by apply custom styles and child elements.
-                 *
-                 * @param {Element} el - The input control element that is the target of the validation.
-                 */
+                    /**
+                     * @ngdoc function
+                     * @name myCustomElementModifier#makeValid
+                     * @methodOf myCustomElementModifier
+                     *
+                     * @description
+                     * Makes an element appear valid by apply custom styles and child elements.
+                     *
+                     * @param {Element} el - The input control element that is the target of the validation.
+                     */
                     makeValid = function (el) {
                         // do some code here...
                     },
@@ -149,16 +142,5 @@
                 };
                     }
                 ]);
-
-    // now register the custom element modifier with the auto-validate module and set it as the default one for all elements
-    //    angular.module('player2')
-    //        .run([
-    //                'validator',
-    //                'validacaoCustomizada',
-    //                function (validator, myCustomElementModifier) {
-    //                validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
-    //                validator.setDefaultElementModifier(myCustomElementModifier.key);
-    //                }
-    //            ]);
 
 })();

@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', '$window', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, $window, Auth, Usuario, Atividade) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', '$window', 'authService', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, $window, authService, Auth, Usuario, Atividade) {
 
         var vm = this;
 
@@ -125,19 +125,21 @@
             if (tipo != undefined) {
                 tipo = 'lidas';
             }
-            Usuario.getNotificacoes(tipo)
-                .success(function (data) {
-                    vm.notificacoesUsuario = data;
-                    vm.quantidadeNotificacoesNaoLidas = 0;
-                    angular.forEach(vm.notificacoesUsuario, function (notificacao) {
-                        if (notificacao.nome_fase != null && notificacao.nome_fase != undefined) {
-                            notificacao.nome_fase = $filter('translate')(notificacao.nome_fase);
-                        }
-                        if (!notificacao.lida) {
-                            vm.quantidadeNotificacoesNaoLidas++;
-                        }
+            if (authService.isAuthenticated()) {
+                Usuario.getNotificacoes(tipo)
+                    .success(function (data) {
+                        vm.notificacoesUsuario = data;
+                        vm.quantidadeNotificacoesNaoLidas = 0;
+                        angular.forEach(vm.notificacoesUsuario, function (notificacao) {
+                            if (notificacao.nome_fase != null && notificacao.nome_fase != undefined) {
+                                notificacao.nome_fase = $filter('translate')(notificacao.nome_fase);
+                            }
+                            if (!notificacao.lida) {
+                                vm.quantidadeNotificacoesNaoLidas++;
+                            }
+                        });
                     });
-                });
+            }
         };
 
         vm.exibeDetalhesNotificacao = function (notificacao) {
@@ -181,22 +183,29 @@
             vm.getConversasDoUsuario();
         });
 
+        $scope.$on('userProfileSet', function () {
+            vm.getNotificacoesDoUsuario();
+            vm.getConversasDoUsuario();
+        });
+
         vm.exibeData = function (data) {
             var dataExibida = moment(data, "YYYY-MM-DD HH:mm:ss").toDate();
             return $filter('date')(dataExibida, 'dd/MM/yyyy HH:mm');
         };
 
         vm.getConversasDoUsuario = function () {
-            Usuario.getConversas()
-                .success(function (data) {
-                    vm.conversasUsuario = data;
-                    vm.quantidadeMensagensNaoLidas = 0;
-                    angular.forEach(vm.conversasUsuario, function (conversa) {
-                        if (conversa.nao_lidas > 0) {
-                            vm.quantidadeMensagensNaoLidas += conversa.nao_lidas;
-                        }
+            if (authService.isAuthenticated()) {
+                Usuario.getConversas()
+                    .success(function (data) {
+                        vm.conversasUsuario = data;
+                        vm.quantidadeMensagensNaoLidas = 0;
+                        angular.forEach(vm.conversasUsuario, function (conversa) {
+                            if (conversa.nao_lidas > 0) {
+                                vm.quantidadeMensagensNaoLidas += conversa.nao_lidas;
+                            }
+                        });
                     });
-                });
+            }
         };
 
 
