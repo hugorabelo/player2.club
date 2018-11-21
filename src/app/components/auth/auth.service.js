@@ -59,6 +59,9 @@
             localStorage.removeItem('id_token');
             localStorage.removeItem('expires_at');
 
+            userProfile = {};
+            localStorageService.remove('usuarioLogado');
+
             $state.go('login');
         }
 
