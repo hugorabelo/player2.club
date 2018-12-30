@@ -6,6 +6,8 @@ use App\Http\Requests;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Collection;
+
 class AgendaController extends Controller
 {
     /**
@@ -15,9 +17,8 @@ class AgendaController extends Controller
      */
     protected $comentario;
 
-    public function __construct(User $agenda)
+    public function __construct()
     {
-        $this->agenda = $agenda;
     }
 
     public function index() {
@@ -134,6 +135,62 @@ class AgendaController extends Controller
         }
 
         return Response::json($eventos);
+    }
+
+    public function listaHorarios($idCampeonato, $idUsuario, $data = null) {
+        if($idCampeonato == 'undefined' || $idCampeonato == null) {
+            return null;
+        }
+
+        $userCampeonato = new CampeonatoUsuario();
+
+        if(!isset($idUsuario)) {
+            return null;
+        }
+
+        $userCampeonato = $userCampeonato->getID($idUsuario, $idCampeonato);
+
+        $listaHorarios = new Collection();
+
+        $horariosDisponiveis = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->orderBy('data')->orderBy('hora_inicio')->get();
+        foreach ($horariosDisponiveis as $horario) {
+            $item = $listaHorarios->get($horario->data);
+            if ($item == null) {
+                $item = new Collection();
+            }
+
+            $eventosMarcados = DB::table('agendamento_marcacao')->where('horario_agendamento','=',$horario->id)->orderBy('horario_inicio')->get();
+
+            $horaIterator = Carbon::parse($horario->hora_inicio);
+
+            foreach ($eventosMarcados as $evento) {
+                if($evento->usuario_host == $idUsuario) {
+                    $adversario = $evento->usuario_convidado;
+                } else {
+                    $adversario = $evento->usuario_host;
+                }
+                if($evento->horario_inicio == $horaIterator) {
+                    $horaIterator->addMinutes($evento->duracao);
+                    $intervalo = array('ocupado', $adversario, $evento->horario_inicio, $horaIterator->format('Y-m-d H:i:s'));
+                    $item->push($intervalo);
+                } else {
+                    $intervalo = array('livre', 0, $horaIterator->format('Y-m-d H:i:s'), $evento->horario_inicio);
+                    $item->push($intervalo);
+                    $horaIterator = Carbon::parse($evento->horario_inicio);
+
+                    $horaIterator->addMinutes($evento->duracao);
+                    $intervalo = array('ocupado', $adversario, $evento->horario_inicio, $horaIterator->format('Y-m-d H:i:s'));
+                    $item->push($intervalo);
+                }
+            }
+            if($horaIterator < Carbon::parse($horario->hora_fim)) {
+                $intervalo = array('livre', 0, $horaIterator->format('Y-m-d H:i:s'), $horario->hora_fim);
+                $item->push($intervalo);
+            }
+            $listaHorarios->put($horario->data, $item);
+        }
+
+        return $listaHorarios;
     }
 
 }

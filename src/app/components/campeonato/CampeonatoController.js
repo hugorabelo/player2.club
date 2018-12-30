@@ -1830,6 +1830,72 @@
         };
 
 
+        vm.agendarPartida = function (ev, partida) {
+            var anonimo = false;
+            angular.forEach(partida.usuarios, function (usuarioDaPartida) {
+                if (usuarioDaPartida.anonimo_id != null) {
+                    toastr.warning($filter('translate')('messages.usuario_anonimo_sem_agenda'));
+                    anonimo = true;
+                }
+            });
+            if (!anonimo) {
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: 'messages.exibir_agenda',
+                            partida: partida
+                        },
+                        controller: DialogControllerAgendarPartida,
+                        templateUrl: 'app/components/campeonato/agendamento/agendaAdversario.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            }
+
+        };
+
+        function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida) {
+            console.log(partida)
+            //vm.carregarEventos(idUsuario);
+
+            $scope.$on('carregou_eventos', function (evt, data) {
+                $scope.materialEvents = vm.eventos;
+            });
+
+
+            $scope.tituloModal = tituloModal;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.eventClicked = function ($selectedEvent) {
+                if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
+                    vm.showEditarEvento($selectedEvent);
+                } else {
+                    vm.showMarcarJogo($selectedEvent, idUsuario);
+                }
+            };
+
+            $scope.dateClick = function ($date) {
+                if (($date < new Date(vm.campeonato.dataInicio)) || ($date > new Date(vm.campeonato.dataFinal))) {
+                    toastr.warning($filter('translate')('messages.evento_fora_do_prazo') + ": " + $filter('date')(new Date(vm.campeonato.dataInicio), 'dd/MM/yyyy') + " a " + $filter('date')(new Date(vm.campeonato.dataFinal), 'dd/MM/yyyy'));
+                } else {
+                    if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
+                        vm.showAdicionarEvento($date);
+                    }
+                }
+            };
+
+        };
+
+
     }]);
 
 }());

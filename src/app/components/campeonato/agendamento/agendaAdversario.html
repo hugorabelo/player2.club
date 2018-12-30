@@ -1,0 +1,18 @@
+<md-dialog aria-label="{{tituloModal | translate}}" flex="60" class="content-agenda">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-subheader ng-cloak>{{'messages.agenda_intro' | translate}}</md-subheader>
+                <md-calendar ng-model="ctrl.startDate"></md-calendar>
+            </div>
+
+        </md-dialog-content>
+
+    </form>
+</md-dialog>

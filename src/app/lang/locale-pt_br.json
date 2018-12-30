@@ -547,7 +547,8 @@
         "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir",
         "ver_agenda": "Ver Agenda",
         "marcar_jogo": "Marcar partida com o participante ",
-        "partidas_agendadas": "Partidas Agendadas para Este Intervalo"
+        "partidas_agendadas": "Partidas Agendadas para Este Intervalo",
+        "usuario_anonimo_sem_agenda": "O seu adversário é um usuário sem cadastro, por isso, ele não possui agenda"
     },
 
     "generos": {
