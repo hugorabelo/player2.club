@@ -37,6 +37,21 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
 
         getJogosMarcados: function (idEvento) {
             return $http.get('api/agenda/marcados/' + idEvento);
+        },
+
+        listaAgenda: function (idCampeonato, idUsuario) {
+            return $http.get('api/agenda/listaHorarios/' + idCampeonato + '/' + idUsuario);
+        },
+
+        agendarPartida: function (agendamento) {
+            return $http({
+                method: 'POST',
+                url: 'api/agenda/agendarPartida',
+                data: $.param(agendamento),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

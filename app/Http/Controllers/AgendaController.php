@@ -164,27 +164,29 @@ class AgendaController extends Controller
             $horaIterator = Carbon::parse($horario->hora_inicio);
 
             foreach ($eventosMarcados as $evento) {
+                $horarioInicio = Carbon::parse($evento->horario_inicio);
                 if($evento->usuario_host == $idUsuario) {
-                    $adversario = $evento->usuario_convidado;
+                    $adversario = User::find($evento->usuario_convidado);
                 } else {
-                    $adversario = $evento->usuario_host;
+                    $adversario = User::find($evento->usuario_host);
                 }
                 if($evento->horario_inicio == $horaIterator) {
                     $horaIterator->addMinutes($evento->duracao);
-                    $intervalo = array('ocupado', $adversario, $evento->horario_inicio, $horaIterator->format('Y-m-d H:i:s'));
+                    $intervalo = array('ocupado', $adversario, $horarioInicio->format('H:i'), $horaIterator->format('H:i'), $horario->id);
                     $item->push($intervalo);
                 } else {
-                    $intervalo = array('livre', 0, $horaIterator->format('Y-m-d H:i:s'), $evento->horario_inicio);
+                    $intervalo = array('livre', 0, $horaIterator->format('H:i'), $horarioInicio->format('H:i'), $horario->id);
                     $item->push($intervalo);
-                    $horaIterator = Carbon::parse($evento->horario_inicio);
+                    $horaIterator = Carbon::parse($horarioInicio->format('H:i'));
 
                     $horaIterator->addMinutes($evento->duracao);
-                    $intervalo = array('ocupado', $adversario, $evento->horario_inicio, $horaIterator->format('Y-m-d H:i:s'));
+                    $intervalo = array('ocupado', $adversario, $horarioInicio->format('H:i'), $horaIterator->format('H:i'), $horario->id);
                     $item->push($intervalo);
                 }
             }
             if($horaIterator < Carbon::parse($horario->hora_fim)) {
-                $intervalo = array('livre', 0, $horaIterator->format('Y-m-d H:i:s'), $horario->hora_fim);
+                $horarioFim = Carbon::parse($horario->hora_fim);
+                $intervalo = array('livre', 0, $horaIterator->format('H:i'), $horarioFim->format('H:i'), $horario->id);
                 $item->push($intervalo);
             }
             $listaHorarios->put($horario->data, $item);
@@ -192,5 +194,30 @@ class AgendaController extends Controller
 
         return $listaHorarios;
     }
+
+    public function agendarPartida() {
+        $input = Input::except(array('idCampeonato'));
+
+        $input['status'] = 0;
+
+        /*
+         * 1. Verificar se já existe um agendamento para a partida
+         * 2. Verificar se o horário é um horário disponibilizado pelo convidado
+         * 3. Verificar se o horário está livre dentro do campeonato
+         * 4. Verificar se o horário está livre em qualquer campeonato
+         */
+
+        DB::table('agendamento_marcacao')->insert($input);
+
+    }
+
+    /*
+     * Status Agendamento
+     * 0: Status Inicial
+     * 1: Confirmado o convite
+     * 2: Rejeitado o convite
+     * 4: Cancelado (após confirmado)
+     * 5: Não realizado
+     */
 
 }

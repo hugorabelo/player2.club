@@ -1606,8 +1606,6 @@
                             toastr.success($filter('translate')('messages.sucesso_associacao'));
                         })
                         .error(function (data) {
-                            console.log(data);
-
                             toastr.error($filter('translate')(data.errors));
                         });
                     $mdDialog.hide();
@@ -1861,37 +1859,71 @@
         };
 
         function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida) {
-            console.log(partida)
-            //vm.carregarEventos(idUsuario);
+            var idUsuario;
+            var podeIr = true;
 
-            $scope.$on('carregou_eventos', function (evt, data) {
-                $scope.materialEvents = vm.eventos;
+            angular.forEach(partida.usuarios, function (usuarioDaPartida) {
+                if (podeIr) {
+                    if (usuarioDaPartida.users_id != $rootScope.usuarioLogado.id) {
+                        idUsuario = usuarioDaPartida.users_id;
+                        podeIr = false;
+                    }
+                }
             });
+
+            Agenda.listaAgenda(vm.campeonato.id, idUsuario)
+                .success(function (data) {
+                    $scope.listaHorarios = data;
+                });
+
 
 
             $scope.tituloModal = tituloModal;
+            $scope.partida = partida;
 
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
 
-            $scope.eventClicked = function ($selectedEvent) {
-                if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
-                    vm.showEditarEvento($selectedEvent);
-                } else {
-                    vm.showMarcarJogo($selectedEvent, idUsuario);
-                }
+            $scope.marcarJogo = function (data, horario) {
+                $mdSidenav('right')
+                    .toggle()
+                    .then(function () {
+                        $scope.dataAgendamento = data;
+                        $scope.intervaloAgendamento = horario;
+                        $scope.campeonato = vm.campeonato;
+                        $scope.intervalosDisponiveis = [];
+                        var horarioInicio = moment(horario[2], "HH:mm");
+                        var horarioFim = moment(horario[3], 'HH:mm');
+                        while (horarioInicio < horarioFim) {
+                            $scope.intervalosDisponiveis.push(horarioInicio.format('HH:mm'));
+                            horarioInicio = horarioInicio.add(30, 'minutes');
+                        }
+                    });
             };
 
-            $scope.dateClick = function ($date) {
-                if (($date < new Date(vm.campeonato.dataInicio)) || ($date > new Date(vm.campeonato.dataFinal))) {
-                    toastr.warning($filter('translate')('messages.evento_fora_do_prazo') + ": " + $filter('date')(new Date(vm.campeonato.dataInicio), 'dd/MM/yyyy') + " a " + $filter('date')(new Date(vm.campeonato.dataFinal), 'dd/MM/yyyy'));
-                } else {
-                    if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
-                        vm.showAdicionarEvento($date);
-                    }
-                }
-            };
+            $scope.atualizaHoraFinal = function () {
+                $scope.horaFinalAgendamento = moment($scope.horaInicioAgendamento, "HH:mm").add(30, 'minutes').format('HH:mm');
+            }
+
+
+            $scope.salvarAgendamento = function () {
+                var marcacao = {};
+                marcacao.horario_agendamento = $scope.intervaloAgendamento[4];
+                marcacao.partidas_id = $scope.partida.id;
+                marcacao.usuario_host = $rootScope.usuarioLogado.id;
+                marcacao.usuario_convidado = idUsuario;
+                marcacao.horario_inicio = moment($scope.dataAgendamento + ' ' + $scope.horaInicioAgendamento).format('YYYY-MM-DD HH:mm:ss');
+                marcacao.duracao = 30;
+
+                Agenda.agendarPartida(marcacao)
+                    .sucess(function (data) {
+                        //atualizar lista de horarios
+                    })
+                    .error(function (error) {
+                        // exibir mensagem de erro
+                    });
+            }
 
         };
 

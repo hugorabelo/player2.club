@@ -108,9 +108,7 @@
             return function () {
                 $mdSidenav(navID)
                     .toggle()
-                    .then(function () {
-                        //                        console.log("toggle " + navID + " is done");
-                    });
+                    .then(function () {});
             };
         };
 

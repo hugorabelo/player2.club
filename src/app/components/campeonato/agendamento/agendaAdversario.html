@@ -9,7 +9,61 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <md-subheader ng-cloak>{{'messages.agenda_intro' | translate}}</md-subheader>
-                <md-calendar ng-model="ctrl.startDate"></md-calendar>
+                <div layout="row">
+                    <md-calendar ng-model="ctrl.startDate"></md-calendar>
+                    <div class="lista-dias" flex>
+                        <div ng-repeat="(data, horario) in listaHorarios" class="linha-dia" layout="row">
+                            <div class="dia-mes">
+                                <div class="dia-semana">{{data | date: 'EEE' | uppercase | translate}}</div>{{data | date: 'dd'}}
+                            </div>
+                            <div class="horarios-dia" flex>
+                                <div ng-repeat="janela in horario">
+                                    <div class="agenda-livre" ng-if="janela[0] == 'livre'" ng-click="marcarJogo(data, janela)">
+                                        {{janela[2] | date: 'HH'}} - {{janela[3] | date: 'HH:mm'}}
+                                        <span>{{'messages.agenda_livre' | translate}}</span>
+                                    </div>
+                                    <div class="agenda-ocupado" ng-if="janela[0] == 'ocupado'">
+                                        {{janela[2] | date: 'HH'}} - {{janela[3] | date: 'HH:mm'}}
+                                        <span>{{'messages.agenda_jogo_contra' | translate}} {{janela[1].nome}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="right">
+
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'fields.agendar_partida' | translate}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <h2 ng-if="partida.usuarios.length == 2">
+                            {{partida.usuarios[0].nome}} X {{partida.usuarios[1].nome}}
+                        </h2>
+                        <h4>
+                            {{campeonato.descricao}} - {{partida.rodada}}{{'messages.rodada' | translate}}
+                        </h4>
+                        <h5>
+                            {{dataAgendamento | date: 'dd/MM/yyyy'}} {{intervaloAgendamento[2]}} - {{intervaloAgendamento[3]}}
+                        </h5>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="agendamento-hora-inicio">{{'fields.hora_inicio' | translate}}</label>
+                            <md-select ng-model="horaInicioAgendamento" ng-change="atualizaHoraFinal()">
+                                <md-option ng-repeat="hora in intervalosDisponiveis" value="{{hora}}">
+                                    {{hora}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <h4 ng-if="horaFinalAgendamento">
+                            {{'fields.hora_fim' | translate}}: {{horaFinalAgendamento}}
+                        </h4>
+
+                        <md-button class="md-raised md-primary" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                    </md-content>
+
+                </md-sidenav>
             </div>
 
         </md-dialog-content>

@@ -173,7 +173,8 @@
 
         "hora_inicio": "Hora de Início",
         "hora_fim": "Hora de Término",
-        "duracao": "Duração (minutos)"
+        "duracao": "Duração (minutos)",
+        "agendar_partida": "Agendar Partida"
     },
 
     "messages": {
@@ -548,7 +549,9 @@
         "ver_agenda": "Ver Agenda",
         "marcar_jogo": "Marcar partida com o participante ",
         "partidas_agendadas": "Partidas Agendadas para Este Intervalo",
-        "usuario_anonimo_sem_agenda": "O seu adversário é um usuário sem cadastro, por isso, ele não possui agenda"
+        "usuario_anonimo_sem_agenda": "O seu adversário é um usuário sem cadastro, por isso, ele não possui agenda",
+        "agenda_jogo_contra": "Jogo contra ",
+        "agenda_livre": "Horário Livre"
     },
 
     "generos": {
