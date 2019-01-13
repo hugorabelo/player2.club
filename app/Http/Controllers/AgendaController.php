@@ -177,7 +177,7 @@ class AgendaController extends Controller
                 } else {
                     $intervalo = array('livre', 0, $horaIterator->format('H:i'), $horarioInicio->format('H:i'), $horario->id);
                     $item->push($intervalo);
-                    $horaIterator = Carbon::parse($horarioInicio->format('H:i'));
+                    $horaIterator = Carbon::parse($horarioInicio);
 
                     $horaIterator->addMinutes($evento->duracao);
                     $intervalo = array('ocupado', $adversario, $horarioInicio->format('H:i'), $horaIterator->format('H:i'), $horario->id);

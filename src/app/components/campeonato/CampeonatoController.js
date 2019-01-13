@@ -1917,8 +1917,12 @@
                 marcacao.duracao = 30;
 
                 Agenda.agendarPartida(marcacao)
-                    .sucess(function (data) {
-                        //atualizar lista de horarios
+                    .success(function (data) {
+                        Agenda.listaAgenda(vm.campeonato.id, idUsuario)
+                            .success(function (data) {
+                                $scope.listaHorarios = data;
+                            });
+                        $mdSidenav('right').close()
                     })
                     .error(function (error) {
                         // exibir mensagem de erro
