@@ -381,6 +381,7 @@
         "sucesso_cancelar_placar": "Placar cancelado com sucesso",
         "sucesso_contestacao_solicitada": "Contestação cadastrada com sucesso",
 
+        "operacao_invalida": "Operação Inválida",
         "dados_invalidos": "Dados Inválidos",
         "preencher_campos": "Você deve preencher todos os campos",
         "operacao_nao_concluida": "A operação não foi concluída",
@@ -551,7 +552,13 @@
         "partidas_agendadas": "Partidas Agendadas para Este Intervalo",
         "usuario_anonimo_sem_agenda": "O seu adversário é um usuário sem cadastro, por isso, ele não possui agenda",
         "agenda_jogo_contra": "Jogo contra ",
-        "agenda_livre": "Horário Livre"
+        "agenda_livre": "Horário Livre",
+        "existe_agendamento_partida": "Já existe um agendamento para esta partida. Verifique na sua agenda ou confirme se escolheu a partida correta.",
+        "nao_existe_horario_disponivel": "O seu adversário não disponibilizou este horário para o campeonato. Verifique os dados e tente novamente",
+        "horario_convidado_indisponivel_campeonato": "O seu adversário já marcou alguma partida do campeonato neste horário. Tente outro horário.",
+        "horario_convidado_indisponivel_geral": "O seu adversário marcou uma partida no mesmo horário para outro campeonato. Tente outro horário.",
+        "horario_host_indisponivel_campeonato": "Você já possui uma partida deste campeonato agendada no mesmo horário. Tente outro horário.",
+        "horario_host_indisponivel_geral": "Você já possui uma partida agendada de outro campeonato agendada no mesmo horário. Tente outro horário"
     },
 
     "generos": {

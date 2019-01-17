@@ -1893,8 +1893,8 @@
                         $scope.intervaloAgendamento = horario;
                         $scope.campeonato = vm.campeonato;
                         $scope.intervalosDisponiveis = [];
-                        var horarioInicio = moment(horario[2], "HH:mm");
-                        var horarioFim = moment(horario[3], 'HH:mm');
+                        var horarioInicio = moment(horario.hora_inicio, "HH:mm");
+                        var horarioFim = moment(horario.hora_fim, 'HH:mm');
                         while (horarioInicio < horarioFim) {
                             $scope.intervalosDisponiveis.push(horarioInicio.format('HH:mm'));
                             horarioInicio = horarioInicio.add(30, 'minutes');
@@ -1904,17 +1904,17 @@
 
             $scope.atualizaHoraFinal = function () {
                 $scope.horaFinalAgendamento = moment($scope.horaInicioAgendamento, "HH:mm").add(30, 'minutes').format('HH:mm');
-            }
+            };
 
 
             $scope.salvarAgendamento = function () {
                 var marcacao = {};
-                marcacao.horario_agendamento = $scope.intervaloAgendamento[4];
                 marcacao.partidas_id = $scope.partida.id;
                 marcacao.usuario_host = $rootScope.usuarioLogado.id;
                 marcacao.usuario_convidado = idUsuario;
                 marcacao.horario_inicio = moment($scope.dataAgendamento + ' ' + $scope.horaInicioAgendamento).format('YYYY-MM-DD HH:mm:ss');
                 marcacao.duracao = 30;
+                marcacao.campeonato_id = vm.campeonato.id;
 
                 Agenda.agendarPartida(marcacao)
                     .success(function (data) {
@@ -1925,9 +1925,13 @@
                         $mdSidenav('right').close()
                     })
                     .error(function (error) {
-                        // exibir mensagem de erro
+                        toastr.error($filter('translate')(error.error), $filter('translate')('messages.operacao_invalida'));
                     });
-            }
+            };
+
+            $scope.closeSide = function () {
+                $mdSidenav('right').close()
+            };
 
         };
 

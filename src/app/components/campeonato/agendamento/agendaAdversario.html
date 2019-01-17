@@ -18,13 +18,17 @@
                             </div>
                             <div class="horarios-dia" flex>
                                 <div ng-repeat="janela in horario">
-                                    <div class="agenda-livre" ng-if="janela[0] == 'livre'" ng-click="marcarJogo(data, janela)">
-                                        {{janela[2] | date: 'HH'}} - {{janela[3] | date: 'HH:mm'}}
+                                    <div class="agenda-livre" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
+                                        {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
                                         <span>{{'messages.agenda_livre' | translate}}</span>
                                     </div>
-                                    <div class="agenda-ocupado" ng-if="janela[0] == 'ocupado'">
-                                        {{janela[2] | date: 'HH'}} - {{janela[3] | date: 'HH:mm'}}
-                                        <span>{{'messages.agenda_jogo_contra' | translate}} {{janela[1].nome}}</span>
+                                    <div class="agenda-ocupado" ng-if="janela.situacao == 'ocupado'">
+                                        {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
+                                        <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
+                                    </div>
+                                    <div class="agenda-pendente" ng-if="janela.situacao == 'pendente'">
+                                        {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
+                                        <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +64,10 @@
                             {{'fields.hora_fim' | translate}}: {{horaFinalAgendamento}}
                         </h4>
 
-                        <md-button class="md-raised md-primary" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                        <div layout="row" layout-align="end center">
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                            <md-button class="md-raised md-primary no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                        </div>
                     </md-content>
 
                 </md-sidenav>

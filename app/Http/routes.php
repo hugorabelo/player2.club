@@ -180,7 +180,6 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('tutorialItem', 'TutorialItemController');
 
-    Route::get('agenda/marcados/{idEvento}', 'AgendaController@getMarcados');
     Route::get('agenda/{idCampeonato}/{idUsuario}', 'AgendaController@show');
     Route::get('agenda/listaHorarios/{idCampeonato}/{idUsuario}/{data?}', 'AgendaController@listaHorarios');
     Route::post('agenda/agendarPartida', 'AgendaController@agendarPartida');
