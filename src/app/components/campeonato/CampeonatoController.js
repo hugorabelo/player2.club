@@ -1836,11 +1836,27 @@
                     anonimo = true;
                 }
             });
+
             if (!anonimo) {
+                var idUsuario;
+                var nomeUsuario;
+                var podeIr = true;
+
+                angular.forEach(partida.usuarios, function (usuarioDaPartida) {
+                    if (podeIr) {
+                        if (usuarioDaPartida.users_id != $rootScope.usuarioLogado.id) {
+                            idUsuario = usuarioDaPartida.users_id;
+                            nomeUsuario = usuarioDaPartida.nome;
+                            podeIr = false;
+                        }
+                    }
+                });
+
                 $mdDialog.show({
                         locals: {
-                            tituloModal: 'messages.exibir_agenda',
-                            partida: partida
+                            tituloModal: $filter('translate')('messages.agenda_adversario') + ' ' + nomeUsuario,
+                            partida: partida,
+                            idUsuario: idUsuario
                         },
                         controller: DialogControllerAgendarPartida,
                         templateUrl: 'app/components/campeonato/agendamento/agendaAdversario.html',
@@ -1858,19 +1874,7 @@
 
         };
 
-        function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida) {
-            var idUsuario;
-            var podeIr = true;
-
-            angular.forEach(partida.usuarios, function (usuarioDaPartida) {
-                if (podeIr) {
-                    if (usuarioDaPartida.users_id != $rootScope.usuarioLogado.id) {
-                        idUsuario = usuarioDaPartida.users_id;
-                        podeIr = false;
-                    }
-                }
-            });
-
+        function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida, idUsuario) {
             Agenda.listaAgenda(vm.campeonato.id, idUsuario)
                 .success(function (data) {
                     $scope.listaHorarios = data;

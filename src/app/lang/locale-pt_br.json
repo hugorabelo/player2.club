@@ -540,6 +540,7 @@
         "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado",
 
         "exibir_agenda": "Exibir Minha Agenda",
+        "agenda_adversario": "Agenda de ",
         "add_horario": "Inserir horário livre para o dia ",
         "edit_horario": "Editar horário do dia ",
         "evento_fora_do_prazo": "Você deve selecionar uma data dentro do período do campeonato",
@@ -547,6 +548,7 @@
         "intervalo_pequeno": "Você deve selecionar um intervalo de pelo menos 30 minutos",
         "horario_excluido_sucesso": "Horário excluído com sucesso",
         "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir",
+        "agenda_intro_adversario": "Clique em um horário livre (células verdes) para agendar uma partida dentro do intervalo selecionado",
         "ver_agenda": "Ver Agenda",
         "marcar_jogo": "Marcar partida com o participante ",
         "partidas_agendadas": "Partidas Agendadas para Este Intervalo",

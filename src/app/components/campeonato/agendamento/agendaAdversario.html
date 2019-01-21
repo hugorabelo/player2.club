@@ -2,13 +2,13 @@
     <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>{{tituloModal | translate}}</h2>
+                <h2>{{tituloModal}}</h2>
             </div>
         </md-toolbar>
 
         <md-dialog-content>
             <div class="md-dialog-content">
-                <md-subheader ng-cloak>{{'messages.agenda_intro' | translate}}</md-subheader>
+                <md-subheader ng-cloak>{{'messages.agenda_intro_adversario' | translate}}</md-subheader>
                 <div layout="row">
                     <md-calendar ng-model="ctrl.startDate"></md-calendar>
                     <div class="lista-dias" flex>
