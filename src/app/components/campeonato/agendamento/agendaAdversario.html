@@ -5,7 +5,18 @@
                 <h2>{{tituloModal}}</h2>
             </div>
         </md-toolbar>
-
+        <md-toolbar class="md-accent">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <md-input-container class="md-block">
+                    <md-select ng-model="horaInicioAgendamento" ng-change="atualizaHoraFinal()">
+                        <md-option value="{{hora}}">
+                            {{ctrl.startDate | date: 'MMMM' }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+            </div>
+        </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
                 <md-subheader ng-cloak>{{'messages.agenda_intro_adversario' | translate}}</md-subheader>
