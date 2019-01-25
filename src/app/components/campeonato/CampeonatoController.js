@@ -1875,6 +1875,22 @@
         };
 
         function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida, idUsuario) {
+            //console.log(moment(vm.campeonato.dataInicio).format('MMMM/YYYY'));
+            //console.log(moment(vm.campeonato.dataFinal).format('MMMM/YYYY'));
+
+            var listaMeses = [];
+            var mesInicio = moment(vm.campeonato.dataInicio);
+            var mesFim = moment(vm.campeonato.dataFinal);
+            console.log(mesInicio);
+            console.log(mesFim);
+            //listaMeses.push(mesInicio.format('MMMM/YYYY'));
+            while (mesInicio < mesFim) {
+                listaMeses.push(mesInicio.format('MMMM/YYYY'));
+                mesInicio.add(1, 'M');
+            }
+
+            console.log(listaMeses);
+
             Agenda.listaAgenda(vm.campeonato.id, idUsuario)
                 .success(function (data) {
                     $scope.listaHorarios = data;

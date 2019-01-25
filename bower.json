@@ -83,6 +83,12 @@
             "main": [
         "angular-legacy-sortable.js"
       ]
+        },
+        "moment": {
+            "main": [
+                "moment.js",
+                "locale/pt-br.js"
+            ]
         }
     },
     "resolutions": {

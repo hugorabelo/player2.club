@@ -79,8 +79,9 @@
         $translateProvider.preferredLanguage('pt_br');
         $translateProvider.fallbackLanguage('pt_br');
 
-        $translateProvider.useSanitizeValueStrategy('escape');
+        moment.locale('pt-br');
 
+        $translateProvider.useSanitizeValueStrategy('escape');
     });
 
     angular.module('player2')

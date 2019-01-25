@@ -30,6 +30,8 @@
             $translate.use(idioma);
 
             if (idioma === 'en_us') {
+                moment.locale('en-us');
+
                 var localeDate = moment.localeData();
 
                 $mdDateLocale.months = localeDate._months;
@@ -40,9 +42,12 @@
                 $mdDateLocale.msgCalendar = $translate.instant('MSG_CALENDAR');
                 $mdDateLocale.msgOpenCalendar = $translate.instant('MSG_OPEN_CALENDAR');
 
+
                 $http.get('api/mudaIdioma/en');
 
             } else if (idioma === 'pt_br') {
+                moment.locale('pt-br');
+
                 $mdDateLocale.formatDate = function (date) {
                     return date ? moment(date).format('DD/MM/YYYY') : '';
                 };
@@ -56,6 +61,8 @@
                 $mdDateLocale.shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                 $mdDateLocale.days = ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'];
                 $mdDateLocale.shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+
                 $http.get('api/mudaIdioma/pt-br');
             }
 
