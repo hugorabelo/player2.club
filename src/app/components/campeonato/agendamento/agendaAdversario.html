@@ -9,8 +9,8 @@
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <md-input-container class="md-block">
                     <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
-                        <md-option ng-value="mes" ng-repeat="mes in listaMeses">
-                            {{mes}}
+                        <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
+                            {{mes.formatado}}
                         </md-option>
                     </md-select>
                 </md-input-container>

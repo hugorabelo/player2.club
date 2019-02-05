@@ -141,7 +141,7 @@ class AgendaController extends Controller
             $inicioMes = Carbon::now()->firstOfMonth();
             $fimMes = Carbon::now()->endOfMonth();
         } else {
-            $data = strstr($data, " (", true);
+            $data = strstr($data, " (") ? strstr($data, " (", true) : $data;
             $inicioMes = Carbon::parse($data)->firstOfMonth();
             $fimMes = Carbon::parse($data)->endOfMonth();
         }
