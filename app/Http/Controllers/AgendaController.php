@@ -137,7 +137,16 @@ class AgendaController extends Controller
 
         $listaHorarios = new Collection();
 
-        $horariosDisponiveis = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->orderBy('data')->orderBy('hora_inicio')->get();
+        if(!isset($data)) {
+            $inicioMes = Carbon::now()->firstOfMonth();
+            $fimMes = Carbon::now()->endOfMonth();
+        } else {
+            $data = strstr($data, " (", true);
+            $inicioMes = Carbon::parse($data)->firstOfMonth();
+            $fimMes = Carbon::parse($data)->endOfMonth();
+        }
+
+        $horariosDisponiveis = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->whereBetween('hora_inicio',array($inicioMes, $fimMes))->orderBy('data')->orderBy('hora_inicio')->get();
         foreach ($horariosDisponiveis as $horario) {
             $item = $listaHorarios->get($horario->data);
             if ($item == null) {

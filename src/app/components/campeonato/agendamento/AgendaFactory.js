@@ -35,8 +35,13 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
             return $http.get('api/agenda/' + idCampeonato + stringUsuario);
         },
 
-        listaAgenda: function (idCampeonato, idUsuario) {
-            return $http.get('api/agenda/listaHorarios/' + idCampeonato + '/' + idUsuario);
+        listaAgenda: function (idCampeonato, idUsuario, data) {
+            if (data != undefined) {
+                stringData = '/' + data;
+            } else {
+                stringData = '';
+            }
+            return $http.get('api/agenda/listaHorarios/' + idCampeonato + '/' + idUsuario + stringData);
         },
 
         agendarPartida: function (agendamento) {

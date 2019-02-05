@@ -560,7 +560,9 @@
         "horario_convidado_indisponivel_campeonato": "O seu adversário já marcou alguma partida do campeonato neste horário. Tente outro horário.",
         "horario_convidado_indisponivel_geral": "O seu adversário marcou uma partida no mesmo horário para outro campeonato. Tente outro horário.",
         "horario_host_indisponivel_campeonato": "Você já possui uma partida deste campeonato agendada no mesmo horário. Tente outro horário.",
-        "horario_host_indisponivel_geral": "Você já possui uma partida agendada de outro campeonato agendada no mesmo horário. Tente outro horário"
+        "horario_host_indisponivel_geral": "Você já possui uma partida agendada de outro campeonato agendada no mesmo horário. Tente outro horário",
+        "calcular_melhor_horario": "Calcular melhor horário automaticamente",
+        "calcular_melhor_horario_mobile": "Melhor Horário"
     },
 
     "generos": {

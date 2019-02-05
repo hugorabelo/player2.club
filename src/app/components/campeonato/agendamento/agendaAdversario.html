@@ -8,20 +8,21 @@
         <md-toolbar md-colors="::{background: 'player2-primary-300'}">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <md-input-container class="md-block">
-                    <md-select ng-model="horaInicioAgendamento" ng-change="atualizaHoraFinal()">
-                        <md-option value="{{hora}}">
-                            {{ctrl.startDate | date: 'MMMM' }}
+                    <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
+                        <md-option ng-value="mes" ng-repeat="mes in listaMeses">
+                            {{mes}}
                         </md-option>
                     </md-select>
                 </md-input-container>
-                <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()" hide-xs><i class="material-icons">save</i> {{'messages.calcular_melhor_horario' | translate}}</md-button>
+                <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()" hide-gt-xs><i class="material-icons">save</i> {{'messages.calcular_melhor_horario_mobile' | translate}}</md-button>
             </div>
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
                 <md-subheader ng-cloak>{{'messages.agenda_intro_adversario' | translate}}</md-subheader>
                 <div layout="row">
-                    <md-calendar ng-model="ctrl.startDate"></md-calendar>
+                    <md-calendar ng-model="calendarioMesInicio" hide-xs></md-calendar>
                     <div class="lista-dias" flex>
                         <div ng-repeat="(data, horario) in listaHorarios" class="linha-dia" layout="row">
                             <div class="dia-mes">

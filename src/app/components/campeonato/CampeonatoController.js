@@ -1878,25 +1878,19 @@
             //console.log(moment(vm.campeonato.dataInicio).format('MMMM/YYYY'));
             //console.log(moment(vm.campeonato.dataFinal).format('MMMM/YYYY'));
 
-            var listaMeses = [];
+            $scope.listaMeses = [];
             var mesInicio = moment(vm.campeonato.dataInicio);
             var mesFim = moment(vm.campeonato.dataFinal);
-            console.log(mesInicio);
-            console.log(mesFim);
             //listaMeses.push(mesInicio.format('MMMM/YYYY'));
             while (mesInicio < mesFim) {
-                listaMeses.push(mesInicio.format('MMMM/YYYY'));
+                $scope.listaMeses.push(mesInicio.format('MMMM/YYYY'));
                 mesInicio.add(1, 'M');
             }
-
-            console.log(listaMeses);
 
             Agenda.listaAgenda(vm.campeonato.id, idUsuario)
                 .success(function (data) {
                     $scope.listaHorarios = data;
                 });
-
-
 
             $scope.tituloModal = tituloModal;
             $scope.partida = partida;
@@ -1904,6 +1898,19 @@
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
+
+            $scope.mudarMesAgenda = function () {
+                console.log($scope.mesEscolhido);
+            };
+
+            $scope.$watch('calendarioMesInicio', function (newVal, oldVal) {
+                if ($scope.calendarioMesInicio != undefined) {
+                    Agenda.listaAgenda(vm.campeonato.id, idUsuario, $scope.calendarioMesInicio)
+                        .success(function (data) {
+                            $scope.listaHorarios = data;
+                        });
+                }
+            });
 
             $scope.marcarJogo = function (data, horario) {
                 $mdSidenav('right')
