@@ -2,7 +2,7 @@
 <md-toolbar hide-gt-xs class="md-toolbar-tools">
     <h2 class="secao_titulo">{{'messages.convidar_amigos' | translate}}</h2>
 </md-toolbar>
-<md-card ng-class="{'m-n': telaMobile}">
+<md-card ng-class="{'m-n': telaMobile}" ng-init="vmHome.inicializa()">
     <md-card-content>
         {{'messages.mensagem_convidar_amigos' | translate}}
         <div layout="row" flex class="m-t-md" ng-if="vmHome.usuario.quantidade_convites > 0">
