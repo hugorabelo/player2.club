@@ -1876,16 +1876,14 @@
 
         function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida, idUsuario) {
             $scope.listaMeses = [];
-            var mesInicio = moment(vm.campeonato.dataInicio);
-            var mesFim = moment(vm.campeonato.dataFinal);
-            //listaMeses.push(mesInicio.format('MMMM/YYYY'));
+            var mesInicio = moment(vm.campeonato.dataInicio).startOf('month');
+            var mesFim = moment(vm.campeonato.dataFinal).startOf('month');
             while (mesInicio < mesFim) {
                 var itemMes = {};
                 itemMes.formatado = mesInicio.format('MMMM/YYYY');
                 itemMes.completo = mesInicio.format('YYYY-MM-DD h:mm:ss');
-                console.log(moment().format('YYYY-MM-DD h:mm:ss'));
-                console.log(itemMes.completo);
-                if (moment().format('YYYY-MM-DD h:mm:ss') == itemMes.completo) {
+                var inicioMesAtual = moment().startOf('month').format('YYYY-MM-DD h:mm:ss');
+                if (inicioMesAtual == itemMes.completo) {
                     $scope.mesEscolhido = itemMes.completo;
                 }
                 $scope.listaMeses.push(itemMes);
@@ -1910,15 +1908,6 @@
                         $scope.listaHorarios = data;
                     });
             };
-
-            $scope.$watch('calendarioMesInicio', function (newVal, oldVal) {
-                if ($scope.calendarioMesInicio != undefined) {
-                    Agenda.listaAgenda(vm.campeonato.id, idUsuario, $scope.calendarioMesInicio)
-                        .success(function (data) {
-                            $scope.listaHorarios = data;
-                        });
-                }
-            });
 
             $scope.marcarJogo = function (data, horario) {
                 $mdSidenav('right')
@@ -1971,6 +1960,6 @@
         };
 
 
-    }]);
+                }]);
 
 }());

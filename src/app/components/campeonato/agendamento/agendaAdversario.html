@@ -7,22 +7,32 @@
         </md-toolbar>
         <md-toolbar md-colors="::{background: 'player2-primary-300'}">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-                <md-input-container class="md-block">
-                    <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
-                        <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
-                            {{mes.formatado}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+                <div layout="row" layout-align=" center">
+                    <md-input-container class="md-block">
+                        <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
+                            <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
+                                {{mes.formatado}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div class="m-t-md m-l-sm">
+                        <a ng-click="vmCampeonato.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonato.indice_fase == 0}" class="m-r-xs">
+                            <i class="fa fa-chevron-left"></i>
+                        </a>
+                        <a ng-click="vmCampeonato.exibeProximaFase()" ng-class="{'disabled': vmCampeonato.indice_fase == vmCampeonato.campeonatoFases.length-1}">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
                 <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()" hide-xs><i class="material-icons">save</i> {{'messages.calcular_melhor_horario' | translate}}</md-button>
                 <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()" hide-gt-xs><i class="material-icons">save</i> {{'messages.calcular_melhor_horario_mobile' | translate}}</md-button>
             </div>
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <md-subheader ng-cloak>{{'messages.agenda_intro_adversario' | translate}}</md-subheader>
+                <md-subheader ng-cloak ng-if="listaHorarios.length != 0">{{'messages.agenda_intro_adversario' | translate}}</md-subheader>
+
                 <div layout="row">
-                    <md-calendar ng-model="calendarioMesInicio" hide-xs></md-calendar>
                     <div class="lista-dias" flex>
                         <div ng-repeat="(data, horario) in listaHorarios" class="linha-dia" layout="row">
                             <div class="dia-mes">
@@ -30,20 +40,23 @@
                             </div>
                             <div class="horarios-dia" flex>
                                 <div ng-repeat="janela in horario">
-                                    <div class="agenda-livre" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
+                                    <div class="alert bg-success" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
                                         {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
                                         <span>{{'messages.agenda_livre' | translate}}</span>
                                     </div>
-                                    <div class="agenda-ocupado" ng-if="janela.situacao == 'ocupado'">
+                                    <div class="alert bg-danger" ng-if="janela.situacao == 'ocupado'">
                                         {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
                                         <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
                                     </div>
-                                    <div class="agenda-pendente" ng-if="janela.situacao == 'pendente'">
+                                    <div class="alert bg-warning" ng-if="janela.situacao == 'pendente'">
                                         {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
                                         <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="alert alert-info" ng-if="listaHorarios.length == 0">
+                            {{'messages.agenda_sem_data' | translate}}
                         </div>
                     </div>
                 </div>
