@@ -1875,20 +1875,24 @@
         };
 
         function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida, idUsuario) {
+            $scope.indice_mes = 0;
             $scope.listaMeses = [];
             var mesInicio = moment(vm.campeonato.dataInicio).startOf('month');
             var mesFim = moment(vm.campeonato.dataFinal).startOf('month');
             while (mesInicio < mesFim) {
                 var itemMes = {};
                 itemMes.formatado = mesInicio.format('MMMM/YYYY');
+                itemMes.formatadoMobile = mesInicio.format('MMM/YY');
                 itemMes.completo = mesInicio.format('YYYY-MM-DD h:mm:ss');
                 var inicioMesAtual = moment().startOf('month').format('YYYY-MM-DD h:mm:ss');
                 if (inicioMesAtual == itemMes.completo) {
                     $scope.mesEscolhido = itemMes.completo;
+                    $scope.indice_mes = $scope.listaMeses.length;
                 }
                 $scope.listaMeses.push(itemMes);
                 mesInicio.add(1, 'M');
             }
+
 
             Agenda.listaAgenda(vm.campeonato.id, idUsuario)
                 .success(function (data) {
@@ -1902,10 +1906,32 @@
                 $mdDialog.cancel();
             };
 
+
+            $scope.exibeProximoMes = function () {
+                if ($scope.indice_mes < ($scope.listaMeses.length - 1)) {
+                    var mesAtualTemporario = $scope.listaMeses[$scope.indice_mes + 1];
+                    $scope.mesEscolhido = mesAtualTemporario.completo;
+                    $scope.mudarMesAgenda();
+                }
+            };
+
+            $scope.exibeMesAnterior = function () {
+                if ($scope.indice_mes > 0) {
+                    var mesAtualTemporario = $scope.listaMeses[$scope.indice_mes - 1];
+                    $scope.mesEscolhido = mesAtualTemporario.completo;
+                    $scope.mudarMesAgenda();
+                }
+            };
+
             $scope.mudarMesAgenda = function () {
                 Agenda.listaAgenda(vm.campeonato.id, idUsuario, $scope.mesEscolhido)
                     .success(function (data) {
                         $scope.listaHorarios = data;
+                        angular.forEach($scope.listaMeses, function (mes, key) {
+                            if (mes.completo == $scope.mesEscolhido) {
+                                $scope.indice_mes = key;
+                            }
+                        });
                     });
             };
 

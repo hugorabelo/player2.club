@@ -8,18 +8,25 @@
         <md-toolbar md-colors="::{background: 'player2-primary-300'}">
             <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align=" center">
-                    <md-input-container class="md-block">
+                    <md-input-container class="md-block tamanho-fixo" hide-xs>
                         <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
                             <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
                                 {{mes.formatado}}
                             </md-option>
                         </md-select>
                     </md-input-container>
+                    <md-input-container class="md-block" hide-gt-xs>
+                        <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
+                            <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
+                                {{mes.formatadoMobile}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
                     <div class="m-t-md m-l-sm">
-                        <a ng-click="vmCampeonato.exibeFaseAnterior()" ng-class="{'disabled': vmCampeonato.indice_fase == 0}" class="m-r-xs">
+                        <a ng-click="exibeMesAnterior()" ng-class="{'disabled': indice_mes <= 0}" class="m-r-xs">
                             <i class="fa fa-chevron-left"></i>
                         </a>
-                        <a ng-click="vmCampeonato.exibeProximaFase()" ng-class="{'disabled': vmCampeonato.indice_fase == vmCampeonato.campeonatoFases.length-1}">
+                        <a ng-click="exibeProximoMes()" ng-class="{'disabled': indice_mes >= listaMeses.length-1}">
                             <i class="fa fa-chevron-right"></i>
                         </a>
                     </div>
@@ -41,15 +48,15 @@
                             <div class="horarios-dia" flex>
                                 <div ng-repeat="janela in horario">
                                     <div class="alert bg-success" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
-                                        {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
+                                        <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
                                         <span>{{'messages.agenda_livre' | translate}}</span>
                                     </div>
                                     <div class="alert bg-danger" ng-if="janela.situacao == 'ocupado'">
-                                        {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
+                                        <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
                                         <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
                                     </div>
                                     <div class="alert bg-warning" ng-if="janela.situacao == 'pendente'">
-                                        {{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}
+                                        <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
                                         <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
                                     </div>
                                 </div>
