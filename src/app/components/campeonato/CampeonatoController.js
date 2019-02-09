@@ -1649,6 +1649,8 @@
             };
         };
 
+        /***** AgendaController INICIO *****/
+
         vm.exibirAgenda = function (ev, idUsuario) {
             $mdDialog.show({
                     locals: {
@@ -1739,15 +1741,28 @@
         vm.carregarEventos = function (idUsuario) {
             vm.eventos = [];
 
+            Agenda.listaAgenda(vm.campeonato.id, $rootScope.usuarioLogado.id)
+                .success(function (data) {
+                    $scope.listaHorarios = data;
+                });
+
             Agenda.getEventos(vm.campeonato.id, idUsuario)
                 .success(function (data) {
+                    var background = '';
                     angular.forEach(data, function (evento) {
+                        if (evento.situacao == 'ocupado') {
+                            background = 'bg-danger';
+                        } else if (evento.situacao == 'pendente') {
+                            background = 'bg-warning';
+                        } else {
+                            background = 'bg-success';
+                        }
                         var novoEvento = {
-                            id: evento.id,
                             title: '',
                             start: new Date(evento.hora_inicio),
                             end: new Date(evento.hora_fim),
-                            allDay: false
+                            allDay: false,
+                            background: background
                         };
                         vm.eventos.push(novoEvento);
                     });
@@ -1985,7 +2000,9 @@
 
         };
 
+        /***** AgendaController FIM *****/
 
-                }]);
+
+    }]);
 
 }());

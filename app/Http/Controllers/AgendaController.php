@@ -27,7 +27,7 @@ class AgendaController extends Controller
     }
 
     public function show($idCampeonato, $idUsuario = null) {
-        if($idCampeonato == 'undefined' || $idCampeonato == null) {
+        /*if($idCampeonato == 'undefined' || $idCampeonato == null) {
             return null;
         }
 
@@ -40,7 +40,64 @@ class AgendaController extends Controller
 
         $eventos = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->get();
 
-        return Response::json($eventos);
+        return Response::json($eventos);*/
+
+        if($idCampeonato == 'undefined' || $idCampeonato == null) {
+            return null;
+        }
+
+        $userCampeonato = new CampeonatoUsuario();
+
+        if(!isset($idUsuario)) {
+            $idUsuario = Auth::getUser()->id;
+            Log::warning($idUsuario);
+        }
+
+        $userCampeonato = $userCampeonato->getID($idUsuario, $idCampeonato);
+
+        $listaHorarios = new Collection();
+
+        $horariosDisponiveis = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->orderBy('data')->orderBy('hora_inicio')->get();
+        foreach ($horariosDisponiveis as $horario) {
+
+            $partidasDoCampeonato = Campeonato::find($idCampeonato)->partidas()->pluck('id');
+            $eventosMarcados = DB::table('agendamento_marcacao')->whereBetween('horario_inicio',array($horario->hora_inicio,$horario->hora_fim))->whereIn('partidas_id',$partidasDoCampeonato)->orderBy('horario_inicio')->get();
+
+            $horaIterator = Carbon::parse($horario->hora_inicio);
+
+            foreach ($eventosMarcados as $evento) {
+                // verificar se o evento é válido
+                if($evento->status < 2) {
+                    $situacao = $evento->status == 1 ? 'ocupado' : 'pendente';
+                    $horarioInicio = Carbon::parse($evento->horario_inicio);
+                    if($evento->usuario_host == $idUsuario) {
+                        $adversario = User::find($evento->usuario_convidado);
+                    } else {
+                        $adversario = User::find($evento->usuario_host);
+                    }
+                    if($evento->horario_inicio == $horaIterator) {
+                        $horaIterator->addMinutes($evento->duracao);
+                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'));
+                        $listaHorarios->push($intervalo);
+                    } else {
+                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioInicio->format('Y-m-d H:i:s'));
+                        $listaHorarios->push($intervalo);
+                        $horaIterator = Carbon::parse($horarioInicio);
+
+                        $horaIterator->addMinutes($evento->duracao);
+                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'));
+                        $listaHorarios->push($intervalo);
+                    }
+                }
+            }
+            if($horaIterator < Carbon::parse($horario->hora_fim)) {
+                $horarioFim = Carbon::parse($horario->hora_fim);
+                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioFim->format('Y-m-d H:i:s'));
+                $listaHorarios->push($intervalo);
+            }
+        }
+
+        return Response::json($listaHorarios);
     }
 
 
@@ -153,7 +210,6 @@ class AgendaController extends Controller
                 $item = new Collection();
             }
 
-            //TODO: FIltrar partidas do campeonato
             $partidasDoCampeonato = Campeonato::find($idCampeonato)->partidas()->pluck('id');
             $eventosMarcados = DB::table('agendamento_marcacao')->whereBetween('horario_inicio',array($horario->hora_inicio,$horario->hora_fim))->whereIn('partidas_id',$partidasDoCampeonato)->orderBy('horario_inicio')->get();
 
