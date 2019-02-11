@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{tituloModal | translate}}" flex="60" class="content-agenda">
+<md-dialog aria-label="{{tituloModal | translate}}" flex="80" class="content-agenda">
     <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -7,9 +7,9 @@
         </md-toolbar>
 
         <md-dialog-content>
-            <div class="md-dialog-content">
+            <div class="md-dialog-content" id="agenda-content">
                 <md-subheader ng-cloak>{{'messages.agenda_intro' | translate}}</md-subheader>
-                <md-event-calendar ng-model="selected" md-events="materialEvents" md-event-click="eventClicked($selectedEvent)" md-label="title" md-show-create-link="false" md-create-event-click="dateClick($date)" md-create-disabled="false" class="md-primary">
+                <md-event-calendar ng-model="selected" md-events="materialEvents" md-event-click="eventClicked($selectedEvent)" md-label="title" md-show-create-link="false" md-create-event-click="dateClick($date)" md-create-disabled="false" class="md-primary" fitted="true">
                     <md-event-calendar-header class="md-center">
                         <md-event-calendar-prev></md-event-calendar-prev>
                         <md-event-calendar-title></md-event-calendar-title>
@@ -18,6 +18,43 @@
                 </md-event-calendar>
             </div>
 
+        </md-dialog-content>
+
+        <md-dialog-content hide-xs hide-gt-xs>
+            <md-calendar ng-model="birthday"></md-calendar>
+
+
+            <div layout="row">
+                {{today}}
+
+
+                <div class="lista-dias" flex>
+                    <div ng-repeat="(data, horario) in materialEvents" class="linha-dia" layout="row">
+                        <div class="dia-mes">
+                            <div class="dia-semana">{{data | date: 'EEE' | uppercase | translate}}</div>{{data | date: 'dd'}}
+                        </div>
+                        <div class="horarios-dia" flex>
+                            <div ng-repeat="janela in horario">
+                                <div class="alert bg-success" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
+                                    <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
+                                    <span>{{'messages.agenda_livre' | translate}}</span>
+                                </div>
+                                <div class="alert bg-danger" ng-if="janela.situacao == 'ocupado'">
+                                    <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
+                                    <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
+                                </div>
+                                <div class="alert bg-warning" ng-if="janela.situacao == 'pendente'">
+                                    <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
+                                    <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info" ng-if="listaHorarios.length == 0">
+                        {{'messages.agenda_sem_data' | translate}}
+                    </div>
+                </div>
+            </div>
         </md-dialog-content>
 
     </form>

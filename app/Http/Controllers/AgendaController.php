@@ -27,21 +27,6 @@ class AgendaController extends Controller
     }
 
     public function show($idCampeonato, $idUsuario = null) {
-        /*if($idCampeonato == 'undefined' || $idCampeonato == null) {
-            return null;
-        }
-
-        $userCampeonato = new CampeonatoUsuario();
-
-        if(!isset($idUsuario)) {
-            $idUsuario = Auth::getUser()->id;
-        }
-        $userCampeonato = $userCampeonato->getID($idUsuario, $idCampeonato);
-
-        $eventos = DB::table('agendamento_horario_disponivel')->where('campeonato_usuarios_id','=',$userCampeonato->id)->get();
-
-        return Response::json($eventos);*/
-
         if($idCampeonato == 'undefined' || $idCampeonato == null) {
             return null;
         }
@@ -50,7 +35,6 @@ class AgendaController extends Controller
 
         if(!isset($idUsuario)) {
             $idUsuario = Auth::getUser()->id;
-            Log::warning($idUsuario);
         }
 
         $userCampeonato = $userCampeonato->getID($idUsuario, $idCampeonato);

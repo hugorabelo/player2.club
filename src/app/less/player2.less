@@ -1084,6 +1084,89 @@ a.close-link {
     .no-min-height {
         min-height: 0 !important;
     }
+
+    .md-event-calendar-month-row {
+        flex-direction: column !important;
+    }
+
+    .md-event-calendar-month-cell {
+        height: auto !important;
+    }
+
+    .different-month {
+        display: none;
+    }
+
+    .md-event-calendar-month-row-header {
+        display: none !important;
+    }
+
+    .md-event-calendar-month-cell {
+        min-height: 50px;
+    }
+
+    .md-event-calendar-month-cell-content {
+        display: contents;
+    }
+
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell,
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell:last-child {
+        border: none;
+        border-bottom: 1px solid #00000010;
+        padding-bottom: 5px;
+    }
+
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row {
+        border: none;
+    }
+
+    md-event-calendar md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell .md-event-calendar-month-cell-spacer {
+        display: none;
+    }
+
+    #agenda-content {
+        padding: 0;
+    }
+
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell .md-event-calendar-month-cell-content .md-event-calendar-cell-data-label {
+        font-size: 14px;
+
+        position: relative;
+        margin-right: 10px;
+        display: block;
+        border-radius: 50%;
+        border: 1px solid #000;
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        margin-top: 15px;
+
+        flex: none;
+        padding: 0;
+        margin-left: 10px;
+    }
+
+    md-event-calendar .md-event-calendar-cell-event.md-single {
+        font-size: 14px;
+        margin-left: 50px;
+        margin-right: 15px;
+    }
+
+    .evento-descricao {
+        font-weight: 500;
+        margin: 0;
+        font-size: 16px;
+    }
+
+    md-event-calendar .md-event-calendar-cell-event .md-event-calendar-cell-event-time {
+        font-weight: normal;
+    }
+
+    md-event-calendar .md-event-calendar-cell-event.md-single:first-child {
+        margin-top: -45px;
+    }
 }
 
 @media screen and (max-width: 480px) {

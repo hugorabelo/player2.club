@@ -1679,7 +1679,6 @@
                 $scope.materialEvents = vm.eventos;
             });
 
-
             $scope.tituloModal = tituloModal;
 
             $scope.cancel = function () {
@@ -1741,28 +1740,28 @@
         vm.carregarEventos = function (idUsuario) {
             vm.eventos = [];
 
-            Agenda.listaAgenda(vm.campeonato.id, $rootScope.usuarioLogado.id)
-                .success(function (data) {
-                    $scope.listaHorarios = data;
-                });
-
             Agenda.getEventos(vm.campeonato.id, idUsuario)
                 .success(function (data) {
                     var background = '';
+                    var titulo = '';
                     angular.forEach(data, function (evento) {
                         if (evento.situacao == 'ocupado') {
                             background = 'bg-danger';
+                            titulo = $filter('translate')('messages.agenda_jogo_contra') + evento.adversario.nome;
                         } else if (evento.situacao == 'pendente') {
                             background = 'bg-warning';
+                            titulo = $filter('translate')('messages.agenda_jogo_contra') + evento.adversario.nome;
                         } else {
                             background = 'bg-success';
+                            titulo = $filter('translate')('messages.agenda_livre');
                         }
                         var novoEvento = {
                             title: '',
                             start: new Date(evento.hora_inicio),
                             end: new Date(evento.hora_fim),
                             allDay: false,
-                            background: background
+                            background: background,
+                            descricaoEvento: titulo
                         };
                         vm.eventos.push(novoEvento);
                     });
