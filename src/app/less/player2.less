@@ -1167,11 +1167,44 @@ a.close-link {
     md-event-calendar .md-event-calendar-cell-event.md-single:first-child {
         margin-top: -45px;
     }
+
+    .content-agenda {
+        //display: flex;
+        //flex-direction: column;
+        //height: 100vh;
+        //overflow: hidden;
+        padding-top: 194px;
+
+        md-toolbar {
+            position: fixed;
+            top: 0;
+        }
+
+        #agenda-content {
+            .md-subheader {
+                position: fixed;
+                top: 56px;
+            }
+        }
+
+        md-event-calendar-header {
+            position: fixed;
+            top: 130px;
+            width: 100%;
+        }
+    }
+
 }
 
 @media screen and (max-width: 480px) {
     .auth0-lock.auth0-lock {
         position: fixed !important;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .evento-descricao {
+        display: none;
     }
 }
 
