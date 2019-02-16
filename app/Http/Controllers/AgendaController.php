@@ -61,26 +61,27 @@ class AgendaController extends Controller
                     }
                     if($evento->horario_inicio == $horaIterator) {
                         $horaIterator->addMinutes($evento->duracao);
-                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'));
+                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'), 'id'=>$horario->id);
                         $listaHorarios->push($intervalo);
                     } else {
-                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioInicio->format('Y-m-d H:i:s'));
+                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioInicio->format('Y-m-d H:i:s'), 'id'=>$horario->id);
                         $listaHorarios->push($intervalo);
                         $horaIterator = Carbon::parse($horarioInicio);
 
-                        $horaIterator->addMinutes($evento->duracao);
-                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'));
-                        $listaHorarios->push($intervalo);
+                        if($horaIterator < $horario->hora_fim) {
+                            $horaIterator->addMinutes($evento->duracao);
+                            $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'), 'id'=>$horario->id);
+                            $listaHorarios->push($intervalo);
+                        }
                     }
                 }
             }
             if($horaIterator < Carbon::parse($horario->hora_fim)) {
                 $horarioFim = Carbon::parse($horario->hora_fim);
-                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioFim->format('Y-m-d H:i:s'));
+                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioFim->format('Y-m-d H:i:s'), 'id'=>$horario->id);
                 $listaHorarios->push($intervalo);
             }
         }
-
         return Response::json($listaHorarios);
     }
 
@@ -218,9 +219,11 @@ class AgendaController extends Controller
                         $item->push($intervalo);
                         $horaIterator = Carbon::parse($horarioInicio);
 
-                        $horaIterator->addMinutes($evento->duracao);
-                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('H:i'), 'hora_fim'=>$horaIterator->format('H:i'));
-                        $item->push($intervalo);
+                        if($horaIterator < $horario->hora_fim) {
+                            $horaIterator->addMinutes($evento->duracao);
+                            $intervalo = array('situacao' => $situacao, 'adversario' => $adversario, 'hora_inicio' => $horarioInicio->format('H:i'), 'hora_fim' => $horaIterator->format('H:i'));
+                            $item->push($intervalo);
+                        }
                     }
                 }
             }
@@ -354,6 +357,56 @@ class AgendaController extends Controller
 
         DB::table('agendamento_marcacao')->insert($registroSalvar);
 
+        $horario_intervalo = DB::table('agendamento_horario_disponivel')->
+        whereRaw("'$horario_inicio' between hora_inicio AND hora_fim and ".
+            "campeonato_usuarios_id = (".
+            "select id from campeonato_usuarios where users_id = $usuario_convidado".
+            " and campeonatos_id = $campeonato_id)")->first();
+
+        if($horario_inicio == $horario_intervalo->hora_inicio) {
+            // Se horário do agendamento é no começo do intervalo => Quebrar em duas partes, começando do horário final (horario inicio + duracao)
+            $novo_horario_disponivel = array();
+            $novo_horario_disponivel['hora_inicio'] = Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s');
+            $novo_horario_disponivel['hora_fim'] = $horario_intervalo->hora_fim;
+            $novo_horario_disponivel['data'] = $horario_intervalo->data;
+            $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo->campeonato_usuarios_id;
+            DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+            $horario_intervalo->hora_fim = (Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s'));
+            DB::table('agendamento_horario_disponivel')->where('id','=',$horario_intervalo->id)->update(get_object_vars($horario_intervalo));
+        } else {
+            if($horario_intervalo->hora_fim == (Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s'))) {
+                // Se horário do agendamento + intervalo é igual ao fim do intervalo => Quebrar em duas partes, com o horário inicial sendo o final do novo intervalo
+                $novo_horario_disponivel = array();
+                $novo_horario_disponivel['hora_inicio'] = $horario_intervalo->hora_inicio;
+                $novo_horario_disponivel['hora_fim'] = $horario_inicio;
+                $novo_horario_disponivel['data'] = $horario_intervalo->data;
+                $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo->campeonato_usuarios_id;
+                DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                $horario_intervalo->hora_inicio = $horario_inicio;
+                DB::table('agendamento_horario_disponivel')->where('id','=',$horario_intervalo->id)->update(get_object_vars($horario_intervalo));
+            } else {
+                // Se não, quebrar em 3 partes: 1. do início do intervalo até o início do agendamento / 2. DO início do agendamento ao início do agendamento + duracao / 3. Do início do agendamento + duracao ao final do intervalo
+                $novo_horario_disponivel = array();
+                $novo_horario_disponivel['hora_inicio'] = $horario_intervalo->hora_inicio;
+                $novo_horario_disponivel['hora_fim'] = $horario_inicio;
+                $novo_horario_disponivel['data'] = $horario_intervalo->data;
+                $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo->campeonato_usuarios_id;
+                DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                $novo_horario_disponivel = array();
+                $novo_horario_disponivel['hora_inicio'] = $horario_inicio;
+                $novo_horario_disponivel['hora_fim'] = Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s');
+                $novo_horario_disponivel['data'] = $horario_intervalo->data;
+                $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo->campeonato_usuarios_id;
+                DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                $horario_intervalo->hora_inicio = Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s');
+                DB::table('agendamento_horario_disponivel')->where('id','=',$horario_intervalo->id)->update(get_object_vars($horario_intervalo));
+            }
+        }
+
         $campeonato_usuario_id_host = CampeonatoUsuario::where('users_id','=',$usuario_host)->where('campeonatos_id','=',$campeonato_id)->first(array('id'))->id;
         $existe_horario_host = DB::table('agendamento_horario_disponivel')->whereRaw("'$horario_inicio' between hora_inicio AND hora_fim and ".
             "campeonato_usuarios_id = $campeonato_usuario_id_host")->count();
@@ -365,6 +418,56 @@ class AgendaController extends Controller
             $novo_agendamento_horario_disponivel['campeonato_usuarios_id'] = $campeonato_usuario_id_host;
 
             DB::table('agendamento_horario_disponivel')->insert($novo_agendamento_horario_disponivel);
+        } else {
+            $horario_intervalo_host = DB::table('agendamento_horario_disponivel')->
+            whereRaw("'$horario_inicio' between hora_inicio AND hora_fim and ".
+                "campeonato_usuarios_id = (".
+                "select id from campeonato_usuarios where users_id = $usuario_host".
+                " and campeonatos_id = $campeonato_id)")->first();
+
+            if($horario_inicio == $horario_intervalo_host->hora_inicio) {
+                // Se horário do agendamento é no começo do intervalo => Quebrar em duas partes, começando do horário final (horario inicio + duracao)
+                $novo_horario_disponivel = array();
+                $novo_horario_disponivel['hora_inicio'] = Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s');
+                $novo_horario_disponivel['hora_fim'] = $horario_intervalo_host->hora_fim;
+                $novo_horario_disponivel['data'] = $horario_intervalo_host->data;
+                $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo_host->campeonato_usuarios_id;
+                DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                $horario_intervalo_host->hora_fim = (Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s'));
+                DB::table('agendamento_horario_disponivel')->where('id','=',$horario_intervalo_host->id)->update(get_object_vars($horario_intervalo_host));
+            } else {
+                if($horario_intervalo_host->hora_fim == (Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s'))) {
+                    // Se horário do agendamento + intervalo é igual ao fim do intervalo => Quebrar em duas partes, com o horário inicial sendo o final do novo intervalo
+                    $novo_horario_disponivel = array();
+                    $novo_horario_disponivel['hora_inicio'] = $horario_intervalo_host->hora_inicio;
+                    $novo_horario_disponivel['hora_fim'] = $horario_inicio;
+                    $novo_horario_disponivel['data'] = $horario_intervalo_host->data;
+                    $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo_host->campeonato_usuarios_id;
+                    DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                    $horario_intervalo_host->hora_inicio = $horario_inicio;
+                    DB::table('agendamento_horario_disponivel')->where('id','=',$horario_intervalo_host->id)->update(get_object_vars($horario_intervalo_host));
+                } else {
+                    // Se não, quebrar em 3 partes: 1. do início do intervalo até o início do agendamento / 2. DO início do agendamento ao início do agendamento + duracao / 3. Do início do agendamento + duracao ao final do intervalo
+                    $novo_horario_disponivel = array();
+                    $novo_horario_disponivel['hora_inicio'] = $horario_intervalo_host->hora_inicio;
+                    $novo_horario_disponivel['hora_fim'] = $horario_inicio;
+                    $novo_horario_disponivel['data'] = $horario_intervalo_host->data;
+                    $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo_host->campeonato_usuarios_id;
+                    DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                    $novo_horario_disponivel = array();
+                    $novo_horario_disponivel['hora_inicio'] = $horario_inicio;
+                    $novo_horario_disponivel['hora_fim'] = Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s');
+                    $novo_horario_disponivel['data'] = $horario_intervalo_host->data;
+                    $novo_horario_disponivel['campeonato_usuarios_id'] = $horario_intervalo_host->campeonato_usuarios_id;
+                    DB::table('agendamento_horario_disponivel')->insert($novo_horario_disponivel);
+
+                    $horario_intervalo_host->hora_inicio = Carbon::parse($horario_inicio)->addMinutes(30)->format('Y-m-d H:i:s');
+                    DB::table('agendamento_horario_disponivel')->where('id','=',$horario_intervalo_host->id)->update(get_object_vars($horario_intervalo_host));
+                }
+            }
         }
 
     }

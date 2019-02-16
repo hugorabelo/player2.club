@@ -1,8 +1,12 @@
 <md-dialog aria-label="{{tituloModal | translate}}" flex="80" class="content-agenda">
     <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
-        <md-toolbar>
+        <md-toolbar class="fixed-on-top">
             <div class="md-toolbar-tools">
                 <h2>{{tituloModal | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
             </div>
         </md-toolbar>
 
@@ -16,46 +20,51 @@
                         <md-event-calendar-next></md-event-calendar-next>
                     </md-event-calendar-header>
                 </md-event-calendar>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="sidenav-evento">
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'messages.add_horario' | translate}} {{date | date : 'dd/MM/yyyy'}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.hora_inicio' | translate}}</label>
+                            <input type="time" ng-model="hora_inicio" required>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.hora_fim' | translate}}</label>
+                            <input type="time" ng-model="hora_fim" required>
+                        </md-input-container>
+                        <div>
+                            <md-button class="md-raised md-primary" ng-click="inserirEvento(date, hora_inicio, hora_fim)"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                        </div>
+                    </md-content>
+
+                </md-sidenav>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="sidenav-evento-editar">
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'messages.edit_horario' | translate}} {{evento.start | date : 'dd/MM/yyyy'}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.hora_inicio' | translate}}</label>
+                            <input type="time" ng-model="evento.start" required>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex>
+                            <label>{{'fields.hora_fim' | translate}}</label>
+                            <input type="time" ng-model="evento.end" required>
+                        </md-input-container>
+                        <div>
+                            <md-button class="md-raised md-primary" ng-click="editarEvento(evento)"><i class="material-icons">update</i> {{'fields.update' | translate}}</md-button>
+
+                            <md-button class="md-raised md-warn" ng-click="excluirEvento(evento)"><i class="material-icons">delete_forever</i> {{'fields.delete' | translate}}</md-button>
+                        </div>
+                    </md-content>
+
+                </md-sidenav>
             </div>
 
         </md-dialog-content>
-
-        <md-dialog-content hide-xs hide-gt-xs>
-            <md-calendar ng-model="birthday"></md-calendar>
-
-
-            <div layout="row">
-                {{today}}
-
-
-                <div class="lista-dias" flex>
-                    <div ng-repeat="(data, horario) in materialEvents" class="linha-dia" layout="row">
-                        <div class="dia-mes">
-                            <div class="dia-semana">{{data | date: 'EEE' | uppercase | translate}}</div>{{data | date: 'dd'}}
-                        </div>
-                        <div class="horarios-dia" flex>
-                            <div ng-repeat="janela in horario">
-                                <div class="alert bg-success" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
-                                    <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
-                                    <span>{{'messages.agenda_livre' | translate}}</span>
-                                </div>
-                                <div class="alert bg-danger" ng-if="janela.situacao == 'ocupado'">
-                                    <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
-                                    <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
-                                </div>
-                                <div class="alert bg-warning" ng-if="janela.situacao == 'pendente'">
-                                    <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
-                                    <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="alert alert-info" ng-if="listaHorarios.length == 0">
-                        {{'messages.agenda_sem_data' | translate}}
-                    </div>
-                </div>
-            </div>
-        </md-dialog-content>
-
     </form>
 </md-dialog>

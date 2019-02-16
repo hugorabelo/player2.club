@@ -1687,7 +1687,8 @@
 
             $scope.eventClicked = function ($selectedEvent) {
                 if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
-                    vm.showEditarEvento($selectedEvent);
+                    $scope.evento = $selectedEvent;
+                    vm.showEditarEvento();
                 } else {
                     vm.showMarcarJogo($selectedEvent, idUsuario);
                 }
@@ -1698,23 +1699,35 @@
                     toastr.warning($filter('translate')('messages.evento_fora_do_prazo') + ": " + $filter('date')(new Date(vm.campeonato.dataInicio), 'dd/MM/yyyy') + " a " + $filter('date')(new Date(vm.campeonato.dataFinal), 'dd/MM/yyyy'));
                 } else {
                     if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
-                        vm.showAdicionarEvento($date);
+                        $scope.date = $date;
+                        vm.showAdicionarEvento();
                     }
                 }
             };
 
+            $scope.inserirEvento = function (date, hora_inicio, hora_fim) {
+                vm.inserirEvento(date, hora_inicio, hora_fim);
+            };
+
+            $scope.closeSide = function () {
+                $mdSidenav('sidenav-evento').close();
+            };
+
+            $scope.editarEvento = function (evento) {
+                vm.editarEvento(evento);
+            };
+
+            $scope.excluirEvento = function (evento) {
+                vm.excluirEvento(evento);
+            }
+
         };
 
-        vm.showAdicionarEvento = function ($date) {
-            $scope.date = $date;
-            $mdBottomSheet.show({
-                templateUrl: 'app/components/campeonato/agendamento/inserirEvento.html',
-                controller: 'CampeonatoController',
-                parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
-                disableParentScroll: true,
-                scope: $scope,
-                preserveScope: true
-            });
+        vm.showAdicionarEvento = function () {
+            $mdSidenav('sidenav-evento')
+                .toggle()
+                .then(function () {});
+
         };
 
         vm.inserirEvento = function (date, hora_inicio, hora_fim) {
@@ -1730,7 +1743,7 @@
                     vm.carregarEventos();
                     $scope.hora_inicio = {};
                     $scope.hora_fim = {};
-                    $mdBottomSheet.hide();
+                    $mdSidenav('sidenav-evento').close();
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
@@ -1771,23 +1784,17 @@
 
         };
 
-        vm.showEditarEvento = function ($selectedEvent) {
-            $scope.evento = $selectedEvent;
-            $mdBottomSheet.show({
-                templateUrl: 'app/components/campeonato/agendamento/editarEvento.html',
-                controller: 'CampeonatoController',
-                parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
-                disableParentScroll: true,
-                scope: $scope,
-                preserveScope: true
-            });
+        vm.showEditarEvento = function () {
+            $mdSidenav('sidenav-evento-editar')
+                .toggle()
+                .then(function () {});
         };
 
         vm.editarEvento = function (evento) {
             Agenda.editEvento(evento)
                 .success(function (data) {
                     vm.carregarEventos();
-                    $mdBottomSheet.hide();
+                    $mdSidenav('sidenav-evento-editar').close();
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
@@ -1799,7 +1806,7 @@
                 .success(function (data) {
                     vm.carregarEventos();
                     toastr.success($filter('translate')('messages.horario_excluido_sucesso'));
-                    $mdBottomSheet.hide();
+                    $mdSidenav('sidenav-evento-editar').close();
                 })
                 .error(function (data) {
                     toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
