@@ -61,7 +61,40 @@
                             <md-button class="md-raised md-warn" ng-click="excluirEvento(evento)"><i class="material-icons">delete_forever</i> {{'fields.delete' | translate}}</md-button>
                         </div>
                     </md-content>
+                </md-sidenav>
 
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="sidenav-evento-confirmar">
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'fields.agendar_partida' | translate}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <h2 ng-if="partida.usuarios.length == 2">
+                            {{partida.usuarios[0].nome}} X {{partida.usuarios[1].nome}}
+                        </h2>
+                        <h4>
+                            {{campeonato.descricao}} - {{partida.rodada}}{{'messages.rodada' | translate}}
+                        </h4>
+                        <h5>
+                            {{dataAgendamento | date: 'dd/MM/yyyy'}} {{intervaloAgendamento.hora_inicio}} - {{intervaloAgendamento.hora_fim}}
+                        </h5>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="agendamento-hora-inicio">{{'fields.hora_inicio' | translate}}</label>
+                            <md-select ng-model="horaInicioAgendamento" ng-change="atualizaHoraFinal()">
+                                <md-option ng-repeat="hora in intervalosDisponiveis" value="{{hora}}">
+                                    {{hora}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <h4 ng-if="horaFinalAgendamento">
+                            {{'fields.hora_fim' | translate}}: {{horaFinalAgendamento}}
+                        </h4>
+
+                        <div layout="row">
+                            <md-button class="md-raised md-primary no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                        </div>
+                    </md-content>
                 </md-sidenav>
             </div>
 

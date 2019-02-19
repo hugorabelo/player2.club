@@ -85,7 +85,7 @@
                             {{campeonato.descricao}} - {{partida.rodada}}{{'messages.rodada' | translate}}
                         </h4>
                         <h5>
-                            {{dataAgendamento | date: 'dd/MM/yyyy'}} {{intervaloAgendamento[2]}} - {{intervaloAgendamento[3]}}
+                            {{dataAgendamento | date: 'dd/MM/yyyy'}} {{intervaloAgendamento.hora_inicio}} - {{intervaloAgendamento.hora_fim}}
                         </h5>
 
                         <md-input-container class="md-block" flex-gt-sm>
@@ -100,9 +100,9 @@
                             {{'fields.hora_fim' | translate}}: {{horaFinalAgendamento}}
                         </h4>
 
-                        <div layout="row" layout-align="end center">
-                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                        <div layout="row">
                             <md-button class="md-raised md-primary no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
                         </div>
                     </md-content>
 

@@ -1688,9 +1688,29 @@
             $scope.eventClicked = function ($selectedEvent) {
                 if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
                     $scope.evento = $selectedEvent;
-                    vm.showEditarEvento();
-                } else {
-                    vm.showMarcarJogo($selectedEvent, idUsuario);
+                    console.log($selectedEvent);
+                    if ($selectedEvent.status === 'livre') {
+                        vm.showEditarEvento();
+                    } else {
+                        //$filter('date')($selectedEvent.start, 'dd/MM/yyyy (EEEE) HH:mm:ss')
+
+                        var confirm = $mdDialog.confirm()
+                            .parent(angular.element(document.querySelector('agenda-content')))
+                            .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                            .htmlContent("<p>" + $selectedEvent.adversario.nome + " deseja agendar uma partida com você</p><h4>" + vm.campeonato.descricao + " - " + $selectedEvent.partida.rodada + $filter('translate')('messages.rodada') + "</h4>" +
+                                "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm:ss') + "</h4>")
+                            .ariaLabel('Lucky day')
+                            .ok($filter('translate')('messages.confirmar_partida'))
+                            .cancel($filter('translate')('messages.recusar_partida'))
+                            .clickOutsideToClose(true)
+                            .multiple(true);
+
+                        $mdDialog.show(confirm).then(function () {
+                            Agenda.confirmarAgendamento($selectedEvent);
+                        }, function () {
+                            Agenda.recusarAgendamento($selectedEvent);
+                        });
+                    }
                 }
             };
 
@@ -1757,6 +1777,7 @@
                 .success(function (data) {
                     var background = '';
                     var titulo = '';
+                    var status = '';
                     angular.forEach(data, function (evento) {
                         if (evento.situacao == 'ocupado') {
                             background = 'bg-danger';
@@ -1764,6 +1785,7 @@
                         } else if (evento.situacao == 'pendente') {
                             background = 'bg-warning';
                             titulo = $filter('translate')('messages.agenda_jogo_contra') + evento.adversario.nome;
+                            console.log(evento);
                         } else {
                             background = 'bg-success';
                             titulo = $filter('translate')('messages.agenda_livre');
@@ -1774,7 +1796,10 @@
                             end: new Date(evento.hora_fim),
                             allDay: false,
                             background: background,
-                            descricaoEvento: titulo
+                            descricaoEvento: titulo,
+                            status: evento.situacao,
+                            partida: evento.partida,
+                            adversario: evento.adversario
                         };
                         vm.eventos.push(novoEvento);
                     });
@@ -1812,42 +1837,6 @@
                     toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
                 });
         };
-
-        vm.showMarcarJogo = function ($date, idUsuario) {
-            $scope.date = $date;
-
-            Usuario.show(idUsuario)
-                .success(function (data) {
-                    $scope.usuarioAgenda = data;
-                });
-
-            Agenda.getJogosMarcados($date.id)
-                .success(function (data) {
-                    $scope.partidasAgendadas = data;
-                    angular.forEach($scope.partidasAgendadas, function (agendamento) {
-                        agendamento.horario_inicio = new Date(agendamento.horario_inicio);
-                    });
-                });
-
-            var tempo_total_evento = ($scope.date.end - $scope.date.start) / 1000 / 60;
-
-            $scope.duracoes = [];
-            var i;
-            for (i = 30; i <= tempo_total_evento; i = i + 30) {
-                $scope.duracoes.push(i);
-            }
-
-
-            $mdBottomSheet.show({
-                templateUrl: 'app/components/campeonato/agendamento/marcarJogo.html',
-                controller: 'CampeonatoController',
-                parent: angular.element(document.getElementsByClassName('content-agenda')[0]),
-                disableParentScroll: true,
-                scope: $scope,
-                preserveScope: true
-            });
-        };
-
 
         vm.agendarPartida = function (ev, partida) {
             var anonimo = false;
@@ -2009,6 +1998,6 @@
         /***** AgendaController FIM *****/
 
 
-    }]);
+                }]);
 
 }());

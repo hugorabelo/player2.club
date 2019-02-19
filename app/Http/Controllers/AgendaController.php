@@ -61,16 +61,16 @@ class AgendaController extends Controller
                     }
                     if($evento->horario_inicio == $horaIterator) {
                         $horaIterator->addMinutes($evento->duracao);
-                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'), 'id'=>$horario->id);
+                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'), 'id'=>$horario->id, 'partida'=>Partida::find($evento->partidas_id));
                         $listaHorarios->push($intervalo);
                     } else {
-                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioInicio->format('Y-m-d H:i:s'), 'id'=>$horario->id);
+                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioInicio->format('Y-m-d H:i:s'), 'id'=>$horario->id, 'partida'=>'');
                         $listaHorarios->push($intervalo);
                         $horaIterator = Carbon::parse($horarioInicio);
 
                         if($horaIterator < $horario->hora_fim) {
                             $horaIterator->addMinutes($evento->duracao);
-                            $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'), 'id'=>$horario->id);
+                            $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('Y-m-d H:i:s'), 'hora_fim'=>$horaIterator->format('Y-m-d H:i:s'), 'id'=>$horario->id, 'partida'=>Partida::find($evento->partidas_id));
                             $listaHorarios->push($intervalo);
                         }
                     }
@@ -78,7 +78,7 @@ class AgendaController extends Controller
             }
             if($horaIterator < Carbon::parse($horario->hora_fim)) {
                 $horarioFim = Carbon::parse($horario->hora_fim);
-                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioFim->format('Y-m-d H:i:s'), 'id'=>$horario->id);
+                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('Y-m-d H:i:s'), 'hora_fim'=>$horarioFim->format('Y-m-d H:i:s'), 'id'=>$horario->id, 'partida'=>'');
                 $listaHorarios->push($intervalo);
             }
         }
@@ -212,16 +212,16 @@ class AgendaController extends Controller
                     }
                     if($evento->horario_inicio == $horaIterator) {
                         $horaIterator->addMinutes($evento->duracao);
-                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('H:i'), 'hora_fim'=>$horaIterator->format('H:i'));
+                        $intervalo = array('situacao'=>$situacao, 'adversario'=>$adversario, 'hora_inicio'=>$horarioInicio->format('H:i'), 'hora_fim'=>$horaIterator->format('H:i'), 'id'=>$horario->id, 'partida'=>Partida::find($evento->partidas_id));
                         $item->push($intervalo);
                     } else {
-                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('H:i'), 'hora_fim'=>$horarioInicio->format('H:i'));
+                        $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('H:i'), 'hora_fim'=>$horarioInicio->format('H:i'), 'id'=>$horario->id, 'partida'=>'');
                         $item->push($intervalo);
                         $horaIterator = Carbon::parse($horarioInicio);
 
                         if($horaIterator < $horario->hora_fim) {
                             $horaIterator->addMinutes($evento->duracao);
-                            $intervalo = array('situacao' => $situacao, 'adversario' => $adversario, 'hora_inicio' => $horarioInicio->format('H:i'), 'hora_fim' => $horaIterator->format('H:i'));
+                            $intervalo = array('situacao' => $situacao, 'adversario' => $adversario, 'hora_inicio' => $horarioInicio->format('H:i'), 'hora_fim' => $horaIterator->format('H:i'), 'id'=>$horario->id, 'partida'=>Partida::find($evento->partidas_id));
                             $item->push($intervalo);
                         }
                     }
@@ -229,7 +229,7 @@ class AgendaController extends Controller
             }
             if($horaIterator < Carbon::parse($horario->hora_fim)) {
                 $horarioFim = Carbon::parse($horario->hora_fim);
-                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('H:i'), 'hora_fim'=>$horarioFim->format('H:i'));
+                $intervalo = array('situacao'=>'livre', 'adversario'=>0, 'hora_inicio'=>$horaIterator->format('H:i'), 'hora_fim'=>$horarioFim->format('H:i'), 'id'=>$horario->id, 'partida'=>'');
                 $item->push($intervalo);
             }
             $listaHorarios->put($horario->data, $item);
@@ -469,6 +469,22 @@ class AgendaController extends Controller
                 }
             }
         }
+
+    }
+
+    public function confirmarAgendamento() {
+        $input = $input = Input::all();
+        Log::debug('Agendamento Confirmado');
+        Log::warning($input);
+    }
+
+    public function recusarAgendamento() {
+        $input = $input = Input::all();
+        Log::debug('Agendamento Recusado');
+        Log::warning($input);
+    }
+
+    public function cancelarAgendamento() {
 
     }
 

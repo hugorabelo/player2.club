@@ -53,6 +53,39 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        confirmarAgendamento: function (agendamento) {
+            return $http({
+                method: 'POST',
+                url: 'api/agenda/confirmarAgendamento',
+                data: $.param(agendamento),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        recusarAgendamento: function (agendamento) {
+            return $http({
+                method: 'POST',
+                url: 'api/agenda/recusarAgendamento',
+                data: $.param(agendamento),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        },
+
+        cancelarAgendamento: function (agendamento) {
+            return $http({
+                method: 'POST',
+                url: 'api/agenda/cancelarAgendamento',
+                data: $.param(agendamento),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }
