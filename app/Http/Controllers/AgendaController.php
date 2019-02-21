@@ -472,16 +472,20 @@ class AgendaController extends Controller
 
     }
 
-    public function confirmarAgendamento() {
-        $input = $input = Input::all();
-        Log::debug('Agendamento Confirmado');
-        Log::warning($input);
+    public function confirmarAgendamento(Request $request) {
+        $registroAtualizar = array('status'=>1);
+        $qtdeRegistros = DB::table('agendamento_marcacao')->where('partidas_id','=',$request->partida['id'])->where('status','=',0)->update($registroAtualizar);
+        if($qtdeRegistros === 0) {
+            return Response::json(array('success'=>false),300);
+        }
     }
 
-    public function recusarAgendamento() {
-        $input = $input = Input::all();
-        Log::debug('Agendamento Recusado');
-        Log::warning($input);
+    public function recusarAgendamento(Request $request) {
+        $registroAtualizar = array('status'=>2);
+        $qtdeRegistros = DB::table('agendamento_marcacao')->where('partidas_id','=',$request->partida['id'])->where('status','=',0)->update($registroAtualizar);
+        if($qtdeRegistros === 0) {
+            return Response::json(array('success'=>false),300);
+        }
     }
 
     public function cancelarAgendamento() {

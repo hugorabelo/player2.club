@@ -1691,24 +1691,56 @@
                     console.log($selectedEvent);
                     if ($selectedEvent.status === 'livre') {
                         vm.showEditarEvento();
-                    } else {
+                    } else if ($selectedEvent.status === 'pendente') {
                         //$filter('date')($selectedEvent.start, 'dd/MM/yyyy (EEEE) HH:mm:ss')
+                        var mensagemConfirma = '';
+                        var mensagemRecusa = '';
+
+                        if ($rootScope.telaMobile) {
+                            mensagemConfirma = $filter('translate')('fields.confirmar');
+                            mensagemRecusa = $filter('translate')('fields.recusar');
+                        } else {
+                            mensagemConfirma = $filter('translate')('messages.confirmar_partida');
+                            mensagemRecusa = $filter('translate')('messages.recusar_partida');
+                        }
 
                         var confirm = $mdDialog.confirm()
                             .parent(angular.element(document.querySelector('agenda-content')))
                             .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
                             .htmlContent("<p>" + $selectedEvent.adversario.nome + " deseja agendar uma partida com você</p><h4>" + vm.campeonato.descricao + " - " + $selectedEvent.partida.rodada + $filter('translate')('messages.rodada') + "</h4>" +
-                                "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm:ss') + "</h4>")
+                                "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm') + "</h4>")
                             .ariaLabel('Lucky day')
-                            .ok($filter('translate')('messages.confirmar_partida'))
-                            .cancel($filter('translate')('messages.recusar_partida'))
+                            .ok(mensagemConfirma)
+                            .cancel(mensagemRecusa)
                             .clickOutsideToClose(true)
                             .multiple(true);
 
                         $mdDialog.show(confirm).then(function () {
-                            Agenda.confirmarAgendamento($selectedEvent);
+                            Agenda.confirmarAgendamento($selectedEvent)
+                                .success(function (data) {
+                                    vm.carregarEventos();
+                                    toastr.success($filter('translate')('messages.mensagem_confirmacao_partida', {
+                                        nome_adversario: $selectedEvent.adversario.nome,
+                                        data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
+                                        hora_partida: moment($selectedEvent.start).format('HH:mm')
+                                    }));
+                                })
+                                .error(function (error) {
+                                    toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro'));
+                                });
                         }, function () {
-                            Agenda.recusarAgendamento($selectedEvent);
+                            Agenda.recusarAgendamento($selectedEvent)
+                                .success(function (data) {
+                                    vm.carregarEventos();
+                                    toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                                        nome_adversario: $selectedEvent.adversario.nome,
+                                        data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
+                                        hora_partida: moment($selectedEvent.start).format('HH:mm')
+                                    }));
+                                })
+                                .error(function (error) {
+                                    toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                                });
                         });
                     }
                 }

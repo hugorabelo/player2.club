@@ -174,7 +174,8 @@
         "hora_inicio": "Hora de Início",
         "hora_fim": "Hora de Término",
         "duracao": "Duração (minutos)",
-        "agendar_partida": "Agendar Partida"
+        "agendar_partida": "Agendar Partida",
+        "recusar": "Recusar"
     },
 
     "messages": {
@@ -566,7 +567,12 @@
         "agenda_sem_data": "O usuário não disponibilizou horários livres no mês selecionado",
         "confirma_agendamento_titulo": "Confirmar ",
         "confirmar_partida": "Confirmar horário",
-        "recusar_partida": "Recusar horário"
+        "recusar_partida": "Recusar horário",
+        "mensagem_confirmacao_partida": "Confirmado o agendamento para a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
+        "mensagem_recusa_partida": "Você recusou agendar a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
+        "mensagem_confirmacao_partida_erro": "Houve um erro na confirmação do agendamento. Favor tentar novamente",
+        "mensagem_recusa_partida_erro": "Houve um erro na recusa do agendamento. Favor tentar novamente"
+
     },
 
     "generos": {
