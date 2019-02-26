@@ -1688,9 +1688,22 @@
             $scope.eventClicked = function ($selectedEvent) {
                 if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
                     $scope.evento = $selectedEvent;
-                    console.log($selectedEvent);
-                    if ($selectedEvent.status === 'livre') {
-                        vm.showEditarEvento();
+                    if ($selectedEvent.status === 'ocupado') {
+                        $mdDialog.show({
+                            locals: {
+                                tituloModal: $selectedEvent.descricaoEvento,
+                                eventoSelecionado: $selectedEvent
+                            },
+                            controller: DialogControllerVisualizarPartida,
+                            parent: angular.element(document.querySelector('agenda-content')),
+                            templateUrl: 'app/components/campeonato/agendamento/dialogVisualizarPartida.html',
+                            clickOutsideToClose: true,
+                            multiple: true
+                        }).then(function () {
+
+                        }, function () {
+
+                        });
                     } else if ($selectedEvent.status === 'pendente') {
                         //$filter('date')($selectedEvent.start, 'dd/MM/yyyy (EEEE) HH:mm:ss')
                         var mensagemConfirma = '';
@@ -1709,7 +1722,7 @@
                             .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
                             .htmlContent("<p>" + $selectedEvent.adversario.nome + " deseja agendar uma partida com você</p><h4>" + vm.campeonato.descricao + " - " + $selectedEvent.partida.rodada + $filter('translate')('messages.rodada') + "</h4>" +
                                 "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm') + "</h4>")
-                            .ariaLabel('Lucky day')
+                            .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
                             .ok(mensagemConfirma)
                             .cancel(mensagemRecusa)
                             .clickOutsideToClose(true)
@@ -1729,19 +1742,64 @@
                                     toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro'));
                                 });
                         }, function () {
-                            Agenda.recusarAgendamento($selectedEvent)
-                                .success(function (data) {
-                                    vm.carregarEventos();
-                                    toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
-                                        nome_adversario: $selectedEvent.adversario.nome,
-                                        data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
-                                        hora_partida: moment($selectedEvent.start).format('HH:mm')
-                                    }));
-                                })
-                                .error(function (error) {
-                                    toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
-                                });
+                            var mensagemConfirmaCerteza = '';
+                            var mensagemRecusaCerteza = '';
+
+                            if ($rootScope.telaMobile) {
+                                mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza_mobile');
+                                mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor_mobile');
+                            } else {
+                                mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza');
+                                mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor');
+                            }
+
+                            var confirm2 = $mdDialog.confirm()
+                                .parent(angular.element(document.querySelector('agenda-content')))
+                                .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                .textContent($filter('translate')('messages.certeza_recusar_partida'))
+                                .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                .ok(mensagemConfirmaCerteza)
+                                .cancel(mensagemRecusaCerteza)
+                                .clickOutsideToClose(true)
+                                .multiple(true);
+
+                            $mdDialog.show(confirm2).then(function () {
+                                Agenda.recusarAgendamento($selectedEvent)
+                                    .success(function (data) {
+                                        vm.carregarEventos();
+                                        toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                                            nome_adversario: $selectedEvent.adversario.nome,
+                                            data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
+                                            hora_partida: moment($selectedEvent.start).format('HH:mm')
+                                        }));
+                                    })
+                                    .error(function (error) {
+                                        toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                                    });
+                            }, function () {});
                         });
+
+                        /*
+                        $mdDialog.show({
+                            locals: {
+                                tituloModal: $filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento,
+                                mensagemConfirma: mensagemConfirma,
+                                mensagemRecusa: mensagemRecusa,
+                                eventoSelecionado: $selectedEvent
+                            },
+                            controller: DialogControllerConfirmarPartida,
+                            parent: angular.element(document.querySelector('agenda-content')),
+                            templateUrl: 'app/components/campeonato/agendamento/dialogConfirmaPartida.html',
+                            clickOutsideToClose: true,
+                            multiple: true
+                        }).then(function () {
+
+                        }, function () {
+
+                        });
+                        */
+                    } else {
+                        vm.showEditarEvento();
                     }
                 }
             };
@@ -1774,6 +1832,60 @@
             }
 
         };
+
+        function DialogControllerVisualizarPartida($scope, $mdDialog, tituloModal, eventoSelecionado) {
+            $scope.tituloModal = tituloModal;
+            $scope.eventoSelecionado = eventoSelecionado;
+            $scope.campeonato = vm.campeonato;
+            $scope.dataAgendamento = moment(eventoSelecionado.start).format('DD/MM/YYYY (dddd) - HH:mm');
+
+            $scope.cancelarAgendamento = function () {
+                var confirm = $mdDialog.prompt(eventoSelecionado)
+                    .title($filter('translate')('messages.mensagem_confirma_cancelar_agendamento'))
+                    .textContent($filter('translate')('messages.motivo_cancelar_agendamento'))
+                    .placeholder($filter('translate')('fields.motivo_contestacao'))
+                    .ariaLabel($filter('translate')('messages.mensagem_confirma_cancelar_agendamento'))
+                    .ok(vm.textoYes)
+                    .cancel(vm.textoNo)
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function (result) {
+                    eventoSelecionado.motivo = result;
+                    eventoSelecionado.users_id = $rootScope.usuarioLogado.id;
+                    Agenda.cancelarAgendamento(eventoSelecionado)
+                        .success(function () {
+                            vm.carregarEventos();
+                            toastr.success($filter('translate')('messages.agendamento_cancelado_sucesso'));
+                        })
+                        .error(function () {
+                            toastr.error($filter('translate')('messages.erro_operacao'));
+                        });
+                }, function () {
+                    console.log('nao cancelou');
+                });
+            }
+
+            $scope.recusarAgendamento = function () {
+                Agenda.recusarAgendamento(eventoSelecionado)
+                    .success(function (data) {
+                        vm.carregarEventos();
+                        toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                            nome_adversario: eventoSelecionado.adversario.nome,
+                            data_partida: moment(eventoSelecionado.start).format('DD/MM/YYYY (dddd)'),
+                            hora_partida: moment(eventoSelecionado.start).format('HH:mm')
+                        }));
+                        $mdDialog.cancel();
+                    })
+                    .error(function (error) {
+                        toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                    });
+            }
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+        }
 
         vm.showAdicionarEvento = function () {
             $mdSidenav('sidenav-evento')
@@ -1817,7 +1929,6 @@
                         } else if (evento.situacao == 'pendente') {
                             background = 'bg-warning';
                             titulo = $filter('translate')('messages.agenda_jogo_contra') + evento.adversario.nome;
-                            console.log(evento);
                         } else {
                             background = 'bg-success';
                             titulo = $filter('translate')('messages.agenda_livre');

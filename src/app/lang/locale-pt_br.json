@@ -571,8 +571,17 @@
         "mensagem_confirmacao_partida": "Confirmado o agendamento para a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
         "mensagem_recusa_partida": "Você recusou agendar a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
         "mensagem_confirmacao_partida_erro": "Houve um erro na confirmação do agendamento. Favor tentar novamente",
-        "mensagem_recusa_partida_erro": "Houve um erro na recusa do agendamento. Favor tentar novamente"
-
+        "mensagem_recusa_partida_erro": "Houve um erro na recusa do agendamento. Favor tentar novamente",
+        "certeza_recusar_partida": "Você tem certeza que deseja recusar o agendamento da partida? Esta operação não poderá ser desfeita",
+        "tenho_certeza": "Tenho certeza disso",
+        "pensar_melhor": "Vou pensar melhor",
+        "tenho_certeza_mobile": "Tenho certeza",
+        "pensar_melhor_mobile": "Estou incerto",
+        "detalhes_agendamento": "Detalhes do Agendamento",
+        "cancelar_agendamento": "Cancelar Agendamento",
+        "mensagem_confirma_cancelar_agendamento": "Você tem certeza que deseja cancelar o agendamento da partida já confirmado? Isso pode afetar o seu desempenho no campeonato e esta operação não poderá ser desfeita",
+        "motivo_cancelar_agendamento": "Insira o motivo na caixa abaixo",
+        "agendamento_cancelado_sucesso": "Agendamento cancelado com sucesso"
     },
 
     "generos": {

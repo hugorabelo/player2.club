@@ -488,8 +488,29 @@ class AgendaController extends Controller
         }
     }
 
-    public function cancelarAgendamento() {
+    public function cancelarAgendamento(Request $request) {
+        Log::warning($request);
+        $registroAtualizar = array('status'=>4);
+        $qtdeRegistros = DB::table('agendamento_marcacao')->where('partidas_id','=',$request->partida['id'])->where('status','=',1)->update($registroAtualizar);
+        if($qtdeRegistros === 0) {
+            return Response::json(array('success'=>false),300);
+        }
 
+        $motivo = $request->motivo != '' ? $request->motivo : 'undefined';
+        $partidaNaoRealidada = array('motivo'=>$motivo, 'users_id'=>$request->users_id, 'partidas_id'=>$request->partida['id']);
+        DB::table('agendamento_partida_nao_realizada')->insert($partidaNaoRealidada);
+
+        return Response::json(array('success'=>true));
+    }
+
+    public function verificaNaoRealizada() {
+        /*
+         * Se horario_atual > horario_agendamento
+         * Se partida não tem resultado
+         * Perguntar se a partida foi realizada
+         *      se sim -> direciona para a inserção do placar
+         *      se não -> pergunta o motivo e insere no partidas não realizadas
+         */
     }
 
     /*
