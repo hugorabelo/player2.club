@@ -1779,25 +1779,6 @@
                             }, function () {});
                         });
 
-                        /*
-                        $mdDialog.show({
-                            locals: {
-                                tituloModal: $filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento,
-                                mensagemConfirma: mensagemConfirma,
-                                mensagemRecusa: mensagemRecusa,
-                                eventoSelecionado: $selectedEvent
-                            },
-                            controller: DialogControllerConfirmarPartida,
-                            parent: angular.element(document.querySelector('agenda-content')),
-                            templateUrl: 'app/components/campeonato/agendamento/dialogConfirmaPartida.html',
-                            clickOutsideToClose: true,
-                            multiple: true
-                        }).then(function () {
-
-                        }, function () {
-
-                        });
-                        */
                     } else {
                         vm.showEditarEvento();
                     }

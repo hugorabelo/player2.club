@@ -242,4 +242,13 @@
             </md-card-content>
         </md-card>
     </div>
+
+    <md-button class="md-fab md-primary botao-sempre-visivel-bottom" aria-label="{{'messages.exibir_agenda' | translate}}" ng-if="vmCampeonato.campeonato.usuarioInscrito" ng-click="vmCampeonato.exibirAgenda($event)">
+        <i class="material-icons">event</i>
+
+        <md-tooltip md-direction="top ">
+            {{'messages.exibir_agenda' | translate}}
+        </md-tooltip>
+    </md-button>
+
 </div>
