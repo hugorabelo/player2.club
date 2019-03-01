@@ -489,7 +489,6 @@ class AgendaController extends Controller
     }
 
     public function cancelarAgendamento(Request $request) {
-        Log::warning($request);
         $registroAtualizar = array('status'=>4);
         $qtdeRegistros = DB::table('agendamento_marcacao')->where('partidas_id','=',$request->partida['id'])->where('status','=',1)->update($registroAtualizar);
         if($qtdeRegistros === 0) {
@@ -498,7 +497,7 @@ class AgendaController extends Controller
 
         $motivo = $request->motivo != '' ? $request->motivo : 'undefined';
         $partidaNaoRealidada = array('motivo'=>$motivo, 'users_id'=>$request->users_id, 'partidas_id'=>$request->partida['id']);
-        DB::table('agendamento_partida_nao_realizada')->insert($partidaNaoRealidada);
+        AgendamentoPartidaNaoRealizada::create($partidaNaoRealidada);
 
         return Response::json(array('success'=>true));
     }
@@ -511,6 +510,32 @@ class AgendaController extends Controller
          *      se sim -> direciona para a inserção do placar
          *      se não -> pergunta o motivo e insere no partidas não realizadas
          */
+    }
+
+    public function getHistoricoAgendamento(Request $partida) {
+        $partidasMarcadas = AgendamentoMarcacao::where('partidas_id','=',$partida->id)->orderBy('created_at')->get(array('status', 'usuario_host', 'usuario_convidado', 'horario_inicio', 'created_at'));
+        $partidasNaoRealizadas = AgendamentoPartidaNaoRealizada::where('partidas_id','=',$partida->id)->orderBy('created_at')->get(array('motivo', 'users_id', 'created_at'));
+
+        $historico = new Collection();
+        foreach ($partidasMarcadas as $marcada) {
+            $marcada->evento = 'marcacao';
+            $marcada->hora_formatada = Carbon::parse($marcada->created_at)->format('d/m/Y H:i');
+            $marcada->usuarioHost = User::find($marcada->usuario_host);
+            $marcada->usuarioConvidado = User::find($marcada->usuario_convidado);
+            $historico->push($marcada);
+        }
+
+        foreach ($partidasNaoRealizadas as $naoRealizada) {
+            $naoRealizada->evento = 'nao_realizacao';
+            $naoRealizada->hora_formatada = Carbon::parse($naoRealizada->created_at)->format('d/m/Y H:i');
+            $naoRealizada->usuario = User::find($naoRealizada->users_id);
+            $historico->push($naoRealizada);
+        }
+
+        $historicoOrdenado = $historico->sortBy('created_at');
+        $historicoOrdenado->values()->all();
+
+        return $historicoOrdenado->values();
     }
 
     /*

@@ -581,7 +581,14 @@
         "cancelar_agendamento": "Cancelar Agendamento",
         "mensagem_confirma_cancelar_agendamento": "Você tem certeza que deseja cancelar o agendamento da partida já confirmado? Isso pode afetar o seu desempenho no campeonato e esta operação não poderá ser desfeita",
         "motivo_cancelar_agendamento": "Insira o motivo na caixa abaixo",
-        "agendamento_cancelado_sucesso": "Agendamento cancelado com sucesso"
+        "agendamento_cancelado_sucesso": "Agendamento cancelado com sucesso",
+        "descricao_historico_partida_nao_realizada": "informou que a partida nao foi realizada pelo seguinte motivo:",
+        "convidou_adversario": "convidou",
+        "historico_rejeitou": "rejeitou o agendamento",
+        "historico_confirmou": "confirmou o agendamento, mas a partida não foi realizada.",
+        "historico_confirmou_cancelou": "confirmou o agendamento, mas o agendamento foi posteriormente cancelado.",
+        "historico_nao_respondeu": "não respondeu ao convite de agendamento.",
+        "historico_sem_agendamento": "Não houve agendamento para esta partida."
     },
 
     "generos": {

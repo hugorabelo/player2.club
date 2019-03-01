@@ -86,6 +86,17 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        getHistoricoAgendamento: function (partida) {
+            return $http({
+                method: 'POST',
+                url: 'api/agenda/historico',
+                data: $.param(partida),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

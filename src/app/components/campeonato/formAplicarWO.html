@@ -9,14 +9,65 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div class="m-b-sm">{{'messages.escolha_vencedor_wo' | translate}}</div>
-                <md-radio-group ng-model="vencedorWO" class="md-block m-t-sm">
+                <md-radio-group ng-model="vencedorWO" class="md-block m-t-sm" layout-gt-xs="row" layout-padding>
                     <md-radio-button ng-repeat="usuario in partida.usuarios" value="{{usuario.id}}" class="md-primary">
                         <img ng-src="uploads/usuarios/{{usuario.distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile" ng-if="partida.tipo_competidor != 'equipe'">
                         <img ng-src="uploads/{{usuario.distintivo}}" class="placar-jogo-equipes-escudo-visitante" alt="profile" ng-if="partida.tipo_competidor == 'equipe'"> {{usuario.nome}}
                     </md-radio-button>
                     <md-radio-button value="0" class="md-primary">{{'messages.wo_duplo' | translate}}</md-radio-button>
                 </md-radio-group>
+
+                <md-divider class="m-t-md"></md-divider>
+
+                <!-- TIMELINE -->
+
+                <div id="vertical-timeline" class="vertical-container dark-timeline">
+                    <div class="vertical-timeline-block" ng-repeat="item in historicoAgendamento">
+                        <div class="vertical-timeline-icon navy-bg" ng-if="item.evento == 'marcacao'">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="vertical-timeline-icon bg-danger" ng-if="item.evento == 'marcacao' && item.status == 5">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="vertical-timeline-icon bg-danger" ng-if="item.evento == 'nao_realizacao'">
+                            <i class="fa fa-times"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <span class="vertical-date m-r-sm">
+                                <small>{{item.hora_formatada}}</small>
+                            </span>
+                            <span ng-if="item.evento == 'nao_realizacao'">
+                                {{item.usuario.nome}} {{'messages.descricao_historico_partida_nao_realizada' | translate}} <b>{{item.motivo}}</b>
+                            </span>
+
+                            <span ng-if="item.evento == 'marcacao'">
+                                <span ng-if="item.status < 5">{{item.usuarioHost.nome}} {{'messages.convidou_adversario' | translate}} {{item.usuarioConvidado.nome}}.</span>
+                            <span ng-if="item.status == 0">{{item.usuarioHost.nome}} {{'messages.historico_nao_respondeu' | translate}}</span>
+                            <span ng-if="item.status == 1">{{item.usuarioConvidado.nome}} {{'messages.historico_confirmou' | translate}}</span>
+                            <span ng-if="item.status == 2">{{item.usuarioConvidado.nome}} {{'messages.historico_rejeitou' | translate}}</span>
+                            <span ng-if="item.status == 4">{{item.usuarioConvidado.nome}} {{'messages.historico_confirmou_cancelou' | translate}}</span>
+                            <span ng-if="item.status == 5">{{'messages.historico_sem_agendamento' | translate}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block" ng-if="historicoAgendamento.length == 0">
+                        <div class="vertical-timeline-icon bg-danger">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            {{'messages.historico_sem_agendamento' | translate}}
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- FIM TIMELINE -->
 
         </md-dialog-content>
 

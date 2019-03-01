@@ -834,11 +834,6 @@
                 });
         };
 
-        vm.aplicarWO = function (partida) {
-
-        };
-
-
         function DialogControllerInscricaoEscolherEquipe($scope, $mdDialog, tituloModal, equipes) {
             $scope.tituloModal = tituloModal;
             $scope.equipes = equipes;
@@ -1358,29 +1353,36 @@
 
         vm.aplicarWO = function (partida) {
             partida.tipo_competidor = vm.campeonato.tipo_competidor;
-            $mdDialog.show({
-                    locals: {
-                        tituloModal: 'fields.aplicar_wo',
-                        partida: partida
-                    },
-                    controller: DialogControllerWO,
-                    templateUrl: 'app/components/campeonato/formAplicarWO.html',
-                    parent: angular.element(document.body),
-                    targetEvent: null,
-                    clickOutsideToClose: true,
-                    fullscreen: true
-                })
-                .then(function () {
 
-                }, function () {
+            Agenda.getHistoricoAgendamento(partida)
+                .success(function (data) {
+                    console.log(data);
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'fields.aplicar_wo',
+                                partida: partida,
+                                historico_agendamento: data
+                            },
+                            controller: DialogControllerWO,
+                            templateUrl: 'app/components/campeonato/formAplicarWO.html',
+                            parent: angular.element(document.body),
+                            targetEvent: null,
+                            clickOutsideToClose: true,
+                            fullscreen: true
+                        })
+                        .then(function () {
 
+                        }, function () {
+
+                        });
                 });
         };
 
 
-        function DialogControllerWO($scope, $mdDialog, tituloModal, partida) {
+        function DialogControllerWO($scope, $mdDialog, tituloModal, partida, historico_agendamento) {
             $scope.tituloModal = tituloModal;
             $scope.partida = partida;
+            $scope.historicoAgendamento = historico_agendamento;
 
             $scope.fechar = function () {
                 $mdDialog.hide();
