@@ -1356,7 +1356,6 @@
 
             Agenda.getHistoricoAgendamento(partida)
                 .success(function (data) {
-                    console.log(data);
                     $mdDialog.show({
                             locals: {
                                 tituloModal: 'fields.aplicar_wo',
@@ -1719,67 +1718,96 @@
                             mensagemRecusa = $filter('translate')('messages.recusar_partida');
                         }
 
-                        var confirm = $mdDialog.confirm()
-                            .parent(angular.element(document.querySelector('agenda-content')))
-                            .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
-                            .htmlContent("<p>" + $selectedEvent.adversario.nome + " deseja agendar uma partida com você</p><h4>" + vm.campeonato.descricao + " - " + $selectedEvent.partida.rodada + $filter('translate')('messages.rodada') + "</h4>" +
-                                "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm') + "</h4>")
-                            .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
-                            .ok(mensagemConfirma)
-                            .cancel(mensagemRecusa)
-                            .clickOutsideToClose(true)
-                            .multiple(true);
-
-                        $mdDialog.show(confirm).then(function () {
-                            Agenda.confirmarAgendamento($selectedEvent)
-                                .success(function (data) {
-                                    vm.carregarEventos();
-                                    toastr.success($filter('translate')('messages.mensagem_confirmacao_partida', {
-                                        nome_adversario: $selectedEvent.adversario.nome,
-                                        data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
-                                        hora_partida: moment($selectedEvent.start).format('HH:mm')
-                                    }));
-                                })
-                                .error(function (error) {
-                                    toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro'));
-                                });
-                        }, function () {
-                            var mensagemConfirmaCerteza = '';
-                            var mensagemRecusaCerteza = '';
-
-                            if ($rootScope.telaMobile) {
-                                mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza_mobile');
-                                mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor_mobile');
-                            } else {
-                                mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza');
-                                mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor');
-                            }
-
-                            var confirm2 = $mdDialog.confirm()
+                        if ($rootScope.usuarioLogado.id !== $selectedEvent.usuario_host) {
+                            var confirm = $mdDialog.confirm()
                                 .parent(angular.element(document.querySelector('agenda-content')))
                                 .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
-                                .textContent($filter('translate')('messages.certeza_recusar_partida'))
+                                .htmlContent("<p>" + $selectedEvent.adversario.nome + " deseja agendar uma partida com você</p><h4>" + vm.campeonato.descricao + " - " + $selectedEvent.partida.rodada + $filter('translate')('messages.rodada') + "</h4>" +
+                                    "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm') + "</h4>")
                                 .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
-                                .ok(mensagemConfirmaCerteza)
-                                .cancel(mensagemRecusaCerteza)
+                                .ok(mensagemConfirma)
+                                .cancel(mensagemRecusa)
                                 .clickOutsideToClose(true)
                                 .multiple(true);
 
-                            $mdDialog.show(confirm2).then(function () {
-                                Agenda.recusarAgendamento($selectedEvent)
+                            $mdDialog.show(confirm).then(function () {
+                                Agenda.confirmarAgendamento($selectedEvent)
                                     .success(function (data) {
                                         vm.carregarEventos();
-                                        toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                                        toastr.success($filter('translate')('messages.mensagem_confirmacao_partida', {
                                             nome_adversario: $selectedEvent.adversario.nome,
                                             data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
                                             hora_partida: moment($selectedEvent.start).format('HH:mm')
                                         }));
                                     })
                                     .error(function (error) {
-                                        toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                                        console.log(error);
+                                        if (error.error == 'usuario_invalido') {
+                                            toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro_usuario_invalido'));
+                                        } else {
+                                            toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro'));
+                                        }
                                     });
-                            }, function () {});
-                        });
+                            }, function () {
+                                var mensagemConfirmaCerteza = '';
+                                var mensagemRecusaCerteza = '';
+
+                                if ($rootScope.telaMobile) {
+                                    mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza_mobile');
+                                    mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor_mobile');
+                                } else {
+                                    mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza');
+                                    mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor');
+                                }
+
+                                var confirm2 = $mdDialog.confirm()
+                                    .parent(angular.element(document.querySelector('agenda-content')))
+                                    .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                    .textContent($filter('translate')('messages.certeza_recusar_partida'))
+                                    .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                    .ok(mensagemConfirmaCerteza)
+                                    .cancel(mensagemRecusaCerteza)
+                                    .clickOutsideToClose(true)
+                                    .multiple(true);
+
+                                $mdDialog.show(confirm2).then(function () {
+                                    Agenda.recusarAgendamento($selectedEvent)
+                                        .success(function (data) {
+                                            vm.carregarEventos();
+                                            toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                                                nome_adversario: $selectedEvent.adversario.nome,
+                                                data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
+                                                hora_partida: moment($selectedEvent.start).format('HH:mm')
+                                            }));
+                                        })
+                                        .error(function (error) {
+                                            if (error.error == 'usuario_invalido') {
+                                                toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro_usuario_invalido'));
+                                            } else {
+                                                toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                                            }
+                                        });
+                                }, function () {});
+
+                            });
+
+                        } else {
+                            $mdDialog.show({
+                                locals: {
+                                    tituloModal: $selectedEvent.descricaoEvento,
+                                    eventoSelecionado: $selectedEvent
+                                },
+                                controller: DialogControllerVisualizarPartida,
+                                parent: angular.element(document.querySelector('agenda-content')),
+                                templateUrl: 'app/components/campeonato/agendamento/dialogVisualizarPartida.html',
+                                clickOutsideToClose: true,
+                                multiple: true
+                            }).then(function () {
+
+                            }, function () {
+
+                            });
+                        }
 
                     } else {
                         vm.showEditarEvento();
@@ -1878,8 +1906,11 @@
         };
 
         vm.inserirEvento = function (date, hora_inicio, hora_fim) {
-            hora_inicio = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_inicio.getHours(), hora_inicio.getMinutes());
-            hora_fim = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_fim.getHours(), hora_fim.getMinutes());
+            hora_inicio = moment(hora_inicio, 'HH:mm');
+            hora_fim = moment(hora_fim, 'HH:mm');
+
+            hora_inicio = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_inicio.hours(), hora_inicio.minutes());
+            hora_fim = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_fim.hours(), hora_fim.minutes());
             var dados = {};
             dados.hora_inicio = hora_inicio;
             dados.hora_fim = hora_fim;
@@ -1925,7 +1956,9 @@
                             descricaoEvento: titulo,
                             status: evento.situacao,
                             partida: evento.partida,
-                            adversario: evento.adversario
+                            adversario: evento.adversario,
+                            usuario_host: evento.usuario_host,
+                            id: evento.idHorario
                         };
                         vm.eventos.push(novoEvento);
                     });

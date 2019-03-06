@@ -45,9 +45,10 @@
 
                             <span ng-if="item.evento == 'marcacao'">
                                 <span ng-if="item.status < 5">{{item.usuarioHost.nome}} {{'messages.convidou_adversario' | translate}} {{item.usuarioConvidado.nome}}.</span>
-                            <span ng-if="item.status == 0">{{item.usuarioHost.nome}} {{'messages.historico_nao_respondeu' | translate}}</span>
+                            <span ng-if="item.status == 0">{{item.usuarioConvidado.nome}} {{'messages.historico_nao_respondeu' | translate}}</span>
                             <span ng-if="item.status == 1">{{item.usuarioConvidado.nome}} {{'messages.historico_confirmou' | translate}}</span>
                             <span ng-if="item.status == 2">{{item.usuarioConvidado.nome}} {{'messages.historico_rejeitou' | translate}}</span>
+                            <span ng-if="item.status == 3">{{item.usuarioHost.nome}} {{'messages.historico_cancelou' | translate}}</span>
                             <span ng-if="item.status == 4">{{item.usuarioConvidado.nome}} {{'messages.historico_confirmou_cancelou' | translate}}</span>
                             <span ng-if="item.status == 5">{{'messages.historico_sem_agendamento' | translate}}</span>
                             </span>

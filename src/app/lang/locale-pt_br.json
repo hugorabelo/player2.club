@@ -571,6 +571,8 @@
         "mensagem_confirmacao_partida": "Confirmado o agendamento para a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
         "mensagem_recusa_partida": "Você recusou agendar a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
         "mensagem_confirmacao_partida_erro": "Houve um erro na confirmação do agendamento. Favor tentar novamente",
+        "mensagem_confirmacao_partida_erro_usuario_invalido": "Apenas o adversário convidado pode confirmar o agendamento da partida",
+        "mensagem_recusa_partida_erro_usuario_invalido": "Apenas o adversário convidado pode rejeitar o agendamento da partida",
         "mensagem_recusa_partida_erro": "Houve um erro na recusa do agendamento. Favor tentar novamente",
         "certeza_recusar_partida": "Você tem certeza que deseja recusar o agendamento da partida? Esta operação não poderá ser desfeita",
         "tenho_certeza": "Tenho certeza disso",
@@ -588,7 +590,9 @@
         "historico_confirmou": "confirmou o agendamento, mas a partida não foi realizada.",
         "historico_confirmou_cancelou": "confirmou o agendamento, mas o agendamento foi posteriormente cancelado.",
         "historico_nao_respondeu": "não respondeu ao convite de agendamento.",
-        "historico_sem_agendamento": "Não houve agendamento para esta partida."
+        "historico_sem_agendamento": "Não houve agendamento para esta partida.",
+        "adversario_nao_confirmou_ainda": "O adversário ainda não confirmou nem rejeitou a partida.",
+        "historico_cancelou": "cancelou o agendamento antes de o adversário responder"
     },
 
     "generos": {
