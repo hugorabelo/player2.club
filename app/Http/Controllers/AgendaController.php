@@ -359,6 +359,12 @@ class AgendaController extends Controller
 
         AgendamentoMarcacao::create($registroSalvar);
 
+        $evento = NotificacaoEvento::where('valor','=','agendamento_criado')->first();
+        if(isset($evento)) {
+            $idEventoNotificacao = $evento->id;
+            $this->insereNotificacao($idEventoNotificacao, $usuario_convidado);
+        }
+
         $horario_intervalo = AgendamentoHorarioDisponivel::
         whereRaw("'$horario_inicio' between hora_inicio AND hora_fim and ".
             "campeonato_usuarios_id = (".
@@ -480,11 +486,19 @@ class AgendaController extends Controller
 
     public function confirmarAgendamento(Request $request) {
         $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_convidado;
+        $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_host;
         if(Auth::getUser()->id != $idUsuarioConvidado) {
             return Response::json(array('success'=>false, 'error'=>'usuario_invalido'),300);
         }
         $registroAtualizar = array('status'=>1);
         $qtdeRegistros = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->update($registroAtualizar);
+
+        $evento = NotificacaoEvento::where('valor','=','agendamento_confirmado')->first();
+        if(isset($evento)) {
+            $idEventoNotificacao = $evento->id;
+            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
+        }
+
         if($qtdeRegistros === 0) {
             return Response::json(array('success'=>false),300);
         }
@@ -492,11 +506,19 @@ class AgendaController extends Controller
 
     public function recusarAgendamento(Request $request) {
         $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_convidado;
+        $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_host;
         if(Auth::getUser()->id != $idUsuarioConvidado) {
             return Response::json(array('success'=>false, 'error'=>'usuario_invalido'),300);
         }
         $registroAtualizar = array('status'=>2);
         $qtdeRegistros = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->update($registroAtualizar);
+
+        $evento = NotificacaoEvento::where('valor','=','agendamento_recusado')->first();
+        if(isset($evento)) {
+            $idEventoNotificacao = $evento->id;
+            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
+        }
+
         if($qtdeRegistros === 0) {
             return Response::json(array('success'=>false),300);
         }
@@ -510,9 +532,16 @@ class AgendaController extends Controller
             $registroAtualizar = array('status'=>4);
             $statusMarcacao = 1;
         }
+        $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_host;
         $qtdeRegistros = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->update($registroAtualizar);
         if($qtdeRegistros === 0) {
             return Response::json(array('success'=>false),300);
+        }
+
+        $evento = NotificacaoEvento::where('valor','=','agendamento_cancelado')->first();
+        if(isset($evento)) {
+            $idEventoNotificacao = $evento->id;
+            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
         }
 
         $motivo = $request->motivo != '' ? $request->motivo : 'undefined';
@@ -557,6 +586,18 @@ class AgendaController extends Controller
 
         return $historicoOrdenado->values();
     }
+
+    private function insereNotificacao($idEventoNotificao, $idDestinatario) {
+        $usuarioLogado = Auth::getUser();
+        if($idDestinatario != $usuarioLogado->id) {
+            $notificacao = new Notificacao();
+            $notificacao->id_remetente = $usuarioLogado->id;
+            $notificacao->id_destinatario = $idDestinatario;
+            $notificacao->evento_notificacao_id = $idEventoNotificao;
+            $notificacao->save();
+        }
+    }
+
 
     /*
      * Status Agendamento
