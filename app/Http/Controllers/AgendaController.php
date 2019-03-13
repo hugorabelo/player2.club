@@ -533,16 +533,21 @@ class AgendaController extends Controller
             $statusMarcacao = 1;
         }
         $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_host;
+        $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_convidado;
         $qtdeRegistros = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->update($registroAtualizar);
         if($qtdeRegistros === 0) {
             return Response::json(array('success'=>false),300);
         }
 
+        Log::warning('host cancelando');
         $evento = NotificacaoEvento::where('valor','=','agendamento_cancelado')->first();
         if(isset($evento)) {
             $idEventoNotificacao = $evento->id;
+            Log::warning('host cancelando - notificacao');
             $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
         }
+
+        Log::debug('host cancelando - pos notificacao');
 
         $motivo = $request->motivo != '' ? $request->motivo : 'undefined';
         $partidaNaoRealidada = array('motivo'=>$motivo, 'users_id'=>$request->users_id, 'partidas_id'=>$request->partida['id']);
