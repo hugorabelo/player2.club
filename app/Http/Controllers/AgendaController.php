@@ -528,26 +528,24 @@ class AgendaController extends Controller
         if($request->status == 'pendente') {
             $registroAtualizar = array('status'=>3);
             $statusMarcacao = 0;
+            $destinatario = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_convidado;
         } else if($request->status == 'ocupado') {
             $registroAtualizar = array('status'=>4);
             $statusMarcacao = 1;
+            $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_convidado;
+            $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_host;
+            $destinatario = Auth::getUser()->id == $idUsuarioHost ? $idUsuarioConvidado : $idUsuarioHost;
         }
-        $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_host;
-        $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_convidado;
         $qtdeRegistros = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->update($registroAtualizar);
         if($qtdeRegistros === 0) {
             return Response::json(array('success'=>false),300);
         }
 
-        Log::warning('host cancelando');
         $evento = NotificacaoEvento::where('valor','=','agendamento_cancelado')->first();
         if(isset($evento)) {
             $idEventoNotificacao = $evento->id;
-            Log::warning('host cancelando - notificacao');
-            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
+            $this->insereNotificacao($idEventoNotificacao, $destinatario);
         }
-
-        Log::debug('host cancelando - pos notificacao');
 
         $motivo = $request->motivo != '' ? $request->motivo : 'undefined';
         $partidaNaoRealidada = array('motivo'=>$motivo, 'users_id'=>$request->users_id, 'partidas_id'=>$request->partida['id']);
