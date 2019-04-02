@@ -12,6 +12,20 @@
             $rootScope.telaMobile = telaMobile;
         });
 
+        /*Verificar ações não realizadas pelo usuário
+         * Partida agendada não realizada
+         * Avaliação de usuário não realizada
+         */
+
+        vm.verificaPartidaNaoRealizada = function (idUsuario) {
+            alert(idUsuario);
+        };
+
+        $scope.$on('userProfileSet', function () {
+            vm.verificaPartidaNaoRealizada($rootScope.usuarioLogado.id);
+        });
+
+
         var originatorEv;
 
         vm.itensPesquisa = {};
@@ -204,6 +218,5 @@
                 });
         };
 
-
-                }]);
+    }]);
 }());
