@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class UsersController extends Controller {
 
@@ -733,5 +734,17 @@ class UsersController extends Controller {
 			$userPartida->anonimo_id = null;
 			$userPartida->save();
 		}
+    }
+
+    public function verificarPendencias() {
+        $idUsuario = Auth::getUser()->id;
+        $pendencias = array();
+
+        //Partida agendada não realizada
+        $agora = Carbon::parse();
+        $partidasNaoRealizados = AgendamentoMarcacao::whereRaw("horario_inicio + (duracao * INTERVAL '1 MINUTES') < now() and status = 1 and (usuario_host = $idUsuario or usuario_convidado = $idUsuario)")->get();
+        $pendencias['partidas_nao_realizadas'] = $partidasNaoRealizados;
+
+        return Response::json($pendencias);
     }
 }
