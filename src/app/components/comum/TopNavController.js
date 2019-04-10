@@ -15,6 +15,7 @@
         /*Verificar ações não realizadas pelo usuário
          * Partida agendada não realizada
          * Avaliação de usuário não realizada
+         * Partida não confirmada
          */
 
         vm.verificaPartidaNaoRealizada = function (idUsuario) {
