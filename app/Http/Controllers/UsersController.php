@@ -742,7 +742,16 @@ class UsersController extends Controller {
 
         //Partida agendada não realizada
         $agora = Carbon::parse();
-        $partidasNaoRealizados = AgendamentoMarcacao::whereRaw("horario_inicio + (duracao * INTERVAL '1 MINUTES') < now() and status = 1 and (usuario_host = $idUsuario or usuario_convidado = $idUsuario)")->get();
+		$partidasNaoRealizados = AgendamentoMarcacao::whereRaw("horario_inicio + (duracao * INTERVAL '1 MINUTES') < now() and status = 1 and (usuario_host = $idUsuario or usuario_convidado = $idUsuario)")->get();
+		// Pegar os agendamentos e procurar as partidas sem resultado
+		foreach($partidasNaoRealizados as $partida) {
+			$partida->usuarioHost = User::find($partida->usuario_host);
+			$partida->usuarioConvidado = User::find($partida->usuario_convidado);
+			$partidaTemp = Partida::find($partida->partidas_id);
+			$partida->campeonato = $partidaTemp->campeonato();
+			$partida->horario_inicio = Carbon::parse($partida->horario_inicio)->format('d/m/Y H:i');
+			$partida->detalhesPartida = $partidaTemp;
+		}
         $pendencias['partidas_nao_realizadas'] = $partidasNaoRealizados;
 
         return Response::json($pendencias);
