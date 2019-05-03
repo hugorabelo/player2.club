@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', '$window', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, $window, Auth, Usuario, Atividade) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', '$window', '$mdDialog', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, $window, $mdDialog, Auth, Usuario, Atividade) {
 
         var vm = this;
 
@@ -11,6 +11,61 @@
         }, function (telaMobile) {
             $rootScope.telaMobile = telaMobile;
         });
+
+        /*Verificar ações não realizadas pelo usuário
+         * Partida agendada não realizada
+         * Avaliação de usuário não realizada
+         * Partida não confirmada
+         */
+
+         vm.exibeModalPendencias = function(pendenciasUsuario) {
+            $mdDialog.show({
+                locals: {
+                    tituloModal: 'fields.pendencias',
+                    pendenciasUsuario: pendenciasUsuario
+                },
+                controller: DialogControllerPendencias,
+                templateUrl: 'app/components/comum/pendencias.html',
+                parent: angular.element(document.body),
+                targetEvent: null,
+                clickOutsideToClose: false,
+                fullscreen: true
+            })
+            .then(function () {
+
+            }, function () {
+
+            });
+         }
+
+         function DialogControllerPendencias($scope, $mdDialog, tituloModal, pendenciasUsuario) {
+            $scope.tituloModal = tituloModal;
+            $scope.pendenciasUsuario = pendenciasUsuario;
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
+        };
+
+        vm.verificaPendencias = function (idUsuario) {
+            vm.pendenciasUsuario = {};
+            Usuario.verificarPendencias()
+                .success(function(data) {
+                    vm.pendenciasUsuario.partidasNaoRealizadas = data.partidas_nao_realizadas;
+                    vm.exibeModalPendencias(vm.pendenciasUsuario);
+                    //console.log(vm.pendenciasUsuario);
+                })
+                .error(function (error) {
+                    console.log(error);
+                });
+        };
+
+        vm.exibe
+
+        $scope.$on('userProfileSet', function () {
+            vm.verificaPendencias($rootScope.usuarioLogado.id);
+        });
+
 
         var originatorEv;
 
@@ -204,6 +259,5 @@
                 });
         };
 
-
-                }]);
+    }]);
 }());

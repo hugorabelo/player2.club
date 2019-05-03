@@ -175,7 +175,9 @@
         "hora_fim": "Hora de Término",
         "duracao": "Duração (minutos)",
         "agendar_partida": "Agendar Partida",
-        "recusar": "Recusar"
+        "recusar": "Recusar",
+
+        "pendencias": "Atividades Pendentes para Você"
     },
 
     "messages": {
@@ -592,7 +594,8 @@
         "historico_nao_respondeu": "não respondeu ao convite de agendamento.",
         "historico_sem_agendamento": "Não houve agendamento para esta partida.",
         "adversario_nao_confirmou_ainda": "O adversário ainda não confirmou nem rejeitou a partida.",
-        "historico_cancelou": "cancelou o agendamento antes de o adversário responder"
+        "historico_cancelou": "cancelou o agendamento antes de o adversário responder",
+        "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?"
     },
 
     "generos": {
