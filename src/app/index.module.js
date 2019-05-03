@@ -38,7 +38,7 @@
     //    });
 
     //Ambiente: local | dev | beta | hugorabelo
-    var ambiente = 'local';
+    var ambiente = 'localMac';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
     var responseTypeAmbiente;
@@ -46,6 +46,11 @@
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
+        redirectUrlAmbiente = "http://localhost:3000";
+        responseTypeAmbiente = "token";
+        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
+    } if (ambiente == 'localMac') {
+        apiUrlAmbiente = "http://player2.local/public/";
         redirectUrlAmbiente = "http://localhost:3000";
         responseTypeAmbiente = "token";
         clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
