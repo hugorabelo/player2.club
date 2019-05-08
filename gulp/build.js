@@ -2,6 +2,7 @@
 
 var path = require('path');
 var gulp = require('gulp');
+var mode = require('gulp-mode')();
 var conf = require('./conf');
 
 var $ = require('gulp-load-plugins')({
@@ -13,11 +14,11 @@ gulp.task('partials', function () {
     path.join(conf.paths.src, '/app/**/*.html'),
     path.join(conf.paths.tmp, '/serve/app/**/*.html')
   ])
-        .pipe($.minifyHtml({
+        .pipe(mode.production($.minifyHtml({
             empty: true,
             spare: true,
             quotes: true
-        }))
+        })))
         .pipe($.angularTemplatecache('templateCacheHtml.js', {
             module: 'player2',
             root: 'app'
@@ -51,32 +52,32 @@ gulp.task('html', ['inject', 'partials'], function () {
         .pipe(assets = $.useref.assets())
         .pipe($.rev())
         .pipe(jsFilter)
-        .pipe($.sourcemaps.init())
+        .pipe(mode.production($.sourcemaps.init()))
         .pipe($.ngAnnotate())
-        .pipe($.uglify({
+        .pipe(mode.production($.uglify({
             preserveComments: $.uglifySaveLicense
-        })).on('error', conf.errorHandler('Uglify'))
-        .pipe($.sourcemaps.write('maps'))
+        }))).on('error', conf.errorHandler('Uglify'))
+        .pipe(mode.production($.sourcemaps.write('maps')))
         .pipe(jsFilter.restore)
         .pipe(cssFilter)
-        .pipe($.sourcemaps.init())
-        .pipe($.replace('../../bower_components/bootstrap/fonts/', '../fonts/'))
-        .pipe($.replace('../../bower_components/fontawesome/fonts/', '../fonts/'))
-        .pipe($.minifyCss({
+        .pipe(mode.production($.sourcemaps.init()))
+        .pipe(mode.production($.replace('../../bower_components/bootstrap/fonts/', '../fonts/')))
+        .pipe(mode.production($.replace('../../bower_components/fontawesome/fonts/', '../fonts/')))
+        .pipe(mode.production($.minifyCss({
             processImport: false
-        }))
-        .pipe($.sourcemaps.write('maps'))
+        })))
+        .pipe(mode.production($.sourcemaps.write('maps')))
         .pipe(cssFilter.restore)
         .pipe(assets.restore())
         .pipe($.useref())
         .pipe($.revReplace())
         .pipe(htmlFilter)
-        .pipe($.minifyHtml({
+        .pipe(mode.production($.minifyHtml({
             empty: true,
             spare: true,
             quotes: true,
             conditionals: true
-        }))
+        })))
         .pipe(htmlFilter.restore)
         .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
         .pipe($.size({

@@ -36,32 +36,28 @@
 
 
     //Ambiente: local | dev | beta | hugorabelo
-    var ambiente = 'local';
+    var ambiente = 'player2.local';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
-    var responseTypeAmbiente;
-    var clientIdAmbiente;
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
-        responseTypeAmbiente = "token";
-        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
+    } else if (ambiente == 'localMac') {
+        apiUrlAmbiente = "http://player2.local/";
+        redirectUrlAmbiente = "http://localhost:3000";
+    } else if (ambiente == 'player2.local') {
+        apiUrlAmbiente = "/";
+        redirectUrlAmbiente = "http://player2.local";
     } else if (ambiente == 'dev') {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://dev.player2.club";
-        responseTypeAmbiente = "token";
-        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     } else if (ambiente == "hugorabelo") {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.hugorabelo.com";
-        responseTypeAmbiente = "token";
-        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     } else {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.player2.club";
-        responseTypeAmbiente = "token";
-        clientIdAmbiente = 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm';
     }
 
     angular.module('player2').config(['$compileProvider', function ($compileProvider) {
@@ -112,7 +108,6 @@
             request: function (config) {
                 //                apiUrlAmbiente = localStorageService.get('API_URL');
                 //                redirectUrlAmbiente = localStorageService.get('redirectUrl');
-                //                responseTypeAmbiente = localStorageService.get('responseType');
                 var url = config.url;
 
                 // ignore template requests
