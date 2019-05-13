@@ -590,6 +590,16 @@ class AgendaController extends Controller
         return $historicoOrdenado->values();
     }
 
+    public function justificaPartidaNaoRealizada(Request $partida) {
+        $usuarioLogado = Auth::getUser();
+        $partidaNaoRealidada = array('motivo'=>$partida->motivo_nao_realizacao, 'users_id'=>$usuarioLogado->id, 'partidas_id'=>$partida->partidas_id);
+        AgendamentoPartidaNaoRealizada::create($partidaNaoRealidada);
+
+        AgendamentoMarcacao::where('id','=',$partida->id)->update(array('status'=>5));
+
+        return Response::json(array('success'=>true));
+    }
+
     private function insereNotificacao($idEventoNotificao, $idDestinatario) {
         $usuarioLogado = Auth::getUser();
         if($idDestinatario != $usuarioLogado->id) {
@@ -610,6 +620,7 @@ class AgendaController extends Controller
      * 3: Cancelado pelo host antes da confirmação
      * 4: Cancelado (após confirmado)
      * 5: Não realizado
+     * 6: Realizado
      */
 
 }

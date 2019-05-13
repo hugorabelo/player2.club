@@ -180,10 +180,10 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 								if($this->administraMesmaEquipeNoCampeonato($campeonato->id, $partida->usuario_placar)) {
 									$partida->pode_cancelar = true;
 								} else {
-									$partida->pode_confirmar_contestar = true;
+									$partida->pode_confirmar_contestar = !$partida->contestada();
 								}
 							} else {
-								$partida->pode_confirmar_contestar = true;
+								$partida->pode_confirmar_contestar = !$partida->contestada();
 							}
 						} else {
 							$partida->pode_cancelar = true;

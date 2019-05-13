@@ -95,6 +95,8 @@
         "salvar_resultado": "Salvar resultado",
         "confirmar_resultado": "Confirmar resultado",
         "contestar_resultado": "Contestar resultado",
+        "confirmar_resultado_mobile": "Confirmar",
+        "contestar_resultado_mobile": "Contestar",
         "aguardando_confirmacao": "Resultado aguardando confirmação",
         "placar_confirmado": "Placar confirmado pelos usuários",
         "tempo_restante": "Data Limite: ",
@@ -595,7 +597,8 @@
         "historico_sem_agendamento": "Não houve agendamento para esta partida.",
         "adversario_nao_confirmou_ainda": "O adversário ainda não confirmou nem rejeitou a partida.",
         "historico_cancelou": "cancelou o agendamento antes de o adversário responder",
-        "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?"
+        "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?",
+        "partidas_nao_confirmadas_intro": "O placar das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou."
     },
 
     "generos": {

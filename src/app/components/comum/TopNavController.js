@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', '$window', '$mdDialog', 'Auth', 'Usuario', 'Atividade', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, $window, $mdDialog, Auth, Usuario, Atividade) {
+    angular.module('player2').controller('TopNavController', ['$rootScope', '$scope', '$translate', '$location', '$mdDateLocale', '$filter', '$mdMedia', '$mdSidenav', '$http', '$window', '$mdDialog', 'Auth', 'Usuario', 'Atividade', 'Partida', 'Agenda', function ($rootScope, $scope, $translate, $location, $mdDateLocale, $filter, $mdMedia, $mdSidenav, $http, $window, $mdDialog, Auth, Usuario, Atividade, Partida, Agenda) {
 
         var vm = this;
 
@@ -29,7 +29,8 @@
                 parent: angular.element(document.body),
                 targetEvent: null,
                 clickOutsideToClose: false,
-                fullscreen: true
+                fullscreen: true,
+                multiple: true
             })
             .then(function () {
 
@@ -38,34 +39,136 @@
             });
          }
 
+         vm.ocultaModalPendencias = function() {
+             $mdDialog.hide();
+         }
+
          function DialogControllerPendencias($scope, $mdDialog, tituloModal, pendenciasUsuario) {
             $scope.tituloModal = tituloModal;
             $scope.pendenciasUsuario = pendenciasUsuario;
+            $scope.editPlacar = {};
+            $scope.editMotivo = {};
 
             $scope.fechar = function () {
                 $mdDialog.hide();
             }
+
+            $scope.confirmarPlacar = function (idPartida) {
+                var dados = {};
+                dados.id_partida = idPartida;
+                Partida.confirmarPlacar(dados)
+                    .success(function () {
+                        vm.atualizaPendencias();
+                    })
+                    .error(function (data) {
+                        toastr.error($filter('translate')(data.errors[0]));
+                    });
+            }
+
+            // $scope.contestarPlacar = function(idPartida) {
+            //     vm.contestacao_resultado = {};
+            //     vm.contestacao_resultado.partidas_id = idPartida;
+            //     vm.contestacao_resultado.users_id = $rootScope.usuarioLogado.id;
+            //     $mdDialog.show({
+            //             locals: {
+            //                 tituloModal: 'messages.partida_contestar',
+            //                 contestacao_resultado: vm.contestacao_resultado
+            //             },
+            //             controller: DialogControllerContestacao,
+            //             templateUrl: 'app/components/campeonato/formContestacaoResultado.html',
+            //             parent: angular.element(document.body),
+            //             targetEvent: ev,
+            //             clickOutsideToClose: true,
+            //             fullscreen: true // Only for -xs, -sm breakpoints.
+            //         })
+            //         .then(function () {
+            //             toastr.success($filter('translate')('messages.sucesso_contestacao_solicitada'));
+            //         }, function () {
+
+            //         });
+            // }
+
+            $scope.abrirFormInserirPlacar = function(partida) {
+                $scope.editPlacar[partida.id] = true;
+            }
+
+            $scope.abrirFormMotivo = function(partida) {
+                $scope.editMotivo[partida.id] = true;
+            }
+
+            $scope.salvarPlacar = function(partida) {
+                partida.id = partida.partidas_id;
+                Partida.salvarPlacar(partida)
+                    .success(function () {
+                        vm.atualizaPendencias();
+                    })
+                    .error(function (data) {
+                        console.log(data);
+                    });
+            }
+
+            $scope.cancelarPlacar = function(partida) {
+                $scope.editPlacar[partida.id] = false;
+            }
+
+            $scope.salvarMotivo = function(partida) {
+                console.log(partida);
+                Agenda.justificaPartidaNaoRealizada(partida)
+                    .success(function(data) {
+                        vm.atualizaPendencias();
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            $scope.cancelarMotivo = function(partida) {
+                $scope.editMotivo[partida.id] = false;
+            }
         };
 
-        vm.verificaPendencias = function (idUsuario) {
+        vm.verificaPendencias = function () {
             vm.pendenciasUsuario = {};
             Usuario.verificarPendencias()
                 .success(function(data) {
-                    vm.pendenciasUsuario.partidasNaoRealizadas = data.partidas_nao_realizadas;
-                    vm.exibeModalPendencias(vm.pendenciasUsuario);
-                    //console.log(vm.pendenciasUsuario);
+                    vm.getPendencias(data);
+                    if(vm.pendenciasUsuario.partidasNaoRealizadas || vm.pendenciasUsuario.partidasNaoConfirmadas) {
+                        vm.exibeModalPendencias(vm.pendenciasUsuario);
+                    }
                 })
                 .error(function (error) {
                     console.log(error);
                 });
         };
 
-        vm.exibe
+        vm.getPendencias = function(data) {
+            vm.pendenciasUsuario.partidasNaoRealizadas = data.partidas_nao_realizadas;
+            vm.pendenciasUsuario.partidasNaoConfirmadas = data.partidas_nao_confirmadas;
+        }
+
+        vm.atualizaPendencias = function() {
+            Usuario.verificarPendencias()
+                .success(function(data) {
+                    vm.getPendencias(data);
+                    if(!vm.pendenciasUsuario.partidasNaoRealizadas && !vm.pendenciasUsuario.partidasNaoConfirmadas) {
+                        vm.ocultaModalPendencias();
+                    }
+                })
+                .error(function (error) {
+                    console.log(error);
+                });
+        };
 
         $scope.$on('userProfileSet', function () {
-            vm.verificaPendencias($rootScope.usuarioLogado.id);
+            vm.verificaPendencias();
         });
 
+        $scope.$on('salvouContestacaoPendencia', function () {
+            vm.atualizaPendencias();
+        });
+
+
+        /****** FIM DO VERIFICAR PENDÊNCIAS */
 
         var originatorEv;
 

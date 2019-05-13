@@ -97,6 +97,17 @@ angular.module('player2').factory('Agenda', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        justificaPartidaNaoRealizada: function (partida) {
+            return $http({
+                method: 'POST',
+                url: 'api/agenda/partidaNaoRealizada',
+                data: $.param(partida),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
         }
 
     }

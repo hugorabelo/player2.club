@@ -565,10 +565,13 @@
                 });
         };
 
-        vm.contestarPlacar = function (ev, id_partida) {
+        vm.contestarPlacar = function (ev, id_partida, origemPendencias) {
             vm.contestacao_resultado = {};
             vm.contestacao_resultado.partidas_id = id_partida;
             vm.contestacao_resultado.users_id = $rootScope.usuarioLogado.id;
+            if(origemPendencias != undefined) {
+                vm.contestacao_resultado.origemPendencias = true;
+            }
             $mdDialog.show({
                     locals: {
                         tituloModal: 'messages.partida_contestar',
@@ -579,7 +582,8 @@
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.
+                    fullscreen: true, // Only for -xs, -sm breakpoints.
+                    multiple: true
                 })
                 .then(function () {
                     toastr.success($filter('translate')('messages.sucesso_contestacao_solicitada'));
@@ -606,7 +610,12 @@
         vm.salvarContestacao = function (contestacao_resultado, arquivo) {
             Partida.contestarResultado(contestacao_resultado, arquivo)
                 .success(function (data) {
-                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    if(contestacao_resultado.origemPendencias === true) {
+                        $rootScope.$broadcast('salvouContestacaoPendencia', true);
+                    } else {
+                        vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    }
+                    // Lançar o evento da janela de pendências
                 }).error(function (data, status) {
                     vm.messages = data.errors;
                     vm.status = status;
@@ -1854,7 +1863,7 @@
                 var confirm = $mdDialog.prompt(eventoSelecionado)
                     .title($filter('translate')('messages.mensagem_confirma_cancelar_agendamento'))
                     .textContent($filter('translate')('messages.motivo_cancelar_agendamento'))
-                    .placeholder($filter('translate')('fields.motivo_contestacao'))
+                    .placeholder($filter('translate')('fields.motivo_cancelar_agendamento'))
                     .ariaLabel($filter('translate')('messages.mensagem_confirma_cancelar_agendamento'))
                     .ok(vm.textoYes)
                     .cancel(vm.textoNo)

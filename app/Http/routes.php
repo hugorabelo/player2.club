@@ -188,6 +188,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('agenda/historico', 'AgendaController@getHistoricoAgendamento');
     Route::get('agenda/{idCampeonato}/{idUsuario}', 'AgendaController@show');
     Route::get('agenda/listaHorarios/{idCampeonato}/{idUsuario}/{data?}', 'AgendaController@listaHorarios');
+    Route::post('agenda/partidaNaoRealizada', 'AgendaController@justificaPartidaNaoRealizada');
     Route::resource('agenda', 'AgendaController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
