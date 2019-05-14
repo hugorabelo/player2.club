@@ -29,6 +29,7 @@
                 parent: angular.element(document.body),
                 targetEvent: null,
                 clickOutsideToClose: false,
+                escapeToClose: false,
                 fullscreen: true,
                 multiple: true
             })
