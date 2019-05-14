@@ -417,6 +417,10 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
+        },
+
+        verificarPendencias: function() {
+            return $http.get('api/usuario/pendencias');
         }
     }
 }]);

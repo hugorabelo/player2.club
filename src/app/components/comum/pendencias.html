@@ -1,0 +1,239 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{tituloModal | translate}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="fechar()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <!-- **************** PARTIDAS AGENDADAS E NÃO REALIZADAS **************** -->
+        <md-toolbar class="md-hue-3" ng-if="pendenciasUsuario.partidasNaoRealizadas">
+            <div class="md-toolbar-tools">
+            <h2 flex md-truncate>Partidas Não Realizadas</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content ng-if="pendenciasUsuario.partidasNaoRealizadas">
+            <div class="md-dialog-content">
+                <p>{{'messages.partidas_pendentes_intro' | translate}}</p>
+                <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="partida in pendenciasUsuario.partidasNaoRealizadas">
+                        <div layout="column" flex="100">
+                            <div flex="80" flex-xs="100" class="partida-detalhe-campeonato">{{partida.campeonato.descricao}} - {{partida.detalhesPartida.rodada}} {{'messages.rodada' | translate}} <span ng-if="partida.horario_inicio" md-colors="{color: 'player2-warn-900'}">- {{partida.horario_inicio}}</span></div>
+                            <div flex layout="row" layout-align="space-between center" class="m-b-sm">
+                                <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center" ng-if="!editMotivo[partida.id]">
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
+
+                                    <img ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante img-circle" alt="profile">
+                                </div>
+                                <div class="text-center" flex layout="row" layout-align="space-around center" ng-if="!editMotivo[partida.id]">
+                                    <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-if="editPlacar[partida.id]">
+                                    <i class="fa fa-close fa-fw"></i>
+                                    <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-if="editPlacar[partida.id]">
+                                </div>
+                                <div class="text-left" flex layout-xs="row" layout-align-xs="space-around center" ng-if="!editMotivo[partida.id]">
+                                    <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante img-circle" alt="profile">
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
+                                </div>
+                                <!-- <md-input-container flex class="md-block motivo-nao-realizacao" ng-if="editMotivo[partida.id]">
+                                    <label>{{'fields.motivo' | translate}}</label>
+                                    <input ng-model="partida.motivo_nao_realizacao" required>
+                                </md-input-container> -->
+                                <!-- <div flex ng-if="editMotivo[partida.id]">
+                                    <input flex ng-model="partida.motivo_nao_realizacao" class="form-control" required>
+                                </div> -->
+                                <md-input-container flex md-no-float class="md-block motivo-nao-realizacao" ng-if="editMotivo[partida.id]">
+                                    <input flex ng-model="partida.motivo_nao_realizacao" placeholder="{{'fields.motivo_contestacao' | translate}}">
+                                </md-input-container>
+                                <div flex="20" layout-xs="row" layout-align-xs="space-between center" hide-xs>
+                                    <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" ng-if="!editPlacar[partida.id] && !editMotivo[partida.id]">
+                                        <md-button class="md-fab md-mini md-primary" ng-click="abrirFormInserirPlacar(partida)">
+                                            <i class="material-icons">thumb_up</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.partida_realizada' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                        <md-button class="md-fab md-mini md-warn" ng-click="abrirFormMotivo(partida)">
+                                            <i class="material-icons">thumb_down</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.partida_nao_realizada' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                    </div>
+
+                                    <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" ng-if="editPlacar[partida.id]">
+                                        <md-button class="md-fab md-mini md-primary" ng-click="salvarPlacar(partida)">
+                                            <i class="material-icons">save</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.salvar_resultado' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                        <md-button class="md-fab md-mini md-warn" ng-click="cancelarPlacar(partida)">
+                                            <i class="material-icons">clear</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.cancelar_resultado' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                    </div>
+
+                                    <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" ng-if="editMotivo[partida.id]">
+                                        <md-button class="md-fab md-mini md-primary" ng-click="salvarMotivo(partida)">
+                                            <i class="material-icons">save</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.save' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                        <md-button class="md-fab md-mini md-warn" ng-click="cancelarMotivo(partida)">
+                                            <i class="material-icons">clear</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.cancel' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" hide-gt-xs ng-if="!editPlacar[partida.id]  && !editMotivo[partida.id]">
+                                <md-button class="md-primary" ng-click="abrirFormInserirPlacar(partida)">
+                                    <i class="material-icons">thumb_up</i>
+                                    {{'messages.yes' | translate}}
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.partida_realizada' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                                <md-button class="md-warn" ng-click="abrirFormMotivo(partida)">
+                                    <i class="material-icons">thumb_down</i>
+                                    {{'messages.no' | translate}}
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.partida_nao_realizada' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                            </div>
+
+                            <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" hide-gt-xs ng-if="editPlacar[partida.id]">
+                                <md-button class="md-primary" ng-click="salvarPlacar(partida)">
+                                    <i class="material-icons">save</i>
+                                    {{'fields.save' | translate}}
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.salvar_resultado' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                                <md-button class="md-warn" ng-click="cancelarPlacar(partida)">
+                                    <i class="material-icons">clear</i>
+                                    {{'fields.cancel' | translate}}
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.cancelar_resultado' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                            </div>
+
+                            <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" hide-gt-xs ng-if="editMotivo[partida.id]">
+                                    <md-button class="md-primary" ng-click="salvarMotivo(partida)">
+                                        <i class="material-icons">save</i>
+                                        {{'fields.save' | translate}}
+                                        <md-tooltip md-direction="top ">
+                                            {{'fields.save' | translate}}
+                                        </md-tooltip>
+                                    </md-button>
+                                    <md-button class="md-warn" ng-click="cancelarMotivo(partida)">
+                                        <i class="material-icons">clear</i>
+                                        {{'fields.cancel' | translate}}
+                                        <md-tooltip md-direction="top ">
+                                            {{'fields.cancel' | translate}}
+                                        </md-tooltip>
+                                    </md-button>
+                                </div>
+                        </div>
+                        <md-divider inset ng-if="!$last"></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-dialog-content>
+
+        <!-- **************** PARTIDAS REALIZADAS E NÃO CONFIRMADAS **************** -->
+        <md-toolbar class="md-hue-3" ng-if="pendenciasUsuario.partidasNaoConfirmadas">
+            <div class="md-toolbar-tools">
+            <h2 flex md-truncate>Partidas Não Confirmadas</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content ng-if="pendenciasUsuario.partidasNaoConfirmadas">
+            <div class="md-dialog-content">
+                <p>{{'messages.partidas_nao_confirmadas_intro' | translate}}</p>
+                <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="partida in pendenciasUsuario.partidasNaoConfirmadas">
+                        <div layout="column" flex="100">
+                            <div flex="80" flex-xs="100" class="partida-detalhe-campeonato">{{partida.campeonato}} - {{partida.rodada}} {{'messages.rodada' | translate}} <span ng-if="partida.data_prazo" md-colors="{color: 'player2-warn-900'}">- {{partida.data_placar}}</span></div>
+                            <div flex layout="row" layout-align="space-between center" class="m-b-sm">
+                                <div class="text-right" flex layout-xs="row" layout-align-xs="space-around center">
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-xs>{{partida.usuarios[0].nome}}</span>
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[0].nome}}" hide-gt-xs>{{partida.usuarios[0].sigla | uppercase}}</span>
+
+                                    <img ng-src="uploads/usuarios/{{partida.usuarios[0].distintivo}}" class="placar-jogo-equipes-escudo-mandante img-circle" alt="profile">
+                                </div>
+                                <div class="text-center" flex layout="row" layout-align="space-around center">
+                                    <span class="placar_extra_input mandante" ng-if="partida.usuarios[0].placar_extra">
+                                        {{partida.usuarios[0].placar_extra}}
+                                    </span>
+                                    <input type="tel" class="placar-input" ng-model="partida.usuarios[0].placar" ng-disabled="partida.data_placar || !partida.liberada">
+                                    <i class="fa fa-close fa-fw"></i>
+                                    <input type="tel" class="placar-input" ng-model="partida.usuarios[1].placar" ng-disabled="partida.data_placar || !partida.liberada">
+                                    <span class="placar_extra_input visitante" ng-if="partida.usuarios[1].placar_extra">
+                                        {{partida.usuarios[1].placar_extra}}
+                                    </span>
+                                </div>
+                                <div class="text-left" flex layout-xs="row" layout-align-xs="space-around center">
+                                    <img ng-src="uploads/usuarios/{{partida.usuarios[1].distintivo}}" class="placar-jogo-equipes-escudo-visitante img-circle" alt="profile">
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
+                                    <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
+
+                                </div>
+                                <div flex="20" layout-xs="row" layout-align-xs="space-between center" hide-xs>
+                                    <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center">
+                                        <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', backgroundColor: 'player2-accent-900'}" ng-click="confirmarPlacar(partida.id)">
+                                            <i class="material-icons">done</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.confirmar_resultado' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+
+                                        <md-button class="md-fab md-mini" md-colors="::{backgroundColor: 'player2-warn-900'}" ng-controller="CampeonatoController as vmCampeonato" ng-click="vmCampeonato.contestarPlacar($event, partida.id, true)">
+                                            <i class="material-icons">gavel</i>
+                                            <md-tooltip md-direction="top ">
+                                                {{'fields.contestar_resultado' | translate}}
+                                            </md-tooltip>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="botoes" class="pull-left" layout-xs="row" layout-align-xs="center center" hide-gt-xs>
+                                <md-button md-colors="::{color: 'sunlitsea-100', backgroundColor: 'player2-accent-900'}" ng-click="confirmarPlacar(partida.id)">
+                                    <i class="material-icons">done</i>
+                                    {{'fields.confirmar_resultado_mobile' | translate}}
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.confirmar_resultado' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+
+                                <md-button md-colors="::{backgroundColor: 'player2-warn-900'}" ng-controller="CampeonatoController as vmCampeonato" ng-click="vmCampeonato.contestarPlacar($event, partida.id, true)">
+                                    <i class="material-icons">gavel</i>
+                                    {{'fields.contestar_resultado_mobile' | translate}}
+                                    <md-tooltip md-direction="top ">
+                                        {{'fields.contestar_resultado' | translate}}
+                                    </md-tooltip>
+                                </md-button>
+                            </div>
+                        </div>
+                        <md-divider inset ng-if="!$last"></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-dialog-content>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+        <md-button ng-click="fechar()">{{'messages.close' | translate}}</md-button>
+    </md-dialog-actions>
+</md-dialog>

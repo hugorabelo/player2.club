@@ -18,4 +18,9 @@ class CampeonatoUsuario extends Eloquent
 		return Campeonato::find($this->campeonatos_id);
 	}
 
+	public function getID($idUsuario, $idCampeonato) {
+        $campeonatoUsuario = CampeonatoUsuario::where('users_id', '=', $idUsuario)->where('campeonatos_id', '=', $idCampeonato)->first();
+        return $campeonatoUsuario;
+    }
+
 }

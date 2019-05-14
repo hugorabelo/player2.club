@@ -95,7 +95,6 @@ angular.module('player2').controller('ModeloCampeonatoController', ['$scope', '$
                     });
                 $rootScope.loading = false;
             }).error(function (data, status) {
-                console.log(data);
                 vm.message = data.errors;
                 vm.status = status;
                 $rootScope.loading = false;

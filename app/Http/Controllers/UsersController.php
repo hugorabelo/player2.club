@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class UsersController extends Controller {
 
@@ -733,5 +734,42 @@ class UsersController extends Controller {
 			$userPartida->anonimo_id = null;
 			$userPartida->save();
 		}
+    }
+
+    public function verificarPendencias() {
+        $idUsuario = Auth::getUser()->id;
+        $pendencias = array();
+
+        //Partida agendada não realizada
+        $agora = Carbon::parse();
+		$partidasNaoRealizadas = AgendamentoMarcacao::whereRaw("horario_inicio + (duracao * INTERVAL '1 MINUTES') < now() and status < 2 and (usuario_host = $idUsuario or usuario_convidado = $idUsuario) and partidas_id IN (select partidas_id FROM usuario_partidas where placar is null and users_id = $idUsuario)")->get();
+		// Pegar os agendamentos e procurar as partidas sem resultado
+
+		//TODO: Verificar partidas sem resutaldo
+		foreach($partidasNaoRealizadas as $partida) {
+			$partidaTemp = Partida::find($partida->partidas_id);
+			$partida->usuarios = $partidaTemp->usuarios();
+			$partida->campeonato = $partidaTemp->campeonato();
+			$partida->horario_inicio = Carbon::parse($partida->horario_inicio)->format('d/m/Y H:i');
+			$partida->detalhesPartida = $partidaTemp;
+		}
+		if(sizeof($partidasNaoRealizadas) > 0) {
+			$pendencias['partidas_nao_realizadas'] = $partidasNaoRealizadas;
+		}
+
+		//Partida com resultado faltando confirmação
+		$usuario = User::find($idUsuario);
+		$partidasNaoConfirmadas = array();
+		foreach($usuario->partidasEmAberto() as $partida) {
+			if($partida->pode_confirmar_contestar) {
+				$partida->data_placar = Carbon::parse($partida->data_placar)->format('d/m/Y H:i');
+				$partidasNaoConfirmadas[] = $partida;
+			}
+		}
+		if(sizeof($partidasNaoConfirmadas) > 0) {
+			$pendencias['partidas_nao_confirmadas'] = $partidasNaoConfirmadas;
+		}
+
+        return Response::json($pendencias);
     }
 }

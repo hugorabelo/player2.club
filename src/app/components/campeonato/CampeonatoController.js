@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', '$mdBottomSheet', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', 'Agenda', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, $mdBottomSheet, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time, Agenda) {
 
         var vm = this;
 
@@ -565,10 +565,13 @@
                 });
         };
 
-        vm.contestarPlacar = function (ev, id_partida) {
+        vm.contestarPlacar = function (ev, id_partida, origemPendencias) {
             vm.contestacao_resultado = {};
             vm.contestacao_resultado.partidas_id = id_partida;
             vm.contestacao_resultado.users_id = $rootScope.usuarioLogado.id;
+            if(origemPendencias != undefined) {
+                vm.contestacao_resultado.origemPendencias = true;
+            }
             $mdDialog.show({
                     locals: {
                         tituloModal: 'messages.partida_contestar',
@@ -579,7 +582,8 @@
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.
+                    fullscreen: true, // Only for -xs, -sm breakpoints.
+                    multiple: true
                 })
                 .then(function () {
                     toastr.success($filter('translate')('messages.sucesso_contestacao_solicitada'));
@@ -606,7 +610,12 @@
         vm.salvarContestacao = function (contestacao_resultado, arquivo) {
             Partida.contestarResultado(contestacao_resultado, arquivo)
                 .success(function (data) {
-                    vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    if(contestacao_resultado.origemPendencias === true) {
+                        $rootScope.$broadcast('salvouContestacaoPendencia', true);
+                    } else {
+                        vm.carregaPartidasDoUsuario(vm.partidasAbertas);
+                    }
+                    // Lançar o evento da janela de pendências
                 }).error(function (data, status) {
                     vm.messages = data.errors;
                     vm.status = status;
@@ -833,11 +842,6 @@
                     //                    vm.status = status;
                 });
         };
-
-        vm.aplicarWO = function (partida) {
-
-        };
-
 
         function DialogControllerInscricaoEscolherEquipe($scope, $mdDialog, tituloModal, equipes) {
             $scope.tituloModal = tituloModal;
@@ -1358,29 +1362,35 @@
 
         vm.aplicarWO = function (partida) {
             partida.tipo_competidor = vm.campeonato.tipo_competidor;
-            $mdDialog.show({
-                    locals: {
-                        tituloModal: 'fields.aplicar_wo',
-                        partida: partida
-                    },
-                    controller: DialogControllerWO,
-                    templateUrl: 'app/components/campeonato/formAplicarWO.html',
-                    parent: angular.element(document.body),
-                    targetEvent: null,
-                    clickOutsideToClose: true,
-                    fullscreen: true
-                })
-                .then(function () {
 
-                }, function () {
+            Agenda.getHistoricoAgendamento(partida)
+                .success(function (data) {
+                    $mdDialog.show({
+                            locals: {
+                                tituloModal: 'fields.aplicar_wo',
+                                partida: partida,
+                                historico_agendamento: data
+                            },
+                            controller: DialogControllerWO,
+                            templateUrl: 'app/components/campeonato/formAplicarWO.html',
+                            parent: angular.element(document.body),
+                            targetEvent: null,
+                            clickOutsideToClose: true,
+                            fullscreen: true
+                        })
+                        .then(function () {
 
+                        }, function () {
+
+                        });
                 });
         };
 
 
-        function DialogControllerWO($scope, $mdDialog, tituloModal, partida) {
+        function DialogControllerWO($scope, $mdDialog, tituloModal, partida, historico_agendamento) {
             $scope.tituloModal = tituloModal;
             $scope.partida = partida;
+            $scope.historicoAgendamento = historico_agendamento;
 
             $scope.fechar = function () {
                 $mdDialog.hide();
@@ -1606,8 +1616,6 @@
                             toastr.success($filter('translate')('messages.sucesso_associacao'));
                         })
                         .error(function (data) {
-                            console.log(data);
-
                             toastr.error($filter('translate')(data.errors));
                         });
                     $mdDialog.hide();
@@ -1651,7 +1659,513 @@
             };
         };
 
+        /***** AgendaController INICIO *****/
 
-    }]);
+        vm.exibirAgenda = function (ev, idUsuario) {
+            $mdDialog.show({
+                    locals: {
+                        tituloModal: 'messages.exibir_agenda',
+                        idUsuario: idUsuario
+                    },
+                    controller: DialogControllerExibirAgenda,
+                    templateUrl: 'app/components/campeonato/agendamento/formAgenda.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        };
+
+        function DialogControllerExibirAgenda($scope, $mdDialog, tituloModal, idUsuario) {
+            vm.carregarEventos(idUsuario);
+
+            $scope.$on('carregou_eventos', function (evt, data) {
+                $scope.materialEvents = vm.eventos;
+            });
+
+            $scope.tituloModal = tituloModal;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.eventClicked = function ($selectedEvent) {
+                if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
+                    $scope.evento = $selectedEvent;
+                    if ($selectedEvent.status === 'ocupado') {
+                        $mdDialog.show({
+                            locals: {
+                                tituloModal: $selectedEvent.descricaoEvento,
+                                eventoSelecionado: $selectedEvent
+                            },
+                            controller: DialogControllerVisualizarPartida,
+                            parent: angular.element(document.querySelector('agenda-content')),
+                            templateUrl: 'app/components/campeonato/agendamento/dialogVisualizarPartida.html',
+                            clickOutsideToClose: true,
+                            multiple: true
+                        }).then(function () {
+
+                        }, function () {
+
+                        });
+                    } else if ($selectedEvent.status === 'pendente') {
+                        //$filter('date')($selectedEvent.start, 'dd/MM/yyyy (EEEE) HH:mm:ss')
+                        var mensagemConfirma = '';
+                        var mensagemRecusa = '';
+
+                        if ($rootScope.telaMobile) {
+                            mensagemConfirma = $filter('translate')('fields.confirmar');
+                            mensagemRecusa = $filter('translate')('fields.recusar');
+                        } else {
+                            mensagemConfirma = $filter('translate')('messages.confirmar_partida');
+                            mensagemRecusa = $filter('translate')('messages.recusar_partida');
+                        }
+
+                        if ($rootScope.usuarioLogado.id !== $selectedEvent.usuario_host) {
+                            var confirm = $mdDialog.confirm()
+                                .parent(angular.element(document.querySelector('agenda-content')))
+                                .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                .htmlContent("<p>" + $selectedEvent.adversario.nome + " deseja agendar uma partida com você</p><h4>" + vm.campeonato.descricao + " - " + $selectedEvent.partida.rodada + $filter('translate')('messages.rodada') + "</h4>" +
+                                    "<h4>" + moment($selectedEvent.start).format('DD/MM/YYYY (dddd) - HH:mm') + "</h4>")
+                                .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                .ok(mensagemConfirma)
+                                .cancel(mensagemRecusa)
+                                .clickOutsideToClose(true)
+                                .multiple(true);
+
+                            $mdDialog.show(confirm).then(function () {
+                                Agenda.confirmarAgendamento($selectedEvent)
+                                    .success(function (data) {
+                                        vm.carregarEventos();
+                                        toastr.success($filter('translate')('messages.mensagem_confirmacao_partida', {
+                                            nome_adversario: $selectedEvent.adversario.nome,
+                                            data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
+                                            hora_partida: moment($selectedEvent.start).format('HH:mm')
+                                        }));
+                                    })
+                                    .error(function (error) {
+                                        console.log(error);
+                                        if (error.error == 'usuario_invalido') {
+                                            toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro_usuario_invalido'));
+                                        } else {
+                                            toastr.error($filter('translate')('messages.mensagem_confirmacao_partida_erro'));
+                                        }
+                                    });
+                            }, function () {
+                                var mensagemConfirmaCerteza = '';
+                                var mensagemRecusaCerteza = '';
+
+                                if ($rootScope.telaMobile) {
+                                    mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza_mobile');
+                                    mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor_mobile');
+                                } else {
+                                    mensagemConfirmaCerteza = $filter('translate')('messages.tenho_certeza');
+                                    mensagemRecusaCerteza = $filter('translate')('messages.pensar_melhor');
+                                }
+
+                                var confirm2 = $mdDialog.confirm()
+                                    .parent(angular.element(document.querySelector('agenda-content')))
+                                    .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                    .textContent($filter('translate')('messages.certeza_recusar_partida'))
+                                    .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                    .ok(mensagemConfirmaCerteza)
+                                    .cancel(mensagemRecusaCerteza)
+                                    .clickOutsideToClose(true)
+                                    .multiple(true);
+
+                                $mdDialog.show(confirm2).then(function () {
+                                    Agenda.recusarAgendamento($selectedEvent)
+                                        .success(function (data) {
+                                            vm.carregarEventos();
+                                            toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                                                nome_adversario: $selectedEvent.adversario.nome,
+                                                data_partida: moment($selectedEvent.start).format('DD/MM/YYYY (dddd)'),
+                                                hora_partida: moment($selectedEvent.start).format('HH:mm')
+                                            }));
+                                        })
+                                        .error(function (error) {
+                                            if (error.error == 'usuario_invalido') {
+                                                toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro_usuario_invalido'));
+                                            } else {
+                                                toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                                            }
+                                        });
+                                }, function () {});
+
+                            });
+
+                        } else {
+                            $mdDialog.show({
+                                locals: {
+                                    tituloModal: $selectedEvent.descricaoEvento,
+                                    eventoSelecionado: $selectedEvent
+                                },
+                                controller: DialogControllerVisualizarPartida,
+                                parent: angular.element(document.querySelector('agenda-content')),
+                                templateUrl: 'app/components/campeonato/agendamento/dialogVisualizarPartida.html',
+                                clickOutsideToClose: true,
+                                multiple: true
+                            }).then(function () {
+
+                            }, function () {
+
+                            });
+                        }
+
+                    } else {
+                        vm.showEditarEvento();
+                    }
+                }
+            };
+
+            $scope.dateClick = function ($date) {
+                if (($date < new Date(vm.campeonato.dataInicio)) || ($date > new Date(vm.campeonato.dataFinal))) {
+                    toastr.warning($filter('translate')('messages.evento_fora_do_prazo') + ": " + $filter('date')(new Date(vm.campeonato.dataInicio), 'dd/MM/yyyy') + " a " + $filter('date')(new Date(vm.campeonato.dataFinal), 'dd/MM/yyyy'));
+                } else {
+                    if (idUsuario === undefined || idUsuario == $rootScope.usuarioLogado.id) {
+                        $scope.date = $date;
+                        vm.showAdicionarEvento();
+                    }
+                }
+            };
+
+            $scope.inserirEvento = function (date, hora_inicio, hora_fim) {
+                vm.inserirEvento(date, hora_inicio, hora_fim);
+            };
+
+            $scope.closeSide = function () {
+                $mdSidenav('sidenav-evento').close();
+            };
+
+            $scope.editarEvento = function (evento) {
+                vm.editarEvento(evento);
+            };
+
+            $scope.excluirEvento = function (evento) {
+                vm.excluirEvento(evento);
+            }
+
+        };
+
+        function DialogControllerVisualizarPartida($scope, $mdDialog, tituloModal, eventoSelecionado) {
+            $scope.tituloModal = tituloModal;
+            $scope.eventoSelecionado = eventoSelecionado;
+            $scope.campeonato = vm.campeonato;
+            $scope.dataAgendamento = moment(eventoSelecionado.start).format('DD/MM/YYYY (dddd) - HH:mm');
+
+            $scope.cancelarAgendamento = function () {
+                var confirm = $mdDialog.prompt(eventoSelecionado)
+                    .title($filter('translate')('messages.mensagem_confirma_cancelar_agendamento'))
+                    .textContent($filter('translate')('messages.motivo_cancelar_agendamento'))
+                    .placeholder($filter('translate')('fields.motivo_cancelar_agendamento'))
+                    .ariaLabel($filter('translate')('messages.mensagem_confirma_cancelar_agendamento'))
+                    .ok(vm.textoYes)
+                    .cancel(vm.textoNo)
+                    .theme('player2');
+
+                $mdDialog.show(confirm).then(function (result) {
+                    eventoSelecionado.motivo = result;
+                    eventoSelecionado.users_id = $rootScope.usuarioLogado.id;
+                    Agenda.cancelarAgendamento(eventoSelecionado)
+                        .success(function () {
+                            vm.carregarEventos();
+                            toastr.success($filter('translate')('messages.agendamento_cancelado_sucesso'));
+                        })
+                        .error(function () {
+                            toastr.error($filter('translate')('messages.erro_operacao'));
+                        });
+                }, function () {
+                    console.log('nao cancelou');
+                });
+            }
+
+            $scope.recusarAgendamento = function () {
+                Agenda.recusarAgendamento(eventoSelecionado)
+                    .success(function (data) {
+                        vm.carregarEventos();
+                        toastr.warning($filter('translate')('messages.mensagem_recusa_partida', {
+                            nome_adversario: eventoSelecionado.adversario.nome,
+                            data_partida: moment(eventoSelecionado.start).format('DD/MM/YYYY (dddd)'),
+                            hora_partida: moment(eventoSelecionado.start).format('HH:mm')
+                        }));
+                        $mdDialog.cancel();
+                    })
+                    .error(function (error) {
+                        toastr.error($filter('translate')('messages.mensagem_recusa_partida_erro'));
+                    });
+            }
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+        }
+
+        vm.showAdicionarEvento = function () {
+            $mdSidenav('sidenav-evento')
+                .toggle()
+                .then(function () {});
+
+        };
+
+        vm.inserirEvento = function (date, hora_inicio, hora_fim) {
+            hora_inicio = moment(hora_inicio, 'HH:mm');
+            hora_fim = moment(hora_fim, 'HH:mm');
+
+            hora_inicio = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_inicio.hours(), hora_inicio.minutes());
+            hora_fim = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hora_fim.hours(), hora_fim.minutes());
+            var dados = {};
+            dados.hora_inicio = hora_inicio;
+            dados.hora_fim = hora_fim;
+            dados.data = date;
+            dados.idCampeonato = vm.campeonato.id;
+            Agenda.addEvent(dados)
+                .success(function (data) {
+                    vm.carregarEventos();
+                    $scope.hora_inicio = {};
+                    $scope.hora_fim = {};
+                    $mdSidenav('sidenav-evento').close();
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
+                });
+        };
+
+        vm.carregarEventos = function (idUsuario) {
+            vm.eventos = [];
+
+            Agenda.getEventos(vm.campeonato.id, idUsuario)
+                .success(function (data) {
+                    var background = '';
+                    var titulo = '';
+                    var status = '';
+                    angular.forEach(data, function (evento) {
+                        if (evento.situacao == 'ocupado') {
+                            background = 'bg-danger';
+                            titulo = $filter('translate')('messages.agenda_jogo_contra') + evento.adversario.nome;
+                        } else if (evento.situacao == 'pendente') {
+                            background = 'bg-warning';
+                            titulo = $filter('translate')('messages.agenda_jogo_contra') + evento.adversario.nome;
+                        } else {
+                            background = 'bg-success';
+                            titulo = $filter('translate')('messages.agenda_livre');
+                        }
+                        var novoEvento = {
+                            title: '',
+                            start: new Date(evento.hora_inicio),
+                            end: new Date(evento.hora_fim),
+                            allDay: false,
+                            background: background,
+                            descricaoEvento: titulo,
+                            status: evento.situacao,
+                            partida: evento.partida,
+                            adversario: evento.adversario,
+                            usuario_host: evento.usuario_host,
+                            id: evento.idHorario
+                        };
+                        vm.eventos.push(novoEvento);
+                    });
+                    $rootScope.$broadcast('carregou_eventos');
+                });
+
+
+        };
+
+        vm.showEditarEvento = function () {
+            $mdSidenav('sidenav-evento-editar')
+                .toggle()
+                .then(function () {});
+        };
+
+        vm.editarEvento = function (evento) {
+            Agenda.editEvento(evento)
+                .success(function (data) {
+                    vm.carregarEventos();
+                    $mdSidenav('sidenav-evento-editar').close();
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
+                });
+        };
+
+        vm.excluirEvento = function (evento) {
+            Agenda.deleteEvento(evento.id)
+                .success(function (data) {
+                    vm.carregarEventos();
+                    toastr.success($filter('translate')('messages.horario_excluido_sucesso'));
+                    $mdSidenav('sidenav-evento-editar').close();
+                })
+                .error(function (data) {
+                    toastr.error($filter('translate')(data.error), $filter('translate')('messages.operacao_nao_concluida'));
+                });
+        };
+
+        vm.agendarPartida = function (ev, partida) {
+            var anonimo = false;
+            angular.forEach(partida.usuarios, function (usuarioDaPartida) {
+                if (usuarioDaPartida.anonimo_id != null) {
+                    toastr.warning($filter('translate')('messages.usuario_anonimo_sem_agenda'));
+                    anonimo = true;
+                }
+            });
+
+            if (!anonimo) {
+                var idUsuario;
+                var nomeUsuario;
+                var podeIr = true;
+
+                angular.forEach(partida.usuarios, function (usuarioDaPartida) {
+                    if (podeIr) {
+                        if (usuarioDaPartida.users_id != $rootScope.usuarioLogado.id) {
+                            idUsuario = usuarioDaPartida.users_id;
+                            nomeUsuario = usuarioDaPartida.nome;
+                            podeIr = false;
+                        }
+                    }
+                });
+
+                $mdDialog.show({
+                        locals: {
+                            tituloModal: $filter('translate')('messages.agenda_adversario') + ' ' + nomeUsuario,
+                            partida: partida,
+                            idUsuario: idUsuario
+                        },
+                        controller: DialogControllerAgendarPartida,
+                        templateUrl: 'app/components/campeonato/agendamento/agendaAdversario.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                    .then(function () {
+
+                    }, function () {
+
+                    });
+            }
+
+        };
+
+        function DialogControllerAgendarPartida($scope, $mdDialog, tituloModal, partida, idUsuario) {
+            $scope.indice_mes = 0;
+            $scope.listaMeses = [];
+            var mesInicio = moment(vm.campeonato.dataInicio).startOf('month');
+            var mesFim = moment(vm.campeonato.dataFinal).startOf('month');
+            while (mesInicio < mesFim) {
+                var itemMes = {};
+                itemMes.formatado = mesInicio.format('MMMM/YYYY');
+                itemMes.formatadoMobile = mesInicio.format('MMM/YY');
+                itemMes.completo = mesInicio.format('YYYY-MM-DD h:mm:ss');
+                var inicioMesAtual = moment().startOf('month').format('YYYY-MM-DD h:mm:ss');
+                if (inicioMesAtual == itemMes.completo) {
+                    $scope.mesEscolhido = itemMes.completo;
+                    $scope.indice_mes = $scope.listaMeses.length;
+                }
+                $scope.listaMeses.push(itemMes);
+                mesInicio.add(1, 'M');
+            }
+
+
+            Agenda.listaAgenda(vm.campeonato.id, idUsuario)
+                .success(function (data) {
+                    $scope.listaHorarios = data;
+                });
+
+            $scope.tituloModal = tituloModal;
+            $scope.partida = partida;
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+
+            $scope.exibeProximoMes = function () {
+                if ($scope.indice_mes < ($scope.listaMeses.length - 1)) {
+                    var mesAtualTemporario = $scope.listaMeses[$scope.indice_mes + 1];
+                    $scope.mesEscolhido = mesAtualTemporario.completo;
+                    $scope.mudarMesAgenda();
+                }
+            };
+
+            $scope.exibeMesAnterior = function () {
+                if ($scope.indice_mes > 0) {
+                    var mesAtualTemporario = $scope.listaMeses[$scope.indice_mes - 1];
+                    $scope.mesEscolhido = mesAtualTemporario.completo;
+                    $scope.mudarMesAgenda();
+                }
+            };
+
+            $scope.mudarMesAgenda = function () {
+                Agenda.listaAgenda(vm.campeonato.id, idUsuario, $scope.mesEscolhido)
+                    .success(function (data) {
+                        $scope.listaHorarios = data;
+                        angular.forEach($scope.listaMeses, function (mes, key) {
+                            if (mes.completo == $scope.mesEscolhido) {
+                                $scope.indice_mes = key;
+                            }
+                        });
+                    });
+            };
+
+            $scope.marcarJogo = function (data, horario) {
+                $mdSidenav('right')
+                    .toggle()
+                    .then(function () {
+                        $scope.dataAgendamento = data;
+                        $scope.intervaloAgendamento = horario;
+                        $scope.campeonato = vm.campeonato;
+                        $scope.intervalosDisponiveis = [];
+                        var horarioInicio = moment(horario.hora_inicio, "HH:mm");
+                        var horarioFim = moment(horario.hora_fim, 'HH:mm');
+                        while (horarioInicio < horarioFim) {
+                            $scope.intervalosDisponiveis.push(horarioInicio.format('HH:mm'));
+                            horarioInicio = horarioInicio.add(30, 'minutes');
+                        }
+                    });
+            };
+
+            $scope.atualizaHoraFinal = function () {
+                $scope.horaFinalAgendamento = moment($scope.horaInicioAgendamento, "HH:mm").add(30, 'minutes').format('HH:mm');
+            };
+
+
+            $scope.salvarAgendamento = function () {
+                var marcacao = {};
+                marcacao.partidas_id = $scope.partida.id;
+                marcacao.usuario_host = $rootScope.usuarioLogado.id;
+                marcacao.usuario_convidado = idUsuario;
+                marcacao.horario_inicio = moment($scope.dataAgendamento + ' ' + $scope.horaInicioAgendamento).format('YYYY-MM-DD HH:mm:ss');
+                marcacao.duracao = 30;
+                marcacao.campeonato_id = vm.campeonato.id;
+
+                Agenda.agendarPartida(marcacao)
+                    .success(function (data) {
+                        Agenda.listaAgenda(vm.campeonato.id, idUsuario)
+                            .success(function (data) {
+                                $scope.listaHorarios = data;
+                            });
+                        $mdSidenav('right').close()
+                    })
+                    .error(function (error) {
+                        toastr.error($filter('translate')(error.error), $filter('translate')('messages.operacao_invalida'));
+                    });
+            };
+
+            $scope.closeSide = function () {
+                $mdSidenav('right').close()
+            };
+
+        };
+
+        /***** AgendaController FIM *****/
+
+
+                }]);
 
 }());

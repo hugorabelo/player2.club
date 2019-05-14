@@ -50,6 +50,9 @@ class PartidasController extends Controller
         }
         $novaPartida = $this->partida->find($dados['id']);
 
+        //Atualizar status dos agendamentos - Descartado pelo fato de que um usuário pode salvar o resultado e, posteriormente, cancelar o resultado
+        //$this->atualizarAgendamentos($novaPartida->id);
+
         $atividadesExistentes = Atividade::where('partidas_id','=',$novaPartida->id)->get();
         foreach ($atividadesExistentes as $atividadesExistente) {
             $atividadesExistente->delete();
@@ -109,10 +112,10 @@ class PartidasController extends Controller
     public function update($id)
     {
         $input = Input::all();
+        $usuarioLogado = Auth::getUser();
 
         $partida = $this->partida->find($id);
-        $partida->confirmarPlacar($input['usuarioLogado'], isset($input['placarContestado']));
-
+        $partida->confirmarPlacar($usuarioLogado->id, isset($input['placarContestado']));
         return Response::json(array('success' => true));
     }
 
@@ -193,5 +196,9 @@ class PartidasController extends Controller
 
         return Response::json(array('success' => true));
     }
+
+    // private function atualizarAgendamentos($idPartida) {
+    //     AgendamentoMarcacao::where('partidas_id','=',$idPartida)->whereIn('status',array(0, 1)) ->update(array('status'=>6));
+    // }
 
 }

@@ -1,0 +1,27 @@
+<md-dialog aria-label="{{tituloModal}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar class="fixed-on-top" md-colors="::{background: 'player2-primary-300'}">
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" id="agenda-content" layout-padding>
+                <md-subheader ng-cloak ng-if="eventoSelecionado.status == 'pendente'">
+                    {{'messages.adversario_nao_confirmou_ainda' | translate}}
+                </md-subheader>
+                <h4>{{campeonato.descricao}} - {{eventoSelecionado.partida.rodada}} {{'messages.rodada' | translate}}</h4>
+                <h4>{{dataAgendamento}}</h4>
+
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-raised md-warn no-layout-padding" ng-click="cancelarAgendamento()"><i class="material-icons">close</i> {{'messages.cancelar_agendamento' | translate}}</md-button>
+                </div>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

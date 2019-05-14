@@ -85,6 +85,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/saveAnonimo', 'UsersController@storeAnonimo');
     Route::get('usuario/pesquisa/{textoPesquisa}', 'UsersController@pesquisaPorNome');
     Route::post('usuario/associarAnonimo', 'UsersController@associarAnonimo');
+    Route::get('usuario/pendencias', 'UsersController@verificarPendencias');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -179,6 +180,16 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('tutorial/{id}/{mobile}', 'TutorialController@show');
 
     Route::resource('tutorialItem', 'TutorialItemController');
+
+    Route::post('agenda/agendarPartida', 'AgendaController@agendarPartida');
+    Route::post('agenda/confirmarAgendamento', 'AgendaController@confirmarAgendamento');
+    Route::post('agenda/recusarAgendamento', 'AgendaController@recusarAgendamento');
+    Route::post('agenda/cancelarAgendamento', 'AgendaController@cancelarAgendamento');
+    Route::post('agenda/historico', 'AgendaController@getHistoricoAgendamento');
+    Route::get('agenda/{idCampeonato}/{idUsuario}', 'AgendaController@show');
+    Route::get('agenda/listaHorarios/{idCampeonato}/{idUsuario}/{data?}', 'AgendaController@listaHorarios');
+    Route::post('agenda/partidaNaoRealizada', 'AgendaController@justificaPartidaNaoRealizada');
+    Route::resource('agenda', 'AgendaController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $user = Auth::getUser();

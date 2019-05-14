@@ -95,6 +95,8 @@
         "salvar_resultado": "Salvar resultado",
         "confirmar_resultado": "Confirmar resultado",
         "contestar_resultado": "Contestar resultado",
+        "confirmar_resultado_mobile": "Confirmar",
+        "contestar_resultado_mobile": "Contestar",
         "aguardando_confirmacao": "Resultado aguardando confirmação",
         "placar_confirmado": "Placar confirmado pelos usuários",
         "tempo_restante": "Data Limite: ",
@@ -169,7 +171,15 @@
 
         "convidar": "Convidar",
         "convites": "Convites disponíveis",
-        "confirmar": "Confirmar"
+        "confirmar": "Confirmar",
+
+        "hora_inicio": "Hora de Início",
+        "hora_fim": "Hora de Término",
+        "duracao": "Duração (minutos)",
+        "agendar_partida": "Agendar Partida",
+        "recusar": "Recusar",
+
+        "pendencias": "Atividades Pendentes para Você"
     },
 
     "messages": {
@@ -376,6 +386,7 @@
         "sucesso_cancelar_placar": "Placar cancelado com sucesso",
         "sucesso_contestacao_solicitada": "Contestação cadastrada com sucesso",
 
+        "operacao_invalida": "Operação Inválida",
         "dados_invalidos": "Dados Inválidos",
         "preencher_campos": "Você deve preencher todos os campos",
         "operacao_nao_concluida": "A operação não foi concluída",
@@ -531,7 +542,63 @@
         "confirmar_associar_usuario": "Caso seja esse o usuário que deseja associar, clique no botão confirmar",
         "sem_usuario_associado": "Você não selecionou um usuário para associar",
         "sucesso_associacao": "Usuário Associado com sucesso",
-        "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado"
+        "usuario_cadastrado_associacao": "O usuário que deseja a ssociar ao usuário anônimo já está inscrito no campeonato e o campeonato já foi iniciado",
+
+        "exibir_agenda": "Exibir Minha Agenda",
+        "agenda_adversario": "Agenda de ",
+        "add_horario": "Inserir horário livre para o dia ",
+        "edit_horario": "Editar horário do dia ",
+        "evento_fora_do_prazo": "Você deve selecionar uma data dentro do período do campeonato",
+        "hora_final_maior_inicial": "A hora de término do intervalo deve ser maior que a hora de início",
+        "intervalo_pequeno": "Você deve selecionar um intervalo de pelo menos 30 minutos",
+        "horario_excluido_sucesso": "Horário excluído com sucesso",
+        "agenda_intro": "Clique em uma data em branco para inserir um novo horário ou clique em um horário existente para editar/excluir",
+        "agenda_intro_adversario": "Clique em um horário livre (células verdes) para agendar uma partida dentro do intervalo selecionado",
+        "ver_agenda": "Ver Agenda",
+        "marcar_jogo": "Marcar partida com o participante ",
+        "partidas_agendadas": "Partidas Agendadas para Este Intervalo",
+        "usuario_anonimo_sem_agenda": "O seu adversário é um usuário sem cadastro, por isso, ele não possui agenda",
+        "agenda_jogo_contra": "Partida contra ",
+        "agenda_livre": "Horário Livre",
+        "existe_agendamento_partida": "Já existe um agendamento para esta partida. Verifique na sua agenda ou confirme se escolheu a partida correta.",
+        "nao_existe_horario_disponivel": "O seu adversário não disponibilizou este horário para o campeonato. Verifique os dados e tente novamente",
+        "horario_convidado_indisponivel_campeonato": "O seu adversário já marcou alguma partida do campeonato neste horário. Tente outro horário.",
+        "horario_convidado_indisponivel_geral": "O seu adversário marcou uma partida no mesmo horário para outro campeonato. Tente outro horário.",
+        "horario_host_indisponivel_campeonato": "Você já possui uma partida deste campeonato agendada no mesmo horário. Tente outro horário.",
+        "horario_host_indisponivel_geral": "Você já possui uma partida agendada de outro campeonato agendada no mesmo horário. Tente outro horário",
+        "calcular_melhor_horario": "Calcular melhor horário automaticamente",
+        "calcular_melhor_horario_mobile": "Melhor Horário",
+        "agenda_sem_data": "O usuário não disponibilizou horários livres no mês selecionado",
+        "confirma_agendamento_titulo": "Confirmar ",
+        "confirmar_partida": "Confirmar horário",
+        "recusar_partida": "Recusar horário",
+        "mensagem_confirmacao_partida": "Confirmado o agendamento para a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
+        "mensagem_recusa_partida": "Você recusou agendar a partida contra {{nome_adversario}} para o dia {{data_partida}}, às {{hora_partida}}",
+        "mensagem_confirmacao_partida_erro": "Houve um erro na confirmação do agendamento. Favor tentar novamente",
+        "mensagem_confirmacao_partida_erro_usuario_invalido": "Apenas o adversário convidado pode confirmar o agendamento da partida",
+        "mensagem_recusa_partida_erro_usuario_invalido": "Apenas o adversário convidado pode rejeitar o agendamento da partida",
+        "mensagem_recusa_partida_erro": "Houve um erro na recusa do agendamento. Favor tentar novamente",
+        "certeza_recusar_partida": "Você tem certeza que deseja recusar o agendamento da partida? Esta operação não poderá ser desfeita",
+        "tenho_certeza": "Tenho certeza disso",
+        "pensar_melhor": "Vou pensar melhor",
+        "tenho_certeza_mobile": "Tenho certeza",
+        "pensar_melhor_mobile": "Estou incerto",
+        "detalhes_agendamento": "Detalhes do Agendamento",
+        "cancelar_agendamento": "Cancelar Agendamento",
+        "mensagem_confirma_cancelar_agendamento": "Você tem certeza que deseja cancelar o agendamento da partida já confirmado? Isso pode afetar o seu desempenho no campeonato e esta operação não poderá ser desfeita",
+        "motivo_cancelar_agendamento": "Insira o motivo na caixa abaixo",
+        "agendamento_cancelado_sucesso": "Agendamento cancelado com sucesso",
+        "descricao_historico_partida_nao_realizada": "informou que a partida nao foi realizada pelo seguinte motivo:",
+        "convidou_adversario": "convidou",
+        "historico_rejeitou": "rejeitou o agendamento",
+        "historico_confirmou": "confirmou o agendamento, mas a partida não foi realizada.",
+        "historico_confirmou_cancelou": "confirmou o agendamento, mas o agendamento foi posteriormente cancelado.",
+        "historico_nao_respondeu": "não respondeu ao convite de agendamento.",
+        "historico_sem_agendamento": "Não houve agendamento para esta partida.",
+        "adversario_nao_confirmou_ainda": "O adversário ainda não confirmou nem rejeitou a partida.",
+        "historico_cancelou": "cancelou o agendamento antes de o adversário responder",
+        "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?",
+        "partidas_nao_confirmadas_intro": "O placar das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou."
     },
 
     "generos": {
@@ -589,5 +656,13 @@
         "criar_campeonato_regras": "Escreva o regulamento do campeonato aqui. O texto inserido neste espaço, aparecerá na aba Regras, dentro da página do campeonato.",
         "criar_campeonato_jogo": "Ao escolher a plataforma e jogo, serão disponibilizados os tipos de campeonato possíveis para ele. Escolha uma opção",
         "criar_campeonato_detalhes": "Dependendo do tipo de campeonato escolhido, aparecerão detalhes específicos para cada tipo de campeonato. Preencha adequadamente, para não ter problemas no cálculo de resultados"
-    }
+    },
+
+    "SUN": "DOM",
+    "MON": "SEG",
+    "TUE": "TER",
+    "WED": "QUA",
+    "THU": "QUI",
+    "FRI": "SEX",
+    "SAT": "SAB"
 }
