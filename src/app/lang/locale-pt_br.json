@@ -658,6 +658,22 @@
         "criar_campeonato_detalhes": "Dependendo do tipo de campeonato escolhido, aparecerão detalhes específicos para cada tipo de campeonato. Preencha adequadamente, para não ter problemas no cálculo de resultados"
     },
 
+    "help": {
+        "agenda_titulo": "Agenda do Usuário",
+        "agenda_texto1": "Esta tela exibe a sua agenda. Aqui você pode definir os horários que você tem disponível (inserir, editar ou excluir) além de ver os agendamentos realizados por outros usuários para jogar com você.",
+        "agenda_texto2": "Para inserir um horário disponível, basta clicar em qualquer espaço vazio da data desejada. Na tela que se abre, insira a hora de início e fim do horário disponível.",
+        "agenda_texto3": "Os horários já definidos que aparecem na cor verde significam horários que você disponibilizou como livres e não foi agendado nada para este horário ainda. Estes horários podem ser editados ou excluídos clicando em cima deles e ajustando as configurações na tela que se abre.",
+        "agenda_texto4": "Os horários que aparecem na cor amarela, são tentativas de agendamento. Caso você tenha solicitado o agendamento, você pode cancelar esta solicitação. No caso de a solicitação ter sido feita pelo adversário, você pode aceitar ou recusar a realização da partida naquele horário.",
+        "agenda_texto5": "Quando a cor do horário for vermelha, significa um horário agendado e confirmado. A única opção disponível aqui é o cancelamento do agendamento.",
+        "agenda_texto6": "Todas essas operações de agendamento (convidar, aceitar, recusar, cancelar) ficam no histórico de cada partida, podendo ser utilizada pelos administadores para definição de w.o. Caso você não insira horários disponíveis, isto também aparecerá para os administradores avaliarem.",
+        "agenda_texto1_resumido": "Esta tela exibe a sua agenda. Aqui você pode definir os horários que você tem disponível além de ver os agendamentos realizados por outros usuários para jogar com você.",
+        "agenda_texto2_resumido": "Para inserir um horário disponível, basta clicar em qualquer espaço vazio da data desejada.",
+        "agenda_texto3_resumido": "Os horários já definidos que aparecem na cor verde significam horários que você disponibilizou como livres.",
+        "agenda_texto4_resumido": "Os horários que aparecem na cor amarela, são tentativas de agendamento.",
+        "agenda_texto5_resumido": "Quando a cor do horário for vermelha, significa um agendamento confirmado.",
+        "agenda_texto6_resumido": "Todas essas operações de agendamento ficam no histórico de cada partida, podendo ser utilizada pelos administadores para definição de w.o."
+    },
+
     "SUN": "DOM",
     "MON": "SEG",
     "TUE": "TER",

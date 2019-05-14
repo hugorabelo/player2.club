@@ -1771,7 +1771,7 @@
 
                                 var confirm2 = $mdDialog.confirm()
                                     .parent(angular.element(document.querySelector('agenda-content')))
-                                    .title($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
+                                    .title($filter('translate')('fields.recusar') + " " + $selectedEvent.descricaoEvento)
                                     .textContent($filter('translate')('messages.certeza_recusar_partida'))
                                     .ariaLabel($filter('translate')('messages.confirma_agendamento_titulo') + $selectedEvent.descricaoEvento)
                                     .ok(mensagemConfirmaCerteza)
