@@ -9,28 +9,10 @@
     </div>
 
     <div hide-gt-xs layout-fill ui-view>
-        <div class="adsense_mobile">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Bloco_Mobile -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8103891989003508" data-ad-slot="1684697511" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-
-            </script>
-        </div>
-
         <div class="p-h-sm" ng-include="'app/components/rede_social/feed.html'" layout="column" ng-controller="FeedController as vmFeed" infinite-scroll="vmFeed.feedFactory.proximaPagina()" infinite-scroll-disabled='vmFeed.feedFactory.ocupado || !stateHome || !telaMobile' infinite-scroll-distance='0.2'></div>
-
     </div>
 
     <div flex="20" layout="column" class="caixa-flutuante" layout-margin hide-xs hide-sm hide-md>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- Bloco_Quadrado_Direita -->
-        <ins class="adsbygoogle" style="display:inline-block;width:250px;height:250px;margin-left: 0" data-ad-client="ca-pub-8103891989003508" data-ad-slot="9211833740"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-
-        </script>
         <h3 class="menu-acessorio_titulo">{{'messages.ultimas_novidades' | translate}}</h3>
         <a class="menu-acessorio" ui-sref="campeonato({idCampeonato: campeonato.id})" ng-repeat="campeonato in vmHome.userCampeonatosDisponiveis" layout="row" layout-align="center center">
             <span flex>{{ campeonato.descricao }}</span>
