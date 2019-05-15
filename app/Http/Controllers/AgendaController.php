@@ -359,7 +359,7 @@ class AgendaController extends Controller
         $evento = NotificacaoEvento::where('valor','=','agendamento_criado')->first();
         if(isset($evento)) {
             $idEventoNotificacao = $evento->id;
-            $this->insereNotificacao($idEventoNotificacao, $usuario_convidado);
+            $this->insereNotificacao($idEventoNotificacao, $usuario_convidado, $registroSalvar['partidas_id']);
         }
 
         $horario_intervalo = AgendamentoHorarioDisponivel::
@@ -493,7 +493,7 @@ class AgendaController extends Controller
         $evento = NotificacaoEvento::where('valor','=','agendamento_confirmado')->first();
         if(isset($evento)) {
             $idEventoNotificacao = $evento->id;
-            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
+            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost, $request->partida['id']);
         }
 
         if($qtdeRegistros === 0) {
@@ -513,7 +513,7 @@ class AgendaController extends Controller
         $evento = NotificacaoEvento::where('valor','=','agendamento_recusado')->first();
         if(isset($evento)) {
             $idEventoNotificacao = $evento->id;
-            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost);
+            $this->insereNotificacao($idEventoNotificacao, $idUsuarioHost, $request->partida['id']);
         }
 
         if($qtdeRegistros === 0) {
@@ -541,7 +541,7 @@ class AgendaController extends Controller
         $evento = NotificacaoEvento::where('valor','=','agendamento_cancelado')->first();
         if(isset($evento)) {
             $idEventoNotificacao = $evento->id;
-            $this->insereNotificacao($idEventoNotificacao, $destinatario);
+            $this->insereNotificacao($idEventoNotificacao, $destinatario, $request->partida['id']);
         }
 
         $motivo = $request->motivo != '' ? $request->motivo : 'undefined';
@@ -597,13 +597,16 @@ class AgendaController extends Controller
         return Response::json(array('success'=>true));
     }
 
-    private function insereNotificacao($idEventoNotificao, $idDestinatario) {
+    private function insereNotificacao($idEventoNotificao, $idDestinatario, $idPartida) {
         $usuarioLogado = Auth::getUser();
+        $partida = Partida::find($idPartida);
+        $campeonato = $partida->campeonato();
         if($idDestinatario != $usuarioLogado->id) {
             $notificacao = new Notificacao();
             $notificacao->id_remetente = $usuarioLogado->id;
             $notificacao->id_destinatario = $idDestinatario;
             $notificacao->evento_notificacao_id = $idEventoNotificao;
+            $notificacao->item_id = $campeonato->id;
             $notificacao->save();
         }
     }
