@@ -328,19 +328,6 @@ class UsersController extends Controller {
         return Response::json($seguindo);
     }
 
-    public function listaPostsUsuario() {
-        $input = Input::except('_token');
-        $idUsuario = $input['idUsuario'];
-        $idUsuarioLeitor = $input['idUsuarioLeitor'];
-        $quantidade = $input['quantidade'];
-        $usuario = $this->user->find($idUsuario);
-		if($usuario == null) {
-			return Response::json();
-		}
-        $posts = $usuario->getPosts($idUsuarioLeitor, $quantidade);
-        return Response::json($posts);
-    }
-
 	public function segue() {
 		$input = Input::except('_token');
 		$idUsuario = $input['idUsuarioSeguidor'];
@@ -414,43 +401,7 @@ class UsersController extends Controller {
 		}
 		$atividades = $usuario->getAtividades($todos, $offset, $quantidade);
 		foreach ($atividades as $atividade) {
-			if(isset($atividade->post_id)) {
-				$post = Post::find($atividade->post_id);
-				if(isset($post->jogos_id)) {
-					$post->descricao_jogo = Jogo::find($post->jogos_id)->descricao;
-					$atividade->descricao = 'messages.escreveu_sobre_jogo';
-				}
-				if(isset($post->destinatario_id)) {
-					$post->descricao_destinatario = User::find($post->destinatario_id)->nome;
-					$atividade->descricao = 'messages.mensagem_para_usuario';
-				}
-				$post->imagens = $post->getimages();
-				if(isset($post->post_id)) {
-					$post_compartilhado = Post::find($post->post_id);
-					$post_compartilhado->usuario = User::find($post_compartilhado->users_id);
-					$post_compartilhado->imagens = $post_compartilhado->getimages();
-					$post->compartilhamento = $post_compartilhado;
-					$atividade->objeto = $post;
-					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.compartilhou';
-				} else {
-					$atividade->objeto = $post;
-					$atividade->descricao = isset($atividade->descricao) ? $atividade->descricao : 'messages.publicou';
-				}
-			} else if(isset($atividade->comentarios_id)) {
-				$comentario = Comentario::find($atividade->comentarios_id);
-				$atividade->objeto = $comentario;
-				$atividade->descricao = 'messages.comentou';
-			} else if(isset($atividade->seguidor_id)) {
-				$seguidor = DB::table('seguidor')->where('id','=',$atividade->seguidor_id)->first();
-				$usuarioMestre = User::find($seguidor->users_id_mestre);
-				$atividade->objeto = $usuarioMestre;
-				$atividade->descricao = 'messages.seguiu';
-			} else if(isset($atividade->seguidor_jogo_id)) {
-				$seguidor_jogo = DB::table('seguidor_jogo')->where('id','=',$atividade->seguidor_jogo_id)->first();
-				$jogo = Jogo::find($seguidor_jogo->jogos_id);
-				$atividade->objeto = $jogo;
-				$atividade->descricao = 'messages.seguiu_jogo';
-			} else if(isset($atividade->partidas_id)) {
+			if(isset($atividade->partidas_id)) {
 			    $partida = Partida::find($atividade->partidas_id);
                 $partida->usuarios = $partida->usuarios();
 				$partida->campeonato = $partida->campeonato();

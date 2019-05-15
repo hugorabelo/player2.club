@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('JogoController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Jogo', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Post', 'Usuario', '$window', '$location', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Jogo, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Post, Usuario, $window, $location) {
+    angular.module('player2').controller('JogoController', ['$stateParams', '$rootScope', '$scope', '$filter', '$mdDialog', '$translate', 'Jogo', 'UserPlataforma', 'Plataforma', 'Campeonato', 'CampeonatoUsuario', 'Usuario', '$window', '$location', function ($stateParams, $rootScope, $scope, $filter, $mdDialog, $translate, Jogo, UserPlataforma, Plataforma, Campeonato, CampeonatoUsuario, Usuario, $window, $location) {
 
         var vm = this;
 
@@ -24,22 +24,6 @@
         vm.inicializa = function () {
             vm.carregaDadosJogo(vm.idJogo);
         };
-
-        function DialogController($scope, $mdDialog, tituloModal, post) {
-            $scope.tituloModal = tituloModal;
-            $scope.post = post;
-            $scope.novoPost = {};
-            $scope.novoPost.post_id = post.id;
-
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            };
-
-            $scope.save = function () {
-                vm.saveCompartilhamento($scope.novoPost);
-                $mdDialog.hide();
-            };
-        }
 
         vm.carregaDadosJogo = function (id) {
             Jogo.show(id)

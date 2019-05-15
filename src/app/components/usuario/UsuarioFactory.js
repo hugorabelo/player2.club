@@ -143,22 +143,6 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
             });
         },
 
-        getPosts: function (idUsuario, idUsuarioLeitor, quantidade) {
-            dados = {
-                idUsuario: idUsuario,
-                idUsuarioLeitor: idUsuarioLeitor,
-                quantidade: quantidade
-            };
-            return $http({
-                method: 'POST',
-                url: 'api/usuario/getPosts',
-                data: $.param(dados),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            });
-        },
-
         segue: function (idSeguidor, usuario) {
             dados = {
                 idUsuarioMestre: usuario.id,
