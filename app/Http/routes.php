@@ -212,7 +212,7 @@ Route::any('{catchall}', function() {
     return redirect('/');
 })->where('catchall', '.*');
 
-/** */
+/*
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
     if(count($query->bindings) == 0) {
