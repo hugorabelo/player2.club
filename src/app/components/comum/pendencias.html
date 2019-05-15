@@ -36,13 +36,6 @@
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-xs>{{partida.usuarios[1].nome}}</span>
                                     <span class="placar-jogo-equipes-sigla" title="{{partida.usuarios[1].nome}}" hide-gt-xs>{{partida.usuarios[1].sigla | uppercase}}</span>
                                 </div>
-                                <!-- <md-input-container flex class="md-block motivo-nao-realizacao" ng-if="editMotivo[partida.id]">
-                                    <label>{{'fields.motivo' | translate}}</label>
-                                    <input ng-model="partida.motivo_nao_realizacao" required>
-                                </md-input-container> -->
-                                <!-- <div flex ng-if="editMotivo[partida.id]">
-                                    <input flex ng-model="partida.motivo_nao_realizacao" class="form-control" required>
-                                </div> -->
                                 <md-input-container flex md-no-float class="md-block motivo-nao-realizacao" ng-if="editMotivo[partida.id]">
                                     <input flex ng-model="partida.motivo_nao_realizacao" placeholder="{{'fields.motivo_contestacao' | translate}}">
                                 </md-input-container>
