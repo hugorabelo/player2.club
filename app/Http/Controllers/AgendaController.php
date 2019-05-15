@@ -15,15 +15,12 @@ class AgendaController extends Controller
      *
      * @var Agenda
      */
-    protected $comentario;
 
     public function __construct()
     {
     }
 
     public function index() {
-        //$comentarios = Comentario::get();
-        //return Response::json($comentarios);
     }
 
     public function show($idCampeonato, $idUsuario = null) {

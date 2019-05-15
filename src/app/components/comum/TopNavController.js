@@ -319,11 +319,6 @@
                         case "sorteou_clubes":
                             $location.path('campeonato/' + notificacao.item_id);
                             break;
-                        case "comentar_post":
-                        case "curtir_post":
-                        case "curtir_comentario":
-                            $location.path('home/atividade/' + notificacao.item_id);
-                            break;
                         case "seguir_usuario":
                             $location.path('profile/' + notificacao.id_remetente);
                             break;

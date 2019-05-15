@@ -240,15 +240,8 @@
         "classificados_nao_potencia_dois": "The number of classified is not corresponding to the group of the playoff. For this, the number must be a power of 2",
         "numero_competidores_maior_zero": "The number of competitors must be greater than zero",
 
-        "escrever_comentario": "Write comment...",
-        "curtir": "Like",
-        "comentar": "Comment",
-        "compartilhar": "Share",
-        "curtiram": "Like this",
-        "publicar": "Publish",
         "inserir_foto": "Add Image",
         "foto": "Photo",
-        "compartilhar_post": "Share Post",
         "seguir": "Follow",
         "seguindo": "Following",
         "seguidores": "Followers",
@@ -257,13 +250,6 @@
         "filtro": "Filter Results",
         "ultimos_jogos": "Last Matches",
 
-        "curtiu": "<vazio>",
-        "compartilhou": "<vazio>",
-        "publicou": "<vazio>",
-        "comentou": "<vazio>",
-        "seguiu": "<vazio>",
-        "curtiu_comentario": "<vazio>",
-        "seguiu_jogo": "<vazio>",
         "disputou_partida": "<vazio>",
         "inscreveu_campeonato": "<vazio>"
     }

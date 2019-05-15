@@ -62,7 +62,6 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/removeSeguidor', 'UsersController@removeSeguidor');
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
-    Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::post('usuario/segue', 'UsersController@segue');
     Route::get('usuario/getJogos/{id}/{count?}', 'UsersController@listaJogos');
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
@@ -136,22 +135,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
 
-    Route::post('post/curtir', 'PostController@curtir');
-    Route::post('post/usuarioCurtiu', 'PostController@usuarioCurtiu');
-    Route::post('post/getComentarios', 'PostController@getComentarios');
-    Route::post('post/{id}', 'PostController@update');
-    Route::get('post/imagens/{id}', 'PostController@getImagens');
-    Route::resource('post', 'PostController');
-
-    Route::post('atividade/curtir', 'AtividadeController@curtir');
-    Route::post('atividade/usuarioCurtiu', 'AtividadeController@usuarioCurtiu');
-    Route::get('atividade/curtidas/{id}', 'AtividadeController@getCurtidas');
-    Route::post('atividade/getComentarios', 'AtividadeController@getComentarios');
     Route::get('atividade/pesquisa/{textoPesquisa}', 'AtividadeController@getItensPesquisa');
     Route::resource('atividade', 'AtividadeController');
-
-    Route::post('comentario/curtir', 'ComentarioController@curtir');
-    Route::resource('comentario', 'ComentarioController');
 
     Route::resource('notificacaoEvento', 'NotificacaoEventoController');
 
@@ -227,7 +212,7 @@ Route::any('{catchall}', function() {
     return redirect('/');
 })->where('catchall', '.*');
 
-/*
+/** */
 Event::listen('Illuminate\Database\Events\QueryExecuted', function($query)
 {
     if(count($query->bindings) == 0) {

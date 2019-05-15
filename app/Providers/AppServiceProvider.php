@@ -30,20 +30,6 @@ class AppServiceProvider extends ServiceProvider {
 			}
 		});
 
-		\Post::created(function ($post) {
-			$atividade = new \Atividade();
-			$atividade->users_id = $post->users_id;
-			$atividade->post_id = $post->id;
-			$atividade->save();
-		});
-
-		\Comentario::created(function ($comentario) {
-			$atividade = new \Atividade();
-			$atividade->users_id = $comentario->users_id;
-			$atividade->comentario_id = $comentario->id;
-			$atividade->save();
-		});
-
         \CampeonatoUsuario::created(function ($campeonatoUsuario) {
 			if(isset($campeonatoUsuario->users_id)) {
 				$atividade = new \Atividade();
@@ -104,9 +90,6 @@ class AppServiceProvider extends ServiceProvider {
 					case "sorteou_clubes":
 						$link = $this->base_path."campeonato/".$notificacao->item_id;
 						break;
-					case "comentar_post":
-					case "curtir_post":
-					case "curtir_comentario":
 					$link = $this->base_path."home/atividade/".$notificacao->item_id;
 						break;
 					case "seguir_usuario":
@@ -162,15 +145,6 @@ class AppServiceProvider extends ServiceProvider {
 				});
 			}
 
-		});
-
-		\Atividade::deleted(function ($atividade) {
-			if(isset($atividade->post_id)) {
-				\Post::destroy($atividade->post_id);
-			}
-			if(isset($atividade->comentario_id)) {
-				\Comentario::destroy($atividade->comentario_id);
-			}
 		});
 
         \Equipe::created(function ($equipe) {
