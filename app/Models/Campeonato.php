@@ -656,7 +656,7 @@ class Campeonato extends Eloquent {
                     $potes = array_except($dadosFase['potes'], 'Principal');
                     foreach ($grupos as $grupo) {
                         foreach ($potes as $key=>$pote) {
-                            $quantidade_usuarios_pote = count($pote) / $grupo->quantidade_usuarios;
+                            $quantidade_usuarios_pote = count($pote) / count($grupos);
                             for($i = 0; $i < $quantidade_usuarios_pote; $i++) {
                                 $indice = rand(0, count($pote) - 1);
                                 $usuario = User::find($pote[$indice]['id']);

@@ -7,6 +7,10 @@
 
             var vm = this;
 
+            vm.auth = authService;
+
+            vm.profile;
+
             vm.inicializa = function () {
                 $rootScope.escondeBarra = true;
                 if (!$rootScope.exibindoAlerta) {
@@ -17,6 +21,17 @@
             vm.logout = function () {
                 authService.logout();
             }
+
+
+
+            /*if (authService.getCachedProfile()) {
+                vm.profile = authService.getCachedProfile();
+            } else {
+                authService.getProfile(function (err, profile) {
+                    vm.profile = profile;
+                });
+            }*/
+
 
     }]);
 })();

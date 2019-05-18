@@ -55,12 +55,10 @@
 
 
             <a ui-sref="profile({idUsuario: usuarioLogado.id})" layout="row" layout-align="center center">
-                <img class="img-circle img-xs m-t-xs" alt="image " ng-src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
+               <img class="img-circle img-xs m-t-xs" alt="image " ng-src="uploads/usuarios/{{usuarioLogado.imagem_perfil}} ">
                 <div class="nome-usuario">{{usuarioLogado.nome}}</div>
             </a>
             <md-menu md-position-mode="target-right target" md-offset="-20 40">
-                <!--
--->
                 <md-button class="md-icon-button" aria-label="Settings" ng-click="$mdOpenMenu()">
                     <i class="material-icons md-24">menu</i>
                 </md-button>
