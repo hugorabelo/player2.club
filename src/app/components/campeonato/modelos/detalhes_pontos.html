@@ -45,20 +45,21 @@
                 </md-input-container>
             </div>
             <h4 class="text-center" translate>messages.criterios_classificacao</h4>
-            <div ng-if="vmCampeonato.campeonatoEditar.pode_editar">
-                <ul ng-sortable="barConfig" class="todo-list m-t small-list">
-                    <li ng-repeat="criterio in vmCampeonato.criteriosClassificacao">
-                        <i class="fa fa-arrows-v" aria-hidden="true"></i>
-                        <checkbox class="m-l-xs" ng-model="vmCampeonato.checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
-                        <span class="m-l-xs">{{criterio.descricao}}</span>
-                    </li>
-                </ul>
-            </div>
-            <ul ng-sortable="barConfig" class="todo-list m-t small-list" ng-if="!vmCampeonato.campeonatoEditar.pode_editar">
-                <li ng-repeat="criterio in vmCampeonato.campeonatoEditar.criterios track by $index">
+            <ul class="todo-list m-t small-list">
+                <li ng-repeat="criterio in vmCampeonato.campeonatoEditar.criterios" layout="row" layout-align="space-between center">
                     <span class="m-l-xs">{{$index+1}} - {{criterio.descricao}}</span>
+                    <i class="material-icons" ng-click="vmCampeonato.removerCriterio(criterio.id)" ng-if="vmCampeonato.campeonatoEditar.pode_editar">delete</i>
                 </li>
             </ul>
+
+            <md-input-container md-no-float class="md-block" flex-gt-sm  ng-if="vmCampeonato.campeonatoEditar.pode_editar">
+                <label>{{'messages.criterios_inserir' | translate}}</label>
+                <md-select ng-model="vmCampeonato.novoCriterio" ng-change="vmCampeonato.adicionaNovoCriterio()">
+                    <md-option ng-repeat="criterio in vmCampeonato.criteriosClassificacao" value="{{criterio}}">
+                        {{criterio.descricao}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
         </div>
     </md-card-content>
 </md-card>
