@@ -584,7 +584,7 @@
         "adversario_nao_confirmou_ainda": "O adversário ainda não confirmou nem rejeitou a partida.",
         "historico_cancelou": "cancelou o agendamento antes de o adversário responder",
         "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?",
-        "partidas_nao_confirmadas_intro": "O placar das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou.",
+        "partidas_nao_confirmadas_intro": "Os resultados das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou.",
         "criterios_inserir": "Selecione o próximo critério de classificação",
         "criterios_remover": "Remover este critério de classificação"
     },
