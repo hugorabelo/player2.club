@@ -1,0 +1,115 @@
+<md-dialog aria-label="{{tituloModal | translate}}" flex="60" class="content-agenda-adversario">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-toolbar md-colors="::{background: 'player2-primary-300'}">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <div layout="row" layout-align=" center">
+                    <md-input-container class="md-block tamanho-fixo" hide-xs>
+                        <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
+                            <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
+                                {{mes.formatado}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" hide-gt-xs>
+                        <md-select ng-model="mesEscolhido" ng-change="mudarMesAgenda()">
+                            <md-option ng-value="mes.completo" ng-repeat="mes in listaMeses">
+                                {{mes.formatadoMobile}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <div class="m-t-md m-l-sm">
+                        <a ng-click="exibeMesAnterior()" ng-class="{'disabled': indice_mes <= 0}" class="m-r-xs">
+                            <i class="fa fa-chevron-left"></i>
+                        </a>
+                        <a ng-click="exibeProximoMes()" ng-class="{'disabled': indice_mes >= listaMeses.length-1}">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()" hide-xs><i class="material-icons">save</i> {{'messages.calcular_melhor_horario' | translate}}</md-button>
+                <md-button class="md-raised md-default no-layout-padding" ng-click="salvarAgendamento()" hide-gt-xs><i class="material-icons">save</i> {{'messages.calcular_melhor_horario_mobile' | translate}}</md-button> -->
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-subheader ng-cloak ng-if="listaHorarios.length != 0">{{'messages.agenda_intro_adversario' | translate}}</md-subheader>
+
+                <div layout="row">
+                    <div class="lista-dias" flex>
+                        <div ng-repeat="(data, horario) in listaHorarios" class="linha-dia" layout="row">
+                            <div class="dia-mes">
+                                <div class="dia-semana">{{data | date: 'EEE' | uppercase | translate}}</div>{{data | date: 'dd'}}
+                            </div>
+                            <div class="horarios-dia" flex>
+                                <div ng-repeat="janela in horario">
+                                    <div class="alert bg-success" ng-if="janela.situacao == 'livre'" ng-click="marcarJogo(data, janela)">
+                                        <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
+                                        <span>{{'messages.agenda_livre' | translate}}</span>
+                                    </div>
+                                    <div class="alert bg-danger" ng-if="janela.situacao == 'ocupado'">
+                                        <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
+                                        <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
+                                    </div>
+                                    <div class="alert bg-warning" ng-if="janela.situacao == 'pendente'">
+                                        <strong>{{janela.hora_inicio | date: 'HH'}} - {{janela.hora_fim | date: 'HH:mm'}}</strong>
+                                        <span>{{'messages.agenda_jogo_contra' | translate}} {{janela.adversario.nome}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info" ng-if="listaHorarios.length == 0">
+                            {{'messages.agenda_sem_data' | translate}}
+                        </div>
+                    </div>
+                </div>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="right">
+
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'fields.agendar_partida' | translate}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <h2 ng-if="partida.usuarios.length == 2">
+                            {{partida.usuarios[0].nome}} X {{partida.usuarios[1].nome}}
+                        </h2>
+                        <h4>
+                            {{campeonato.descricao}} - {{partida.rodada}}{{'messages.rodada' | translate}}
+                        </h4>
+                        <h5>
+                            {{dataAgendamento | date: 'dd/MM/yyyy'}} {{intervaloAgendamento.hora_inicio}} - {{intervaloAgendamento.hora_fim}}
+                        </h5>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="agendamento-hora-inicio">{{'fields.hora_inicio' | translate}}</label>
+                            <md-select ng-model="horaInicioAgendamento" ng-change="atualizaHoraFinal()">
+                                <md-option ng-repeat="hora in intervalosDisponiveis" value="{{hora}}">
+                                    {{hora}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <h4 ng-if="horaFinalAgendamento">
+                            {{'fields.hora_fim' | translate}}: {{horaFinalAgendamento}}
+                        </h4>
+
+                        <div layout="row">
+                            <md-button class="md-raised md-primary no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                        </div>
+                    </md-content>
+
+                </md-sidenav>
+            </div>
+
+        </md-dialog-content>
+
+    </form>
+</md-dialog>

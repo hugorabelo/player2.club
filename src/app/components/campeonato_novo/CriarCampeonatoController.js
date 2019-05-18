@@ -14,7 +14,7 @@
             };
 
             vm.campeonato = {};
-            vm.checkBoxCriteriosClassificacao = {};
+            vm.criteriosClassificacaoSelecionados = [];
 
             vm.opcoesEditor = {
                 language: 'pt_br',
@@ -151,13 +151,30 @@
             };
 
             vm.atualizaCriteriosClassificacao = function () {
-                vm.campeonato.criteriosClassificacaoSelecionados = [];
-                angular.forEach(vm.criteriosClassificacao, function (criterio) {
-                    if (vm.checkBoxCriteriosClassificacao[criterio.id] === true) {
-                        this.push(criterio);
-                    }
-                }, vm.campeonato.criteriosClassificacaoSelecionados);
+                vm.campeonato.criteriosClassificacaoSelecionados = vm.criteriosClassificacaoSelecionados;
             };
+
+            vm.adicionaNovoCriterio = function() {
+                var criterioExiste = false;
+                var novoObjeto = JSON.parse(vm.novoCriterio);
+                angular.forEach(vm.criteriosClassificacaoSelecionados, function (criterio) {
+                    if (novoObjeto.id === criterio.id) {
+                        criterioExiste = true;
+                    }
+                });
+                if(!criterioExiste) {
+                    vm.criteriosClassificacaoSelecionados.push(novoObjeto);
+                }
+                vm.novoCriterio = {};
+            };
+
+            vm.removerCriterio = function(idCriterio) {
+                angular.forEach(vm.criteriosClassificacaoSelecionados, function (criterio, index) {
+                    if (idCriterio === criterio.id) {
+                        vm.criteriosClassificacaoSelecionados.splice(index, 1);
+                    }
+                });
+            }
 
             vm.openCalendar = function ($event, objeto) {
                 $event.preventDefault();

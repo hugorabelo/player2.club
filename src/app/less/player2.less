@@ -1016,80 +1016,8 @@ a.close-link {
     text-align: right;
 }
 
-@media screen and (max-width: 599px) {
-    body:before {
-        background: none;
-        background-color: rgba(11, 72, 107, 0.2);
-    }
-    .images-post {
-        margin-bottom: 10px;
-    }
-    a.menu-usuario {
-        color: #777;
-        margin-bottom: 16px;
-        &:hover {
-            color: @cor-primaria;
-        }
-        i {
-            width: 18px;
-            margin-right: 12px;
-        }
-    }
-    .background-branco {
-        background-color: rgba(255, 255, 255, 0.5);
-    }
-    .infobar {
-        ul.itens {
-            li {
-                a {
-                    color: #333;
-                }
-            }
-        }
-    }
-    .profile-image {
-        width: auto;
-    }
-    .placar-jogo-equipes-escudo-mandante {
-        margin-right: 6px;
-    }
-    .placar-jogo-equipes-escudo-visitante {
-        margin-left: 6px;
-    }
-    .header-profile {
-        background-size: cover;
-    }
-    .caixa-informacao {
-        md-card-title {
-            padding: 6px 8px;
-            background-color: #B6C8D3;
-            color: @cor-primaria;
-        }
-        md-list-item {
-            background-color: #E2E9ED;
-        }
-        a.more {
-            color: @cor-primaria;
-            i {
-                transform: scaleX(-1);
-                -moz-transform: scaleX(-1);
-                -webkit-transform: scaleX(-1);
-                -ms-transform: scaleX(-1);
-            }
-        }
-    }
-    .h-500 {
-        min-height: 500px;
-    }
-    .no-min-height {
-        min-height: 0 !important;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .auth0-lock.auth0-lock {
-        position: fixed !important;
-    }
+#agenda-content {
+    position: relative;
 }
 
 ul[dnd-list] {
@@ -1210,4 +1138,357 @@ md-expansion-panel .md-expansion-panel-header-container {
     bottom: 0;
     height: 80px;
     width: 100%;
+}
+
+.content-agenda,
+.content-agenda-adversario {
+    overflow: hidden;
+}
+
+.content-agenda-adversario {
+    min-height: 420px;
+}
+
+.agenda-livre,
+.agenda-ocupado,
+.agenda-pendente {
+    display: block;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+}
+
+.agenda-livre {
+    background-color: #AAD8B0;
+    cursor: pointer;
+}
+
+.agenda-ocupado {
+    background-color: #FF6F69;
+}
+
+.agenda-pendente {
+    background-color: #FFCC5C;
+}
+
+.lista-dias {
+    margin: 0 6px;
+}
+
+.linha-dia {
+    border-top: 1px solid @borda-imagem;
+    padding: 10px;
+}
+
+.dia-mes {
+    position: relative;
+    margin-right: 10px;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid #000;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.dia-semana {
+    position: absolute;
+    top: -25px;
+    font-size: 11px;
+    text-align: center;
+    width: 100%;
+}
+
+.agendamento-hora-inicio {
+    padding-left: 11px !important;
+}
+
+.janela-agendar-partida {
+    h2 {
+        font-size: 22px;
+    }
+
+    h4 {
+        font-weight: normal;
+    }
+
+    h5 {
+        font-weight: normal;
+    }
+}
+
+.no-layout-padding {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.tamanho-fixo {
+    width: 200px;
+}
+
+.material-icons.md-12 {
+    font-size: 12px;
+}
+
+.bg-warning {
+    background-color: #f8ac59 !important;
+    color: #fff !important;
+}
+
+.bg-success {
+    background-color: #1ab394 !important;
+    color: #fff !important;
+}
+
+.bg-danger {
+    background-color: #ed5565 !important;
+    color: #fff !important;
+}
+
+.motivo-nao-realizacao {
+    padding: 0;
+    margin: 0;
+    height: 25px;
+}
+
+#help-button {
+    position: absolute;
+    right: 24px;
+    z-index: 999;
+
+    span {
+        font-size: 48px;
+        font-weight: 700;
+        color: #2F4050;
+    }
+}
+
+.increase-popover-width {
+    max-width: 500px;
+    background: rgb(245, 245, 245);
+
+    .arrow {
+        right: 16px !important;
+    }
+ }
+
+
+@media screen and (max-width: 599px) {
+    body:before {
+        background: none;
+        background-color: rgba(11, 72, 107, 0.2);
+    }
+    .images-post {
+        margin-bottom: 10px;
+    }
+    a.menu-usuario {
+        color: #777;
+        margin-bottom: 16px;
+        &:hover {
+            color: @cor-primaria;
+        }
+        i {
+            width: 18px;
+            margin-right: 12px;
+        }
+    }
+    .background-branco {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    .infobar {
+        ul.itens {
+            li {
+                a {
+                    color: #333;
+                }
+            }
+        }
+    }
+    .profile-image {
+        width: auto;
+    }
+    .placar-jogo-equipes-escudo-mandante {
+        margin-right: 6px;
+    }
+    .placar-jogo-equipes-escudo-visitante {
+        margin-left: 6px;
+    }
+    .header-profile {
+        background-size: cover;
+    }
+    .caixa-informacao {
+        md-card-title {
+            padding: 6px 8px;
+            background-color: #B6C8D3;
+            color: @cor-primaria;
+        }
+        md-list-item {
+            background-color: #E2E9ED;
+        }
+        a.more {
+            color: @cor-primaria;
+            i {
+                transform: scaleX(-1);
+                -moz-transform: scaleX(-1);
+                -webkit-transform: scaleX(-1);
+                -ms-transform: scaleX(-1);
+            }
+        }
+    }
+    .h-500 {
+        min-height: 500px;
+    }
+    .no-min-height {
+        min-height: 0 !important;
+    }
+
+    .md-event-calendar-month-row {
+        flex-direction: column !important;
+    }
+
+    .md-event-calendar-month-cell {
+        height: auto !important;
+    }
+
+    .different-month {
+        display: none;
+    }
+
+    .md-event-calendar-month-row-header {
+        display: none !important;
+    }
+
+    .md-event-calendar-month-cell {
+        min-height: 50px;
+    }
+
+    .md-event-calendar-month-cell-content {
+        display: contents;
+    }
+
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell,
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell:last-child {
+        border: none;
+        border-bottom: 1px solid #00000010;
+        padding-bottom: 5px;
+    }
+
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row {
+        border: none;
+    }
+
+    md-event-calendar md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell .md-event-calendar-month-cell-spacer {
+        display: none;
+    }
+
+    #agenda-content {
+        padding: 0;
+    }
+
+    md-event-calendar._md md-event-calendar-month .md-event-calendar-month-row .md-event-calendar-month-cell .md-event-calendar-month-cell-content .md-event-calendar-cell-data-label {
+        font-size: 14px;
+
+        position: relative;
+        margin-right: 10px;
+        display: block;
+        border-radius: 50%;
+        border: 1px solid #000;
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        margin-top: 15px;
+
+        flex: none;
+        padding: 0;
+        margin-left: 10px;
+    }
+
+    md-event-calendar .md-event-calendar-cell-event.md-single {
+        font-size: 14px;
+        margin-left: 50px;
+        margin-right: 15px;
+    }
+
+    .evento-descricao {
+        font-weight: 500;
+        margin: 0;
+        font-size: 16px;
+    }
+
+    md-event-calendar .md-event-calendar-cell-event .md-event-calendar-cell-event-time {
+        font-weight: normal;
+    }
+
+    md-event-calendar .md-event-calendar-cell-event.md-single:first-child {
+        margin-top: -45px;
+    }
+
+    .content-agenda {
+        //display: flex;
+        //flex-direction: column;
+        //height: 100vh;
+        //overflow: hidden;
+        padding-top: 194px;
+
+        md-toolbar.fixed-on-top {
+            position: fixed;
+            top: 0;
+        }
+
+        #agenda-content {
+            .md-subheader {
+                position: fixed;
+                top: 56px;
+                padding-right: 56px;
+            }
+        }
+
+        md-event-calendar-header {
+            position: fixed;
+            top: 130px;
+            width: 100%;
+        }
+    }
+
+    .botao-sempre-visivel-bottom {
+        position: fixed !important;
+        bottom: 10px !important;
+        right: 10px !important;
+    }
+
+    .md-dialog-container {
+        height: 100vh !important;
+    }
+
+    #help-button {
+        right: 0;
+        top: 56px;
+    }
+
+    .increase-popover-width {
+        max-width: 310px;
+
+        .arrow {
+            right: 16px !important;
+        }
+     }
+
+}
+
+@media screen and (max-width: 480px) {
+    .auth0-lock.auth0-lock {
+        position: fixed !important;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .evento-descricao {
+        display: none;
+    }
 }

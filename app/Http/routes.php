@@ -62,7 +62,6 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/removeSeguidor', 'UsersController@removeSeguidor');
     Route::get('usuario/seguindo/{id}', 'UsersController@seguindo');
     Route::get('usuario/seguidores/{id}', 'UsersController@seguidores');
-    Route::post('usuario/getPosts', 'UsersController@listaPostsUsuario');
     Route::post('usuario/segue', 'UsersController@segue');
     Route::get('usuario/getJogos/{id}/{count?}', 'UsersController@listaJogos');
     Route::post('usuario/adicionaSeguidorJogo', 'UsersController@seguirJogo');
@@ -85,6 +84,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('usuario/saveAnonimo', 'UsersController@storeAnonimo');
     Route::get('usuario/pesquisa/{textoPesquisa}', 'UsersController@pesquisaPorNome');
     Route::post('usuario/associarAnonimo', 'UsersController@associarAnonimo');
+    Route::get('usuario/pendencias', 'UsersController@verificarPendencias');
     Route::resource('usuario', 'UsersController');
     Route::post('usuario/{id}', 'UsersController@update');
 
@@ -135,22 +135,8 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::resource('criterioClassificacao', 'CriterioClassificacaoController');
 
-    Route::post('post/curtir', 'PostController@curtir');
-    Route::post('post/usuarioCurtiu', 'PostController@usuarioCurtiu');
-    Route::post('post/getComentarios', 'PostController@getComentarios');
-    Route::post('post/{id}', 'PostController@update');
-    Route::get('post/imagens/{id}', 'PostController@getImagens');
-    Route::resource('post', 'PostController');
-
-    Route::post('atividade/curtir', 'AtividadeController@curtir');
-    Route::post('atividade/usuarioCurtiu', 'AtividadeController@usuarioCurtiu');
-    Route::get('atividade/curtidas/{id}', 'AtividadeController@getCurtidas');
-    Route::post('atividade/getComentarios', 'AtividadeController@getComentarios');
     Route::get('atividade/pesquisa/{textoPesquisa}', 'AtividadeController@getItensPesquisa');
     Route::resource('atividade', 'AtividadeController');
-
-    Route::post('comentario/curtir', 'ComentarioController@curtir');
-    Route::resource('comentario', 'ComentarioController');
 
     Route::resource('notificacaoEvento', 'NotificacaoEventoController');
 
@@ -179,6 +165,16 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('tutorial/{id}/{mobile}', 'TutorialController@show');
 
     Route::resource('tutorialItem', 'TutorialItemController');
+
+    Route::post('agenda/agendarPartida', 'AgendaController@agendarPartida');
+    Route::post('agenda/confirmarAgendamento', 'AgendaController@confirmarAgendamento');
+    Route::post('agenda/recusarAgendamento', 'AgendaController@recusarAgendamento');
+    Route::post('agenda/cancelarAgendamento', 'AgendaController@cancelarAgendamento');
+    Route::post('agenda/historico', 'AgendaController@getHistoricoAgendamento');
+    Route::get('agenda/{idCampeonato}/{idUsuario}', 'AgendaController@show');
+    Route::get('agenda/listaHorarios/{idCampeonato}/{idUsuario}/{data?}', 'AgendaController@listaHorarios');
+    Route::post('agenda/partidaNaoRealizada', 'AgendaController@justificaPartidaNaoRealizada');
+    Route::resource('agenda', 'AgendaController');
 
     Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
         $user = Auth::getUser();

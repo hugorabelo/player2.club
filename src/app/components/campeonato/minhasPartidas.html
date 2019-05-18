@@ -47,6 +47,13 @@
                                 </md-tooltip>
                             </md-button>
 
+                            <md-button class="md-fab md-mini" md-colors="::{background: 'player2-warn-900'}" ng-click="vmCampeonato.agendarPartida($event, partida)" ng-if="partida.pode_salvar">
+                                <i class="material-icons">event</i>
+                                <md-tooltip md-direction="top ">
+                                    {{'fields.agendar_partida' | translate}}
+                                </md-tooltip>
+                            </md-button>
+
                             <md-button class="md-fab md-mini" md-colors="::{color: 'sunlitsea-100', background: 'player2-accent-900'}" ng-click="vmCampeonato.confirmarPlacar(partida.id)" ng-if="partida.pode_confirmar_contestar">
                                 <i class="material-icons">done</i>
                                 <md-tooltip md-direction="top ">

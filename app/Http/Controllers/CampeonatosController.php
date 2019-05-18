@@ -149,7 +149,7 @@ class CampeonatosController extends Controller
         $inputDetalhes = $inputAll['detalhes'];
         $dataInicial = $inputAll['dataInicio'];
         $dataFinal = $inputAll['dataFinal'];
-        $input = array_except($inputAll, ['_method', 'criterios', 'dataFinal', 'dataInicio', 'detalhes', 'jogo', 'plataforma', 'pontuacao', 'tipo', 'novo', 'pode_editar']);
+        $input = array_except($inputAll, ['_method', 'criterios', 'dataFinal', 'dataInicio', 'detalhes', 'jogo', 'plataforma', 'pontuacao', 'tipo', 'novo', 'pode_editar', 'alterouCriterios']);
         $validation = Validator::make($input, Campeonato::$rules);
 
         if ($validation->passes()) {
@@ -188,8 +188,24 @@ class CampeonatosController extends Controller
                     if(isset($inputAll['pontuacao'])) {
                         $campeonato->pontuacao = $inputAll['pontuacao'];
                     }
-
                     $campeonato->criaFases();
+                } else {
+                    if($inputAll['alterouCriterios']) {
+                        if(isset($inputAll['criterios'])) {
+                            $campeonato->detalhesCampeonato = $campeonato->detalhes();
+                            $campeonato->criteriosClassificacao = $inputAll['criterios'];
+                            CampeonatoCriterio::where('campeonatos_id','=',$campeonato->detalhesCampeonato->campeonatos_id)->delete();
+                            $ordem = 1;
+                            foreach ($campeonato->criteriosClassificacao as $criterio) {
+                                $novoCriterio = array();
+                                $novoCriterio['campeonatos_id'] = $campeonato->detalhesCampeonato->campeonatos_id;
+                                $novoCriterio['criterios_classificacao_id'] = $criterio['id'];
+                                $novoCriterio['ordem'] = $ordem;
+                                CampeonatoCriterio::create($novoCriterio);
+                                $ordem++;
+                            }
+                        }
+                    }
                 }
                 //TODO atualizar fases em caso de alteração do número de participantes ou regras
             }

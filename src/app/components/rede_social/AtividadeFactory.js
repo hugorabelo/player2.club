@@ -7,69 +7,6 @@
                 return $http.get('api/atividade/' + id);
             },
 
-            curtir: function (curtida) {
-                return $http({
-                    method: 'POST',
-                    url: 'api/atividade/curtir',
-                    data: $.param(curtida),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
-            },
-
-            getCurtidas: function (idAtividade) {
-                return $http.get('api/atividade/curtidas/' + idAtividade);
-            },
-
-            usuarioCurtiuAtividade: function (curtida) {
-                return $http({
-                    method: 'POST',
-                    url: 'api/atividade/usuarioCurtiu',
-                    data: $.param(curtida),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
-            },
-
-            getComentarios: function (idAtividade, idUsuarioLeitor) {
-                var dados = {
-                    idAtividade: idAtividade,
-                    idUsuarioLeitor: idUsuarioLeitor
-                };
-                return $http({
-                    method: 'POST',
-                    url: 'api/atividade/getComentarios',
-                    data: $.param(dados),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
-            },
-
-            salvarComentario: function (comentario) {
-                return $http({
-                    method: 'POST',
-                    url: 'api/comentario',
-                    data: $.param(comentario),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
-            },
-
-            atualizarComentario: function (comentario) {
-                return $http({
-                    method: 'PUT',
-                    url: 'api/comentario/' + comentario.id,
-                    data: $.param(comentario),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                });
-            },
-
             destroy: function (id) {
                 return $http.delete('api/atividade/' + id);
             },

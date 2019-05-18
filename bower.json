@@ -42,6 +42,7 @@
         "angular-intro.js": "^3.3.0",
         "angular-wizard": "^1.1.1",
         "angular-material-expansion-panel": "^0.7.2",
+        "angular-material-event-calendar": "^0.1.4",
         "angular-auth0": "^3.0.1"
     },
     "devDependencies": {
@@ -83,6 +84,12 @@
             "main": [
         "angular-legacy-sortable.js"
       ]
+        },
+        "moment": {
+            "main": [
+                "moment.js",
+                "locale/pt-br.js"
+            ]
         }
     },
     "resolutions": {

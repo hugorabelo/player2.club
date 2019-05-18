@@ -65,13 +65,21 @@
 
             <h4 class="text-center" translate>messages.criterios_classificacao</h4>
             <div>
-                <ul ng-sortable="barConfig" class="todo-list m-t small-list">
-                    <li ng-repeat="criterio in vmCriarCampeonato.criteriosClassificacao">
-                        <i class="fa fa-arrows-v" aria-hidden="true"></i>
-                        <checkbox class="m-l-xs" ng-model="vmCriarCampeonato.checkBoxCriteriosClassificacao[criterio.id]"></checkbox>
-                        <span class="m-l-xs">{{criterio.descricao}}</span>
+                <ul class="todo-list m-t small-list">
+                    <li ng-repeat="criterio in vmCriarCampeonato.criteriosClassificacaoSelecionados" layout="row" layout-align="space-between center">
+                        <span class="m-l-xs">{{$index+1}} - {{criterio.descricao}}</span>
+                        <i class="material-icons" ng-click="vmCriarCampeonato.removerCriterio(criterio.id)">delete</i>
                     </li>
                 </ul>
+
+                <md-input-container md-no-float class="md-block" flex-gt-sm>
+                    <label>{{'messages.criterios_inserir' | translate}}</label>
+                    <md-select ng-model="vmCriarCampeonato.novoCriterio" ng-change="vmCriarCampeonato.adicionaNovoCriterio()">
+                        <md-option ng-repeat="criterio in vmCriarCampeonato.criteriosClassificacao" value="{{criterio}}">
+                            {{criterio.descricao}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
         </div>
     </md-card-content>

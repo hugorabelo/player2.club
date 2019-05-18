@@ -1,0 +1,136 @@
+<md-dialog aria-label="{{tituloModal | translate}}" flex="80" class="content-agenda">
+    <md-button id="help-button" class="md-fab" aria-label="?" uib-popover-template="'popover.html'" popover-placement="bottom-right" popover-trigger="focus" popover-class="increase-popover-width" hide-gt-xs>
+        <span>?</span>
+    </md-button>
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar class="fixed-on-top">
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" id="agenda-content">
+                <md-button id="help-button" class="md-fab" aria-label="?" uib-popover-template="'popover.html'" popover-placement="bottom-right" popover-trigger="focus" popover-class="increase-popover-width" hide-xs>
+                    <span>?</span>
+                </md-button>
+                <!-- <button class="btn btn-primary" uib-popover-template="'popover.html'" popover-placement="bottom-right" popover-trigger="focus" type="button">Mouse over me</button> -->
+                <script type="text/ng-template" id="popover.html">
+                    <div class="help-box">
+                        <h3>{{'help.agenda_titulo' | translate}}</h3>
+                        <p>{{'help.agenda_texto1_resumido' | translate}}</p>
+                        <p>{{'help.agenda_texto2_resumido' | translate}}</p>
+                        <p>{{'help.agenda_texto3_resumido' | translate}}</p>
+                        <p>{{'help.agenda_texto4_resumido' | translate}}</p>
+                        <p>{{'help.agenda_texto5_resumido' | translate}}</p>
+                        <p>{{'help.agenda_texto6_resumido' | translate}}</p>
+                    </div>
+                </script>
+
+                <md-subheader ng-cloak layout="row" layout-align="space-between center">
+                    {{'messages.agenda_intro' | translate}}
+                </md-subheader>
+                <md-event-calendar ng-model="selected" md-events="materialEvents" md-event-click="eventClicked($selectedEvent)" md-label="title" md-show-create-link="false" md-create-event-click="dateClick($date)" md-create-disabled="false" class="md-primary" fitted="true">
+                    <md-event-calendar-header class="md-center">
+                        <md-event-calendar-prev></md-event-calendar-prev>
+                        <md-event-calendar-title></md-event-calendar-title>
+                        <md-event-calendar-next></md-event-calendar-next>
+                    </md-event-calendar-header>
+                </md-event-calendar>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="sidenav-evento">
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'messages.add_horario' | translate}} {{date | date : 'dd/MM/yyyy'}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <label>{{'fields.hora_inicio' | translate}}</label>
+                        <div class="input-group " clock-picker data-autoclose="true">
+                            <input type="text" class="form-control" value="09:30" ng-model="hora_inicio" required>
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                        <label>{{'fields.hora_fim' | translate}}</label>
+                        <div class="input-group " clock-picker data-autoclose="true">
+                            <input type="text" class="form-control" value="09:30" ng-model="hora_fim" required>
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                        <div>
+                            <md-button class="md-raised md-primary" ng-click="inserirEvento(date, hora_inicio, hora_fim)"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                        </div>
+                    </md-content>
+
+                </md-sidenav>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="sidenav-evento-editar">
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'messages.edit_horario' | translate}} {{evento.start | date : 'dd/MM/yyyy'}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <label>{{'fields.hora_inicio' | translate}}</label>
+                        <div class="input-group " clock-picker data-autoclose="true">
+                            <input type="time" class="form-control" value="09:30" ng-model="evento.start" required>
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                        <label>{{'fields.hora_fim' | translate}}</label>
+                        <div class="input-group " clock-picker data-autoclose="true">
+                            <input type="time" class="form-control" value="09:30" ng-model="evento.end" required>
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                        <div>
+                            <md-button class="md-raised md-primary" ng-click="editarEvento(evento)"><i class="material-icons">update</i> {{'fields.update' | translate}}</md-button>
+
+                            <md-button class="md-raised md-warn" ng-click="excluirEvento(evento)"><i class="material-icons">delete_forever</i> {{'fields.delete' | translate}}</md-button>
+                        </div>
+                    </md-content>
+                </md-sidenav>
+
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp janela-agendar-partida" md-component-id="sidenav-evento-confirmar">
+                    <md-toolbar class="md-theme-light">
+                        <h1 class="md-toolbar-tools">{{'fields.agendar_partida' | translate}}</h1>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <h2 ng-if="partida.usuarios.length == 2">
+                            {{partida.usuarios[0].nome}} X {{partida.usuarios[1].nome}}
+                        </h2>
+                        <h4>
+                            {{campeonato.descricao}} - {{partida.rodada}}{{'messages.rodada' | translate}}
+                        </h4>
+                        <h5>
+                            {{dataAgendamento | date: 'dd/MM/yyyy'}} {{intervaloAgendamento.hora_inicio}} - {{intervaloAgendamento.hora_fim}}
+                        </h5>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label class="agendamento-hora-inicio">{{'fields.hora_inicio' | translate}}</label>
+                            <md-select ng-model="horaInicioAgendamento" ng-change="atualizaHoraFinal()">
+                                <md-option ng-repeat="hora in intervalosDisponiveis" value="{{hora}}">
+                                    {{hora}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <h4 ng-if="horaFinalAgendamento">
+                            {{'fields.hora_fim' | translate}}: {{horaFinalAgendamento}}
+                        </h4>
+
+                        <div layout="row">
+                            <md-button class="md-raised md-primary no-layout-padding" ng-click="salvarAgendamento()"><i class="material-icons">save</i> {{'fields.save' | translate}}</md-button>
+                            <md-button class="md-raised md-warn no-layout-padding" ng-click="closeSide()"><i class="material-icons">close</i> {{'messages.close' | translate}}</md-button>
+                        </div>
+                    </md-content>
+                </md-sidenav>
+            </div>
+
+        </md-dialog-content>
+    </form>
+</md-dialog>

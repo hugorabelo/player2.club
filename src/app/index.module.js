@@ -29,6 +29,7 @@
         'angular-intro',
         'mgo-angular-wizard',
         'material.components.expansionPanels',
+        'material.components.eventCalendar',
         'auth0.auth0'
     ]);
 
@@ -42,6 +43,9 @@
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
+        redirectUrlAmbiente = "http://localhost:3000";
+    } if (ambiente == 'localMac') {
+        apiUrlAmbiente = "http://player2.local/public/";
         redirectUrlAmbiente = "http://localhost:3000";
     } else if (ambiente == 'localMac') {
         apiUrlAmbiente = "http://player2.local/";
@@ -73,8 +77,9 @@
         $translateProvider.preferredLanguage('pt_br');
         $translateProvider.fallbackLanguage('pt_br');
 
-        $translateProvider.useSanitizeValueStrategy('escape');
+        moment.locale('pt-br');
 
+        $translateProvider.useSanitizeValueStrategy('escape');
     });
 
     angular.module('player2')

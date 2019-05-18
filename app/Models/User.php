@@ -180,10 +180,10 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 								if($this->administraMesmaEquipeNoCampeonato($campeonato->id, $partida->usuario_placar)) {
 									$partida->pode_cancelar = true;
 								} else {
-									$partida->pode_confirmar_contestar = true;
+									$partida->pode_confirmar_contestar = !$partida->contestada();
 								}
 							} else {
-								$partida->pode_confirmar_contestar = true;
+								$partida->pode_confirmar_contestar = !$partida->contestada();
 							}
 						} else {
 							$partida->pode_cancelar = true;
@@ -266,11 +266,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	    $this->seguindo()->attach($idUsuario);
 
 		$seguidor_id = $this->seguindo()->withPivot('id')->first()->pivot->id;
-
-		$atividade = new Atividade();
-		$atividade->users_id = $this->id;
-		$atividade->seguidor_id = $seguidor_id;
-		$atividade->save();
     }
     public function deixarDeSeguir($idUsuario) {
         $this->seguindo()->detach($idUsuario);
@@ -300,11 +295,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         $this->jogos()->attach($idJogo);
 
 		$seguidor_jogo_id = $this->jogos()->withPivot(['id', 'created_at'])->orderBy('pivot_created_at', 'desc')->first()->pivot->id;
-
-		$atividade = new Atividade();
-		$atividade->users_id = $this->id;
-		$atividade->seguidor_jogo_id = $seguidor_jogo_id;
-		$atividade->save();
     }
 
     public function deixarDeSeguirJogo($idJogo) {
@@ -315,19 +305,10 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	    if(boolval($todos)) {
 			$idSeguidores = $this->seguindo()->getRelatedIds();
 			$idSeguidores->push($this->id);
-            $postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
-			//TODO Quando existir atividades de seguidores e comentários, remover essas condições whereNull: ->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')
-            $atividades = Atividade::whereIn('users_id', $idSeguidores)->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
+			$atividades = Atividade::whereIn('users_id', $idSeguidores)->where(function($query) { $query->whereNotNull('partidas_id')->orWhereNotNull('campeonato_usuarios_id');})->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         } else {
-			$postsDestinatarios = Post::where('destinatario_id','=', $this->id)->get(array('id'));
-			//TODO Quando existir atividades de seguidores e comentários, remover essas condições whereNull: ->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')
-            $atividades = Atividade::where('users_id','=', $this->id)->whereNull('seguidor_id')->whereNull('comentario_id')->whereNull('seguidor_jogo_id')->orWhereIn('post_id', $postsDestinatarios)->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
+            $atividades = Atividade::where('users_id','=', $this->id)->where(function($query) { $query->whereNotNull('partidas_id')->orWhereNotNull('campeonato_usuarios_id');})->take($quantidade)->skip($offset)->orderBy('created_at', 'desc')->get();
         }
-		foreach ($atividades as $atividade) {
-			$atividade->curtidas = $atividade->curtidas()->get();
-			$atividade->comentarios = $atividade->comentarios($this->id);
-			$atividade->curtiu = $atividade->curtiu($this->id);
-		}
 		return $atividades;
 	}
 
