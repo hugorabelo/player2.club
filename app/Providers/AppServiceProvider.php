@@ -90,8 +90,6 @@ class AppServiceProvider extends ServiceProvider {
 					case "sorteou_clubes":
 						$link = $this->base_path."campeonato/".$notificacao->item_id;
 						break;
-					$link = $this->base_path."home/atividade/".$notificacao->item_id;
-						break;
 					case "seguir_usuario":
 						$link = $this->base_path."profile/".$notificacao->id_remetente;
 						break;
