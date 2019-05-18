@@ -69,7 +69,9 @@
         vm.segue = function () {
             Usuario.segue($rootScope.usuarioLogado.id, vm.usuario)
                 .success(function (data) {
-                    vm.usuario.seguido = data.segue;
+                    if(vm.usuario != '') {
+                        vm.usuario.seguido = data.segue;
+                    }
                 })
         };
 
@@ -81,7 +83,9 @@
         vm.getJogos = function (id) {
             Usuario.getJogos(id, 6)
                 .success(function (data) {
-                    vm.usuario.jogos = data.jogos;
+                    if(vm.usuario != '') {
+                        vm.usuario.jogos = data.jogos;
+                    }
                 });
         };
 
