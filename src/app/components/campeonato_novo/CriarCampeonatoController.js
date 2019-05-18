@@ -14,7 +14,6 @@
             };
 
             vm.campeonato = {};
-            vm.checkBoxCriteriosClassificacao = {};
             vm.criteriosClassificacaoSelecionados = [];
 
             vm.opcoesEditor = {
@@ -153,12 +152,6 @@
 
             vm.atualizaCriteriosClassificacao = function () {
                 vm.campeonato.criteriosClassificacaoSelecionados = vm.criteriosClassificacaoSelecionados;
-                // vm.campeonato.criteriosClassificacaoSelecionados = [];
-                // angular.forEach(vm.criteriosClassificacao, function (criterio) {
-                //     if (vm.checkBoxCriteriosClassificacao[criterio.id] === true) {
-                //         this.push(criterio);
-                //     }
-                // }, vm.campeonato.criteriosClassificacaoSelecionados);
             };
 
             vm.adicionaNovoCriterio = function() {

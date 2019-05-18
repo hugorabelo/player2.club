@@ -739,6 +739,7 @@
                 .success(function (data) {
                     vm.campeonatoEditar = data;
                     vm.campeonatoEditar.novo = false;
+                    vm.campeonatoEditar.alterouCriterios = 0;
                     vm.campeonatoEditar.dataInicio = moment(vm.campeonato.dataInicio, 'YYYY-MM-DD', true).toDate();
                     vm.campeonatoEditar.dataFinal = moment(vm.campeonato.dataFinal, 'YYYY-MM-DD', true).toDate();
                     vm.carregaTiposDeAcessoDoCampeonato();
@@ -842,6 +843,30 @@
                     //                    vm.status = status;
                 });
         };
+
+        vm.adicionaNovoCriterio = function() {
+            var criterioExiste = false;
+            var novoObjeto = JSON.parse(vm.novoCriterio);
+            angular.forEach(vm.campeonatoEditar.criterios, function (criterio) {
+                if (novoObjeto.id === criterio.id) {
+                    criterioExiste = true;
+                }
+            });
+            if(!criterioExiste) {
+                vm.campeonatoEditar.criterios.push(novoObjeto);
+                vm.campeonatoEditar.alterouCriterios = 1;
+            }
+            vm.novoCriterio = {};
+        };
+
+        vm.removerCriterio = function(idCriterio) {
+            angular.forEach(vm.campeonatoEditar.criterios, function (criterio, index) {
+                if (idCriterio === criterio.id) {
+                    vm.campeonatoEditar.criterios.splice(index, 1);
+                    vm.campeonatoEditar.alterouCriterios = 1;
+                }
+            });
+        }
 
         function DialogControllerInscricaoEscolherEquipe($scope, $mdDialog, tituloModal, equipes) {
             $scope.tituloModal = tituloModal;
