@@ -52,21 +52,21 @@ gulp.task('html', ['inject', 'partials'], function () {
         .pipe(assets = $.useref.assets())
         .pipe($.rev())
         .pipe(jsFilter)
-        .pipe(mode.production($.sourcemaps.init()))
+        // .pipe(mode.production($.sourcemaps.init()))
         .pipe($.ngAnnotate())
         .pipe(mode.production($.uglify({
             preserveComments: $.uglifySaveLicense
         }))).on('error', conf.errorHandler('Uglify'))
-        .pipe(mode.production($.sourcemaps.write('maps')))
+        // .pipe(mode.production($.sourcemaps.write('maps')))
         .pipe(jsFilter.restore)
         .pipe(cssFilter)
-        .pipe(mode.production($.sourcemaps.init()))
+        // .pipe(mode.production($.sourcemaps.init()))
         .pipe(mode.production($.replace('../../bower_components/bootstrap/fonts/', '../fonts/')))
         .pipe(mode.production($.replace('../../bower_components/fontawesome/fonts/', '../fonts/')))
         .pipe(mode.production($.minifyCss({
             processImport: false
         })))
-        .pipe(mode.production($.sourcemaps.write('maps')))
+        // .pipe(mode.production($.sourcemaps.write('maps')))
         .pipe(cssFilter.restore)
         .pipe(assets.restore())
         .pipe($.useref())
@@ -112,4 +112,4 @@ gulp.task('clean', function () {
     return $.del([path.join(conf.paths.dist, '/app/'), path.join(conf.paths.dist, '/assets/'), path.join(conf.paths.dist, '/fonts/'), path.join(conf.paths.dist, '/maps/'), path.join(conf.paths.dist, '/scripts/'), path.join(conf.paths.dist, '/styles/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['clean','html', 'fonts', 'other']);
