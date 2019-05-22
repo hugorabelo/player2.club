@@ -85,3 +85,4 @@ storage/
 frontend/.tmp/
 public/
 .tmp
+/.vscode/tasks.json
