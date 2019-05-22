@@ -514,7 +514,7 @@ class Campeonato extends Eloquent {
                 }
             }
         } else {
-            if ($fase->matamata && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio') {
+            if ($fase->matamata && isset($dadosFase['tipo_sorteio_matamata']) && $dadosFase['tipo_sorteio_matamata'] != 'aleatorio' && !isset($dadosFase['potes'])) {
                 $maximaPosicao = 0;
                 foreach ($usuarios as $user) {
                     $posicao = UsuarioFase::encontraUsuarioFase($user->id, $fase->id, $this->tipo_competidor, $user->anonimo)->posicao_fase_anterior;
@@ -844,6 +844,9 @@ class Campeonato extends Eloquent {
             return null;
         }
         $retorno->fases = $this->fases();
+        foreach($retorno->fases as $fase) {
+            $fase->participantes = $fase->usuarios();
+        }
         $retorno->grupos = $faseAtual->grupos();
         $partidasDaRodada = [];
         foreach ($retorno->grupos as $grupo) {

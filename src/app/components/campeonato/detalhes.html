@@ -31,7 +31,7 @@
                                     </md-select>
                                 </md-input-container>
                                 <md-card-actions layout="row" layout-align="end center" hide-xs>
-                                    <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)" ng-hide="fase.aberta || fase.matamata" ng-disabled="vmCampeonato.loadingFase">
+                                    <md-button class="md-raised md-primary m-b-xs" ng-click="vmCampeonato.iniciaPotes($event, fase)" ng-if="!fase.aberta" ng-disabled="vmCampeonato.loadingFase">
                                         <i class="material-icons" hide-xs>shopping_basket</i> {{'messages.utilizar_potes' | translate}}
                                     </md-button>
                                     <md-button class="md-raised md-primary" ng-click="vmCampeonato.iniciaFase($event, fase)" ng-if="!fase.aberta" ng-disabled="vmCampeonato.loadingFase" layout="row">

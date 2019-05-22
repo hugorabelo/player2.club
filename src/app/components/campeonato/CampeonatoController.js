@@ -1241,6 +1241,7 @@
 
         vm.iniciaPotes = function (ev, fase) {
             var quantidade_potes = 0;
+            var participantesDaFase = {};
             var listas = {};
             var potes = ['Principal', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             for (var i = 0; i <= quantidade_potes; i++) {
@@ -1252,7 +1253,13 @@
                 lists: listas
             };
 
-            angular.forEach(vm.campeonato.participantes, function (participante) {
+            if(fase.inicial) {
+                participantesDaFase = vm.campeonato.participantes
+            } else {
+                participantesDaFase = fase.participantes;
+            }
+
+            angular.forEach(participantesDaFase, function (participante) {
                 var distintivoJogador = null;
                 if (participante.time != null) {
                     distintivoJogador = participante.time.distintivo;
