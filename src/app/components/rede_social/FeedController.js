@@ -28,7 +28,7 @@
         });
 
         vm.inicializa = function () {
-            if (authService.isAuthenticated()) {
+            if (authService.isAuthenticated() && $rootScope.usuarioLogado !== null) {
                 if (vm.idJogo !== undefined) {
                     var usuarioLogado = localStorageService.get('usuarioLogado');
                     vm.idUsuario = usuarioLogado.id;

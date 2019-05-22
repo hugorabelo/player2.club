@@ -288,7 +288,7 @@
             if (tipo != undefined) {
                 tipo = 'lidas';
             }
-            if (authService.isAuthenticated()) {
+            if (authService.isAuthenticated() && $rootScope.usuarioLogado !== null) {
                 Usuario.getNotificacoes(tipo)
                     .success(function (data) {
                         vm.notificacoesUsuario = data;
