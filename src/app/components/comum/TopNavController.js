@@ -113,7 +113,6 @@
             }
 
             $scope.salvarMotivo = function(partida) {
-                console.log(partida);
                 Agenda.justificaPartidaNaoRealizada(partida)
                     .success(function(data) {
                         vm.atualizaPendencias();
@@ -342,8 +341,10 @@
         };
 
         $rootScope.$on('$stateChangeSuccess', function () {
-            vm.getNotificacoesDoUsuario();
-            vm.getConversasDoUsuario();
+            if($rootScope.usuarioLogado !== undefined && $rootScope.usuarioLogado !== null) {
+                vm.getNotificacoesDoUsuario();
+                vm.getConversasDoUsuario();
+            }
         });
 
         $scope.$on('userProfileSet', function () {
