@@ -44,11 +44,8 @@
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
-    } if (ambiente == 'localMac') {
-        apiUrlAmbiente = "http://player2.local/public/";
-        redirectUrlAmbiente = "http://localhost:3000";
     } else if (ambiente == 'localMac') {
-        apiUrlAmbiente = "http://player2.local/";
+        apiUrlAmbiente = "http://player2.local/public/";
         redirectUrlAmbiente = "http://localhost:3000";
     } else if (ambiente == 'player2.local') {
         apiUrlAmbiente = "/";

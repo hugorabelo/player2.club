@@ -38,31 +38,31 @@ class MyCustomUserRepository implements Auth0UserRepository {
                 $user->auth0id = $profile->user_id;
             }
             if(!isset($user->imagem_perfil) || ($user->imagem_perfil == 'perfil_padrao_homem.png')) {
-                $fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.jpg';
-                if(isset($profile->picture_large)) {
-                    file_put_contents( "uploads/usuarios/$fileName", fopen( $profile->picture_large, "r" ), FILE_APPEND );
-                } else {
-                    file_put_contents( "uploads/usuarios/$fileName", fopen( $profile->picture, "r" ), FILE_APPEND );
+                if(isset($profile->picture)) {
+                    try {
+                        $curl_handle=curl_init();
+                        curl_setopt($curl_handle, CURLOPT_URL, $profile->picture);
+                        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+                        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'player2.club');
+                        $arquivo = curl_exec($curl_handle);
+                        curl_close($curl_handle);
+
+                        if(stripos($arquivo, 'error'))  {
+                            $user->imagem_perfil = 'perfil_padrao_homem.png';
+                        } else {
+                            $fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.jpg';
+                            file_put_contents( "uploads/usuarios/$fileName", $arquivo, FILE_APPEND );
+                            $user->imagem_perfil = $fileName;
+                        }
+                    } catch (ErrorException $e) {
+                        $user->imagem_perfil = 'perfil_padrao_homem.png';
+                    }
                 }
-                $user->imagem_perfil = $fileName;
             }
             if($user->nome === 'username') {
                 $user->nome = $profile->name;
             }
-        }
-        if(!isset($user->imagem_large)) {
-            $fileName = 'usuario_'.str_replace('.', '', microtime(true));
-            $fileNameLarge = $fileName.'_lg';
-            $fileName = $fileName.'.jpg';
-            $fileNameLarge = $fileNameLarge.'.jpg';
-            if(isset($profile->picture)) {
-                file_put_contents( "uploads/usuarios/$fileName", fopen( $profile->picture, "r" ), FILE_APPEND );
-            }
-            if(isset($profile->picture_large)) {
-                file_put_contents( "uploads/usuarios/$fileNameLarge", fopen( $profile->picture_large, "r" ), FILE_APPEND );
-            }
-            $user->imagem_perfil = $fileName;
-            $user->imagem_large = $fileNameLarge;
         }
 
         // Recuperando IP do Usuário e Inserindo dados de Localização
