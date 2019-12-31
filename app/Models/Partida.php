@@ -129,6 +129,9 @@ class Partida extends Eloquent {
     }
 
     public function usuarios($informacoes = true) {
+        if($this->campeonato() === null) {
+            return null;
+        }
         $tipo_competidor = $this->campeonato()->tipo_competidor;
         $usuarios = $this->hasMany('UsuarioPartida', 'partidas_id')->orderBy('id')->getResults();
         $usuarios->values()->all();
@@ -180,11 +183,15 @@ class Partida extends Eloquent {
     }
 
     public function fase() {
-        return $this->grupo()->fase();
+        if($this->grupo() !== null) {
+            return $this->grupo()->fase();
+        }
     }
 
     public function campeonato() {
-        return $this->fase()->campeonato();
+        if($this->fase() !== null) {
+            return $this->fase()->campeonato();
+        }
     }
 
     public function placarUsuario($idUsuario, $idAnonimo = null) {
