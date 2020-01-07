@@ -39,6 +39,13 @@
                         </md-input-container>
                     </div>
 
+                    <div layout="row">
+                        <md-input-container class="md-block" flex="50">
+                            <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                            <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required ng-change="vmCriarCampeonato.atualizaValoresPremiacao()">
+                        </md-input-container>
+                    </div>
+
                     <div layout-gt-xs="row">
                         <md-input-container flex-gt-xs="50">
                             <label>{{'fields.data_inicio' | translate}}</label>
@@ -90,6 +97,14 @@
 
                     <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-if="vmCriarCampeonato.templateDetalhes" id="inputDetalhesDesktop"></div>
 
+                    <md-input-container class="md-block">
+                        <md-checkbox ng-model="vmCriarCampeonato.campeonato_pago" aria-label="{{'messages.campeonato_com_premiacao' | translate}}">
+                            {{'messages.campeonato_com_premiacao' | translate}}
+                        </md-checkbox>
+                    </md-input-container>
+
+                    <div ng-include src="'app/components/campeonato_novo/detalhes_premiacao.html'" ng-if="vmCriarCampeonato.campeonato_pago" id="inputDetalhesPremiacaoDesktop"></div>
+
                     <md-card-actions layout="row" layout-align="end center">
                         <md-button ng-click="vmCriarCampeonato.cancel()">{{'fields.cancel' | translate}}</md-button>
                         <md-button ng-click="vmCriarCampeonato.salvarCampeonato()">{{'fields.save' | translate}}</md-button>
@@ -136,6 +151,11 @@
             <md-input-container class="md-block" ng-if="vmCriarCampeonato.campeonato.tipo_competidor == 'equipe'" id="inputMinimoUsuarios">
                 <label>{{'fields.quantidade_minima_usuarios' | translate}}</label>
                 <input type="number" ng-model="vmCriarCampeonato.campeonato.quantidade_minima_competidores" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required ng-change="vmCriarCampeonato.atualizaValoresPremiacao()">
             </md-input-container>
 
             <md-input-container flex-gt-xs="50">
@@ -185,6 +205,14 @@
             </div>
 
             <div ng-include src="'app/components/campeonato_novo/' + vmCriarCampeonato.templateDetalhes" ng-if="vmCriarCampeonato.templateDetalhes" id="inputDetalhes"></div>
+
+            <md-input-container class="md-block">
+                <md-checkbox ng-model="vmCriarCampeonato.campeonato_pago" aria-label="{{'messages.campeonato_com_premiacao' | translate}}">
+                    {{'messages.campeonato_com_premiacao' | translate}}
+                </md-checkbox>
+            </md-input-container>
+
+            <div ng-include src="'app/components/campeonato_novo/detalhes_premiacao.html'" ng-if="vmCriarCampeonato.campeonato_pago" id="inputDetalhesPremiacao"></div>
 
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="vmCriarCampeonato.cancel()">{{'fields.cancel' | translate}}</md-button>

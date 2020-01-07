@@ -167,7 +167,7 @@
         "equipe": "Equipe",
         "info_participante": "Exibir detalhes do participante",
         "individual": "Individual",
-        "quantidade_minima_usuarios": "Quantidade Mínima de Usuários na Equipe",
+        "quantidade_minima_usuarios": "Mínimo de Usuários na Equipe",
 
         "convidar": "Convidar",
         "convites": "Convites disponíveis",
@@ -179,7 +179,14 @@
         "agendar_partida": "Agendar Partida",
         "recusar": "Recusar",
 
-        "pendencias": "Atividades Pendentes para Você"
+        "pendencias": "Atividades Pendentes para Você",
+
+        "valor_inscricao": "Valor da Inscrição",
+        "taxa_administrador": "Taxa para Administradores",
+        "premiacao_posicao": "Premiação por Posição",
+        "total": "Total",
+        "total_distribuido": "Valor Total Distribuído",
+        "inserir_posicao_premiacao": "Inserir nova posição"
     },
 
     "messages": {
@@ -587,7 +594,13 @@
         "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?",
         "partidas_nao_confirmadas_intro": "Os resultados das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou.",
         "criterios_inserir": "Selecione o próximo critério de classificação",
-        "criterios_remover": "Remover este critério de classificação"
+        "criterios_remover": "Remover este critério de classificação",
+
+        "campeonato_com_premiacao": "Campeonato com Premiação",
+        "campeonato_detalhes_premiacao": "Configuração de Valores de Inscrição e Premiação",
+        "premiacao_valor_total_arrecadado": "Valor Arrecadado",
+        "premiacao_valor_administrador": "Valor Reservado para os Administradores",
+        "premiacao_valor_plataforma": "Valor Reservado para a player2.club"
     },
 
     "generos": {

@@ -1,0 +1,69 @@
+<md-card ng-init="vmCriarCampeonato.iniciaValoresPremiacao()">
+    <md-card-header md-colors="::{backgroundColor: 'player2-primary-300'}">
+        <md-card-header-text>
+            {{'messages.campeonato_detalhes_premiacao' | translate}}
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content layout-gt-xs="row" layout-margin>
+        <div flex-gt-xs="30">
+            <md-input-container class="md-block">
+                <label>{{'fields.valor_inscricao' | translate}}</label>
+                <input type="text" ng-model="vmCriarCampeonato.campeonato.detalhes_premiacao.valor_inscricao" ng-change="vmCriarCampeonato.atualizaValoresPremiacao()" required ui-number-mask>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.taxa_administrador' | translate}}</label>
+                <input type="text" ng-model="vmCriarCampeonato.campeonato.detalhes_premiacao.taxa_administrador" ng-change="vmCriarCampeonato.atualizaValoresPremiacao()" required ui-percentage-mask>
+            </md-input-container>
+
+            <h4 class="text-center" translate>fields.premiacao_posicao</h4>
+
+            <md-button class="md-raised md-primary m-l-none" ng-click="vmCriarCampeonato.inserePosicaoPremiacao()">
+                <i class="material-icons">playlist_add</i> {{'fields.inserir_posicao_premiacao' | translate}}
+                <md-tooltip md-direction="top "> {{'fields.inserir_posicao_premiacao' | translate}}
+                </md-tooltip>
+            </md-button>
+
+            <ul class="todo-list m-t small-list">
+                <li ng-repeat="posicao in vmCriarCampeonato.posicoesPremiacaoSelecionadas" layout="row" layout-align="space-between center">
+                    <span class="m-l-xs">{{$index+1}}</span>
+                    <input type="text" ng-model="posicao.taxa" ng-change="vmCriarCampeonato.atualizaValoresPremiacao()" required ui-percentage-mask>
+                    <i class="material-icons" ng-click="vmCriarCampeonato.removerPosicaoPremiacao($index)">delete</i>
+                </li>
+            </ul>
+            
+        </div>
+        <div flex-gt-xs="70">
+            <md-table-container>
+                <table md-table>
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column>{{'messages.premiacao_valor_total_arrecadado' | translate}}</th>
+                            <th md-column md-numeric>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_total_arrecadado | finance:'R$ '}}</th>
+                        </tr>
+                    </thead> 
+                    <tbody md-body>
+                        <tr md-row>
+                            <td md-cell>{{'messages.premiacao_valor_administrador' | translate}}</td>
+                            <td md-cell>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_administrador | finance:'R$ '}}</td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>{{'messages.premiacao_valor_plataforma' | translate}}</td>
+                            <td md-cell>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_player2 | finance:'R$ '}}</td>
+                        </tr>
+                        <tr md-row ng-repeat="posicao in vmCriarCampeonato.posicoesPremiacaoSelecionadas">
+                            <td md-cell>{{$index+1}}{{'fields.lugar' | translate}}</td>
+                            <td md-cell>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_total_arrecadado * posicao.taxa | finance:'R$ '}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot md-foot>
+                        <tr md-row>
+                            <td md-cell><strong>{{'fields.total_distribuido' | translate}}</strong></td>
+                            <td md-cell><strong ng-class="{'text-warning': vmCriarCampeonato.status_distribuicao_premiacao == 'menor', 'text-danger': vmCriarCampeonato.status_distribuicao_premiacao == 'maior'}">{{vmCriarCampeonato.campeonato.detalhes_premiacao.total_distribuido | finance:'R$ '}}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </md-table-container>
+        </div>
+    </md-card-content>
+</md-card>

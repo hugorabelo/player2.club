@@ -30,7 +30,10 @@
         'mgo-angular-wizard',
         'material.components.expansionPanels',
         'material.components.eventCalendar',
-        'auth0.auth0'
+        'auth0.auth0',
+        'ui.utils.masks',
+        'md.data.table',
+        'idf.br-filters'
     ]);
 
     //'auth0.lock',
@@ -43,9 +46,6 @@
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
-        redirectUrlAmbiente = "http://localhost:3000";
-    } if (ambiente == 'localMac') {
-        apiUrlAmbiente = "http://player2.local/public/";
         redirectUrlAmbiente = "http://localhost:3000";
     } else if (ambiente == 'localMac') {
         apiUrlAmbiente = "http://player2.local/";

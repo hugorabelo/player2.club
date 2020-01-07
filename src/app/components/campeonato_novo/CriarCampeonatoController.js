@@ -15,6 +15,7 @@
 
             vm.campeonato = {};
             vm.criteriosClassificacaoSelecionados = [];
+            vm.posicoesPremiacaoSelecionadas = [];
 
             vm.opcoesEditor = {
                 language: 'pt_br',
@@ -131,6 +132,7 @@
 
             vm.salvarCampeonato = function () {
                 vm.atualizaCriteriosClassificacao();
+                vm.atualizaPosicoesPremiacoes();
                 vm.campeonato.criador = $rootScope.usuarioLogado.id;
                 Campeonato.save(vm.campeonato)
                     .success(function (data) {
@@ -192,5 +194,77 @@
                 startingDay: 1
             };
 
-		}]);
+            vm.iniciaValoresPremiacao = function() {
+                vm.campeonato.detalhes_premiacao = {};
+                vm.campeonato.detalhes_premiacao.valor_inscricao = 0;
+                vm.campeonato.detalhes_premiacao.taxa_administrador = 0
+                vm.campeonato.detalhes_premiacao.valor_total_arrecadado = 0;
+                vm.campeonato.detalhes_premiacao.valor_administrador = 0;
+                vm.campeonato.detalhes_premiacao.valor_player2 = 0;
+            }
+
+            vm.atualizaValoresPremiacao = function() {
+                if (vm.campeonato !== undefined && vm.campeonato.detalhes !== undefined && vm.campeonato.detalhes.quantidade_competidores !== undefined 
+                    && vm.campeonato.detalhes_premiacao != undefined) {
+                    var taxa_player2 = 0.2;
+                    vm.campeonato.detalhes_premiacao.valor_total_arrecadado = vm.campeonato.detalhes_premiacao.valor_inscricao * vm.campeonato.detalhes.quantidade_competidores;
+                    if(isNaN(vm.campeonato.detalhes_premiacao.valor_total_arrecadado)) {
+                        vm.campeonato.detalhes_premiacao.valor_total_arrecadado = 0;
+                    }
+                    vm.campeonato.detalhes_premiacao.valor_administrador = vm.campeonato.detalhes_premiacao.valor_total_arrecadado * vm.campeonato.detalhes_premiacao.taxa_administrador;
+                    if(isNaN(vm.campeonato.detalhes_premiacao.valor_administrador)) {
+                        vm.campeonato.detalhes_premiacao.valor_administrador = 0;
+                    }
+                    vm.campeonato.detalhes_premiacao.valor_player2 = vm.campeonato.detalhes_premiacao.valor_total_arrecadado * taxa_player2;
+                    if(isNaN(vm.campeonato.detalhes_premiacao.valor_player2)) {
+                        vm.campeonato.detalhes_premiacao.valor_player2 = 0;
+                    }
+
+                    //Se a quantidade de competidores for alterada para um valor menor do que a quantidade de posições por premiação inserida, remover as posições excedentes
+                    if(vm.campeonato.detalhes.quantidade_competidores < vm.posicoesPremiacaoSelecionadas.length) {
+                        var quantidade_extra = vm.posicoesPremiacaoSelecionadas.length - vm.campeonato.detalhes.quantidade_competidores;
+                        vm.posicoesPremiacaoSelecionadas.splice(vm.campeonato.detalhes.quantidade_competidores, quantidade_extra);
+                    }
+
+                    var valor_distribuido_premiacao = 0;
+
+                    angular.forEach(vm.posicoesPremiacaoSelecionadas, function (posicaoPremiacao) {
+                        valor_distribuido_premiacao += posicaoPremiacao.taxa * vm.campeonato.detalhes_premiacao.valor_total_arrecadado;
+                    });
+
+                    vm.campeonato.detalhes_premiacao.total_distribuido = vm.campeonato.detalhes_premiacao.valor_administrador + vm.campeonato.detalhes_premiacao.valor_player2 + 
+                                                                         valor_distribuido_premiacao;
+
+                    if(vm.campeonato.detalhes_premiacao.total_distribuido < vm.campeonato.detalhes_premiacao.valor_total_arrecadado) {
+                        vm.status_distribuicao_premiacao = 'menor';
+                    } else if(vm.campeonato.detalhes_premiacao.total_distribuido > vm.campeonato.detalhes_premiacao.valor_total_arrecadado) {
+                        vm.status_distribuicao_premiacao = 'maior';
+                    } else {
+                        vm.status_distribuicao_premiacao = 'igual';
+                    }
+
+                }
+            }
+
+            vm.inserePosicaoPremiacao = function() {
+                var novaPosicao = vm.posicoesPremiacaoSelecionadas.length + 1;
+                if(novaPosicao > vm.campeonato.detalhes.quantidade_competidores) {
+                    return;
+                }
+                var novaPosicao = {};
+                novaPosicao.taxa = 0;
+                vm.posicoesPremiacaoSelecionadas.push(novaPosicao);
+            }
+
+            vm.removerPosicaoPremiacao = function(index) {
+                vm.posicoesPremiacaoSelecionadas.splice(index, 1);
+                vm.atualizaValoresPremiacao();
+            }
+
+            vm.atualizaPosicoesPremiacoes = function () {
+                vm.campeonato.posicoesPremiacaoSelecionadas = vm.posicoesPremiacaoSelecionadas;
+            };
+
+        }]);
+        
 }());
