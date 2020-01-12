@@ -131,20 +131,23 @@
             };
 
             vm.salvarCampeonato = function () {
+                vm.loadingSalvarCampeonato = true;
                 vm.atualizaCriteriosClassificacao();
                 vm.atualizaPosicoesPremiacoes();
                 vm.campeonato.criador = $rootScope.usuarioLogado.id;
                 Campeonato.save(vm.campeonato)
                     .success(function (data) {
+                        vm.loadingSalvarCampeonato = false;
                         $location.path('/campeonato/' + data.id);
                     }).error(function (data, status) {
                         var listaErros = '';
                         angular.forEach(data.errors, function (erro) {
-                            listaErros += "<br>" + erro;
+                            listaErros += "<br>" + $filter('translate')(erro);
                         });
-                        toastr.error('<h3>' + data.message + '</h3>' + listaErros);
+                        toastr.error('<h3>' + $filter('translate')('messages.erro_configuracao') + '</h3>' + listaErros);
                         vm.messages = data.errors;
                         vm.status = status;
+                        vm.loadingSalvarCampeonato = false;
                     });
             };
 
@@ -247,6 +250,10 @@
             }
 
             vm.inserePosicaoPremiacao = function() {
+                if(vm.campeonato.detalhes === undefined) {
+                    toastr.error('<h3>' + $filter('translate')('messages.erro_configuracao') + '</h3>' + $filter('translate')('messages.quantidade_competidores_indefinida'));
+                    return;
+                }
                 var novaPosicao = vm.posicoesPremiacaoSelecionadas.length + 1;
                 if(novaPosicao > vm.campeonato.detalhes.quantidade_competidores) {
                     return;
@@ -262,7 +269,7 @@
             }
 
             vm.atualizaPosicoesPremiacoes = function () {
-                vm.campeonato.posicoesPremiacaoSelecionadas = vm.posicoesPremiacaoSelecionadas;
+                vm.campeonato.posicoes_premiacao_selecionadas = vm.posicoesPremiacaoSelecionadas;
             };
 
         }]);

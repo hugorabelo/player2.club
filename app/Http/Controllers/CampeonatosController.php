@@ -104,8 +104,35 @@ class CampeonatosController extends Controller
                 return Response::json(array('success' => false,
                     'errors' => array($validacaoNumeroCompetidores)), 300);
             }
-            $campeonatoSalvo = $campeonato->salvar($input);
 
+            //Verificar se os valores arrecadado e distribuido estão iguais
+            if(isset($input['detalhes_premiacao'])) {
+                $detalhesPremiacao = $input['detalhes_premiacao'];
+                $posicoesPremiacaoSelecionadas = $input['posicoes_premiacao_selecionadas'] ?? array();
+                if(!$this->validaValoresPremiacao($input['detalhes'], $detalhesPremiacao, $posicoesPremiacaoSelecionadas)) {
+                    return Response::json(array('success' => false,
+                        'errors' => array('messages.valores_incorretos_premiacao')), 300);
+                }
+            }
+
+            $inputSalvar = array_except($input, array('detalhes_premiacao', 'posicoes_premiacao_selecionadas'));
+            $campeonatoSalvo = $campeonato->salvar($inputSalvar);
+
+            if(isset($input['detalhes_premiacao'])) {
+                $taxaPlayer2 = 0.2;
+                $inputDetalhesPremiacao['valor_inscricao'] = $detalhesPremiacao['valor_inscricao'];
+                $inputDetalhesPremiacao['taxa_sistema'] = $taxaPlayer2;
+                $inputDetalhesPremiacao['taxa_administracao'] = $detalhesPremiacao['taxa_administrador'];
+                $inputDetalhesPremiacao['campeonatos_id'] = $campeonatoSalvo->id;
+                $detalhesPremiacaoSalvo = FinanceiroDetalhesPremiacao::create($inputDetalhesPremiacao);
+
+                foreach ($posicoesPremiacaoSelecionadas as $index => $posicao) {
+                    $divisao_premiacao['posicao'] = $index + 1;
+                    $divisao_premiacao['percentual'] = $posicao['taxa'];
+                    $divisao_premiacao['detalhes_premiacao_id'] = $detalhesPremiacaoSalvo->id;
+                    FinanceiroDivisaoPremiacao::create($divisao_premiacao);
+                }
+            }
 
             return Response::json(array('success' => true, 'id'=> $campeonatoSalvo->id));
         }
@@ -508,6 +535,23 @@ class CampeonatosController extends Controller
         $campeonato->vagas = $campeonato->maximoUsuarios();
 
         return Response::json($campeonato);
+    }
+
+    private function validaValoresPremiacao($detalhes, $detalhesPremiacao,$posicoesPremiacaoSelecionadas) {
+        $quantidadeCompetidores = $detalhes['quantidade_competidores'];
+        $valorInscricao = $detalhesPremiacao['valor_inscricao'];
+        $taxaAdministrador = $detalhesPremiacao['taxa_administrador'];
+        //TODO: Criar uma tabela de configurações e retornar esse valor de lá
+        $taxaPlayer2 = 0.2; 
+        $valorTotalArrecadado = $quantidadeCompetidores * $valorInscricao;
+        $valorAdministrador = $taxaAdministrador * $valorTotalArrecadado;
+        $valorPlayer2 = $taxaPlayer2 * $valorTotalArrecadado;
+        $valorDistribuidoPremiacao = 0;
+        foreach ($posicoesPremiacaoSelecionadas as $posicao) {
+            $valorDistribuidoPremiacao += $posicao['taxa'] * $valorTotalArrecadado;
+        }
+        $valorTotalDistribuido = $valorAdministrador + $valorPlayer2 + $valorDistribuidoPremiacao;
+        return floatval($valorTotalArrecadado) === floatval($valorTotalDistribuido);
     }
 
 }

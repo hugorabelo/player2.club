@@ -18,11 +18,19 @@
 
             <h4 class="text-center" translate>fields.premiacao_posicao</h4>
 
-            <md-button class="md-raised md-primary m-l-none" ng-click="vmCriarCampeonato.inserePosicaoPremiacao()">
+            <md-button class="md-raised md-primary m-l-none" ng-click="vmCriarCampeonato.inserePosicaoPremiacao()" hide-xs>
                 <i class="material-icons">playlist_add</i> {{'fields.inserir_posicao_premiacao' | translate}}
                 <md-tooltip md-direction="top "> {{'fields.inserir_posicao_premiacao' | translate}}
                 </md-tooltip>
             </md-button>
+
+            <div layout="column" layout-xs="space-between end" hide-gt-xs>
+                <md-button class="md-raised md-primary m-l-none md-block" ng-click="vmCriarCampeonato.inserePosicaoPremiacao()">
+                    <i class="material-icons">playlist_add</i> {{'fields.inserir_posicao_premiacao' | translate}}
+                    <md-tooltip md-direction="top "> {{'fields.inserir_posicao_premiacao' | translate}}
+                    </md-tooltip>
+                </md-button>
+            </div>
 
             <ul class="todo-list m-t small-list">
                 <li ng-repeat="posicao in vmCriarCampeonato.posicoesPremiacaoSelecionadas" layout="row" layout-align="space-between center">
@@ -45,21 +53,21 @@
                     <tbody md-body>
                         <tr md-row>
                             <td md-cell>{{'messages.premiacao_valor_administrador' | translate}}</td>
-                            <td md-cell>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_administrador | finance:'R$ '}}</td>
+                            <td md-cell class="nowrap">{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_administrador | finance:'R$ '}}</td>
                         </tr>
                         <tr md-row>
                             <td md-cell>{{'messages.premiacao_valor_plataforma' | translate}}</td>
-                            <td md-cell>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_player2 | finance:'R$ '}}</td>
+                            <td md-cell class="nowrap">{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_player2 | finance:'R$ '}}</td>
                         </tr>
                         <tr md-row ng-repeat="posicao in vmCriarCampeonato.posicoesPremiacaoSelecionadas">
                             <td md-cell>{{$index+1}}{{'fields.lugar' | translate}}</td>
-                            <td md-cell>{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_total_arrecadado * posicao.taxa | finance:'R$ '}}</td>
+                            <td md-cell class="nowrap">{{vmCriarCampeonato.campeonato.detalhes_premiacao.valor_total_arrecadado * posicao.taxa | finance:'R$ '}}</td>
                         </tr>
                     </tbody>
                     <tfoot md-foot>
                         <tr md-row>
                             <td md-cell><strong>{{'fields.total_distribuido' | translate}}</strong></td>
-                            <td md-cell><strong ng-class="{'text-warning': vmCriarCampeonato.status_distribuicao_premiacao == 'menor', 'text-danger': vmCriarCampeonato.status_distribuicao_premiacao == 'maior'}">{{vmCriarCampeonato.campeonato.detalhes_premiacao.total_distribuido | finance:'R$ '}}</strong></td>
+                            <td md-cell class="nowrap"><strong ng-class="{'text-warning': vmCriarCampeonato.status_distribuicao_premiacao == 'menor', 'text-danger': vmCriarCampeonato.status_distribuicao_premiacao == 'maior'}">{{vmCriarCampeonato.campeonato.detalhes_premiacao.total_distribuido | finance:'R$ '}}</strong></td>
                         </tr>
                     </tfoot>
                 </table>

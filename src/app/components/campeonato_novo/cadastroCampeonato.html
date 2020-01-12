@@ -42,7 +42,7 @@
                     <div layout="row">
                         <md-input-container class="md-block" flex="50">
                             <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                            <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required ng-change="vmCriarCampeonato.atualizaValoresPremiacao()">
+                            <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" min="1" required ng-change="vmCriarCampeonato.atualizaValoresPremiacao()">
                         </md-input-container>
                     </div>
 
@@ -155,7 +155,7 @@
 
             <md-input-container class="md-block">
                 <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" required ng-change="vmCriarCampeonato.atualizaValoresPremiacao()">
+                <input type="number" ng-model="vmCriarCampeonato.campeonato.detalhes.quantidade_competidores" min="1" required ng-change="vmCriarCampeonato.atualizaValoresPremiacao()">
             </md-input-container>
 
             <md-input-container flex-gt-xs="50">
@@ -214,10 +214,13 @@
 
             <div ng-include src="'app/components/campeonato_novo/detalhes_premiacao.html'" ng-if="vmCriarCampeonato.campeonato_pago" id="inputDetalhesPremiacao"></div>
 
-            <md-card-actions layout="row" layout-align="end center">
+            <md-card-actions layout="row" layout-align="end center" layout-align-xs="space-around center">
                 <md-button ng-click="vmCriarCampeonato.cancel()">{{'fields.cancel' | translate}}</md-button>
-                <md-button ng-click="vmCriarCampeonato.salvarCampeonato()">{{'fields.save' | translate}}</md-button>
+                <md-button class="md-block" ng-click="vmCriarCampeonato.salvarCampeonato()" ng-disabled="vmCriarCampeonato.loadingSalvarCampeonato">
+                    {{'fields.save' | translate}}
+                </md-button>
             </md-card-actions>
+            <md-progress-linear md-mode="indeterminate" ng-if="vmCriarCampeonato.loadingSalvarCampeonato"></md-progress-linear>
         </form>
     </md-card-content>
 </md-card>
