@@ -43,6 +43,7 @@
         vm.partidasAbertas = false;
 
         vm.exibeConfirmadas = 0;
+        vm.posicoesPremiacaoSelecionadas = [];
 
         vm.opcoesEditor = {
             language: 'pt_br',
@@ -735,13 +736,16 @@
         };
 
         vm.edit = function () {
+            console.log(vm.campeonato.id);
             Campeonato.edit(vm.campeonato.id)
                 .success(function (data) {
+                    console.log(data);
                     vm.campeonatoEditar = data;
                     vm.campeonatoEditar.novo = false;
                     vm.campeonatoEditar.alterouCriterios = 0;
                     vm.campeonatoEditar.dataInicio = moment(vm.campeonato.dataInicio, 'YYYY-MM-DD', true).toDate();
                     vm.campeonatoEditar.dataFinal = moment(vm.campeonato.dataFinal, 'YYYY-MM-DD', true).toDate();
+                    vm.campeonato_pago = data.detalhes_premiacao !== null && data.detalhes_premiacao !== undefined;
                     vm.carregaTiposDeAcessoDoCampeonato();
                     vm.carregaTiposDeCompetidores();
                     vm.carregaCriteriosClassificacao(vm.campeonato.tipo.modelo_campeonato_id);
@@ -771,6 +775,11 @@
         };
 
         vm.update = function () {
+            vm.atualizaPosicoesPremiacoes();
+            if(!vm.campeonato_pago) {
+                delete vm.campeonatoEditar.detalhes_premiacao;
+                delete vm.campeonatoEditar.posicoes_premiacao_selecionadas;
+            }
             Campeonato.update(vm.campeonatoEditar)
                 .success(function (data) {
                     Campeonato.get()
@@ -779,6 +788,11 @@
                         });
                     $rootScope.loading = false;
                 }).error(function (data, status) {
+                    var listaErros = '';
+                    angular.forEach(data.errors, function (erro) {
+                        listaErros += "<br>" + $filter('translate')(erro);
+                    });
+                    toastr.error('<h3>' + $filter('translate')('messages.erro_configuracao') + '</h3>' + listaErros);
                     vm.message = data.errors;
                     vm.status = status;
                 });
@@ -2190,7 +2204,91 @@
 
         /***** AgendaController FIM *****/
 
+        vm.iniciaValoresPremiacao = function() {
+            if(vm.campeonatoEditar.detalhes_premiacao !== null && vm.campeonatoEditar.detalhes_premiacao !== undefined) {
+                vm.posicoesPremiacaoSelecionadas = vm.campeonatoEditar.detalhes_premiacao.divisao_premiacao;
+            }
+            vm.atualizaValoresPremiacao();
+        }
 
-                }]);
+        vm.atualizaValoresPremiacao = function() {
+            if(vm.posicoesPremiacaoSelecionadas == undefined) {
+                vm.posicoesPremiacaoSelecionadas = [];
+            }
+            if (vm.campeonatoEditar !== undefined && vm.campeonatoEditar.detalhes !== undefined && vm.campeonatoEditar.detalhes.quantidade_competidores !== undefined 
+                && vm.campeonatoEditar.detalhes_premiacao != undefined) {
+                var taxa_player2 = 0.2;
+                vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado = vm.campeonatoEditar.detalhes_premiacao.valor_inscricao * vm.campeonatoEditar.detalhes.quantidade_competidores;
+                if(isNaN(vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado)) {
+                    vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado = 0;
+                }
+                vm.campeonatoEditar.detalhes_premiacao.valor_administrador = vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado * vm.campeonatoEditar.detalhes_premiacao.taxa_administracao;
+                if(isNaN(vm.campeonatoEditar.detalhes_premiacao.valor_administrador)) {
+                    vm.campeonatoEditar.detalhes_premiacao.valor_administrador = 0;
+                }
+                vm.campeonatoEditar.detalhes_premiacao.valor_player2 = vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado * taxa_player2;
+                if(isNaN(vm.campeonatoEditar.detalhes_premiacao.valor_player2)) {
+                    vm.campeonatoEditar.detalhes_premiacao.valor_player2 = 0;
+                }
+
+                //Se a quantidade de competidores for alterada para um valor menor do que a quantidade de posições por premiação inserida, remover as posições excedentes
+                if(vm.campeonatoEditar.detalhes.quantidade_competidores < vm.posicoesPremiacaoSelecionadas.length) {
+                    var quantidade_extra = vm.posicoesPremiacaoSelecionadas.length - vm.campeonatoEditar.detalhes.quantidade_competidores;
+                    vm.posicoesPremiacaoSelecionadas.splice(vm.campeonatoEditar.detalhes.quantidade_competidores, quantidade_extra);
+                }
+
+                var valor_distribuido_premiacao = 0;
+
+                angular.forEach(vm.posicoesPremiacaoSelecionadas, function (posicaoPremiacao) {
+                    valor_distribuido_premiacao += posicaoPremiacao.percentual * vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado;
+                });
+
+                vm.campeonatoEditar.detalhes_premiacao.total_distribuido = vm.campeonatoEditar.detalhes_premiacao.valor_administrador + vm.campeonatoEditar.detalhes_premiacao.valor_player2 + 
+                                                                     valor_distribuido_premiacao;
+
+                if(vm.campeonatoEditar.detalhes_premiacao.total_distribuido < vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado) {
+                    vm.status_distribuicao_premiacao = 'menor';
+                } else if(vm.campeonatoEditar.detalhes_premiacao.total_distribuido > vm.campeonatoEditar.detalhes_premiacao.valor_total_arrecadado) {
+                    vm.status_distribuicao_premiacao = 'maior';
+                } else {
+                    vm.status_distribuicao_premiacao = 'igual';
+                }
+
+            }
+        }
+
+        vm.inserePosicaoPremiacao = function() {
+            if(vm.campeonatoEditar.detalhes === undefined) {
+                toastr.error('<h3>' + $filter('translate')('messages.erro_configuracao') + '</h3>' + $filter('translate')('messages.quantidade_competidores_indefinida'));
+                return;
+            }
+            var novaPosicao = vm.posicoesPremiacaoSelecionadas.length + 1;
+            if(novaPosicao > vm.campeonatoEditar.detalhes.quantidade_competidores) {
+                return;
+            }
+            var novaPosicao = {};
+            novaPosicao.percentual = 0;
+            vm.posicoesPremiacaoSelecionadas.push(novaPosicao);
+        }
+
+        vm.removerPosicaoPremiacao = function(index) {
+            vm.posicoesPremiacaoSelecionadas.splice(index, 1);
+            vm.atualizaValoresPremiacao();
+        }
+
+        vm.atualizaPosicoesPremiacoes = function () {
+            vm.campeonatoEditar.posicoes_premiacao_selecionadas = vm.posicoesPremiacaoSelecionadas;
+        };
+
+        vm.exibeCampeonato = function() {
+            console.log(vm.campeonato, "Campeonato");
+
+            console.log(vm.campeonatoEditar, "Campeonato Editar");
+
+            console.log(vm, "VM");
+        }
+
+
+    }]);
 
 }());

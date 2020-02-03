@@ -12,4 +12,14 @@ class FinanceiroDetalhesPremiacao extends Eloquent
 
     protected $guarded = array();
 
+    protected $fillable = ['valor_inscricao', 'taxa_sistema', 'taxa_administracao', 'campeonatos_id'];
+
+    public static $rules = array(
+      'valor_inscricao' => 'required'
+    );
+
+    public function divisaoPremiacao() {
+      return $this->hasMany('FinanceiroDivisaoPremiacao', 'detalhes_premiacao_id')->orderBy('posicao')->getResults();
+    }
+
 }

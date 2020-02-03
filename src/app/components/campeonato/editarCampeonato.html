@@ -1,9 +1,4 @@
 <md-card flex ng-class="{'m-n': telaMobile}">
-    <!--
-    <md-toolbar class="md-toolbar-tools">
-        <h2>{{'messages.campeonato_edit' | translate}}</h2>
-    </md-toolbar>
--->
     <md-card-content>
         <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate">
             <md-input-container class="md-block">
@@ -21,18 +16,6 @@
             </md-input-container>
 
             <div layout-gt-xs="row">
-                <!--
-                <md-input-container class="md-block" flex-gt-xs="50">
-                    <label>{{'fields.tipo_competidor' | translate}}</label>
-                    <md-select ng-model="vmCampeonato.campeonatoEditar.tipo_competidor" required readonly>
-                        <md-option ng-repeat="tipo_competidor in vmCampeonato.tipoCompetidores" ng-value="tipo_competidor">
-                            <span ng-if="tipo_competidor == 'individual'">{{'fields.individual' | translate}}</span>
-                            <span ng-if="tipo_competidor == 'equipe'">{{'fields.equipe' | translate}}</span>
-                        </md-option>
-                    </md-select>
-                </md-input-container>
--->
-
                 <md-input-container class="md-block" flex-gt-xs="50">
                     <label>{{'fields.tipo_competidor' | translate}}</label>
                     <input required readonly value="{{'fields.individual' | translate}}" ng-if="vmCampeonato.campeonatoEditar.tipo_competidor == 'individual'">
@@ -44,6 +27,11 @@
                     <input type="number" ng-model="vmCampeonato.campeonatoEditar.quantidade_minima_competidores" required readonly>
                 </md-input-container>
             </div>
+
+            <md-input-container class="md-block">
+                <label>{{'fields.quantidade_usuarios' | translate}}</label>
+                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" min="1" required ng-change="vmCampeonato.atualizaValoresPremiacao()" ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
+            </md-input-container>
 
             <div layout-gt-xs="row">
                 <md-input-container flex-gt-xs="50">
@@ -84,6 +72,16 @@
 
             <div ng-include src="'app/components/campeonato/modelos/' + vmCampeonato.campeonatoEditar.tipo.arquivo_detalhes"></div>
 
+
+            <md-button class="md-block md-raised" ng-click="vmCampeonato.exibeCampeonato()">Mostrar detalhes campeoanto</md-button>
+
+            <md-input-container class="md-block">
+                <md-checkbox ng-model="vmCampeonato.campeonato_pago" aria-label="{{'messages.campeonato_com_premiacao' | translate}}"  ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
+                    {{'messages.campeonato_com_premiacao' | translate}}
+                </md-checkbox>
+            </md-input-container>
+
+            <div ng-include src="'app/components/campeonato/detalhes_premiacao.html'" ng-if="vmCampeonato.campeonato_pago" id="inputDetalhesPremiacao"></div>
 
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="vmCampeonato.carregaCampeonato()">{{'fields.cancel' | translate}}</md-button>

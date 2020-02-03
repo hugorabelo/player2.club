@@ -200,7 +200,7 @@
             vm.iniciaValoresPremiacao = function() {
                 vm.campeonato.detalhes_premiacao = {};
                 vm.campeonato.detalhes_premiacao.valor_inscricao = 0;
-                vm.campeonato.detalhes_premiacao.taxa_administrador = 0
+                vm.campeonato.detalhes_premiacao.taxa_administracao = 0
                 vm.campeonato.detalhes_premiacao.valor_total_arrecadado = 0;
                 vm.campeonato.detalhes_premiacao.valor_administrador = 0;
                 vm.campeonato.detalhes_premiacao.valor_player2 = 0;
@@ -214,7 +214,7 @@
                     if(isNaN(vm.campeonato.detalhes_premiacao.valor_total_arrecadado)) {
                         vm.campeonato.detalhes_premiacao.valor_total_arrecadado = 0;
                     }
-                    vm.campeonato.detalhes_premiacao.valor_administrador = vm.campeonato.detalhes_premiacao.valor_total_arrecadado * vm.campeonato.detalhes_premiacao.taxa_administrador;
+                    vm.campeonato.detalhes_premiacao.valor_administrador = vm.campeonato.detalhes_premiacao.valor_total_arrecadado * vm.campeonato.detalhes_premiacao.taxa_administracao;
                     if(isNaN(vm.campeonato.detalhes_premiacao.valor_administrador)) {
                         vm.campeonato.detalhes_premiacao.valor_administrador = 0;
                     }
@@ -232,7 +232,7 @@
                     var valor_distribuido_premiacao = 0;
 
                     angular.forEach(vm.posicoesPremiacaoSelecionadas, function (posicaoPremiacao) {
-                        valor_distribuido_premiacao += posicaoPremiacao.taxa * vm.campeonato.detalhes_premiacao.valor_total_arrecadado;
+                        valor_distribuido_premiacao += posicaoPremiacao.percentual * vm.campeonato.detalhes_premiacao.valor_total_arrecadado;
                     });
 
                     vm.campeonato.detalhes_premiacao.total_distribuido = vm.campeonato.detalhes_premiacao.valor_administrador + vm.campeonato.detalhes_premiacao.valor_player2 + 
@@ -259,7 +259,7 @@
                     return;
                 }
                 var novaPosicao = {};
-                novaPosicao.taxa = 0;
+                novaPosicao.percentual = 0;
                 vm.posicoesPremiacaoSelecionadas.push(novaPosicao);
             }
 

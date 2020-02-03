@@ -33,7 +33,8 @@
         'auth0.auth0',
         'ui.utils.masks',
         'md.data.table',
-        'idf.br-filters'
+        'idf.br-filters',
+        'disableAll'
     ]);
 
     //'auth0.lock',

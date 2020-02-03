@@ -4,13 +4,8 @@
             {{'messages.campeonato_detalhes' | translate}}
         </md-card-header-text>
     </md-card-header>
-    <md-card-content layout-gt-xs="row" layout-margin ng-disabled="!vmCampeonato.campeonatoEditar.pode_editar">
+    <md-card-content layout-gt-xs="row" layout-margin disable-all="!vmCampeonato.campeonatoEditar.pode_editar">
         <div flex-gt-xs="70">
-            <md-input-container class="md-block">
-                <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required>
-            </md-input-container>
-
             <md-input-container class="md-block">
                 <label>{{'fields.qtde_grupos' | translate}}</label>
                 <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_grupos" required>

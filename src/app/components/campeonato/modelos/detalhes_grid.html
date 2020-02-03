@@ -4,7 +4,7 @@
             {{'messages.campeonato_detalhes' | translate}}
         </md-card-header-text>
     </md-card-header>
-    <md-card-content layout="row" layout-margin>
+    <md-card-content layout="row" layout-margin disable-all="!vmCampeonato.campeonatoEditar.pode_editar">
         <div flex="70">
             <md-input-container class="md-block" ng-hide="true">
                 <label>{{'fields.tipo_competidor' | translate}}</label>
@@ -13,11 +13,6 @@
                         {{tipoCompetidor.descricao}}
                     </md-option>
                 </md-select>
-            </md-input-container>
-
-            <md-input-container class="md-block">
-                <label>{{'fields.quantidade_usuarios' | translate}}</label>
-                <input type="number" ng-model="vmCampeonato.campeonatoEditar.detalhes.quantidade_competidores" required ng-disabled="!vmCampeonato.campeonatoEditar.novo">
             </md-input-container>
 
             <md-input-container class="md-block">

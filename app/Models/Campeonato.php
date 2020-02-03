@@ -4,7 +4,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class Campeonato extends Eloquent {
-	protected $guarded = array();
+    protected $guarded = array();
+    
+    protected $fillable = ['descricao', 'tipo_competidor', 'plataformas_id', 'jogos_id', 'campeonato_tipos_id', 'criador', 'regras'];
 
     protected $table = 'campeonatos';
 
@@ -1016,4 +1018,12 @@ class Campeonato extends Eloquent {
         }
         return false;
     }
+
+    public function detalhesPremiacao($incluiDivisaoPremiacao = true) {
+        $detalhesPremiacao = $this->hasOne('FinanceiroDetalhesPremiacao', 'campeonatos_id')->getResults();
+        if(isset($detalhesPremiacao) && $incluiDivisaoPremiacao) {
+            $detalhesPremiacao->divisao_premiacao = $detalhesPremiacao->divisaoPremiacao();
+        }
+		return $detalhesPremiacao;
+	}
 }
