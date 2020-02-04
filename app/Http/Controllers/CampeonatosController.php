@@ -74,7 +74,6 @@ class CampeonatosController extends Controller
             $campeonato->usuarioAdministrador = true;
         }
 
-        // $campeonato->pago = FinanceiroDetalhesPremiacao::where('campeonatos_id')
         $campeonato->detalhesPremiacao = $campeonato->detalhesPremiacao();
 
         return Response::json($campeonato);
@@ -173,7 +172,6 @@ class CampeonatosController extends Controller
         $campeonato->pontuacao = $campeonato->pontuacoes();
         $campeonato->pode_editar = $campeonato->status() < 3 ? true : false;
         $campeonato->detalhes_premiacao = $campeonato->detalhesPremiacao();
-        Log::info($campeonato);
         return Response::json($campeonato);
     }
 
