@@ -1,5 +1,7 @@
 <?php
 
+Use App\Repositories\PlataformaRepositoryEloquent;
+
 class PlataformasController extends Controller {
 
 	/**
@@ -9,7 +11,7 @@ class PlataformasController extends Controller {
 	 */
 	protected $plataforma;
 
-	public function __construct(Plataforma $plataforma)
+	public function __construct(PlataformaRepositoryEloquent $plataforma)
 	{
 		$this->plataforma = $plataforma;
 
@@ -22,7 +24,7 @@ class PlataformasController extends Controller {
 	 */
 	public function index()
 	{
-		$plataformas = Plataforma::get()->sortBy('descricao');
+		$plataformas = $this->plataforma->all()->sortBy('descricao');
 		return Response::json($plataformas->values()->all());
 	}
 
@@ -51,7 +53,7 @@ class PlataformasController extends Controller {
 				$input['imagem_logomarca'] = $fileName;
 			}
 
-			Plataforma::create($input);
+			$this->plataforma->create($input);
 
 			return Response::json(array('success'=>true));
 		}
@@ -69,7 +71,7 @@ class PlataformasController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return Response::json(Plataforma::find($id));
+		return Response::json($this->plataforma->find($id));
 	}
 
 	/**
@@ -117,13 +119,13 @@ class PlataformasController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		Plataforma::destroy($id);
+		$this->plataforma->delete($id);
 
 		return Response::json(array('success'=>true));
 	}
 
 	public function getJogos($id, $apenasCampeonato = null) {
-		$plataforma = Plataforma::find($id);
+		$plataforma = $this->plataforma->find($id);
 		return Response::json($plataforma->jogos($apenasCampeonato));
 	}
 

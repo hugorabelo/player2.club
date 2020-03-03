@@ -1,6 +1,18 @@
 <?php
 
-class Plataforma extends Eloquent {
+use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
+
+/**
+ * Class Plataforma.
+ *
+ * @package namespace App\Models;
+ */
+class Plataforma extends Model implements Transformable
+{
+	use TransformableTrait;
+	
 	protected $guarded = array();
 
 	public static $rules = array(
