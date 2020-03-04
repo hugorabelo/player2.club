@@ -223,7 +223,7 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
     }
 
     public function gerarRodada($grupo, $numero_rodada) {
-        $usuarios = $grupo->usuariosComClassificacao();
+        $usuarios = $grupo->usuariosComClassificacao(2);
         if($usuarios->count() % 2 == 1) {
             return false;
         }
@@ -233,6 +233,7 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         $colecao = collect($usuarios);
 
         $colecaoChave = $colecao->groupBy('vitorias');
+        $colecaoChave->toArray();
 
         for($i = $numero_rodada-1; $i >= 0; $i--) {
             if($colecaoChave->get($i)->count() % 2 == 1) {
@@ -244,7 +245,6 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
 
         $usuariosPareados = $this->parearJogos($colecaoChave->get(0), $grupo->id);
 //        Log::warning(Response::json($colecaoChave));
-        Log::warning(Response::json($usuariosPareados));
 
         return null;
 
@@ -289,7 +289,7 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
          */
     }
 
-    protected function parearJogos($usuarios, $idGrupo) {
+    private function parearJogos($usuarios, $idGrupo) {
         $usuariosPareados = app()->make(Collection::class);
         $usuariosPareados = new Collection();
         while($usuarios->count() > 0) {
@@ -309,7 +309,7 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         return $usuariosPareados;
     }
 
-    protected function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
+    private function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
         $retorno = DB::table('usuario_partidas')->whereRaw("partidas_id IN (select partidas_id FROM usuario_partidas where users_id = $idUser1 and partidas_id IN ".
             "(select id from partidas where fase_grupos_id = $idGrupo)) and users_id = $idUser2")->count();
         return $retorno;

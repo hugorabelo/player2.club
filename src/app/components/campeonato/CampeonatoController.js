@@ -1412,6 +1412,13 @@
                     vm.carregaRodadasGerenciar();
                 });
         };
-                }]);
+
+        vm.gerarNovaRodadaSuica = function() {
+            Campeonato.gerarNovaRodadaSuica(vm.campeonato.id)
+                .success(function (data) {
+                    vm.carregaRodadasGerenciar();
+                });
+        };
+    }]);
 
 }());

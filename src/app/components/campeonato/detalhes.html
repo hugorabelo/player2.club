@@ -188,6 +188,8 @@
                 </div>
             </div>
 
+            <md-button class="md-raised md-primary" ng-if="!vmCampeonato.campeonato.times_sorteados" ng-click="vmCampeonato.gerarNovaRodadaSuica()">{{'messages.gerar_nova_rodada' | translate}}</md-button>
+
         </md-card-content>
     </md-card>
 

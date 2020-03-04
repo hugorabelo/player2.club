@@ -190,7 +190,7 @@ class FaseGrupo extends Eloquent
         return $campeonato->ordenarUsuariosPorCriterioDeClassificacao($usuarios);
     }
 
-    public function usuariosComClassificacao() {
+    public function usuariosComClassificacao($usuariosPorPartida = null) {
         $tipo_competidor = $this->fase()->campeonato()->tipo_competidor;
 
         $pontuacoes = $this->fase()->pontuacoes();
@@ -204,6 +204,9 @@ class FaseGrupo extends Eloquent
         $quantidade_jogadores_por_partida = 0;
         if ($partida != null) {
             $quantidade_jogadores_por_partida = $partida->usuarios()->count();
+        }
+        if($quantidade_jogadores_por_partida === 0 && isset($usuariosPorPartida)) {
+            $quantidade_jogadores_por_partida = $usuariosPorPartida;
         }
 
         if ($quantidade_jogadores_por_partida == 2) {

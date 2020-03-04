@@ -439,4 +439,9 @@ class CampeonatosController extends Controller
         return Response::json($campeonatos);
     }
 
+    function gerarNovaRodada($idCampeonato) {
+        $campeonato = CampeonatoSuico::find($idCampeonato);
+        $rodadaGerada = $campeonato->rodadas();
+    }
+
 }
