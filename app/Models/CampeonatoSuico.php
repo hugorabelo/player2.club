@@ -243,10 +243,19 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
             }
         }
 
-        $usuariosPareados = $this->parearJogos($colecaoChave->get(0), $grupo->id);
-//        Log::warning(Response::json($colecaoChave));
+        $usuariosPareados = app()->make(Collection::class);
+        
+        for($i = $numero_rodada-1; $i >= 0; $i--) {
+            if(!$colecaoChave->get($i)->isEmpty()) {
+                $usuariosOrdenadosDaChave = $this->parearJogos($colecaoChave->get($i), $grupo->id);
+                foreach ($usuariosOrdenadosDaChave as $value) {
+                    $usuariosPareados->push($value);
+                }
+            }
+        }
 
-        return null;
+        $usuariosPareados->all();
+
 
 
         // Ordenar participantes pelos critérios
@@ -254,10 +263,10 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         $indiceUsuario = 0;
         for($i=0;$i<$m;$i++) {
             $partida = Partida::create(['fase_grupos_id' => $grupo->id, 'rodada' => $numero_rodada]);
-            $usuario1 = $usuarios->get($indiceUsuario)->id;
+            $usuario1 = $usuariosPareados->get($indiceUsuario)->id;
             UsuarioPartida::create(['partidas_id' => $partida->id, 'users_id' => $usuario1]);
             $indiceUsuario++;
-            $usuario2 = $usuarios->get($indiceUsuario)->id;
+            $usuario2 = $usuariosPareados->get($indiceUsuario)->id;
             if($this->verificaJogoExistente($usuario1, $usuario2, $grupo->id)) {
                 Log::warning("$usuario1 - $usuario2");
             }
@@ -289,9 +298,8 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
          */
     }
 
-    private function parearJogos($usuarios, $idGrupo) {
+    public function parearJogos($usuarios, $idGrupo) {
         $usuariosPareados = app()->make(Collection::class);
-        $usuariosPareados = new Collection();
         while($usuarios->count() > 0) {
             $usuarioPrincipal = $usuarios->shift();
             $usuariosPareados->push($usuarioPrincipal);
@@ -309,7 +317,7 @@ class CampeonatoSuico extends Campeonato implements CampeonatoEspecificavel
         return $usuariosPareados;
     }
 
-    private function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
+    public function verificaJogoExistente($idUser1, $idUser2, $idGrupo) {
         $retorno = DB::table('usuario_partidas')->whereRaw("partidas_id IN (select partidas_id FROM usuario_partidas where users_id = $idUser1 and partidas_id IN ".
             "(select id from partidas where fase_grupos_id = $idGrupo)) and users_id = $idUser2")->count();
         return $retorno;

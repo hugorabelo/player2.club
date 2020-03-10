@@ -441,7 +441,10 @@ class CampeonatosController extends Controller
 
     function gerarNovaRodada($idCampeonato) {
         $campeonato = CampeonatoSuico::find($idCampeonato);
-        $rodadaGerada = $campeonato->rodadas();
+        $rodadaGerada = sizeof($campeonato->rodadas())+1;
+        $faseAtual = $campeonato->faseAtual();
+        $grupoAtual = $faseAtual->grupos()->first();
+        $campeonato->gerarRodada($grupoAtual, $rodadaGerada);
     }
 
 }
