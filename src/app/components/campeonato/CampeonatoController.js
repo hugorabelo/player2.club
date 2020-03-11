@@ -1419,6 +1419,19 @@
                     vm.carregaRodadasGerenciar();
                 });
         };
+
+        vm.exibeBotaoGerarRodada = function() {
+            if(vm.campeonato.tipo.nome_classe_modelo !== 'CampeonatoSuico') {
+                return false;
+            }
+            if(vm.rodada_maxima_gerenciar == undefined) {
+                return false;
+            }
+            if(vm.rodada_maxima_gerenciar >= Math.log2(vm.campeonato.vagas)) {
+                return false;
+            }
+            return true;
+        }
     }]);
 
 }());
