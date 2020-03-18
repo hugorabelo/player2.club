@@ -620,4 +620,46 @@ class CampeonatosController extends Controller
         return floatval($valorTotalArrecadado) === floatval($valorTotalDistribuido);
     }
 
+	public function prepararPagamento($idCampeonato) {
+		$campeonato = Campeonato::find($idCampeonato);
+		if(!isset($campeonato)) {
+			return Response::json(array('success' => false,
+			'errors' => array('messages.erro_operacao')), 300);
+		}
+		$detalhesPremiacao = $campeonato->detalhesPremiacao();
+		if(!isset($campeonato)) {
+			return Response::json(array('success' => false,
+			'errors' => array('messages.campeonato_nao_pago')), 300);
+		}
+		$usuarioLogado = Auth::getUser();
+
+		// Configura credenciais
+		// MercadoPago\SDK::setAccessToken(env('MERCADO_PAGO_ACESS_TOKEN'));
+		MercadoPago\SDK::setClientId(env("MP_CLIENT_ID"));
+  		MercadoPago\SDK::setClientSecret(env("MP_CLIENT_SECRET"));
+
+		// Cria um objeto de preferência
+		$preference = new MercadoPago\Preference();
+
+		// Cria um item na preferência
+		$item = new MercadoPago\Item();
+		$item->id = $campeonato->id;
+		$item->title = $campeonato->descricao;
+		$item->quantity = 1;
+		$item->currency_id = "BRL";
+		$item->unit_price = $detalhesPremiacao->valor_inscricao;
+		$payer = new MercadoPago\Payer();
+		$payer->name = $usuarioLogado->nome;
+		$payer->email = 'hugo@player2.club';
+		$preference->items = array($item);
+		$preference->payer = $payer;
+
+		// Retorno
+		// $preference->auto_return = "approved";
+
+		$preference->save();
+
+		return Response::json($preference->sandbox_init_point);
+	}
+
 }

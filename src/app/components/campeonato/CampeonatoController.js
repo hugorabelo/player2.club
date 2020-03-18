@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$timeout', '$mdExpansionPanel', '$mdBottomSheet', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', 'Agenda', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $timeout, $mdExpansionPanel, $mdBottomSheet, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time, Agenda) {
+    angular.module('player2').controller('CampeonatoController', ['$scope', '$rootScope', '$filter', '$mdDialog', '$translate', '$state', '$mdSidenav', '$stateParams', '$location', '$window', '$timeout', '$mdExpansionPanel', '$mdBottomSheet', 'toastr', 'localStorageService', 'Campeonato', 'UserPlataforma', 'Usuario', 'Partida', 'ModeloCampeonato', 'Plataforma', 'Jogo', 'CampeonatoTipo', 'CampeonatoUsuario', 'Time', 'Agenda', function ($scope, $rootScope, $filter, $mdDialog, $translate, $state, $mdSidenav, $stateParams, $location, $window, $timeout, $mdExpansionPanel, $mdBottomSheet, toastr, localStorageService, Campeonato, UserPlataforma, Usuario, Partida, ModeloCampeonato, Plataforma, Jogo, CampeonatoTipo, CampeonatoUsuario, Time, Agenda) {
 
         var vm = this;
 
@@ -124,6 +124,7 @@
             Campeonato.getInformacoes(id)
                 .success(function (data) {
                     vm.campeonato = data;
+                    vm.campeonato_pago = data.detalhesPremiacao !== null && data.detalhesPremiacao !== undefined;
                     if ((vm.campeonato.status < 3) && ($rootScope.telaMobile)) {
                         vm.currentNavItem = 'informacoes';
                     } else {
@@ -2279,6 +2280,24 @@
         vm.atualizaPosicoesPremiacoes = function () {
             vm.campeonatoEditar.posicoes_premiacao_selecionadas = vm.posicoesPremiacaoSelecionadas;
         };
+
+        vm.inscreverCampeonatoPago = function (ev, id) {
+            
+            /*
+             * //TODO Abrir tela com as seguintes informações: 
+             * - carteira do usuário (com opção de escolher como pagar)
+             * - cupom de desconto
+             */
+            Campeonato.prepararPagamento(vm.campeonato.id)
+                .success(function (data) {
+                    console.log(data);
+                    $window.location.href = data;
+                })
+                .error(function (error) {
+                    console.log(error);
+                });
+        };
+
 
         vm.exibeCampeonato = function() {
             console.log(vm.campeonato, "Campeonato");

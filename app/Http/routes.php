@@ -34,6 +34,7 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::get('campeonato/rodadas/{id}', 'CampeonatosController@getRodadas');
     Route::get('campeonato/naofinalizado', 'CampeonatosController@getNaoFinalizados');
     Route::post('campeonato/informacoesDaRodada', 'CampeonatosController@setInformacoesDaRodada');
+    Route::post('campeonato/prepararPagamento/{idCampeonato}', 'CampeonatosController@prepararPagamento');
     Route::resource('campeonato', 'CampeonatosController');
 
     Route::get('campeonatoTipos/arquivoDetalhe/{id}', 'CampeonatoTiposController@getArquivoDetalhe');

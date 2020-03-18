@@ -279,6 +279,10 @@ angular.module('player2').factory('Campeonato', ['$http', function ($http) {
 
         getNaoFinalizados: function () {
             return $http.get('api/campeonato/naofinalizado');
+        },
+
+        prepararPagamento: function(idCampeonato) {
+            return $http.post('api/campeonato/prepararPagamento/' + idCampeonato);
         }
 
     }
