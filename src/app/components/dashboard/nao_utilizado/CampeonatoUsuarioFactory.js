@@ -9,12 +9,16 @@ angular.module('player2').factory('CampeonatoUsuario', ['$http', function ($http
             return $http.get('api/campeonatoUsuario/' + id_campeonato);
         },
 
-        save: function (id_campeonato) {
+        save: function (id_campeonato, status) {
+            if(!status === null || status === undefined) {
+                status = 'confirmada';
+            }
             return $http({
                 method: 'POST',
                 url: 'api/campeonatoUsuario',
                 data: $.param({
-                    'campeonatos_id': id_campeonato
+                    'campeonatos_id': id_campeonato,
+                    'status_inscricao': status
                 }),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
