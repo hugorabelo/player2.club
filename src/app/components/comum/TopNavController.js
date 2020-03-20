@@ -160,10 +160,6 @@
                 });
         };
 
-        $scope.$on('userProfileSet', function () {
-            vm.verificaPendencias();
-        });
-
         $scope.$on('salvouContestacaoPendencia', function () {
             vm.atualizaPendencias();
         });
@@ -347,6 +343,7 @@
         });
 
         $scope.$on('userProfileSet', function () {
+            vm.verificaPendencias();
             vm.getNotificacoesDoUsuario();
             vm.getConversasDoUsuario();
         });
