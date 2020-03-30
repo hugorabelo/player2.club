@@ -619,6 +619,8 @@ class UsersController extends Controller {
 		{
 
 			//insertGetId
+			$input['created_at'] = Carbon::now();
+			$input['updated_at'] = Carbon::now();
 			$idNovo = DB::table('users_anonimos')->insertGetId($input);
 
 			return Response::json(array('success'=>true, 'idNovoUsuario'=>$idNovo));
