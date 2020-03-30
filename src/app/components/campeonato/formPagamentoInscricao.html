@@ -1,0 +1,44 @@
+<md-dialog aria-label="{{tituloModal | translate}}">
+    <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{tituloModal | translate}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="m-b-sm titulo-destacado">{{campeonato.descricao}}</div>
+                <div class="m-b-sm">{{'fields.valor_inscricao' | translate}}
+                    <br />
+                    <span class="texto-preco-destacado">{{campeonato.detalhesPremiacao.valor_inscricao | finance:'R$ '}}</span>
+                </div>
+                <md-input-container class="md-block m-b-none m-t-lg" flex>
+                    <label>{{'messages.possui_cupom' | translate}}</label>
+                    <input ng-model="cupom_desconto.codigo" ng-blur="verificaCupomDesconto()">
+                </md-input-container>
+                <div class="m-b-sm texto-destacado">
+                    {{'messages.valor_a_pagar' | translate}}
+                    <br />
+                    <span class="texto-preco-destacado">{{pagamento.valor_pagar | finance:'R$ '}}</span>
+                </div>
+
+                <md-switch ng-model="usar_saldo_carteira" aria-label="{{'messages.usar_saldo_carteira' | translate }}" ng-change="atualizarValorPagamento()" class="m-b-none">
+                    {{'messages.usar_saldo_carteira' | translate }}
+                </md-switch>
+                <div class="m-b-sm label-auxiliar-switch">{{'messages.saldo_disponivel_carteira' | translate}}: {{carteira.saldo_disponivel | finance:'R$ '}}</div>
+
+                <div class="m-b-sm m-t-xl texto-destacado">{{'messages.valor_a_pagar_mp' | translate}}
+                    <br />
+                    <span class="texto-preco-destacado">{{pagamento.valor_mercado_pago | finance:'R$ '}}</span>
+                </div>
+            </div>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'fields.cancel' | translate}}</md-button>
+            <md-button ng-click="confirmarPagamento()">{{'fields.confirmar' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

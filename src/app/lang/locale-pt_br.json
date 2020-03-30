@@ -603,7 +603,14 @@
         "premiacao_valor_administrador": "Valor Reservado para os Administradores",
         "premiacao_valor_plataforma": "Valor Reservado para a player2.club",
         "valores_incorretos_premiacao": "O valor arrecadado na inscrição deve ser igual ao valor distribuído na premiação",
-        "quantidade_competidores_indefinida": "Você deve definir a quantidade de competidores antes de adicionar alguma posição"
+        "quantidade_competidores_indefinida": "Você deve definir a quantidade de competidores antes de adicionar alguma posição",
+
+        "realizar_pagamento_inscricao": "Realizar pagamento de inscrição",
+        "possui_cupom": "Possui um cupom de desconto?",
+        "usar_saldo_carteira": "Usar saldo da carteira para pagar",
+        "saldo_disponivel_carteira": "Saldo Disponível",
+        "valor_a_pagar": "Valor total a pagar",
+        "valor_a_pagar_mp": "Valor a pagar utilizando Mercado Pago"
     },
 
     "generos": {

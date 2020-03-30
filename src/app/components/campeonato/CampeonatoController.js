@@ -931,6 +931,10 @@
         };
 
         vm.inscreverCampeonato = function (ev, id) {
+            if(vm.campeonato_pago) {
+                vm.inscreverCampeonatoPago(ev, id);
+                return;
+            }
             if (vm.campeonato.tipo_competidor == 'equipe') {
                 Usuario.getEquipesAdministradas()
                     .success(function (data) {
@@ -2281,6 +2285,90 @@
             vm.campeonatoEditar.posicoes_premiacao_selecionadas = vm.posicoesPremiacaoSelecionadas;
         };
 
+        function DialogControllerInscricaoPagamento($scope, $mdDialog, tituloModal, campeonato, pagamento) {
+            $scope.tituloModal = tituloModal;
+            $scope.campeonato = campeonato;
+            $scope.pagamento = pagamento;
+            $scope.carteira = {};
+            $scope.cupom_desconto = {};
+
+            $scope.fechar = function () {
+                $mdDialog.hide();
+            }
+
+            
+            //Mock Carteira
+            $scope.carteira.saldo_disponivel = 3.5;
+            
+            $scope.verificaCupomDesconto = function() {
+                console.log('verificar cupom de desconto');
+                // Mock Cupom Desconto
+                $scope.cupom_desconto.tipo = 'percentual';
+                $scope.cupom_desconto.valor = 0.1;
+                $scope.cupom_desconto.valido = ($scope.cupom_desconto.codigo !== undefined && $scope.cupom_desconto.codigo !== "");
+                $scope.atualizarValorPagamento();
+            }
+
+            $scope.atualizarValorPagamento = function() {
+                console.log('atualizando valor de pagamento');
+                $scope.pagamento.valor_pagar = $scope.campeonato.detalhesPremiacao.valor_inscricao;
+                
+                if($scope.cupom_desconto !== undefined && $scope.cupom_desconto.valido) {
+                    if($scope.cupom_desconto.tipo == 'percentual') {
+                        $scope.pagamento.valor_pagar = $scope.campeonato.detalhesPremiacao.valor_inscricao * (1-$scope.cupom_desconto.valor);
+                    } else {
+                        $scope.pagamento.valor_pagar = $scope.campeonato.detalhesPremiacao.valor_inscricao - $scope.cupom_desconto.valor;
+                    }
+                }
+                
+                if($scope.usar_saldo_carteira) {
+                    $scope.pagamento.valor_mercado_pago = $scope.pagamento.valor_pagar - $scope.carteira.saldo_disponivel;
+                } else {
+                    $scope.pagamento.valor_mercado_pago = $scope.pagamento.valor_pagar;
+                }
+            }
+            
+            $scope.atualizarValorPagamento();
+
+            // $scope.inscreverEquipe = function () {
+            //     $scope.inscricao = {};
+            //     $scope.inscricao.idCampeonato = vm.campeonato.id;
+            //     $scope.inscricao.idEquipe = $scope.idEquipe;
+            //     CampeonatoUsuario.inscreverEquipe($scope.inscricao)
+            //         .success(function (data) {
+            //             vm.campeonato.usuarioInscrito = true;
+            //             vm.getParticipantes(vm.campeonato.id);
+            //             toastr.success($filter('translate')('messages.sucesso_inscricao'));
+            //         })
+            //         .error(function (error) {
+            //             if (error.errors[0] == 'messages.inscricao_equipe_sem_quantidade_minima') {
+            //                 toastr.error($filter('translate')('messages.inscricao_equipe_sem_quantidade_minima', {
+            //                     'quantidade_minima_competidores': vm.campeonato.quantidade_minima_competidores
+            //                 }));
+            //                 return;
+            //             }
+
+            //             if (error.errors[0] == 'messages.inscricao_usuario_nao_administrador_equipe') {
+            //                 toastr.error($filter('translate')('messages.inscricao_usuario_nao_administrador_equipe', {
+            //                     'nome_equipe': error.errors[1]
+            //                 }));
+            //                 return;
+            //             }
+
+            //             if (error.errors[0] == 'messages.inscricao_equipe_administrador_existente') {
+            //                 toastr.error($filter('translate')('messages.inscricao_equipe_administrador_existente', {
+            //                     'nome_equipe': error.errors[1],
+            //                     'nome_usuario': error.errors[2]
+            //                 }));
+            //                 return;
+            //             }
+
+            //             toastr.error($filter('translate')('messages.erro_inscricao'));
+            //         });
+            //     $mdDialog.hide();
+            // }
+        };
+
         vm.inscreverCampeonatoPago = function (ev, id) {
             
             /*
@@ -2288,14 +2376,35 @@
              * - carteira do usuário (com opção de escolher como pagar)
              * - cupom de desconto
              */
-            Campeonato.prepararPagamento(vm.campeonato.id)
-                .success(function (data) {
-                    console.log(data);
-                    $window.location.href = data;
-                })
-                .error(function (error) {
-                    console.log(error);
-                });
+            console.log(vm);
+
+            $mdDialog.show({
+                locals: {
+                    tituloModal: 'messages.realizar_pagamento_inscricao',
+                    campeonato: vm.campeonato,
+                    pagamento: {}
+                },
+                controller: DialogControllerInscricaoPagamento,
+                templateUrl: 'app/components/campeonato/formPagamentoInscricao.html',
+                parent: angular.element(document.body),
+                targetEvent: null,
+                clickOutsideToClose: true,
+                fullscreen: true
+            })
+            .then(function () {
+                Campeonato.prepararPagamento(vm.campeonato.id)
+                    .success(function (data) {
+                        console.log(data);
+                        $window.location.href = data;
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+            }, function () {
+
+            });
+
+
         };
 
 
