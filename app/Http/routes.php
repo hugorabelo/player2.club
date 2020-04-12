@@ -202,10 +202,6 @@ Route::get('api/callback', function() {
     return Response::json(Auth::check());
 });
 
-Route::get('api/auth0/profile', array('middleware' => 'auth.basic', function() {
-    Log::warning('Chegou aqui');
-}));
-
 Route::get('api/times/baseFifa', 'TimeController@getBaseFifa');
 
 Route::any('{catchall}', function() {

@@ -142,7 +142,6 @@ return [
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
 
-        'Auth0\Login\LoginServiceProvider',
 
     ],
 
@@ -190,8 +189,7 @@ return [
         'Storage' => 'Illuminate\Support\Facades\Storage',
         'URL' => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
-        'View' => 'Illuminate\Support\Facades\View',
-        'Auth0' => 'Auth0\Login\Facade\Auth0'
+        'View' => 'Illuminate\Support\Facades\View'
 
     ],
 
