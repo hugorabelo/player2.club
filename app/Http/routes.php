@@ -17,7 +17,11 @@ header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
 /* */
 
-Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
+Route::post('api/oauth/access_token', function () {
+    return response()->json(Authorizer::issueAccessToken());
+});
+
+Route::group(array('prefix'=>'api', 'middleware' => 'oauth'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
@@ -174,14 +178,14 @@ Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
     Route::post('agenda/partidaNaoRealizada', 'AgendaController@justificaPartidaNaoRealizada');
     Route::resource('agenda', 'AgendaController');
 
-    Route::get('validaAutenticacao', array('middleware' => 'auth0.jwt', function() {
+    Route::get('validaAutenticacao', array('middleware' => 'oauth', function() {
         $user = Auth::getUser();
         $user->equipesAdministradas = $user->equipesAdministradas()->get();
         $retornoValidacao = Response::json($user);
         return $retornoValidacao;
     }));
 
-    Route::get('checkAutenticacao', array('middleware' => 'auth0.jwt', function() {
+    Route::get('checkAutenticacao', array('middleware' => 'oauth', function() {
         $retornoValidacao = Response::json(Auth::check());
         return $retornoValidacao;
     }));

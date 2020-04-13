@@ -141,6 +141,8 @@ return [
         'App\Providers\AppServiceProvider',
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
+        LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+        LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
 
 
     ],
@@ -189,7 +191,8 @@ return [
         'Storage' => 'Illuminate\Support\Facades\Storage',
         'URL' => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
-        'View' => 'Illuminate\Support\Facades\View'
+        'View' => 'Illuminate\Support\Facades\View',
+        'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
 
     ],
 
