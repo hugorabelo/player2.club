@@ -6,43 +6,18 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['$state', 'angularAuth0', '$timeout', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter'];
+    authService.$inject = ['$state', '$timeout', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter'];
 
     var userProfile;
 
-    function authService($state, angularAuth0, $timeout, $http, localStorageService, $rootScope, $mdDialog, $filter) {
+    function authService($state, $timeout, $http, localStorageService, $rootScope, $mdDialog, $filter) {
 
         function login() {
-            angularAuth0.authorize();
+            console.log('login');
         }
 
         function handleAuthentication() {
-            angularAuth0.parseHash(function (err, authResult) {
-                if (authResult && authResult.accessToken && authResult.idToken) {
-                    setSession(authResult);
-
-                    $http.get('api/validaAutenticacao')
-                        .then(function (result) {
-
-                            localStorageService.set('usuarioLogado', result.data);
-                            $rootScope.$broadcast('userProfileSet', userProfile);
-                            var previousState = localStorageService.get('previousState');
-                            var previousParams = localStorageService.get('previousParams');
-                            $state.go(previousState.name, previousParams);
-                        }, function (error) {
-                            localStorage.removeItem('id_token');
-                            showAlert();
-                        });
-
-                    //$state.go('home');
-
-                } else if (err) {
-                    $timeout(function () {
-                        $state.go('login');
-                    });
-                    console.log(err);
-                }
-            });
+            console.log('handleAuthentication');
         }
 
         function setSession(authResult) {
@@ -81,12 +56,6 @@
                 console.log('Access Token must exist to fetch profile');
                 return;
             }
-            angularAuth0.client.userInfo(accessToken, function (err, profile) {
-                if (profile) {
-                    setUserProfile(profile);
-                }
-                cb(err, profile);
-            });
         }
 
         function setUserProfile(profile) {

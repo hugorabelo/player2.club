@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2', [
+    var player2App = angular.module('player2', [
         'ngAnimate',
         'ngCookies',
         'ngSanitize',
@@ -20,7 +20,6 @@
         'ngScrollSpy',
         'bootstrapLightbox',
         'toastr',
-        'angular-jwt',
         'LocalStorageModule',
         'ng-sortable',
         'froala',
@@ -29,15 +28,11 @@
         'angular-intro',
         'mgo-angular-wizard',
         'material.components.expansionPanels',
-        'material.components.eventCalendar',
-        'auth0.auth0'
+        'material.components.eventCalendar'
     ]);
 
-    //'auth0.lock',
-
-
     //Ambiente: local | dev | beta | hugorabelo
-    var ambiente = 'player2.local';
+    var ambiente = 'local';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
 
@@ -64,11 +59,11 @@
         redirectUrlAmbiente = "http://beta.player2.club";
     }
 
-    angular.module('player2').config(['$compileProvider', function ($compileProvider) {
+    player2App.config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }]);
 
-    angular.module('player2').config(function ($translateProvider) {
+    player2App.config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
             prefix: 'app/lang/locale-',
             suffix: '.json'
@@ -82,8 +77,7 @@
         $translateProvider.useSanitizeValueStrategy('escape');
     });
 
-    angular.module('player2')
-        .config(function ($mdDateLocaleProvider, $translateProvider) {
+    player2App.config(function ($mdDateLocaleProvider, $translateProvider) {
 
             $mdDateLocaleProvider.parseDate = function (dateString) {
                 var m = moment(dateString, 'DD/MM/YYYY', true);
@@ -102,10 +96,9 @@
 
         });
 
-    angular.module('player2')
-        .config(function ($httpProvider) {
-            $httpProvider.interceptors.push(apiInterceptor);
-        });
+    player2App.config(function ($httpProvider) {
+        $httpProvider.interceptors.push(apiInterceptor);
+    });
 
 
     function apiInterceptor($q, $rootScope, localStorageService) {
@@ -128,7 +121,7 @@
         }
     };
 
-    angular.module('player2').config(function (LightboxProvider) {
+    player2App.config(function (LightboxProvider) {
         LightboxProvider.templateUrl = 'app/components/common/lightbox-modal.html';
 
         LightboxProvider.calculateModalDimensions = function (dimensions) {
@@ -149,7 +142,7 @@
         };
     });
 
-    angular.module('player2').config(function (toastrConfig) {
+    player2App.config(function (toastrConfig) {
         angular.extend(toastrConfig, {
             newestOnTop: true,
             positionClass: 'toast-bottom-center',
@@ -162,45 +155,15 @@
         });
     });
 
-    angular.module('player2').config(configAuth);
+    player2App.config(configAuth);
 
     configAuth.$inject = [
-        '$locationProvider',
-        'angularAuth0Provider',
-        '$httpProvider',
-        'jwtOptionsProvider'
+        '$locationProvider'
     ];
 
     function configAuth(
-        $locationProvider,
-        angularAuth0Provider,
-        $httpProvider,
-        jwtOptionsProvider
+        $locationProvider
     ) {
-        // Initialization for the angular-auth0 library
-        angularAuth0Provider.init({
-            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
-            domain: 'hugorabelo.auth0.com',
-            responseType: 'token id_token',
-            redirectUri: redirectUrlAmbiente,
-            scope: 'openid profile'
-        });
-
-        jwtOptionsProvider.config({
-            /*tokenGetter: function () {
-                return localStorage.getItem('access_token');
-            },*/
-            tokenGetter: ['options', function (options) {
-                if (options && options.url.indexOf('http://auth0.com') === 0) {
-                    return localStorage.getItem('auth0.id_token');
-                }
-                return localStorage.getItem('id_token');
-            }],
-            whiteListedDomains: ['localhost'],
-            unauthenticatedRedirectPath: '/login'
-        });
-
-        $httpProvider.interceptors.push('jwtInterceptor');
 
         $locationProvider.hashPrefix('');
 

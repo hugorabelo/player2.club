@@ -17,16 +17,6 @@
         .module('player2')
         .run(runAuth);
 
-    angular
-        .module('player2')
-        .run(redirecionaNaoLogado);
-
-    /*
-    angular
-        .module('player2')
-        .run(runAuth);
-        */
-
     function mudaState($rootScope, $state, $window, $http, localStorageService) {
         $rootScope.$state = $state;
 
@@ -68,12 +58,6 @@
         // Handle the authentication
         // result in the hash
         authService.handleAuthentication();
-    }
-
-    redirecionaNaoLogado.$inject = ['authManager'];
-
-    function redirecionaNaoLogado(authManager) {
-        authManager.redirectWhenUnauthenticated();
     }
 
     angular.module('player2')

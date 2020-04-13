@@ -202,22 +202,15 @@ input.placar-input {
     }
 }
 
-.placar-jogo-equipes-sigla {
-    /*	line-height: 70px;*/
-}
-
 .placar-jogo-equipes-escudo-mandante,
 .placar-jogo-equipes-escudo-visitante {
     height: 25px;
     width: 25px;
 }
 
-.placar-jogo-equipes-escudo-mandante {
-    //    margin: 0 8px;
-}
-
 .placar-jogo-equipes-escudo-visitante {
     //    margin: 0 8px
+    margin: inherit;
 }
 
 .placar-jogo-equipes-placar-mandante,
@@ -418,10 +411,6 @@ textarea {
     background-color: @cor-primaria;
 }
 
-.client-detail {
-    //    height: auto;
-}
-
 .md-nav-bar {
     .md-button {
         color: @cor-primaria  !important;
@@ -453,7 +442,7 @@ md-content.conteudo-principal {
 
 md-card.md-player2-theme,
 md-nav-bar.md-player2-theme .md-nav-bar,
-md-tabs.md-player2-theme,
+md-tabs.md-player2-theme
     {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 0;
@@ -1479,12 +1468,6 @@ md-expansion-panel .md-expansion-panel-header-container {
         }
      }
 
-}
-
-@media screen and (max-width: 480px) {
-    .auth0-lock.auth0-lock {
-        position: fixed !important;
-    }
 }
 
 @media screen and (min-width: 600px) {

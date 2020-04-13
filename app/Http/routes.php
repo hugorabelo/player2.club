@@ -17,8 +17,6 @@ header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
 /* */
 
-\Firebase\JWT\JWT::$leeway = 2;
-
 Route::group(array('prefix'=>'api', 'middleware' => 'auth0.jwt'), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
