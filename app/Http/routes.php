@@ -190,13 +190,6 @@ Route::group(array('prefix'=>'api', 'middleware' => ['oauth','change.authorized.
     });
 });
 
-Route::post('api/mudaSenha/{id}', function ($id) {
-    $user = User::find($id);
-    $user->password = bcrypt('123');
-    $user->save();
-    return Response::json('Sucesso');
-});
-
 Route::get('api/campeonato/tabelaPublica/{id}', 'CampeonatosController@getTabelaPublica');
 Route::get('api/campeonatoPublico/{id}', 'CampeonatosController@showPublico');
 Route::get('api/faseGrupo/partidasPorRodadaPublico/{rodada}/{idGrupo}', 'FaseGrupoController@getPartidasPorRodadaPublico');
