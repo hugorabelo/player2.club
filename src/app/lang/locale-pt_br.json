@@ -355,6 +355,9 @@
 
         "fazerLogin": "Fazer Login",
         "logout": "Sair",
+        "esqueceu_senha": "Esqueceu a senha?",
+        "sem_conta": "Não tem uma conta?",
+        "criar_conta": "Criar uma conta",
         "feedback": "Dar um feedback",
         "erro_inscricao": "Houve um erro na inscrição",
         "sucesso_inscricao": "Inscrição realizada com sucesso",
@@ -665,6 +668,10 @@
         "agenda_texto4_resumido": "Os horários que aparecem na cor amarela, são tentativas de agendamento.",
         "agenda_texto5_resumido": "Quando a cor do horário for vermelha, significa um agendamento confirmado.",
         "agenda_texto6_resumido": "Todas essas operações de agendamento ficam no histórico de cada partida, podendo ser utilizada pelos administadores para definição de w.o."
+    },
+
+    "messages_login": {
+        "invalid_credentials": "As credencias do usuário estão incorretas"
     },
 
     "SUN": "DOM",

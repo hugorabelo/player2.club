@@ -28,18 +28,23 @@
         'angular-intro',
         'mgo-angular-wizard',
         'material.components.expansionPanels',
-        'material.components.eventCalendar'
+        'material.components.eventCalendar',
+        'angular-oauth2'
     ]);
 
     //Ambiente: local | dev | beta | hugorabelo
     var ambiente = 'local';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
+    var authClientID;
+    var authClientSecret;
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
-    } if (ambiente == 'localMac') {
+        authClientID = 'p2id';
+        authClientSecret = 'secret';
+    } else if (ambiente == 'localMac') {
         apiUrlAmbiente = "http://player2.local/public/";
         redirectUrlAmbiente = "http://localhost:3000";
     } else if (ambiente == 'localMac') {
@@ -98,6 +103,7 @@
 
     player2App.config(function ($httpProvider) {
         $httpProvider.interceptors.push(apiInterceptor);
+        $httpProvider.interceptors.push('oauthFixInterceptor');
     });
 
 
@@ -158,13 +164,28 @@
     player2App.config(configAuth);
 
     configAuth.$inject = [
-        '$locationProvider'
+        '$locationProvider',
+        'OAuthProvider',
+        'OAuthTokenProvider'
     ];
 
     function configAuth(
-        $locationProvider
+        $locationProvider,
+        OAuthProvider,
+        OAuthTokenProvider
     ) {
-
+        OAuthProvider.configure({
+            baseUrl: '/',
+            clientId: authClientID,
+            clientSecret: authClientSecret, // optional
+            grantPath: 'api/oauth/access_token'
+        });
+        OAuthTokenProvider.configure({
+            name: 'token',
+            options: {
+              secure: false
+            }
+        });
         $locationProvider.hashPrefix('');
 
         /// Comment out the line below to run the app

@@ -54,7 +54,7 @@ class CampeonatosController extends Controller
         $campeonato->status = $campeonato->status();
         $campeonato->vagas = $campeonato->maximoUsuarios();
 
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
 
         if($campeonato->tipo_competidor == 'equipe') {
             $equipesDoUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
@@ -249,7 +249,7 @@ class CampeonatosController extends Controller
                 'errors' => 'messages.campeonato_iniciado'), 300);
         }
 
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
         if($usuarioLogado->id != $campeonato->criador) {
             return Response::json(array('success'=>false,
                 'errors'=> 'messages.exclusao_permitida_apenas_criador'),300);

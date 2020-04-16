@@ -420,7 +420,7 @@ class UsersController extends Controller {
 	}
 
 	public function desistirCampeonato($idCampeonato) {
-		$usuarioLogado = Auth::getUser();
+		$usuarioLogado = Auth::user();
 		$campeonato = Campeonato::find($idCampeonato);
 		if($campeonato->tipo_competidor == 'equipe') {
 			$idEquipesUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
@@ -433,7 +433,7 @@ class UsersController extends Controller {
 	}
 
 	public function listaNotificacoes($lidas = false) {
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$usuario = User::find($idUsuario);
 		$notificacoes = $usuario->getNotificacoes($lidas);
         foreach ($notificacoes as $notificacao) {
@@ -498,7 +498,7 @@ class UsersController extends Controller {
 	function adicionarNotificacaoEmail() {
 		$input = Input::except('_token');
 		$idEvento = $input['id_evento'];
-		$usuario = Auth::getUser();
+		$usuario = Auth::user();
 		$usuario->adicionaNotificacaoPorEmail($idEvento);
 		return Response::json(array('success'=>true));
 	}
@@ -506,13 +506,13 @@ class UsersController extends Controller {
 	function removerNotificacaoEmail() {
 		$input = Input::except('_token');
 		$idEvento = $input['id_evento'];
-		$usuario = Auth::getUser();
+		$usuario = Auth::user();
 		$usuario->removeNotificacaoPorEmail($idEvento);
 		return Response::json(array('success'=>true));
 	}
 
 	function listaConversas() {
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$usuario = User::find($idUsuario);
 		$conversas = $usuario->getConversas();
 		foreach ($conversas as $conversa) {
@@ -528,7 +528,7 @@ class UsersController extends Controller {
 	}
 
 	function listaMensagens($idRemetente) {
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$usuario = User::find($idUsuario);
 		$mensagens = $usuario->getMensagens($idRemetente);
 		foreach ($mensagens as $mensagem) {
@@ -545,7 +545,7 @@ class UsersController extends Controller {
 
 	function listaEquipes($idUsuario = null, $tipo = null) {
 		if(!isset($idUsuario)) {
-			$idUsuario = Auth::getUser()->id;
+			$idUsuario = Auth::user()->id;
 		}
 		$usuario = User::find($idUsuario);
 		$equipes = $usuario->equipes($tipo)->orderBy('nome')->get();
@@ -556,13 +556,13 @@ class UsersController extends Controller {
 	}
 
 	function listaEquipesAdministradas() {
-		$usuario = User::find(Auth::getUser()->id);
+		$usuario = User::find(Auth::user()->id);
 		$equipes = $usuario->equipesAdministradas()->orderBy('nome')->get();
 		return Response::json($equipes);
 	}
 
 	function listaConvites() {
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         $usuario = User::find($idUsuario);
         $convites = $usuario->getConvites();
         foreach ($convites as $convite) {
@@ -577,7 +577,7 @@ class UsersController extends Controller {
 
     function convidarUsuario() {
         $input = Input::except('_token');
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         if(isset($input['email'])) {
             $usuario = User::find($idUsuario);
             $retorno = $usuario->convidar($input['email']);
@@ -595,7 +595,7 @@ class UsersController extends Controller {
 			$idEvento = $evento->id;
 		}
 
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$notificacao = new Notificacao();
 		$notificacao->id_remetente = $idUsuario;
 		$notificacao->id_destinatario = $idAmigo;
@@ -688,7 +688,7 @@ class UsersController extends Controller {
     }
 
     public function verificarPendencias() {
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         $pendencias = array();
 
         //Partida agendada não realizada

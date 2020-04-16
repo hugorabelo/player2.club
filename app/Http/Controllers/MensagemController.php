@@ -29,7 +29,7 @@ class MensagemController extends Controller
 
         if ($validation->passes())
         {
-            $input['id_remetente'] = Auth::getUser()->id;
+            $input['id_remetente'] = Auth::user()->id;
             if($input['id_destinatario'] != $input['id_remetente']) {
                 Mensagem::create($input);
                 return Response::json(array('success'=>true));

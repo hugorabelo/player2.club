@@ -2,7 +2,7 @@
 
 namespace App\Oauth;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class Verifier {
     public function verify($username, $password) {

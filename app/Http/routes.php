@@ -21,7 +21,7 @@ Route::post('api/oauth/access_token', function () {
     return response()->json(Authorizer::issueAccessToken());
 });
 
-Route::group(array('prefix'=>'api', 'middleware' => 'oauth'), function() {
+Route::group(array('prefix'=>'api', 'middleware' => ['oauth','change.authorized.user']), function() {
 
     Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
     Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');
@@ -179,14 +179,9 @@ Route::group(array('prefix'=>'api', 'middleware' => 'oauth'), function() {
     Route::resource('agenda', 'AgendaController');
 
     Route::get('validaAutenticacao', array('middleware' => 'oauth', function() {
-        $user = Auth::getUser();
+        $user = Auth::user();
         $user->equipesAdministradas = $user->equipesAdministradas()->get();
         $retornoValidacao = Response::json($user);
-        return $retornoValidacao;
-    }));
-
-    Route::get('checkAutenticacao', array('middleware' => 'oauth', function() {
-        $retornoValidacao = Response::json(Auth::check());
         return $retornoValidacao;
     }));
 
@@ -195,14 +190,17 @@ Route::group(array('prefix'=>'api', 'middleware' => 'oauth'), function() {
     });
 });
 
+Route::post('api/mudaSenha/{id}', function ($id) {
+    $user = User::find($id);
+    $user->password = bcrypt('123');
+    $user->save();
+    return Response::json('Sucesso');
+});
+
 Route::get('api/campeonato/tabelaPublica/{id}', 'CampeonatosController@getTabelaPublica');
 Route::get('api/campeonatoPublico/{id}', 'CampeonatosController@showPublico');
 Route::get('api/faseGrupo/partidasPorRodadaPublico/{rodada}/{idGrupo}', 'FaseGrupoController@getPartidasPorRodadaPublico');
 Route::get('api/faseGrupoPublico/{id}', 'FaseGrupoController@showPublico');
-
-Route::get('api/callback', function() {
-    return Response::json(Auth::check());
-});
 
 Route::get('api/times/baseFifa', 'TimeController@getBaseFifa');
 
