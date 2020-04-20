@@ -42,11 +42,35 @@
             return OAuth.isAuthenticated();
         }
 
+        function enviarNovaSenha(user) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/enviarNovaSenha',
+                data: $.param(user),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        }
+
+        function cadastrarNovaSenha(dados) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/redefinirSenha',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        }
+
         return {
             login: login,
             handleAuthentication: handleAuthentication,
             logout: logout,
-            isAuthenticated: isAuthenticated
+            isAuthenticated: isAuthenticated,
+            enviarNovaSenha: enviarNovaSenha,
+            cadastrarNovaSenha: cadastrarNovaSenha
         }
     }
 

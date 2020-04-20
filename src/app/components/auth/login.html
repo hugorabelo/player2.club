@@ -13,9 +13,9 @@
                 <div class="form-group">
                     <input type="password" class="form-control" name="password" placeholder="{{'fields.password' | translate}}" required="" ng-model="vmAuth.user.password">
                 </div>
-                <md-button type="submit" class="md-raised md-primary block full-width m-l-none m-r-none m-b">{{'messages.fazerLogin' | translate}}</md-button>
+                <md-button type="submit" class="md-raised md-primary block full-width m-l-none m-r-none m-b">{{'messages.fazer_login' | translate}}</md-button>
     
-                <a href="#"><small>{{'messages.esqueceu_senha' | translate}}</small></a>
+                <a ui-sref="recuperar_senha"><small>{{'messages.esqueceu_senha' | translate}}</small></a>
                 <p class="text-muted text-center m-t"><small>{{'messages.sem_conta' | translate}}</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="register.html">{{'messages.criar_conta' | translate}}</a>
             </form>

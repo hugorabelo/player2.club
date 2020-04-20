@@ -722,5 +722,80 @@ class UsersController extends Controller {
 		}
 
         return Response::json($pendencias);
-    }
+	}
+	
+	public function enviarNovaSenha() {
+		$input = Input::except('_token');
+		$email = $input['email'] ?? null;
+		$base_path = URL::to('/')."/";
+		
+		if(isset($email)) {
+			$email = strtolower($email);
+			$user = User::whereRaw("LOWER(email) = '$email'")->first();
+			if($user) {
+				$user->token_redefinir_senha = md5(bcrypt($email.time().rand()));
+				$expiracao = Carbon::now()->addHours(3);
+				$user->token_redefinir_senha_expires = Carbon::parse($expiracao)->format('Y-m-d H:i:s');
+				$user->save();
+
+				//Enviar Email
+				$conteudo = trans("messages.redefinir_senha_conteudo");
+				$link = $base_path."redefinir_senha/".$user->token_redefinir_senha;
+				$texto_link = trans("messages.redefinir_senha_texto_link");
+				$texto_pos = trans("messages.redefinir_senha_texto_pos");
+				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $user, 'link' => $link, 'texto_link' => $texto_link, 'texto_pos' => $texto_pos], function($message) use ($user) {
+					$message->from('contato@player2.club', $name = 'player2.club');
+					$message->to($user->email, $name = $user->nome);
+					$message->subject(trans("messages.redefinir_senha_assunto"));
+				});
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.email_nao_cadastrado',
+					'message'=>'There were validation errors.'),300);
+			}
+		}
+		return Response::json(array('success'=>true));
+	}
+
+	public function cadastrarNovaSenha() {
+		/*
+		 tokenRedefinirSenha: $stateParams.token,
+                        novaSenha: vm.new_password,
+                        repetirSenha: vm.repeat_password
+		*/
+		$input = Input::except('_token');
+		$tokenRedefinirSenha = $input['tokenRedefinirSenha'] ?? null;
+		$novaSenha = $input['novaSenha'] ?? null;
+		$repetirSenha = $input['repetirSenha'] ?? null;
+		if($novaSenha !== $repetirSenha) {
+			return Response::json(array('success'=>false,
+				'errors'=>'messages.senhas_diferentes',
+				'message'=>'There were validation errors.'),300);
+			}
+		if(empty($novaSenha)) {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.senha_nao_pode_ser_vazia',
+					'message'=>'There were validation errors.'),300);
+		}
+		$user = User::where('token_redefinir_senha','=',$tokenRedefinirSenha)->first();
+		if($user) {
+			if(Carbon::now() < $user->token_redefinir_senha_expires) {
+				$user->password = Hash::make($novaSenha);
+				$user->token_redefinir_senha = null;
+				$user->token_redefinir_senha_expires = null;
+				$user->save();
+				return Response::json(array('success'=>true, 'email'=>$user->email));
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.token_expirado',
+					'error_type' => 'token_error',
+					'message'=>'There were validation errors.'),300);
+				}
+			} else {
+				return Response::json(array('success'=>false,
+				'errors'=>'messages.token_invalido',
+				'error_type' => 'token_error',
+				'message'=>'There were validation errors.'),300);
+		}
+	}
 }

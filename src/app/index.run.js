@@ -22,14 +22,10 @@
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
             $rootScope.stateHome = ($state.current.name == 'home');
-            if ((fromState.url != '^') && (fromState.url != '/login')) {
+            if ((fromState.url != '^') && (fromState.name != 'login') && (fromState.name != 'recuperar_senha') && (fromState.name != 'redefinir_senha')) {
                 localStorageService.set('previousState', fromState);
                 localStorageService.set('previousParams', fromParam);
             }
-            /*$http.get('api/validaAutenticacao')
-                .then(function (result) {}, function (error) {
-                    localStorage.removeItem('id_token');
-                });*/
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
             }
@@ -67,7 +63,8 @@
 
     function runAuth($rootScope, $state, OAuth) {
         $rootScope.$on('$stateChangeStart', function (event, next) {
-            if (next.url !== '/login') {
+            console.log(next);
+            if (next.name !== 'login' && next.name !== 'recuperar_senha' && next.name !== 'redefinir_senha') {
                 if(!OAuth.isAuthenticated()) {
                     return $state.go('login');
                 }
