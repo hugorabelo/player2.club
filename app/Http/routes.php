@@ -20,13 +20,13 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
 Route::group(['prefix' => 'api'], function () {
     
     Route::post('oauth/access_token', function () {
-        return response()->json(Authorizer::issueAccessToken());
+        return Response::json(Authorizer::issueAccessToken());
     });
 
     Route::post('usuario/enviarNovaSenha', 'UsersController@enviarNovaSenha');
     Route::post('usuario/redefinirSenha', 'UsersController@cadastrarNovaSenha');
 
-    Route::group(array('middleware' => ['oauth','change.authorized.user']), function() {
+    Route::group(array('middleware' => ['oauth','change-authorized-user']), function() {
     
         Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');
         Route::get('campeonato/ultimasPartidasUsuario/{id}/{idCampeonato?}', 'CampeonatosController@getUltimasPartidasUsuario');

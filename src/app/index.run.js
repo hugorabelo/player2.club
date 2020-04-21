@@ -63,7 +63,6 @@
 
     function runAuth($rootScope, $state, OAuth) {
         $rootScope.$on('$stateChangeStart', function (event, next) {
-            console.log(next);
             if (next.name !== 'login' && next.name !== 'recuperar_senha' && next.name !== 'redefinir_senha') {
                 if(!OAuth.isAuthenticated()) {
                     return $state.go('login');
