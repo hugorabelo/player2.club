@@ -3,11 +3,9 @@
 
     angular
         .module('player2')
-        .controller('LoginController', ['$rootScope', '$location', '$filter', '$stateParams', 'toastr', 'authService', 'OAuth', 'OAuthToken', function ($rootScope, $location, $filter, $stateParams, toastr, authService, OAuth, OAuthToken) {
+        .controller('LoginController', ['$rootScope', '$location', '$filter', '$stateParams', '$auth', 'toastr', 'authService', 'OAuth', 'OAuthToken', function ($rootScope, $location, $filter, $stateParams, $auth, toastr, authService, OAuth, OAuthToken) {
 
             var vm = this;
-
-            vm.auth = authService;
 
             vm.user = {
                 username: '',
@@ -84,6 +82,18 @@
                         });
                 }
             }
+
+            vm.authenticate = function(provider) {
+                authService.authenticate(provider)
+                .then(function (response) {
+                    $auth.setToken(response.data.access_token);
+                    $rootScope.escondeBarra = false;
+                    authService.handleAuthentication();
+                    return $location.path('home');
+                }, function (error) {
+                    toastr.error($filter('translate')('messages_login.' + error.data.error));
+                });
+            };
 
     }]);
 })();

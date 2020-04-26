@@ -12,21 +12,47 @@ class CreateOauth2ClientsRecords extends Migration
      */
     public function up()
     {
-        $clientId = 'p2id';
-        $clientSecret = 'secret';
-        $clientName = 'player2App';
-        $redirect_uri = 'http://localhost:3000';
+        $clientes = array(
+            'player2App' => array(
+                'id' => 'p2id',
+                'secret' => 'secret',
+            ),
+            'facebook' => array(
+                'id' => '3148215308557100',
+                'secret' => Config::get('app.facebook_secret'),
+                'redirect_uri' => 'http://localhost:3000/'
+            ),
+            'google' => array(
+                'id' => '687694969410-1tvfs14oljk1vtcdantrjod1gsvfkebe.apps.googleusercontent.com',
+                'secret' => Config::get('app.google_secret'),
+                'redirect_uri' => 'http://localhost:3000/'
+            ),
+            'live' => array(
+                'id' => '245c979b-5458-449a-afde-c00b4ec17be3',
+                'secret' => Config::get('app.live_secret'),
+                'redirect_uri' => 'http://localhost:3000/'
+            )
+        );
 
-        // DB::table('oauth_clients')->insert([
-        //     'id' => $clientId,
-        //     'secret' => $clientSecret,
-        //     'name' => $clientName
-        // ]);
+        foreach ($clientes as $key => $client) {
+            $existeClient =  DB::table('oauth_clients')->where('id', '=', $client['id'])->first();
+            if(!isset($existeClient)) {
+                DB::table('oauth_clients')->insert([
+                    'id' => $client['id'],
+                    'secret' => $client['secret'],
+                    'name' => $key
+                ]);
+            }
 
-        DB::table('oauth_client_endpoints')->insert([
-            'client_id' => $clientId,
-            'redirect_uri' => $redirect_uri
-        ]);
+            $existeEndpoint =  DB::table('oauth_client_endpoints')->where('client_id', '=', $client['id'])->first();
+            if(isset($client['redirect_uri']) && !isset($existeEndpoint)) {
+                DB::table('oauth_client_endpoints')->insert([
+                    'client_id' => $client['id'],
+                    'redirect_uri' => $client['redirect_uri']
+                ]);
+            }
+        }
+
     }
 
     /**

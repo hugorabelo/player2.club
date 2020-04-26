@@ -26,6 +26,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::post('usuario/enviarNovaSenha', 'UsersController@enviarNovaSenha');
     Route::post('usuario/redefinirSenha', 'UsersController@cadastrarNovaSenha');
 
+    Route::post('auth/{provider}', 'UsersController@authProvider');
+
     Route::group(array('middleware' => ['oauth','change-authorized-user']), function() {
     
         Route::get('campeonato/participantes/{id}', 'CampeonatosController@getParticipantes');

@@ -30,7 +30,7 @@ class CreateOauthSessionScopesTable extends Migration
         Schema::create('oauth_session_scopes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('session_id')->unsigned();
-            $table->string('scope_id', 40);
+            $table->string('scope_id', 120);
 
             $table->timestamps();
 

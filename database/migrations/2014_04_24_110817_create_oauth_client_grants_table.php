@@ -29,8 +29,8 @@ class CreateOauthClientGrantsTable extends Migration
     {
         Schema::create('oauth_client_grants', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('client_id', 40);
-            $table->string('grant_id', 40);
+            $table->string('client_id', 120);
+            $table->string('grant_id', 120);
             $table->timestamps();
 
             $table->index('client_id');

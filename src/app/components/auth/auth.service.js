@@ -6,11 +6,11 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['$location', '$state', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter', 'OAuth'];
+    authService.$inject = ['$location', '$state', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter', 'OAuth', '$auth'];
 
     var userProfile;
 
-    function authService($location, $state, $http, localStorageService, $rootScope, $mdDialog, $filter, OAuth) {
+    function authService($location, $state, $http, localStorageService, $rootScope, $mdDialog, $filter, OAuth, $auth) {
 
         function login(user) {
             return OAuth.getAccessToken(user);
@@ -31,6 +31,7 @@
 
         function logout() {
             OAuthToken.removeToken(); 
+            $auth.removeToken();
 
             userProfile = {};
             localStorageService.remove('usuarioLogado');
@@ -39,7 +40,10 @@
         }
 
         function isAuthenticated() {
-            return OAuth.isAuthenticated();
+            if(!OAuth.isAuthenticated() && !$auth.isAuthenticated()) {
+                return false
+            }
+            return true;
         }
 
         function enviarNovaSenha(user) {
@@ -64,13 +68,21 @@
             });
         }
 
+        function authenticate(provider) {
+            var extra = {
+                'grant_type': 'authorization_code'
+            }
+            return $auth.authenticate(provider, extra);
+        }
+
         return {
             login: login,
             handleAuthentication: handleAuthentication,
             logout: logout,
             isAuthenticated: isAuthenticated,
             enviarNovaSenha: enviarNovaSenha,
-            cadastrarNovaSenha: cadastrarNovaSenha
+            cadastrarNovaSenha: cadastrarNovaSenha,
+            authenticate: authenticate
         }
     }
 

@@ -29,7 +29,8 @@
         'mgo-angular-wizard',
         'material.components.expansionPanels',
         'material.components.eventCalendar',
-        'angular-oauth2'
+        'angular-oauth2',
+        'satellizer'
     ]);
 
     //Ambiente: local | dev | beta | hugorabelo
@@ -192,5 +193,45 @@
         // without HTML5 mode (will use hashes in routes)
         //$locationProvider.html5Mode(true);
     };
+
+    player2App.config(['$authProvider', function ($authProvider) {
+        $authProvider.facebook({
+            clientId: '3148215308557100',
+            url: '/api/auth/facebook',
+            redirectUri: 'http://localhost:3000/',
+            responseType: 'code',
+            responseParams: {
+                code: 'code',
+                clientId: 'client_id',
+                redirectUri: 'redirect_uri'
+            }
+        });
+
+        $authProvider.google({
+            clientId: '687694969410-1tvfs14oljk1vtcdantrjod1gsvfkebe.apps.googleusercontent.com',
+            url: '/api/auth/google',
+            redirectUri: 'http://localhost:3000/',
+            responseType: 'code',
+            responseParams: {
+                code: 'code',
+                clientId: 'client_id',
+                redirectUri: 'redirect_uri'
+            }
+        });
+
+        $authProvider.live({
+            clientId: '245c979b-5458-449a-afde-c00b4ec17be3',
+            url: '/api/auth/live',
+            authorizationEndpoint: 'https://login.microsoftonline.com/6170b526-4643-4a76-8365-572cde287ff0/oauth2/v2.0/authorize',
+            redirectUri: 'http://localhost:3000/',
+            responseType: 'code',
+            scope: ['openid'],
+            responseParams: {
+                code: 'code',
+                clientId: 'client_id',
+                redirectUri: 'redirect_uri'
+            }
+        });
+    }]);
 
 })();

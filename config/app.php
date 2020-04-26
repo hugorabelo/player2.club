@@ -196,4 +196,18 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Configurações adicionas
+    |--------------------------------------------------------------------------
+    |
+    | Essas configurações foram inseridas pelo desenvolvedor Hugo Rabelo
+    | especificamente para esta aplicação
+    |
+    */
+
+    'facebook_secret' => 'a652b95c784c83e0474e4554d6778bb3',
+    'google_secret' => 'hDnKKKz6Kb-6QEe5F38Ls9b5',
+    'live_secret' => '6Ke7-R:=8Rp[CRY2uoQbLAQTO3-4qLKX'
+
 ];

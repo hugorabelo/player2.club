@@ -355,6 +355,9 @@
         "proximo": "Próximo",
         "nova_aba": "Abrir em uma nova aba",
 
+        "login_facebook": "Login com Facebook",
+        "login_google": "Login com Google",
+        "login_live": "Login com Microsoft",
         "fazer_login": "Fazer Login",
         "texto_senha_esquecida": "Insira o seu endereço de e-mail e a sua senha será redefinida e enviada por e-mail para você",
         "enviar_nova_senha": "Enviar nova senha",
@@ -603,7 +606,8 @@
         "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?",
         "partidas_nao_confirmadas_intro": "Os resultados das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou.",
         "criterios_inserir": "Selecione o próximo critério de classificação",
-        "criterios_remover": "Remover este critério de classificação"
+        "criterios_remover": "Remover este critério de classificação",
+        "or": "ou"
     },
 
     "generos": {
@@ -684,7 +688,9 @@
     },
 
     "messages_login": {
-        "invalid_credentials": "As credencias do usuário estão incorretas"
+        "invalid_credentials": "As credencias do usuário estão incorretas",
+        "invalid_request": "A requisição foi inválida",
+        "usuario_nao_cadastrado": "O usuário não está cadastrado no sistema"
     },
 
     "SUN": "DOM",

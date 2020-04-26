@@ -48,23 +48,17 @@
         });
     }
 
-    // runAuth.$inject = ['authService'];
-
-    // function runAuth(authService) {
-    //     // Handle the authentication
-    //     // result in the hash
-    //     authService.handleAuthentication();
-    // }
     runAuth.$inject = [
         '$rootScope', 
         '$state', 
-        'OAuth'
+        'OAuth',
+        '$auth'
     ];
 
-    function runAuth($rootScope, $state, OAuth) {
+    function runAuth($rootScope, $state, OAuth, $auth) {
         $rootScope.$on('$stateChangeStart', function (event, next) {
             if (next.name !== 'login' && next.name !== 'recuperar_senha' && next.name !== 'redefinir_senha') {
-                if(!OAuth.isAuthenticated()) {
+                if(!OAuth.isAuthenticated() && !$auth.isAuthenticated()) {
                     return $state.go('login');
                 }
             }
