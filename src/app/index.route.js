@@ -24,6 +24,24 @@
                     pageTitle: "fields.login"
                 }
             })
+            .state('recuperar_senha', {
+                url: "/recuperar_senha",
+                templateUrl: "app/components/auth/recuperar_senha.html",
+                controller: 'LoginController as vmAuth',
+                acesso: 'publico',
+                data: {
+                    pageTitle: "fields.login"
+                }
+            })
+            .state('redefinir_senha', {
+                url: "/redefinir_senha/{token}",
+                templateUrl: "app/components/auth/redefinir_senha.html",
+                controller: 'LoginController as vmAuth',
+                acesso: 'publico',
+                data: {
+                    pageTitle: "fields.login"
+                }
+            })
             .state('naoAutorizado', {
                 url: "/erro",
                 templateUrl: "app/components/comum/acessoNaoAutorizado.html",

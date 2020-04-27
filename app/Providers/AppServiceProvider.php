@@ -146,7 +146,7 @@ class AppServiceProvider extends ServiceProvider {
 		});
 
         \Equipe::created(function ($equipe) {
-            $equipe->adicionarIntegrante(\Auth::getUser()->id, 1);
+            $equipe->adicionarIntegrante(\Auth::user()->id, 1);
         });
 
         \ConviteUsuario::created(function ($convite) {
@@ -202,9 +202,6 @@ class AppServiceProvider extends ServiceProvider {
 			};
 		});
 
-		$this->app->bind(
-			'\Auth0\Login\Contract\Auth0UserRepository',
-			'\App\Repository\MyCustomUserRepository');
 	}
 
 }

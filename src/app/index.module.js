@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('player2', [
+    var player2App = angular.module('player2', [
         'ngAnimate',
         'ngCookies',
         'ngSanitize',
@@ -20,7 +20,6 @@
         'ngScrollSpy',
         'bootstrapLightbox',
         'toastr',
-        'angular-jwt',
         'LocalStorageModule',
         'ng-sortable',
         'froala',
@@ -30,21 +29,23 @@
         'mgo-angular-wizard',
         'material.components.expansionPanels',
         'material.components.eventCalendar',
-        'auth0.auth0'
+        'angular-oauth2',
+        'satellizer'
     ]);
 
-    //'auth0.lock',
-
-
     //Ambiente: local | dev | beta | hugorabelo
-    var ambiente = 'player2.local';
+    var ambiente = 'local';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
+    var authClientID;
+    var authClientSecret;
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
-    } if (ambiente == 'localMac') {
+        authClientID = 'p2id';
+        authClientSecret = 'secret';
+    } else if (ambiente == 'localMac') {
         apiUrlAmbiente = "http://player2.local/public/";
         redirectUrlAmbiente = "http://localhost:3000";
     } else if (ambiente == 'localMac') {
@@ -62,13 +63,15 @@
     } else {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.player2.club";
+        authClientID = 'e03daaa46bab1ff439b28a411bcb4928';
+        authClientSecret = 'e4eb96705075dc4a0925662705a08ceb';
     }
 
-    angular.module('player2').config(['$compileProvider', function ($compileProvider) {
+    player2App.config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }]);
 
-    angular.module('player2').config(function ($translateProvider) {
+    player2App.config(function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
             prefix: 'app/lang/locale-',
             suffix: '.json'
@@ -82,8 +85,7 @@
         $translateProvider.useSanitizeValueStrategy('escape');
     });
 
-    angular.module('player2')
-        .config(function ($mdDateLocaleProvider, $translateProvider) {
+    player2App.config(function ($mdDateLocaleProvider, $translateProvider) {
 
             $mdDateLocaleProvider.parseDate = function (dateString) {
                 var m = moment(dateString, 'DD/MM/YYYY', true);
@@ -102,10 +104,10 @@
 
         });
 
-    angular.module('player2')
-        .config(function ($httpProvider) {
-            $httpProvider.interceptors.push(apiInterceptor);
-        });
+    player2App.config(function ($httpProvider) {
+        $httpProvider.interceptors.push(apiInterceptor);
+        $httpProvider.interceptors.push('oauthFixInterceptor');
+    });
 
 
     function apiInterceptor($q, $rootScope, localStorageService) {
@@ -128,7 +130,7 @@
         }
     };
 
-    angular.module('player2').config(function (LightboxProvider) {
+    player2App.config(function (LightboxProvider) {
         LightboxProvider.templateUrl = 'app/components/common/lightbox-modal.html';
 
         LightboxProvider.calculateModalDimensions = function (dimensions) {
@@ -149,7 +151,7 @@
         };
     });
 
-    angular.module('player2').config(function (toastrConfig) {
+    player2App.config(function (toastrConfig) {
         angular.extend(toastrConfig, {
             newestOnTop: true,
             positionClass: 'toast-bottom-center',
@@ -162,51 +164,76 @@
         });
     });
 
-    angular.module('player2').config(configAuth);
+    player2App.config(configAuth);
 
     configAuth.$inject = [
         '$locationProvider',
-        'angularAuth0Provider',
-        '$httpProvider',
-        'jwtOptionsProvider'
+        'OAuthProvider',
+        'OAuthTokenProvider'
     ];
 
     function configAuth(
         $locationProvider,
-        angularAuth0Provider,
-        $httpProvider,
-        jwtOptionsProvider
+        OAuthProvider,
+        OAuthTokenProvider
     ) {
-        // Initialization for the angular-auth0 library
-        angularAuth0Provider.init({
-            clientID: 'BM9k9idztM2AEtMuogR0WnRmrTSOu2pm',
-            domain: 'hugorabelo.auth0.com',
-            responseType: 'token id_token',
-            redirectUri: redirectUrlAmbiente,
-            scope: 'openid profile'
+        OAuthProvider.configure({
+            baseUrl: '/',
+            clientId: authClientID,
+            clientSecret: authClientSecret, // optional
+            grantPath: 'api/oauth/access_token'
         });
-
-        jwtOptionsProvider.config({
-            /*tokenGetter: function () {
-                return localStorage.getItem('access_token');
-            },*/
-            tokenGetter: ['options', function (options) {
-                if (options && options.url.indexOf('http://auth0.com') === 0) {
-                    return localStorage.getItem('auth0.id_token');
-                }
-                return localStorage.getItem('id_token');
-            }],
-            whiteListedDomains: ['localhost'],
-            unauthenticatedRedirectPath: '/login'
+        OAuthTokenProvider.configure({
+            name: 'token',
+            options: {
+              secure: false
+            }
         });
-
-        $httpProvider.interceptors.push('jwtInterceptor');
-
         $locationProvider.hashPrefix('');
 
         /// Comment out the line below to run the app
         // without HTML5 mode (will use hashes in routes)
         //$locationProvider.html5Mode(true);
     };
+
+    player2App.config(['$authProvider', function ($authProvider) {
+        $authProvider.facebook({
+            clientId: '3148215308557100',
+            url: '/api/auth/facebook',
+            redirectUri: 'http://localhost:3000/',
+            responseType: 'code',
+            responseParams: {
+                code: 'code',
+                clientId: 'client_id',
+                redirectUri: 'redirect_uri'
+            }
+        });
+
+        $authProvider.google({
+            clientId: '687694969410-1tvfs14oljk1vtcdantrjod1gsvfkebe.apps.googleusercontent.com',
+            url: '/api/auth/google',
+            redirectUri: 'http://localhost:3000/',
+            responseType: 'code',
+            responseParams: {
+                code: 'code',
+                clientId: 'client_id',
+                redirectUri: 'redirect_uri'
+            }
+        });
+
+        $authProvider.live({
+            clientId: '245c979b-5458-449a-afde-c00b4ec17be3',
+            url: '/api/auth/live',
+            authorizationEndpoint: 'https://login.microsoftonline.com/6170b526-4643-4a76-8365-572cde287ff0/oauth2/v2.0/authorize',
+            redirectUri: 'http://localhost:3000/',
+            responseType: 'code',
+            scope: ['openid'],
+            responseParams: {
+                code: 'code',
+                clientId: 'client_id',
+                redirectUri: 'redirect_uri'
+            }
+        });
+    }]);
 
 })();

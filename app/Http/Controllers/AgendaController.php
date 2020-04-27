@@ -31,7 +31,7 @@ class AgendaController extends Controller
         $userCampeonato = new CampeonatoUsuario();
 
         if(!isset($idUsuario)) {
-            $idUsuario = Auth::getUser()->id;
+            $idUsuario = Auth::user()->id;
         }
 
         $userCampeonato = $userCampeonato->getID($idUsuario, $idCampeonato);
@@ -94,7 +94,7 @@ class AgendaController extends Controller
 
         $userCampeonato = new CampeonatoUsuario();
 
-        $input['campeonato_usuarios_id'] = $userCampeonato->getID(Auth::getUser()->id, Input::input('idCampeonato'))->id;
+        $input['campeonato_usuarios_id'] = $userCampeonato->getID(Auth::user()->id, Input::input('idCampeonato'))->id;
 
         $data = strstr($input['data'], " (", true);
         $input['data'] = Carbon::parse($data);
@@ -484,7 +484,7 @@ class AgendaController extends Controller
     public function confirmarAgendamento(Request $request) {
         $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_convidado;
         $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_host;
-        if(Auth::getUser()->id != $idUsuarioConvidado) {
+        if(Auth::user()->id != $idUsuarioConvidado) {
             return Response::json(array('success'=>false, 'error'=>'usuario_invalido'),300);
         }
         $registroAtualizar = array('status'=>1);
@@ -504,7 +504,7 @@ class AgendaController extends Controller
     public function recusarAgendamento(Request $request) {
         $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_convidado;
         $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',0)->first()->usuario_host;
-        if(Auth::getUser()->id != $idUsuarioConvidado) {
+        if(Auth::user()->id != $idUsuarioConvidado) {
             return Response::json(array('success'=>false, 'error'=>'usuario_invalido'),300);
         }
         $registroAtualizar = array('status'=>2);
@@ -531,7 +531,7 @@ class AgendaController extends Controller
             $statusMarcacao = 1;
             $idUsuarioConvidado = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_convidado;
             $idUsuarioHost = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->first()->usuario_host;
-            $destinatario = Auth::getUser()->id == $idUsuarioHost ? $idUsuarioConvidado : $idUsuarioHost;
+            $destinatario = Auth::user()->id == $idUsuarioHost ? $idUsuarioConvidado : $idUsuarioHost;
         }
         $qtdeRegistros = AgendamentoMarcacao::where('partidas_id','=',$request->partida['id'])->where('status','=',$statusMarcacao)->update($registroAtualizar);
         if($qtdeRegistros === 0) {
@@ -588,7 +588,7 @@ class AgendaController extends Controller
     }
 
     public function justificaPartidaNaoRealizada(Request $partida) {
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
         $partidaNaoRealidada = array('motivo'=>$partida->motivo_nao_realizacao, 'users_id'=>$usuarioLogado->id, 'partidas_id'=>$partida->partidas_id);
         AgendamentoPartidaNaoRealizada::create($partidaNaoRealidada);
 
@@ -598,7 +598,7 @@ class AgendaController extends Controller
     }
 
     private function insereNotificacao($idEventoNotificao, $idDestinatario, $idPartida) {
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
         $partida = Partida::find($idPartida);
         $campeonato = $partida->campeonato();
         if($idDestinatario != $usuarioLogado->id) {

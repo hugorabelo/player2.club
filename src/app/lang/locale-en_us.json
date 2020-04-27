@@ -251,6 +251,28 @@
         "ultimos_jogos": "Last Matches",
 
         "disputou_partida": "<vazio>",
-        "inscreveu_campeonato": "<vazio>"
+        "inscreveu_campeonato": "<vazio>",
+        "escreveu_sobre_jogo": " publicou sobre ",
+        "mensagem_para_usuario": " falou para ",
+
+        "ultimas_novidades": "O que tá rolando",
+        "campeonatos_usuario": "Campeonatos do Usuário",
+        "campeonatos_jogo": "Campeonatos do Jogo",
+        "jogos_disponiveis": "Jogos Disponíveis",
+
+        "analises": "Análises",
+        "melhores_jogadores": "Melhores Jogadores",
+        "texto_pesquisa": "Encontre jogadores, jogos ou campeonatos",
+        "inserir_imagem": "Inserir imagens",
+
+        "anterior": "Anterior",
+        "proximo": "Próximo",
+        "nova_aba": "Abrir em uma nova aba",
+
+        "fazerLogin": "Fazer Login",
+        "logout": "Sair",
+        "esqueceu_senha": "Forgot password?",
+        "sem_conta": "Do not have an account?",
+        "criar_conta": "Create an account"
     }
 }

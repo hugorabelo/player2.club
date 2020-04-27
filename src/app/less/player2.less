@@ -6,6 +6,7 @@
 @black: #000;
 @white: #FFF;
 @fontsize-default: 14px;
+@altura-botao: 36px;
 body {
     font-family: Roboto, sans-serif;
     font-size: @font-size-base;
@@ -202,22 +203,15 @@ input.placar-input {
     }
 }
 
-.placar-jogo-equipes-sigla {
-    /*	line-height: 70px;*/
-}
-
 .placar-jogo-equipes-escudo-mandante,
 .placar-jogo-equipes-escudo-visitante {
     height: 25px;
     width: 25px;
 }
 
-.placar-jogo-equipes-escudo-mandante {
-    //    margin: 0 8px;
-}
-
 .placar-jogo-equipes-escudo-visitante {
     //    margin: 0 8px
+    margin: inherit;
 }
 
 .placar-jogo-equipes-placar-mandante,
@@ -418,10 +412,6 @@ textarea {
     background-color: @cor-primaria;
 }
 
-.client-detail {
-    //    height: auto;
-}
-
 .md-nav-bar {
     .md-button {
         color: @cor-primaria  !important;
@@ -453,7 +443,7 @@ md-content.conteudo-principal {
 
 md-card.md-player2-theme,
 md-nav-bar.md-player2-theme .md-nav-bar,
-md-tabs.md-player2-theme,
+md-tabs.md-player2-theme
     {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 0;
@@ -887,13 +877,6 @@ h5.mensagem-data {
     }
     .img-responsive {
         width: 100%;
-    }
-}
-
-.box_login {
-    margin-top: 100px;
-    img {
-        width: 500px;
     }
 }
 
@@ -1481,14 +1464,100 @@ md-expansion-panel .md-expansion-panel-header-container {
 
 }
 
-@media screen and (max-width: 480px) {
-    .auth0-lock.auth0-lock {
-        position: fixed !important;
-    }
-}
-
 @media screen and (min-width: 600px) {
     .evento-descricao {
         display: none;
+    }
+}
+
+.loginscreen.middle-box {
+    background: rgba(0, 0, 0, .8);
+    padding: 0;
+    border-radius: 10px;
+    margin-top: 50px;
+    
+    .header {
+        padding: 30px 12px 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        overflow: hidden;
+        .logo {
+            img {
+                width: 100%;
+            }
+        }
+    }
+
+    .body-login {
+        padding: 12px;
+        background: #f3f3f4;
+
+        input {
+            border-radius: 4px;
+        }
+
+        .signup-or-separator {
+            position: relative;
+            height: 34px;
+            text-align: center;
+            background: none;
+        }
+          
+        .signup-or-separator hr {
+            width: 90%;
+            margin: -16px auto 10px auto;
+            border-top: 1px solid #dce0e0;
+        }
+          
+        .signup-or-separator .text {
+            display: inline-block;
+            padding: 8px;
+            margin: 0;
+            background-color: #f3f3f4;
+            font-size: 12px;
+        }
+
+        .fa {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: @altura-botao;
+            width: @altura-botao;
+            line-height: @altura-botao;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .btn-facebook {
+            background-color: #3b5998;
+            &:hover {
+                background-color: #294786 !important;
+            }
+        }
+
+        .btn-google {
+            background-color: #dd4b39;
+            &:hover {
+                background-color: #cb3927 !important;
+            }
+        }
+
+        .btn-live {
+            background-color: #2672ec;
+            &:hover {
+                background-color: #125acd !important;
+            }
+        }
+    }
+
+    .footer-login { 
+        padding-bottom: 12px;
+        color: @white;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .loginscreen.middle-box {
+        background: rgba(0, 0, 0, 0.4);
+        margin-top: 20px;
     }
 }

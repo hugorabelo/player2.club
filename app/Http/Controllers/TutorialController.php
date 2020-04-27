@@ -112,7 +112,7 @@ class TutorialController extends Controller
     public function getVisualizado() {
         $input = Input::all();
         $tela = $input['tela'];
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         $tutorial = Tutorial::where('tela','=',$tela)->first();
         if(isset($tutorial)) {
             return DB::table('tutorial_visualizado')->where('tutorial_id','=',$tutorial->id)->where('users_id','=',$idUsuario)->count();
@@ -124,7 +124,7 @@ class TutorialController extends Controller
         $input = Input::all();
         $idTutorial = $input['id'];
         $idTutorialAgregado = $input['tutorial_agregado'];
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
 
         if(DB::table('tutorial_visualizado')->whereRaw('(tutorial_id = '.$idTutorial.' or tutorial_id = '.$idTutorialAgregado.') and users_id = '.$idUsuario)->count() === 0) {
             DB::table('tutorial_visualizado')->insert(array('tutorial_id'=>$idTutorial, 'users_id'=>$idUsuario));

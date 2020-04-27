@@ -6,122 +6,83 @@
         .module('player2')
         .service('authService', authService);
 
-    authService.$inject = ['$state', 'angularAuth0', '$timeout', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter'];
+    authService.$inject = ['$location', '$state', '$http', 'localStorageService', '$rootScope', '$mdDialog', '$filter', 'OAuth', '$auth'];
 
     var userProfile;
 
-    function authService($state, angularAuth0, $timeout, $http, localStorageService, $rootScope, $mdDialog, $filter) {
+    function authService($location, $state, $http, localStorageService, $rootScope, $mdDialog, $filter, OAuth, $auth) {
 
-        function login() {
-            angularAuth0.authorize();
+        function login(user) {
+            return OAuth.getAccessToken(user);
         }
 
         function handleAuthentication() {
-            angularAuth0.parseHash(function (err, authResult) {
-                if (authResult && authResult.accessToken && authResult.idToken) {
-                    setSession(authResult);
-
-                    $http.get('api/validaAutenticacao')
-                        .then(function (result) {
-
-                            localStorageService.set('usuarioLogado', result.data);
-                            $rootScope.$broadcast('userProfileSet', userProfile);
-                            var previousState = localStorageService.get('previousState');
-                            var previousParams = localStorageService.get('previousParams');
-                            $state.go(previousState.name, previousParams);
-                        }, function (error) {
-                            localStorage.removeItem('id_token');
-                            showAlert();
-                        });
-
-                    //$state.go('home');
-
-                } else if (err) {
-                    $timeout(function () {
-                        $state.go('login');
-                    });
-                    console.log(err);
-                }
-            });
-        }
-
-        function setSession(authResult) {
-            // Set the time that the Access Token will expire at
-            var expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-            localStorage.setItem('access_token', authResult.accessToken);
-            localStorage.setItem('id_token', authResult.idToken);
-            localStorage.setItem('expires_at', expiresAt);
+            $http.get('api/validaAutenticacao')
+                .then(function (result) {
+                    localStorageService.set('usuarioLogado', result.data);
+                    $rootScope.$broadcast('userProfileSet', userProfile);
+                    var previousState = localStorageService.get('previousState');
+                    var previousParams = localStorageService.get('previousParams');
+                    $state.go(previousState.name, previousParams);
+                }, function (error) {
+                    $location.path('login');
+                });
         }
 
         function logout() {
-            // Remove tokens and expiry time from localStorage
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('id_token');
-            localStorage.removeItem('expires_at');
+            OAuthToken.removeToken(); 
+            $auth.removeToken();
 
             userProfile = {};
             localStorageService.remove('usuarioLogado');
 
-            $state.go('login');
+            $location.path('login');
         }
 
         function isAuthenticated() {
-            // Check whether the current time is past the
-            // Access Token's expiry time
-            var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-            return new Date().getTime() < expiresAt;
-        }
-
-
-
-        function getProfile(cb) {
-            var accessToken = localStorage.getItem('access_token');
-            if (!accessToken) {
-                //throw new Error('Access Token must exist to fetch profile');
-                console.log('Access Token must exist to fetch profile');
-                return;
+            if(!OAuth.isAuthenticated() && !$auth.isAuthenticated()) {
+                return false
             }
-            angularAuth0.client.userInfo(accessToken, function (err, profile) {
-                if (profile) {
-                    setUserProfile(profile);
+            return true;
+        }
+
+        function enviarNovaSenha(user) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/enviarNovaSenha',
+                data: $.param(user),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 }
-                cb(err, profile);
             });
         }
 
-        function setUserProfile(profile) {
-            userProfile = profile;
-        }
-
-        function getCachedProfile() {
-            return userProfile;
-        }
-
-        function showAlert(ev) {
-            $rootScope.exibindoAlerta = true;
-            $mdDialog.show(
-                $mdDialog.alert()
-                .parent(angular.element(document.querySelector('#popupContainer')))
-                .clickOutsideToClose(true)
-                .title($filter('translate')('messages.titulo_alerta_login'))
-                .textContent($filter('translate')('messages.conteudo_alerta_login'))
-                .ariaLabel($filter('translate')('messages.titulo_alerta_login'))
-                .ok($filter('translate')('messages.close'))
-                .targetEvent(ev)
-            ).then(function () {
-                $rootScope.exibindoAlerta = false;
-                login();
+        function cadastrarNovaSenha(dados) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/redefinirSenha',
+                data: $.param(dados),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
             });
-        };
+        }
+
+        function authenticate(provider) {
+            var extra = {
+                'grant_type': 'authorization_code'
+            }
+            return $auth.authenticate(provider, extra);
+        }
 
         return {
             login: login,
             handleAuthentication: handleAuthentication,
             logout: logout,
             isAuthenticated: isAuthenticated,
-            getProfile: getProfile,
-            setUserProfile: setUserProfile,
-            getCachedProfile: getCachedProfile
+            enviarNovaSenha: enviarNovaSenha,
+            cadastrarNovaSenha: cadastrarNovaSenha,
+            authenticate: authenticate
         }
     }
 

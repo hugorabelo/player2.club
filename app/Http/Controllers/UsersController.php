@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
 class UsersController extends Controller {
 
@@ -420,7 +422,7 @@ class UsersController extends Controller {
 	}
 
 	public function desistirCampeonato($idCampeonato) {
-		$usuarioLogado = Auth::getUser();
+		$usuarioLogado = Auth::user();
 		$campeonato = Campeonato::find($idCampeonato);
 		if($campeonato->tipo_competidor == 'equipe') {
 			$idEquipesUsuario = $usuarioLogado->equipesAdministradas()->pluck('equipe_id');
@@ -433,7 +435,7 @@ class UsersController extends Controller {
 	}
 
 	public function listaNotificacoes($lidas = false) {
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$usuario = User::find($idUsuario);
 		$notificacoes = $usuario->getNotificacoes($lidas);
         foreach ($notificacoes as $notificacao) {
@@ -498,7 +500,7 @@ class UsersController extends Controller {
 	function adicionarNotificacaoEmail() {
 		$input = Input::except('_token');
 		$idEvento = $input['id_evento'];
-		$usuario = Auth::getUser();
+		$usuario = Auth::user();
 		$usuario->adicionaNotificacaoPorEmail($idEvento);
 		return Response::json(array('success'=>true));
 	}
@@ -506,13 +508,13 @@ class UsersController extends Controller {
 	function removerNotificacaoEmail() {
 		$input = Input::except('_token');
 		$idEvento = $input['id_evento'];
-		$usuario = Auth::getUser();
+		$usuario = Auth::user();
 		$usuario->removeNotificacaoPorEmail($idEvento);
 		return Response::json(array('success'=>true));
 	}
 
 	function listaConversas() {
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$usuario = User::find($idUsuario);
 		$conversas = $usuario->getConversas();
 		foreach ($conversas as $conversa) {
@@ -528,7 +530,7 @@ class UsersController extends Controller {
 	}
 
 	function listaMensagens($idRemetente) {
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$usuario = User::find($idUsuario);
 		$mensagens = $usuario->getMensagens($idRemetente);
 		foreach ($mensagens as $mensagem) {
@@ -545,7 +547,7 @@ class UsersController extends Controller {
 
 	function listaEquipes($idUsuario = null, $tipo = null) {
 		if(!isset($idUsuario)) {
-			$idUsuario = Auth::getUser()->id;
+			$idUsuario = Auth::user()->id;
 		}
 		$usuario = User::find($idUsuario);
 		$equipes = $usuario->equipes($tipo)->orderBy('nome')->get();
@@ -556,13 +558,13 @@ class UsersController extends Controller {
 	}
 
 	function listaEquipesAdministradas() {
-		$usuario = User::find(Auth::getUser()->id);
+		$usuario = User::find(Auth::user()->id);
 		$equipes = $usuario->equipesAdministradas()->orderBy('nome')->get();
 		return Response::json($equipes);
 	}
 
 	function listaConvites() {
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         $usuario = User::find($idUsuario);
         $convites = $usuario->getConvites();
         foreach ($convites as $convite) {
@@ -577,7 +579,7 @@ class UsersController extends Controller {
 
     function convidarUsuario() {
         $input = Input::except('_token');
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         if(isset($input['email'])) {
             $usuario = User::find($idUsuario);
             $retorno = $usuario->convidar($input['email']);
@@ -595,7 +597,7 @@ class UsersController extends Controller {
 			$idEvento = $evento->id;
 		}
 
-		$idUsuario = Auth::getUser()->id;
+		$idUsuario = Auth::user()->id;
 		$notificacao = new Notificacao();
 		$notificacao->id_remetente = $idUsuario;
 		$notificacao->id_destinatario = $idAmigo;
@@ -688,7 +690,7 @@ class UsersController extends Controller {
     }
 
     public function verificarPendencias() {
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         $pendencias = array();
 
         //Partida agendada não realizada
@@ -722,5 +724,272 @@ class UsersController extends Controller {
 		}
 
         return Response::json($pendencias);
-    }
+	}
+	
+	public function enviarNovaSenha() {
+		$input = Input::except('_token');
+		$email = $input['email'] ?? null;
+		$base_path = URL::to('/')."/";
+		
+		if(isset($email)) {
+			$email = strtolower($email);
+			$user = User::whereRaw("LOWER(email) = '$email'")->first();
+			if($user) {
+				$user->token_redefinir_senha = md5(bcrypt($email.time().rand()));
+				$expiracao = Carbon::now()->addHours(3);
+				$user->token_redefinir_senha_expires = Carbon::parse($expiracao)->format('Y-m-d H:i:s');
+				$user->save();
+
+				//Enviar Email
+				$conteudo = trans("messages.redefinir_senha_conteudo");
+				$link = $base_path."redefinir_senha/".$user->token_redefinir_senha;
+				$texto_link = trans("messages.redefinir_senha_texto_link");
+				$texto_pos = trans("messages.redefinir_senha_texto_pos");
+				\Mail::send('notificacao', ['conteudo' =>  $conteudo, 'destinatario' => $user, 'link' => $link, 'texto_link' => $texto_link, 'texto_pos' => $texto_pos], function($message) use ($user) {
+					$message->from('contato@player2.club', $name = 'player2.club');
+					$message->to($user->email, $name = $user->nome);
+					$message->subject(trans("messages.redefinir_senha_assunto"));
+				});
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.email_nao_cadastrado',
+					'message'=>'There were validation errors.'),300);
+			}
+		}
+		return Response::json(array('success'=>true));
+	}
+
+	public function cadastrarNovaSenha() {
+		$input = Input::except('_token');
+		$tokenRedefinirSenha = $input['tokenRedefinirSenha'] ?? null;
+		$novaSenha = $input['novaSenha'] ?? null;
+		$repetirSenha = $input['repetirSenha'] ?? null;
+		if($novaSenha !== $repetirSenha) {
+			return Response::json(array('success'=>false,
+				'errors'=>'messages.senhas_diferentes',
+				'message'=>'There were validation errors.'),300);
+			}
+		if(empty($novaSenha)) {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.senha_nao_pode_ser_vazia',
+					'message'=>'There were validation errors.'),300);
+		}
+		$user = User::where('token_redefinir_senha','=',$tokenRedefinirSenha)->first();
+		if($user) {
+			if(Carbon::now() < $user->token_redefinir_senha_expires) {
+				$user->password = Hash::make($novaSenha);
+				$user->token_redefinir_senha = null;
+				$user->token_redefinir_senha_expires = null;
+				$user->save();
+				return Response::json(array('success'=>true, 'email'=>$user->email));
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.token_expirado',
+					'error_type' => 'token_error',
+					'message'=>'There were validation errors.'),300);
+			}
+		} else {
+			return Response::json(array('success'=>false,
+			'errors'=>'messages.token_invalido',
+			'error_type' => 'token_error',
+			'message'=>'There were validation errors.'),300);
+		}
+	}
+
+	public function authProvider($provider, Request $request)
+	{
+		switch ($provider) {
+			case 'facebook':
+				$dadosProvider = array(
+					'client_secret' => Config::get('app.facebook_secret'),
+					'access_token_url' => 'https://graph.facebook.com/v2.5/oauth/access_token',
+					'access_token_method' => 'GET',
+					'profile_url' => 'https://graph.facebook.com/v2.5/me'
+				);
+			break;
+			case 'google':
+				$dadosProvider = array(
+					'client_secret' => Config::get('app.google_secret'),
+					'access_token_url' => 'https://accounts.google.com/o/oauth2/token',
+					'access_token_method' => 'POST',
+					'profile_url' => 'https://www.googleapis.com/oauth2/v3/userinfo/'
+				);
+			break;
+			case 'live':
+				$dadosProvider = array(
+					'client_secret' => Config::get('app.live_secret'),
+					'access_token_url' => 'https://login.microsoftonline.com/6170b526-4643-4a76-8365-572cde287ff0/oauth2/v2.0/token',
+					'access_token_method' => 'POST',
+					'profile_url' => 'https://graph.microsoft.com/oidc/userinfo'
+				);
+				break;
+			default:
+				$dadosProvider = array(
+					'client_secret' => '',
+					'access_token_url' => '',
+					'access_token_method' => '',
+					'profile_url' => ''
+				);
+				break;
+		}
+
+		$client = new GuzzleHttp\Client();
+
+		$request->merge(array('client_secret'=> $dadosProvider['client_secret']));
+
+		$params = [
+			'code' => $request->input('code'),
+			'client_id' => $request->input('client_id'),
+			'redirect_uri' => $request->input('redirect_uri'),
+			'client_secret' => $request->input('client_secret'),
+			'grant_type' => 'authorization_code',
+		];
+
+		// Step 1. Exchange authorization code for access token.
+		$accessTokenResponse = $client->request($dadosProvider['access_token_method'], $dadosProvider['access_token_url'], [
+			'query' => $params,
+			'form_params' => $params
+		]);
+		$accessToken = json_decode($accessTokenResponse->getBody(), true);
+
+		// Step 2. Retrieve profile information about the current user.
+		if($provider === 'facebook') {
+			$fields = 'email,first_name,last_name,name,picture';
+			$profileResponse = $client->request('GET', $dadosProvider['profile_url'], [
+				'query' => [
+					'access_token' => $accessToken['access_token'],
+					'fields' => $fields
+				]
+			]);
+		} else {
+			$profileResponse = $client->request('GET', $dadosProvider['profile_url'], [
+				'headers' => array('Authorization' => 'Bearer ' . $accessToken['access_token'])
+			]);
+		}
+		$profile = json_decode($profileResponse->getBody(), true);
+
+		if(isset($profile['email'])) {
+            $email_verificar = explode('@', $profile['email']);
+            $email_verificar = str_replace('.','', $email_verificar[0]).'@'.$email_verificar[1];
+            $user = User::whereRaw("lower('$email_verificar') = lower(replace(split_part(email, '@', 1), '.', '') ||  '@' || split_part(email, '@', 2))")->first();
+        } else {
+            $user = null;
+        }
+
+		if ($user) {
+			$server = Authorizer::getIssuer();
+			$clientId = $request->input('client_id');
+			$redirectUri = $request->input('redirect_uri');
+			$client = $server->getClientStorage()->get(
+				$clientId,
+				null,
+				$redirectUri,
+				'authorization_code'
+			);
+			$params['client'] = $client;
+			$scopeParam = $server->getRequest()->get('scope', '');
+			$params['scopes'] = $server->getGrantType('authorization_code')->validateScopes($scopeParam, $client, $redirectUri);
+			$params['state'] = null;
+			$params['user_id'] = $user->id;
+			$params['grant_type'] = 'authorization_code';
+			$redirectUriNew = Authorizer::issueAuthCode('user', $params['user_id'], $params);
+			$redirectUriNew = explode('?code=', $redirectUriNew);
+			$request->merge(array('code'=>$redirectUriNew[1]));
+	
+			Authorizer::checkAuthCodeRequest();
+
+			//TODO: Atualizar dados do usuário
+			if($provider === 'facebook') {
+				$profilePicture = $profile['picture']['data']['url'];
+			} else {
+				$profilePicture = $profile['picture'];
+			}
+			$this->atualizaDadosUsuario($user, $profilePicture, $profile['name']);
+
+			return Response::json(Authorizer::issueAccessToken());
+		} else {
+			return Response::json(array('success'=>false,
+			'error'=>'usuario_nao_cadastrado',
+			'message'=>'messages.titulo_alerta_login'),300);
+		}
+	}
+
+	public function trocarSenha() {
+		$input = Input::except('_token');
+		$senhaAntiga = $input['senhaAntiga'] ?? null;
+		$novaSenha = $input['novaSenha'] ?? null;
+		$repetirSenha = $input['repetirSenha'] ?? null;
+		if($novaSenha !== $repetirSenha) {
+			return Response::json(array('success'=>false,
+				'errors'=>'messages.senhas_diferentes',
+				'message'=>'There were validation errors.'),300);
+			}
+		if(empty($novaSenha)) {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.senha_nao_pode_ser_vazia',
+					'message'=>'There were validation errors.'),300);
+		}
+		$user = Auth::user();
+		if($user) {
+			if(Hash::check($senhaAntiga, $user->password)) {
+				$user->password = Hash::make($novaSenha);
+				$user->save();
+				return Response::json(array('success'=>true, 'email'=>$user->email));
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.senha_antiga_invalida',
+					'error_type' => 'token_error',
+					'message'=>'There were validation errors.'),300);
+			}
+		} else {
+			return Response::json(array('success'=>false,
+			'errors'=>'messages.usuario_sem_plataforma_titulo',
+			'error_type' => 'token_error',
+			'message'=>'There were validation errors.'),300);
+		}
+	}
+
+	private function atualizaDadosUsuario($user, $profilePicture, $profileName) {
+		if(!isset($user->imagem_perfil) || ($user->imagem_perfil == 'perfil_padrao_homem.png')) {
+			if(isset($profilePicture)) {
+				try {
+					$curl_handle=curl_init();
+					curl_setopt($curl_handle, CURLOPT_URL, $profilePicture);
+					curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+					curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($curl_handle, CURLOPT_USERAGENT, 'player2.club');
+					$arquivo = curl_exec($curl_handle);
+					curl_close($curl_handle);
+
+					if(stripos($arquivo, 'error'))  {
+						$user->imagem_perfil = 'perfil_padrao_homem.png';
+					} else {
+						$fileName = 'usuario_'.str_replace('.', '', microtime(true)).'.jpg';
+						file_put_contents( "uploads/usuarios/$fileName", $arquivo, FILE_APPEND );
+						$user->imagem_perfil = $fileName;
+					}
+				} catch (ErrorException $e) {
+					$user->imagem_perfil = 'perfil_padrao_homem.png';
+				}
+			}
+		}
+		if($user->nome === 'username' || $user->nome === $user->email) {
+			$user->nome = $profileName;
+		}
+		// Recuperando IP do Usuário e Inserindo dados de Localização
+        if(!isset($user->pais)) {
+            $ip = \Request::getClientIp();
+            $cliente = new Client(['base_uri' => 'http://ip-api.com/json/'.$ip]);
+            $response = $cliente->request('GET');
+            $objeto = json_decode($response->getBody(), true);
+            if($objeto['status'] == 'success') {
+                $user->localizacao = $objeto['city'];
+                $user->uf = $objeto['region'];
+                $user->pais = $objeto['countryCode'];
+            }
+        }
+
+        $user->ultimo_login = date('Y-m-d H:i:s');;
+        $user->save();
+	}
 }
