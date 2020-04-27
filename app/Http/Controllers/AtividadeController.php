@@ -17,7 +17,7 @@ class AtividadeController extends Controller
     }
 
     public function show($id) {
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
         $atividade = Atividade::find($id);
         if(isset($atividade->partidas_id)) {
             $partida = Partida::find($atividade->partidas_id);

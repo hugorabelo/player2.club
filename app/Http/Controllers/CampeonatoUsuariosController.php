@@ -53,7 +53,7 @@ class CampeonatoUsuariosController extends Controller {
 
 		$input = Input::all();
 		if(!isset($input['equipe_id']) && !isset($input['anonimo_id'])) {
-			$usuario = Auth::getUser();
+			$usuario = Auth::user();
 			$input['users_id'] = $usuario->id;
 		}
 		$validation = Validator::make($input, CampeonatoUsuario::$rules);
@@ -73,7 +73,7 @@ class CampeonatoUsuariosController extends Controller {
 				if($campeonato->tipo_competidor == 'equipe') {
 					if(isset($input['equipe_id'])) {
 						$equipe = Equipe::find($input['equipe_id']);
-						$idUsuarioLogado = Auth::getUser()->id;
+						$idUsuarioLogado = Auth::user()->id;
 						// Verificar se o usuario que está inscrevendo é administrador da equipe
 						if(!$equipe->verificaFuncaoAdministrador($idUsuarioLogado)) {
 							return Response::json(array('success' => false,

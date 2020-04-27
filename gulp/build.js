@@ -112,4 +112,4 @@ gulp.task('clean', function () {
     return $.del([path.join(conf.paths.dist, '/app/'), path.join(conf.paths.dist, '/assets/'), path.join(conf.paths.dist, '/fonts/'), path.join(conf.paths.dist, '/maps/'), path.join(conf.paths.dist, '/scripts/'), path.join(conf.paths.dist, '/styles/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['clean','html', 'fonts', 'other']);

@@ -141,8 +141,9 @@ return [
         'App\Providers\AppServiceProvider',
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
+        LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+        LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
 
-        'Auth0\Login\LoginServiceProvider',
 
     ],
 
@@ -191,8 +192,22 @@ return [
         'URL' => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
-        'Auth0' => 'Auth0\Login\Facade\Auth0'
+        'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
 
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Configurações adicionas
+    |--------------------------------------------------------------------------
+    |
+    | Essas configurações foram inseridas pelo desenvolvedor Hugo Rabelo
+    | especificamente para esta aplicação
+    |
+    */
+
+    'facebook_secret' => env('APP_SECRET_FACEBOOK'),
+    'google_secret' => env('APP_SECRET_GOOGLE'),
+    'live_secret' => env('APP_SECRET_LIVE')
 
 ];

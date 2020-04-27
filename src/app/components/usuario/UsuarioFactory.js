@@ -405,6 +405,17 @@ angular.module('player2').factory('Usuario', ['$http', function ($http) {
 
         verificarPendencias: function() {
             return $http.get('api/usuario/pendencias');
-        }
+        },
+
+        updateSenha: function (senhaEditar) {
+            return $http({
+                method: 'POST',
+                url: 'api/usuario/trocarSenha',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: $.param(senhaEditar)
+            });
+        },
     }
 }]);

@@ -20,5 +20,9 @@ return [
     "recebeu_mensagem" => "Você recebeu uma mensagem de :nome_remetente",
     "visualizar_notificacao" => "Visualizar notificação",
     "texto_convidado" => "Você foi convidado pelo seu amigo :nome_remetente para participar da plataforma player2.club",
-    "link_convidado" => "Acesse agora para conhecer"
+    "link_convidado" => "Acesse agora para conhecer",
+    "redefinir_senha_assunto" => "Redefinição de Senha - player2.club",
+    "redefinir_senha_conteudo" => "Recebemos um pedido de alteração de senha de acesso.<br />Para criar uma nova senha, clique no botão abaixo.",
+    "redefinir_senha_texto_link" => "Alterar senha",
+    "redefinir_senha_texto_pos" => "Se você não fez essa solicitação, ignore esta mensagem e a sua senha permanecerá a mesma."
 ];

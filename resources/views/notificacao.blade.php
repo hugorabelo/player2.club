@@ -631,6 +631,24 @@
                                                                 </table>
                                                                 <?php
                                                                     }
+                                                                    if(isset($texto_pos)) {
+                                                                ?>
+                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%;min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" class="mcnTextContentContainer">
+                                                                    <tbody>
+                                                                        <tr>
+
+                                                                            <td valign="top" class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;">
+
+                                                                                <p style="text-align: justify;margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #909090;font-family: Helvetica;font-size: 14px;line-height: 150%;">
+                                                                                    <?php echo $texto_pos ?><br> &nbsp;
+                                                                                </p>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <?php
+                                                                    }
                                                                 ?>
                                                                 <!--[if mso]>
                                                     </td>

@@ -231,7 +231,7 @@ class CampeonatoCopa extends Campeonato implements CampeonatoEspecificavel
             }
             return 'messages.precisa_placar_extra';
         }
-        $partida->usuario_placar = Auth::getUser()->id;
+        $partida->usuario_placar = Auth::user()->id;
         $partida->data_placar = date('Y-m-d H:i:s');
         $partida->save();
         return '';

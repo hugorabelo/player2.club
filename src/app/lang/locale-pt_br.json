@@ -53,6 +53,9 @@
         "nome": "Nome",
         "email": "E-mail",
         "password": "Senha",
+        "new_password": "Nova senha",
+        "repetir_password": "Repetir a nova a senha",
+        "old_password": "Senha Atual",
         "usuarioTipos_id": "Tipo de Usuário",
 
         "detalhes": "Regras",
@@ -353,8 +356,28 @@
         "proximo": "Próximo",
         "nova_aba": "Abrir em uma nova aba",
 
-        "fazerLogin": "Fazer Login",
+        "login_facebook": "Login com Facebook",
+        "login_google": "Login com Google",
+        "login_live": "Login com Microsoft",
+        "fazer_login": "Fazer Login",
+        "texto_senha_esquecida": "Insira o seu endereço de e-mail e a sua senha será redefinida e enviada por e-mail para você",
+        "enviar_nova_senha": "Enviar nova senha",
+        "senha_enviada": "As instruções para redefinição de senha foram enviadas com sucesso para o e-mail inserido",
+        "email_nao_cadastrado": "O e-mail inserido não está cadastrado no sistema",
+        "retornar_login": "Ir para o login",
+        "token_invalido": "O link de acesso não corresponde a um link válido para alteração de senha. Você deve solicitar um novo link.",
+        "token_expirado": "O link de acesso para troca de senha está expirado. Você deve solicitar um novo link.",
+        "senhas_diferentes": "As senhas digitadas devem ser iguais",
+        "senha_nao_pode_ser_vazia": "A nova senha não pode ser vazia",
+        "redefinir_senha": "Criar uma nova senha",
+        "senha_criada_sucesso": "Sua nova senha foi criada com sucesso",
+        "senha_alterada_sucesso": "Sua senha foi alterada com sucesso",
+        "senha_antiga_invalida": "A senha atual digitada está incorreta",
         "logout": "Sair",
+        "esqueceu_senha": "Esqueceu a senha?",
+        "trocar_senha": "Trocar a Senha",
+        "sem_conta": "Não tem uma conta?",
+        "criar_conta": "Criar uma conta",
         "feedback": "Dar um feedback",
         "erro_inscricao": "Houve um erro na inscrição",
         "sucesso_inscricao": "Inscrição realizada com sucesso",
@@ -587,7 +610,8 @@
         "partidas_pendentes_intro": "As seguintes partidas estavam agendadas, porém não há resultados cadastrados. Elas foram realizadas?",
         "partidas_nao_confirmadas_intro": "Os resultados das partidas abaixo foram cadastrados pelos seus adversários e você ainda não confirmou.",
         "criterios_inserir": "Selecione o próximo critério de classificação",
-        "criterios_remover": "Remover este critério de classificação"
+        "criterios_remover": "Remover este critério de classificação",
+        "or": "ou"
     },
 
     "generos": {
@@ -665,6 +689,12 @@
         "agenda_texto4_resumido": "Os horários que aparecem na cor amarela, são tentativas de agendamento.",
         "agenda_texto5_resumido": "Quando a cor do horário for vermelha, significa um agendamento confirmado.",
         "agenda_texto6_resumido": "Todas essas operações de agendamento ficam no histórico de cada partida, podendo ser utilizada pelos administadores para definição de w.o."
+    },
+
+    "messages_login": {
+        "invalid_credentials": "As credencias do usuário estão incorretas",
+        "invalid_request": "A requisição foi inválida",
+        "usuario_nao_cadastrado": "O usuário não está cadastrado no sistema"
     },
 
     "SUN": "DOM",

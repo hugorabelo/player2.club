@@ -32,6 +32,28 @@
                 </form>
             </md-content>
         </md-tab>
+        <md-tab label="{{'messages.trocar_senha' | translate}}">
+            <md-content class="md-padding">
+                <form name="formulario" role="form" class="form-horizontal" novalidate="novalidate" ng-submit="vmHome.updateSenha()">
+                    <md-input-container class="md-block">
+                        <label>{{'fields.old_password' | translate}}</label>
+                        <input type="password" ng-model="vmHome.senhaEditar.senhaAntiga" required>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex>
+                        <label>{{'fields.new_password' | translate}}</label>
+                        <input type="password" ng-model="vmHome.senhaEditar.novaSenha" required>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex>
+                        <label>{{'fields.repetir_password' | translate}}</label>
+                        <input type="password" ng-model="vmHome.senhaEditar.repetirSenha" required>
+                    </md-input-container>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button ui-sref="home">{{'fields.cancel' | translate}}</md-button>
+                        <md-button type="submit">{{'fields.save' | translate}}</md-button>
+                    </md-card-actions>
+                </form>
+            </md-content>
+        </md-tab>
         <md-tab label="{{'messages.usuario_imagens' | translate}}">
             <md-content class="md-padding">
                 <div layout-gt-xs="row" layout-margin>

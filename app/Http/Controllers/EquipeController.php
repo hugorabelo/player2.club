@@ -23,7 +23,7 @@ class EquipeController extends Controller
 
     public function show($id)
     {
-        $idUsuarioLogado = Auth::getUser()->id;
+        $idUsuarioLogado = Auth::user()->id;
         $equipe = Equipe::find($id);
         $equipe->integrantes = $equipe->integrantes()->orderBy('funcao_equipe_id')->orderBy('nome')->getResults();
         foreach ($equipe->integrantes as $integrante) {
@@ -39,9 +39,9 @@ class EquipeController extends Controller
                 }
             }
         }
-        $solicitado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->where('equipe_id','=',$id)->where('convite','=',false)->count();
+        $solicitado = DB::table('equipe_solicitacao')->where('users_id','=',$idUsuarioLogado)->where('equipe_id','=',$id)->where('convite','=',false)->count();
         $equipe->aguardando = $solicitado;
-        $convidado = DB::table('equipe_solicitacao')->where('users_id','=',Auth::getUser()->id)->where('equipe_id','=',$id)->where('convite','=',true)->count();
+        $convidado = DB::table('equipe_solicitacao')->where('users_id','=',$idUsuarioLogado)->where('equipe_id','=',$id)->where('convite','=',true)->count();
         $equipe->convite = $convidado;
 
         $equipe->campeonatos = $equipe->campeonatos()->get();
@@ -85,7 +85,7 @@ class EquipeController extends Controller
                 $input['imagem_perfil'] = $fileName;
             }
 
-            $input['id_criador'] = Auth::getUser()->id;
+            $input['id_criador'] = Auth::user()->id;
             $equipe = Equipe::create($input);
 
             return Response::json(array('success' => true));
@@ -164,7 +164,7 @@ class EquipeController extends Controller
 
         if ($validation->passes())
         {
-            $mensagem['id_remetente'] = Auth::getUser()->id;
+            $mensagem['id_remetente'] = Auth::user()->id;
             $mensagem['mensagem'] = $input['mensagem'];
             $equipe = Equipe::find($input['id_equipe']);
             if(!isset($equipe)) {
@@ -193,13 +193,14 @@ class EquipeController extends Controller
             return null;
         }
         $equipe = Equipe::find($idEquipe);
-        if(isset($idIntegrante) && !$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+        $idUsuarioLogado = Auth::user()->id;
+        if(isset($idIntegrante) && !$equipe->verificaFuncaoAdministrador($idUsuarioLogado)) {
             return Response::json(array('success'=>false,
                 'errors'=>'messages.sem_permissao_funcao',
                 'message'=>'There were validation errors.'),300);
         }
         if(!isset($idIntegrante)) {
-            $idIntegrante = Auth::getUser()->id;
+            $idIntegrante = $idUsuarioLogado;
         }
         if($equipe->integrantes()->get()->count() == 1) {
             return Response::json(array('success'=>false,
@@ -223,7 +224,7 @@ class EquipeController extends Controller
         }
         $idFuncao = DB::table('funcao_equipe')->whereRaw('prioridade = (select min(prioridade) from funcao_equipe)')->first(array('id'))->id;
         if(isset($idUsuario)) {
-            if(!$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+            if(!$equipe->verificaFuncaoAdministrador(Auth::user()->id)) {
                 return Response::json(array('success'=>false,
                     'errors'=>'messages.sem_permissao_funcao',
                     'message'=>'There were validation errors.'),300);
@@ -242,7 +243,7 @@ class EquipeController extends Controller
                 $notificacao->save();
             }
         } else {
-            $idUsuario = Auth::getUser()->id;
+            $idUsuario = Auth::user()->id;
             $convidado = DB::table('equipe_solicitacao')->where('users_id','=',$idUsuario)->where('convite','=',true)->count();
             if($convidado === 0) {
                 return Response::json(array('success'=>false,
@@ -258,7 +259,7 @@ class EquipeController extends Controller
                     $idEvento = $evento->id;
                     foreach ($equipe->administradores()->get() as $usuario) {
                         $notificacao = new Notificacao();
-                        $notificacao->id_remetente = Auth::getUser()->id;
+                        $notificacao->id_remetente = $idUsuario;
                         $notificacao->id_destinatario = $usuario->id;
                         $notificacao->evento_notificacao_id = $idEvento;
                         $notificacao->item_id = $idEquipe;
@@ -292,7 +293,7 @@ class EquipeController extends Controller
     public function updateIntegrante() {
         $integrante = (Object)Input::all();
         $equipe = Equipe::find($integrante->pivot['equipe_id']);
-        if(!$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+        if(!$equipe->verificaFuncaoAdministrador(Auth::user()->id)) {
             return Response::json(array('success'=>false,
                 'errors'=>'messages.sem_permissao_funcao',
                 'message'=>'There were validation errors.'),300);
@@ -324,7 +325,8 @@ class EquipeController extends Controller
                 $notificacao->save();
             }
         } else {
-            $equipe->adicionarSolicitacao(Auth::getUser()->id, false);
+            $idUsuarioLogado = Auth::user()->id;
+            $equipe->adicionarSolicitacao($idUsuarioLogado, false);
 
             //enviar notificação para os administradores
             $evento = NotificacaoEvento::where('valor','=','solicitacao_equipe')->first();
@@ -332,7 +334,7 @@ class EquipeController extends Controller
                 $idEvento = $evento->id;
                 foreach ($equipe->administradores()->get() as $usuario) {
                     $notificacao = new Notificacao();
-                    $notificacao->id_remetente = Auth::getUser()->id;
+                    $notificacao->id_remetente = $idUsuarioLogado;
                     $notificacao->id_destinatario = $usuario->id;
                     $notificacao->evento_notificacao_id = $idEvento;
                     $notificacao->item_id = $idEquipe;
@@ -348,8 +350,9 @@ class EquipeController extends Controller
         if(!isset($equipe)) {
             return null;
         }
+        $idUsuarioLogado = Auth::user()->id;
         if(isset($idUsuario)) {
-            if(!$equipe->verificaFuncaoAdministrador(Auth::getUser()->id)) {
+            if(!$equipe->verificaFuncaoAdministrador($idUsuarioLogado)) {
                 return Response::json(array('success'=>false,
                     'errors'=>'messages.sem_permissao_funcao',
                     'message'=>'There were validation errors.'),300);
@@ -357,7 +360,7 @@ class EquipeController extends Controller
             //TODO enviar notificação para usuário?
             $equipe->removerSolicitacao($idUsuario);
         } else {
-            $equipe->removerSolicitacao(Auth::getUser()->id);
+            $equipe->removerSolicitacao($idUsuarioLogado);
         }
         return Response::json(array('success'=>true));
     }
@@ -381,7 +384,7 @@ class EquipeController extends Controller
     }
 
     public function getConvitesDisponiveis($idEquipe) {
-        $idUsuario = Auth::getUser()->id;
+        $idUsuario = Auth::user()->id;
         $usuario = User::find($idUsuario);
         if(!isset($usuario)) {
             return null;

@@ -17,29 +17,15 @@
         .module('player2')
         .run(runAuth);
 
-    angular
-        .module('player2')
-        .run(redirecionaNaoLogado);
-
-    /*
-    angular
-        .module('player2')
-        .run(runAuth);
-        */
-
     function mudaState($rootScope, $state, $window, $http, localStorageService) {
         $rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParam, fromState, fromParam) {
             $rootScope.stateHome = ($state.current.name == 'home');
-            if (fromState.url != '^') {
+            if ((fromState.url != '^') && (fromState.name != 'login') && (fromState.name != 'recuperar_senha') && (fromState.name != 'redefinir_senha')) {
                 localStorageService.set('previousState', fromState);
                 localStorageService.set('previousParams', fromParam);
             }
-            /*$http.get('api/validaAutenticacao')
-                .then(function (result) {}, function (error) {
-                    localStorage.removeItem('id_token');
-                });*/
             if ($rootScope.usuarioLogado == null) {
                 $rootScope.usuarioLogado = localStorageService.get('usuarioLogado');
             }
@@ -51,29 +37,46 @@
         defaultErrorMessageResolver.setCulture('pt-br');
     }
 
-    function redireciona($rootScope, $state) {
+    function redireciona($rootScope, $location) {
         $rootScope.$on('$stateChangeStart', function (evt, to, params) {
             if (to.redirectTo) {
                 evt.preventDefault();
-                $state.go(to.redirectTo, params, {
+                $location.path(to.redirectTo, params, {
                     location: 'replace'
                 })
             }
         });
     }
 
-    runAuth.$inject = ['authService'];
+    runAuth.$inject = [
+        '$rootScope', 
+        '$state', 
+        'OAuth',
+        '$auth'
+    ];
 
-    function runAuth(authService) {
-        // Handle the authentication
-        // result in the hash
-        authService.handleAuthentication();
-    }
-
-    redirecionaNaoLogado.$inject = ['authManager'];
-
-    function redirecionaNaoLogado(authManager) {
-        authManager.redirectWhenUnauthenticated();
+    function runAuth($rootScope, $state, OAuth, $auth) {
+        $rootScope.$on('$stateChangeStart', function (event, next) {
+            if (next.name !== 'login' && next.name !== 'recuperar_senha' && next.name !== 'redefinir_senha') {
+                if(!OAuth.isAuthenticated() && !$auth.isAuthenticated()) {
+                    return $state.go('login');
+                }
+            }
+        });
+        $rootScope.$on('oauth:error', function(event, rejection) {
+            // Ignore `invalid_grant` error - should be catched on `LoginController`.
+            if ('invalid_grant' === rejection.data.error) {
+              return;
+            }
+      
+            // Refresh token when a `invalid_token` error occurs.
+            if ('access_denied' === rejection.data.error) {
+              return OAuth.getRefreshToken();
+            }
+      
+            // Redirect to `/login` with the `error_reason`.
+            return $state.go('login');
+        });
     }
 
     angular.module('player2')

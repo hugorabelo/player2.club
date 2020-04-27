@@ -26,7 +26,7 @@ class NotificacaoEventoController extends Controller
      */
     public function index() {
         $eventos = NotificacaoEvento::get()->sortBy('descricao')->values();
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
         foreach ($eventos as $evento) {
             if(\DB::table('notificacao_email')->where('evento_notificacao_id','=',$evento->id)->where('users_id','=',$usuarioLogado->id)->count('id') > 0) {
                 $evento->enabled = true;

@@ -58,7 +58,7 @@ class PartidasController extends Controller
             $atividadesExistente->delete();
         }
 
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
         $evento = NotificacaoEvento::where('valor','=','salvou_placar')->first();
         if(isset($evento)) {
             $idEvento = $evento->id;
@@ -112,7 +112,7 @@ class PartidasController extends Controller
     public function update($id)
     {
         $input = Input::all();
-        $usuarioLogado = Auth::getUser();
+        $usuarioLogado = Auth::user();
 
         $partida = $this->partida->find($id);
         $partida->confirmarPlacar($usuarioLogado->id, isset($input['placarContestado']));
@@ -151,7 +151,7 @@ class PartidasController extends Controller
 
             ContestacaoResultado::create($input);
 
-            $usuarioLogado = Auth::getUser();
+            $usuarioLogado = Auth::user();
 
             $evento = NotificacaoEvento::where('valor','=','contestou_resultado')->first();
             if(isset($evento)) {

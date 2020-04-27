@@ -1,6 +1,42 @@
 <div ng-init="vmAuth.inicializa()" class="box_login" layout="column" layout-align="end center" layout-margin>
-    <div>
-        <img src="assets/images/player2_branca.png" alt="" class="img_login">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div class="header">
+            <div class="logo">
+                <img src="assets/images/player2_branca.png" alt="" class="img_login">
+            </div>
+        </div>
+        <div class="body-login">
+            <form class="m-t" role="form" name="vmAuth.formLogin" ng-submit="vmAuth.login()">
+                <md-button class="md-raised md-primary block full-width m-l-none m-r-none m-b btn-facebook" ng-click="vmAuth.authenticate('facebook')">
+                    <i class="fa fa-facebook"></i>{{'messages.login_facebook' | translate}}
+                </md-button>
+                <md-button class="md-raised md-primary block full-width m-l-none m-r-none m-b btn-google" ng-click="vmAuth.authenticate('google')">
+                    <i class="fa fa-google"></i>{{'messages.login_google' | translate}}
+                </md-button>
+                <md-button class="md-raised md-primary block full-width m-l-none m-r-none m-b btn-live" ng-click="vmAuth.authenticate('live')">
+                    <i class="fa fa-windows"></i>{{'messages.login_live' | translate}}
+                </md-button>
+
+                <div class="signup-or-separator m-b">
+                    <h6 class="text">{{'messages.or' | translate}}</h6>
+                    <hr>
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" class="form-control" name="username" placeholder="{{'fields.login' | translate}}" required="" ng-model="vmAuth.user.username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="{{'fields.password' | translate}}" required="" ng-model="vmAuth.user.password">
+                </div>
+                <md-button type="submit" class="md-raised md-primary block full-width m-l-none m-r-none m-b">{{'messages.fazer_login' | translate}}</md-button>
+                
+                <a ui-sref="recuperar_senha"><small>{{'messages.esqueceu_senha' | translate}}</small></a>
+                <p class="text-muted text-center m-t" ng-if="false"><small>{{'messages.sem_conta' | translate}}</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="register.html" ng-if="false">{{'messages.criar_conta' | translate}}</a>
+            </form>
+        </div>
+        <div class="footer-login">
+            <p class="m-t"> <small>player2.club &copy; 2017</small> </p>
+        </div>
     </div>
-    <md-button class="md-raised md-primary" ng-click="vmAuth.inicializa()">{{'messages.fazerLogin' | translate}}</md-button>
 </div>
