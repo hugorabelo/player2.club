@@ -94,6 +94,7 @@ Route::group(['prefix' => 'api'], function () {
         Route::get('usuario/pesquisa/{textoPesquisa}', 'UsersController@pesquisaPorNome');
         Route::post('usuario/associarAnonimo', 'UsersController@associarAnonimo');
         Route::get('usuario/pendencias', 'UsersController@verificarPendencias');
+        Route::post('usuario/trocarSenha', 'UsersController@trocarSenha');
         Route::resource('usuario', 'UsersController');
         Route::post('usuario/{id}', 'UsersController@update');
     

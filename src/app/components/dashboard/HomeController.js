@@ -155,6 +155,17 @@
                     });
             };
 
+            vm.updateSenha = function() {
+                Usuario.updateSenha(vm.senhaEditar)
+                    .success(function () {
+                        toastr.success($filter('translate')('messages.senha_alterada_sucesso'));
+                        $location.path('/home');
+                    })
+                    .error(function (error) {
+                        toastr.error($filter('translate')(error.errors));
+                    });
+            };
+
             vm.getGamertagsDoUsuario = function (idUsuario) {
                 vm.gamertags = {};
                 UserPlataforma.getPlataformasDoUsuario(idUsuario)

@@ -63,6 +63,8 @@
     } else {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://beta.player2.club";
+        authClientID = 'e03daaa46bab1ff439b28a411bcb4928';
+        authClientSecret = 'e4eb96705075dc4a0925662705a08ceb';
     }
 
     player2App.config(['$compileProvider', function ($compileProvider) {

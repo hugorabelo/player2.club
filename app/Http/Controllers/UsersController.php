@@ -760,11 +760,6 @@ class UsersController extends Controller {
 	}
 
 	public function cadastrarNovaSenha() {
-		/*
-		 tokenRedefinirSenha: $stateParams.token,
-                        novaSenha: vm.new_password,
-                        repetirSenha: vm.repeat_password
-		*/
 		$input = Input::except('_token');
 		$tokenRedefinirSenha = $input['tokenRedefinirSenha'] ?? null;
 		$novaSenha = $input['novaSenha'] ?? null;
@@ -792,12 +787,12 @@ class UsersController extends Controller {
 					'errors'=>'messages.token_expirado',
 					'error_type' => 'token_error',
 					'message'=>'There were validation errors.'),300);
-				}
-			} else {
-				return Response::json(array('success'=>false,
-				'errors'=>'messages.token_invalido',
-				'error_type' => 'token_error',
-				'message'=>'There were validation errors.'),300);
+			}
+		} else {
+			return Response::json(array('success'=>false,
+			'errors'=>'messages.token_invalido',
+			'error_type' => 'token_error',
+			'message'=>'There were validation errors.'),300);
 		}
 	}
 
@@ -916,6 +911,41 @@ class UsersController extends Controller {
 			return Response::json(array('success'=>false,
 			'error'=>'usuario_nao_cadastrado',
 			'message'=>'messages.titulo_alerta_login'),300);
+		}
+	}
+
+	public function trocarSenha() {
+		$input = Input::except('_token');
+		$senhaAntiga = $input['senhaAntiga'] ?? null;
+		$novaSenha = $input['novaSenha'] ?? null;
+		$repetirSenha = $input['repetirSenha'] ?? null;
+		if($novaSenha !== $repetirSenha) {
+			return Response::json(array('success'=>false,
+				'errors'=>'messages.senhas_diferentes',
+				'message'=>'There were validation errors.'),300);
+			}
+		if(empty($novaSenha)) {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.senha_nao_pode_ser_vazia',
+					'message'=>'There were validation errors.'),300);
+		}
+		$user = Auth::user();
+		if($user) {
+			if(Hash::check($senhaAntiga, $user->password)) {
+				$user->password = Hash::make($novaSenha);
+				$user->save();
+				return Response::json(array('success'=>true, 'email'=>$user->email));
+			} else {
+				return Response::json(array('success'=>false,
+					'errors'=>'messages.senha_antiga_invalida',
+					'error_type' => 'token_error',
+					'message'=>'There were validation errors.'),300);
+			}
+		} else {
+			return Response::json(array('success'=>false,
+			'errors'=>'messages.usuario_sem_plataforma_titulo',
+			'error_type' => 'token_error',
+			'message'=>'There were validation errors.'),300);
 		}
 	}
 

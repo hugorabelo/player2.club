@@ -14,23 +14,23 @@ class CreateOauth2ClientsRecords extends Migration
     {
         $clientes = array(
             'player2App' => array(
-                'id' => 'p2id',
-                'secret' => 'secret',
+                'id' => 'e03daaa46bab1ff439b28a411bcb4928',
+                'secret' => 'e4eb96705075dc4a0925662705a08ceb',
             ),
             'facebook' => array(
                 'id' => '3148215308557100',
                 'secret' => Config::get('app.facebook_secret'),
-                'redirect_uri' => 'http://localhost:3000/'
+                'redirect_uri' => 'http://beta.player2.club/'
             ),
             'google' => array(
                 'id' => '687694969410-1tvfs14oljk1vtcdantrjod1gsvfkebe.apps.googleusercontent.com',
                 'secret' => Config::get('app.google_secret'),
-                'redirect_uri' => 'http://localhost:3000/'
+                'redirect_uri' => 'http://beta.player2.club/'
             ),
             'live' => array(
                 'id' => '245c979b-5458-449a-afde-c00b4ec17be3',
                 'secret' => Config::get('app.live_secret'),
-                'redirect_uri' => 'http://localhost:3000/'
+                'redirect_uri' => 'http://beta.player2.club/'
             )
         );
 
