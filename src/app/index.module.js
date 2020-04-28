@@ -34,23 +34,19 @@
     ]);
 
     //Ambiente: local | dev | beta | hugorabelo
-    var ambiente = 'local';
+    var ambiente = 'beta';
     var apiUrlAmbiente;
     var redirectUrlAmbiente;
     var authClientID;
     var authClientSecret;
+    var apiUrlAuth;
 
     if (ambiente == 'local') {
         apiUrlAmbiente = "http://localhost/player2/public/";
         redirectUrlAmbiente = "http://localhost:3000";
         authClientID = 'p2id';
         authClientSecret = 'secret';
-    } else if (ambiente == 'localMac') {
-        apiUrlAmbiente = "http://player2.local/public/";
-        redirectUrlAmbiente = "http://localhost:3000";
-    } else if (ambiente == 'localMac') {
-        apiUrlAmbiente = "http://player2.local/public/";
-        redirectUrlAmbiente = "http://localhost:3000";
+        apiUrlAuth = "/";
     } else if (ambiente == 'player2.local') {
         apiUrlAmbiente = "/";
         redirectUrlAmbiente = "http://player2.local";
@@ -62,9 +58,10 @@
         redirectUrlAmbiente = "http://beta.hugorabelo.com";
     } else {
         apiUrlAmbiente = "/";
-        redirectUrlAmbiente = "http://beta.player2.club";
+        redirectUrlAmbiente = "https://beta.player2.club";
         authClientID = 'e03daaa46bab1ff439b28a411bcb4928';
         authClientSecret = 'e4eb96705075dc4a0925662705a08ceb';
+        apiUrlAuth = "beta.player2.club/";
     }
 
     player2App.config(['$compileProvider', function ($compileProvider) {
@@ -178,10 +175,10 @@
         OAuthTokenProvider
     ) {
         OAuthProvider.configure({
-            baseUrl: '/',
+            baseUrl: 'api',
             clientId: authClientID,
             clientSecret: authClientSecret, // optional
-            grantPath: 'api/oauth/access_token'
+            grantPath: 'oauth/access_token'
         });
         OAuthTokenProvider.configure({
             name: 'token',
@@ -199,8 +196,8 @@
     player2App.config(['$authProvider', function ($authProvider) {
         $authProvider.facebook({
             clientId: '3148215308557100',
-            url: '/api/auth/facebook',
-            redirectUri: 'http://localhost:3000/',
+            url: apiUrlAuth + 'api/auth/facebook',
+            redirectUri: redirectUrlAmbiente + '/',
             responseType: 'code',
             responseParams: {
                 code: 'code',
@@ -211,8 +208,8 @@
 
         $authProvider.google({
             clientId: '687694969410-1tvfs14oljk1vtcdantrjod1gsvfkebe.apps.googleusercontent.com',
-            url: '/api/auth/google',
-            redirectUri: 'http://localhost:3000/',
+            url: apiUrlAuth + 'api/auth/google',
+            redirectUri: redirectUrlAmbiente,
             responseType: 'code',
             responseParams: {
                 code: 'code',
@@ -223,9 +220,9 @@
 
         $authProvider.live({
             clientId: '245c979b-5458-449a-afde-c00b4ec17be3',
-            url: '/api/auth/live',
+            url: apiUrlAuth + 'api/auth/live',
             authorizationEndpoint: 'https://login.microsoftonline.com/6170b526-4643-4a76-8365-572cde287ff0/oauth2/v2.0/authorize',
-            redirectUri: 'http://localhost:3000/',
+            redirectUri: redirectUrlAmbiente,
             responseType: 'code',
             scope: ['openid'],
             responseParams: {

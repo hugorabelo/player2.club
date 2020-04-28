@@ -186,12 +186,12 @@ Route::group(['prefix' => 'api'], function () {
         Route::post('agenda/partidaNaoRealizada', 'AgendaController@justificaPartidaNaoRealizada');
         Route::resource('agenda', 'AgendaController');
     
-        Route::get('validaAutenticacao', array('middleware' => 'oauth', function() {
+        Route::get('validaAutenticacao', function() {
             $user = Auth::user();
             $user->equipesAdministradas = $user->equipesAdministradas()->get();
             $retornoValidacao = Response::json($user);
             return $retornoValidacao;
-        }));
+        });
     
         Route::get('mudaIdioma/{locale}', function ($locale) {
             App::setLocale($locale);

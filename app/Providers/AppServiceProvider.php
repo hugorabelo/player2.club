@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 
-		$this->base_path = "http://beta.player2.club/#/";
+		$this->base_path = "https://beta.player2.club/#/";
 
 		\Campeonato::created(function ($campeonato) {
 			$administrador = new \CampeonatoAdmin();
